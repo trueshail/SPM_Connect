@@ -436,7 +436,6 @@ namespace SearchDataSPM
             int maxSlNo = dataGridView1.Rows.Count;
             maxSlNo++;
             //int selectedrowindex = dataGridView1.SelectedCells[0].RowIndex;
-
             //MessageBox.Show(this.dataGridView1.Rows[selectedrowindex].HeaderCell.Value.ToString());
             model.OrderId =maxSlNo;
             model.Item = ItemTxtBox.Text.Trim();
@@ -511,6 +510,7 @@ namespace SearchDataSPM
                         db.PurchaseReqs.Attach(model);
                     db.PurchaseReqs.Remove(model);
                     db.SaveChanges();
+                    updateorderid(Convert.ToInt32(purchreqtxt.Text));
                     PopulateDataGridView();
                     Clear();
                     MessageBox.Show("Deleted Successfully", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -543,5 +543,28 @@ namespace SearchDataSPM
                 btnDelete.Enabled = true;
             }
         }
+
+        private void updateorderid(int reqnumber)
+        {
+            using (SqlCommand sqlCommand = new SqlCommand("[SPM_Database].[dbo].[UpdateOrderId]", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    sqlCommand.Parameters.AddWithValue("@itemnumber", reqnumber);
+                    sqlCommand.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Update Order Id", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+        }
+
     }
 }
