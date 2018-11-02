@@ -1,0 +1,141 @@
+﻿using Microsoft.VisualBasic.PowerPacks;
+
+namespace SearchDataSPM
+{
+    partial class SPM_ConnectHome
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SPM_ConnectHome));
+            this.metroProgressSpinner1 = new MetroFramework.Controls.MetroProgressSpinner();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.SPM = new System.Windows.Forms.Label();
+            this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
+            this.rectangleShape2 = new Microsoft.VisualBasic.PowerPacks.RectangleShape();
+            this.rectangleShape1 = new Microsoft.VisualBasic.PowerPacks.RectangleShape();
+            this.SuspendLayout();
+            // 
+            // metroProgressSpinner1
+            // 
+            this.metroProgressSpinner1.CustomBackground = true;
+            this.metroProgressSpinner1.Location = new System.Drawing.Point(291, 12);
+            this.metroProgressSpinner1.Maximum = 100;
+            this.metroProgressSpinner1.Name = "metroProgressSpinner1";
+            this.metroProgressSpinner1.Size = new System.Drawing.Size(37, 36);
+            this.metroProgressSpinner1.Speed = 2F;
+            this.metroProgressSpinner1.Style = MetroFramework.MetroColorStyle.White;
+            this.metroProgressSpinner1.TabIndex = 1;
+            this.metroProgressSpinner1.UseCustomBackColor = true;
+            this.metroProgressSpinner1.UseCustomForeColor = true;
+            this.metroProgressSpinner1.UseSelectable = true;
+            this.metroProgressSpinner1.Click += new System.EventHandler(this.metroProgressSpinner1_Click);
+            // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Interval = 45;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // SPM
+            // 
+            this.SPM.BackColor = System.Drawing.Color.Transparent;
+            this.SPM.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SPM.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.SPM.Image = ((System.Drawing.Image)(resources.GetObject("SPM.Image")));
+            this.SPM.Location = new System.Drawing.Point(11, 0);
+            this.SPM.Name = "SPM";
+            this.SPM.Size = new System.Drawing.Size(307, 161);
+            this.SPM.TabIndex = 11;
+            this.SPM.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // shapeContainer1
+            // 
+            this.shapeContainer1.Location = new System.Drawing.Point(0, 0);
+            this.shapeContainer1.Margin = new System.Windows.Forms.Padding(0);
+            this.shapeContainer1.Name = "shapeContainer1";
+            this.shapeContainer1.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
+            this.rectangleShape2,
+            this.rectangleShape1});
+            this.shapeContainer1.Size = new System.Drawing.Size(330, 200);
+            this.shapeContainer1.TabIndex = 12;
+            this.shapeContainer1.TabStop = false;
+            // 
+            // rectangleShape2
+            // 
+            this.rectangleShape2.BackColor = System.Drawing.Color.White;
+            this.rectangleShape2.BorderColor = System.Drawing.Color.White;
+            this.rectangleShape2.BorderWidth = 4;
+            this.rectangleShape2.CornerRadius = 4;
+            this.rectangleShape2.FillColor = System.Drawing.Color.White;
+            this.rectangleShape2.FillGradientColor = System.Drawing.Color.White;
+            this.rectangleShape2.FillGradientStyle = Microsoft.VisualBasic.PowerPacks.FillGradientStyle.Horizontal;
+            this.rectangleShape2.FillStyle = Microsoft.VisualBasic.PowerPacks.FillStyle.Solid;
+            this.rectangleShape2.Location = new System.Drawing.Point(21, 170);
+            this.rectangleShape2.Name = "rectangleShape2";
+            this.rectangleShape2.SelectionColor = System.Drawing.Color.White;
+            this.rectangleShape2.Size = new System.Drawing.Size(20, 8);
+            // 
+            // rectangleShape1
+            // 
+            this.rectangleShape1.BorderColor = System.Drawing.Color.White;
+            this.rectangleShape1.BorderWidth = 4;
+            this.rectangleShape1.CornerRadius = 8;
+            this.rectangleShape1.FillGradientStyle = Microsoft.VisualBasic.PowerPacks.FillGradientStyle.Horizontal;
+            this.rectangleShape1.Location = new System.Drawing.Point(16, 165);
+            this.rectangleShape1.Name = "rectangleShape1";
+            this.rectangleShape1.Size = new System.Drawing.Size(300, 18);
+            // 
+            // SPM_ConnectHome
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
+            this.ClientSize = new System.Drawing.Size(330, 200);
+            this.Controls.Add(this.metroProgressSpinner1);
+            this.Controls.Add(this.SPM);
+            this.Controls.Add(this.shapeContainer1);
+            this.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "SPM_ConnectHome";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "SPM_ConnectHome";
+            this.Load += new System.EventHandler(this.SPM_ConnectHome_Load);
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+        private MetroFramework.Controls.MetroProgressSpinner metroProgressSpinner1;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label SPM;
+        private ShapeContainer shapeContainer1;
+        private RectangleShape rectangleShape2;
+        private RectangleShape rectangleShape1;
+    }
+}

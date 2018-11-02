@@ -1,0 +1,10 @@
+﻿1>------ Build started: Project: SearchDataSPM, Configuration: Release Any CPU ------
+1>  SearchDataSPM -> S:\Shail\projects\SP - Connect\SPM_Connect\SearchDataSPM\bin\Release\SPM Connect.exe
+Building SearchDataSPM...
+2>------ Publish started: Project: SearchDataSPM, Configuration: Release Any CPU ------
+Connecting to '\\spm-adfs\SDBASE\SPM Connect SQL\'...
+Publishing files...
+Warning: Publishing file 'SPM Connect.pdb' that may contain sensitive or proprietary information.
+Publish success.
+========== Build: 1 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
+========== Publish: 1 succeeded, 0 failed, 0 skipped ==========
