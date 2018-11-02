@@ -15,23 +15,23 @@ using System.Windows.Forms;
 namespace SearchDataSPM
 {
 
-	public partial class spmadmin : Form
+    public partial class spmadmin : Form
 
-	{
+    {
         #region steupvariables
         String connection;
         SqlConnection cn;
         string controluseraction;
-        
+
         #endregion
 
         #region loadtree
 
         public spmadmin()
 
-		{
-			InitializeComponent();
-            
+        {
+            InitializeComponent();
+
             connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
             try
             {
@@ -49,12 +49,12 @@ namespace SearchDataSPM
                 cn.Close();
             }
 
-         
+
         }
 
-		private void ParentView_Load(object sender, EventArgs e)
-        {       
-            Connect_SPMSQL();           
+        private void ParentView_Load(object sender, EventArgs e)
+        {
+            Connect_SPMSQL();
         }
 
         private void Connect_SPMSQL()
@@ -98,7 +98,7 @@ namespace SearchDataSPM
         {
             try
             {
-               
+
                 if (cn.State == ConnectionState.Closed)
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
@@ -119,12 +119,12 @@ namespace SearchDataSPM
                         engradio.Checked = true;
 
                     }
-                  
-                    else if(dr["Department"].ToString().Equals(controls.ToString()))
+
+                    else if (dr["Department"].ToString().Equals(controls.ToString()))
                     {
                         radioButton4.Checked = true;
                     }
-                   else
+                    else
                     {
                         radioButton3.Checked = true;
                     }
@@ -198,6 +198,9 @@ namespace SearchDataSPM
             Userlistbox.Enabled = false;
             button1.Enabled = false;
             reluanchbttn.Enabled = false;
+            custbttn.Enabled = false;
+            matbttn.Enabled = false;
+            UserStats.Enabled = false;
         }
 
         private void delbttn_Click(object sender, EventArgs e)
@@ -219,9 +222,9 @@ namespace SearchDataSPM
                     cmd.CommandText = "DELETE FROM [SPM_Database].[dbo].[Users] WHERE UserName = '" + domaintxtbox.Text.ToString() + "'";
                     cmd.ExecuteNonQuery();
                     cn.Close();
-                    MessageBox.Show("User deleted successfully","SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("User deleted successfully", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Connect_SPMSQL();
-                    domaintxtbox.Text = "";                    
+                    domaintxtbox.Text = "";
                     nametextbox.Text = "";
                     radioButton1.Checked = false;
                     radioButton2.Checked = false;
@@ -239,7 +242,7 @@ namespace SearchDataSPM
                 }
 
             }
-     
+
         }
 
         private void updatebttn_Click(object sender, EventArgs e)
@@ -265,6 +268,9 @@ namespace SearchDataSPM
             Userlistbox.Enabled = false;
             button1.Enabled = false;
             reluanchbttn.Enabled = false;
+            custbttn.Enabled = false;
+            matbttn.Enabled = false;
+            UserStats.Enabled = false;
         }
 
         private void updatesavebttn_Click(object sender, EventArgs e)
@@ -304,17 +310,17 @@ namespace SearchDataSPM
                 {
                     SqlCommand cmd = cn.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[Users] SET Department = '" + (engradio.Checked ? "Eng" : radioButton4.Checked ? "Controls":"Production") + "',Admin = '" + (radioButton1.Checked ? "1" : "0") + "',Name = '" + nametextbox.Text + "',ActiveBlockNumber = '" + activeblocknumber + "',Developer = '" + (DevradioButtonYes.Checked ? "1" : "0") + "',Management = '" + (manageradioButtonyes.Checked ? "1" : "0") + "' WHERE UserName = '" + domaintxtbox.Text + "' ";
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[Users] SET Department = '" + (engradio.Checked ? "Eng" : radioButton4.Checked ? "Controls" : "Production") + "',Admin = '" + (radioButton1.Checked ? "1" : "0") + "',Name = '" + nametextbox.Text + "',ActiveBlockNumber = '" + activeblocknumber + "',Developer = '" + (DevradioButtonYes.Checked ? "1" : "0") + "',Management = '" + (manageradioButtonyes.Checked ? "1" : "0") + "' WHERE UserName = '" + domaintxtbox.Text + "' ";
                     cmd.ExecuteNonQuery();
                     cn.Close();
-                    MessageBox.Show("User credentials updated successfully","SPM Connect",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                    MessageBox.Show("User credentials updated successfully", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Connect_SPMSQL();
                     updatesavebttn.Visible = false;
                     delbttn.Visible = true;
                     updatebttn.Visible = true;
                     addnewbttn.Visible = true;
                     cnclbttn.Visible = false;
-                  
+
                     radioButton1.Enabled = false;
                     radioButton2.Enabled = false;
                     radioButton4.Enabled = false;
@@ -332,6 +338,9 @@ namespace SearchDataSPM
 
                     button1.Enabled = true;
                     reluanchbttn.Enabled = true;
+                    custbttn.Enabled = true;
+                    matbttn.Enabled = true;
+                    UserStats.Enabled = true;
                     //Userlistbox_SelectedIndexChanged(sender,e);
                 }
                 catch (Exception ex)
@@ -362,12 +371,12 @@ namespace SearchDataSPM
                 domaintxtbox.ReadOnly = true;
                 updatesavebttn.Visible = false;
                 performcancelbutton();
-                
+
 
             }
 
         }
-        
+
         private void addnewuser()
         {
             DialogResult result = MessageBox.Show(
@@ -396,8 +405,8 @@ namespace SearchDataSPM
                     cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Users] VALUES('" + domaintxtbox.Text + "','" + (engradio.Checked ? "Eng" : radioButton4.Checked ? "Controls" : "Production") + "','" + (radioButton1.Checked ? "1" : "0") + "','" + nametextbox.Text + "','" + activeblocknumber + "','" + (DevradioButtonYes.Checked ? "1" : "0") + "','" + (manageradioButtonyes.Checked ? "1" : "0") + "')";
                     cmd.ExecuteNonQuery();
                     cn.Close();
-                    MessageBox.Show("New user added successfully","SPM Connect",MessageBoxButtons.OK,MessageBoxIcon.Information);
-                    Connect_SPMSQL();                    
+                    MessageBox.Show("New user added successfully", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Connect_SPMSQL();
                     delbttn.Visible = true;
                     updatebttn.Visible = true;
                     addnewbttn.Visible = true;
@@ -418,6 +427,9 @@ namespace SearchDataSPM
                     Userlistbox.Enabled = true;
                     button1.Enabled = true;
                     reluanchbttn.Enabled = true;
+                    custbttn.Enabled = true;
+                    matbttn.Enabled = true;
+                    UserStats.Enabled = true;
                 }
                 catch (Exception ex)
                 {
@@ -446,7 +458,7 @@ namespace SearchDataSPM
                 domaintxtbox.ReadOnly = true;
                 updatesavebttn.Visible = false;
                 performcancelbutton();
-                
+
             }
         }
 
@@ -481,6 +493,9 @@ namespace SearchDataSPM
             Userlistbox.Enabled = true;
             button1.Enabled = true;
             reluanchbttn.Enabled = true;
+            custbttn.Enabled = true;
+            matbttn.Enabled = true;
+            UserStats.Enabled = true;
             Userlistbox.SelectedIndex = 0;
         }
 
@@ -488,7 +503,7 @@ namespace SearchDataSPM
         {
             SPM_ConnectDuplicates sPM_Connect = new SPM_ConnectDuplicates();
             sPM_Connect.ShowDialog();
-            
+
         }
 
         private void SPM_DoubleClick(object sender, EventArgs e)
@@ -516,8 +531,8 @@ namespace SearchDataSPM
                 {
                     activecadblocktxt.Clear();
                 }
-            }          
-          
+            }
+
         }
 
         private void activecadblocktxt_KeyPress(object sender, KeyPressEventArgs e)
@@ -532,7 +547,7 @@ namespace SearchDataSPM
             }
             if (activecadblocktxt.Text.Length > 1)
             {
-                if (Char.IsLetter(activecadblocktxt.Text[1]) )
+                if (Char.IsLetter(activecadblocktxt.Text[1]))
                 {
                     activecadblocktxt.Clear();
                 }
@@ -544,7 +559,7 @@ namespace SearchDataSPM
                     activecadblocktxt.Clear();
                 }
             }
-           
+
         }
 
         private void custbttn_Click(object sender, EventArgs e)

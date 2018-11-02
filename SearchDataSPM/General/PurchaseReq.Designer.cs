@@ -62,7 +62,6 @@
             this.Preqlbl = new System.Windows.Forms.Label();
             this.purchreqtxt = new System.Windows.Forms.TextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.OrderId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Item = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -72,6 +71,18 @@
             this.OEMItemNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Notes = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.requestbytxt = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.datecreatedtxt = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.jobnumbertxt = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.subassytxt = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.lastsavedtxt = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.MenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -83,6 +94,10 @@
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
             this.SuspendLayout();
             // 
             // MenuStrip
@@ -243,8 +258,7 @@
             // PreviewTabPage
             // 
             this.PreviewTabPage.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.PreviewTabPage.Controls.Add(this.groupBox3);
-            this.PreviewTabPage.Controls.Add(this.groupBox4);
+            this.PreviewTabPage.Controls.Add(this.splitContainer2);
             this.PreviewTabPage.Controls.Add(this.dataGridView1);
             this.PreviewTabPage.Location = new System.Drawing.Point(4, 22);
             this.PreviewTabPage.Name = "PreviewTabPage";
@@ -255,7 +269,6 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.BackColor = System.Drawing.Color.PapayaWhip;
             this.groupBox3.Controls.Add(this.btnCancel);
             this.groupBox3.Controls.Add(this.btnDelete);
@@ -273,12 +286,13 @@
             this.groupBox3.Controls.Add(this.Itemlbl);
             this.groupBox3.Controls.Add(this.ItemTxtBox);
             this.groupBox3.Controls.Add(this.itemsearchtxtbox);
+            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox3.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox3.Location = new System.Drawing.Point(344, 4);
+            this.groupBox3.Location = new System.Drawing.Point(0, 0);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(1);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(323, 285);
+            this.groupBox3.Size = new System.Drawing.Size(335, 290);
             this.groupBox3.TabIndex = 9;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Add Item to order";
@@ -335,12 +349,13 @@
             // 
             // label5
             // 
-            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label5.Location = new System.Drawing.Point(3, 171);
+            this.label5.Location = new System.Drawing.Point(3, 170);
             this.label5.Name = "label5";
             this.label5.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label5.Size = new System.Drawing.Size(100, 15);
@@ -349,27 +364,28 @@
             // 
             // oemitemnotxt
             // 
-            this.oemitemnotxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.oemitemnotxt.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.oemitemnotxt.BackColor = System.Drawing.Color.White;
             this.oemitemnotxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.oemitemnotxt.Location = new System.Drawing.Point(117, 171);
-            this.oemitemnotxt.MaximumSize = new System.Drawing.Size(200, 20);
+            this.oemitemnotxt.Location = new System.Drawing.Point(117, 170);
             this.oemitemnotxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.oemitemnotxt.Name = "oemitemnotxt";
             this.oemitemnotxt.ReadOnly = true;
             this.oemitemnotxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.oemitemnotxt.Size = new System.Drawing.Size(200, 20);
+            this.oemitemnotxt.Size = new System.Drawing.Size(212, 20);
             this.oemitemnotxt.TabIndex = 64;
             // 
             // label4
             // 
-            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label4.Location = new System.Drawing.Point(36, 230);
+            this.label4.Location = new System.Drawing.Point(36, 229);
             this.label4.Name = "label4";
             this.label4.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label4.Size = new System.Drawing.Size(67, 15);
@@ -378,26 +394,27 @@
             // 
             // qtytxt
             // 
-            this.qtytxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.qtytxt.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.qtytxt.BackColor = System.Drawing.Color.White;
-            this.qtytxt.Location = new System.Drawing.Point(117, 230);
-            this.qtytxt.MaximumSize = new System.Drawing.Size(200, 20);
+            this.qtytxt.Location = new System.Drawing.Point(117, 229);
             this.qtytxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.qtytxt.Name = "qtytxt";
             this.qtytxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.qtytxt.Size = new System.Drawing.Size(200, 22);
+            this.qtytxt.Size = new System.Drawing.Size(212, 22);
             this.qtytxt.TabIndex = 62;
             this.qtytxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.qtytxt_KeyPress);
             // 
             // label3
             // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label3.Location = new System.Drawing.Point(55, 197);
+            this.label3.Location = new System.Drawing.Point(55, 196);
             this.label3.Name = "label3";
             this.label3.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label3.Size = new System.Drawing.Size(48, 15);
@@ -406,26 +423,27 @@
             // 
             // pricetxt
             // 
-            this.pricetxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.pricetxt.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pricetxt.BackColor = System.Drawing.Color.White;
-            this.pricetxt.Location = new System.Drawing.Point(117, 197);
-            this.pricetxt.MaximumSize = new System.Drawing.Size(200, 20);
+            this.pricetxt.Location = new System.Drawing.Point(117, 196);
             this.pricetxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.pricetxt.Name = "pricetxt";
             this.pricetxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.pricetxt.Size = new System.Drawing.Size(200, 22);
+            this.pricetxt.Size = new System.Drawing.Size(212, 22);
             this.pricetxt.TabIndex = 60;
             this.pricetxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.pricetxt_KeyPress);
             // 
             // label1
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label1.Location = new System.Drawing.Point(3, 141);
+            this.label1.Location = new System.Drawing.Point(3, 140);
             this.label1.Name = "label1";
             this.label1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label1.Size = new System.Drawing.Size(100, 15);
@@ -434,27 +452,28 @@
             // 
             // oemtxt
             // 
-            this.oemtxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.oemtxt.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.oemtxt.BackColor = System.Drawing.Color.White;
             this.oemtxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.oemtxt.Location = new System.Drawing.Point(117, 141);
-            this.oemtxt.MaximumSize = new System.Drawing.Size(200, 20);
+            this.oemtxt.Location = new System.Drawing.Point(117, 140);
             this.oemtxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.oemtxt.Name = "oemtxt";
             this.oemtxt.ReadOnly = true;
             this.oemtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.oemtxt.Size = new System.Drawing.Size(200, 20);
+            this.oemtxt.Size = new System.Drawing.Size(212, 20);
             this.oemtxt.TabIndex = 58;
             // 
             // label2
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label2.Location = new System.Drawing.Point(11, 105);
+            this.label2.Location = new System.Drawing.Point(11, 104);
             this.label2.Name = "label2";
             this.label2.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label2.Size = new System.Drawing.Size(92, 15);
@@ -464,28 +483,29 @@
             // 
             // Descriptiontxtbox
             // 
-            this.Descriptiontxtbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.Descriptiontxtbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Descriptiontxtbox.BackColor = System.Drawing.Color.White;
             this.Descriptiontxtbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Descriptiontxtbox.Location = new System.Drawing.Point(117, 85);
-            this.Descriptiontxtbox.MaximumSize = new System.Drawing.Size(200, 50);
-            this.Descriptiontxtbox.MinimumSize = new System.Drawing.Size(200, 50);
+            this.Descriptiontxtbox.Location = new System.Drawing.Point(117, 94);
+            this.Descriptiontxtbox.MinimumSize = new System.Drawing.Size(200, 40);
             this.Descriptiontxtbox.Multiline = true;
             this.Descriptiontxtbox.Name = "Descriptiontxtbox";
             this.Descriptiontxtbox.ReadOnly = true;
             this.Descriptiontxtbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.Descriptiontxtbox.Size = new System.Drawing.Size(200, 50);
+            this.Descriptiontxtbox.Size = new System.Drawing.Size(212, 40);
             this.Descriptiontxtbox.TabIndex = 55;
             // 
             // Itemlbl
             // 
-            this.Itemlbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.Itemlbl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Itemlbl.AutoSize = true;
             this.Itemlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Itemlbl.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.Itemlbl.Location = new System.Drawing.Point(55, 64);
+            this.Itemlbl.Location = new System.Drawing.Point(55, 63);
             this.Itemlbl.Name = "Itemlbl";
             this.Itemlbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.Itemlbl.Size = new System.Drawing.Size(43, 15);
@@ -494,49 +514,58 @@
             // 
             // ItemTxtBox
             // 
-            this.ItemTxtBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.ItemTxtBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ItemTxtBox.BackColor = System.Drawing.Color.White;
             this.ItemTxtBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ItemTxtBox.Location = new System.Drawing.Point(117, 59);
-            this.ItemTxtBox.MaximumSize = new System.Drawing.Size(200, 20);
+            this.ItemTxtBox.Location = new System.Drawing.Point(117, 58);
             this.ItemTxtBox.MinimumSize = new System.Drawing.Size(180, 20);
             this.ItemTxtBox.Name = "ItemTxtBox";
             this.ItemTxtBox.ReadOnly = true;
             this.ItemTxtBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.ItemTxtBox.Size = new System.Drawing.Size(200, 20);
+            this.ItemTxtBox.Size = new System.Drawing.Size(212, 20);
             this.ItemTxtBox.TabIndex = 54;
             // 
             // itemsearchtxtbox
             // 
-            this.itemsearchtxtbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.itemsearchtxtbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.itemsearchtxtbox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.itemsearchtxtbox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.itemsearchtxtbox.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.itemsearchtxtbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.itemsearchtxtbox.Location = new System.Drawing.Point(6, 31);
-            this.itemsearchtxtbox.MaximumSize = new System.Drawing.Size(650, 25);
+            this.itemsearchtxtbox.Location = new System.Drawing.Point(6, 25);
             this.itemsearchtxtbox.MinimumSize = new System.Drawing.Size(200, 20);
             this.itemsearchtxtbox.Name = "itemsearchtxtbox";
             this.itemsearchtxtbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.itemsearchtxtbox.Size = new System.Drawing.Size(311, 22);
+            this.itemsearchtxtbox.Size = new System.Drawing.Size(323, 22);
             this.itemsearchtxtbox.TabIndex = 2;
             this.itemsearchtxtbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.itemsearchtxtbox_KeyDown);
             // 
             // groupBox4
             // 
-            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox4.BackColor = System.Drawing.Color.Khaki;
+            this.groupBox4.Controls.Add(this.label9);
+            this.groupBox4.Controls.Add(this.label8);
+            this.groupBox4.Controls.Add(this.label10);
+            this.groupBox4.Controls.Add(this.label7);
+            this.groupBox4.Controls.Add(this.label6);
             this.groupBox4.Controls.Add(this.Preqlbl);
+            this.groupBox4.Controls.Add(this.subassytxt);
+            this.groupBox4.Controls.Add(this.jobnumbertxt);
+            this.groupBox4.Controls.Add(this.lastsavedtxt);
+            this.groupBox4.Controls.Add(this.datecreatedtxt);
+            this.groupBox4.Controls.Add(this.requestbytxt);
             this.groupBox4.Controls.Add(this.purchreqtxt);
+            this.groupBox4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox4.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.groupBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox4.Location = new System.Drawing.Point(6, 4);
+            this.groupBox4.Location = new System.Drawing.Point(0, 0);
             this.groupBox4.Margin = new System.Windows.Forms.Padding(1);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(336, 285);
+            this.groupBox4.Size = new System.Drawing.Size(325, 290);
             this.groupBox4.TabIndex = 10;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Purchase Requisition Details";
@@ -544,12 +573,13 @@
             // 
             // Preqlbl
             // 
-            this.Preqlbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.Preqlbl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Preqlbl.AutoSize = true;
             this.Preqlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Preqlbl.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.Preqlbl.Location = new System.Drawing.Point(15, 47);
+            this.Preqlbl.Location = new System.Drawing.Point(6, 47);
             this.Preqlbl.Name = "Preqlbl";
             this.Preqlbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.Preqlbl.Size = new System.Drawing.Size(110, 15);
@@ -558,17 +588,16 @@
             // 
             // purchreqtxt
             // 
-            this.purchreqtxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.purchreqtxt.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.purchreqtxt.BackColor = System.Drawing.Color.White;
             this.purchreqtxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.purchreqtxt.Location = new System.Drawing.Point(130, 46);
-            this.purchreqtxt.MaximumSize = new System.Drawing.Size(200, 20);
-            this.purchreqtxt.MinimumSize = new System.Drawing.Size(150, 20);
+            this.purchreqtxt.Location = new System.Drawing.Point(121, 46);
             this.purchreqtxt.Name = "purchreqtxt";
             this.purchreqtxt.ReadOnly = true;
             this.purchreqtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.purchreqtxt.Size = new System.Drawing.Size(150, 20);
+            this.purchreqtxt.Size = new System.Drawing.Size(196, 20);
             this.purchreqtxt.TabIndex = 57;
             // 
             // dataGridView1
@@ -604,13 +633,6 @@
             this.dataGridView1.Size = new System.Drawing.Size(666, 326);
             this.dataGridView1.TabIndex = 11;
             this.dataGridView1.DoubleClick += new System.EventHandler(this.dataGridView1_DoubleClick);
-            // 
-            // TreeViewToolTip
-            // 
-            this.TreeViewToolTip.AutoPopDelay = 4000;
-            this.TreeViewToolTip.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.TreeViewToolTip.InitialDelay = 500;
-            this.TreeViewToolTip.ReshowDelay = 100;
             // 
             // ID
             // 
@@ -684,6 +706,180 @@
             this.Notes.Name = "Notes";
             this.Notes.ReadOnly = true;
             // 
+            // TreeViewToolTip
+            // 
+            this.TreeViewToolTip.AutoPopDelay = 4000;
+            this.TreeViewToolTip.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.TreeViewToolTip.InitialDelay = 500;
+            this.TreeViewToolTip.ReshowDelay = 100;
+            // 
+            // requestbytxt
+            // 
+            this.requestbytxt.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.requestbytxt.BackColor = System.Drawing.Color.White;
+            this.requestbytxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.requestbytxt.Location = new System.Drawing.Point(121, 99);
+            this.requestbytxt.Name = "requestbytxt";
+            this.requestbytxt.ReadOnly = true;
+            this.requestbytxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.requestbytxt.Size = new System.Drawing.Size(196, 20);
+            this.requestbytxt.TabIndex = 57;
+            // 
+            // label6
+            // 
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.label6.Location = new System.Drawing.Point(6, 100);
+            this.label6.Name = "label6";
+            this.label6.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label6.Size = new System.Drawing.Size(103, 15);
+            this.label6.TabIndex = 58;
+            this.label6.Text = "Requested By :";
+            // 
+            // datecreatedtxt
+            // 
+            this.datecreatedtxt.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.datecreatedtxt.BackColor = System.Drawing.Color.White;
+            this.datecreatedtxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.datecreatedtxt.Location = new System.Drawing.Point(121, 140);
+            this.datecreatedtxt.Name = "datecreatedtxt";
+            this.datecreatedtxt.ReadOnly = true;
+            this.datecreatedtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.datecreatedtxt.Size = new System.Drawing.Size(196, 20);
+            this.datecreatedtxt.TabIndex = 57;
+            // 
+            // label7
+            // 
+            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.label7.Location = new System.Drawing.Point(6, 141);
+            this.label7.Name = "label7";
+            this.label7.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label7.Size = new System.Drawing.Size(103, 15);
+            this.label7.TabIndex = 58;
+            this.label7.Text = "Date Created : ";
+            // 
+            // jobnumbertxt
+            // 
+            this.jobnumbertxt.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.jobnumbertxt.BackColor = System.Drawing.Color.White;
+            this.jobnumbertxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.jobnumbertxt.Location = new System.Drawing.Point(121, 216);
+            this.jobnumbertxt.Name = "jobnumbertxt";
+            this.jobnumbertxt.ReadOnly = true;
+            this.jobnumbertxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.jobnumbertxt.Size = new System.Drawing.Size(196, 20);
+            this.jobnumbertxt.TabIndex = 57;
+            // 
+            // label8
+            // 
+            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.label8.Location = new System.Drawing.Point(6, 217);
+            this.label8.Name = "label8";
+            this.label8.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label8.Size = new System.Drawing.Size(93, 15);
+            this.label8.TabIndex = 58;
+            this.label8.Text = "Job Number :";
+            // 
+            // subassytxt
+            // 
+            this.subassytxt.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.subassytxt.BackColor = System.Drawing.Color.White;
+            this.subassytxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.subassytxt.Location = new System.Drawing.Point(121, 256);
+            this.subassytxt.Name = "subassytxt";
+            this.subassytxt.ReadOnly = true;
+            this.subassytxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.subassytxt.Size = new System.Drawing.Size(196, 20);
+            this.subassytxt.TabIndex = 57;
+            // 
+            // label9
+            // 
+            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.label9.Location = new System.Drawing.Point(6, 257);
+            this.label9.Name = "label9";
+            this.label9.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label9.Size = new System.Drawing.Size(98, 15);
+            this.label9.TabIndex = 58;
+            this.label9.Text = "Sub Assy No. :";
+            // 
+            // lastsavedtxt
+            // 
+            this.lastsavedtxt.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lastsavedtxt.BackColor = System.Drawing.Color.White;
+            this.lastsavedtxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lastsavedtxt.Location = new System.Drawing.Point(121, 179);
+            this.lastsavedtxt.Name = "lastsavedtxt";
+            this.lastsavedtxt.ReadOnly = true;
+            this.lastsavedtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.lastsavedtxt.Size = new System.Drawing.Size(196, 20);
+            this.lastsavedtxt.TabIndex = 57;
+            // 
+            // label10
+            // 
+            this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.label10.Location = new System.Drawing.Point(6, 180);
+            this.label10.Name = "label10";
+            this.label10.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label10.Size = new System.Drawing.Size(85, 15);
+            this.label10.TabIndex = 58;
+            this.label10.Text = "Last Saved :";
+            // 
+            // splitContainer2
+            // 
+            this.splitContainer2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer2.IsSplitterFixed = true;
+            this.splitContainer2.Location = new System.Drawing.Point(3, 0);
+            this.splitContainer2.Name = "splitContainer2";
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.groupBox4);
+            this.splitContainer2.Panel1MinSize = 325;
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.groupBox3);
+            this.splitContainer2.Panel2MinSize = 325;
+            this.splitContainer2.Size = new System.Drawing.Size(665, 290);
+            this.splitContainer2.SplitterDistance = 325;
+            this.splitContainer2.SplitterWidth = 5;
+            this.splitContainer2.TabIndex = 12;
+            // 
             // PurchaseReqform
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -714,6 +910,10 @@
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            this.splitContainer2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -763,5 +963,16 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn OEMItemNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn Price;
         private System.Windows.Forms.DataGridViewTextBoxColumn Notes;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox subassytxt;
+        private System.Windows.Forms.TextBox jobnumbertxt;
+        private System.Windows.Forms.TextBox datecreatedtxt;
+        private System.Windows.Forms.TextBox requestbytxt;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox lastsavedtxt;
+        private System.Windows.Forms.SplitContainer splitContainer2;
     }
 }

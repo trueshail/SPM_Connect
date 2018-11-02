@@ -82,7 +82,6 @@ namespace SearchDataSPM
                 catch (Exception)
                 {
                     MessageBox.Show("Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect - Engineering Load(showallitems)", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    //Application.Exit();
 
                 }
                 finally
@@ -91,8 +90,6 @@ namespace SearchDataSPM
                 }
 
             }
-
-
         }
 
         private void UpdateFont()
@@ -119,17 +116,20 @@ namespace SearchDataSPM
         {
             if (dataGridView.Rows.Count > 0 && dataGridView.SelectedCells.Count == 1)
             {
+                dataGridView1.AutoGenerateColumns = false;
+                int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
+                DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
+                int item = Convert.ToInt32(slectedrow.Cells[0].Value);
+                populatereqdetails(item);
                 PopulateDataGridView();
+
                 tabControl1.Visible = true;
                 if (tabControl1.TabPages.Count == 0)
                 {
                     tabControl1.TabPages.Add(PreviewTabPage);
                 }
-
                 checkforeditrights();
-
             }
-
         }
 
         private String getusernamefromgrid()
@@ -340,7 +340,7 @@ namespace SearchDataSPM
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "SPM Connect New Item - Fill Items Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "SPM Connect New Item - Fill Items Drop Down Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -371,13 +371,10 @@ namespace SearchDataSPM
                 itemstable.Clear();
                 _adapter.Fill(itemstable);
                 fillinfo();
-
-
-
             }
             catch (SqlException ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "SPM Connect - Fill Items Details from Dropdown", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             }
             finally
@@ -476,19 +473,25 @@ namespace SearchDataSPM
             model.ID = 0;
         }
 
+        void populatereqdetails(int item)
+        {
+            DataRow[] dr = dt.Select("ReqNumber = '" + item + "'");
+            purchreqtxt.Text = dr[0]["ReqNumber"].ToString();
+            requestbytxt.Text = dr[0]["Employee"].ToString();
+            datecreatedtxt.Text = dr[0]["DateCreated"].ToString();
+            jobnumbertxt.Text = dr[0]["JobNumber"].ToString();
+            subassytxt.Text = dr[0]["SubAssyNumber"].ToString();
+            lastsavedtxt.Text = dr[0]["DateLastSaved"].ToString();
+        }
+
         void PopulateDataGridView()
         {
-            dataGridView1.AutoGenerateColumns = false;
             int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
             DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
             int item = Convert.ToInt32(slectedrow.Cells[0].Value);
-            purchreqtxt.Text = item.ToString();
-
             using (SPM_DatabaseEntitiesPurchase db = new SPM_DatabaseEntitiesPurchase())
             {
                 dataGridView1.DataSource = db.PurchaseReqs.Where(s => s.ReqNumber == item ).ToList<PurchaseReq>();
-               
-
             }
             //foreach (DataGridViewRow row in dataGridView1.Rows)
             //{
