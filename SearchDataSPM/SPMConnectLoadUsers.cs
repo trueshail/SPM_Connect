@@ -33,9 +33,6 @@ namespace SearchDataSPM
                 MessageBox.Show("Cannot connect through the server. Please check the network connection.", "SPM Connect - SQL Server Connection Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.ExitThread();
                 System.Environment.Exit(0);
-                
-
-
             }
             finally
             {
