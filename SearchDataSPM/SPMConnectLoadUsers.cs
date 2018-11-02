@@ -15,8 +15,8 @@ namespace SearchDataSPM
         String connection;
         SqlConnection cn;
         string userName;
-        
-        
+
+
         public void Connect_SPMSQL()
 
         {
@@ -34,7 +34,7 @@ namespace SearchDataSPM
                 MessageBox.Show("Cannot connect through the server. Please check the network connection.", "SPM Connect - SQL Server Connection Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.ExitThread();
                 System.Environment.Exit(0);
-                
+
 
 
             }
@@ -76,13 +76,13 @@ namespace SearchDataSPM
                 if (userCount == 1)
                 {
                     cn.Close();
-                    
+
                     return true;
                 }
                 else
                 {
                     cn.Close();
-                    
+
 
                 }
             }
@@ -108,7 +108,7 @@ namespace SearchDataSPM
                 else
                 {
                     cn.Close();
-                    
+
 
                 }
             }
@@ -125,17 +125,14 @@ namespace SearchDataSPM
 
                 int userCount = (int)sqlCommand.ExecuteScalar();
                 if (userCount == 1)
-                {                  
+                {
                     cn.Close();
                     return true;
-
-                    
-
                 }
                 else
                 {
                     cn.Close();
-                   
+
                 }
 
             }
@@ -145,5 +142,5 @@ namespace SearchDataSPM
         #endregion
     }
 
-   
+
 }
