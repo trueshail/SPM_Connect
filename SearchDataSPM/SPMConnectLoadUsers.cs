@@ -124,9 +124,6 @@ namespace SearchDataSPM
                 {
                     cn.Close();
                     return true;
-
-                    
-
                 }
                 else
                 {
