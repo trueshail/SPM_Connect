@@ -14,7 +14,7 @@ namespace SearchDataSPM
 {
     public partial class PurchaseReqform : Form
     {
-       PurchaseReq model = new PurchaseReq();
+        PurchaseReq model = new PurchaseReq();
         String connection;
         SqlConnection cn;
         SqlDataAdapter _adapter;
@@ -44,7 +44,7 @@ namespace SearchDataSPM
                 cn.Close();
             }
             dt = new DataTable();
-            
+
         }
 
         string userfullname;
@@ -76,6 +76,7 @@ namespace SearchDataSPM
                     dataGridView.Columns[3].Width = 80;
                     dataGridView.Columns[4].Visible = false;
                     dataGridView.Columns[5].Visible = false;
+                    dataGridView.Columns[6].Visible = false;
                     UpdateFont();
 
                 }
@@ -238,7 +239,7 @@ namespace SearchDataSPM
 
         private void mainsearch()
         {
-            
+
             try
             {
                 DataView dv = dt.DefaultView;
@@ -259,15 +260,124 @@ namespace SearchDataSPM
 
         private void createNewPurchaseReqToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //clearitemsbeforenewreq();
+            //Clear();
+            int lastreq = getlastreqnumber();
+            createnewreq(lastreq, userfullname.ToString());
+            showReqSearchItems();
+            //PreviewTabPage.Text = "New Req : " + lastreq;
+            //purchreqtxt.Text = lastreq.ToString();
+            //fillitemssource();
+        }
+
+        void clearitemsbeforenewreq()
+        {
+            purchreqtxt.Clear();
+            requestbytxt.Clear();
+            lastsavedtxt.Clear();
+            datecreatedtxt.Clear();
+            jobnumbertxt.Clear();
+            subassytxt.Clear();
+
             editbttn.Visible = false;
-            dataGridView1.Enabled = false;
-            dataGridView1.Refresh();
-            PreviewTabPage.Text = "New Req : ";
+            dataGridView.Enabled = false;
+            dataGridView1.Enabled = true;
+            
+            dataGridView1.DataSource = null;
+            dataGridView1.Rows.Clear();
             ecitbttn.Visible = true;
             savebttn.Visible = true;
             groupBox3.Visible = true;
-            fillitemssource();
         }
+
+        private int getlastreqnumber()
+        {
+            int lastreqnumber = 0;
+            using (SqlCommand cmd = new SqlCommand("SELECT MAX(ReqNumber) FROM [SPM_Database].[dbo].[PurchaseReqBase]",cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                     lastreqnumber = (int)cmd.ExecuteScalar();
+                    lastreqnumber++;
+                    MessageBox.Show(lastreqnumber.ToString());
+                    return lastreqnumber;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Last Req Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+
+            return lastreqnumber;
+        }
+
+        private void createnewreq(int reqnumber, string employee)
+        {
+            DateTime datecreated = DateTime.Now;
+            string sqlFormattedDate = datecreated.ToString("yyyy-MM-dd HH:mm:ss.fff");
+            string jobnumber = "" ;
+            string subassy = "";
+            if (cn.State == ConnectionState.Closed)
+                cn.Open();
+            try
+            {
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[PurchaseReqBase] (ReqNumber, Employee, DateCreated, DateLastSaved, JobNumber, SubAssyNumber) VALUES('" + reqnumber + "','" + employee.ToString() + "','" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + jobnumber + "','" + subassy + "'  )";
+                cmd.ExecuteNonQuery();
+                cn.Close();
+                //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Create Entry On SQL Purchase Req Base", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+
+        }
+
+
+        private void UpdateReq(int reqnumber)
+        {
+            DateTime datecreated = DateTime.Now;
+            string sqlFormattedDate = datecreated.ToString("yyyy-MM-dd HH:mm:ss.fff");
+            string jobnumber = jobnumbertxt.Text;
+            string subassy = subassytxt.Text;
+            string notes = notestxt.Text;
+            if (cn.State == ConnectionState.Closed)
+                cn.Open();
+            try
+            {
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy +"' ,Notes = '" + notes + "' WHERE ReqNumber = '" + reqnumber + "' ";
+                cmd.ExecuteNonQuery();
+                cn.Close();
+                //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Update Entry On SQL Purchase Req Base", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+
+        }
+
 
         private void editbttn_Click(object sender, EventArgs e)
         {
@@ -283,6 +393,8 @@ namespace SearchDataSPM
 
         private void savebttn_Click(object sender, EventArgs e)
         {
+            UpdateReq(Convert.ToInt32(purchreqtxt.Text));
+            showReqSearchItems();
             ecitbttn.Visible = false;
             savebttn.Visible = false;
             editbttn.Visible = true;
@@ -434,7 +546,7 @@ namespace SearchDataSPM
             maxSlNo++;
             //int selectedrowindex = dataGridView1.SelectedCells[0].RowIndex;
             //MessageBox.Show(this.dataGridView1.Rows[selectedrowindex].HeaderCell.Value.ToString());
-            model.OrderId =maxSlNo;
+            model.OrderId = maxSlNo;
             model.Item = ItemTxtBox.Text.Trim();
             model.Description = Descriptiontxtbox.Text.Trim();
             model.Manufacturer = oemtxt.Text.Trim();
@@ -442,9 +554,9 @@ namespace SearchDataSPM
             int result = 0;
             int resultqty = 0;
             if (int.TryParse(pricetxt.Text, out result))
-            if (int.TryParse(qtytxt.Text, out resultqty))
+                if (int.TryParse(qtytxt.Text, out resultqty))
 
-            model.Price = result;
+                    model.Price = result;
             model.Qty = resultqty;
             model.ReqNumber = Convert.ToInt32(purchreqtxt.Text);
             model.Notes = "";
@@ -458,7 +570,7 @@ namespace SearchDataSPM
                     db.Entry(model).State = EntityState.Modified;
                 db.SaveChanges();
             }
-            
+
             Clear();
             PopulateDataGridView();
             MessageBox.Show("Submitted Successfully", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -491,13 +603,13 @@ namespace SearchDataSPM
             int item = Convert.ToInt32(slectedrow.Cells[0].Value);
             using (SPM_DatabaseEntitiesPurchase db = new SPM_DatabaseEntitiesPurchase())
             {
-                dataGridView1.DataSource = db.PurchaseReqs.Where(s => s.ReqNumber == item ).ToList<PurchaseReq>();
+                dataGridView1.DataSource = db.PurchaseReqs.Where(s => s.ReqNumber == item).ToList<PurchaseReq>();
             }
             //foreach (DataGridViewRow row in dataGridView1.Rows)
             //{
             //row.HeaderCell.Value = String.Format("{0}", row.Index + 1);
             //}
-            
+
             PreviewTabPage.Text = "ReqNo : " + item;
             UpdateFontdataitems();
         }
@@ -528,23 +640,6 @@ namespace SearchDataSPM
 
         private void dataGridView1_DoubleClick(object sender, EventArgs e)
         {
-            if (dataGridView1.CurrentRow.Index != -1)
-            {
-                model.ID = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID"].Value);
-                using (SPM_DatabaseEntitiesPurchase db = new SPM_DatabaseEntitiesPurchase())
-                {
-                    model = db.PurchaseReqs.Where(x => x.ID == model.ID).FirstOrDefault();
-                    ItemTxtBox.Text = model.Item.ToString();
-                    Descriptiontxtbox.Text = model.Description;
-                    oemtxt.Text = model.Manufacturer;
-                    oemitemnotxt.Text = model.OEMItemNumber;
-                    pricetxt.Text = model.Price.ToString();
-                    qtytxt.Text = model.Qty.ToString();
-
-                }
-                Addnewbttn.Text = "Update";
-                btnDelete.Enabled = true;
-            }
         }
 
         private void updateorderid(int reqnumber)
@@ -569,5 +664,27 @@ namespace SearchDataSPM
             }
         }
 
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+            if (dataGridView1.CurrentRow.Index != -1)
+            {
+                model.ID = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID"].Value);
+                using (SPM_DatabaseEntitiesPurchase db = new SPM_DatabaseEntitiesPurchase())
+                {
+                    model = db.PurchaseReqs.Where(x => x.ID == model.ID).FirstOrDefault();
+                    ItemTxtBox.Text = model.Item.ToString();
+                    Descriptiontxtbox.Text = model.Description;
+                    oemtxt.Text = model.Manufacturer;
+                    oemitemnotxt.Text = model.OEMItemNumber;
+                    pricetxt.Text = model.Price.ToString();
+                    qtytxt.Text = model.Qty.ToString();
+
+                }
+                Addnewbttn.Text = "Update";
+                btnDelete.Enabled = true;
+            }
+
+        }
     }
 }
