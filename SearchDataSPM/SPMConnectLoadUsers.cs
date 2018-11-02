@@ -18,7 +18,6 @@ namespace SearchDataSPM
         
         
         public void Connect_SPMSQL()
-
         {
             connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
             userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
@@ -34,8 +33,6 @@ namespace SearchDataSPM
                 MessageBox.Show("Cannot connect through the server. Please check the network connection.", "SPM Connect - SQL Server Connection Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.ExitThread();
                 System.Environment.Exit(0);
-                
-
 
             }
             finally
@@ -66,7 +63,6 @@ namespace SearchDataSPM
 
         private bool chekusercredentialscontrols()
         {
-
             using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[USers] WHERE UserName = @username AND Department = 'Controls'", cn))
             {
                 cn.Open();
@@ -91,7 +87,6 @@ namespace SearchDataSPM
 
         private bool chekusercredentialseng()
         {
-
             using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[USers] WHERE UserName = @username AND Department = 'Eng'", cn))
             {
                 cn.Open();
@@ -108,8 +103,6 @@ namespace SearchDataSPM
                 else
                 {
                     cn.Close();
-                    
-
                 }
             }
             return false;
@@ -117,7 +110,6 @@ namespace SearchDataSPM
 
         private bool chekusercredentialsproduction()
         {
-
             using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[USers] WHERE UserName = @username AND Department = 'Production'", cn))
             {
                 cn.Open();
@@ -128,8 +120,6 @@ namespace SearchDataSPM
                 {                  
                     cn.Close();
                     return true;
-
-                    
 
                 }
                 else
