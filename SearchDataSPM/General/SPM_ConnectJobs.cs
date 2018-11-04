@@ -1173,8 +1173,10 @@ namespace SearchDataSPM
 
         private void purchasereq_Click(object sender, EventArgs e)
         {
+           
             PurchaseReqform purchaseReq = new PurchaseReqform();
             purchaseReq.Show();
+           
         }
     }
 }

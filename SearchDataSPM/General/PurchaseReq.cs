@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -21,10 +22,10 @@ namespace SearchDataSPM
         DataTable itemstable = new DataTable();
         DataTable dt;
 
-
         public PurchaseReqform()
         {
             InitializeComponent();
+            
             connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
             try
             {
@@ -54,8 +55,6 @@ namespace SearchDataSPM
             Clear();
             showReqSearchItems();
             userfullname = getuserfullname(get_username().ToString()).ToString();
-
-            //fillitemssource();
         }
 
         private void showReqSearchItems()
@@ -271,7 +270,7 @@ namespace SearchDataSPM
             {
                 //clearitemsbeforenewreq();
                 //Clear();
-               
+
                 ecitbttn.Visible = false;
                 int lastreq = getlastreqnumber();
                 createnewreq(lastreq, userfullname.ToString());
@@ -332,17 +331,17 @@ namespace SearchDataSPM
                     }
                     catch (Exception)
                     {
-                        
+
                     }
-                   
-                    
+
+
                 }
             }
             else
             {
                 totalcostlbl.Text = "";
             }
-          
+
         }
 
         void clearitemsbeforenewreq()
@@ -668,7 +667,7 @@ namespace SearchDataSPM
                 model.Description = Descriptiontxtbox.Text.Trim();
                 model.Manufacturer = oemtxt.Text.Trim();
                 model.OEMItemNumber = oemitemnotxt.Text.Trim();
-                
+
                 if (int.TryParse(qtytxt.Text, out resultqty))
                     model.Qty = resultqty;
                 model.ReqNumber = Convert.ToInt32(purchreqtxt.Text);
@@ -687,15 +686,16 @@ namespace SearchDataSPM
                 }
 
                 Clear();
+                updateorderid(Convert.ToInt32(purchreqtxt.Text));
                 PopulateDataGridView();
                 Addnewbttn.Enabled = false;
                 itemsearchtxtbox.Focus();
-                
+               
             }
             else
             {
                 errorProvider1.SetError(qtytxt, "Cannot be null");
-                MessageBox.Show("Quantity cannot be empty in order to add new entry.", "SPM Connect - Add New Item", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //MessageBox.Show("Quantity cannot be empty in order to add new entry.", "SPM Connect - Add New Item", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
         }
@@ -774,7 +774,7 @@ namespace SearchDataSPM
                 Clear();
                 Addnewbttn.Enabled = false;
             }
-           
+
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -836,28 +836,32 @@ namespace SearchDataSPM
 
         void getitemsfromgrid()
         {
-            if (dataGridView1.CurrentRow.Index != -1)
+            if (dataGridView1.Rows.Count > 0)
             {
-                int selectedrowindex = dataGridView1.SelectedCells[0].RowIndex;
-                DataGridViewRow slectedrow = dataGridView1.Rows[selectedrowindex];
-                //string Item = Convert.ToString(slectedrow.Cells[0].Value);
-
-                model.ID = Convert.ToInt32(slectedrow.Cells["ID"].Value);
-                using (SPM_DatabaseEntitiesPurchase db = new SPM_DatabaseEntitiesPurchase())
+                if (dataGridView1.CurrentRow.Index != -1)
                 {
-                    model = db.PurchaseReqs.Where(x => x.ID == model.ID).FirstOrDefault();
-                    ItemTxtBox.Text = model.Item.ToString();
-                    Descriptiontxtbox.Text = model.Description;
-                    oemtxt.Text = model.Manufacturer;
-                    oemitemnotxt.Text = model.OEMItemNumber;
-                    pricetxt.Text = model.Price.ToString();
-                    qtytxt.Text = model.Qty.ToString();
+                    int selectedrowindex = dataGridView1.SelectedCells[0].RowIndex;
+                    DataGridViewRow slectedrow = dataGridView1.Rows[selectedrowindex];
+                    //string Item = Convert.ToString(slectedrow.Cells[0].Value);
 
+                    model.ID = Convert.ToInt32(slectedrow.Cells["ID"].Value);
+                    using (SPM_DatabaseEntitiesPurchase db = new SPM_DatabaseEntitiesPurchase())
+                    {
+                        model = db.PurchaseReqs.Where(x => x.ID == model.ID).FirstOrDefault();
+                        ItemTxtBox.Text = model.Item.ToString();
+                        Descriptiontxtbox.Text = model.Description;
+                        oemtxt.Text = model.Manufacturer;
+                        oemitemnotxt.Text = model.OEMItemNumber;
+                        pricetxt.Text = model.Price.ToString();
+                        qtytxt.Text = model.Qty.ToString();
+
+                    }
+                    Addnewbttn.Enabled = true;
+                    Addnewbttn.Text = "Update";
+                    btnDelete.Enabled = true;
                 }
-                Addnewbttn.Enabled = true;
-                Addnewbttn.Text = "Update";
-                btnDelete.Enabled = true;
             }
+
         }
 
         private void jobnumbertxt_Leave(object sender, EventArgs e)
@@ -937,8 +941,30 @@ namespace SearchDataSPM
                 int columnindex = e.RowIndex;
                 dataGridView1.ClearSelection();
                 dataGridView1.Rows[columnindex].Selected = true;
-                
 
+
+            }
+        }
+
+        private void dataGridView1_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+        {
+
+        }
+
+        private void FormSelector_Opening(object sender, CancelEventArgs e)
+        {
+            if (dataGridView1.Rows.Count > 0)
+            {
+                
+                FormSelector.Items[0].Enabled = true;
+                FormSelector.Items[1].Enabled = true;
+
+            }
+            else
+            {
+               
+                FormSelector.Items[0].Enabled = false;
+                FormSelector.Items[1].Enabled = false;
             }
         }
     }

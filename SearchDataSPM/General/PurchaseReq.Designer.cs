@@ -887,6 +887,7 @@
             this.dataGridView1.TabIndex = 15;
             this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
             this.dataGridView1.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDown);
+            this.dataGridView1.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dataGridView1_RowsRemoved);
             this.dataGridView1.DoubleClick += new System.EventHandler(this.dataGridView1_DoubleClick);
             // 
             // ID
@@ -985,7 +986,8 @@
             this.deleteItemToolStripMenuItem});
             this.FormSelector.Name = "contextMenuStrip1";
             this.FormSelector.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.FormSelector.Size = new System.Drawing.Size(140, 48);
+            this.FormSelector.Size = new System.Drawing.Size(181, 70);
+            this.FormSelector.Opening += new System.ComponentModel.CancelEventHandler(this.FormSelector_Opening);
             // 
             // editItemToolStripMenuItem
             // 
