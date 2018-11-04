@@ -84,12 +84,12 @@
             this.Manufacturer = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.OEMItemNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.totalcostlbl = new System.Windows.Forms.Label();
             this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.FormSelector = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.totalcostlbl = new System.Windows.Forms.Label();
             this.MenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -338,7 +338,7 @@
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label9.Location = new System.Drawing.Point(10, 211);
+            this.label9.Location = new System.Drawing.Point(9, 211);
             this.label9.Name = "label9";
             this.label9.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label9.Size = new System.Drawing.Size(98, 15);
@@ -353,7 +353,7 @@
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label8.Location = new System.Drawing.Point(16, 181);
+            this.label8.Location = new System.Drawing.Point(8, 181);
             this.label8.Name = "label8";
             this.label8.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label8.Size = new System.Drawing.Size(93, 15);
@@ -368,7 +368,7 @@
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label10.Location = new System.Drawing.Point(26, 148);
+            this.label10.Location = new System.Drawing.Point(9, 148);
             this.label10.Name = "label10";
             this.label10.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label10.Size = new System.Drawing.Size(85, 15);
@@ -383,7 +383,7 @@
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label7.Location = new System.Drawing.Point(14, 113);
+            this.label7.Location = new System.Drawing.Point(7, 113);
             this.label7.Name = "label7";
             this.label7.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label7.Size = new System.Drawing.Size(103, 15);
@@ -398,7 +398,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label6.Location = new System.Drawing.Point(12, 79);
+            this.label6.Location = new System.Drawing.Point(7, 79);
             this.label6.Name = "label6";
             this.label6.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label6.Size = new System.Drawing.Size(103, 15);
@@ -953,6 +953,19 @@
             this.Price.Name = "Price";
             this.Price.ReadOnly = true;
             // 
+            // totalcostlbl
+            // 
+            this.totalcostlbl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.totalcostlbl.AutoSize = true;
+            this.totalcostlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.totalcostlbl.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.totalcostlbl.Location = new System.Drawing.Point(463, 658);
+            this.totalcostlbl.Name = "totalcostlbl";
+            this.totalcostlbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.totalcostlbl.Size = new System.Drawing.Size(91, 15);
+            this.totalcostlbl.TabIndex = 56;
+            this.totalcostlbl.Text = "Total Cost $ :";
+            // 
             // TreeViewToolTip
             // 
             this.TreeViewToolTip.AutoPopDelay = 4000;
@@ -991,19 +1004,6 @@
             this.deleteItemToolStripMenuItem.Text = "Delete Item";
             this.deleteItemToolStripMenuItem.ToolTipText = "Delete Selected Item ";
             this.deleteItemToolStripMenuItem.Click += new System.EventHandler(this.deleteItemToolStripMenuItem_Click);
-            // 
-            // totalcostlbl
-            // 
-            this.totalcostlbl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.totalcostlbl.AutoSize = true;
-            this.totalcostlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.totalcostlbl.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.totalcostlbl.Location = new System.Drawing.Point(463, 658);
-            this.totalcostlbl.Name = "totalcostlbl";
-            this.totalcostlbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.totalcostlbl.Size = new System.Drawing.Size(91, 15);
-            this.totalcostlbl.TabIndex = 56;
-            this.totalcostlbl.Text = "Total Cost $ :";
             // 
             // PurchaseReqform
             // 

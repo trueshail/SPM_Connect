@@ -309,12 +309,33 @@ namespace SearchDataSPM
             if (dataGridView1.Rows.Count > 0)
             {
                 int total = 0;
+                int qty = 1;
+                int price = 0;
                 foreach (DataGridViewRow row in dataGridView1.Rows)
                 {
-                    int qty = Convert.ToInt32(row.Cells[3].Value.ToString());
-                    int price = Convert.ToInt32(row.Cells[7].Value.ToString());                   
-                    total += (qty * price);
-                    totalcostlbl.Text = "Total Cost : $" + string.Format("{0:#.00}", Convert.ToDecimal(total.ToString())); 
+                    if (row.Cells[3].Value.ToString().Length > 0 && row.Cells[3].Value.ToString() != null)
+                    {
+                        qty = Convert.ToInt32(row.Cells[3].Value.ToString());
+                    }
+                    try
+                    {
+                        if (row.Cells[7].Value.ToString() != null && row.Cells[7].Value.ToString().Length > 0)
+                        {
+                            price = Convert.ToInt32(row.Cells[7].Value.ToString());
+                        }
+                        else
+                        {
+                            price = 0;
+                        }
+                        total += (qty * price);
+                        totalcostlbl.Text = "Total Cost : $" + string.Format("{0:#.00}", Convert.ToDecimal(total.ToString()));
+                    }
+                    catch (Exception)
+                    {
+                        
+                    }
+                   
+                    
                 }
             }
             else
@@ -384,7 +405,7 @@ namespace SearchDataSPM
             {
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[PurchaseReqBase] (ReqNumber, Employee, DateCreated, DateLastSaved, JobNumber, SubAssyNumber) VALUES('" + reqnumber + "','" + employee.ToString() + "','" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + jobnumber + "','" + subassy + "'  )";
+                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[PurchaseReqBase] (ReqNumber, RequestedBy, DateCreated, DateLastSaved, JobNumber, SubAssyNumber) VALUES('" + reqnumber + "','" + employee.ToString() + "','" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + jobnumber + "','" + subassy + "'  )";
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -698,7 +719,7 @@ namespace SearchDataSPM
         {
             DataRow[] dr = dt.Select("ReqNumber = '" + item + "'");
             purchreqtxt.Text = dr[0]["ReqNumber"].ToString();
-            requestbytxt.Text = dr[0]["Employee"].ToString();
+            requestbytxt.Text = dr[0]["RequestedBy"].ToString();
             datecreatedtxt.Text = dr[0]["DateCreated"].ToString();
             jobnumbertxt.Text = dr[0]["JobNumber"].ToString();
             subassytxt.Text = dr[0]["SubAssyNumber"].ToString();
@@ -862,7 +883,7 @@ namespace SearchDataSPM
                 }
                 else
                 {
-                    errorProvider1.SetError(savebttn, "Cannot be closed without saving");
+                    errorProvider1.SetError(savebttn, "Save before closing");
                 }
 
             }
@@ -870,10 +891,15 @@ namespace SearchDataSPM
 
         private void jobnumbertxt_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if ((sender as TextBox).SelectionStart == 0)
-                e.Handled = (e.KeyChar == (char)Keys.Space);
+            if (System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"[0-9+\b]"))
+            {
+                // Stop the character from being entered into the control since it is illegal.
+
+            }
             else
-                e.Handled = false;
+            {
+                e.Handled = true;
+            }
         }
 
         private void subassytxt_KeyPress(object sender, KeyPressEventArgs e)
