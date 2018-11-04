@@ -49,13 +49,16 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.Preqlbl = new System.Windows.Forms.Label();
-            this.subassytxt = new System.Windows.Forms.TextBox();
-            this.jobnumbertxt = new System.Windows.Forms.TextBox();
             this.lastsavedtxt = new System.Windows.Forms.TextBox();
             this.datecreatedtxt = new System.Windows.Forms.TextBox();
             this.requestbytxt = new System.Windows.Forms.TextBox();
+            this.subassytxt = new System.Windows.Forms.TextBox();
+            this.jobnumbertxt = new System.Windows.Forms.TextBox();
             this.purchreqtxt = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.notestxt = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label11 = new System.Windows.Forms.Label();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.Addnewbttn = new System.Windows.Forms.Button();
@@ -73,10 +76,6 @@
             this.ItemTxtBox = new System.Windows.Forms.TextBox();
             this.itemsearchtxtbox = new System.Windows.Forms.TextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.label11 = new System.Windows.Forms.Label();
-            this.notestxt = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
             this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.OrderId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Item = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -85,6 +84,12 @@
             this.Manufacturer = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.OEMItemNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.FormSelector = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.editItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.totalcostlbl = new System.Windows.Forms.Label();
             this.MenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -100,6 +105,8 @@
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
+            this.FormSelector.SuspendLayout();
             this.SuspendLayout();
             // 
             // MenuStrip
@@ -127,9 +134,11 @@
             // 
             // createNewPurchaseReqToolStripMenuItem
             // 
+            this.createNewPurchaseReqToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("createNewPurchaseReqToolStripMenuItem.Image")));
             this.createNewPurchaseReqToolStripMenuItem.Name = "createNewPurchaseReqToolStripMenuItem";
-            this.createNewPurchaseReqToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
-            this.createNewPurchaseReqToolStripMenuItem.Text = "Create new Purchase Req";
+            this.createNewPurchaseReqToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
+            this.createNewPurchaseReqToolStripMenuItem.Text = "Create New Purchase Req";
+            this.createNewPurchaseReqToolStripMenuItem.ToolTipText = "Generate New Purchase Req";
             this.createNewPurchaseReqToolStripMenuItem.Click += new System.EventHandler(this.createNewPurchaseReqToolStripMenuItem_Click);
             // 
             // splitContainer1
@@ -153,6 +162,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.editbttn);
             this.splitContainer1.Panel2.Controls.Add(this.savebttn);
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
+            this.splitContainer1.Panel2.Controls.Add(this.totalcostlbl);
             this.splitContainer1.Panel2MinSize = 500;
             this.splitContainer1.Size = new System.Drawing.Size(984, 687);
             this.splitContainer1.SplitterDistance = 300;
@@ -205,7 +215,7 @@
             this.ecitbttn.Name = "ecitbttn";
             this.ecitbttn.Size = new System.Drawing.Size(100, 25);
             this.ecitbttn.TabIndex = 74;
-            this.ecitbttn.Text = "Close";
+            this.ecitbttn.Text = "&Close";
             this.TreeViewToolTip.SetToolTip(this.ecitbttn, "Close this Purchase Req");
             this.ecitbttn.UseVisualStyleBackColor = true;
             this.ecitbttn.Visible = false;
@@ -222,7 +232,7 @@
             this.editbttn.Name = "editbttn";
             this.editbttn.Size = new System.Drawing.Size(100, 25);
             this.editbttn.TabIndex = 73;
-            this.editbttn.Text = "Edit";
+            this.editbttn.Text = "&Edit";
             this.TreeViewToolTip.SetToolTip(this.editbttn, "Edit Selected Purchase Req");
             this.editbttn.UseVisualStyleBackColor = true;
             this.editbttn.Visible = false;
@@ -239,7 +249,7 @@
             this.savebttn.Name = "savebttn";
             this.savebttn.Size = new System.Drawing.Size(100, 25);
             this.savebttn.TabIndex = 72;
-            this.savebttn.Text = "Save";
+            this.savebttn.Text = "&Save";
             this.TreeViewToolTip.SetToolTip(this.savebttn, "Save Purchase Req");
             this.savebttn.UseVisualStyleBackColor = true;
             this.savebttn.Visible = false;
@@ -300,11 +310,11 @@
             this.groupBox4.Controls.Add(this.label7);
             this.groupBox4.Controls.Add(this.label6);
             this.groupBox4.Controls.Add(this.Preqlbl);
-            this.groupBox4.Controls.Add(this.subassytxt);
-            this.groupBox4.Controls.Add(this.jobnumbertxt);
             this.groupBox4.Controls.Add(this.lastsavedtxt);
             this.groupBox4.Controls.Add(this.datecreatedtxt);
             this.groupBox4.Controls.Add(this.requestbytxt);
+            this.groupBox4.Controls.Add(this.subassytxt);
+            this.groupBox4.Controls.Add(this.jobnumbertxt);
             this.groupBox4.Controls.Add(this.purchreqtxt);
             this.groupBox4.Controls.Add(this.label12);
             this.groupBox4.Controls.Add(this.notestxt);
@@ -328,7 +338,7 @@
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label9.Location = new System.Drawing.Point(10, 208);
+            this.label9.Location = new System.Drawing.Point(10, 211);
             this.label9.Name = "label9";
             this.label9.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label9.Size = new System.Drawing.Size(98, 15);
@@ -410,30 +420,6 @@
             this.Preqlbl.TabIndex = 58;
             this.Preqlbl.Text = "Requisition No :";
             // 
-            // subassytxt
-            // 
-            this.subassytxt.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.subassytxt.BackColor = System.Drawing.Color.White;
-            this.subassytxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.subassytxt.Location = new System.Drawing.Point(121, 207);
-            this.subassytxt.Name = "subassytxt";
-            this.subassytxt.Size = new System.Drawing.Size(196, 20);
-            this.subassytxt.TabIndex = 57;
-            // 
-            // jobnumbertxt
-            // 
-            this.jobnumbertxt.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.jobnumbertxt.BackColor = System.Drawing.Color.White;
-            this.jobnumbertxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.jobnumbertxt.Location = new System.Drawing.Point(121, 180);
-            this.jobnumbertxt.Name = "jobnumbertxt";
-            this.jobnumbertxt.Size = new System.Drawing.Size(196, 20);
-            this.jobnumbertxt.TabIndex = 57;
-            // 
             // lastsavedtxt
             // 
             this.lastsavedtxt.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -447,6 +433,7 @@
             this.lastsavedtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.lastsavedtxt.Size = new System.Drawing.Size(196, 20);
             this.lastsavedtxt.TabIndex = 57;
+            this.lastsavedtxt.TabStop = false;
             // 
             // datecreatedtxt
             // 
@@ -461,6 +448,7 @@
             this.datecreatedtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.datecreatedtxt.Size = new System.Drawing.Size(196, 20);
             this.datecreatedtxt.TabIndex = 57;
+            this.datecreatedtxt.TabStop = false;
             // 
             // requestbytxt
             // 
@@ -475,6 +463,44 @@
             this.requestbytxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.requestbytxt.Size = new System.Drawing.Size(196, 20);
             this.requestbytxt.TabIndex = 57;
+            this.requestbytxt.TabStop = false;
+            // 
+            // subassytxt
+            // 
+            this.subassytxt.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.subassytxt.BackColor = System.Drawing.Color.White;
+            this.subassytxt.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.subassytxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.subassytxt.Location = new System.Drawing.Point(121, 208);
+            this.subassytxt.MinimumSize = new System.Drawing.Size(180, 20);
+            this.subassytxt.Name = "subassytxt";
+            this.subassytxt.ReadOnly = true;
+            this.subassytxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.subassytxt.Size = new System.Drawing.Size(196, 21);
+            this.subassytxt.TabIndex = 7;
+            this.TreeViewToolTip.SetToolTip(this.subassytxt, "Sub-assembly number");
+            this.subassytxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.subassytxt_KeyPress);
+            this.subassytxt.Leave += new System.EventHandler(this.subassytxt_Leave);
+            // 
+            // jobnumbertxt
+            // 
+            this.jobnumbertxt.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.jobnumbertxt.BackColor = System.Drawing.Color.White;
+            this.jobnumbertxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.jobnumbertxt.Location = new System.Drawing.Point(121, 178);
+            this.jobnumbertxt.MinimumSize = new System.Drawing.Size(180, 20);
+            this.jobnumbertxt.Name = "jobnumbertxt";
+            this.jobnumbertxt.ReadOnly = true;
+            this.jobnumbertxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.jobnumbertxt.Size = new System.Drawing.Size(196, 21);
+            this.jobnumbertxt.TabIndex = 6;
+            this.TreeViewToolTip.SetToolTip(this.jobnumbertxt, "Job-number ");
+            this.jobnumbertxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.jobnumbertxt_KeyPress);
+            this.jobnumbertxt.Leave += new System.EventHandler(this.jobnumbertxt_Leave);
             // 
             // purchreqtxt
             // 
@@ -489,6 +515,41 @@
             this.purchreqtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.purchreqtxt.Size = new System.Drawing.Size(196, 20);
             this.purchreqtxt.TabIndex = 57;
+            this.purchreqtxt.TabStop = false;
+            // 
+            // label12
+            // 
+            this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.label12.Location = new System.Drawing.Point(8, 258);
+            this.label12.Name = "label12";
+            this.label12.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label12.Size = new System.Drawing.Size(52, 15);
+            this.label12.TabIndex = 57;
+            this.label12.Text = "Notes :";
+            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // notestxt
+            // 
+            this.notestxt.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.notestxt.BackColor = System.Drawing.Color.White;
+            this.notestxt.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.notestxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.notestxt.Location = new System.Drawing.Point(66, 242);
+            this.notestxt.MinimumSize = new System.Drawing.Size(200, 40);
+            this.notestxt.Multiline = true;
+            this.notestxt.Name = "notestxt";
+            this.notestxt.ReadOnly = true;
+            this.notestxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.notestxt.Size = new System.Drawing.Size(253, 42);
+            this.notestxt.TabIndex = 8;
+            this.TreeViewToolTip.SetToolTip(this.notestxt, "Notes");
             // 
             // groupBox3
             // 
@@ -523,6 +584,21 @@
             this.groupBox3.UseCompatibleTextRendering = true;
             this.groupBox3.Visible = false;
             // 
+            // label11
+            // 
+            this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.label11.Location = new System.Drawing.Point(1, 29);
+            this.label11.Name = "label11";
+            this.label11.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label11.Size = new System.Drawing.Size(60, 15);
+            this.label11.TabIndex = 67;
+            this.label11.Text = "Search :";
+            // 
             // btnCancel
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -534,8 +610,9 @@
             this.btnCancel.MinimumSize = new System.Drawing.Size(80, 25);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(80, 25);
-            this.btnCancel.TabIndex = 66;
+            this.btnCancel.TabIndex = 6;
             this.btnCancel.Text = "Cancel";
+            this.TreeViewToolTip.SetToolTip(this.btnCancel, "Cancel");
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
@@ -551,7 +628,8 @@
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(80, 25);
             this.btnDelete.TabIndex = 66;
-            this.btnDelete.Text = "Delete";
+            this.btnDelete.Text = "&Delete";
+            this.TreeViewToolTip.SetToolTip(this.btnDelete, "Double CLick item from grid \r\nand press Delete to remove");
             this.btnDelete.UseVisualStyleBackColor = true;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
@@ -560,14 +638,16 @@
             this.Addnewbttn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.Addnewbttn.Enabled = false;
             this.Addnewbttn.Font = new System.Drawing.Font("Palatino Linotype", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Addnewbttn.Location = new System.Drawing.Point(39, 259);
             this.Addnewbttn.MaximumSize = new System.Drawing.Size(80, 25);
             this.Addnewbttn.MinimumSize = new System.Drawing.Size(80, 25);
             this.Addnewbttn.Name = "Addnewbttn";
             this.Addnewbttn.Size = new System.Drawing.Size(80, 25);
-            this.Addnewbttn.TabIndex = 66;
-            this.Addnewbttn.Text = "Add ";
+            this.Addnewbttn.TabIndex = 5;
+            this.Addnewbttn.Text = "&Add ";
+            this.TreeViewToolTip.SetToolTip(this.Addnewbttn, "Add Item To Purchase Req");
             this.Addnewbttn.UseVisualStyleBackColor = true;
             this.Addnewbttn.Click += new System.EventHandler(this.Addnewbttn_Click);
             // 
@@ -600,6 +680,7 @@
             this.oemitemnotxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.oemitemnotxt.Size = new System.Drawing.Size(212, 20);
             this.oemitemnotxt.TabIndex = 64;
+            this.oemitemnotxt.TabStop = false;
             // 
             // label4
             // 
@@ -609,7 +690,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label4.Location = new System.Drawing.Point(36, 229);
+            this.label4.Location = new System.Drawing.Point(36, 201);
             this.label4.Name = "label4";
             this.label4.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label4.Size = new System.Drawing.Size(67, 15);
@@ -622,12 +703,13 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.qtytxt.BackColor = System.Drawing.Color.White;
-            this.qtytxt.Location = new System.Drawing.Point(117, 229);
+            this.qtytxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.qtytxt.Location = new System.Drawing.Point(117, 198);
             this.qtytxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.qtytxt.Name = "qtytxt";
             this.qtytxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.qtytxt.Size = new System.Drawing.Size(212, 22);
-            this.qtytxt.TabIndex = 62;
+            this.qtytxt.TabIndex = 3;
             this.qtytxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.qtytxt_KeyPress);
             // 
             // label3
@@ -638,7 +720,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label3.Location = new System.Drawing.Point(55, 196);
+            this.label3.Location = new System.Drawing.Point(55, 232);
             this.label3.Name = "label3";
             this.label3.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label3.Size = new System.Drawing.Size(48, 15);
@@ -651,12 +733,13 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pricetxt.BackColor = System.Drawing.Color.White;
-            this.pricetxt.Location = new System.Drawing.Point(117, 196);
+            this.pricetxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pricetxt.Location = new System.Drawing.Point(117, 230);
             this.pricetxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.pricetxt.Name = "pricetxt";
             this.pricetxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.pricetxt.Size = new System.Drawing.Size(212, 22);
-            this.pricetxt.TabIndex = 60;
+            this.pricetxt.TabIndex = 4;
             this.pricetxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.pricetxt_KeyPress);
             // 
             // label1
@@ -688,6 +771,7 @@
             this.oemtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.oemtxt.Size = new System.Drawing.Size(212, 20);
             this.oemtxt.TabIndex = 58;
+            this.oemtxt.TabStop = false;
             // 
             // label2
             // 
@@ -720,6 +804,7 @@
             this.Descriptiontxtbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.Descriptiontxtbox.Size = new System.Drawing.Size(212, 40);
             this.Descriptiontxtbox.TabIndex = 55;
+            this.Descriptiontxtbox.TabStop = false;
             // 
             // Itemlbl
             // 
@@ -750,6 +835,7 @@
             this.ItemTxtBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.ItemTxtBox.Size = new System.Drawing.Size(212, 20);
             this.ItemTxtBox.TabIndex = 54;
+            this.ItemTxtBox.TabStop = false;
             // 
             // itemsearchtxtbox
             // 
@@ -760,11 +846,11 @@
             this.itemsearchtxtbox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.itemsearchtxtbox.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.itemsearchtxtbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.itemsearchtxtbox.Location = new System.Drawing.Point(72, 25);
+            this.itemsearchtxtbox.Location = new System.Drawing.Point(62, 25);
             this.itemsearchtxtbox.MinimumSize = new System.Drawing.Size(200, 20);
             this.itemsearchtxtbox.Name = "itemsearchtxtbox";
             this.itemsearchtxtbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.itemsearchtxtbox.Size = new System.Drawing.Size(257, 22);
+            this.itemsearchtxtbox.Size = new System.Drawing.Size(267, 22);
             this.itemsearchtxtbox.TabIndex = 2;
             this.itemsearchtxtbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.itemsearchtxtbox_KeyDown);
             // 
@@ -798,62 +884,10 @@
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.Size = new System.Drawing.Size(666, 326);
-            this.dataGridView1.TabIndex = 11;
+            this.dataGridView1.TabIndex = 15;
             this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
+            this.dataGridView1.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDown);
             this.dataGridView1.DoubleClick += new System.EventHandler(this.dataGridView1_DoubleClick);
-            // 
-            // TreeViewToolTip
-            // 
-            this.TreeViewToolTip.AutoPopDelay = 4000;
-            this.TreeViewToolTip.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.TreeViewToolTip.InitialDelay = 500;
-            this.TreeViewToolTip.ReshowDelay = 100;
-            // 
-            // label11
-            // 
-            this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label11.Location = new System.Drawing.Point(6, 25);
-            this.label11.Name = "label11";
-            this.label11.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label11.Size = new System.Drawing.Size(60, 15);
-            this.label11.TabIndex = 67;
-            this.label11.Text = "Search :";
-            // 
-            // notestxt
-            // 
-            this.notestxt.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.notestxt.BackColor = System.Drawing.Color.White;
-            this.notestxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.notestxt.Location = new System.Drawing.Point(66, 242);
-            this.notestxt.MinimumSize = new System.Drawing.Size(200, 40);
-            this.notestxt.Multiline = true;
-            this.notestxt.Name = "notestxt";
-            this.notestxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.notestxt.Size = new System.Drawing.Size(253, 42);
-            this.notestxt.TabIndex = 55;
-            // 
-            // label12
-            // 
-            this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label12.Location = new System.Drawing.Point(8, 258);
-            this.label12.Name = "label12";
-            this.label12.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label12.Size = new System.Drawing.Size(52, 15);
-            this.label12.TabIndex = 57;
-            this.label12.Text = "Notes :";
-            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // ID
             // 
@@ -866,7 +900,7 @@
             // OrderId
             // 
             this.OrderId.DataPropertyName = "OrderId";
-            this.OrderId.FillWeight = 50F;
+            this.OrderId.FillWeight = 30F;
             this.OrderId.HeaderText = "OrderId";
             this.OrderId.Name = "OrderId";
             this.OrderId.ReadOnly = true;
@@ -874,7 +908,7 @@
             // Item
             // 
             this.Item.DataPropertyName = "Item";
-            this.Item.FillWeight = 60F;
+            this.Item.FillWeight = 50F;
             this.Item.HeaderText = "Item";
             this.Item.Name = "Item";
             this.Item.ReadOnly = true;
@@ -882,7 +916,7 @@
             // Qty
             // 
             this.Qty.DataPropertyName = "Qty";
-            this.Qty.FillWeight = 50F;
+            this.Qty.FillWeight = 30F;
             this.Qty.HeaderText = "Qty";
             this.Qty.Name = "Qty";
             this.Qty.ReadOnly = true;
@@ -914,10 +948,62 @@
             // Price
             // 
             this.Price.DataPropertyName = "Price";
-            this.Price.FillWeight = 60F;
+            this.Price.FillWeight = 50F;
             this.Price.HeaderText = "Price";
             this.Price.Name = "Price";
             this.Price.ReadOnly = true;
+            // 
+            // TreeViewToolTip
+            // 
+            this.TreeViewToolTip.AutoPopDelay = 4000;
+            this.TreeViewToolTip.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.TreeViewToolTip.InitialDelay = 500;
+            this.TreeViewToolTip.ReshowDelay = 100;
+            // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
+            this.errorProvider1.RightToLeft = true;
+            // 
+            // FormSelector
+            // 
+            this.FormSelector.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editItemToolStripMenuItem,
+            this.deleteItemToolStripMenuItem});
+            this.FormSelector.Name = "contextMenuStrip1";
+            this.FormSelector.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.FormSelector.Size = new System.Drawing.Size(140, 48);
+            // 
+            // editItemToolStripMenuItem
+            // 
+            this.editItemToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("editItemToolStripMenuItem.Image")));
+            this.editItemToolStripMenuItem.Name = "editItemToolStripMenuItem";
+            this.editItemToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.editItemToolStripMenuItem.Text = "Update Item";
+            this.editItemToolStripMenuItem.ToolTipText = "Update Selected Item";
+            this.editItemToolStripMenuItem.Click += new System.EventHandler(this.editItemToolStripMenuItem_Click);
+            // 
+            // deleteItemToolStripMenuItem
+            // 
+            this.deleteItemToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("deleteItemToolStripMenuItem.Image")));
+            this.deleteItemToolStripMenuItem.Name = "deleteItemToolStripMenuItem";
+            this.deleteItemToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.deleteItemToolStripMenuItem.Text = "Delete Item";
+            this.deleteItemToolStripMenuItem.ToolTipText = "Delete Selected Item ";
+            this.deleteItemToolStripMenuItem.Click += new System.EventHandler(this.deleteItemToolStripMenuItem_Click);
+            // 
+            // totalcostlbl
+            // 
+            this.totalcostlbl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.totalcostlbl.AutoSize = true;
+            this.totalcostlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.totalcostlbl.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.totalcostlbl.Location = new System.Drawing.Point(463, 658);
+            this.totalcostlbl.Name = "totalcostlbl";
+            this.totalcostlbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.totalcostlbl.Size = new System.Drawing.Size(91, 15);
+            this.totalcostlbl.TabIndex = 56;
+            this.totalcostlbl.Text = "Total Cost $ :";
             // 
             // PurchaseReqform
             // 
@@ -932,12 +1018,14 @@
             this.Name = "PurchaseReqform";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Purchase Requisition";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PurchaseReqform_FormClosing);
             this.Load += new System.EventHandler(this.PurchaseReq_Load);
             this.MenuStrip.ResumeLayout(false);
             this.MenuStrip.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
@@ -952,6 +1040,8 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
+            this.FormSelector.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -996,8 +1086,6 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox subassytxt;
-        private System.Windows.Forms.TextBox jobnumbertxt;
         private System.Windows.Forms.TextBox datecreatedtxt;
         private System.Windows.Forms.TextBox requestbytxt;
         private System.Windows.Forms.Label label10;
@@ -1006,6 +1094,9 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox notestxt;
+        private System.Windows.Forms.TextBox subassytxt;
+        private System.Windows.Forms.TextBox jobnumbertxt;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.DataGridViewTextBoxColumn ID;
         private System.Windows.Forms.DataGridViewTextBoxColumn OrderId;
         private System.Windows.Forms.DataGridViewTextBoxColumn Item;
@@ -1014,5 +1105,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Manufacturer;
         private System.Windows.Forms.DataGridViewTextBoxColumn OEMItemNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn Price;
+        private System.Windows.Forms.ContextMenuStrip FormSelector;
+        private System.Windows.Forms.ToolStripMenuItem editItemToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteItemToolStripMenuItem;
+        private System.Windows.Forms.Label totalcostlbl;
     }
 }
