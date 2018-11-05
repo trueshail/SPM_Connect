@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Reporting.WebForms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -22,5 +23,10 @@ namespace SearchDataSPM
 
             this.reportViewer1.RefreshReport();
         }
-    }
+
+        private void reportViewer1_Load(object sender, EventArgs e)
+        {
+           
+        }
+}
 }
