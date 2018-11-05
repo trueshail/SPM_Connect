@@ -367,6 +367,7 @@ namespace SearchDataSPM
             this.label1.TabIndex = 11;
             this.label1.Text = "V6.8.0";
             this.TreeViewToolTip.SetToolTip(this.label1, "SPM Connect V6.8.0");
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             this.label1.DoubleClick += new System.EventHandler(this.label1_DoubleClick);
             // 
             // filter4
