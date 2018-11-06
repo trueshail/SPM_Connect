@@ -1018,6 +1018,8 @@ namespace SearchDataSPM
                         //saveascopybttn.Visible = true;
                         FormSelector.Items[5].Enabled = true;
                         FormSelector.Items[5].Visible = true;
+                        FormSelector.Items[6].Enabled = true;
+                        FormSelector.Items[6].Visible = true;
                     }
                     else
                     {
@@ -1028,6 +1030,8 @@ namespace SearchDataSPM
                         //saveascopybttn.Visible = false;
                         FormSelector.Items[5].Enabled = false;
                         FormSelector.Items[5].Visible = false;
+                        FormSelector.Items[6].Enabled = false;
+                        FormSelector.Items[6].Visible = false;
                     }
 
                 }
@@ -2910,9 +2914,22 @@ namespace SearchDataSPM
 
         private void label1_Click(object sender, EventArgs e)
         {
-            Form1 form1 = new Form1();
-            form1.Show();
+            
         }
+
+        private void viewReportBOM_Click(object sender, EventArgs e)
+        {
+            prorcessreportbom(getitemnumberselected());
+        }
+
+        private void prorcessreportbom(string itemvalue)
+        {
+            Form1 form1 = new Form1();
+            form1.item(itemvalue);
+            form1.Show();
+
+        }
+
     }
 
 }

@@ -265,8 +265,31 @@
         3sPeQy3ypZycnJycnBxHGBv7DZ8x9gIbLLlEAAAAAElFTkSuQmCC
 </value>
   </data>
+  <data name="viewReportBOM.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAANhSURBVHhe7ZtNaBNBFMdjRZEWiqAe9OJBTx7UiwdPKnjxKAimtFbFCopIEaE9+HEweiheKgqC
+        CnqwtFDRBCyxCqVY0bYiFfyAVtNWW2F3k2ySza7X577p7MQkU1s2meBO58GPktmdt/v/ZRN2kjSkSpUq
+        Var+UbHBH3NBhsbwXw/7piDI0Bj+i9c0SNAY/ovXNEjQGP6L1zRI0Bj+i9c0SNAY/ovXNEjQGP6L1zRI
+        0Bj+y2v0LD4LHz+na8LL4XkCb9tywHOtuoD40Bxoxu+agMeq5Hg4VwlYSQJSPaOgz1vssZQCMKAx8q1o
+        DDEv94MTOgrWgYi7T46MCRcwMqZB1H2jqSbY0+tfKkD/mQVrfwTs+lZIPv3AxtM3B8BZFSYC8G+yb5zN
+        FyqgIzIO+w4PVBXs6fUvFWB2PV8IiTSegGT8E5hXnhTG6sKQvjVYNF8qAZruQKbtPgtsr2kuDt/9orAv
+        nS9UQK1fAgSUcOpeITjiXval4RHhAkTDFYBoDuS3tTMBuSPd5fu4yCsA0WywdlyEbPMd/nYXuQUsAyVA
+        hIBaLobwWJUcT8hiKKjQGP7La7TiXwJKgBLwfwrAFWA2fBuMd9NsTEoBxtsEmJFo0Zg+Y0Ju71VyV2hv
+        bGPLZeECHvRMksVLNcGeXv9SAcbwFNgb2kjQzLlHZAyf+dzBG+y22N502hXwnc0XKgBPmLeiqwTs6fUv
+        FZDqHQN7bQsLm7nwmD3zJPzmM2CMzhTNl0oAkopNgN1wnIVeLDwiXIBoeAIQciXUNRXCN7SC8br8YzJp
+        BSDpa9EFAaubIBWd4O4jtQDE7Ox1r4ZR7jZEegFLoQSIENAbTbATEw0eq5Lj4VwloNoCsDHvchOBF4S3
+        bTngXCVgRQmYThc9lleA5pSNJV99BXv9SfL1mTcmpQDzegysnR2gTybZGC5/cRVI7gzrwpDsf0/GhQuo
+        +Wrw7hD7Ftjacwm0RJo98966IHeoC7RfeTZfKgH6VAqsXZ0sbH57OziN/PDefKECav2BCEIk7C5IWCw8
+        IlyAaHgCEP2LBk79MRbe3noe9LmFX4X8jbQCEH1sFpx1LWBvOUt+OcLbR2oBiPEmAfq0yd2GSC9gKZQA
+        EQKCCo3hv3hNgwSN4b94/4gUJGgMVapUqVJVXqHQH2Y8Tlx6gbXeAAAAAElFTkSuQmCC
+</value>
+  </data>
   <metadata name="inventoryBindingSource3.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>419, 17</value>
+  </metadata>
+  <metadata name="sPM_DatabaseDataSet.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>159, 17</value>
   </metadata>
   <metadata name="sPM_DatabaseDataSet.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>159, 17</value>
@@ -396,6 +419,9 @@
         P4R+W6P2wMn3CH/Lin5Xo6lBFP0A7exnY9+O5oUAAAAASUVORK5CYII=
 </value>
   </data>
+  <metadata name="TreeViewToolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <data name="admin_bttn.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAA+BJREFUWEft

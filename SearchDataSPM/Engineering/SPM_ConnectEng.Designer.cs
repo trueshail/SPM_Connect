@@ -31,9 +31,9 @@ namespace SearchDataSPM
 		private void InitializeComponent()
 		{
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SPM_Connect));
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.dataGridView = new System.Windows.Forms.DataGridView();
@@ -74,6 +74,7 @@ namespace SearchDataSPM
             this.iteminfolistviewStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.recordlabel = new System.Windows.Forms.Label();
+            this.viewReportBOM = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.FormSelector.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.inventoryBindingSource3)).BeginInit();
@@ -152,8 +153,8 @@ namespace SearchDataSPM
             // descriptionDataGridViewTextBoxColumn
             // 
             this.descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
-            dataGridViewCellStyle1.NullValue = null;
-            this.descriptionDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.NullValue = null;
+            this.descriptionDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle7;
             this.descriptionDataGridViewTextBoxColumn.FillWeight = 86.92893F;
             this.descriptionDataGridViewTextBoxColumn.HeaderText = "Description";
             this.descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
@@ -174,8 +175,8 @@ namespace SearchDataSPM
             // manufacturerDataGridViewTextBoxColumn
             // 
             this.manufacturerDataGridViewTextBoxColumn.DataPropertyName = "Manufacturer";
-            dataGridViewCellStyle2.NullValue = null;
-            this.manufacturerDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle8.NullValue = null;
+            this.manufacturerDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle8;
             this.manufacturerDataGridViewTextBoxColumn.FillWeight = 86.92893F;
             this.manufacturerDataGridViewTextBoxColumn.HeaderText = "Manufacturer";
             this.manufacturerDataGridViewTextBoxColumn.Name = "manufacturerDataGridViewTextBoxColumn";
@@ -184,8 +185,8 @@ namespace SearchDataSPM
             // manufacturerItemNumberDataGridViewTextBoxColumn
             // 
             this.manufacturerItemNumberDataGridViewTextBoxColumn.DataPropertyName = "ManufacturerItemNumber";
-            dataGridViewCellStyle3.NullValue = null;
-            this.manufacturerItemNumberDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle9.NullValue = null;
+            this.manufacturerItemNumberDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle9;
             this.manufacturerItemNumberDataGridViewTextBoxColumn.FillWeight = 86.92893F;
             this.manufacturerItemNumberDataGridViewTextBoxColumn.HeaderText = "Manufacturer Item Number";
             this.manufacturerItemNumberDataGridViewTextBoxColumn.Name = "manufacturerItemNumberDataGridViewTextBoxColumn";
@@ -199,16 +200,17 @@ namespace SearchDataSPM
             this.openModelToolStripMenuItem,
             this.openDrawingToolStripMenuItem,
             this.editItemToolStripMenuItem,
-            this.deleteItemToolStripMenuItem});
+            this.deleteItemToolStripMenuItem,
+            this.viewReportBOM});
             this.FormSelector.Name = "contextMenuStrip1";
             this.FormSelector.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.FormSelector.Size = new System.Drawing.Size(151, 136);
+            this.FormSelector.Size = new System.Drawing.Size(181, 180);
             // 
             // bOMToolStripMenuItem
             // 
             this.bOMToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("bOMToolStripMenuItem.Image")));
             this.bOMToolStripMenuItem.Name = "bOMToolStripMenuItem";
-            this.bOMToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.bOMToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.bOMToolStripMenuItem.Text = "BOM";
             this.bOMToolStripMenuItem.ToolTipText = "Bills Of Material";
             this.bOMToolStripMenuItem.Click += new System.EventHandler(this.bOMToolStripMenuItem_Click);
@@ -217,7 +219,7 @@ namespace SearchDataSPM
             // 
             this.whereUsedToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("whereUsedToolStripMenuItem.Image")));
             this.whereUsedToolStripMenuItem.Name = "whereUsedToolStripMenuItem";
-            this.whereUsedToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.whereUsedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.whereUsedToolStripMenuItem.Text = "Where Used";
             this.whereUsedToolStripMenuItem.ToolTipText = "Check Where Used";
             this.whereUsedToolStripMenuItem.Click += new System.EventHandler(this.whereUsedToolStripMenuItem_Click);
@@ -226,7 +228,7 @@ namespace SearchDataSPM
             // 
             this.openModelToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openModelToolStripMenuItem.Image")));
             this.openModelToolStripMenuItem.Name = "openModelToolStripMenuItem";
-            this.openModelToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.openModelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openModelToolStripMenuItem.Text = "Open Model";
             this.openModelToolStripMenuItem.ToolTipText = "Open Selected Item\'s Model";
             this.openModelToolStripMenuItem.Click += new System.EventHandler(this.openModelToolStripMenuItem_Click);
@@ -235,7 +237,7 @@ namespace SearchDataSPM
             // 
             this.openDrawingToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openDrawingToolStripMenuItem.Image")));
             this.openDrawingToolStripMenuItem.Name = "openDrawingToolStripMenuItem";
-            this.openDrawingToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.openDrawingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openDrawingToolStripMenuItem.Text = "Open Drawing";
             this.openDrawingToolStripMenuItem.ToolTipText = "Open Selected Item\'s Drawing";
             this.openDrawingToolStripMenuItem.Click += new System.EventHandler(this.openDrawingToolStripMenuItem_Click);
@@ -244,7 +246,7 @@ namespace SearchDataSPM
             // 
             this.editItemToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("editItemToolStripMenuItem.Image")));
             this.editItemToolStripMenuItem.Name = "editItemToolStripMenuItem";
-            this.editItemToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.editItemToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.editItemToolStripMenuItem.Text = "Edit Item";
             this.editItemToolStripMenuItem.ToolTipText = "Edit Selected Item\'s Properties";
             this.editItemToolStripMenuItem.Click += new System.EventHandler(this.editItemToolStripMenuItem_Click);
@@ -254,7 +256,7 @@ namespace SearchDataSPM
             this.deleteItemToolStripMenuItem.Enabled = false;
             this.deleteItemToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("deleteItemToolStripMenuItem.Image")));
             this.deleteItemToolStripMenuItem.Name = "deleteItemToolStripMenuItem";
-            this.deleteItemToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.deleteItemToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.deleteItemToolStripMenuItem.Text = "Delete Item";
             this.deleteItemToolStripMenuItem.ToolTipText = "Delete Selected Item From Connect";
             this.deleteItemToolStripMenuItem.Visible = false;
@@ -640,6 +642,17 @@ namespace SearchDataSPM
             this.recordlabel.Size = new System.Drawing.Size(0, 14);
             this.recordlabel.TabIndex = 101;
             // 
+            // viewReportBOM
+            // 
+            this.viewReportBOM.Enabled = false;
+            this.viewReportBOM.Image = ((System.Drawing.Image)(resources.GetObject("viewReportBOM.Image")));
+            this.viewReportBOM.Name = "viewReportBOM";
+            this.viewReportBOM.Size = new System.Drawing.Size(180, 22);
+            this.viewReportBOM.Text = "View Report (BOM)";
+            this.viewReportBOM.ToolTipText = "View BOM Report";
+            this.viewReportBOM.Visible = false;
+            this.viewReportBOM.Click += new System.EventHandler(this.viewReportBOM_Click);
+            // 
             // SPM_Connect
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -725,6 +738,7 @@ namespace SearchDataSPM
         private System.Windows.Forms.DataGridViewTextBoxColumn manufacturerDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn manufacturerItemNumberDataGridViewTextBoxColumn;
         private System.Windows.Forms.Label recordlabel;
+        private System.Windows.Forms.ToolStripMenuItem viewReportBOM;
 
 
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member 'SPM_Connect.txtSearch'

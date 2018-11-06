@@ -23,9 +23,25 @@ namespace SearchDataSPM
         {
 
             this.reportViewer1.RefreshReport();
+            this.Text = "Report Viewer - " + itemnumber;
         }
 
+        string itemnumber = "";
+
+        public string item(string item)
+        {
+            if (item.Length > 0)
+                return itemnumber = item;
+            return null;
+        }
+
+
         private void reportViewer1_Load(object sender, EventArgs e)
+        {
+            filterreport();
+        }
+
+        void filterreport()
         {
             var parametersa = reportViewer1.ServerReport.GetParameters();
 
@@ -35,7 +51,7 @@ namespace SearchDataSPM
                 if (para.Name == "pCode")
                 {
                     Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection();
-                    reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter(para.Name, ""));
+                    reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter(para.Name, itemnumber));
                     this.reportViewer1.ServerReport.SetParameters(reportParameters);
                     this.reportViewer1.RefreshReport();
                 }
