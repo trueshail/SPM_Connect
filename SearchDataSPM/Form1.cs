@@ -1,4 +1,5 @@
 ﻿using Microsoft.Reporting.WebForms;
+using Microsoft.Reporting.WinForms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,7 +27,21 @@ namespace SearchDataSPM
 
         private void reportViewer1_Load(object sender, EventArgs e)
         {
-           
+            var parametersa = reportViewer1.ServerReport.GetParameters();
+
+            foreach (var para in parametersa)
+            {
+
+                if (para.Name == "pCode")
+                {
+                    Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection();
+                    reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter(para.Name, ""));
+                    this.reportViewer1.ServerReport.SetParameters(reportParameters);
+                    this.reportViewer1.RefreshReport();
+                }
+
+            }
         }
-}
+
+    }
 }
