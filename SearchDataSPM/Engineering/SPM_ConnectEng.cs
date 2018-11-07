@@ -2930,6 +2930,38 @@ namespace SearchDataSPM
         {
             prorcessreportbom(getitemnumberselected(), "SPAREPARTS");
         }
+
+        private void SPM_Connect_FormClosing(object sender, FormClosingEventArgs e)
+        {
+           int openforms =  Application.OpenForms.Count;
+            if (openforms > 2)
+            {
+                e.Cancel = true;
+                ListOpenWindows frm2 = new ListOpenWindows();
+
+                foreach (Form frm in Application.OpenForms)
+                {
+                    if(frm.Name.ToString() == "SPM_Connect" || frm.Name.ToString() == "SPM_ConnectHome")
+                    {
+
+                    }
+                    else
+                    {
+                        frm2.listBox1.Items.Add(frm.Text.ToString());
+                    }
+                }                
+                if (frm2.ShowDialog(this) == DialogResult.OK)
+                {
+                }
+                frm2.Close();
+                frm2.Dispose();
+            }
+
+
+           
+            
+
+        }
     }
 
 }

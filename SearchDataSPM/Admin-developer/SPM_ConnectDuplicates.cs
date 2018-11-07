@@ -64,11 +64,11 @@ namespace SearchDataSPM
                 showduplicates();
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                MessageBox.Show("Not Licensed User", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
+                MessageBox.Show(ex.Message);
+                //MessageBox.Show("Not Licensed User", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //Application.Exit();
 
             }
             finally
@@ -92,12 +92,6 @@ namespace SearchDataSPM
 
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            dt.Rows.Clear();
-            dataGridView.Refresh();
-            Showallitems();
-        }
 
         private void Reload_Click(object sender, EventArgs e)
         {
@@ -841,7 +835,7 @@ namespace SearchDataSPM
             if (cn.State == ConnectionState.Closed)
                 cn.Open();
 
-            SqlDataAdapter sda = new SqlDataAdapter("[SPM_Database].[dbo].[ManufactureItemDuplicates]", cn);
+            SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[ManufactureItemDuplicatesView]", cn);
 
             sda.Fill(dt);
             dataGridView.DataSource = dt;

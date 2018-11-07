@@ -1183,9 +1183,32 @@ namespace SearchDataSPM
            
         }
 
+        private String getselectedjobnumber()
+        {
+            int selectedclmindex = dataGridView.SelectedCells[0].ColumnIndex;
+            DataGridViewColumn columnchk = dataGridView.Columns[selectedclmindex];
+            string c = Convert.ToString(columnchk.Index);
+            //MessageBox.Show(c);
+            string item;
+            if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
+            {
+                int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
+                DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
+                item = Convert.ToString(slectedrow.Cells[0].Value);
+                //MessageBox.Show(ItemNo);
+                return item;
+            }
+            else
+            {
+                item = "";
+                return item;
+            }
+        }
+
         private void getWorkOrderToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SPM_ConnectWM sPM_ConnectWM = new SPM_ConnectWM();
+            sPM_ConnectWM.getjobnumber(getselectedjobnumber());
             sPM_ConnectWM.Show();
         }
     }

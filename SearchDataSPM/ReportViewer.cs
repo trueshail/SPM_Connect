@@ -38,7 +38,13 @@ namespace SearchDataSPM
                 this.reportViewer1.RefreshReport();
                 fillbomreport();
             }
-            
+            else if (reportname == "WorkOrder")
+            {
+                this.Text = "Work Order - " + itemnumber;
+                reportViewer1.ServerReport.ReportPath = "/GeniusReports/WorkOrder/SPM_WorkOrder";
+                this.reportViewer1.RefreshReport();
+                fillwrokdorderreport();
+            }
         }
 
         string itemnumber = "";
@@ -57,14 +63,7 @@ namespace SearchDataSPM
                 return reportname = report;
             return null;
         }
-
-
-        private void reportViewer1_Load(object sender, EventArgs e)
-        {
-
-            
-        }
-
+        
         void fillbomreport()
         {
             Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection();
@@ -73,24 +72,12 @@ namespace SearchDataSPM
             this.reportViewer1.RefreshReport();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        void fillwrokdorderreport()
         {
-            //Execute().Wait();
-
-        }
-
-        static async Task Execute()
-        {
-            //var apiKey = Environment.GetEnvironmentVariable("SPM Connect");
-            var client = new SendGridClient("");
-            var from = new EmailAddress("spmconnect@spm-automation.com", "SPM Connect");
-            var subject = "SPM Connect Email Testing";
-            var to = new EmailAddress("eiwan@spm-automation.com");
-            var plainTextContent = "Hello ";
-            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent,"");
-            var response = client.SendEmailAsync(msg).Result;
-
-
+            Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection();
+            reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("pWorkOrder", itemnumber));
+            this.reportViewer1.ServerReport.SetParameters(reportParameters);
+            this.reportViewer1.RefreshReport();
         }
     }
 }

@@ -63,7 +63,8 @@ namespace SearchDataSPM
             CheckManagement();
             Checkdeveloper();
             Showallitems();
-
+            txtSearch.Text = jobnumber;
+            SendKeys.Send("~");
         }
 
         private void Showallitems()
@@ -81,10 +82,10 @@ namespace SearchDataSPM
                 dataGridView.Sort(dataGridView.Columns[0], ListSortDirection.Descending);
                 dataGridView.Columns[0].Width = 60;
                 dataGridView.Columns[1].Width = 60;
-                dataGridView.Columns[2].Visible =false;
+                dataGridView.Columns[2].Width =60;
                 dataGridView.Columns[3].Width = 60;
-                dataGridView.Columns[4].Width =200;
-                dataGridView.Columns[5].Width = 80;
+                dataGridView.Columns[4].Width =180;
+                dataGridView.Columns[5].Width = 60;
                 dataGridView.Columns[6].Visible = false;
                 UpdateFont();
             }
@@ -153,20 +154,33 @@ namespace SearchDataSPM
             if (e.KeyCode == Keys.Return)
 
             {
-                if (Descrip_txtbox.Visible == true)
-                {
-                    clearandhide();
-                }
-                Showallitems();
-                mainsearch();
-                if (txtSearch.Text.Length > 0)
-                {
-                    Descrip_txtbox.Show();
-                    SendKeys.Send("{TAB}");
-
-                }
+                performjobsearch(jobnumber);
                 e.Handled = true;
                 e.SuppressKeyPress = true;
+
+            }
+        }
+        string jobnumber = "";
+
+        public string getjobnumber(string job)
+        {
+            if (job.Length > 0)
+                return jobnumber = job;
+            return null;
+        }
+
+        void performjobsearch(string job)
+        {
+            if (Descrip_txtbox.Visible == true)
+            {
+                clearandhide();
+            }
+            Showallitems();
+            mainsearch(job);
+            if (txtSearch.Text.Length > 0)
+            {
+                Descrip_txtbox.Show();
+                SendKeys.Send("{TAB}");
 
             }
         }
@@ -188,16 +202,16 @@ namespace SearchDataSPM
             table3.Clear();
         }
 
-        private void mainsearch()
+        private void mainsearch(string jobnumber)
         {
 
             DataView dv = dt.DefaultView;
-            string search1 = txtSearch.Text;
+             
             try
             {
-                search1 = search1.Replace("'", "''");
-                search1 = search1.Replace("[", "[[]");
-                dv.RowFilter = string.Format(fullsearch, search1);
+                jobnumber = jobnumber.Replace("'", "''");
+                jobnumber = jobnumber.Replace("[", "[[]");
+                dv.RowFilter = string.Format(fullsearch, jobnumber);
                 dataGridView.DataSource = dt;
                 table0 = dv.ToTable();
                 dataGridView.Update();
@@ -639,6 +653,41 @@ namespace SearchDataSPM
 
         #endregion
 
+        private void getBOMToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            prorcessreportbom(getitemnumberselected(), "WorkOrder");
+        }
+
+        private void prorcessreportbom(string itemvalue, string Reportname)
+        {
+            ReportViewer form1 = new ReportViewer();
+            form1.item(itemvalue);
+            form1.getreport(Reportname);
+            form1.Show();
+
+        }
+
+        private String getitemnumberselected()
+        {
+            int selectedclmindex = dataGridView.SelectedCells[0].ColumnIndex;
+            DataGridViewColumn columnchk = dataGridView.Columns[selectedclmindex];
+            string c = Convert.ToString(columnchk.Index);
+            //MessageBox.Show(c);
+            string item;
+            if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
+            {
+                int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
+                DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
+                item = Convert.ToString(slectedrow.Cells[1].Value);
+                //MessageBox.Show(ItemNo);
+                return item;
+            }
+            else
+            {
+                item = "";
+                return item;
+            }
+        }
     }
 }
 

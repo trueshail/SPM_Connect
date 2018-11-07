@@ -36,6 +36,7 @@
             this.getBOMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.projectEngineeringToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.remapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.getWorkOrderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Reload = new System.Windows.Forms.Button();
             this.Descrip_txtbox = new System.Windows.Forms.TextBox();
             this.filteroem_txtbox = new System.Windows.Forms.TextBox();
@@ -47,7 +48,6 @@
             this.purchasereq = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.CreateFolderButton = new System.Windows.Forms.Button();
-            this.getWorkOrderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -134,6 +134,14 @@
             this.remapToolStripMenuItem.Text = "Remap folder";
             this.remapToolStripMenuItem.ToolTipText = "Assign new folder path";
             this.remapToolStripMenuItem.Click += new System.EventHandler(this.remapToolStripMenuItem_Click);
+            // 
+            // getWorkOrderToolStripMenuItem
+            // 
+            this.getWorkOrderToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("getWorkOrderToolStripMenuItem.Image")));
+            this.getWorkOrderToolStripMenuItem.Name = "getWorkOrderToolStripMenuItem";
+            this.getWorkOrderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.getWorkOrderToolStripMenuItem.Text = "Get Work Order";
+            this.getWorkOrderToolStripMenuItem.Click += new System.EventHandler(this.getWorkOrderToolStripMenuItem_Click);
             // 
             // Reload
             // 
@@ -304,13 +312,6 @@
             this.CreateFolderButton.Text = "CreateFolders";
             this.CreateFolderButton.UseVisualStyleBackColor = true;
             this.CreateFolderButton.Click += new System.EventHandler(this.CreateFolderButton_Click);
-            // 
-            // getWorkOrderToolStripMenuItem
-            // 
-            this.getWorkOrderToolStripMenuItem.Name = "getWorkOrderToolStripMenuItem";
-            this.getWorkOrderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.getWorkOrderToolStripMenuItem.Text = "Get Work Order";
-            this.getWorkOrderToolStripMenuItem.Click += new System.EventHandler(this.getWorkOrderToolStripMenuItem_Click);
             // 
             // SPM_ConnectJobs
             // 

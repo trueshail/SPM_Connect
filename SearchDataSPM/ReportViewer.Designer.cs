@@ -42,7 +42,6 @@
             this.reportViewer1.ServerReport.ReportServerUrl = new System.Uri("http://spm-sql/Reportserver", System.UriKind.Absolute);
             this.reportViewer1.Size = new System.Drawing.Size(1066, 780);
             this.reportViewer1.TabIndex = 0;
-            this.reportViewer1.Load += new System.EventHandler(this.reportViewer1_Load);
             // 
             // ReportViewer
             // 

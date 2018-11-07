@@ -104,7 +104,8 @@
             this.getBOMToolStripMenuItem.Name = "getBOMToolStripMenuItem";
             this.getBOMToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.getBOMToolStripMenuItem.Text = "View WorkOrder";
-            this.getBOMToolStripMenuItem.ToolTipText = "Get Selected Job\'s BOM";
+            this.getBOMToolStripMenuItem.ToolTipText = "Preview Work Order Details";
+            this.getBOMToolStripMenuItem.Click += new System.EventHandler(this.getBOMToolStripMenuItem_Click);
             // 
             // Reload
             // 
@@ -232,7 +233,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Gray;
+            this.BackColor = System.Drawing.Color.Tan;
             this.ClientSize = new System.Drawing.Size(984, 661);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.SPM);

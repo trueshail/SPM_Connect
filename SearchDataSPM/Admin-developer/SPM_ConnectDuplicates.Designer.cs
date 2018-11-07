@@ -50,7 +50,6 @@
             this.inventoryBindingSource3 = new System.Windows.Forms.BindingSource(this.components);
             this.sPM_DatabaseDataSet = new SearchDataSPM.SPM_DatabaseDataSet();
             this.Reload = new System.Windows.Forms.Button();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.Descrip_txtbox = new System.Windows.Forms.TextBox();
             this.filteroem_txtbox = new System.Windows.Forms.TextBox();
             this.filteroemitem_txtbox = new System.Windows.Forms.TextBox();
@@ -268,12 +267,6 @@
             this.Reload.UseVisualStyleBackColor = true;
             this.Reload.Click += new System.EventHandler(this.Reload_Click);
             // 
-            // timer1
-            // 
-            this.timer1.Enabled = true;
-            this.timer1.Interval = 3600000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
             // Descrip_txtbox
             // 
             this.Descrip_txtbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -455,7 +448,6 @@
 		#endregion
 		private System.Windows.Forms.DataGridView dataGridView;
 		private System.Windows.Forms.Button Reload;
-		private System.Windows.Forms.Timer timer1;
 		private System.Windows.Forms.TextBox Descrip_txtbox;
 		private System.Windows.Forms.TextBox filteroem_txtbox;
 		private System.Windows.Forms.TextBox filteroemitem_txtbox;
