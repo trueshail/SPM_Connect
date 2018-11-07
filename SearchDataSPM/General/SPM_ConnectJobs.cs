@@ -934,6 +934,8 @@ namespace SearchDataSPM
 
         #endregion
 
+        #region CreateFolders
+
         private static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs)
         {
             // Get the subdirectories for the specified directory.
@@ -1171,12 +1173,20 @@ namespace SearchDataSPM
             }
         }
 
+        #endregion
+
         private void purchasereq_Click(object sender, EventArgs e)
         {
            
             PurchaseReqform purchaseReq = new PurchaseReqform();
             purchaseReq.Show();
            
+        }
+
+        private void getWorkOrderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SPM_ConnectWM sPM_ConnectWM = new SPM_ConnectWM();
+            sPM_ConnectWM.Show();
         }
     }
 }

@@ -63,7 +63,6 @@ namespace SearchDataSPM
 
         private void SPM_Connect_Load(object sender, EventArgs e)
         {
-           
             Showallitems();
             string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
             checkadmin();

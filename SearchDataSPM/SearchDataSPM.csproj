@@ -320,6 +320,12 @@
     <Compile Include="Engineering\WaitFormImport.Designer.cs">
       <DependentUpon>WaitFormImport.cs</DependentUpon>
     </Compile>
+    <Compile Include="General\SPM_ConnectWM.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="General\SPM_ConnectWM.Designer.cs">
+      <DependentUpon>SPM_ConnectWM.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReportViewer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -523,6 +529,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Engineering\TreeView.resx">
       <DependentUpon>TreeView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="General\SPM_ConnectWM.resx">
+      <DependentUpon>SPM_ConnectWM.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ReportViewer.resx">
       <DependentUpon>ReportViewer.cs</DependentUpon>

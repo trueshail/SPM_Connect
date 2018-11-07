@@ -75,7 +75,7 @@ namespace SearchDataSPM
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Execute().Wait();
+            //Execute().Wait();
 
         }
 

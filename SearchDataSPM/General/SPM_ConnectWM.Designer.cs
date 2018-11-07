@@ -1,6 +1,6 @@
 ﻿namespace SearchDataSPM
 {
-    partial class SPM_ConnectJobs
+    partial class SPM_ConnectWM
     {
         /// <summary>
         /// Required designer variable.
@@ -29,13 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SPM_ConnectJobs));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SPM_ConnectWM));
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.getBOMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.projectEngineeringToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.remapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Reload = new System.Windows.Forms.Button();
             this.Descrip_txtbox = new System.Windows.Forms.TextBox();
             this.filteroem_txtbox = new System.Windows.Forms.TextBox();
@@ -44,10 +42,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.filter4 = new System.Windows.Forms.TextBox();
             this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.purchasereq = new System.Windows.Forms.Button();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.CreateFolderButton = new System.Windows.Forms.Button();
-            this.getWorkOrderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -100,40 +94,17 @@
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.getBOMToolStripMenuItem,
-            this.projectEngineeringToolStripMenuItem,
-            this.getWorkOrderToolStripMenuItem});
+            this.getBOMToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 92);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 48);
             // 
             // getBOMToolStripMenuItem
             // 
             this.getBOMToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("getBOMToolStripMenuItem.Image")));
             this.getBOMToolStripMenuItem.Name = "getBOMToolStripMenuItem";
             this.getBOMToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.getBOMToolStripMenuItem.Text = "Get BOM";
+            this.getBOMToolStripMenuItem.Text = "View WorkOrder";
             this.getBOMToolStripMenuItem.ToolTipText = "Get Selected Job\'s BOM";
-            this.getBOMToolStripMenuItem.Click += new System.EventHandler(this.getBOMToolStripMenuItem_Click);
-            // 
-            // projectEngineeringToolStripMenuItem
-            // 
-            this.projectEngineeringToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.remapToolStripMenuItem});
-            this.projectEngineeringToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("projectEngineeringToolStripMenuItem.Image")));
-            this.projectEngineeringToolStripMenuItem.Name = "projectEngineeringToolStripMenuItem";
-            this.projectEngineeringToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.projectEngineeringToolStripMenuItem.Text = "Project Engineering";
-            this.projectEngineeringToolStripMenuItem.ToolTipText = "Open Project Eng Folder";
-            this.projectEngineeringToolStripMenuItem.Click += new System.EventHandler(this.projectEngineeringToolStripMenuItem_Click);
-            // 
-            // remapToolStripMenuItem
-            // 
-            this.remapToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("remapToolStripMenuItem.Image")));
-            this.remapToolStripMenuItem.Name = "remapToolStripMenuItem";
-            this.remapToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
-            this.remapToolStripMenuItem.Text = "Remap folder";
-            this.remapToolStripMenuItem.ToolTipText = "Assign new folder path";
-            this.remapToolStripMenuItem.Click += new System.EventHandler(this.remapToolStripMenuItem_Click);
             // 
             // Reload
             // 
@@ -257,69 +228,12 @@
             this.TreeViewToolTip.InitialDelay = 500;
             this.TreeViewToolTip.ReshowDelay = 100;
             // 
-            // purchasereq
-            // 
-            this.purchasereq.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.purchasereq.BackColor = System.Drawing.Color.Transparent;
-            this.purchasereq.Enabled = false;
-            this.purchasereq.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
-            this.purchasereq.FlatAppearance.BorderSize = 0;
-            this.purchasereq.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.purchasereq.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.purchasereq.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.purchasereq.ForeColor = System.Drawing.Color.Transparent;
-            this.purchasereq.Image = ((System.Drawing.Image)(resources.GetObject("purchasereq.Image")));
-            this.purchasereq.Location = new System.Drawing.Point(954, 60);
-            this.purchasereq.MaximumSize = new System.Drawing.Size(25, 25);
-            this.purchasereq.MinimumSize = new System.Drawing.Size(25, 25);
-            this.purchasereq.Name = "purchasereq";
-            this.purchasereq.Size = new System.Drawing.Size(25, 25);
-            this.purchasereq.TabIndex = 14;
-            this.purchasereq.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.TreeViewToolTip.SetToolTip(this.purchasereq, "Create New Item");
-            this.purchasereq.UseVisualStyleBackColor = false;
-            this.purchasereq.Visible = false;
-            this.purchasereq.Click += new System.EventHandler(this.purchasereq_Click);
-            // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.CheckFileExists = false;
-            this.openFileDialog1.CheckPathExists = false;
-            this.openFileDialog1.FileName = "Select Folder";
-            this.openFileDialog1.InitialDirectory = "\\\\spm-adfs\\SPM\\S500 Engineering\\Project_Engineering_Info";
-            this.openFileDialog1.Title = "Assign Folder Path";
-            this.openFileDialog1.ValidateNames = false;
-            // 
-            // CreateFolderButton
-            // 
-            this.CreateFolderButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.CreateFolderButton.Location = new System.Drawing.Point(895, 11);
-            this.CreateFolderButton.MaximumSize = new System.Drawing.Size(83, 26);
-            this.CreateFolderButton.MinimumSize = new System.Drawing.Size(83, 26);
-            this.CreateFolderButton.Name = "CreateFolderButton";
-            this.CreateFolderButton.Size = new System.Drawing.Size(83, 26);
-            this.CreateFolderButton.TabIndex = 12;
-            this.CreateFolderButton.Text = "CreateFolders";
-            this.CreateFolderButton.UseVisualStyleBackColor = true;
-            this.CreateFolderButton.Click += new System.EventHandler(this.CreateFolderButton_Click);
-            // 
-            // getWorkOrderToolStripMenuItem
-            // 
-            this.getWorkOrderToolStripMenuItem.Name = "getWorkOrderToolStripMenuItem";
-            this.getWorkOrderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.getWorkOrderToolStripMenuItem.Text = "Get Work Order";
-            this.getWorkOrderToolStripMenuItem.Click += new System.EventHandler(this.getWorkOrderToolStripMenuItem_Click);
-            // 
-            // SPM_ConnectJobs
+            // SPM_ConnectWM
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Gray;
             this.ClientSize = new System.Drawing.Size(984, 661);
-            this.Controls.Add(this.purchasereq);
-            this.Controls.Add(this.CreateFolderButton);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.SPM);
             this.Controls.Add(this.dataGridView);
@@ -331,9 +245,9 @@
             this.Controls.Add(this.Descrip_txtbox);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(500, 500);
-            this.Name = "SPM_ConnectJobs";
+            this.Name = "SPM_ConnectWM";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "SPM Connect - Jobs";
+            this.Text = "SPM Connect - Work Order Management";
             this.Load += new System.EventHandler(this.SPM_Connect_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
@@ -356,12 +270,6 @@
         private System.Windows.Forms.ToolTip TreeViewToolTip;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem getBOMToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem projectEngineeringToolStripMenuItem;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.ToolStripMenuItem remapToolStripMenuItem;
-        private System.Windows.Forms.Button CreateFolderButton;
-        private System.Windows.Forms.Button purchasereq;
-        private System.Windows.Forms.ToolStripMenuItem getWorkOrderToolStripMenuItem;
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member 'SPM_Connect.txtSearch'
     }
 }
