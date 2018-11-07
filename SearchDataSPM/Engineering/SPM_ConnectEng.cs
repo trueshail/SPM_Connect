@@ -63,6 +63,7 @@ namespace SearchDataSPM
 
         private void SPM_Connect_Load(object sender, EventArgs e)
         {
+           
             Showallitems();
             string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
             checkadmin();
@@ -2912,24 +2913,24 @@ namespace SearchDataSPM
 
         #endregion
 
-        private void label1_Click(object sender, EventArgs e)
+        private void prorcessreportbom(string itemvalue, string Reportname)
         {
-            
-        }
-
-        private void viewReportBOM_Click(object sender, EventArgs e)
-        {
-            prorcessreportbom(getitemnumberselected());
-        }
-
-        private void prorcessreportbom(string itemvalue)
-        {
-            Form1 form1 = new Form1();
+            ReportViewer form1 = new ReportViewer();
             form1.item(itemvalue);
+            form1.getreport(Reportname);
             form1.Show();
 
         }
 
+        private void billsOfMaunfacturingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            prorcessreportbom(getitemnumberselected(),"BOM");
+        }
+
+        private void sparePartsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            prorcessreportbom(getitemnumberselected(), "SPAREPARTS");
+        }
     }
 
 }
