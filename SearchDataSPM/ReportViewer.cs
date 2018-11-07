@@ -82,7 +82,7 @@ namespace SearchDataSPM
         static async Task Execute()
         {
             //var apiKey = Environment.GetEnvironmentVariable("SPM Connect");
-            var client = new SendGridClient("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");
+            var client = new SendGridClient("");
             var from = new EmailAddress("spmconnect@spm-automation.com", "SPM Connect");
             var subject = "SPM Connect Email Testing";
             var to = new EmailAddress("eiwan@spm-automation.com");
