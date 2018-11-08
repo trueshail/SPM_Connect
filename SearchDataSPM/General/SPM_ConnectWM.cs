@@ -154,7 +154,7 @@ namespace SearchDataSPM
             if (e.KeyCode == Keys.Return)
 
             {
-                performjobsearch(jobnumber);
+                performjobsearch(txtSearch.Text);
                 e.Handled = true;
                 e.SuppressKeyPress = true;
 

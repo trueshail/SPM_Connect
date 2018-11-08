@@ -1,7 +1,5 @@
 ﻿using Microsoft.Reporting.WebForms;
 using Microsoft.Reporting.WinForms;
-using SendGrid;
-using SendGrid.Helpers.Mail;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -34,7 +32,7 @@ namespace SearchDataSPM
             else if(reportname == "SPAREPARTS")
             {
                 this.Text = "Spare Parts - " + itemnumber;
-                reportViewer1.ServerReport.ReportPath = "/GeniusReports/BillOfManufacturing/stdrptspareparts";
+                reportViewer1.ServerReport.ReportPath = "/GeniusReports/BillOfManufacturing/SpareParts";
                 this.reportViewer1.RefreshReport();
                 fillbomreport();
             }

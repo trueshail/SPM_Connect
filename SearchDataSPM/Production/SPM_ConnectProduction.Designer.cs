@@ -45,6 +45,9 @@
             this.whereUsedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openDrawingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewReportBOM = new System.Windows.Forms.ToolStripMenuItem();
+            this.billsOfMaunfacturingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sparePartsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.inventoryBindingSource3 = new System.Windows.Forms.BindingSource(this.components);
             this.sPM_DatabaseDataSet = new SearchDataSPM.SPM_DatabaseDataSet();
             this.Reload = new System.Windows.Forms.Button();
@@ -59,6 +62,7 @@
             this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.admin_bttn = new System.Windows.Forms.Button();
             this.jobsbttn = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.listView = new System.Windows.Forms.ListView();
             this.Listviewcontextmenu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -72,6 +76,7 @@
             this.FormSelector.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.inventoryBindingSource3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sPM_DatabaseDataSet)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.Listviewcontextmenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -191,16 +196,17 @@
             this.bOMToolStripMenuItem,
             this.whereUsedToolStripMenuItem,
             this.openModelToolStripMenuItem,
-            this.openDrawingToolStripMenuItem});
+            this.openDrawingToolStripMenuItem,
+            this.viewReportBOM});
             this.FormSelector.Name = "contextMenuStrip1";
             this.FormSelector.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.FormSelector.Size = new System.Drawing.Size(151, 92);
+            this.FormSelector.Size = new System.Drawing.Size(176, 114);
             // 
             // bOMToolStripMenuItem
             // 
             this.bOMToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("bOMToolStripMenuItem.Image")));
             this.bOMToolStripMenuItem.Name = "bOMToolStripMenuItem";
-            this.bOMToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.bOMToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.bOMToolStripMenuItem.Text = "BOM";
             this.bOMToolStripMenuItem.ToolTipText = "Bills Of Material";
             this.bOMToolStripMenuItem.Click += new System.EventHandler(this.bOMToolStripMenuItem_Click);
@@ -209,7 +215,7 @@
             // 
             this.whereUsedToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("whereUsedToolStripMenuItem.Image")));
             this.whereUsedToolStripMenuItem.Name = "whereUsedToolStripMenuItem";
-            this.whereUsedToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.whereUsedToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.whereUsedToolStripMenuItem.Text = "Where Used";
             this.whereUsedToolStripMenuItem.ToolTipText = "Check Where Used";
             this.whereUsedToolStripMenuItem.Click += new System.EventHandler(this.whereUsedToolStripMenuItem_Click);
@@ -218,7 +224,7 @@
             // 
             this.openModelToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openModelToolStripMenuItem.Image")));
             this.openModelToolStripMenuItem.Name = "openModelToolStripMenuItem";
-            this.openModelToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.openModelToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.openModelToolStripMenuItem.Text = "Open Model";
             this.openModelToolStripMenuItem.ToolTipText = "Open Selected Item\'s Model";
             this.openModelToolStripMenuItem.Click += new System.EventHandler(this.openModelToolStripMenuItem_Click);
@@ -227,10 +233,39 @@
             // 
             this.openDrawingToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openDrawingToolStripMenuItem.Image")));
             this.openDrawingToolStripMenuItem.Name = "openDrawingToolStripMenuItem";
-            this.openDrawingToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.openDrawingToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.openDrawingToolStripMenuItem.Text = "Open Drawing";
             this.openDrawingToolStripMenuItem.ToolTipText = "Open Selected Item\'s Drawing";
             this.openDrawingToolStripMenuItem.Click += new System.EventHandler(this.openDrawingToolStripMenuItem_Click);
+            // 
+            // viewReportBOM
+            // 
+            this.viewReportBOM.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.billsOfMaunfacturingToolStripMenuItem,
+            this.sparePartsToolStripMenuItem});
+            this.viewReportBOM.Image = ((System.Drawing.Image)(resources.GetObject("viewReportBOM.Image")));
+            this.viewReportBOM.Name = "viewReportBOM";
+            this.viewReportBOM.Size = new System.Drawing.Size(175, 22);
+            this.viewReportBOM.Text = "View Report (BOM)";
+            this.viewReportBOM.ToolTipText = "View BOM Report";
+            // 
+            // billsOfMaunfacturingToolStripMenuItem
+            // 
+            this.billsOfMaunfacturingToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("billsOfMaunfacturingToolStripMenuItem.Image")));
+            this.billsOfMaunfacturingToolStripMenuItem.Name = "billsOfMaunfacturingToolStripMenuItem";
+            this.billsOfMaunfacturingToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.billsOfMaunfacturingToolStripMenuItem.Text = "Bills of Maunfacturing";
+            this.billsOfMaunfacturingToolStripMenuItem.ToolTipText = "Preview Bills Of Manufacturing Report";
+            this.billsOfMaunfacturingToolStripMenuItem.Click += new System.EventHandler(this.billsOfMaunfacturingToolStripMenuItem_Click);
+            // 
+            // sparePartsToolStripMenuItem
+            // 
+            this.sparePartsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("sparePartsToolStripMenuItem.Image")));
+            this.sparePartsToolStripMenuItem.Name = "sparePartsToolStripMenuItem";
+            this.sparePartsToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.sparePartsToolStripMenuItem.Text = "Spare Parts";
+            this.sparePartsToolStripMenuItem.ToolTipText = "Preview Spare Parts Report";
+            this.sparePartsToolStripMenuItem.Click += new System.EventHandler(this.sparePartsToolStripMenuItem_Click);
             // 
             // inventoryBindingSource3
             // 
@@ -316,7 +351,7 @@
             this.SPM.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SPM.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.SPM.Image = ((System.Drawing.Image)(resources.GetObject("SPM.Image")));
-            this.SPM.Location = new System.Drawing.Point(0, 6);
+            this.SPM.Location = new System.Drawing.Point(0, 10);
             this.SPM.Name = "SPM";
             this.SPM.Size = new System.Drawing.Size(200, 85);
             this.SPM.TabIndex = 10;
@@ -337,8 +372,8 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(26, 8);
             this.label1.TabIndex = 11;
-            this.label1.Text = "V6.8.0";
-            this.TreeViewToolTip.SetToolTip(this.label1, "SPM Connect V6.8.0");
+            this.label1.Text = "V7.0.0";
+            this.TreeViewToolTip.SetToolTip(this.label1, "SPM Connect V7.0.0");
             this.label1.DoubleClick += new System.EventHandler(this.label1_DoubleClick);
             // 
             // filter4
@@ -457,6 +492,20 @@
             this.jobsbttn.UseVisualStyleBackColor = false;
             this.jobsbttn.Click += new System.EventHandler(this.jobsbttn_Click);
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
+            this.pictureBox1.ErrorImage = global::SearchDataSPM.Properties.Resources.spm_white_icon;
+            this.pictureBox1.Image = global::SearchDataSPM.Properties.Resources.spmchristmas;
+            this.pictureBox1.InitialImage = global::SearchDataSPM.Properties.Resources.spmchristmas;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 10);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(198, 85);
+            this.pictureBox1.TabIndex = 103;
+            this.pictureBox1.TabStop = false;
+            this.TreeViewToolTip.SetToolTip(this.pictureBox1, "SPM Automation Inc.");
+            this.pictureBox1.DoubleClick += new System.EventHandler(this.pictureBox1_DoubleClick);
+            // 
             // imageList
             // 
             this.imageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
@@ -547,6 +596,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
             this.ClientSize = new System.Drawing.Size(984, 761);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.recordlabel);
             this.Controls.Add(this.jobsbttn);
             this.Controls.Add(this.listView);
@@ -573,6 +623,7 @@
             this.FormSelector.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.inventoryBindingSource3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sPM_DatabaseDataSet)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.Listviewcontextmenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -616,6 +667,10 @@
         private System.Windows.Forms.Button jobsbttn;
         private System.Windows.Forms.Label recordlabel;
         public System.Windows.Forms.Timer timer2;
+        private System.Windows.Forms.ToolStripMenuItem viewReportBOM;
+        private System.Windows.Forms.ToolStripMenuItem billsOfMaunfacturingToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem sparePartsToolStripMenuItem;
+        private System.Windows.Forms.PictureBox pictureBox1;
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member 'SPM_Connect.txtSearch'
     }
 }

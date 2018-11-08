@@ -192,17 +192,17 @@
   </data>
   <data name="getWorkOrderToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAIeSURBVHhe7Zc/S8NAGIfr4OIiuIgfQBA/hV/A0e/gLK0uDoKLg7RpSwVXRwVnV0GljfUvCA6C
-        q6KDg0JTKOe9yaW2yfWSeFeT1t8PHmzu3ty999imNIcgCIIg0SlesJn9JpsUlwNDNZW6sygulbHqn7OE
-        uFSG1oy7P/UqLs3Fajgrlt1+5X83+CZTYrgbGqM5t8Z2mGW3zop2a5kxNiFKuinXW/OlhnPA69oEvaYx
-        Md0N3Utr8Jpzb82Y+/NexbC50KJeE+7h3njTWztNNk3Qaxr7me/jhu6lw1SbzoJ16RzysU6ghujQHNVQ
-        Ld1Tsp1bSR0nYv/hC/Bpv3gEx6U8cOg/LpvrhWqoVjYXYMD+fycgo0AABECAaNtcIAACICCWgKXK81CR
-        7RkiTQFz6/dDRbZnCAiAAAgQbZtLXAGyB5dJZHuGSFNAJoAACIAA0ba5QEBMAbKvriT466wevyvnlUBA
-        igJk391J8NcpnHwo55WkKSATQAA+AngIirbNBQJiCsgEEJCiAHrr6uCvs336pZxXkqYA2ec2Cf46dFjV
-        vBJdAbV886hWuGK9VMtP8s0CyJpOgr+OjgDqNdg/nUkcLzo6Anrfrr/BX0fnI5CqgCwAAeMggN7uI/kM
-        MMW/F6DzY2gsBOgAARAAAX29u0AABOgJqG3eseru40hAvYb61xYw6kAABECAOF509vLXa66EMYLOJI6H
-        IAiCeMnlvgG+qKAeg5uVYgAAAABJRU5ErkJggg==
+        iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABGdBTUEAALGPC/xhBQAAAh5JREFUeF7t
+        lz9Lw0AYh+vg4iK4iB9AED+FX8DR7+AsrS4OgouDtGlLBVdHBWdXQaWN9S8IDoKrooODQlMo573JpbbJ
+        9ZJ4V5PW3w8ebO7e3L332KY0hyAIgiDRKV6wmf0mmxSXA0M1lbqzKC6Vseqfs4S4VIbWjLs/9SouzcVq
+        OCuW3X7lfzf4JlNiuBsaozm3xnaYZbfOinZrmTE2IUq6Kddb86WGc8Dr2gS9pjEx3Q3dS2vwmnNvzZj7
+        817FsLnQol4T7uHeeNNbO002TdBrGvuZ7+OG7qXDVJvOgnXpHPKxTqCG6NAc1VAt3VOynVtJHSdi/+EL
+        8Gm/eATHpTxw6D8um+uFaqhWNhdgwP5/JyCjQAAEQIBo21wgAAIgIJaApcrzUJHtGSJNAXPr90NFtmcI
+        CIAACBBtm0tcAbIHl0lke4ZIU0AmgAAIgADRtrlAQEwBsq+uJPjrrB6/K+eVQECKAmTf3Unw1ymcfCjn
+        laQpIBNAAD4CeAiKts0FAmIKyAQQkKIAeuvq4K+zffqlnFeSpgDZ5zYJ/jp0WNW8El0BtXzzqFa4Yr1U
+        y0/yzQLImk6Cv46OAOo12D+dSRwvOjoCet+uv8FfR+cjkKqALAAB4yCA3u4j+Qwwxb8XoPNjaCwE6AAB
+        EAABfb27QAAE6Amobd6x6u7jSEC9hvrXFjDqQAAEQIA4XnT28tdrroQxgs4kjocgCIJ4yeW+Ab6ooB6D
+        m5ViAAAAAElFTkSuQmCC
 </value>
   </data>
   <data name="SPM.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

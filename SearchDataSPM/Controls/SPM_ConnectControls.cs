@@ -1400,6 +1400,51 @@ namespace SearchDataSPM
             return valid;
         }
 
+        private void billsOfMaunfacturingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            prorcessreportbom(getitemnumberselected(), "BOM");
+        }
+
+        private String getitemnumberselected()
+        {
+            int selectedclmindex = dataGridView.SelectedCells[0].ColumnIndex;
+            DataGridViewColumn columnchk = dataGridView.Columns[selectedclmindex];
+            string c = Convert.ToString(columnchk.Index);
+            //MessageBox.Show(c);
+            string item;
+            if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
+            {
+                int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
+                DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
+                item = Convert.ToString(slectedrow.Cells[0].Value);
+                //MessageBox.Show(ItemNo);
+                return item;
+            }
+            else
+            {
+                item = "";
+                return item;
+            }
+        }
+
+        private void prorcessreportbom(string itemvalue, string Reportname)
+        {
+            ReportViewer form1 = new ReportViewer();
+            form1.item(itemvalue);
+            form1.getreport(Reportname);
+            form1.Show();
+
+        }
+
+        private void sparePartsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            prorcessreportbom(getitemnumberselected(), "SPAREPARTS");
+        }
+
+        private void pictureBox1_DoubleClick(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://www.spm-automation.com/");
+        }
     }
 }
 

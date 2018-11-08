@@ -104,13 +104,13 @@
             this.projectEngineeringToolStripMenuItem,
             this.getWorkOrderToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 92);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(178, 70);
             // 
             // getBOMToolStripMenuItem
             // 
             this.getBOMToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("getBOMToolStripMenuItem.Image")));
             this.getBOMToolStripMenuItem.Name = "getBOMToolStripMenuItem";
-            this.getBOMToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.getBOMToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.getBOMToolStripMenuItem.Text = "Get BOM";
             this.getBOMToolStripMenuItem.ToolTipText = "Get Selected Job\'s BOM";
             this.getBOMToolStripMenuItem.Click += new System.EventHandler(this.getBOMToolStripMenuItem_Click);
@@ -121,7 +121,7 @@
             this.remapToolStripMenuItem});
             this.projectEngineeringToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("projectEngineeringToolStripMenuItem.Image")));
             this.projectEngineeringToolStripMenuItem.Name = "projectEngineeringToolStripMenuItem";
-            this.projectEngineeringToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.projectEngineeringToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.projectEngineeringToolStripMenuItem.Text = "Project Engineering";
             this.projectEngineeringToolStripMenuItem.ToolTipText = "Open Project Eng Folder";
             this.projectEngineeringToolStripMenuItem.Click += new System.EventHandler(this.projectEngineeringToolStripMenuItem_Click);
@@ -139,7 +139,7 @@
             // 
             this.getWorkOrderToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("getWorkOrderToolStripMenuItem.Image")));
             this.getWorkOrderToolStripMenuItem.Name = "getWorkOrderToolStripMenuItem";
-            this.getWorkOrderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.getWorkOrderToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.getWorkOrderToolStripMenuItem.Text = "Get Work Order";
             this.getWorkOrderToolStripMenuItem.Click += new System.EventHandler(this.getWorkOrderToolStripMenuItem_Click);
             // 
@@ -238,8 +238,8 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(26, 8);
             this.label1.TabIndex = 11;
-            this.label1.Text = "V6.8.0";
-            this.TreeViewToolTip.SetToolTip(this.label1, "SPM Connect V6.8.0");
+            this.label1.Text = "V7.0.0";
+            this.TreeViewToolTip.SetToolTip(this.label1, "SPM Connect V7.0.0");
             // 
             // filter4
             // 

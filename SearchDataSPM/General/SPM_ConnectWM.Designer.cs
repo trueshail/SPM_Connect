@@ -96,13 +96,13 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.getBOMToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(161, 26);
             // 
             // getBOMToolStripMenuItem
             // 
             this.getBOMToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("getBOMToolStripMenuItem.Image")));
             this.getBOMToolStripMenuItem.Name = "getBOMToolStripMenuItem";
-            this.getBOMToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.getBOMToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.getBOMToolStripMenuItem.Text = "View WorkOrder";
             this.getBOMToolStripMenuItem.ToolTipText = "Preview Work Order Details";
             this.getBOMToolStripMenuItem.Click += new System.EventHandler(this.getBOMToolStripMenuItem_Click);
@@ -195,15 +195,15 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.ForeColor = System.Drawing.Color.Black;
             this.label1.Location = new System.Drawing.Point(955, 2);
             this.label1.MaximumSize = new System.Drawing.Size(26, 8);
             this.label1.MinimumSize = new System.Drawing.Size(26, 8);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(26, 8);
             this.label1.TabIndex = 11;
-            this.label1.Text = "V6.8.0";
-            this.TreeViewToolTip.SetToolTip(this.label1, "SPM Connect V6.8.0");
+            this.label1.Text = "V7.0.0";
+            this.TreeViewToolTip.SetToolTip(this.label1, "SPM Connect V7.0.0");
             // 
             // filter4
             // 

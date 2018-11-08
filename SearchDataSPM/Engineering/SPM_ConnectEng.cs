@@ -63,6 +63,8 @@ namespace SearchDataSPM
 
         private void SPM_Connect_Load(object sender, EventArgs e)
         {
+            //pictureBox1.ImageLocation= (@"\\spm-adfs\SDBASE\SPM Connect SQL\spm_white_icon_2.gif");
+            //pictureBox1.Image = SearchDataSPM.Properties.Resources.spm_white_icon_2;
             Showallitems();
             string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
             checkadmin();
@@ -866,89 +868,8 @@ namespace SearchDataSPM
 
         private void label1_DoubleClick(object sender, EventArgs e)
         {
-            //string x = Microsoft.VisualBasic.Interaction.InputBox("What's the Keyword?", "Admin Control", "SPM Automation");
-            //if (x == "spmuser")
-            //{
-
-
-            //}
-            //else if (x == "deleteitem")
-            //{
-            //    delete.Visible = true;
-            //}
-            InstallUpdateSyncWithInfo();
+            
         }
-
-        private void InstallUpdateSyncWithInfo()
-        {
-            UpdateCheckInfo info = null;
-
-            if (ApplicationDeployment.IsNetworkDeployed)
-            {
-                ApplicationDeployment ad = ApplicationDeployment.CurrentDeployment;
-
-                try
-                {
-                    info = ad.CheckForDetailedUpdate();
-
-                }
-                catch (DeploymentDownloadException dde)
-                {
-                    MessageBox.Show("The new version of the application cannot be downloaded at this time. \n\nPlease check your network connection, or try again later. Error: " + dde.Message);
-                    return;
-                }
-                catch (InvalidDeploymentException ide)
-                {
-                    MessageBox.Show("Cannot check for a new version of the application. The ClickOnce deployment is corrupt. Please redeploy the application and try again. Error: " + ide.Message);
-                    return;
-                }
-                catch (InvalidOperationException ioe)
-                {
-                    MessageBox.Show("This application cannot be updated. It is likely not a ClickOnce application. Error: " + ioe.Message);
-                    return;
-                }
-
-                if (info.UpdateAvailable)
-                {
-                    Boolean doUpdate = true;
-
-                    if (!info.IsUpdateRequired)
-                    {
-                        DialogResult dr = MessageBox.Show("An update is available. Would you like to update the application now?", "Update Available", MessageBoxButtons.OKCancel);
-                        if (!(DialogResult.OK == dr))
-                        {
-                            doUpdate = false;
-                        }
-                    }
-                    else
-                    {
-                        // Display a message that the app MUST reboot. Display the minimum required version.
-                        MessageBox.Show("This application has detected a mandatory update from your current " +
-                            "version to version " + info.MinimumRequiredVersion.ToString() +
-                            ". The application will now install the update and restart.",
-                            "Update Available", MessageBoxButtons.OK,
-                            MessageBoxIcon.Information);
-                    }
-
-                    if (doUpdate)
-                    {
-                        try
-                        {
-                            ad.Update();
-                            MessageBox.Show("The application has been upgraded, and will now restart.");
-                            Application.Restart();
-                        }
-                        catch (DeploymentDownloadException dde)
-                        {
-                            MessageBox.Show("Cannot install the latest version of the application. \n\nPlease check your network connection, or try again later. Error: " + dde);
-                            return;
-                        }
-                    }
-                }
-            }
-        }
-
-
 
         private void SPM_DoubleClick(object sender, EventArgs e)
         {
@@ -1012,26 +933,13 @@ namespace SearchDataSPM
                     int userCount = (int)sqlCommand.ExecuteScalar();
                     if (userCount == 1)
                     {
-
-                        //AddNewBttn.Visible = true;
-                        //editbttn.Visible = true;
-                        //saveascopybttn.Visible = true;
-                        FormSelector.Items[5].Enabled = true;
-                        FormSelector.Items[5].Visible = true;
-                        FormSelector.Items[6].Enabled = true;
-                        FormSelector.Items[6].Visible = true;
+                        FormSelector.Items[7].Enabled = true;
+                        FormSelector.Items[7].Visible = true;
                     }
                     else
                     {
-
-
-                        //AddNewBttn.Visible = false;
-                        //editbttn.Visible = false;
-                        //saveascopybttn.Visible = false;
-                        FormSelector.Items[5].Enabled = false;
-                        FormSelector.Items[5].Visible = false;
-                        FormSelector.Items[6].Enabled = false;
-                        FormSelector.Items[6].Visible = false;
+                        FormSelector.Items[7].Enabled = false;
+                        FormSelector.Items[7].Visible = false;
                     }
 
                 }
@@ -2198,12 +2106,12 @@ namespace SearchDataSPM
 
         private void editbttn_Click(object sender, EventArgs e)
         {
-            processeditbutton();
+            processeditbutton(getitemnumberselected().ToString());
         }
 
         public string chekeditbutton = "";
 
-        private void processeditbutton()
+        private void processeditbutton(string item)
         {
             showfilesonlistview();
             Cursor.Current = Cursors.WaitCursor;
@@ -2211,7 +2119,7 @@ namespace SearchDataSPM
             this.Enabled = false;
             if (solidworks_running() == true)
             {
-                string item = getitemnumberselected().ToString();
+                //string item = getitemnumberselected().ToString();
 
                 checkitempresentoninventory(item);
 
@@ -2254,7 +2162,7 @@ namespace SearchDataSPM
 
             additemtosqlinventory(item);
             updateitemtosqlinventory(item);
-            processeditbutton();
+            processeditbutton(item);
         }
 
         private void getitemopenforedit(string item)
@@ -2531,7 +2439,7 @@ namespace SearchDataSPM
 
         private void editItemToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            processeditbutton();
+            processeditbutton(getitemnumberselected().ToString());
         }
 
         #endregion
@@ -2540,7 +2448,13 @@ namespace SearchDataSPM
 
         private void saveascopybttn_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Are you sure want to copy this item to a new item?", "SPM Connect - Copy Item?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            perfomcopybuttonclick(getitemnumberselected().ToString());
+        }
+
+
+        void perfomcopybuttonclick(string item)
+        {
+            DialogResult result = MessageBox.Show("Are you sure want to copy item no. "+item +" to a new item?", "SPM Connect - Copy Item?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
 
             if (result == DialogResult.Yes)
@@ -2555,7 +2469,7 @@ namespace SearchDataSPM
                     {
                         new Thread(() => new Engineering.WaitFormCopying().ShowDialog()).Start();
                         //Thread.Sleep(3000);
-                        prepareforcopy(activeblock.ToString());
+                        prepareforcopy(activeblock.ToString(),item);
                     }
                     else
                     {
@@ -2565,13 +2479,12 @@ namespace SearchDataSPM
                 }
 
             }
-
         }
 
-        private void prepareforcopy(string activeblock)
+        private void prepareforcopy(string activeblock, string selecteditem)
         {
             string lastnumber = getlastnumber(activeblock.ToString());
-            string first3char = getitemnumberselected().Substring(0, 3) + @"\";
+            string first3char = selecteditem.Substring(0, 3) + @"\";
             string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
             string Pathpart = (spmcadpath + first3char);
 
@@ -2590,8 +2503,8 @@ namespace SearchDataSPM
                         }
                         else
                         {
-                            copy(Pathpart);
-                            aftercopy(activeblock);
+                            copy(Pathpart,selecteditem);
+                            aftercopy(activeblock,selecteditem);
                         }
 
                     }
@@ -2600,8 +2513,8 @@ namespace SearchDataSPM
                 else
                 {
                     spmnew_id(activeblock.ToString());
-                    copy(Pathpart);
-                    aftercopy(activeblock);
+                    copy(Pathpart,selecteditem);
+                    aftercopy(activeblock,selecteditem);
                 }
 
             }
@@ -2609,24 +2522,24 @@ namespace SearchDataSPM
             {
                 //addblockcolumn(activeblock.ToString());
                 spmnew_id(activeblock.ToString());
-                copy(Pathpart);
-                aftercopy(activeblock);
+                copy(Pathpart,selecteditem);
+                aftercopy(activeblock,selecteditem);
             }
         }
 
-        private void aftercopy(string activeblock)
+        private void aftercopy(string activeblock,string selecteditem)
         {
             if (sucessreplacingreference == true)
             {
                 //insertinto_blocks(uniqueid, activeblock.ToString());
-                checkitempresentoninventory(getitemnumberselected().ToString());
+                checkitempresentoninventory(selecteditem);
                 if (itempresent == true)
                 {
-                    addcpoieditemtosqltable();
+                    addcpoieditemtosqltable(selecteditem);
                 }
                 else
                 {
-                    addcpoieditemtosqltablefromgenius(uniqueid, getitemnumberselected().ToString());
+                    addcpoieditemtosqltablefromgenius(uniqueid, selecteditem);
                     updateitemtosqlinventory(uniqueid);
                 }
                 Engineering.WaitFormCopying f = new Engineering.WaitFormCopying();
@@ -2639,14 +2552,14 @@ namespace SearchDataSPM
             else
             {
                 MessageBox.Show("SPM Connect failed to update drawing references.! Please manually update drawing references.", "SPM Connect - Copy References", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                checkitempresentoninventory(getitemnumberselected().ToString());
+                checkitempresentoninventory(selecteditem);
                 if (itempresent == true)
                 {
-                    addcpoieditemtosqltable();
+                    addcpoieditemtosqltable(selecteditem);
                 }
                 else
                 {
-                    addcpoieditemtosqltablefromgenius(uniqueid, getitemnumberselected().ToString());
+                    addcpoieditemtosqltablefromgenius(uniqueid, selecteditem);
                     updateitemtosqlinventory(uniqueid);
                 }
                 Engineering.WaitFormCopying f = new Engineering.WaitFormCopying();
@@ -2656,7 +2569,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void copy(string Pathpart)
+        private void copy(string Pathpart, string selecteditem)
         {
             string type = "";
             string drawingfound = "no";
@@ -2665,7 +2578,7 @@ namespace SearchDataSPM
             string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
 
 
-            string[] s = Directory.GetFiles(Pathpart, "*" + getitemnumberselected().ToString() + "*", SearchOption.TopDirectoryOnly).Where(str => !str.Contains(@"\~$")).ToArray();
+            string[] s = Directory.GetFiles(Pathpart, "*" + selecteditem + "*", SearchOption.TopDirectoryOnly).Where(str => !str.Contains(@"\~$")).ToArray();
 
             for (int i = 0; i < s.Length; i++)
             {
@@ -2779,7 +2692,7 @@ namespace SearchDataSPM
 
         }
 
-        private void addcpoieditemtosqltable()
+        private void addcpoieditemtosqltable(string selecteditem)
         {
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDate = datecreated.ToString("yyyy-MM-dd HH:mm:ss.fff");
@@ -2789,7 +2702,7 @@ namespace SearchDataSPM
             {
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT [SPM_Database].[dbo].[Inventory](ItemNumber,Description,FamilyCode,Manufacturer,ManufacturerItemNumber,Material,Spare,DesignedBy,FamilyType,SurfaceProtection,HeatTreatment,Rupture,JobPlanning,Notes,DateCreated) SELECT '" + uniqueid + "',Description,FamilyCode,Manufacturer,ManufacturerItemNumber,Material,Spare,DesignedBy,FamilyType,SurfaceProtection,HeatTreatment,Rupture,JobPlanning,Notes,'" + sqlFormattedDate + "' FROM [SPM_Database].[dbo].[Inventory] WHERE ItemNumber = '" + getitemnumberselected().ToString() + "'";
+                cmd.CommandText = "INSERT [SPM_Database].[dbo].[Inventory](ItemNumber,Description,FamilyCode,Manufacturer,ManufacturerItemNumber,Material,Spare,DesignedBy,FamilyType,SurfaceProtection,HeatTreatment,Rupture,JobPlanning,Notes,DateCreated) SELECT '" + uniqueid + "',Description,FamilyCode,Manufacturer,ManufacturerItemNumber,Material,Spare,DesignedBy,FamilyType,SurfaceProtection,HeatTreatment,Rupture,JobPlanning,Notes,'" + sqlFormattedDate + "' FROM [SPM_Database].[dbo].[Inventory] WHERE ItemNumber = '" + selecteditem + "'";
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -2933,34 +2846,62 @@ namespace SearchDataSPM
 
         private void SPM_Connect_FormClosing(object sender, FormClosingEventArgs e)
         {
-           int openforms =  Application.OpenForms.Count;
-            if (openforms > 2)
+           //int openforms =  Application.OpenForms.Count;
+           // if (openforms > 2)
+           // {
+           //     e.Cancel = true;
+           //     ListOpenWindows frm2 = new ListOpenWindows();
+
+           //     foreach (Form frm in Application.OpenForms)
+           //     {
+           //         if(frm.Name.ToString() == "SPM_Connect" || frm.Name.ToString() == "SPM_ConnectHome")
+           //         {
+
+           //         }
+           //         else
+           //         {
+           //             frm2.listBox1.Items.Add(frm.Text.ToString());
+           //         }
+           //     }                
+           //     if (frm2.ShowDialog(this) == DialogResult.OK)
+           //     {
+           //     }
+           //     frm2.Close();
+           //     frm2.Dispose();
+           // }
+        }
+
+        private void copySelectedItemToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            perfomcopybuttonclick(getitemnumberselected().ToString());
+        }
+
+        private void pictureBox1_DoubleClick(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://www.spm-automation.com/");
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (listView.FocusedItem != null)
             {
-                e.Cancel = true;
-                ListOpenWindows frm2 = new ListOpenWindows();
+                string txt = listView.FocusedItem.Text;
+                txt = txt.Substring(0, 6);
+                processeditbutton(txt);
 
-                foreach (Form frm in Application.OpenForms)
-                {
-                    if(frm.Name.ToString() == "SPM_Connect" || frm.Name.ToString() == "SPM_ConnectHome")
-                    {
-
-                    }
-                    else
-                    {
-                        frm2.listBox1.Items.Add(frm.Text.ToString());
-                    }
-                }                
-                if (frm2.ShowDialog(this) == DialogResult.OK)
-                {
-                }
-                frm2.Close();
-                frm2.Dispose();
             }
+        }
 
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            if (listView.FocusedItem != null)
+            {
+                string txt = listView.FocusedItem.Text;
+                txt = txt.Substring(0, 6);
+                perfomcopybuttonclick(txt);
 
-           
+            }
             
-
         }
     }
 

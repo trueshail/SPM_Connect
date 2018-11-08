@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("SPM Connect")]
-[assembly: AssemblyDescription("SPM Connect Inhouse Solutions by - spatel")]
+[assembly: AssemblyDescription("SPM Connect Inhouse Solutions by - Shail Patel")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("SPM Automation")]
 [assembly: AssemblyProduct("SPM Connect")]
