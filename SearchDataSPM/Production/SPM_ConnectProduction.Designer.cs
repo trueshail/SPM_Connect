@@ -200,13 +200,13 @@
             this.viewReportBOM});
             this.FormSelector.Name = "contextMenuStrip1";
             this.FormSelector.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.FormSelector.Size = new System.Drawing.Size(176, 114);
+            this.FormSelector.Size = new System.Drawing.Size(181, 136);
             // 
             // bOMToolStripMenuItem
             // 
             this.bOMToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("bOMToolStripMenuItem.Image")));
             this.bOMToolStripMenuItem.Name = "bOMToolStripMenuItem";
-            this.bOMToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.bOMToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.bOMToolStripMenuItem.Text = "BOM";
             this.bOMToolStripMenuItem.ToolTipText = "Bills Of Material";
             this.bOMToolStripMenuItem.Click += new System.EventHandler(this.bOMToolStripMenuItem_Click);
@@ -215,7 +215,7 @@
             // 
             this.whereUsedToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("whereUsedToolStripMenuItem.Image")));
             this.whereUsedToolStripMenuItem.Name = "whereUsedToolStripMenuItem";
-            this.whereUsedToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.whereUsedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.whereUsedToolStripMenuItem.Text = "Where Used";
             this.whereUsedToolStripMenuItem.ToolTipText = "Check Where Used";
             this.whereUsedToolStripMenuItem.Click += new System.EventHandler(this.whereUsedToolStripMenuItem_Click);
@@ -224,7 +224,7 @@
             // 
             this.openModelToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openModelToolStripMenuItem.Image")));
             this.openModelToolStripMenuItem.Name = "openModelToolStripMenuItem";
-            this.openModelToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.openModelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openModelToolStripMenuItem.Text = "Open Model";
             this.openModelToolStripMenuItem.ToolTipText = "Open Selected Item\'s Model";
             this.openModelToolStripMenuItem.Click += new System.EventHandler(this.openModelToolStripMenuItem_Click);
@@ -233,7 +233,7 @@
             // 
             this.openDrawingToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openDrawingToolStripMenuItem.Image")));
             this.openDrawingToolStripMenuItem.Name = "openDrawingToolStripMenuItem";
-            this.openDrawingToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.openDrawingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openDrawingToolStripMenuItem.Text = "Open Drawing";
             this.openDrawingToolStripMenuItem.ToolTipText = "Open Selected Item\'s Drawing";
             this.openDrawingToolStripMenuItem.Click += new System.EventHandler(this.openDrawingToolStripMenuItem_Click);
@@ -245,7 +245,7 @@
             this.sparePartsToolStripMenuItem});
             this.viewReportBOM.Image = ((System.Drawing.Image)(resources.GetObject("viewReportBOM.Image")));
             this.viewReportBOM.Name = "viewReportBOM";
-            this.viewReportBOM.Size = new System.Drawing.Size(175, 22);
+            this.viewReportBOM.Size = new System.Drawing.Size(180, 22);
             this.viewReportBOM.Text = "View Report (BOM)";
             this.viewReportBOM.ToolTipText = "View BOM Report";
             // 
@@ -254,7 +254,7 @@
             this.billsOfMaunfacturingToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("billsOfMaunfacturingToolStripMenuItem.Image")));
             this.billsOfMaunfacturingToolStripMenuItem.Name = "billsOfMaunfacturingToolStripMenuItem";
             this.billsOfMaunfacturingToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
-            this.billsOfMaunfacturingToolStripMenuItem.Text = "Bills of Maunfacturing";
+            this.billsOfMaunfacturingToolStripMenuItem.Text = "Bills of Manufacturing";
             this.billsOfMaunfacturingToolStripMenuItem.ToolTipText = "Preview Bills Of Manufacturing Report";
             this.billsOfMaunfacturingToolStripMenuItem.Click += new System.EventHandler(this.billsOfMaunfacturingToolStripMenuItem_Click);
             // 

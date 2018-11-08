@@ -1282,6 +1282,11 @@ namespace SearchDataSPM
                 foreach (DataRow dr in dt.Rows)
                 {
                     string useractiveblock = dr["ActiveBlockNumber"].ToString();
+                    if(useractiveblock == "")
+                    {
+                        MessageBox.Show("User has not been assigned a block number. Please contact the admin.", "SPM Connect - Get Last Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        break;
+                    }
                     return useractiveblock;
                 }
 
@@ -1304,39 +1309,51 @@ namespace SearchDataSPM
 
         private string getlastnumber(string blocknumber)
         {
-            try
+            if(blocknumber == "")
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT MAX(RIGHT(ItemNumber,5)) AS " + blocknumber.ToString() + " FROM [SPM_Database].[dbo].[UnionInventory] WHERE ItemNumber like '" + blocknumber.ToString() + "%' AND LEN(ItemNumber)=6";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
+                
+                return "";
+            }
+            else
+            {
+                try
                 {
-                    string lastnumber = dr[blocknumber].ToString();
-                    if(lastnumber == "")
+
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    SqlCommand cmd = cn.CreateCommand();
+                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandText = "SELECT MAX(RIGHT(ItemNumber,5)) AS " + blocknumber.ToString() + " FROM [SPM_Database].[dbo].[UnionInventory] WHERE ItemNumber like '" + blocknumber.ToString() + "%' AND LEN(ItemNumber)=6";
+                    cmd.ExecuteNonQuery();
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+                    foreach (DataRow dr in dt.Rows)
                     {
-                        return blocknumber.Substring(1) + "000";
+                        string lastnumber = dr[blocknumber].ToString();
+                        if (lastnumber == "")
+                        {
+                            return blocknumber.Substring(1) + "000";
+                        }
+                        return lastnumber;
                     }
-                    return lastnumber;
                 }
-            }
-            catch (Exception ex)
-            {
+                catch (Exception ex)
+                {
 
-                MessageBox.Show(ex.Message, "SPM Connect - Get Last Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Last Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
 
+                }
+                finally
+                {
+                    cn.Close();
+
+                }
+                return blocknumber.Substring(1) + "000";
             }
-            finally
-            {
-                cn.Close();
-            }
-            return  blocknumber.Substring(1) +"000";
+           
+            
         }
 
         private void getnewitembttn_Click(object sender, EventArgs e)
@@ -1391,11 +1408,18 @@ namespace SearchDataSPM
         private static bool validnumber(string lastnumber)
         {
             bool valid = true;
-            
-            if (lastnumber.Substring(2) == "999")
+            if(lastnumber.ToString() != "")
             {
-                MessageBox.Show("User block number limit has reached. Please ask the admin to asssign a new block number.", "SPM Connect - Valid Number Limit", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                valid = false;
+                if (lastnumber.Substring(2) == "999")
+                {
+                    MessageBox.Show("User block number limit has reached. Please ask the admin to asssign a new block number.", "SPM Connect - Valid Number Limit", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    valid = false;
+                }
+               
+            }
+            else
+            {
+                return false;
             }
             return valid;
         }

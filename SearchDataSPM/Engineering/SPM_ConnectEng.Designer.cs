@@ -43,30 +43,6 @@ namespace SearchDataSPM
             this.manufacturerDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.manufacturerItemNumberDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FormSelector = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.inventoryBindingSource3 = new System.Windows.Forms.BindingSource(this.components);
-            this.sPM_DatabaseDataSet = new SearchDataSPM.SPM_DatabaseDataSet();
-            this.Reload = new System.Windows.Forms.Button();
-            this.Descrip_txtbox = new System.Windows.Forms.TextBox();
-            this.filteroem_txtbox = new System.Windows.Forms.TextBox();
-            this.filteroemitem_txtbox = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.filter4 = new System.Windows.Forms.TextBox();
-            this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.imageList = new System.Windows.Forms.ImageList(this.components);
-            this.listView = new System.Windows.Forms.ListView();
-            this.Listviewcontextmenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.timer2 = new System.Windows.Forms.Timer(this.components);
-            this.recordlabel = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.SPM = new System.Windows.Forms.Label();
-            this.AddNewBttn = new System.Windows.Forms.Button();
-            this.jobsbttn = new System.Windows.Forms.Button();
-            this.bomlistviewmenustrpc = new System.Windows.Forms.ToolStripMenuItem();
-            this.whereusedlistviewStripMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.iteminfolistviewStripMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.admin_bttn = new System.Windows.Forms.Button();
             this.bOMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.whereUsedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -77,12 +53,36 @@ namespace SearchDataSPM
             this.billsOfMaunfacturingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sparePartsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.inventoryBindingSource3 = new System.Windows.Forms.BindingSource(this.components);
+            this.sPM_DatabaseDataSet = new SearchDataSPM.SPM_DatabaseDataSet();
+            this.Reload = new System.Windows.Forms.Button();
+            this.Descrip_txtbox = new System.Windows.Forms.TextBox();
+            this.filteroem_txtbox = new System.Windows.Forms.TextBox();
+            this.filteroemitem_txtbox = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.filter4 = new System.Windows.Forms.TextBox();
+            this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.SPM = new System.Windows.Forms.Label();
+            this.AddNewBttn = new System.Windows.Forms.Button();
+            this.jobsbttn = new System.Windows.Forms.Button();
+            this.admin_bttn = new System.Windows.Forms.Button();
+            this.imageList = new System.Windows.Forms.ImageList(this.components);
+            this.listView = new System.Windows.Forms.ListView();
+            this.Listviewcontextmenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.bomlistviewmenustrpc = new System.Windows.Forms.ToolStripMenuItem();
+            this.whereusedlistviewStripMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.iteminfolistviewStripMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
+            this.recordlabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.FormSelector.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.inventoryBindingSource3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sPM_DatabaseDataSet)).BeginInit();
-            this.Listviewcontextmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.Listviewcontextmenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtSearch
@@ -208,7 +208,101 @@ namespace SearchDataSPM
             this.deleteItemToolStripMenuItem});
             this.FormSelector.Name = "contextMenuStrip1";
             this.FormSelector.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.FormSelector.Size = new System.Drawing.Size(177, 180);
+            this.FormSelector.Size = new System.Drawing.Size(181, 202);
+            // 
+            // bOMToolStripMenuItem
+            // 
+            this.bOMToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("bOMToolStripMenuItem.Image")));
+            this.bOMToolStripMenuItem.Name = "bOMToolStripMenuItem";
+            this.bOMToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.bOMToolStripMenuItem.Text = "BOM";
+            this.bOMToolStripMenuItem.ToolTipText = "Bills Of Material";
+            this.bOMToolStripMenuItem.Click += new System.EventHandler(this.bOMToolStripMenuItem_Click);
+            // 
+            // whereUsedToolStripMenuItem
+            // 
+            this.whereUsedToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("whereUsedToolStripMenuItem.Image")));
+            this.whereUsedToolStripMenuItem.Name = "whereUsedToolStripMenuItem";
+            this.whereUsedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.whereUsedToolStripMenuItem.Text = "Where Used";
+            this.whereUsedToolStripMenuItem.ToolTipText = "Check Where Used";
+            this.whereUsedToolStripMenuItem.Click += new System.EventHandler(this.whereUsedToolStripMenuItem_Click);
+            // 
+            // openModelToolStripMenuItem
+            // 
+            this.openModelToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openModelToolStripMenuItem.Image")));
+            this.openModelToolStripMenuItem.Name = "openModelToolStripMenuItem";
+            this.openModelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openModelToolStripMenuItem.Text = "Open Model";
+            this.openModelToolStripMenuItem.ToolTipText = "Open Selected Item\'s Model";
+            this.openModelToolStripMenuItem.Click += new System.EventHandler(this.openModelToolStripMenuItem_Click);
+            // 
+            // openDrawingToolStripMenuItem
+            // 
+            this.openDrawingToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openDrawingToolStripMenuItem.Image")));
+            this.openDrawingToolStripMenuItem.Name = "openDrawingToolStripMenuItem";
+            this.openDrawingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openDrawingToolStripMenuItem.Text = "Open Drawing";
+            this.openDrawingToolStripMenuItem.ToolTipText = "Open Selected Item\'s Drawing";
+            this.openDrawingToolStripMenuItem.Click += new System.EventHandler(this.openDrawingToolStripMenuItem_Click);
+            // 
+            // editItemToolStripMenuItem
+            // 
+            this.editItemToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("editItemToolStripMenuItem.Image")));
+            this.editItemToolStripMenuItem.Name = "editItemToolStripMenuItem";
+            this.editItemToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.editItemToolStripMenuItem.Text = "Edit Item";
+            this.editItemToolStripMenuItem.ToolTipText = "Edit Selected Item\'s Properties";
+            this.editItemToolStripMenuItem.Click += new System.EventHandler(this.editItemToolStripMenuItem_Click);
+            // 
+            // copySelectedItemToolStripMenuItem
+            // 
+            this.copySelectedItemToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("copySelectedItemToolStripMenuItem.Image")));
+            this.copySelectedItemToolStripMenuItem.Name = "copySelectedItemToolStripMenuItem";
+            this.copySelectedItemToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.copySelectedItemToolStripMenuItem.Text = "Copy Selected Item";
+            this.copySelectedItemToolStripMenuItem.ToolTipText = "Copy selected item to new item number";
+            this.copySelectedItemToolStripMenuItem.Click += new System.EventHandler(this.copySelectedItemToolStripMenuItem_Click);
+            // 
+            // viewReportBOM
+            // 
+            this.viewReportBOM.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.billsOfMaunfacturingToolStripMenuItem,
+            this.sparePartsToolStripMenuItem});
+            this.viewReportBOM.Image = ((System.Drawing.Image)(resources.GetObject("viewReportBOM.Image")));
+            this.viewReportBOM.Name = "viewReportBOM";
+            this.viewReportBOM.Size = new System.Drawing.Size(180, 22);
+            this.viewReportBOM.Text = "View Report (BOM)";
+            this.viewReportBOM.ToolTipText = "View BOM Report";
+            // 
+            // billsOfMaunfacturingToolStripMenuItem
+            // 
+            this.billsOfMaunfacturingToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("billsOfMaunfacturingToolStripMenuItem.Image")));
+            this.billsOfMaunfacturingToolStripMenuItem.Name = "billsOfMaunfacturingToolStripMenuItem";
+            this.billsOfMaunfacturingToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.billsOfMaunfacturingToolStripMenuItem.Text = "Bills of Manufacturing";
+            this.billsOfMaunfacturingToolStripMenuItem.ToolTipText = "Preview Bills Of Manufacturing Report";
+            this.billsOfMaunfacturingToolStripMenuItem.Click += new System.EventHandler(this.billsOfMaunfacturingToolStripMenuItem_Click);
+            // 
+            // sparePartsToolStripMenuItem
+            // 
+            this.sparePartsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("sparePartsToolStripMenuItem.Image")));
+            this.sparePartsToolStripMenuItem.Name = "sparePartsToolStripMenuItem";
+            this.sparePartsToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.sparePartsToolStripMenuItem.Text = "Spare Parts";
+            this.sparePartsToolStripMenuItem.ToolTipText = "Preview Spare Parts Report";
+            this.sparePartsToolStripMenuItem.Click += new System.EventHandler(this.sparePartsToolStripMenuItem_Click);
+            // 
+            // deleteItemToolStripMenuItem
+            // 
+            this.deleteItemToolStripMenuItem.Enabled = false;
+            this.deleteItemToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("deleteItemToolStripMenuItem.Image")));
+            this.deleteItemToolStripMenuItem.Name = "deleteItemToolStripMenuItem";
+            this.deleteItemToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteItemToolStripMenuItem.Text = "Delete Item";
+            this.deleteItemToolStripMenuItem.ToolTipText = "Delete Selected Item From Connect";
+            this.deleteItemToolStripMenuItem.Visible = false;
+            this.deleteItemToolStripMenuItem.Click += new System.EventHandler(this.deleteItemToolStripMenuItem_Click);
             // 
             // inventoryBindingSource3
             // 
@@ -329,66 +423,6 @@ namespace SearchDataSPM
             this.TreeViewToolTip.InitialDelay = 500;
             this.TreeViewToolTip.ReshowDelay = 100;
             // 
-            // imageList
-            // 
-            this.imageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
-            this.imageList.ImageSize = new System.Drawing.Size(256, 192);
-            this.imageList.TransparentColor = System.Drawing.Color.Black;
-            // 
-            // listView
-            // 
-            this.listView.Activation = System.Windows.Forms.ItemActivation.OneClick;
-            this.listView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listView.BackColor = System.Drawing.Color.White;
-            this.listView.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.listView.ContextMenuStrip = this.Listviewcontextmenu;
-            this.listView.LargeImageList = this.imageList;
-            this.listView.Location = new System.Drawing.Point(2, 568);
-            this.listView.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
-            this.listView.MultiSelect = false;
-            this.listView.Name = "listView";
-            this.listView.ShowItemToolTips = true;
-            this.listView.Size = new System.Drawing.Size(980, 220);
-            this.listView.TabIndex = 7;
-            this.listView.UseCompatibleStateImageBehavior = false;
-            this.listView.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.listView_ItemDrag);
-            this.listView.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.listView_ItemSelectionChanged);
-            this.listView.SelectedIndexChanged += new System.EventHandler(this.listView_SelectedIndexChanged);
-            this.listView.Enter += new System.EventHandler(this.listView_Enter);
-            this.listView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.listView_KeyDown);
-            this.listView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView_MouseDoubleClick);
-            // 
-            // Listviewcontextmenu
-            // 
-            this.Listviewcontextmenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.bomlistviewmenustrpc,
-            this.whereusedlistviewStripMenu,
-            this.iteminfolistviewStripMenu,
-            this.toolStripMenuItem1,
-            this.toolStripMenuItem2});
-            this.Listviewcontextmenu.Name = "contextMenuStrip1";
-            this.Listviewcontextmenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.Listviewcontextmenu.Size = new System.Drawing.Size(177, 114);
-            this.Listviewcontextmenu.Opening += new System.ComponentModel.CancelEventHandler(this.Listviewcontextmenu_Opening);
-            // 
-            // timer2
-            // 
-            this.timer2.Interval = 3000;
-            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
-            // 
-            // recordlabel
-            // 
-            this.recordlabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.recordlabel.AutoSize = true;
-            this.recordlabel.Font = new System.Drawing.Font("Maiandra GD", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.recordlabel.ForeColor = System.Drawing.Color.White;
-            this.recordlabel.Location = new System.Drawing.Point(840, 85);
-            this.recordlabel.Name = "recordlabel";
-            this.recordlabel.Size = new System.Drawing.Size(0, 14);
-            this.recordlabel.TabIndex = 101;
-            // 
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
@@ -463,6 +497,72 @@ namespace SearchDataSPM
             this.jobsbttn.UseVisualStyleBackColor = false;
             this.jobsbttn.Click += new System.EventHandler(this.jobsbttn_Click);
             // 
+            // admin_bttn
+            // 
+            this.admin_bttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.admin_bttn.BackColor = System.Drawing.Color.Transparent;
+            this.admin_bttn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
+            this.admin_bttn.FlatAppearance.BorderSize = 0;
+            this.admin_bttn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.admin_bttn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.admin_bttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.admin_bttn.ForeColor = System.Drawing.Color.Transparent;
+            this.admin_bttn.Image = ((System.Drawing.Image)(resources.GetObject("admin_bttn.Image")));
+            this.admin_bttn.Location = new System.Drawing.Point(944, 48);
+            this.admin_bttn.MaximumSize = new System.Drawing.Size(35, 35);
+            this.admin_bttn.MinimumSize = new System.Drawing.Size(35, 35);
+            this.admin_bttn.Name = "admin_bttn";
+            this.admin_bttn.Size = new System.Drawing.Size(35, 35);
+            this.admin_bttn.TabIndex = 18;
+            this.admin_bttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.TreeViewToolTip.SetToolTip(this.admin_bttn, "Adminstrative Control");
+            this.admin_bttn.UseVisualStyleBackColor = false;
+            this.admin_bttn.Click += new System.EventHandler(this.admin_bttn_Click);
+            // 
+            // imageList
+            // 
+            this.imageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+            this.imageList.ImageSize = new System.Drawing.Size(256, 192);
+            this.imageList.TransparentColor = System.Drawing.Color.Black;
+            // 
+            // listView
+            // 
+            this.listView.Activation = System.Windows.Forms.ItemActivation.OneClick;
+            this.listView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listView.BackColor = System.Drawing.Color.White;
+            this.listView.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.listView.ContextMenuStrip = this.Listviewcontextmenu;
+            this.listView.LargeImageList = this.imageList;
+            this.listView.Location = new System.Drawing.Point(2, 568);
+            this.listView.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
+            this.listView.MultiSelect = false;
+            this.listView.Name = "listView";
+            this.listView.ShowItemToolTips = true;
+            this.listView.Size = new System.Drawing.Size(980, 220);
+            this.listView.TabIndex = 7;
+            this.listView.UseCompatibleStateImageBehavior = false;
+            this.listView.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.listView_ItemDrag);
+            this.listView.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.listView_ItemSelectionChanged);
+            this.listView.SelectedIndexChanged += new System.EventHandler(this.listView_SelectedIndexChanged);
+            this.listView.Enter += new System.EventHandler(this.listView_Enter);
+            this.listView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.listView_KeyDown);
+            this.listView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView_MouseDoubleClick);
+            // 
+            // Listviewcontextmenu
+            // 
+            this.Listviewcontextmenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.bomlistviewmenustrpc,
+            this.whereusedlistviewStripMenu,
+            this.iteminfolistviewStripMenu,
+            this.toolStripMenuItem1,
+            this.toolStripMenuItem2});
+            this.Listviewcontextmenu.Name = "contextMenuStrip1";
+            this.Listviewcontextmenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.Listviewcontextmenu.Size = new System.Drawing.Size(177, 114);
+            this.Listviewcontextmenu.Opening += new System.ComponentModel.CancelEventHandler(this.Listviewcontextmenu_Opening);
+            // 
             // bomlistviewmenustrpc
             // 
             this.bomlistviewmenustrpc.Image = ((System.Drawing.Image)(resources.GetObject("bomlistviewmenustrpc.Image")));
@@ -508,122 +608,22 @@ namespace SearchDataSPM
             this.toolStripMenuItem2.ToolTipText = "Copy selected item to new item number";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
-            // admin_bttn
+            // timer2
             // 
-            this.admin_bttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.timer2.Interval = 3000;
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
+            // 
+            // recordlabel
+            // 
+            this.recordlabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.admin_bttn.BackColor = System.Drawing.Color.Transparent;
-            this.admin_bttn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
-            this.admin_bttn.FlatAppearance.BorderSize = 0;
-            this.admin_bttn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.admin_bttn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.admin_bttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.admin_bttn.ForeColor = System.Drawing.Color.Transparent;
-            this.admin_bttn.Image = ((System.Drawing.Image)(resources.GetObject("admin_bttn.Image")));
-            this.admin_bttn.Location = new System.Drawing.Point(944, 48);
-            this.admin_bttn.MaximumSize = new System.Drawing.Size(35, 35);
-            this.admin_bttn.MinimumSize = new System.Drawing.Size(35, 35);
-            this.admin_bttn.Name = "admin_bttn";
-            this.admin_bttn.Size = new System.Drawing.Size(35, 35);
-            this.admin_bttn.TabIndex = 18;
-            this.admin_bttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.TreeViewToolTip.SetToolTip(this.admin_bttn, "Adminstrative Control");
-            this.admin_bttn.UseVisualStyleBackColor = false;
-            this.admin_bttn.Click += new System.EventHandler(this.admin_bttn_Click);
-            // 
-            // bOMToolStripMenuItem
-            // 
-            this.bOMToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("bOMToolStripMenuItem.Image")));
-            this.bOMToolStripMenuItem.Name = "bOMToolStripMenuItem";
-            this.bOMToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
-            this.bOMToolStripMenuItem.Text = "BOM";
-            this.bOMToolStripMenuItem.ToolTipText = "Bills Of Material";
-            this.bOMToolStripMenuItem.Click += new System.EventHandler(this.bOMToolStripMenuItem_Click);
-            // 
-            // whereUsedToolStripMenuItem
-            // 
-            this.whereUsedToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("whereUsedToolStripMenuItem.Image")));
-            this.whereUsedToolStripMenuItem.Name = "whereUsedToolStripMenuItem";
-            this.whereUsedToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
-            this.whereUsedToolStripMenuItem.Text = "Where Used";
-            this.whereUsedToolStripMenuItem.ToolTipText = "Check Where Used";
-            this.whereUsedToolStripMenuItem.Click += new System.EventHandler(this.whereUsedToolStripMenuItem_Click);
-            // 
-            // openModelToolStripMenuItem
-            // 
-            this.openModelToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openModelToolStripMenuItem.Image")));
-            this.openModelToolStripMenuItem.Name = "openModelToolStripMenuItem";
-            this.openModelToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
-            this.openModelToolStripMenuItem.Text = "Open Model";
-            this.openModelToolStripMenuItem.ToolTipText = "Open Selected Item\'s Model";
-            this.openModelToolStripMenuItem.Click += new System.EventHandler(this.openModelToolStripMenuItem_Click);
-            // 
-            // openDrawingToolStripMenuItem
-            // 
-            this.openDrawingToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openDrawingToolStripMenuItem.Image")));
-            this.openDrawingToolStripMenuItem.Name = "openDrawingToolStripMenuItem";
-            this.openDrawingToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
-            this.openDrawingToolStripMenuItem.Text = "Open Drawing";
-            this.openDrawingToolStripMenuItem.ToolTipText = "Open Selected Item\'s Drawing";
-            this.openDrawingToolStripMenuItem.Click += new System.EventHandler(this.openDrawingToolStripMenuItem_Click);
-            // 
-            // editItemToolStripMenuItem
-            // 
-            this.editItemToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("editItemToolStripMenuItem.Image")));
-            this.editItemToolStripMenuItem.Name = "editItemToolStripMenuItem";
-            this.editItemToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
-            this.editItemToolStripMenuItem.Text = "Edit Item";
-            this.editItemToolStripMenuItem.ToolTipText = "Edit Selected Item\'s Properties";
-            this.editItemToolStripMenuItem.Click += new System.EventHandler(this.editItemToolStripMenuItem_Click);
-            // 
-            // copySelectedItemToolStripMenuItem
-            // 
-            this.copySelectedItemToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("copySelectedItemToolStripMenuItem.Image")));
-            this.copySelectedItemToolStripMenuItem.Name = "copySelectedItemToolStripMenuItem";
-            this.copySelectedItemToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
-            this.copySelectedItemToolStripMenuItem.Text = "Copy Selected Item";
-            this.copySelectedItemToolStripMenuItem.ToolTipText = "Copy selected item to new item number";
-            this.copySelectedItemToolStripMenuItem.Click += new System.EventHandler(this.copySelectedItemToolStripMenuItem_Click);
-            // 
-            // viewReportBOM
-            // 
-            this.viewReportBOM.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.billsOfMaunfacturingToolStripMenuItem,
-            this.sparePartsToolStripMenuItem});
-            this.viewReportBOM.Image = ((System.Drawing.Image)(resources.GetObject("viewReportBOM.Image")));
-            this.viewReportBOM.Name = "viewReportBOM";
-            this.viewReportBOM.Size = new System.Drawing.Size(176, 22);
-            this.viewReportBOM.Text = "View Report (BOM)";
-            this.viewReportBOM.ToolTipText = "View BOM Report";
-            // 
-            // billsOfMaunfacturingToolStripMenuItem
-            // 
-            this.billsOfMaunfacturingToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("billsOfMaunfacturingToolStripMenuItem.Image")));
-            this.billsOfMaunfacturingToolStripMenuItem.Name = "billsOfMaunfacturingToolStripMenuItem";
-            this.billsOfMaunfacturingToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
-            this.billsOfMaunfacturingToolStripMenuItem.Text = "Bills of Maunfacturing";
-            this.billsOfMaunfacturingToolStripMenuItem.ToolTipText = "Preview Bills Of Manufacturing Report";
-            this.billsOfMaunfacturingToolStripMenuItem.Click += new System.EventHandler(this.billsOfMaunfacturingToolStripMenuItem_Click);
-            // 
-            // sparePartsToolStripMenuItem
-            // 
-            this.sparePartsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("sparePartsToolStripMenuItem.Image")));
-            this.sparePartsToolStripMenuItem.Name = "sparePartsToolStripMenuItem";
-            this.sparePartsToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
-            this.sparePartsToolStripMenuItem.Text = "Spare Parts";
-            this.sparePartsToolStripMenuItem.ToolTipText = "Preview Spare Parts Report";
-            this.sparePartsToolStripMenuItem.Click += new System.EventHandler(this.sparePartsToolStripMenuItem_Click);
-            // 
-            // deleteItemToolStripMenuItem
-            // 
-            this.deleteItemToolStripMenuItem.Enabled = false;
-            this.deleteItemToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("deleteItemToolStripMenuItem.Image")));
-            this.deleteItemToolStripMenuItem.Name = "deleteItemToolStripMenuItem";
-            this.deleteItemToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
-            this.deleteItemToolStripMenuItem.Text = "Delete Item";
-            this.deleteItemToolStripMenuItem.ToolTipText = "Delete Selected Item From Connect";
-            this.deleteItemToolStripMenuItem.Visible = false;
-            this.deleteItemToolStripMenuItem.Click += new System.EventHandler(this.deleteItemToolStripMenuItem_Click);
+            this.recordlabel.AutoSize = true;
+            this.recordlabel.Font = new System.Drawing.Font("Maiandra GD", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.recordlabel.ForeColor = System.Drawing.Color.White;
+            this.recordlabel.Location = new System.Drawing.Point(840, 85);
+            this.recordlabel.Name = "recordlabel";
+            this.recordlabel.Size = new System.Drawing.Size(0, 14);
+            this.recordlabel.TabIndex = 101;
             // 
             // SPM_Connect
             // 
@@ -659,8 +659,8 @@ namespace SearchDataSPM
             this.FormSelector.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.inventoryBindingSource3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sPM_DatabaseDataSet)).EndInit();
-            this.Listviewcontextmenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.Listviewcontextmenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
