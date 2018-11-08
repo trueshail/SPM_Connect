@@ -60,8 +60,6 @@ namespace SearchDataSPM
 
         private void SPM_Connect_Load(object sender, EventArgs e)
         {
-            CheckManagement();
-            Checkdeveloper();
             Showallitems();
             txtSearch.Text = jobnumber;
             SendKeys.Send("~");
@@ -538,83 +536,8 @@ namespace SearchDataSPM
         {
             System.Diagnostics.Process.Start("http://www.spm-automation.com/");
         }
-
-        private void CheckManagement()
-        {
-            string useradmin = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND Management = '1'", cn))
-            {
-                try
-                {
-                    cn.Open();
-                    sqlCommand.Parameters.AddWithValue("@username", useradmin);
-
-                    int userCount = (int)sqlCommand.ExecuteScalar();
-                    if (userCount == 1)
-                    {
-
-                        
-                    }
-                    else
-                    {
-
-
-                        
-                    }
-
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Application.Exit();
-                }
-                finally
-                {
-                    cn.Close();
-                }
-
-            }
-        }
-
-        private void Checkdeveloper()
-        {
-            string useradmin = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND Developer = '1'", cn))
-            {
-                try
-                {
-                    cn.Open();
-                    sqlCommand.Parameters.AddWithValue("@username", useradmin);
-
-                    int userCount = (int)sqlCommand.ExecuteScalar();
-                    if (userCount == 1)
-                    {
-                       
-
-                    }
-                    else
-                    {
-                       
-                    }
-
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Application.Exit();
-                }
-                finally
-                {
-                    cn.Close();
-                }
-
-            }
-        }
-
-
-            #endregion
+        
+        #endregion
 
         #region datagridview events
 
