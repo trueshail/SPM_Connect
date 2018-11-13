@@ -546,12 +546,14 @@ namespace SearchDataSPM
                     {
 
                         CreateFolderButton.Visible = true;
+                        contextMenuStrip1.Items[3].Enabled = true;
+                        contextMenuStrip1.Items[3].Visible = true;
                     }
                     else
                     {
-
-
                         CreateFolderButton.Visible = false;
+                        contextMenuStrip1.Items[3].Enabled = false;
+                        contextMenuStrip1.Items[3].Visible = false;
                     }
 
                 }
@@ -1012,7 +1014,11 @@ namespace SearchDataSPM
 
         private void CreateFolderButton_Click(object sender, EventArgs e)
         {
+            createfolders();           
+        }
 
+        void createfolders()
+        {
             string jobnumber = getjobnumber().ToString();
             string jobdescription = getjobdescription().ToString();
             string customer = getcustomeralias(getcutomerid().ToString()).ToString();
@@ -1215,6 +1221,11 @@ namespace SearchDataSPM
             SPM_ConnectWM sPM_ConnectWM = new SPM_ConnectWM();
             sPM_ConnectWM.getjobnumber(getselectedjobnumber());
             sPM_ConnectWM.Show();
+        }
+
+        private void createFoldersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            createfolders();
         }
     }
 }

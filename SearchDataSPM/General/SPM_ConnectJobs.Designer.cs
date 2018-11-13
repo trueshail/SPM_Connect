@@ -48,6 +48,7 @@
             this.purchasereq = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.CreateFolderButton = new System.Windows.Forms.Button();
+            this.createFoldersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -102,15 +103,16 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.getBOMToolStripMenuItem,
             this.projectEngineeringToolStripMenuItem,
-            this.getWorkOrderToolStripMenuItem});
+            this.getWorkOrderToolStripMenuItem,
+            this.createFoldersToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(178, 70);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 114);
             // 
             // getBOMToolStripMenuItem
             // 
             this.getBOMToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("getBOMToolStripMenuItem.Image")));
             this.getBOMToolStripMenuItem.Name = "getBOMToolStripMenuItem";
-            this.getBOMToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.getBOMToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.getBOMToolStripMenuItem.Text = "Get BOM";
             this.getBOMToolStripMenuItem.ToolTipText = "Get Selected Job\'s BOM";
             this.getBOMToolStripMenuItem.Click += new System.EventHandler(this.getBOMToolStripMenuItem_Click);
@@ -121,7 +123,7 @@
             this.remapToolStripMenuItem});
             this.projectEngineeringToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("projectEngineeringToolStripMenuItem.Image")));
             this.projectEngineeringToolStripMenuItem.Name = "projectEngineeringToolStripMenuItem";
-            this.projectEngineeringToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.projectEngineeringToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.projectEngineeringToolStripMenuItem.Text = "Project Engineering";
             this.projectEngineeringToolStripMenuItem.ToolTipText = "Open Project Eng Folder";
             this.projectEngineeringToolStripMenuItem.Click += new System.EventHandler(this.projectEngineeringToolStripMenuItem_Click);
@@ -139,7 +141,7 @@
             // 
             this.getWorkOrderToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("getWorkOrderToolStripMenuItem.Image")));
             this.getWorkOrderToolStripMenuItem.Name = "getWorkOrderToolStripMenuItem";
-            this.getWorkOrderToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.getWorkOrderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.getWorkOrderToolStripMenuItem.Text = "Get Work Order";
             this.getWorkOrderToolStripMenuItem.Click += new System.EventHandler(this.getWorkOrderToolStripMenuItem_Click);
             // 
@@ -313,6 +315,15 @@
             this.CreateFolderButton.UseVisualStyleBackColor = true;
             this.CreateFolderButton.Click += new System.EventHandler(this.CreateFolderButton_Click);
             // 
+            // createFoldersToolStripMenuItem
+            // 
+            this.createFoldersToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("createFoldersToolStripMenuItem.Image")));
+            this.createFoldersToolStripMenuItem.Name = "createFoldersToolStripMenuItem";
+            this.createFoldersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.createFoldersToolStripMenuItem.Text = "Create Folders";
+            this.createFoldersToolStripMenuItem.ToolTipText = "Create Folders For Selected Job";
+            this.createFoldersToolStripMenuItem.Click += new System.EventHandler(this.createFoldersToolStripMenuItem_Click);
+            // 
             // SPM_ConnectJobs
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -363,6 +374,7 @@
         private System.Windows.Forms.Button CreateFolderButton;
         private System.Windows.Forms.Button purchasereq;
         private System.Windows.Forms.ToolStripMenuItem getWorkOrderToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem createFoldersToolStripMenuItem;
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member 'SPM_Connect.txtSearch'
     }
 }
