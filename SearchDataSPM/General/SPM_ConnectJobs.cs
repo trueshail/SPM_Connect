@@ -10,6 +10,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -1045,22 +1046,22 @@ namespace SearchDataSPM
 
             if (ValueIWantFromProptForm == "project")
             {
-                sourcepathseng = @"\\spm-adfs\SPM\S500 Engineering\Project_Engineering_Info\XXXXX_CUSTOMER_Job Name";
-                destpatheng = @"\\spm-adfs\SPM\S500 Engineering\Project_Engineering_Info\" + jobnumber + "_" + customer + "_" + jobdescription;
+                sourcepathseng = @"\\spm-adfs\SPM\G500 Engineering\Project Engineering Info\XXXXX_CUSTOMER_Job Name";
+                destpatheng = @"\\spm-adfs\SPM\G500 Engineering\Project Engineering Info\" + jobnumber + "_" + customer + "_" + jobdescription;
                 sourcepaths300 = @"\\spm-adfs\SPM\S300 Sales and Project Management\Project Management - Financial\XXXXX_CUSTOMER_JOB NAME";
                 destpaths300 = @"\\spm-adfs\SPM\S300 Sales and Project Management\Project Management - Financial\Genius Job numbers\" + jobnumber + "_" + customer + "_" + jobdescription;
             }
             else if (ValueIWantFromProptForm == "spare")
             {
-                sourcepathseng = @"\\spm-adfs\SPM\S500 Engineering\Project_Engineering_Info\XXXXX_CUSTOMER_Spare Parts_Job Name";
-                destpatheng = @"\\spm-adfs\SPM\S500 Engineering\Project_Engineering_Info\" + jobnumber + "_" + customer + "_Spare Parts" + "_" + jobdescription;
+                sourcepathseng = @"\\spm-adfs\SPM\G500 Engineering\Project Engineering Info\XXXXX_CUSTOMER_Spare Parts_Job Name";
+                destpatheng = @"\\spm-adfs\SPM\G500 Engineering\Project Engineering Info\" + jobnumber + "_" + customer + "_Spare Parts" + "_" + jobdescription;
                 sourcepaths300 = @"\\spm-adfs\SPM\S300 Sales and Project Management\Project Management - Financial\XXXXX_CUSTOMER_Spare Parts";
                 destpaths300 = @"\\spm-adfs\SPM\S300 Sales and Project Management\Project Management - Financial\Genius Job numbers\" + jobnumber + "_" + customer + "_Spare Parts" + "_" + jobdescription;
             }
             else if (ValueIWantFromProptForm == "service")
             {
-                sourcepathseng = @"\\spm-adfs\SPM\S500 Engineering\Project_Engineering_Info\XXXXX_CUSTOMER_Service_Job Name";
-                destpatheng = @"\\spm-adfs\SPM\S500 Engineering\Project_Engineering_Info\" + jobnumber + "_" + customer + "_Service" + "_" + jobdescription;
+                sourcepathseng = @"\\spm-adfs\SPM\G500 Engineering\Project Engineering Info\XXXXX_CUSTOMER_Service_Job Name";
+                destpatheng = @"\\spm-adfs\SPM\G500 Engineering\Project Engineering Info\" + jobnumber + "_" + customer + "_Service" + "_" + jobdescription;
                 sourcepaths300 = @"\\spm-adfs\SPM\S300 Sales and Project Management\Project Management - Financial\XXXXX_CUSTOMER_Service";
                 destpaths300 = @"\\spm-adfs\SPM\S300 Sales and Project Management\Project Management - Financial\Genius Job numbers\" + jobnumber + "_" + customer + "_Service" + "_" + jobdescription;
             }
@@ -1109,6 +1110,10 @@ namespace SearchDataSPM
                 DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
                 jobdescription = Convert.ToString(slectedrow.Cells[3].Value);
                 //MessageBox.Show(ItemNo);
+
+                Regex reg = new Regex("[*'\"/,_&#^@]");
+                jobdescription = reg.Replace(jobdescription, "-");
+                jobdescription=System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(jobdescription.ToLower());
                 return jobdescription;
             }
             else

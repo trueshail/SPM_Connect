@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace SearchDataSPM
 {
-    public partial class JobType : Form
+    public partial class JobType:MetroFramework.Forms.MetroForm
     {
         public JobType()
         {
