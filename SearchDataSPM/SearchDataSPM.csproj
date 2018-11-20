@@ -100,11 +100,22 @@
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="eDrawingHostControl">
+      <HintPath>C:\Users\spatel.SPM\Desktop\New folder\HostControl\bin\Debug\eDrawingHostControl.dll</HintPath>
+    </Reference>
+    <Reference Include="EModelView">
+      <HintPath>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\x64\EModelView.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.EModelView">
+      <HintPath>C:\Users\spatel.SPM\Desktop\New folder\HostControl\bin\Debug\Interop.EModelView.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="MetroFramework, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
       <HintPath>..\packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.dll</HintPath>
@@ -275,6 +286,12 @@
     </Compile>
     <Compile Include="Customer.cs">
       <DependentUpon>ConnectCustomers.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Edrawings\EModelViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Edrawings\EModelViewer.Designer.cs">
+      <DependentUpon>EModelViewer.cs</DependentUpon>
     </Compile>
     <Compile Include="Engineering\ImportFileSelector.cs">
       <SubType>Form</SubType>
@@ -491,6 +508,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Admin-developer\Customers.resx">
       <DependentUpon>Customers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Edrawings\EModelViewer.resx">
+      <DependentUpon>EModelViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Engineering\ImportFileSelector.resx">
       <DependentUpon>ImportFileSelector.cs</DependentUpon>
@@ -1028,17 +1048,6 @@
       <IncludeHash>True</IncludeHash>
       <FileType>Assembly</FileType>
     </PublishFile>
-  </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="EModelView">
-      <Guid>{980C1529-399F-4F0A-8FB5-2B16E32EFDA9}</Guid>
-      <VersionMajor>17</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

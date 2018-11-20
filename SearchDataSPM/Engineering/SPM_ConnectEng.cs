@@ -180,7 +180,7 @@ namespace SearchDataSPM
                     SearchStringPosition(txtSearch.Text);
                     searchtext(txtSearch.Text);
                 }
-                
+
                 e.Handled = true;
                 e.SuppressKeyPress = true;
 
@@ -189,8 +189,8 @@ namespace SearchDataSPM
 
         private void clearandhide()
         {
-            
-            
+
+
             Descrip_txtbox.Hide();
             Descrip_txtbox.Clear();
             filteroem_txtbox.Hide();
@@ -232,7 +232,7 @@ namespace SearchDataSPM
                         search1 = search1.Replace("'", "''");
                         search1 = search1.Replace("[", "[[]");
                         dv.RowFilter = string.Format(fullsearch1, search1);
-                        
+
                         table0 = dv.ToTable();
                         dataGridView.DataSource = dv;
                         dataGridView.Update();
@@ -261,7 +261,7 @@ namespace SearchDataSPM
                         search1 = search1.Replace("'", "''");
                         search1 = search1.Replace("[", "[[]");
                         dv.RowFilter = string.Format(fullsearch, search1);
-                        
+
                         table0 = dv.ToTable();
                         dataGridView.DataSource = dv;
                         dataGridView.Update();
@@ -291,7 +291,7 @@ namespace SearchDataSPM
                     search1 = search1.Replace("'", "''");
                     search1 = search1.Replace("[", "[[]");
                     dv.RowFilter = string.Format(fullsearch, search1);
-                    
+
                     table0 = dv.ToTable();
                     dataGridView.DataSource = dv;
                     dataGridView.Update();
@@ -868,7 +868,7 @@ namespace SearchDataSPM
 
         private void label1_DoubleClick(object sender, EventArgs e)
         {
-            
+
         }
 
         private void SPM_DoubleClick(object sender, EventArgs e)
@@ -1127,7 +1127,7 @@ namespace SearchDataSPM
             {
 
             }
-           
+
         }
 
         #endregion
@@ -1223,7 +1223,7 @@ namespace SearchDataSPM
             {
 
             }
-         
+
 
         }
 
@@ -1254,7 +1254,7 @@ namespace SearchDataSPM
             {
 
             }
-            
+
         }
 
         #endregion
@@ -1380,7 +1380,7 @@ namespace SearchDataSPM
 
                 }
             }
-            
+
         }
 
         List<string> listFiles = new List<string>();
@@ -1749,16 +1749,16 @@ namespace SearchDataSPM
             if (lastnumber.Substring(2) == "000")
             {
                 string lastnumbergrp1 = blocknumber.Substring(0, 1).ToUpper();
-                 uniqueid = lastnumbergrp1 + lastnumber.ToString();
-              
+                uniqueid = lastnumbergrp1 + lastnumber.ToString();
+
             }
             else
             {
                 string lastnumbergrp = blocknumber.Substring(0, 1).ToUpper();
                 int lastnumbers = Convert.ToInt32(lastnumber);
                 lastnumbers += 1;
-                 uniqueid = lastnumbergrp + lastnumbers.ToString();
-                
+                uniqueid = lastnumbergrp + lastnumbers.ToString();
+
             }
             //string lastnumbergrp = blocknumber.Substring(0, 1).ToUpper();
             //int lastnumbers = Convert.ToInt32(lastnumber);
@@ -1950,7 +1950,7 @@ namespace SearchDataSPM
             {
                 cn.Close();
             }
-            return blocknumber.Substring(1) + "000"; 
+            return blocknumber.Substring(1) + "000";
         }
 
         private object getuserfullname(string username)
@@ -2454,7 +2454,7 @@ namespace SearchDataSPM
 
         void perfomcopybuttonclick(string item)
         {
-            DialogResult result = MessageBox.Show("Are you sure want to copy item no. "+item +" to a new item?", "SPM Connect - Copy Item?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MessageBox.Show("Are you sure want to copy item no. " + item + " to a new item?", "SPM Connect - Copy Item?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
 
             if (result == DialogResult.Yes)
@@ -2469,7 +2469,7 @@ namespace SearchDataSPM
                     {
                         new Thread(() => new Engineering.WaitFormCopying().ShowDialog()).Start();
                         //Thread.Sleep(3000);
-                        prepareforcopy(activeblock.ToString(),item);
+                        prepareforcopy(activeblock.ToString(), item);
                     }
                     else
                     {
@@ -2503,8 +2503,8 @@ namespace SearchDataSPM
                         }
                         else
                         {
-                            copy(Pathpart,selecteditem);
-                            aftercopy(activeblock,selecteditem);
+                            copy(Pathpart, selecteditem);
+                            aftercopy(activeblock, selecteditem);
                         }
 
                     }
@@ -2513,8 +2513,8 @@ namespace SearchDataSPM
                 else
                 {
                     spmnew_id(activeblock.ToString());
-                    copy(Pathpart,selecteditem);
-                    aftercopy(activeblock,selecteditem);
+                    copy(Pathpart, selecteditem);
+                    aftercopy(activeblock, selecteditem);
                 }
 
             }
@@ -2522,12 +2522,12 @@ namespace SearchDataSPM
             {
                 //addblockcolumn(activeblock.ToString());
                 spmnew_id(activeblock.ToString());
-                copy(Pathpart,selecteditem);
-                aftercopy(activeblock,selecteditem);
+                copy(Pathpart, selecteditem);
+                aftercopy(activeblock, selecteditem);
             }
         }
 
-        private void aftercopy(string activeblock,string selecteditem)
+        private void aftercopy(string activeblock, string selecteditem)
         {
             if (sucessreplacingreference == true)
             {
@@ -2836,7 +2836,7 @@ namespace SearchDataSPM
 
         private void billsOfMaunfacturingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            prorcessreportbom(getitemnumberselected(),"BOM");
+            prorcessreportbom(getitemnumberselected(), "BOM");
         }
 
         private void sparePartsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2846,29 +2846,29 @@ namespace SearchDataSPM
 
         private void SPM_Connect_FormClosing(object sender, FormClosingEventArgs e)
         {
-           //int openforms =  Application.OpenForms.Count;
-           // if (openforms > 2)
-           // {
-           //     e.Cancel = true;
-           //     ListOpenWindows frm2 = new ListOpenWindows();
+            //int openforms =  Application.OpenForms.Count;
+            // if (openforms > 2)
+            // {
+            //     e.Cancel = true;
+            //     ListOpenWindows frm2 = new ListOpenWindows();
 
-           //     foreach (Form frm in Application.OpenForms)
-           //     {
-           //         if(frm.Name.ToString() == "SPM_Connect" || frm.Name.ToString() == "SPM_ConnectHome")
-           //         {
+            //     foreach (Form frm in Application.OpenForms)
+            //     {
+            //         if(frm.Name.ToString() == "SPM_Connect" || frm.Name.ToString() == "SPM_ConnectHome")
+            //         {
 
-           //         }
-           //         else
-           //         {
-           //             frm2.listBox1.Items.Add(frm.Text.ToString());
-           //         }
-           //     }                
-           //     if (frm2.ShowDialog(this) == DialogResult.OK)
-           //     {
-           //     }
-           //     frm2.Close();
-           //     frm2.Dispose();
-           // }
+            //         }
+            //         else
+            //         {
+            //             frm2.listBox1.Items.Add(frm.Text.ToString());
+            //         }
+            //     }                
+            //     if (frm2.ShowDialog(this) == DialogResult.OK)
+            //     {
+            //     }
+            //     frm2.Close();
+            //     frm2.Dispose();
+            // }
         }
 
         private void copySelectedItemToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2879,6 +2879,8 @@ namespace SearchDataSPM
         private void pictureBox1_DoubleClick(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("http://www.spm-automation.com/");
+            //Edrawings.EModelViewer modelViewer = new Edrawings.EModelViewer();
+            //modelViewer.Show();
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
@@ -2901,7 +2903,7 @@ namespace SearchDataSPM
                 perfomcopybuttonclick(txt);
 
             }
-            
+
         }
     }
 
