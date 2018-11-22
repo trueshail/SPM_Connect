@@ -69,7 +69,6 @@
             this.getnewitembttn = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.recordlabel = new System.Windows.Forms.Label();
-            this.timer2 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.FormSelector.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.inventoryBindingSource3)).BeginInit();
@@ -195,13 +194,13 @@
             this.viewReportBOM});
             this.FormSelector.Name = "contextMenuStrip1";
             this.FormSelector.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.FormSelector.Size = new System.Drawing.Size(181, 136);
+            this.FormSelector.Size = new System.Drawing.Size(176, 114);
             // 
             // addToCatalogToolStripMenuItem
             // 
             this.addToCatalogToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("addToCatalogToolStripMenuItem.Image")));
             this.addToCatalogToolStripMenuItem.Name = "addToCatalogToolStripMenuItem";
-            this.addToCatalogToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.addToCatalogToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.addToCatalogToolStripMenuItem.Text = "Add To Catalog";
             this.addToCatalogToolStripMenuItem.Click += new System.EventHandler(this.addToCatalogToolStripMenuItem_Click);
             // 
@@ -209,7 +208,7 @@
             // 
             this.createAssemblyToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("createAssemblyToolStripMenuItem.Image")));
             this.createAssemblyToolStripMenuItem.Name = "createAssemblyToolStripMenuItem";
-            this.createAssemblyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.createAssemblyToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.createAssemblyToolStripMenuItem.Text = "Create Assembly";
             this.createAssemblyToolStripMenuItem.Click += new System.EventHandler(this.createAssemblyToolStripMenuItem_Click);
             // 
@@ -220,7 +219,7 @@
             this.geniusToolStripMenuItem});
             this.bOMToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("bOMToolStripMenuItem.Image")));
             this.bOMToolStripMenuItem.Name = "bOMToolStripMenuItem";
-            this.bOMToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.bOMToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.bOMToolStripMenuItem.Text = "BOM";
             this.bOMToolStripMenuItem.ToolTipText = "Bills Of Material";
             this.bOMToolStripMenuItem.Click += new System.EventHandler(this.bOMToolStripMenuItem_Click);
@@ -250,7 +249,7 @@
             this.geniusJobsToolStripMenuItem});
             this.whereUsedToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("whereUsedToolStripMenuItem.Image")));
             this.whereUsedToolStripMenuItem.Name = "whereUsedToolStripMenuItem";
-            this.whereUsedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.whereUsedToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.whereUsedToolStripMenuItem.Text = "Where Used";
             this.whereUsedToolStripMenuItem.ToolTipText = "Check Where Used";
             // 
@@ -279,7 +278,7 @@
             this.sparePartsToolStripMenuItem});
             this.viewReportBOM.Image = ((System.Drawing.Image)(resources.GetObject("viewReportBOM.Image")));
             this.viewReportBOM.Name = "viewReportBOM";
-            this.viewReportBOM.Size = new System.Drawing.Size(180, 22);
+            this.viewReportBOM.Size = new System.Drawing.Size(175, 22);
             this.viewReportBOM.Text = "View Report (BOM)";
             this.viewReportBOM.ToolTipText = "View BOM Report";
             // 
@@ -538,10 +537,6 @@
             this.recordlabel.Size = new System.Drawing.Size(0, 14);
             this.recordlabel.TabIndex = 103;
             // 
-            // timer2
-            // 
-            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
-            // 
             // SPM_ConnectControls
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -613,7 +608,6 @@
         private System.Windows.Forms.Button jobsbttn;
         private System.Windows.Forms.Label recordlabel;
         private System.Windows.Forms.Button getnewitembttn;
-        public System.Windows.Forms.Timer timer2;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ToolStripMenuItem viewReportBOM;
         private System.Windows.Forms.ToolStripMenuItem billsOfMaunfacturingToolStripMenuItem;

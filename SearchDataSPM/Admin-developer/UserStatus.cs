@@ -17,6 +17,7 @@ namespace SearchDataSPM.Admin_developer
        
         SqlConnection cn;
         String connection;
+        DataTable dt;
 
         public UserStatus()
         {
@@ -30,49 +31,45 @@ namespace SearchDataSPM.Admin_developer
             }
             catch (Exception)
             {
-
-                //MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 MessageBox.Show("Error Connecting to SQL Server.....", "SPM Connect - ENG", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
-                //Environment.Exit(0);
 
             }
-
+            dt = new DataTable();
         }
 
         private void UserStatus_Load(object sender, EventArgs e)
         {
-            Checkdeveloper();
+           // Checkdeveloper();
             loaddata();
         }
 
-
         private void loaddata()
         {
-            System.IO.StreamReader file = new System.IO.StreamReader(@"\\spm-adfs\SDBASE\SPM_Connect_User_Logs\chekin.txt");
-            string[] columnnames = (@"Login, Apllication Running, User").Split(',');
-            DataTable dt = new DataTable();
-            foreach (string c in columnnames)
+            try
             {
-                dt.Columns.Add(c);
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[Checkin] ORDER BY [Last Login] DESC", cn);
+
+                dt.Clear();
+                sda.Fill(dt);
+                dataGridView1.DataSource = dt;
+                dataGridView1.Columns[0].Width = 160;
+                dataGridView1.Columns[1].Width = 200;
+                dataGridView1.Columns[2].Width = 150;
+                UpdateFont();
             }
-            string newline;
-            while ((newline = file.ReadLine()) != null)
+            catch (Exception)
             {
-                DataRow dr = dt.NewRow();
-                string[] values = newline.Split(',');
-                for (int i = 0; i < values.Length; i++)
-                {
-                    dr[i] = values[i];
-                }
-                dt.Rows.Add(dr);
+                MessageBox.Show("Data cannot be retrieved from server. Please contact the admin.", "SPM Connect - SQL SERVER UserStatus", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Application.Exit();
             }
-            file.Close();
-            dataGridView1.DataSource = dt;
-            dataGridView1.Columns[0].Width = 160;
-            dataGridView1.Columns[1].Width = 200;
-            dataGridView1.Columns[2].Width = 150;
-            UpdateFont();
+            finally
+            {
+                cn.Close();
+            }
         }
 
         private void UpdateFont()
@@ -85,100 +82,84 @@ namespace SearchDataSPM.Admin_developer
             dataGridView1.DefaultCellStyle.SelectionBackColor = Color.Black;
         }
 
+        //private void Checkdeveloper()
+        //{
+        //    string useradmin = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
 
-        private void Checkdeveloper()
-        {
-            string useradmin = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+        //    using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND Developer = '1'", cn))
+        //    {
+        //        try
+        //        {
+        //            cn.Open();
+        //            sqlCommand.Parameters.AddWithValue("@username", useradmin);
 
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND Developer = '1'", cn))
-            {
-                try
-                {
-                    cn.Open();
-                    sqlCommand.Parameters.AddWithValue("@username", useradmin);
-
-                    int userCount = (int)sqlCommand.ExecuteScalar();
-                    if (userCount == 1)
-                    {
-                        dataGridView1.ContextMenuStrip = Listviewcontextmenu;
-                        Listviewcontextmenu.Enabled = true;
-                        Listviewcontextmenu.Visible = true;
+        //            int userCount = (int)sqlCommand.ExecuteScalar();
+        //            if (userCount == 1)
+        //            {
+        //                dataGridView1.ContextMenuStrip = Listviewcontextmenu;
+        //                Listviewcontextmenu.Enabled = true;
+        //                Listviewcontextmenu.Visible = true;
                     
-                    }
-                    else
-                    {
-                        dataGridView1.ContextMenuStrip = null;
-                        Listviewcontextmenu.Enabled = false;
-                        Listviewcontextmenu.Visible = false;
+        //            }
+        //            else
+        //            {
+        //                dataGridView1.ContextMenuStrip = null;
+        //                Listviewcontextmenu.Enabled = false;
+        //                Listviewcontextmenu.Visible = false;
 
-                    }
+        //            }
 
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Application.Exit();
-                }
-                finally
-                {
-                    cn.Close();
-                }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //            Application.Exit();
+        //        }
+        //        finally
+        //        {
+        //            cn.Close();
+        //        }
 
-            }
+        //    }
 
-        }
+        //}
 
         private void freeuser_Click(object sender, EventArgs e)
         {
 
-            string userName = getuserselected().Trim();
-            string LinesToDelete = userName;
-            var Lines = File.ReadAllLines(@"\\spm-adfs\SDBASE\SPM_Connect_User_Logs\chekin.txt");
-            var newLines = Lines.Where(line => !line.Contains(LinesToDelete));
-            File.WriteAllLines(@"\\spm-adfs\SDBASE\SPM_Connect_User_Logs\chekin.txt", newLines);
-            //dataGridView1.Rows.Clear();
-            //dataGridView1.Refresh();
-            //loaddata();
+        //    string userName = getuserselected().Trim();
+        //    string LinesToDelete = userName;
+        //    var Lines = File.ReadAllLines(@"\\spm-adfs\SDBASE\SPM_Connect_User_Logs\chekin.txt");
+        //    var newLines = Lines.Where(line => !line.Contains(LinesToDelete));
+        //    File.WriteAllLines(@"\\spm-adfs\SDBASE\SPM_Connect_User_Logs\chekin.txt", newLines);
+        //    //dataGridView1.Rows.Clear();
+        //    //dataGridView1.Refresh();
+        //    //loaddata();
             
         }
 
-        private String getuserselected()
-        {
-            int selectedclmindex = dataGridView1.SelectedCells[0].ColumnIndex;
-            DataGridViewColumn columnchk = dataGridView1.Columns[selectedclmindex];
-            string c = Convert.ToString(columnchk.Index);
-            //MessageBox.Show(c);
-            string item;
-            if (dataGridView1.SelectedRows.Count == 1 || dataGridView1.SelectedCells.Count == 1)
-            {
-                int selectedrowindex = dataGridView1.SelectedCells[0].RowIndex;
-                DataGridViewRow slectedrow = dataGridView1.Rows[selectedrowindex];
-                item = Convert.ToString(slectedrow.Cells[2].Value);
-                //MessageBox.Show(ItemNo);
-                return item;
-            }
-            else
-            {
-                item = "";
-                return item;
-            }
-        }
+        //private String getuserselected()
+        //{
+        //    int selectedclmindex = dataGridView1.SelectedCells[0].ColumnIndex;
+        //    DataGridViewColumn columnchk = dataGridView1.Columns[selectedclmindex];
+        //    string c = Convert.ToString(columnchk.Index);
+        //    //MessageBox.Show(c);
+        //    string item;
+        //    if (dataGridView1.SelectedRows.Count == 1 || dataGridView1.SelectedCells.Count == 1)
+        //    {
+        //        int selectedrowindex = dataGridView1.SelectedCells[0].RowIndex;
+        //        DataGridViewRow slectedrow = dataGridView1.Rows[selectedrowindex];
+        //        item = Convert.ToString(slectedrow.Cells[2].Value);
+        //        //MessageBox.Show(ItemNo);
+        //        return item;
+        //    }
+        //    else
+        //    {
+        //        item = "";
+        //        return item;
+        //    }
+        //}
 
-        private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (e.RowIndex == -1) return;
 
-            DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
-
-            if (e.Button == MouseButtons.Right)
-            {
-
-                int columnindex = e.RowIndex;
-                dataGridView1.ClearSelection();
-                dataGridView1.Rows[columnindex].Selected = true;
-
-            }
-
-        }
     }
 }

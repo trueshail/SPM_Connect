@@ -30,7 +30,6 @@ namespace SearchDataSPM
         String connection;
         SqlConnection cn;
         DataTable dt;
-        Stopwatch stopwatch = new Stopwatch();
 
         public SPM_ConnectProduction()
 
@@ -44,11 +43,8 @@ namespace SearchDataSPM
             }
             catch (Exception)
             {
-
-                //MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 MessageBox.Show("Error Connecting to SQL Server.....", "SPM Connect - Production", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
-                Environment.Exit(0);
 
             }
             dt = new DataTable();
@@ -66,12 +62,9 @@ namespace SearchDataSPM
             string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
             checkadmin();
             this.Text = "SPM Connect Production - " + userName.ToString().Substring(4);
-            Log(string.Format("{0} - Opened by - {1}", "SPM Connect Production", userName));
-            chekin(string.Format("{0} , {1} ", "SPM Connect Production", userName));
-            //GetAllControls(this).OfType<Button>().ToList()
-            //    .ForEach(x => x.Click += ButtonClick);
-            stopwatch.Start();
-            timer2.Start();
+            chekin("SPM Connect Production", userName);
+            txtSearch.Focus();
+            
         }
 
         private void Showallitems()
@@ -1008,85 +1001,62 @@ namespace SearchDataSPM
 
         private void SPM_ConnectProduction_FormClosed(object sender, FormClosedEventArgs e)
         {
-            try
-            {
-                string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-                Log(string.Format("{0} - Closed by - {1}", "SPM Connect Production", userName));
-                stopwatch.Stop();
-                Log(string.Format("Session Time : {0:hh\\:mm\\:ss}", stopwatch.Elapsed));
-
-                string LinesToDelete = userName;
-                var Lines = File.ReadAllLines(@"\\spm-adfs\SDBASE\SPM_Connect_User_Logs\chekin.txt");
-                var newLines = Lines.Where(line => !line.Contains(LinesToDelete));
-                File.WriteAllLines(@"\\spm-adfs\SDBASE\SPM_Connect_User_Logs\chekin.txt", newLines);
-            }
-            catch
-            {
-
-            }
-            
+            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+            checkout(userName);
         }
 
         #endregion
 
         #region UserLogs
 
-        public void Log(string text)
+        private void chekin(string applicationname, string username)
         {
+            DateTime datecreated = DateTime.Now;
+            string sqlFormattedDate = datecreated.ToString("dd-MM-yyyy HH:mm tt");
+            if (cn.State == ConnectionState.Closed)
+                cn.Open();
             try
             {
-                DateTime datecreated = DateTime.Now;
-                string sqlFormattedDate = datecreated.ToString("yyyy-MM-dd HH:mm:ss.fff");
-                string filename = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Substring(4) + @"-logs.txt";
-                string filepath = @"\\spm-adfs\SDBASE\SPM_Connect_User_Logs\";
-                (new FileInfo(filepath)).Directory.Create();
-                var file = System.IO.Path.Combine(@"\\spm-adfs\SDBASE\SPM_Connect_User_Logs\", filename);
-                text = string.Format("{0} - {1}", sqlFormattedDate, text);
-                System.IO.File.AppendAllLines(file, new string[] { text });
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Checkin] ([Last Login],[Application Running],[User Name]) VALUES('" + sqlFormattedDate + "', '" + applicationname + "', '" + username + "')";
+                cmd.ExecuteNonQuery();
+                cn.Close();
+                //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
             }
-            catch
+            catch (Exception ex)
             {
-
+                MessageBox.Show(ex.Message, "SPM Connect - User Chechin", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            finally
+            {
+                cn.Close();
+            }
+
         }
 
-        private IEnumerable<Control> GetAllControls(Control control)
+        private void checkout(string username)
         {
-            var controls = control.Controls.Cast<Control>();
-            return controls.SelectMany(ctrl => GetAllControls(ctrl)).Concat(controls);
-        }
-
-        void ButtonClick(object sender, EventArgs e)
-        {
-            var button = sender as Button;
-            if (button != null) Log(string.Format("{0} Clicked", button.Name));
-        }
-
-        public void chekin(string text)
-        {
+            DateTime datecreated = DateTime.Now;
+            string sqlFormattedDate = datecreated.ToString("dd-MM-yyyy HH:mm tt");
+            if (cn.State == ConnectionState.Closed)
+                cn.Open();
             try
             {
-                DateTime datecreated = DateTime.Now;
-                string sqlFormattedDate = datecreated.ToString("dd-MM-yyyy HH:mm:ss.fff");
-
-                if (File.Exists(@"\\spm-adfs\SDBASE\SPM_Connect_User_Logs\chekin.txt"))
-                {
-                    string filename = "chekin.txt";
-                    var file = System.IO.Path.Combine(@"\\spm-adfs\SDBASE\SPM_Connect_User_Logs\", filename);
-                    text = string.Format("{0} , {1}", sqlFormattedDate, text);
-                    System.IO.File.AppendAllLines(file, new string[] { text });
-                }
-                else
-                {
-                    var file = System.IO.Path.Combine(@"\\spm-adfs\SDBASE\SPM_Connect_User_Logs\", "chekin.txt");
-                    text = string.Format("{0} , {1}", sqlFormattedDate, text);
-                    System.IO.File.AppendAllLines(file, new string[] { text });
-                }
+                string query = "DELETE FROM [SPM_Database].[dbo].[Checkin] WHERE [User Name] ='" + username.ToString() + "'";
+                SqlCommand sda = new SqlCommand(query, cn);
+                sda.ExecuteNonQuery();
+                cn.Close();
 
             }
-            catch
+            catch (Exception ex)
             {
-
+                MessageBox.Show(ex.Message, "SPM Connect - Checkout User", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
             }
 
         }
@@ -1468,24 +1438,6 @@ namespace SearchDataSPM
         {
             SPM_ConnectJobs sPM_ConnectJobs = new SPM_ConnectJobs();
             sPM_ConnectJobs.Show();
-        }
-
-        private void timer2_Tick(object sender, EventArgs e)
-        {
-            try
-            {
-                string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-                string contents = File.ReadAllText(@"\\spm-adfs\SDBASE\SPM_Connect_User_Logs\chekin.txt");
-                if (!contents.Contains(userName))
-                {
-                    Application.Exit();
-                }
-            }
-            catch
-            {
-
-            }
-            
         }
 
         private void billsOfMaunfacturingToolStripMenuItem_Click(object sender, EventArgs e)

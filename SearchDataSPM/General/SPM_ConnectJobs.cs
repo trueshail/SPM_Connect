@@ -103,9 +103,6 @@ namespace SearchDataSPM
             {
                 cn.Close();
             }
-
-            //dataGridView.Location = new Point(0, 40);
-
         }
 
         private void Reload_Click(object sender, EventArgs e)
@@ -128,7 +125,6 @@ namespace SearchDataSPM
             dataGridView.DefaultCellStyle.SelectionForeColor = Color.Yellow;
             dataGridView.DefaultCellStyle.SelectionBackColor = Color.Black;
         }
-
 
         #endregion
 

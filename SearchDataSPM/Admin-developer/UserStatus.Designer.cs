@@ -45,16 +45,15 @@
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dataGridView1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
             this.dataGridView1.ColumnHeadersHeight = 35;
-            this.dataGridView1.ContextMenuStrip = this.Listviewcontextmenu;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowHeadersWidth = 80;
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(584, 461);
             this.dataGridView1.TabIndex = 0;
-            this.dataGridView1.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDown);
             // 
             // Listviewcontextmenu
             // 
@@ -62,13 +61,13 @@
             this.freeuser});
             this.Listviewcontextmenu.Name = "contextMenuStrip1";
             this.Listviewcontextmenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.Listviewcontextmenu.Size = new System.Drawing.Size(181, 48);
+            this.Listviewcontextmenu.Size = new System.Drawing.Size(141, 26);
             // 
             // freeuser
             // 
             this.freeuser.Image = ((System.Drawing.Image)(resources.GetObject("freeuser.Image")));
             this.freeuser.Name = "freeuser";
-            this.freeuser.Size = new System.Drawing.Size(180, 22);
+            this.freeuser.Size = new System.Drawing.Size(140, 22);
             this.freeuser.Text = "Free Up User";
             this.freeuser.ToolTipText = "Free User Licence";
             this.freeuser.Click += new System.EventHandler(this.freeuser_Click);
