@@ -69,11 +69,16 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.quoteno = new System.Windows.Forms.RadioButton();
+            this.quoteyes = new System.Windows.Forms.RadioButton();
+            this.label3 = new System.Windows.Forms.Label();
             this.contextMenuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
+            this.panel5.SuspendLayout();
             this.SuspendLayout();
             // 
             // contextMenuStrip1
@@ -172,7 +177,7 @@
             // 
             // addnewbttn
             // 
-            this.addnewbttn.Location = new System.Drawing.Point(288, 369);
+            this.addnewbttn.Location = new System.Drawing.Point(293, 406);
             this.addnewbttn.Name = "addnewbttn";
             this.addnewbttn.Size = new System.Drawing.Size(84, 23);
             this.addnewbttn.TabIndex = 57;
@@ -183,7 +188,7 @@
             // 
             // updatebttn
             // 
-            this.updatebttn.Location = new System.Drawing.Point(388, 369);
+            this.updatebttn.Location = new System.Drawing.Point(393, 406);
             this.updatebttn.Name = "updatebttn";
             this.updatebttn.Size = new System.Drawing.Size(76, 23);
             this.updatebttn.TabIndex = 58;
@@ -194,7 +199,7 @@
             // 
             // delbttn
             // 
-            this.delbttn.Location = new System.Drawing.Point(474, 369);
+            this.delbttn.Location = new System.Drawing.Point(479, 406);
             this.delbttn.Name = "delbttn";
             this.delbttn.Size = new System.Drawing.Size(72, 23);
             this.delbttn.TabIndex = 59;
@@ -205,7 +210,7 @@
             // 
             // updatesavebttn
             // 
-            this.updatesavebttn.Location = new System.Drawing.Point(320, 406);
+            this.updatesavebttn.Location = new System.Drawing.Point(325, 443);
             this.updatesavebttn.Name = "updatesavebttn";
             this.updatesavebttn.Size = new System.Drawing.Size(76, 23);
             this.updatesavebttn.TabIndex = 64;
@@ -217,7 +222,7 @@
             // 
             // cnclbttn
             // 
-            this.cnclbttn.Location = new System.Drawing.Point(413, 406);
+            this.cnclbttn.Location = new System.Drawing.Point(418, 443);
             this.cnclbttn.Name = "cnclbttn";
             this.cnclbttn.Size = new System.Drawing.Size(69, 23);
             this.cnclbttn.TabIndex = 65;
@@ -229,7 +234,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(281, 453);
+            this.button1.Location = new System.Drawing.Point(286, 490);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(115, 30);
             this.button1.TabIndex = 66;
@@ -240,7 +245,7 @@
             // 
             // reluanchbttn
             // 
-            this.reluanchbttn.Location = new System.Drawing.Point(418, 453);
+            this.reluanchbttn.Location = new System.Drawing.Point(423, 490);
             this.reluanchbttn.Name = "reluanchbttn";
             this.reluanchbttn.Size = new System.Drawing.Size(117, 30);
             this.reluanchbttn.TabIndex = 67;
@@ -251,7 +256,7 @@
             // 
             // UserStats
             // 
-            this.UserStats.Location = new System.Drawing.Point(342, 548);
+            this.UserStats.Location = new System.Drawing.Point(347, 585);
             this.UserStats.Name = "UserStats";
             this.UserStats.Size = new System.Drawing.Size(115, 30);
             this.UserStats.TabIndex = 66;
@@ -262,7 +267,7 @@
             // 
             // custbttn
             // 
-            this.custbttn.Location = new System.Drawing.Point(281, 501);
+            this.custbttn.Location = new System.Drawing.Point(286, 538);
             this.custbttn.Name = "custbttn";
             this.custbttn.Size = new System.Drawing.Size(115, 30);
             this.custbttn.TabIndex = 66;
@@ -273,7 +278,7 @@
             // 
             // matbttn
             // 
-            this.matbttn.Location = new System.Drawing.Point(418, 501);
+            this.matbttn.Location = new System.Drawing.Point(423, 538);
             this.matbttn.Name = "matbttn";
             this.matbttn.Size = new System.Drawing.Size(115, 30);
             this.matbttn.TabIndex = 66;
@@ -511,7 +516,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label2.Location = new System.Drawing.Point(272, 320);
+            this.label2.Location = new System.Drawing.Point(272, 353);
             this.label2.MaximumSize = new System.Drawing.Size(90, 15);
             this.label2.Name = "label2";
             this.label2.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -541,10 +546,58 @@
             // 
             this.panel4.Controls.Add(this.DevradioButtonNo);
             this.panel4.Controls.Add(this.DevradioButtonYes);
-            this.panel4.Location = new System.Drawing.Point(362, 320);
+            this.panel4.Location = new System.Drawing.Point(362, 353);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(107, 27);
             this.panel4.TabIndex = 78;
+            // 
+            // panel5
+            // 
+            this.panel5.Controls.Add(this.quoteno);
+            this.panel5.Controls.Add(this.quoteyes);
+            this.panel5.Location = new System.Drawing.Point(362, 320);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(107, 26);
+            this.panel5.TabIndex = 80;
+            // 
+            // quoteno
+            // 
+            this.quoteno.AutoSize = true;
+            this.quoteno.Enabled = false;
+            this.quoteno.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.quoteno.Location = new System.Drawing.Point(56, 6);
+            this.quoteno.Name = "quoteno";
+            this.quoteno.Size = new System.Drawing.Size(39, 17);
+            this.quoteno.TabIndex = 72;
+            this.quoteno.Text = "No";
+            this.quoteno.UseVisualStyleBackColor = true;
+            // 
+            // quoteyes
+            // 
+            this.quoteyes.AutoSize = true;
+            this.quoteyes.Enabled = false;
+            this.quoteyes.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.quoteyes.Location = new System.Drawing.Point(6, 6);
+            this.quoteyes.Name = "quoteyes";
+            this.quoteyes.Size = new System.Drawing.Size(43, 17);
+            this.quoteyes.TabIndex = 71;
+            this.quoteyes.Text = "Yes";
+            this.quoteyes.UseVisualStyleBackColor = true;
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label3.Location = new System.Drawing.Point(253, 326);
+            this.label3.MaximumSize = new System.Drawing.Size(120, 15);
+            this.label3.Name = "label3";
+            this.label3.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label3.Size = new System.Drawing.Size(101, 15);
+            this.label3.TabIndex = 79;
+            this.label3.Text = "Quote Access :";
             // 
             // spmadmin
             // 
@@ -552,6 +605,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(69)))), ((int)(((byte)(76)))));
             this.ClientSize = new System.Drawing.Size(595, 622);
+            this.Controls.Add(this.panel5);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
@@ -595,6 +650,8 @@
             this.panel3.PerformLayout();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
+            this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -640,5 +697,9 @@
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Button custbttn;
         private System.Windows.Forms.Button matbttn;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.RadioButton quoteno;
+        private System.Windows.Forms.RadioButton quoteyes;
+        private System.Windows.Forms.Label label3;
     }
 }
