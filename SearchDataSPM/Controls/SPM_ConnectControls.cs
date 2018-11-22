@@ -946,6 +946,7 @@ namespace SearchDataSPM
         {
             string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
             checkout(userName);
+            this.Dispose();
         }
 
         #endregion

@@ -138,6 +138,11 @@ namespace SearchDataSPM.Admin_developer
             
         }
 
+        private void UserStatus_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.Dispose();
+        }
+
         //private String getuserselected()
         //{
         //    int selectedclmindex = dataGridView1.SelectedCells[0].ColumnIndex;

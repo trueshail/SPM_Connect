@@ -603,6 +603,10 @@ namespace SearchDataSPM
             materials.Show();
         }
 
+        private void spmadmin_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.Dispose();
+        }
     }
 
 }

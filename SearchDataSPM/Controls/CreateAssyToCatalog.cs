@@ -625,9 +625,13 @@ namespace SearchDataSPM
         }
 
 
+
         #endregion
 
-
+        private void CreateAssyToCatalog_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.Dispose();
+        }
     }
 
 }

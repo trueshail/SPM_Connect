@@ -944,7 +944,7 @@ namespace SearchDataSPM
   
         private void SPM_Connect_FormClosing(object sender, FormClosingEventArgs e)
         {
-            
+            this.Dispose();
         }
 
         private void SPM_Connect_KeyDown(object sender, KeyEventArgs e)

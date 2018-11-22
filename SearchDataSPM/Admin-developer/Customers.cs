@@ -115,5 +115,10 @@ namespace SearchDataSPM
                 e.Handled = true;
             }
         }
+
+        private void Customers_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.Dispose();
+        }
     }
 }

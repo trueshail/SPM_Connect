@@ -581,6 +581,10 @@ namespace SearchDataSPM
 
         #endregion
 
+        private void TreeViewSPM_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.Dispose();
+        }
     }
 
 }

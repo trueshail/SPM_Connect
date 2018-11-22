@@ -67,12 +67,12 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Expandchk.AutoSize = true;
             this.Expandchk.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.Expandchk.Font = new System.Drawing.Font("Monospac821 BT", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Expandchk.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Expandchk.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.Expandchk.Location = new System.Drawing.Point(466, 22);
+            this.Expandchk.Location = new System.Drawing.Point(477, 22);
             this.Expandchk.MinimumSize = new System.Drawing.Size(30, 0);
             this.Expandchk.Name = "Expandchk";
-            this.Expandchk.Size = new System.Drawing.Size(60, 26);
+            this.Expandchk.Size = new System.Drawing.Size(49, 28);
             this.Expandchk.TabIndex = 31;
             this.Expandchk.Text = "+/-";
             this.LabelTooltips.SetToolTip(this.Expandchk, "Expand/Collapse Tree");
@@ -376,6 +376,7 @@
             this.Name = "CreateAssyToCatalog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Create Assy To Catalog - SPM Connect";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.CreateAssyToCatalog_FormClosed);
             this.Load += new System.EventHandler(this.ParentView_Load);
             this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);

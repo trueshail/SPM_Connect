@@ -640,6 +640,7 @@
             this.Name = "spmadmin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Admin Control - SPM Connect";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.spmadmin_FormClosed);
             this.Load += new System.EventHandler(this.ParentView_Load);
             this.contextMenuStrip1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);

@@ -41,7 +41,7 @@
             this.metroProgressSpinner1.UseSelectable = true;
             this.metroProgressSpinner1.Click += new System.EventHandler(this.metroProgressSpinner1_Click);
             // 
-            // WaitFormCopying
+            // WaitFormSaving
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -58,6 +58,7 @@
             this.ShowInTaskbar = false;
             this.Text = "Saving Model.....";
             this.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.WaitFormSaving_FormClosed);
             this.Load += new System.EventHandler(this.WaitFormSaving_Load);
             this.ResumeLayout(false);
 

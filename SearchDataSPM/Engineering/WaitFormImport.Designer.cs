@@ -58,6 +58,7 @@
             this.ShowInTaskbar = false;
             this.Text = "Importing Model.....";
             this.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.WaitFormImport_FormClosed);
             this.Load += new System.EventHandler(this.WaitFormImport_Load_1);
             this.ResumeLayout(false);
 

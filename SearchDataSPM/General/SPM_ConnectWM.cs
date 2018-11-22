@@ -611,6 +611,11 @@ namespace SearchDataSPM
                 return item;
             }
         }
+
+        private void SPM_ConnectWM_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.Dispose();
+        }
     }
 }
 

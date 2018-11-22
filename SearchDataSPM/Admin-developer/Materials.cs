@@ -98,5 +98,9 @@ namespace SearchDataSPM
             }
         }
 
+        private void Materials_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.Dispose();
+        }
     }
 }

@@ -304,6 +304,7 @@
             this.Name = "SPM_ConnectItems";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SPM Connect - Items";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SPM_ConnectItems_FormClosed);
             this.Load += new System.EventHandler(this.SPM_Connect_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SPM_Connect_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();

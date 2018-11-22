@@ -77,5 +77,10 @@ namespace SearchDataSPM
             this.reportViewer1.ServerReport.SetParameters(reportParameters);
             this.reportViewer1.RefreshReport();
         }
+
+        private void ReportViewer_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.Dispose();
+        }
     }
 }

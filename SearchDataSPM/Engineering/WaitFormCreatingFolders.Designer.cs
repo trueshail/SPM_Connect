@@ -58,6 +58,7 @@
             this.ShowInTaskbar = false;
             this.Text = "Creating Folders.....";
             this.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.WaitFormCreatingFolders_FormClosed);
             this.Load += new System.EventHandler(this.WaitFormCreatingFolders_Load);
             this.ResumeLayout(false);
 

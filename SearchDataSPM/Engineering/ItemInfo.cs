@@ -465,6 +465,11 @@ namespace SearchDataSPM
             }
 
         }
+
+        private void ItemInfo_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.Dispose();
+        }
     }
 
 }

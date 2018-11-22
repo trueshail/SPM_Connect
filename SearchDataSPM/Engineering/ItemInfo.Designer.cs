@@ -809,6 +809,7 @@
             this.Name = "ItemInfo";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ItemInfo. - SPM Connect";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ItemInfo_FormClosed);
             this.Load += new System.EventHandler(this.ParentView_Load);
             this.panel1.ResumeLayout(false);
             this.SlidePanel.ResumeLayout(false);

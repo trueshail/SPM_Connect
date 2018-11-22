@@ -986,7 +986,7 @@
             this.deleteItemToolStripMenuItem});
             this.FormSelector.Name = "contextMenuStrip1";
             this.FormSelector.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.FormSelector.Size = new System.Drawing.Size(181, 70);
+            this.FormSelector.Size = new System.Drawing.Size(140, 48);
             this.FormSelector.Opening += new System.ComponentModel.CancelEventHandler(this.FormSelector_Opening);
             // 
             // editItemToolStripMenuItem
@@ -1021,6 +1021,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Purchase Requisition";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PurchaseReqform_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.PurchaseReqform_FormClosed);
             this.Load += new System.EventHandler(this.PurchaseReq_Load);
             this.MenuStrip.ResumeLayout(false);
             this.MenuStrip.PerformLayout();

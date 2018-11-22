@@ -526,10 +526,14 @@ namespace SearchDataSPM
             }
         }
 
+
+
         #endregion
 
-        
-
+        private void SPM_ConnectItems_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.Dispose();
+        }
     }
 }
 

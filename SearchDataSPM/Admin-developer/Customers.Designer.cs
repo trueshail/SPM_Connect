@@ -292,6 +292,7 @@
             this.Name = "Customers";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SPM Connect - Manage Customers";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Customers_FormClosing);
             this.Load += new System.EventHandler(this.Customers_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvCustomer)).EndInit();
             this.ResumeLayout(false);

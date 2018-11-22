@@ -249,6 +249,7 @@
             this.Name = "SPM_ConnectWM";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SPM Connect - Work Order Management";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SPM_ConnectWM_FormClosed);
             this.Load += new System.EventHandler(this.SPM_Connect_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);

@@ -85,6 +85,7 @@
             this.Name = "UserStatus";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "User Status";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.UserStatus_FormClosed);
             this.Load += new System.EventHandler(this.UserStatus_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.Listviewcontextmenu.ResumeLayout(false);

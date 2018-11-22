@@ -30,8 +30,9 @@ namespace SearchDataSPM.Engineering
         {
         }
 
-
-    
-        
+        private void WaitFormSaving_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.Dispose();
+        }
     }
 }

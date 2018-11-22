@@ -159,6 +159,7 @@
             this.Name = "Materials";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SPM Connect - Manage Materials";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Materials_FormClosed);
             this.Load += new System.EventHandler(this.Materials_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvCustomer)).EndInit();
             this.ResumeLayout(false);

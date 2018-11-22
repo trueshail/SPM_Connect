@@ -954,8 +954,12 @@ namespace SearchDataSPM
             }
         }
 
+
         #endregion
 
-
+        private void AutocadAssembly_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.Dispose();
+        }
     }
 }

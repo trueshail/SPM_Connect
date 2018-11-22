@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.metroProgressSpinner1 = new MetroFramework.Controls.MetroProgressSpinner();
-            //his.SuspendLayout();
+            this.SuspendLayout();
             // 
             // metroProgressSpinner1
             // 
@@ -41,7 +41,7 @@
             this.metroProgressSpinner1.UseSelectable = true;
             this.metroProgressSpinner1.Click += new System.EventHandler(this.metroProgressSpinner1_Click);
             // 
-            // WaitFormCopying
+            // WaitFormOpening
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -58,6 +58,7 @@
             this.ShowInTaskbar = false;
             this.Text = "Opening Model.....";
             this.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.WaitFormOpening_FormClosed);
             this.Load += new System.EventHandler(this.WaitFormOpening_Load);
             this.ResumeLayout(false);
 

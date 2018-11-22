@@ -58,6 +58,7 @@
             this.ShowInTaskbar = false;
             this.Text = "Copying Model.....";
             this.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.WaitFormCopying_FormClosed);
             this.Load += new System.EventHandler(this.WaitFormCopying_Load);
             this.ResumeLayout(false);
 

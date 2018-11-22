@@ -967,5 +967,10 @@ namespace SearchDataSPM
                 FormSelector.Items[1].Enabled = false;
             }
         }
+
+        private void PurchaseReqform_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.Dispose();
+        }
     }
 }

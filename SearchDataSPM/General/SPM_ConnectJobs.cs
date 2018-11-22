@@ -1223,6 +1223,11 @@ namespace SearchDataSPM
         {
             createfolders();
         }
+
+        private void SPM_ConnectJobs_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.Dispose();
+        }
     }
 }
 
