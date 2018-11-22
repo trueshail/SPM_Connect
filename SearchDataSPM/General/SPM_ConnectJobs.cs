@@ -92,6 +92,13 @@ namespace SearchDataSPM
                 dataGridView.Columns[6].Width = 40;
                 dataGridView.Columns[7].Width = 40;
                 UpdateFont();
+
+                //foreach (DataGridViewRow row in dataGridView.Rows)
+                //{
+                //    DataGridViewLinkCell linkCell = new DataGridViewLinkCell();
+                //    linkCell.Value = row.Cells[0].Value;
+                //    row.Cells[0] = linkCell;
+                //}
             }
             catch (Exception)
             {
@@ -132,7 +139,7 @@ namespace SearchDataSPM
 
         // variables required outside the functions to perfrom
         string fullsearch = ("FullSearch LIKE '%{0}%'");
-        public static string ItemNo;
+        //public static string ItemNo;
         public static string description;
         public static string Manufacturer;
         public static string oem;
@@ -1202,7 +1209,7 @@ namespace SearchDataSPM
                 int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                 DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
                 item = Convert.ToString(slectedrow.Cells[0].Value);
-                //MessageBox.Show(ItemNo);
+                //MessageBox.Show(item);
                 return item;
             }
             else
@@ -1227,6 +1234,12 @@ namespace SearchDataSPM
         private void SPM_ConnectJobs_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.Dispose();
+        }
+
+        private void quotebttn_Click(object sender, EventArgs e)
+        {
+            General.SPM_ConnectQuoteManagement quoteTracking = new General.SPM_ConnectQuoteManagement();
+            quoteTracking.Show();
         }
     }
 }

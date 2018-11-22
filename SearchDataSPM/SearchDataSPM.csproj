@@ -335,6 +335,12 @@
     <Compile Include="Engineering\WaitFormImport.Designer.cs">
       <DependentUpon>WaitFormImport.cs</DependentUpon>
     </Compile>
+    <Compile Include="General\SPM_ConnectQuoteManagement.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="General\SPM_ConnectQuoteManagement.Designer.cs">
+      <DependentUpon>SPM_ConnectQuoteManagement.cs</DependentUpon>
+    </Compile>
     <Compile Include="General\SPM_ConnectWM.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -346,6 +352,11 @@
     </Compile>
     <Compile Include="ListOpenWindows.Designer.cs">
       <DependentUpon>ListOpenWindows.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="ReportViewer.cs">
       <SubType>Form</SubType>
@@ -554,6 +565,9 @@
     <EmbeddedResource Include="Engineering\TreeView.resx">
       <DependentUpon>TreeView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="General\SPM_ConnectQuoteManagement.resx">
+      <DependentUpon>SPM_ConnectQuoteManagement.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="General\SPM_ConnectWM.resx">
       <DependentUpon>SPM_ConnectWM.cs</DependentUpon>
     </EmbeddedResource>
@@ -577,14 +591,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="Production\SPM_ConnectProduction.resx">
       <DependentUpon>SPM_ConnectProduction.cs</DependentUpon>
     </EmbeddedResource>
@@ -678,6 +687,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\spmchristmas.gif" />
+    <None Include="Resources\spm_smal3.bmp" />
     <Content Include="Resources\spm_white_icon.png" />
     <None Include="Resources\spm_white_icon_21.gif" />
     <None Include="Resources\spm_white_icon1.png" />
