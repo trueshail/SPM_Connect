@@ -84,8 +84,8 @@ namespace SearchDataSPM.General
             dataGridView.DefaultCellStyle.Font = new Font("Arial", 9.5F, FontStyle.Bold);
             dataGridView.DefaultCellStyle.ForeColor = Color.Black;
             dataGridView.DefaultCellStyle.BackColor = Color.FromArgb(237, 237, 237);
-           // dataGridView.DefaultCellStyle.SelectionForeColor = Color.Yellow;
-            //dataGridView.DefaultCellStyle.SelectionBackColor = Color.Black;
+            dataGridView.DefaultCellStyle.SelectionForeColor = Color.Yellow;
+            dataGridView.DefaultCellStyle.SelectionBackColor = Color.Black;
         }
 
         private void Reload_Click(object sender, EventArgs e)
@@ -479,7 +479,6 @@ namespace SearchDataSPM.General
 
         }
 
-
         private void SPM_ConnectJobs_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.Dispose();
@@ -495,9 +494,13 @@ namespace SearchDataSPM.General
 
         private void dataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (dataGridView.CurrentCell.ColumnIndex == 0)
+
+            if (e.ColumnIndex == 0)
             {
-                getselectedjobnumber();
+
+                QuoteDetails quoteDetails = new QuoteDetails();
+                quoteDetails.quotenubmber(getselectedjobnumber());
+                quoteDetails.Show();
             }
 
         }
@@ -516,7 +519,7 @@ namespace SearchDataSPM.General
                 int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                 DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
                 item = Convert.ToString(slectedrow.Cells[0].Value);
-                MessageBox.Show(item);
+                //MessageBox.Show(item);
                 return item;
             }
             else
@@ -524,6 +527,10 @@ namespace SearchDataSPM.General
                 item = "";
                 return item;
             }
+        }
+
+        private void dataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
         }
     }
 }
