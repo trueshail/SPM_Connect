@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(QuoteDetails));
             this.label2 = new System.Windows.Forms.Label();
             this.Costlbl = new System.Windows.Forms.Label();
@@ -46,15 +47,18 @@
             this.Categorycombox = new System.Windows.Forms.ComboBox();
             this.closedchkbox = new System.Windows.Forms.CheckBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.Lastsavedlbl = new System.Windows.Forms.Label();
+            this.Lsatsavedbylbl = new System.Windows.Forms.Label();
+            this.Quotedbylbl = new System.Windows.Forms.Label();
+            this.quotedatelbl = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.quotedatelbl = new System.Windows.Forms.Label();
-            this.Quotedbylbl = new System.Windows.Forms.Label();
-            this.Lsatsavedbylbl = new System.Windows.Forms.Label();
-            this.Lastsavedlbl = new System.Windows.Forms.Label();
+            this.savbttn = new System.Windows.Forms.Button();
+            this.editbttn = new System.Windows.Forms.Button();
+            this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -80,7 +84,7 @@
             this.Costlbl.AutoSize = true;
             this.Costlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Costlbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.Costlbl.Location = new System.Drawing.Point(25, 317);
+            this.Costlbl.Location = new System.Drawing.Point(25, 302);
             this.Costlbl.MaximumSize = new System.Drawing.Size(57, 15);
             this.Costlbl.Name = "Costlbl";
             this.Costlbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -92,7 +96,7 @@
             // 
             this.notestxt.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.notestxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.notestxt.Location = new System.Drawing.Point(109, 233);
+            this.notestxt.Location = new System.Drawing.Point(109, 223);
             this.notestxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.notestxt.Multiline = true;
             this.notestxt.Name = "notestxt";
@@ -157,8 +161,9 @@
             // 
             // familycombobox
             // 
-            this.familycombobox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.familycombobox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.familycombobox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.familycombobox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.familycombobox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.familycombobox.FormattingEnabled = true;
             this.familycombobox.ItemHeight = 16;
@@ -207,7 +212,7 @@
             this.groupBox1.ForeColor = System.Drawing.Color.White;
             this.groupBox1.Location = new System.Drawing.Point(12, 162);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(807, 430);
+            this.groupBox1.Size = new System.Drawing.Size(807, 411);
             this.groupBox1.TabIndex = 97;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Quote Details : -";
@@ -305,6 +310,66 @@
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             this.textBox1.Leave += new System.EventHandler(this.textBox1_Leave);
             // 
+            // Lastsavedlbl
+            // 
+            this.Lastsavedlbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.Lastsavedlbl.AutoSize = true;
+            this.Lastsavedlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Lastsavedlbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.Lastsavedlbl.Location = new System.Drawing.Point(552, 377);
+            this.Lastsavedlbl.Name = "Lastsavedlbl";
+            this.Lastsavedlbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.Lastsavedlbl.Size = new System.Drawing.Size(85, 15);
+            this.Lastsavedlbl.TabIndex = 89;
+            this.Lastsavedlbl.Text = "Last Saved :";
+            this.Lastsavedlbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // Lsatsavedbylbl
+            // 
+            this.Lsatsavedbylbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.Lsatsavedbylbl.AutoSize = true;
+            this.Lsatsavedbylbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Lsatsavedbylbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.Lsatsavedbylbl.Location = new System.Drawing.Point(534, 346);
+            this.Lsatsavedbylbl.Name = "Lsatsavedbylbl";
+            this.Lsatsavedbylbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.Lsatsavedbylbl.Size = new System.Drawing.Size(108, 15);
+            this.Lsatsavedbylbl.TabIndex = 89;
+            this.Lsatsavedbylbl.Text = "Last Saved By : ";
+            this.Lsatsavedbylbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // Quotedbylbl
+            // 
+            this.Quotedbylbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.Quotedbylbl.AutoSize = true;
+            this.Quotedbylbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Quotedbylbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.Quotedbylbl.Location = new System.Drawing.Point(558, 311);
+            this.Quotedbylbl.Name = "Quotedbylbl";
+            this.Quotedbylbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.Quotedbylbl.Size = new System.Drawing.Size(80, 15);
+            this.Quotedbylbl.TabIndex = 89;
+            this.Quotedbylbl.Text = "Quoted By :";
+            this.Quotedbylbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // quotedatelbl
+            // 
+            this.quotedatelbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.quotedatelbl.AutoSize = true;
+            this.quotedatelbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.quotedatelbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.quotedatelbl.Location = new System.Drawing.Point(551, 275);
+            this.quotedatelbl.Name = "quotedatelbl";
+            this.quotedatelbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.quotedatelbl.Size = new System.Drawing.Size(87, 15);
+            this.quotedatelbl.TabIndex = 89;
+            this.quotedatelbl.Text = "Quote Date :";
+            this.quotedatelbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // label6
             // 
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -380,72 +445,65 @@
             this.label1.Text = "Category :";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // quotedatelbl
+            // savbttn
             // 
-            this.quotedatelbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.quotedatelbl.AutoSize = true;
-            this.quotedatelbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.quotedatelbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.quotedatelbl.Location = new System.Drawing.Point(551, 275);
-            this.quotedatelbl.Name = "quotedatelbl";
-            this.quotedatelbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.quotedatelbl.Size = new System.Drawing.Size(87, 15);
-            this.quotedatelbl.TabIndex = 89;
-            this.quotedatelbl.Text = "Quote Date :";
-            this.quotedatelbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.savbttn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.savbttn.BackColor = System.Drawing.Color.Transparent;
+            this.savbttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.savbttn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.savbttn.ForeColor = System.Drawing.Color.White;
+            this.savbttn.Image = ((System.Drawing.Image)(resources.GetObject("savbttn.Image")));
+            this.savbttn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.savbttn.Location = new System.Drawing.Point(455, 593);
+            this.savbttn.Name = "savbttn";
+            this.savbttn.Size = new System.Drawing.Size(78, 29);
+            this.savbttn.TabIndex = 10;
+            this.savbttn.Text = "Save";
+            this.savbttn.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.savbttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.TreeViewToolTip.SetToolTip(this.savbttn, "Save Quote Details");
+            this.savbttn.UseVisualStyleBackColor = false;
+            this.savbttn.Click += new System.EventHandler(this.savbttn_Click);
             // 
-            // Quotedbylbl
+            // editbttn
             // 
-            this.Quotedbylbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.Quotedbylbl.AutoSize = true;
-            this.Quotedbylbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Quotedbylbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.Quotedbylbl.Location = new System.Drawing.Point(558, 311);
-            this.Quotedbylbl.Name = "Quotedbylbl";
-            this.Quotedbylbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.Quotedbylbl.Size = new System.Drawing.Size(80, 15);
-            this.Quotedbylbl.TabIndex = 89;
-            this.Quotedbylbl.Text = "Quoted By :";
-            this.Quotedbylbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.editbttn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.editbttn.BackColor = System.Drawing.Color.Transparent;
+            this.editbttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.editbttn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.editbttn.ForeColor = System.Drawing.Color.White;
+            this.editbttn.Image = ((System.Drawing.Image)(resources.GetObject("editbttn.Image")));
+            this.editbttn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.editbttn.Location = new System.Drawing.Point(313, 593);
+            this.editbttn.Name = "editbttn";
+            this.editbttn.Size = new System.Drawing.Size(78, 29);
+            this.editbttn.TabIndex = 11;
+            this.editbttn.Text = "Edit";
+            this.editbttn.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.editbttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.TreeViewToolTip.SetToolTip(this.editbttn, "Edit Quote Details");
+            this.editbttn.UseVisualStyleBackColor = false;
+            this.editbttn.Click += new System.EventHandler(this.editbttn_Click);
             // 
-            // Lsatsavedbylbl
+            // TreeViewToolTip
             // 
-            this.Lsatsavedbylbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.Lsatsavedbylbl.AutoSize = true;
-            this.Lsatsavedbylbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lsatsavedbylbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.Lsatsavedbylbl.Location = new System.Drawing.Point(534, 346);
-            this.Lsatsavedbylbl.Name = "Lsatsavedbylbl";
-            this.Lsatsavedbylbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.Lsatsavedbylbl.Size = new System.Drawing.Size(108, 15);
-            this.Lsatsavedbylbl.TabIndex = 89;
-            this.Lsatsavedbylbl.Text = "Last Saved By : ";
-            this.Lsatsavedbylbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // Lastsavedlbl
-            // 
-            this.Lastsavedlbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.Lastsavedlbl.AutoSize = true;
-            this.Lastsavedlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lastsavedlbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.Lastsavedlbl.Location = new System.Drawing.Point(552, 377);
-            this.Lastsavedlbl.Name = "Lastsavedlbl";
-            this.Lastsavedlbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.Lastsavedlbl.Size = new System.Drawing.Size(85, 15);
-            this.Lastsavedlbl.TabIndex = 89;
-            this.Lastsavedlbl.Text = "Last Saved :";
-            this.Lastsavedlbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.TreeViewToolTip.AutoPopDelay = 4000;
+            this.TreeViewToolTip.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.TreeViewToolTip.InitialDelay = 500;
+            this.TreeViewToolTip.ReshowDelay = 100;
             // 
             // QuoteDetails
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(69)))), ((int)(((byte)(76)))));
-            this.ClientSize = new System.Drawing.Size(831, 628);
+            this.ClientSize = new System.Drawing.Size(831, 634);
+            this.Controls.Add(this.editbttn);
+            this.Controls.Add(this.savbttn);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.familycombobox);
             this.Controls.Add(this.SPM);
@@ -457,6 +515,7 @@
             this.Name = "QuoteDetails";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Quote Details";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.QuoteDetails_FormClosing);
             this.Load += new System.EventHandler(this.QuoteDetails_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -492,5 +551,8 @@
         private System.Windows.Forms.Label Lsatsavedbylbl;
         private System.Windows.Forms.Label Quotedbylbl;
         private System.Windows.Forms.Label quotedatelbl;
+        private System.Windows.Forms.Button savbttn;
+        private System.Windows.Forms.Button editbttn;
+        private System.Windows.Forms.ToolTip TreeViewToolTip;
     }
 }

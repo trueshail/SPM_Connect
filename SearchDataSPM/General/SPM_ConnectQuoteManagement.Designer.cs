@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SPM_ConnectQuoteManagement));
             this.SPM = new System.Windows.Forms.Label();
             this.Reload = new System.Windows.Forms.Button();
             this.txtSearch = new System.Windows.Forms.TextBox();
@@ -38,6 +39,7 @@
             this.Descrip_txtbox = new System.Windows.Forms.TextBox();
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.addnewbttn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -59,7 +61,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Reload.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.Reload.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Reload.Location = new System.Drawing.Point(803, 55);
+            this.Reload.Location = new System.Drawing.Point(766, 55);
             this.Reload.MaximumSize = new System.Drawing.Size(140, 30);
             this.Reload.MinimumSize = new System.Drawing.Size(140, 30);
             this.Reload.Name = "Reload";
@@ -81,7 +83,7 @@
             this.txtSearch.MaximumSize = new System.Drawing.Size(32767, 25);
             this.txtSearch.MinimumSize = new System.Drawing.Size(4, 23);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(540, 26);
+            this.txtSearch.Size = new System.Drawing.Size(492, 26);
             this.txtSearch.TabIndex = 12;
             this.TreeViewToolTip.SetToolTip(this.txtSearch, "Search keyword");
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
@@ -172,7 +174,6 @@
             this.dataGridView.RowHeadersVisible = false;
             this.dataGridView.Size = new System.Drawing.Size(996, 547);
             this.dataGridView.TabIndex = 18;
-            this.dataGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellClick);
             this.dataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellContentClick);
             this.dataGridView.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseDown);
             this.dataGridView.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellMouseLeave);
@@ -187,11 +188,32 @@
             this.TreeViewToolTip.InitialDelay = 500;
             this.TreeViewToolTip.ReshowDelay = 100;
             // 
+            // addnewbttn
+            // 
+            this.addnewbttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.addnewbttn.BackColor = System.Drawing.Color.Transparent;
+            this.addnewbttn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.addnewbttn.ForeColor = System.Drawing.Color.Black;
+            this.addnewbttn.Image = ((System.Drawing.Image)(resources.GetObject("addnewbttn.Image")));
+            this.addnewbttn.Location = new System.Drawing.Point(919, 37);
+            this.addnewbttn.MaximumSize = new System.Drawing.Size(65, 56);
+            this.addnewbttn.MinimumSize = new System.Drawing.Size(65, 56);
+            this.addnewbttn.Name = "addnewbttn";
+            this.addnewbttn.Size = new System.Drawing.Size(65, 56);
+            this.addnewbttn.TabIndex = 20;
+            this.addnewbttn.Text = "Add New";
+            this.addnewbttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.TreeViewToolTip.SetToolTip(this.addnewbttn, "Create New Quote");
+            this.addnewbttn.UseVisualStyleBackColor = false;
+            this.addnewbttn.Click += new System.EventHandler(this.addnewbttn_Click);
+            // 
             // SPM_ConnectQuoteManagement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1000, 700);
+            this.Controls.Add(this.addnewbttn);
             this.Controls.Add(this.dataGridView);
             this.Controls.Add(this.Reload);
             this.Controls.Add(this.txtSearch);
@@ -224,5 +246,6 @@
         private System.Windows.Forms.TextBox Descrip_txtbox;
         private System.Windows.Forms.DataGridView dataGridView;
         private System.Windows.Forms.ToolTip TreeViewToolTip;
+        private System.Windows.Forms.Button addnewbttn;
     }
 }

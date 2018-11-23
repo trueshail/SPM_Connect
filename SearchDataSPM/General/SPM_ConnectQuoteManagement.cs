@@ -495,17 +495,27 @@ namespace SearchDataSPM.General
         private void dataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
-            if (e.ColumnIndex == 0)
+            if (e.ColumnIndex == 0 && dataGridView.SelectedCells.Count == 1)
             {
 
-                QuoteDetails quoteDetails = new QuoteDetails();
-                quoteDetails.quotenubmber(getselectedjobnumber());
-                quoteDetails.Show();
+                showquotedetails(getselectedjobnumber());
             }
 
         }
 
         #endregion
+
+        void showquotedetails(string quotenumber)
+        {
+            using (QuoteDetails quoteDetails = new QuoteDetails())
+            {
+                quoteDetails.quotenubmber(quotenumber);
+                quoteDetails.ShowDialog();
+                quoteDetails.Dispose();
+                Showallitems();
+            }
+
+        }
 
         private String getselectedjobnumber()
         {
@@ -529,8 +539,130 @@ namespace SearchDataSPM.General
             }
         }
 
-        private void dataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
+        private static String get_username()
         {
+            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+            if (userName.Length > 0)
+            {
+                return userName;
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+
+        private string getuserfullname(string username)
+        {
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + username.ToString() + "' ";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    string fullname = dr["Name"].ToString();
+                    return fullname;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message, "SPM Connect - Get Full User Name", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return null;
+        }
+
+        private string getnewnumber()
+        {
+            string lastnumber = "";
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM newquotenumber";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    lastnumber = dr["NextQuoteNo"].ToString();
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message, "SPM Connect - Get Last Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+
+            }
+            finally
+            {
+                cn.Close();
+            }
+
+            return lastnumber;
+
+        }
+
+        private void addnewbttn_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to create a new quote?", "SPM Connect - Create New Quote?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                string user = getuserfullname(get_username());
+                string newnunber = getnewnumber();
+                createnewquote(newnunber, user);
+                showquotedetails(newnunber);
+            }
+        }
+
+        private void createnewquote(string quotenumber, string employee)
+        {
+            DateTime datecreated = DateTime.Now;
+            DateTime date = DateTime.Now.Date;
+            string sqlFormattedDate = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
+            string sqlFormattedDate2 = date.ToString("yyyy-MM-dd");
+
+            if (cn.State == ConnectionState.Closed)
+                cn.Open();
+            try
+            {
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Opportunities] (Quote, Quote_Date, Employee, LastSavedby, Lastsaved) VALUES('" + quotenumber.ToString() + "','" + date.ToString() + "','" + employee.ToString() + "','" + employee.ToString() + "','" + sqlFormattedDate + "')";
+                cmd.ExecuteNonQuery();
+                cn.Close();
+                //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Create Entry On SQL Quotes", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+
         }
     }
 }

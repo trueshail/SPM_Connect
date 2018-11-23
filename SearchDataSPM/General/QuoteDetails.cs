@@ -54,11 +54,13 @@ namespace SearchDataSPM.General
         private void QuoteDetails_Load(object sender, EventArgs e)
         {
             this.Text = "Quote Details - " + quoteno2;
+            
             Fillcustomers();
             HowFound();
             Rating();
             Category();
             filldatatable(quoteno2);
+            processeditbutton();
         }
 
         private void filldatatable(string quotenumber)
@@ -69,6 +71,7 @@ namespace SearchDataSPM.General
                 if (cn.State == ConnectionState.Closed)
                     cn.Open();
                 _adapter = new SqlDataAdapter(sql, cn);
+                dt.Clear();
                 _adapter.Fill(dt);
                 fillinfo();                
             }
@@ -107,7 +110,7 @@ namespace SearchDataSPM.General
                 Categorycombox.SelectedItem = category;
             }
 
-            string customer = r["Customer"].ToString();
+            string customer = r["Company_Name"].ToString();
             if (customer.Length > 0)
             {
                 familycombobox.SelectedItem = customer;
@@ -149,7 +152,7 @@ namespace SearchDataSPM.General
 
         private void Fillcustomers()
         {
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT Name FROM [SPM_Database].[dbo].[Customers]", cn))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM [SPM_Database].[dbo].[Customersmerged]", cn))
             {
                 try
                 {
@@ -307,5 +310,180 @@ namespace SearchDataSPM.General
             return money.IsMatch(text);
         }
 
+        private static String get_username()
+        {
+            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+            if (userName.Length > 0)
+            {
+                return userName;
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+
+        private string getuserfullname(string username)
+        {
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + username.ToString() + "' ";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    string fullname = dr["Name"].ToString();
+                    return fullname;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message, "SPM Connect - Get Full User Name", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return null;
+        }
+
+        private void QuoteDetails_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (savbttn.Visible == true)
+            {
+                DialogResult result = MessageBox.Show("Are you sure want to close without saving changes?", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                }
+                else
+                {
+                    e.Cancel = (result == DialogResult.No);
+                }
+            }
+        }
+
+        private void processeditbutton()
+        {
+            editbttn.Visible = false;
+            savbttn.Enabled = true;
+            savbttn.Visible = true;
+            familycombobox.Enabled = true;
+            Descriptiontxtbox.Enabled = true;
+            Categorycombox.Enabled = true;
+            Ratingcombobox.Enabled = true;
+            textBox1.Enabled = true;
+            Howfndcombox.Enabled = true;
+            currencycombox.Enabled = true;
+            closedchkbox.Enabled = true;
+            cvttojobchkbox.Enabled = true;
+            notestxt.Enabled = true;
+        }
+
+        private void perfromlockdown()
+        {
+            editbttn.Visible = true;
+            savbttn.Enabled = false;
+            savbttn.Visible = false;
+            familycombobox.Enabled = false;
+            Descriptiontxtbox.Enabled = false;
+            Categorycombox.Enabled = false;
+            Ratingcombobox.Enabled = false;
+            textBox1.Enabled = false;
+            Howfndcombox.Enabled = false;
+            currencycombox.Enabled = false;
+            closedchkbox.Enabled = false;
+            cvttojobchkbox.Enabled = false;
+            notestxt.Enabled = false;
+        }
+
+        List<string> list = new List<string>();
+
+        private void graballinfor()
+        {
+            list.Clear();
+            string quote = ItemTxtBox.Text;
+            string description = Descriptiontxtbox.Text;
+            string customer = familycombobox.Text;
+            string category = Categorycombox.Text;
+            string rating = Ratingcombobox.Text;
+            string howfound = Howfndcombox.Text;
+            string quotedprice = textBox1.Text;
+            string currency = currencycombox.Text;
+            string opportunityclosed = (closedchkbox.Checked ? "1" : "0");
+            string convertedtojob = (cvttojobchkbox.Checked ? "1" : "0");
+            string notes = notestxt.Text;
+            list.Add(quote);
+            list.Add(description);
+            list.Add(customer);
+            list.Add(category);
+            list.Add(rating);
+            list.Add(howfound);
+            list.Add(quotedprice);
+            list.Add(currency);
+            list.Add(opportunityclosed);
+            list.Add(convertedtojob);
+            list.Add(notes);
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                list[i] = list[i].Replace("'", "''");
+            }
+
+        }
+
+        private void savbttn_Click(object sender, EventArgs e)
+        {
+            Cursor.Current = Cursors.WaitCursor;
+            this.Enabled = false;
+            perfromlockdown();
+            graballinfor();
+            string lastsavedby = getuserfullname(get_username().ToString()).ToString();
+            createnewitemtosql(list[0].ToString(), list[1].ToString(), list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(), list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(), list[10].ToString(),lastsavedby);
+
+            this.Enabled = true;
+            Cursor.Current = Cursors.Default;
+            filldatatable(list[0].ToString());
+           
+        }
+
+        private void createnewitemtosql(string quote, string description, string customer, string category, string rating, string howfound, string quotedprice, string currency, string closed, string convertedtojob, string notes, string user)
+        {
+            DateTime dateedited = DateTime.Now;
+            string sqlFormattedDate = dateedited.ToString("yyyy-MM-dd HH:mm:ss");
+            if (cn.State == ConnectionState.Closed)
+                cn.Open();
+            try
+            {
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "UPDATE [SPM_Database].[dbo].[Opportunities] SET Title = '" + description + "',Company_Name = '" + customer + "',Category = '" + category + "',Rating = '" + rating + "',How_Found = '" + howfound + "',Est_Revenue = '" + quotedprice.ToString() + "',Currency = '" + currency + "',Closed = '" + closed + "',Converted_to_Job = '" + convertedtojob + "',Comments = '" + notes + "',LastSavedby = '" + user + "',LastSaved = '" + sqlFormattedDate + "' WHERE Quote = '" + quote + "' ";
+                cmd.ExecuteNonQuery();
+                cn.Close();
+                //MessageBox.Show("Item sucessfully saved SPM Connect Server.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+        }
+
+        private void editbttn_Click(object sender, EventArgs e)
+        {
+            processeditbutton();
+        }
     }
 }

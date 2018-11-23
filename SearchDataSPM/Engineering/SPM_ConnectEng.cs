@@ -43,7 +43,8 @@ namespace SearchDataSPM
             }
             catch (Exception)
             {
-                MessageBox.Show("Error Connecting to SQL Server.....", "SPM Connect - Engineering Initialize", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetroFramework.MetroMessageBox.Show(this,"Error Connecting to SQL Server.....", "SPM Connect - Engineering Initialize", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
                 Application.Exit();
             }
 
@@ -83,7 +84,7 @@ namespace SearchDataSPM
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show("Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect - Engineering Load(showallitems)", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MetroFramework.MetroMessageBox.Show(this,"Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect - Engineering Load(showallitems)", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Application.Exit();
                 }
                 finally
@@ -1105,7 +1106,7 @@ namespace SearchDataSPM
 
         private void deleteitem(string _itemno)
         {
-            DialogResult result = MessageBox.Show("Are you sure want to delete " + _itemno + "?", "SPM Connect - Delete Item?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MetroFramework.MetroMessageBox.Show(this,"Are you sure want to delete " + _itemno + "?", "SPM Connect - Delete Item?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result == DialogResult.Yes)
             {
@@ -1119,13 +1120,13 @@ namespace SearchDataSPM
                         SqlCommand sda = new SqlCommand(query, cn);
                         sda.ExecuteNonQuery();
                         cn.Close();
-                        MessageBox.Show(_itemno + " - Is removed from the system now!", "SPM Connect - Delete Item", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MetroFramework.MetroMessageBox.Show(this,_itemno + " - Is removed from the system now!", "SPM Connect - Delete Item", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message, "SPM Connect - Delete Item", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MetroFramework.MetroMessageBox.Show(this,ex.Message, "SPM Connect - Delete Item", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     finally
                     {
@@ -1645,7 +1646,7 @@ namespace SearchDataSPM
         private void AddNewBttn_Click(object sender, EventArgs e)
         {
             chekeditbutton = "no";
-            DialogResult result = MessageBox.Show("Are you sure want to create a new item?", "SPM Connect - Add New Item?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MetroFramework.MetroMessageBox.Show(this,"Are you sure want to create a new item?", "SPM Connect - Add New Item?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result == DialogResult.Yes)
             {
