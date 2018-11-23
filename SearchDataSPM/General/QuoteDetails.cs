@@ -93,13 +93,22 @@ namespace SearchDataSPM.General
             Descriptiontxtbox.Text = r["Title"].ToString();           
             notestxt.Text = r["Comments"].ToString();
             textBox1.Text = r["Est_Revenue"].ToString();
+            txtPath.Text = r["FolderPath"].ToString();
+            if (txtPath.Text.Length > 0)
+            {
+                webBrowser1.Url = new Uri(txtPath.Text);
+            }
+           
 
             string quoteddate = r["Quote_Date"].ToString();
             string quotedby = r["Employee"].ToString();
             string lastsavedby = r["LastSavedby"].ToString();
             string lastsaved = r["Lastsaved"].ToString();
-
-            quotedatelbl.Text = "Quote Date : " + quoteddate.Substring(0,10);
+            if (quoteddate.Length > 0)
+            {
+                quotedatelbl.Text = "Quote Date : " + quoteddate.Substring(0, 10);
+            }
+           
             Quotedbylbl.Text = "Quoted By : " + quotedby;
             Lsatsavedbylbl.Text = "Last Saved By : " + lastsavedby;
             Lastsavedlbl.Text = "Last Saved : " + lastsaved;
@@ -361,7 +370,7 @@ namespace SearchDataSPM.General
         {
             if (savbttn.Visible == true)
             {
-                DialogResult result = MessageBox.Show("Are you sure want to close without saving changes?", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult result = MetroFramework.MetroMessageBox.Show(this,"Are you sure want to close without saving changes?", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {
                 }
@@ -375,6 +384,7 @@ namespace SearchDataSPM.General
         private void processeditbutton()
         {
             editbttn.Visible = false;
+            button3.Visible = true;
             savbttn.Enabled = true;
             savbttn.Visible = true;
             familycombobox.Enabled = true;
@@ -383,15 +393,29 @@ namespace SearchDataSPM.General
             Ratingcombobox.Enabled = true;
             textBox1.Enabled = true;
             Howfndcombox.Enabled = true;
-            currencycombox.Enabled = true;
-            closedchkbox.Enabled = true;
-            cvttojobchkbox.Enabled = true;
+            currencycombox.Enabled = true;           
             notestxt.Enabled = true;
+
+            DataRow r = dt.Rows[0];
+            if (r["Converted_to_Job"].ToString().Equals("1"))
+            {
+                cvttojobchkbox.Enabled = false;
+                closedchkbox.Visible = false;
+            }
+
+            if (r["Closed"].ToString().Equals("1"))
+            {
+                closedchkbox.Enabled = false;
+                cvttojobchkbox.Visible = false;
+            }
+          
+            
         }
 
         private void perfromlockdown()
         {
             editbttn.Visible = true;
+            button3.Visible = false;
             savbttn.Enabled = false;
             savbttn.Visible = false;
             familycombobox.Enabled = false;
@@ -443,17 +467,21 @@ namespace SearchDataSPM.General
 
         private void savbttn_Click(object sender, EventArgs e)
         {
+            perfromsavebttn();           
+        }
+
+        void perfromsavebttn()
+        {
             Cursor.Current = Cursors.WaitCursor;
             this.Enabled = false;
             perfromlockdown();
             graballinfor();
             string lastsavedby = getuserfullname(get_username().ToString()).ToString();
-            createnewitemtosql(list[0].ToString(), list[1].ToString(), list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(), list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(), list[10].ToString(),lastsavedby);
+            createnewitemtosql(list[0].ToString(), list[1].ToString(), list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(), list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(), list[10].ToString(), lastsavedby);
 
             this.Enabled = true;
             Cursor.Current = Cursors.Default;
             filldatatable(list[0].ToString());
-           
         }
 
         private void createnewitemtosql(string quote, string description, string customer, string category, string rating, string howfound, string quotedprice, string currency, string closed, string convertedtojob, string notes, string user)
@@ -466,7 +494,7 @@ namespace SearchDataSPM.General
             {
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "UPDATE [SPM_Database].[dbo].[Opportunities] SET Title = '" + description + "',Company_Name = '" + customer + "',Category = '" + category + "',Rating = '" + rating + "',How_Found = '" + howfound + "',Est_Revenue = '" + quotedprice.ToString() + "',Currency = '" + currency + "',Closed = '" + closed + "',Converted_to_Job = '" + convertedtojob + "',Comments = '" + notes + "',LastSavedby = '" + user + "',LastSaved = '" + sqlFormattedDate + "' WHERE Quote = '" + quote + "' ";
+                cmd.CommandText = "UPDATE [SPM_Database].[dbo].[Opportunities] SET Title = '" + description + "',Company_Name = '" + customer + "',Category = '" + category + "',Rating = '" + rating + "',How_Found = '" + howfound + "',Est_Revenue = '" + quotedprice.ToString() + "',Currency = '" + currency + "',Closed = '" + closed + "',Converted_to_Job = '" + convertedtojob + "',Comments = '" + notes + "',LastSavedby = '" + user + "',LastSaved = '" + sqlFormattedDate + "',FolderPath = '" + txtPath.Text + "' WHERE Quote = '" + quote + "' ";
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 //MessageBox.Show("Item sucessfully saved SPM Connect Server.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -484,6 +512,72 @@ namespace SearchDataSPM.General
         private void editbttn_Click(object sender, EventArgs e)
         {
             processeditbutton();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            using (FolderBrowserDialog fbd = new FolderBrowserDialog() { Description = "Select your path." })
+            {
+                if (fbd.ShowDialog() == DialogResult.OK)
+                {
+                    webBrowser1.Url = new Uri(fbd.SelectedPath);
+                    txtPath.Text = fbd.SelectedPath;
+                }
+            }
+        }
+
+        private void forwardbttn_Click(object sender, EventArgs e)
+        {
+            if (webBrowser1.CanGoForward)
+                webBrowser1.GoForward();
+        }
+
+        private void backbttn_Click(object sender, EventArgs e)
+        {
+            if (webBrowser1.CanGoBack)
+                webBrowser1.GoBack();
+        }
+
+        private void closedchkbox_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to make this choice?", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                if (closedchkbox.Checked == true)
+                {
+                    closedchkbox.Checked = true;
+                    cvttojobchkbox.Checked = false;
+                    cvttojobchkbox.Visible = false;
+                    closedchkbox.Enabled = false;
+                    perfromsavebttn();
+                }
+            }
+            else
+            {
+                closedchkbox.Checked = false;
+            }
+        }
+
+        private void cvttojobchkbox_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to make this choice?", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                if (cvttojobchkbox.Checked == true)
+                {
+                    cvttojobchkbox.Checked = true;
+                    closedchkbox.Checked = false;
+                    closedchkbox.Visible = false;
+                    cvttojobchkbox.Enabled = false;
+                    perfromsavebttn();
+                }
+            }
+            else
+            {
+                cvttojobchkbox.Checked = false;
+            }
         }
     }
 }

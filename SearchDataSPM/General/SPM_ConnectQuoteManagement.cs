@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -44,6 +45,14 @@ namespace SearchDataSPM.General
         {
             Showallitems();
             this.Activate();
+            dataGridView.Columns[0].Width = 60;
+            dataGridView.Columns[1].Width = 80;
+            dataGridView.Columns[3].Width = 250;
+            dataGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridView.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridView.Columns[5].Visible = false;
+            dataGridView.Columns[6].Visible = false;
+            UpdateFont();
         }
 
         private void Showallitems()
@@ -53,19 +62,13 @@ namespace SearchDataSPM.General
                 if (cn.State == ConnectionState.Closed)
                     cn.Open();
 
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[Quotes] ORDER BY [Quote_Date] DESC", cn);
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[Quotes] ORDER BY DateCreated DESC", cn);
 
                 dt.Clear();
                 sda.Fill(dt);
                 dataGridView.DataSource = dt;
-                dataGridView.Sort(dataGridView.Columns[1], ListSortDirection.Descending);
-                dataGridView.Columns[0].Width = 60;
-                dataGridView.Columns[1].Width = 80;
-                dataGridView.Columns[3].Width = 250;
-                dataGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                dataGridView.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                dataGridView.Columns[5].Visible = false;
-                UpdateFont();
+               
+
             }
             catch (Exception)
             {
@@ -631,7 +634,9 @@ namespace SearchDataSPM.General
                 string user = getuserfullname(get_username());
                 string newnunber = getnewnumber();
                 createnewquote(newnunber, user);
+                createfolders(newnunber);
                 showquotedetails(newnunber);
+
             }
         }
 
@@ -641,6 +646,7 @@ namespace SearchDataSPM.General
             DateTime date = DateTime.Now.Date;
             string sqlFormattedDate = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
             string sqlFormattedDate2 = date.ToString("yyyy-MM-dd");
+            string folderpath = @"\\spm-adfs\SPM\S300 Sales and Project Management\Sales\Opportunities\Q" + quotenumber + @"\";
 
             if (cn.State == ConnectionState.Closed)
                 cn.Open();
@@ -648,7 +654,7 @@ namespace SearchDataSPM.General
             {
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Opportunities] (Quote, Quote_Date, Employee, LastSavedby, Lastsaved) VALUES('" + quotenumber.ToString() + "','" + date.ToString() + "','" + employee.ToString() + "','" + employee.ToString() + "','" + sqlFormattedDate + "')";
+                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Opportunities] (Quote, Quote_Date, Employee, LastSavedby, Lastsaved,DateCreated, FolderPath) VALUES('" + quotenumber.ToString() + "','" + date.ToString() + "','" + employee.ToString() + "','" + employee.ToString() + "','" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + folderpath + "')";
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -664,5 +670,87 @@ namespace SearchDataSPM.General
             }
 
         }
+
+        private static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs)
+        {
+            // Get the subdirectories for the specified directory.
+            DirectoryInfo dir = new DirectoryInfo(sourceDirName);
+
+            if (!dir.Exists)
+            {
+                MessageBox.Show(
+                  "Source directory does not exist or could not be found: "
+                  + sourceDirName);
+                return;
+            }
+            if (Directory.Exists(destDirName))
+            {
+                if (MessageBox.Show(destDirName + " already exists\r\nDo you want to overwrite it?", "Overwrite Folder  - SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button2, MessageBoxOptions.DefaultDesktopOnly) == DialogResult.Yes)
+                {
+                    DirectoryInfo[] dirs = dir.GetDirectories();
+                    // If the destination directory doesn't exist, create it.
+                    if (!Directory.Exists(destDirName))
+                    {
+                        Directory.CreateDirectory(destDirName);
+                    }
+
+                    // Get the files in the directory and copy them to the new location.
+                    FileInfo[] files = dir.GetFiles();
+                    foreach (FileInfo file in files)
+                    {
+                        string temppath = Path.Combine(destDirName, file.Name);
+                        file.CopyTo(temppath, true);
+                    }
+
+                    // If copying subdirectories, copy them and their contents to new location.
+                    if (copySubDirs)
+                    {
+                        foreach (DirectoryInfo subdir in dirs)
+                        {
+                            string temppath = Path.Combine(destDirName, subdir.Name);
+                            DirectoryCopy(subdir.FullName, temppath, copySubDirs);
+                        }
+                    }
+                }
+                else { return; }
+            }
+            else
+            {
+                DirectoryInfo[] dirs = dir.GetDirectories();
+                // If the destination directory doesn't exist, create it.
+                if (!Directory.Exists(destDirName))
+                {
+                    Directory.CreateDirectory(destDirName);
+                }
+
+                // Get the files in the directory and copy them to the new location.
+                FileInfo[] files = dir.GetFiles();
+                foreach (FileInfo file in files)
+                {
+                    string temppath = Path.Combine(destDirName, file.Name);
+                    file.CopyTo(temppath, false);
+                }
+
+                // If copying subdirectories, copy them and their contents to new location.
+                if (copySubDirs)
+                {
+                    foreach (DirectoryInfo subdir in dirs)
+                    {
+                        string temppath = Path.Combine(destDirName, subdir.Name);
+                        DirectoryCopy(subdir.FullName, temppath, copySubDirs);
+                    }
+                }
+            }
+
+        }
+
+        void createfolders(string quotenumber)
+        {
+            string destpaths300 = @"\\spm-adfs\SPM\S300 Sales and Project Management\Sales\Opportunities\Q" + quotenumber;
+            string sourcepaths300 = @"\\spm-adfs\SPM\S300 Sales and Project Management\Sales\Opportunities\#### Sample Opportunity";
+            DirectoryCopy(sourcepaths300, destpaths300, true);
+        }
+
+
     }
 }
