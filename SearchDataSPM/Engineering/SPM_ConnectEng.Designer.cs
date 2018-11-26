@@ -208,13 +208,13 @@ namespace SearchDataSPM
             this.deleteItemToolStripMenuItem});
             this.FormSelector.Name = "contextMenuStrip1";
             this.FormSelector.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.FormSelector.Size = new System.Drawing.Size(181, 202);
+            this.FormSelector.Size = new System.Drawing.Size(177, 180);
             // 
             // bOMToolStripMenuItem
             // 
             this.bOMToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("bOMToolStripMenuItem.Image")));
             this.bOMToolStripMenuItem.Name = "bOMToolStripMenuItem";
-            this.bOMToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.bOMToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.bOMToolStripMenuItem.Text = "BOM";
             this.bOMToolStripMenuItem.ToolTipText = "Bills Of Material";
             this.bOMToolStripMenuItem.Click += new System.EventHandler(this.bOMToolStripMenuItem_Click);
@@ -223,7 +223,7 @@ namespace SearchDataSPM
             // 
             this.whereUsedToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("whereUsedToolStripMenuItem.Image")));
             this.whereUsedToolStripMenuItem.Name = "whereUsedToolStripMenuItem";
-            this.whereUsedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.whereUsedToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.whereUsedToolStripMenuItem.Text = "Where Used";
             this.whereUsedToolStripMenuItem.ToolTipText = "Check Where Used";
             this.whereUsedToolStripMenuItem.Click += new System.EventHandler(this.whereUsedToolStripMenuItem_Click);
@@ -232,7 +232,7 @@ namespace SearchDataSPM
             // 
             this.openModelToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openModelToolStripMenuItem.Image")));
             this.openModelToolStripMenuItem.Name = "openModelToolStripMenuItem";
-            this.openModelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openModelToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.openModelToolStripMenuItem.Text = "Open Model";
             this.openModelToolStripMenuItem.ToolTipText = "Open Selected Item\'s Model";
             this.openModelToolStripMenuItem.Click += new System.EventHandler(this.openModelToolStripMenuItem_Click);
@@ -241,7 +241,7 @@ namespace SearchDataSPM
             // 
             this.openDrawingToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openDrawingToolStripMenuItem.Image")));
             this.openDrawingToolStripMenuItem.Name = "openDrawingToolStripMenuItem";
-            this.openDrawingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openDrawingToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.openDrawingToolStripMenuItem.Text = "Open Drawing";
             this.openDrawingToolStripMenuItem.ToolTipText = "Open Selected Item\'s Drawing";
             this.openDrawingToolStripMenuItem.Click += new System.EventHandler(this.openDrawingToolStripMenuItem_Click);
@@ -250,7 +250,7 @@ namespace SearchDataSPM
             // 
             this.editItemToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("editItemToolStripMenuItem.Image")));
             this.editItemToolStripMenuItem.Name = "editItemToolStripMenuItem";
-            this.editItemToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.editItemToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.editItemToolStripMenuItem.Text = "Edit Item";
             this.editItemToolStripMenuItem.ToolTipText = "Edit Selected Item\'s Properties";
             this.editItemToolStripMenuItem.Click += new System.EventHandler(this.editItemToolStripMenuItem_Click);
@@ -259,7 +259,7 @@ namespace SearchDataSPM
             // 
             this.copySelectedItemToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("copySelectedItemToolStripMenuItem.Image")));
             this.copySelectedItemToolStripMenuItem.Name = "copySelectedItemToolStripMenuItem";
-            this.copySelectedItemToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.copySelectedItemToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.copySelectedItemToolStripMenuItem.Text = "Copy Selected Item";
             this.copySelectedItemToolStripMenuItem.ToolTipText = "Copy selected item to new item number";
             this.copySelectedItemToolStripMenuItem.Click += new System.EventHandler(this.copySelectedItemToolStripMenuItem_Click);
@@ -271,7 +271,7 @@ namespace SearchDataSPM
             this.sparePartsToolStripMenuItem});
             this.viewReportBOM.Image = ((System.Drawing.Image)(resources.GetObject("viewReportBOM.Image")));
             this.viewReportBOM.Name = "viewReportBOM";
-            this.viewReportBOM.Size = new System.Drawing.Size(180, 22);
+            this.viewReportBOM.Size = new System.Drawing.Size(176, 22);
             this.viewReportBOM.Text = "View Report (BOM)";
             this.viewReportBOM.ToolTipText = "View BOM Report";
             // 
@@ -298,7 +298,7 @@ namespace SearchDataSPM
             this.deleteItemToolStripMenuItem.Enabled = false;
             this.deleteItemToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("deleteItemToolStripMenuItem.Image")));
             this.deleteItemToolStripMenuItem.Name = "deleteItemToolStripMenuItem";
-            this.deleteItemToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteItemToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.deleteItemToolStripMenuItem.Text = "Delete Item";
             this.deleteItemToolStripMenuItem.ToolTipText = "Delete Selected Item From Connect";
             this.deleteItemToolStripMenuItem.Visible = false;
@@ -395,8 +395,8 @@ namespace SearchDataSPM
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(26, 8);
             this.label1.TabIndex = 11;
-            this.label1.Text = "V7.0.0";
-            this.TreeViewToolTip.SetToolTip(this.label1, "SPM Connect V7.0.0");
+            this.label1.Text = "V7.0.1";
+            this.TreeViewToolTip.SetToolTip(this.label1, "SPM Connect V7.0.1");
             this.label1.DoubleClick += new System.EventHandler(this.label1_DoubleClick);
             // 
             // filter4

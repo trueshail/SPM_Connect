@@ -161,7 +161,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Reload.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.Reload.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Reload.Location = new System.Drawing.Point(668, 5);
+            this.Reload.Location = new System.Drawing.Point(668, 8);
             this.Reload.MaximumSize = new System.Drawing.Size(140, 30);
             this.Reload.MinimumSize = new System.Drawing.Size(140, 30);
             this.Reload.Name = "Reload";
@@ -250,8 +250,8 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(26, 8);
             this.label1.TabIndex = 11;
-            this.label1.Text = "V7.0.0";
-            this.TreeViewToolTip.SetToolTip(this.label1, "SPM Connect V7.0.0");
+            this.label1.Text = "V7.0.1";
+            this.TreeViewToolTip.SetToolTip(this.label1, "SPM Connect V7.0.1");
             // 
             // filter4
             // 
@@ -335,7 +335,7 @@
             // 
             this.CreateFolderButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.CreateFolderButton.Location = new System.Drawing.Point(815, 8);
+            this.CreateFolderButton.Location = new System.Drawing.Point(815, 11);
             this.CreateFolderButton.MaximumSize = new System.Drawing.Size(83, 26);
             this.CreateFolderButton.MinimumSize = new System.Drawing.Size(83, 26);
             this.CreateFolderButton.Name = "CreateFolderButton";

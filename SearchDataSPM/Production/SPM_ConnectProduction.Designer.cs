@@ -200,13 +200,13 @@
             this.viewReportBOM});
             this.FormSelector.Name = "contextMenuStrip1";
             this.FormSelector.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.FormSelector.Size = new System.Drawing.Size(181, 136);
+            this.FormSelector.Size = new System.Drawing.Size(176, 114);
             // 
             // bOMToolStripMenuItem
             // 
             this.bOMToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("bOMToolStripMenuItem.Image")));
             this.bOMToolStripMenuItem.Name = "bOMToolStripMenuItem";
-            this.bOMToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.bOMToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.bOMToolStripMenuItem.Text = "BOM";
             this.bOMToolStripMenuItem.ToolTipText = "Bills Of Material";
             this.bOMToolStripMenuItem.Click += new System.EventHandler(this.bOMToolStripMenuItem_Click);
@@ -215,7 +215,7 @@
             // 
             this.whereUsedToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("whereUsedToolStripMenuItem.Image")));
             this.whereUsedToolStripMenuItem.Name = "whereUsedToolStripMenuItem";
-            this.whereUsedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.whereUsedToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.whereUsedToolStripMenuItem.Text = "Where Used";
             this.whereUsedToolStripMenuItem.ToolTipText = "Check Where Used";
             this.whereUsedToolStripMenuItem.Click += new System.EventHandler(this.whereUsedToolStripMenuItem_Click);
@@ -224,7 +224,7 @@
             // 
             this.openModelToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openModelToolStripMenuItem.Image")));
             this.openModelToolStripMenuItem.Name = "openModelToolStripMenuItem";
-            this.openModelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openModelToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.openModelToolStripMenuItem.Text = "Open Model";
             this.openModelToolStripMenuItem.ToolTipText = "Open Selected Item\'s Model";
             this.openModelToolStripMenuItem.Click += new System.EventHandler(this.openModelToolStripMenuItem_Click);
@@ -233,7 +233,7 @@
             // 
             this.openDrawingToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openDrawingToolStripMenuItem.Image")));
             this.openDrawingToolStripMenuItem.Name = "openDrawingToolStripMenuItem";
-            this.openDrawingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openDrawingToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.openDrawingToolStripMenuItem.Text = "Open Drawing";
             this.openDrawingToolStripMenuItem.ToolTipText = "Open Selected Item\'s Drawing";
             this.openDrawingToolStripMenuItem.Click += new System.EventHandler(this.openDrawingToolStripMenuItem_Click);
@@ -245,7 +245,7 @@
             this.sparePartsToolStripMenuItem});
             this.viewReportBOM.Image = ((System.Drawing.Image)(resources.GetObject("viewReportBOM.Image")));
             this.viewReportBOM.Name = "viewReportBOM";
-            this.viewReportBOM.Size = new System.Drawing.Size(180, 22);
+            this.viewReportBOM.Size = new System.Drawing.Size(175, 22);
             this.viewReportBOM.Text = "View Report (BOM)";
             this.viewReportBOM.ToolTipText = "View BOM Report";
             // 
@@ -372,8 +372,8 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(26, 8);
             this.label1.TabIndex = 11;
-            this.label1.Text = "V7.0.0";
-            this.TreeViewToolTip.SetToolTip(this.label1, "SPM Connect V7.0.0");
+            this.label1.Text = "V7.0.1";
+            this.TreeViewToolTip.SetToolTip(this.label1, "SPM Connect V7.0.1");
             this.label1.DoubleClick += new System.EventHandler(this.label1_DoubleClick);
             // 
             // filter4
@@ -585,9 +585,6 @@
             this.recordlabel.Name = "recordlabel";
             this.recordlabel.Size = new System.Drawing.Size(0, 14);
             this.recordlabel.TabIndex = 102;
-            // 
-            // timer2
-            // 
             // 
             // SPM_ConnectProduction
             // 
