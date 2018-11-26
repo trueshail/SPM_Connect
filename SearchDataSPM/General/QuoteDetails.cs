@@ -145,8 +145,6 @@ namespace SearchDataSPM.General
                 currencycombox.SelectedItem = currency;
             }
 
-
-
             //if (r["Converted_to_Job"].ToString().Equals("1"))
             //{
             //    cvttojobchkbox.Checked = true;
@@ -587,8 +585,8 @@ namespace SearchDataSPM.General
                     string jobdescription = reg.Replace(Descriptiontxtbox.Text, "");
                     jobdescription = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(jobdescription.ToLower());
                     string customer = reg.Replace(familycombobox.Text, "");
+                    //customer = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(customer.ToLower());
 
-                    customer = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(customer.ToLower());
                     //string sourcepath = @"\\spm-adfs\SPM\S300 Sales and Project Management\Sales\Opportunities\Q" + ItemTxtBox.Text + "_" + customer + "_" + jobdescription;
                     string sourcepath = txtPath.Text;
                     string destinationpath = @"\\spm-adfs\SPM\S300 Sales and Project Management\Sales\Opportunities\Closed Opportunities\Lost or Dead for other Reasons\Q" + ItemTxtBox.Text + "_" + customer + "_" + jobdescription;
@@ -621,7 +619,8 @@ namespace SearchDataSPM.General
                     string jobdescription = reg.Replace(Descriptiontxtbox.Text, "");
                     jobdescription = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(jobdescription.ToLower());
                     string customer = reg.Replace(familycombobox.Text, "");
-                    customer = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(customer.ToLower());
+                    //customer = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(customer.ToLower());
+
                     //string sourcepath = @"\\spm-adfs\SPM\S300 Sales and Project Management\Sales\Opportunities\Q" + ItemTxtBox.Text + "_" + customer + "_" + jobdescription;
                     string sourcepath =txtPath.Text;
                     string destinationpath = @"\\spm-adfs\SPM\S300 Sales and Project Management\Sales\Opportunities\Closed Opportunities\Transfered_to_Jobs\Q" + ItemTxtBox.Text + "_" + customer + "_" + jobdescription;
@@ -743,7 +742,7 @@ namespace SearchDataSPM.General
             jobdescription = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(jobdescription.ToLower());
 
             string customer = reg.Replace(familycombobox.Text, "");
-            customer = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(customer.ToLower());
+            //customer = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(customer.ToLower());
 
             string destpaths300 = @"\\spm-adfs\SPM\S300 Sales and Project Management\Sales\Opportunities\Q" + quotenumber + "_" + customer + "_" + jobdescription;
             string sourcepaths300 = @"\\spm-adfs\SPM\S300 Sales and Project Management\Sales\Opportunities\#### Sample Opportunity";
@@ -760,7 +759,6 @@ namespace SearchDataSPM.General
 
           
         }
-
 
     }
 }

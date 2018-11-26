@@ -64,6 +64,7 @@ namespace SearchDataSPM
         {
             CheckManagement();
             Checkdeveloper();
+            checkquoterights();
             Showallitems();
 
         }
@@ -613,11 +614,51 @@ namespace SearchDataSPM
         }
 
 
-            #endregion
+        private void checkquoterights()
+        {
+            string useradmin = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND Quote = '1'", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    sqlCommand.Parameters.AddWithValue("@username", useradmin);
+
+                    int userCount = (int)sqlCommand.ExecuteScalar();
+                    if (userCount == 1)
+                    {
+                        quotebttn.Enabled = true;
+                        quotebttn.Visible = true;
+
+                    }
+                    else
+                    {
+                        quotebttn.Enabled = false;
+                        quotebttn.Visible = false;
+
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Application.Exit();
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+        }
+
+
+        #endregion
 
         #region datagridview events
 
-            private void dataGridView_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
+        private void dataGridView_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex > -1)
             {
@@ -1237,6 +1278,11 @@ namespace SearchDataSPM
         }
 
         private void quotebttn_Click(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void quotebttn_Click_1(object sender, EventArgs e)
         {
             General.SPM_ConnectQuoteManagement quoteTracking = new General.SPM_ConnectQuoteManagement();
             quoteTracking.Show();

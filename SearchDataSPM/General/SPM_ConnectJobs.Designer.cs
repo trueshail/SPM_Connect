@@ -66,7 +66,7 @@
             this.txtSearch.MaximumSize = new System.Drawing.Size(32767, 25);
             this.txtSearch.MinimumSize = new System.Drawing.Size(4, 23);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(452, 25);
+            this.txtSearch.Size = new System.Drawing.Size(452, 26);
             this.txtSearch.TabIndex = 1;
             this.TreeViewToolTip.SetToolTip(this.txtSearch, "Enter Search Keyword.\r\n(Double click to reset)");
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
@@ -315,7 +315,7 @@
             // 
             this.CreateFolderButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.CreateFolderButton.Location = new System.Drawing.Point(884, 9);
+            this.CreateFolderButton.Location = new System.Drawing.Point(815, 8);
             this.CreateFolderButton.MaximumSize = new System.Drawing.Size(83, 26);
             this.CreateFolderButton.MinimumSize = new System.Drawing.Size(83, 26);
             this.CreateFolderButton.Name = "CreateFolderButton";
@@ -329,15 +329,21 @@
             // 
             this.quotebttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.quotebttn.Location = new System.Drawing.Point(814, 9);
-            this.quotebttn.MaximumSize = new System.Drawing.Size(83, 26);
-            this.quotebttn.MinimumSize = new System.Drawing.Size(64, 26);
+            this.quotebttn.BackColor = System.Drawing.Color.Transparent;
+            this.quotebttn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.quotebttn.ForeColor = System.Drawing.Color.Black;
+            this.quotebttn.Image = ((System.Drawing.Image)(resources.GetObject("quotebttn.Image")));
+            this.quotebttn.Location = new System.Drawing.Point(904, 5);
+            this.quotebttn.MaximumSize = new System.Drawing.Size(50, 50);
+            this.quotebttn.MinimumSize = new System.Drawing.Size(32, 32);
             this.quotebttn.Name = "quotebttn";
-            this.quotebttn.Size = new System.Drawing.Size(64, 26);
-            this.quotebttn.TabIndex = 12;
-            this.quotebttn.Text = "Quotes";
-            this.quotebttn.UseVisualStyleBackColor = true;
-            this.quotebttn.Click += new System.EventHandler(this.quotebttn_Click);
+            this.quotebttn.Size = new System.Drawing.Size(32, 32);
+            this.quotebttn.TabIndex = 21;
+            this.quotebttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.TreeViewToolTip.SetToolTip(this.quotebttn, "Create New Quote");
+            this.quotebttn.UseVisualStyleBackColor = false;
+            this.quotebttn.Visible = false;
+            this.quotebttn.Click += new System.EventHandler(this.quotebttn_Click_1);
             // 
             // SPM_ConnectJobs
             // 
@@ -345,8 +351,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Gray;
             this.ClientSize = new System.Drawing.Size(987, 661);
-            this.Controls.Add(this.purchasereq);
             this.Controls.Add(this.quotebttn);
+            this.Controls.Add(this.purchasereq);
             this.Controls.Add(this.CreateFolderButton);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.SPM);
