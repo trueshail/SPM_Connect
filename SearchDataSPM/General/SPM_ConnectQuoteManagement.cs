@@ -627,26 +627,32 @@ namespace SearchDataSPM.General
 
         private void addnewbttn_Click(object sender, EventArgs e)
         {
+            
             DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to create a new quote?", "SPM Connect - Create New Quote?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result == DialogResult.Yes)
             {
                 string user = getuserfullname(get_username());
                 string newnunber = getnewnumber();
-                createnewquote(newnunber, user);
-                createfolders(newnunber);
-                showquotedetails(newnunber);
-
+                bool status = createnewquote(newnunber, user);
+                if (status)
+                {
+                    //createfolders(newnunber);
+                    showquotedetails(newnunber);
+                }
+                
             }
         }
 
-        private void createnewquote(string quotenumber, string employee)
+        private bool createnewquote(string quotenumber, string employee)
         {
+            bool success = false;
             DateTime datecreated = DateTime.Now;
             DateTime date = DateTime.Now.Date;
-            string sqlFormattedDate = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-            string sqlFormattedDate2 = date.ToString("yyyy-MM-dd");
-            string folderpath = @"\\spm-adfs\SPM\S300 Sales and Project Management\Sales\Opportunities\Q" + quotenumber + @"\";
+            
+            string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
+            string sqlFormattedDate = date.ToString("yyyy-MM-dd");
+            string folderpath = @"\\spm-adfs\SPM\S300 Sales and Project Management\Sales\Opportunities\";
 
             if (cn.State == ConnectionState.Closed)
                 cn.Open();
@@ -654,9 +660,13 @@ namespace SearchDataSPM.General
             {
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Opportunities] (Quote, Quote_Date, Employee, LastSavedby, Lastsaved,DateCreated, FolderPath) VALUES('" + quotenumber.ToString() + "','" + date.ToString() + "','" + employee.ToString() + "','" + employee.ToString() + "','" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + folderpath + "')";
-                cmd.ExecuteNonQuery();
+                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Opportunities] (Quote, Quote_Date, Employee, LastSavedby, Lastsaved,DateCreated, FolderPath) VALUES('" + quotenumber.ToString() + "',@value1,'" + employee.ToString() + "','" + employee.ToString() + "',@value2,@value2,'" + folderpath + "')";
+
+                cmd.Parameters.AddWithValue("@value1", sqlFormattedDate);
+                cmd.Parameters.AddWithValue("@value2", sqlFormattedDatetime);
+                cmd.ExecuteNonQuery();                
                 cn.Close();
+                success = true;
                 //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             }
@@ -666,9 +676,11 @@ namespace SearchDataSPM.General
             }
             finally
             {
-                cn.Close();
+                cn.Close();               
+            
             }
-
+            return success;
+            
         }
 
         private static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs)

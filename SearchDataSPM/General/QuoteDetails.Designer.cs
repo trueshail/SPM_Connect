@@ -219,7 +219,7 @@
             this.groupBox1.Location = new System.Drawing.Point(12, 125);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(807, 338);
-            this.groupBox1.TabIndex = 97;
+            this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Quote Details : -";
             // 
@@ -556,7 +556,6 @@
             // 
             // txtPath
             // 
-            this.txtPath.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPath.Location = new System.Drawing.Point(126, 469);
             this.txtPath.MinimumSize = new System.Drawing.Size(200, 25);
