@@ -47,9 +47,9 @@
             this.filter4 = new System.Windows.Forms.TextBox();
             this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.purchasereq = new System.Windows.Forms.Button();
+            this.quotebttn = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.CreateFolderButton = new System.Windows.Forms.Button();
-            this.quotebttn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -302,6 +302,26 @@
             this.purchasereq.Visible = false;
             this.purchasereq.Click += new System.EventHandler(this.purchasereq_Click);
             // 
+            // quotebttn
+            // 
+            this.quotebttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.quotebttn.BackColor = System.Drawing.Color.Transparent;
+            this.quotebttn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.quotebttn.ForeColor = System.Drawing.Color.Black;
+            this.quotebttn.Image = ((System.Drawing.Image)(resources.GetObject("quotebttn.Image")));
+            this.quotebttn.Location = new System.Drawing.Point(904, 5);
+            this.quotebttn.MaximumSize = new System.Drawing.Size(45, 45);
+            this.quotebttn.MinimumSize = new System.Drawing.Size(45, 45);
+            this.quotebttn.Name = "quotebttn";
+            this.quotebttn.Size = new System.Drawing.Size(45, 45);
+            this.quotebttn.TabIndex = 21;
+            this.quotebttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.TreeViewToolTip.SetToolTip(this.quotebttn, "Quote Tracking");
+            this.quotebttn.UseVisualStyleBackColor = false;
+            this.quotebttn.Visible = false;
+            this.quotebttn.Click += new System.EventHandler(this.quotebttn_Click_1);
+            // 
             // openFileDialog1
             // 
             this.openFileDialog1.CheckFileExists = false;
@@ -324,26 +344,6 @@
             this.CreateFolderButton.Text = "CreateFolders";
             this.CreateFolderButton.UseVisualStyleBackColor = true;
             this.CreateFolderButton.Click += new System.EventHandler(this.CreateFolderButton_Click);
-            // 
-            // quotebttn
-            // 
-            this.quotebttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.quotebttn.BackColor = System.Drawing.Color.Transparent;
-            this.quotebttn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.quotebttn.ForeColor = System.Drawing.Color.Black;
-            this.quotebttn.Image = ((System.Drawing.Image)(resources.GetObject("quotebttn.Image")));
-            this.quotebttn.Location = new System.Drawing.Point(904, 5);
-            this.quotebttn.MaximumSize = new System.Drawing.Size(50, 50);
-            this.quotebttn.MinimumSize = new System.Drawing.Size(32, 32);
-            this.quotebttn.Name = "quotebttn";
-            this.quotebttn.Size = new System.Drawing.Size(32, 32);
-            this.quotebttn.TabIndex = 21;
-            this.quotebttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.TreeViewToolTip.SetToolTip(this.quotebttn, "Create New Quote");
-            this.quotebttn.UseVisualStyleBackColor = false;
-            this.quotebttn.Visible = false;
-            this.quotebttn.Click += new System.EventHandler(this.quotebttn_Click_1);
             // 
             // SPM_ConnectJobs
             // 
