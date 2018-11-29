@@ -82,5 +82,20 @@ namespace SearchDataSPM
         {
             this.Dispose();
         }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Control | Keys.P))
+            {
+                reportViewer1.PrintDialog();               
+                return true;
+            }
+            if (keyData == (Keys.Control | Keys.W))
+            {
+                this.Close();
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
     }
 }

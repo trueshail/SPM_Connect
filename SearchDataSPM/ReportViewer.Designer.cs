@@ -50,6 +50,7 @@
             this.ClientSize = new System.Drawing.Size(1066, 780);
             this.Controls.Add(this.reportViewer1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.Name = "ReportViewer";
             this.Text = "Report Viewer";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
