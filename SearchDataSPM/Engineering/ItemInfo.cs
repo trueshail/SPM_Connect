@@ -16,13 +16,14 @@ using System.Windows.Forms;
 namespace SearchDataSPM
 {
 
-	public partial class ItemInfo : Form
+    public partial class ItemInfo : Form
 
-	{
+    {
         #region steupvariables
-        String connection;		
+        String connection;
         DataTable _acountsTb;
         DataTable dt = new DataTable();
+        DataTable PO;
         SqlConnection _connection;
         SqlCommand _command;
         SqlDataAdapter _adapter;
@@ -30,39 +31,40 @@ namespace SearchDataSPM
         string iteminfo2;
         int PW;
         bool hiden;
-      
+
 
         #endregion
-        
+
         public ItemInfo()
 
-		{
-			InitializeComponent();
+        {
+            InitializeComponent();
             PW = 500;
             hiden = true;
             SlidePanel.Width = 0;
 
-			connection = ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
-			
-			try
-			{
+            connection = ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
+
+            try
+            {
                 _connection = new SqlConnection(connection);
 
-			}
-			catch (Exception ex)
-			{
+            }
+            catch (Exception ex)
+            {
 
-				MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-			}
+            }
 
-			
-            _acountsTb = new DataTable();            
+
+            _acountsTb = new DataTable();
+            PO = new DataTable();
             _command = new SqlCommand();
             _command.Connection = _connection;
-            
 
-            
+
+
         }
 
         public string item(string item)
@@ -73,11 +75,15 @@ namespace SearchDataSPM
         }
 
         private void ParentView_Load(object sender, EventArgs e)
-		{
-            this.Text = "ItemInfo - SPM Connect ("+iteminfo2+")";
+        {
+            this.Text = "ItemInfo - SPM Connect (" + iteminfo2 + ")";
             CheckManagement();
-            if (yesmanagement) { showitemstogridview(iteminfo2); }
-            
+            if (yesmanagement)
+            {
+                showitemstogridview(iteminfo2);
+                SHOWITEMPRICE(iteminfo2);
+            }
+
             checkfordata(iteminfo2);
 
 
@@ -104,12 +110,15 @@ namespace SearchDataSPM
 
                         panel1.Visible = true;
                         yesmanagement = true;
+                        checkBox1.Visible = true;
+
 
                     }
                     else
                     {
                         panel1.Visible = false;
                         yesmanagement = false;
+                        checkBox1.Visible = false;
                     }
 
                 }
@@ -154,7 +163,7 @@ namespace SearchDataSPM
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-               // MessageBox.Show("Data cannot be retrieved from server. Please contact the admin.", "SPM Connect - SQL SERVER ENG", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // MessageBox.Show("Data cannot be retrieved from server. Please contact the admin.", "SPM Connect - SQL SERVER ENG", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 //Application.Exit();
             }
             finally
@@ -163,6 +172,37 @@ namespace SearchDataSPM
             }
 
             //dataGridView.Location = new Point(0, 40);
+
+        }
+
+        private void SHOWITEMPRICE(string itemnumber)
+        {
+            String sql = "SELECT *  FROM [dbo].[PriceItemsFromPO]  WHERE Item = '" + itemnumber.ToString() + "' ORDER BY PurchaseOrder DESC";
+            try
+            {
+                if (_connection.State == ConnectionState.Closed)
+                    _connection.Open();
+
+                SqlDataAdapter sda = new SqlDataAdapter(sql, _connection);
+
+                PO.Clear();
+                sda.Fill(PO);
+                dataGridView2.DataSource = PO;
+                dataGridView2.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                dataGridView2.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                dataGridView2.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                dataGridView2.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+            finally
+            {
+                _connection.Close();
+            }
 
         }
 
@@ -184,12 +224,12 @@ namespace SearchDataSPM
                 try
                 {
                     _connection.Open();
-                    
+
 
                     int userCount = (int)sqlCommand.ExecuteScalar();
                     if (userCount > 0)
                     {
-                        
+
                         _connection.Close();
                         filldatatable(iteminfo2);
 
@@ -197,7 +237,7 @@ namespace SearchDataSPM
                     else
                     {
                         SPM_Connect sPM_Connect = new SPM_Connect();
-                        sPM_Connect.addcpoieditemtosqltablefromgenius(iteminfo2,iteminfo2);                        
+                        sPM_Connect.addcpoieditemtosqltablefromgenius(iteminfo2, iteminfo2);
                         filldatatable(iteminfo2);
                         //MessageBox.Show("Data not found on SPM Connect server.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         //this.Close();
@@ -214,7 +254,7 @@ namespace SearchDataSPM
                 {
                     _connection.Close();
                 }
-              
+
 
             }
 
@@ -222,7 +262,7 @@ namespace SearchDataSPM
 
         private void filldatatable(string itemnumber)
         {
-            String sql = "SELECT *  FROM [SPM_Database].[dbo].[Inventory] WHERE [ItemNumber]='"+itemnumber.ToString()+"'";
+            String sql = "SELECT *  FROM [SPM_Database].[dbo].[Inventory] WHERE [ItemNumber]='" + itemnumber.ToString() + "'";
 
             // String sql2 = "SELECT *  FROM [SPM_Database].[dbo].[UnionInventory]";
             try
@@ -232,14 +272,14 @@ namespace SearchDataSPM
                 _adapter = new SqlDataAdapter(sql, _connection);
                 _adapter.Fill(_acountsTb);
                 fillinfo();
-               
-               
+
+
 
             }
             catch (SqlException ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                
+
             }
             finally
             {
@@ -259,7 +299,7 @@ namespace SearchDataSPM
             Descriptiontxtbox.Text = r["Description"].ToString();
             oemtxtbox.Text = r["Manufacturer"].ToString();
             oemitemtxtbox.Text = r["ManufacturerItemNumber"].ToString();
-            familytxtbox.Text = r["FamilyCode"].ToString();            
+            familytxtbox.Text = r["FamilyCode"].ToString();
             sparetxtbox.Text = r["Spare"].ToString();
             mattxt.Text = r["Material"].ToString();
             designbytxt.Text = r["DesignedBy"].ToString();
@@ -274,7 +314,7 @@ namespace SearchDataSPM
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
+
             if (!hiden)
             {
                 button1.Text = "S\nH\nO\nW\n A\nD\nV\nA\nN\nC\nE\n O\nP\nT\nI\nO\nN\nS";
@@ -282,7 +322,7 @@ namespace SearchDataSPM
             else
             {
                 button1.Text = "H\nI\nD\nE\n A\nD\nV\nA\nN\nC\nE\n O\nP\nT\nI\nO\nN\nS";
-               
+
             }
             timer1.Start();
         }
@@ -292,7 +332,7 @@ namespace SearchDataSPM
             if (hiden)
             {
                 SlidePanel.Width = SlidePanel.Width + 50;
-                if(SlidePanel.Width >= PW)
+                if (SlidePanel.Width >= PW)
                 {
                     timer1.Stop();
                     hiden = false;
@@ -302,7 +342,7 @@ namespace SearchDataSPM
             else
             {
                 SlidePanel.Width = SlidePanel.Width - 50;
-                if(SlidePanel.Width <= 0)
+                if (SlidePanel.Width <= 0)
                 {
                     timer1.Stop();
                     hiden = true;
@@ -347,7 +387,7 @@ namespace SearchDataSPM
         private void Addnewbttn_Click(object sender, EventArgs e)
         {
             errorProvider1.Clear();
-            if(salepricetext.Text.Length>0 && qtytxt.Text.Length > 0)
+            if (salepricetext.Text.Length > 0 && qtytxt.Text.Length > 0)
             {
                 string itemnumber = ItemTxtBox.Text;
                 string user = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
@@ -360,9 +400,9 @@ namespace SearchDataSPM
             {
                 errorProvider1.SetError(costpricetxt, "Cannot be null");
                 errorProvider1.SetError(salepricetext, "Cannot be null");
-                MessageBox.Show("SalesPrice and quantity cannot be empty in order to add new entry.","SPM Connect",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                MessageBox.Show("SalesPrice and quantity cannot be empty in order to add new entry.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-            
+
         }
 
         private void createnewentry(string itemnumber, string user)
@@ -459,7 +499,7 @@ namespace SearchDataSPM
                 salepricetext.Text = amount.ToString("C");
             }
 
-            if(salepricetext.Text.Length == 0)
+            if (salepricetext.Text.Length == 0)
             {
 
             }
@@ -469,6 +509,20 @@ namespace SearchDataSPM
         private void ItemInfo_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.Dispose();
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+                this.Size = new Size(750, 650);
+                dataGridView2.Visible = true;
+            }
+            else
+            {
+                this.Size = new Size(750, 520);
+                dataGridView2.Visible = false;
+            }
         }
     }
 

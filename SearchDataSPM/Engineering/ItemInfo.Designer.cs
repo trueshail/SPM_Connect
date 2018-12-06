@@ -77,10 +77,13 @@
             this.costlabel = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.panel1.SuspendLayout();
             this.SlidePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
             // 
             // LabelTooltips
@@ -94,7 +97,7 @@
             // 
             this.Descriptiontxtbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.Descriptiontxtbox.Location = new System.Drawing.Point(121, 152);
+            this.Descriptiontxtbox.Location = new System.Drawing.Point(121, 149);
             this.Descriptiontxtbox.MaximumSize = new System.Drawing.Size(200, 50);
             this.Descriptiontxtbox.MinimumSize = new System.Drawing.Size(200, 50);
             this.Descriptiontxtbox.Multiline = true;
@@ -109,7 +112,7 @@
             // 
             this.oemitemtxtbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.oemitemtxtbox.Location = new System.Drawing.Point(121, 326);
+            this.oemitemtxtbox.Location = new System.Drawing.Point(121, 309);
             this.oemitemtxtbox.MaximumSize = new System.Drawing.Size(200, 50);
             this.oemitemtxtbox.MinimumSize = new System.Drawing.Size(180, 50);
             this.oemitemtxtbox.Multiline = true;
@@ -124,7 +127,7 @@
             // 
             this.oemtxtbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.oemtxtbox.Location = new System.Drawing.Point(121, 257);
+            this.oemtxtbox.Location = new System.Drawing.Point(121, 246);
             this.oemtxtbox.MaximumSize = new System.Drawing.Size(200, 50);
             this.oemtxtbox.MinimumSize = new System.Drawing.Size(180, 50);
             this.oemtxtbox.Multiline = true;
@@ -139,7 +142,7 @@
             // 
             this.familytxtbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.familytxtbox.Location = new System.Drawing.Point(121, 400);
+            this.familytxtbox.Location = new System.Drawing.Point(121, 376);
             this.familytxtbox.MaximumSize = new System.Drawing.Size(200, 20);
             this.familytxtbox.MinimumSize = new System.Drawing.Size(180, 20);
             this.familytxtbox.Name = "familytxtbox";
@@ -181,7 +184,7 @@
             // 
             this.categorytxtbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.categorytxtbox.Location = new System.Drawing.Point(121, 443);
+            this.categorytxtbox.Location = new System.Drawing.Point(121, 419);
             this.categorytxtbox.MaximumSize = new System.Drawing.Size(200, 20);
             this.categorytxtbox.MinimumSize = new System.Drawing.Size(180, 20);
             this.categorytxtbox.Name = "categorytxtbox";
@@ -213,7 +216,7 @@
             // 
             this.mattxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.mattxt.Location = new System.Drawing.Point(121, 219);
+            this.mattxt.Location = new System.Drawing.Point(121, 212);
             this.mattxt.MaximumSize = new System.Drawing.Size(200, 20);
             this.mattxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.mattxt.Name = "mattxt";
@@ -225,8 +228,7 @@
             // 
             // notestxt
             // 
-            this.notestxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.notestxt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.notestxt.Location = new System.Drawing.Point(441, 359);
             this.notestxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.notestxt.Multiline = true;
@@ -414,7 +416,7 @@
             this.oemlbl.AutoSize = true;
             this.oemlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.oemlbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.oemlbl.Location = new System.Drawing.Point(6, 272);
+            this.oemlbl.Location = new System.Drawing.Point(6, 259);
             this.oemlbl.Name = "oemlbl";
             this.oemlbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.oemlbl.Size = new System.Drawing.Size(100, 15);
@@ -428,7 +430,7 @@
             this.oemitemlbl.AutoSize = true;
             this.oemitemlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.oemitemlbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.oemitemlbl.Location = new System.Drawing.Point(52, 341);
+            this.oemitemlbl.Location = new System.Drawing.Point(53, 322);
             this.oemitemlbl.Name = "oemitemlbl";
             this.oemitemlbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.oemitemlbl.Size = new System.Drawing.Size(54, 15);
@@ -472,7 +474,7 @@
             this.familylbl.AutoSize = true;
             this.familylbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.familylbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.familylbl.Location = new System.Drawing.Point(49, 400);
+            this.familylbl.Location = new System.Drawing.Point(49, 376);
             this.familylbl.Name = "familylbl";
             this.familylbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.familylbl.Size = new System.Drawing.Size(61, 15);
@@ -486,7 +488,7 @@
             this.typlbl.AutoSize = true;
             this.typlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.typlbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.typlbl.Location = new System.Drawing.Point(35, 433);
+            this.typlbl.Location = new System.Drawing.Point(35, 409);
             this.typlbl.Name = "typlbl";
             this.typlbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.typlbl.Size = new System.Drawing.Size(71, 30);
@@ -545,7 +547,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label3.Location = new System.Drawing.Point(34, 219);
+            this.label3.Location = new System.Drawing.Point(34, 212);
             this.label3.Name = "label3";
             this.label3.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label3.Size = new System.Drawing.Size(72, 15);
@@ -677,6 +679,7 @@
             this.SlidePanel.Controls.Add(this.dataGridView1);
             this.SlidePanel.Dock = System.Windows.Forms.DockStyle.Right;
             this.SlidePanel.Location = new System.Drawing.Point(696, 0);
+            this.SlidePanel.MaximumSize = new System.Drawing.Size(515, 475);
             this.SlidePanel.Name = "SlidePanel";
             this.SlidePanel.Size = new System.Drawing.Size(10, 475);
             this.SlidePanel.TabIndex = 66;
@@ -763,12 +766,43 @@
             // 
             this.errorProvider1.ContainerControl = this;
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.ForeColor = System.Drawing.Color.White;
+            this.checkBox1.Location = new System.Drawing.Point(121, 455);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(80, 17);
+            this.checkBox1.TabIndex = 67;
+            this.checkBox1.Text = "Show Price";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
+            // dataGridView2
+            // 
+            this.dataGridView2.AllowUserToAddRows = false;
+            this.dataGridView2.AllowUserToDeleteRows = false;
+            this.dataGridView2.AllowUserToOrderColumns = true;
+            this.dataGridView2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView2.Location = new System.Drawing.Point(0, 480);
+            this.dataGridView2.Name = "dataGridView2";
+            this.dataGridView2.ReadOnly = true;
+            this.dataGridView2.RowHeadersVisible = false;
+            this.dataGridView2.Size = new System.Drawing.Size(730, 0);
+            this.dataGridView2.TabIndex = 68;
+            this.dataGridView2.Visible = false;
+            // 
             // ItemInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(69)))), ((int)(((byte)(76)))));
-            this.ClientSize = new System.Drawing.Size(730, 475);
+            this.ClientSize = new System.Drawing.Size(730, 477);
+            this.Controls.Add(this.dataGridView2);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.SlidePanel);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label8);
@@ -816,6 +850,7 @@
             this.SlidePanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -869,5 +904,7 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Button Addnewbttn;
         private System.Windows.Forms.ErrorProvider errorProvider1;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.DataGridView dataGridView2;
     }
 }
