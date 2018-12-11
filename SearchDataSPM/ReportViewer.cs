@@ -43,6 +43,13 @@ namespace SearchDataSPM
                 this.reportViewer1.RefreshReport();
                 fillwrokdorderreport();
             }
+            else if(reportname == "Purchasereq")
+            {
+                this.Text = "Purchase Requisition - " + itemnumber;
+                reportViewer1.ServerReport.ReportPath = "/GeniusReports/PurchaseOrder/SPM_PurchaseReq";
+                this.reportViewer1.RefreshReport();
+                fillpurchasereq();
+            }
         }
 
         string itemnumber = "";
@@ -74,6 +81,14 @@ namespace SearchDataSPM
         {
             Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection();
             reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("pWorkOrder", itemnumber));
+            this.reportViewer1.ServerReport.SetParameters(reportParameters);
+            this.reportViewer1.RefreshReport();
+        }
+
+        void fillpurchasereq()
+        {
+            Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection();
+            reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("pReqno", itemnumber));
             this.reportViewer1.ServerReport.SetParameters(reportParameters);
             this.reportViewer1.RefreshReport();
         }

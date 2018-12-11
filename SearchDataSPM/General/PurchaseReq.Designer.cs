@@ -33,6 +33,7 @@
             this.MenuStrip = new System.Windows.Forms.MenuStrip();
             this.NewItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createNewPurchaseReqToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.PurchaseReqSearchTxt = new System.Windows.Forms.TextBox();
             this.dataGridView = new System.Windows.Forms.DataGridView();
@@ -120,14 +121,18 @@
             this.NewItem});
             this.MenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MenuStrip.Name = "MenuStrip";
+            this.MenuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.MenuStrip.ShowItemToolTips = true;
             this.MenuStrip.Size = new System.Drawing.Size(49, 24);
             this.MenuStrip.TabIndex = 1;
             this.MenuStrip.Text = "menuStrip2";
+            this.TreeViewToolTip.SetToolTip(this.MenuStrip, "Create New Purchase Requistion");
             // 
             // NewItem
             // 
             this.NewItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.createNewPurchaseReqToolStripMenuItem});
+            this.createNewPurchaseReqToolStripMenuItem,
+            this.printToolStripMenuItem});
             this.NewItem.Name = "NewItem";
             this.NewItem.Size = new System.Drawing.Size(37, 20);
             this.NewItem.Text = "File";
@@ -140,6 +145,14 @@
             this.createNewPurchaseReqToolStripMenuItem.Text = "Create New Purchase Req";
             this.createNewPurchaseReqToolStripMenuItem.ToolTipText = "Generate New Purchase Req";
             this.createNewPurchaseReqToolStripMenuItem.Click += new System.EventHandler(this.createNewPurchaseReqToolStripMenuItem_Click);
+            // 
+            // printToolStripMenuItem
+            // 
+            this.printToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("printToolStripMenuItem.Image")));
+            this.printToolStripMenuItem.Name = "printToolStripMenuItem";
+            this.printToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
+            this.printToolStripMenuItem.Text = "Print";
+            this.printToolStripMenuItem.Click += new System.EventHandler(this.printToolStripMenuItem_Click);
             // 
             // splitContainer1
             // 
@@ -157,15 +170,15 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.splitContainer1.Panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
             this.splitContainer1.Panel2.Controls.Add(this.ecitbttn);
             this.splitContainer1.Panel2.Controls.Add(this.editbttn);
             this.splitContainer1.Panel2.Controls.Add(this.savebttn);
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
             this.splitContainer1.Panel2.Controls.Add(this.totalcostlbl);
             this.splitContainer1.Panel2MinSize = 500;
-            this.splitContainer1.Size = new System.Drawing.Size(984, 687);
-            this.splitContainer1.SplitterDistance = 300;
+            this.splitContainer1.Size = new System.Drawing.Size(1000, 726);
+            this.splitContainer1.SplitterDistance = 304;
             this.splitContainer1.TabIndex = 2;
             // 
             // PurchaseReqSearchTxt
@@ -175,7 +188,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.PurchaseReqSearchTxt.Location = new System.Drawing.Point(0, 0);
             this.PurchaseReqSearchTxt.Name = "PurchaseReqSearchTxt";
-            this.PurchaseReqSearchTxt.Size = new System.Drawing.Size(300, 20);
+            this.PurchaseReqSearchTxt.Size = new System.Drawing.Size(304, 20);
             this.PurchaseReqSearchTxt.TabIndex = 8;
             this.PurchaseReqSearchTxt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.PurchaseReqSearchTxt_KeyDown);
             // 
@@ -199,7 +212,7 @@
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.ReadOnly = true;
             this.dataGridView.RowHeadersVisible = false;
-            this.dataGridView.Size = new System.Drawing.Size(300, 665);
+            this.dataGridView.Size = new System.Drawing.Size(304, 704);
             this.dataGridView.TabIndex = 7;
             this.dataGridView.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseDown);
             this.dataGridView.SelectionChanged += new System.EventHandler(this.dataGridView_SelectionChanged);
@@ -209,7 +222,7 @@
             this.ecitbttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ecitbttn.Font = new System.Drawing.Font("Magneto", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ecitbttn.Location = new System.Drawing.Point(283, 653);
+            this.ecitbttn.Location = new System.Drawing.Point(283, 692);
             this.ecitbttn.MaximumSize = new System.Drawing.Size(100, 25);
             this.ecitbttn.MinimumSize = new System.Drawing.Size(100, 25);
             this.ecitbttn.Name = "ecitbttn";
@@ -226,7 +239,7 @@
             this.editbttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.editbttn.Font = new System.Drawing.Font("Magneto", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.editbttn.Location = new System.Drawing.Point(18, 653);
+            this.editbttn.Location = new System.Drawing.Point(18, 692);
             this.editbttn.MaximumSize = new System.Drawing.Size(100, 25);
             this.editbttn.MinimumSize = new System.Drawing.Size(100, 25);
             this.editbttn.Name = "editbttn";
@@ -243,7 +256,7 @@
             this.savebttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.savebttn.Font = new System.Drawing.Font("Magneto", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.savebttn.Location = new System.Drawing.Point(150, 653);
+            this.savebttn.Location = new System.Drawing.Point(150, 692);
             this.savebttn.MaximumSize = new System.Drawing.Size(100, 25);
             this.savebttn.MinimumSize = new System.Drawing.Size(100, 25);
             this.savebttn.Name = "savebttn";
@@ -264,18 +277,18 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(680, 651);
+            this.tabControl1.Size = new System.Drawing.Size(692, 690);
             this.tabControl1.TabIndex = 0;
             // 
             // PreviewTabPage
             // 
-            this.PreviewTabPage.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.PreviewTabPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
             this.PreviewTabPage.Controls.Add(this.splitContainer2);
             this.PreviewTabPage.Controls.Add(this.dataGridView1);
             this.PreviewTabPage.Location = new System.Drawing.Point(4, 22);
             this.PreviewTabPage.Name = "PreviewTabPage";
             this.PreviewTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.PreviewTabPage.Size = new System.Drawing.Size(672, 625);
+            this.PreviewTabPage.Size = new System.Drawing.Size(684, 664);
             this.PreviewTabPage.TabIndex = 1;
             this.PreviewTabPage.Text = "Preview";
             // 
@@ -284,7 +297,7 @@
             this.splitContainer2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.splitContainer2.IsSplitterFixed = true;
-            this.splitContainer2.Location = new System.Drawing.Point(3, 0);
+            this.splitContainer2.Location = new System.Drawing.Point(3, 3);
             this.splitContainer2.Name = "splitContainer2";
             // 
             // splitContainer2.Panel1
@@ -296,14 +309,14 @@
             // 
             this.splitContainer2.Panel2.Controls.Add(this.groupBox3);
             this.splitContainer2.Panel2MinSize = 325;
-            this.splitContainer2.Size = new System.Drawing.Size(665, 290);
-            this.splitContainer2.SplitterDistance = 325;
+            this.splitContainer2.Size = new System.Drawing.Size(677, 290);
+            this.splitContainer2.SplitterDistance = 329;
             this.splitContainer2.SplitterWidth = 5;
             this.splitContainer2.TabIndex = 12;
             // 
             // groupBox4
             // 
-            this.groupBox4.BackColor = System.Drawing.Color.Khaki;
+            this.groupBox4.BackColor = System.Drawing.Color.SteelBlue;
             this.groupBox4.Controls.Add(this.label9);
             this.groupBox4.Controls.Add(this.label8);
             this.groupBox4.Controls.Add(this.label10);
@@ -324,7 +337,7 @@
             this.groupBox4.Location = new System.Drawing.Point(0, 0);
             this.groupBox4.Margin = new System.Windows.Forms.Padding(1);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(325, 290);
+            this.groupBox4.Size = new System.Drawing.Size(329, 290);
             this.groupBox4.TabIndex = 10;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Purchase Requisition Details";
@@ -431,7 +444,7 @@
             this.lastsavedtxt.Name = "lastsavedtxt";
             this.lastsavedtxt.ReadOnly = true;
             this.lastsavedtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.lastsavedtxt.Size = new System.Drawing.Size(196, 20);
+            this.lastsavedtxt.Size = new System.Drawing.Size(200, 20);
             this.lastsavedtxt.TabIndex = 57;
             this.lastsavedtxt.TabStop = false;
             // 
@@ -446,7 +459,7 @@
             this.datecreatedtxt.Name = "datecreatedtxt";
             this.datecreatedtxt.ReadOnly = true;
             this.datecreatedtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.datecreatedtxt.Size = new System.Drawing.Size(196, 20);
+            this.datecreatedtxt.Size = new System.Drawing.Size(200, 20);
             this.datecreatedtxt.TabIndex = 57;
             this.datecreatedtxt.TabStop = false;
             // 
@@ -461,7 +474,7 @@
             this.requestbytxt.Name = "requestbytxt";
             this.requestbytxt.ReadOnly = true;
             this.requestbytxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.requestbytxt.Size = new System.Drawing.Size(196, 20);
+            this.requestbytxt.Size = new System.Drawing.Size(200, 20);
             this.requestbytxt.TabIndex = 57;
             this.requestbytxt.TabStop = false;
             // 
@@ -477,8 +490,7 @@
             this.subassytxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.subassytxt.Name = "subassytxt";
             this.subassytxt.ReadOnly = true;
-            this.subassytxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.subassytxt.Size = new System.Drawing.Size(196, 21);
+            this.subassytxt.Size = new System.Drawing.Size(200, 21);
             this.subassytxt.TabIndex = 7;
             this.TreeViewToolTip.SetToolTip(this.subassytxt, "Sub-assembly number");
             this.subassytxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.subassytxt_KeyPress);
@@ -495,8 +507,7 @@
             this.jobnumbertxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.jobnumbertxt.Name = "jobnumbertxt";
             this.jobnumbertxt.ReadOnly = true;
-            this.jobnumbertxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.jobnumbertxt.Size = new System.Drawing.Size(196, 21);
+            this.jobnumbertxt.Size = new System.Drawing.Size(200, 21);
             this.jobnumbertxt.TabIndex = 6;
             this.TreeViewToolTip.SetToolTip(this.jobnumbertxt, "Job-number ");
             this.jobnumbertxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.jobnumbertxt_KeyPress);
@@ -513,7 +524,7 @@
             this.purchreqtxt.Name = "purchreqtxt";
             this.purchreqtxt.ReadOnly = true;
             this.purchreqtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.purchreqtxt.Size = new System.Drawing.Size(196, 20);
+            this.purchreqtxt.Size = new System.Drawing.Size(200, 20);
             this.purchreqtxt.TabIndex = 57;
             this.purchreqtxt.TabStop = false;
             // 
@@ -546,14 +557,13 @@
             this.notestxt.Multiline = true;
             this.notestxt.Name = "notestxt";
             this.notestxt.ReadOnly = true;
-            this.notestxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.notestxt.Size = new System.Drawing.Size(253, 42);
+            this.notestxt.Size = new System.Drawing.Size(257, 42);
             this.notestxt.TabIndex = 8;
             this.TreeViewToolTip.SetToolTip(this.notestxt, "Notes");
             // 
             // groupBox3
             // 
-            this.groupBox3.BackColor = System.Drawing.Color.PapayaWhip;
+            this.groupBox3.BackColor = System.Drawing.Color.SlateGray;
             this.groupBox3.Controls.Add(this.label11);
             this.groupBox3.Controls.Add(this.btnCancel);
             this.groupBox3.Controls.Add(this.btnDelete);
@@ -577,7 +587,7 @@
             this.groupBox3.Location = new System.Drawing.Point(0, 0);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(1);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(335, 290);
+            this.groupBox3.Size = new System.Drawing.Size(343, 290);
             this.groupBox3.TabIndex = 9;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Add Item to order";
@@ -678,7 +688,7 @@
             this.oemitemnotxt.Name = "oemitemnotxt";
             this.oemitemnotxt.ReadOnly = true;
             this.oemitemnotxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.oemitemnotxt.Size = new System.Drawing.Size(212, 20);
+            this.oemitemnotxt.Size = new System.Drawing.Size(220, 20);
             this.oemitemnotxt.TabIndex = 64;
             this.oemitemnotxt.TabStop = false;
             // 
@@ -708,7 +718,7 @@
             this.qtytxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.qtytxt.Name = "qtytxt";
             this.qtytxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.qtytxt.Size = new System.Drawing.Size(212, 22);
+            this.qtytxt.Size = new System.Drawing.Size(220, 22);
             this.qtytxt.TabIndex = 3;
             this.qtytxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.qtytxt_KeyPress);
             // 
@@ -738,7 +748,7 @@
             this.pricetxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.pricetxt.Name = "pricetxt";
             this.pricetxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.pricetxt.Size = new System.Drawing.Size(212, 22);
+            this.pricetxt.Size = new System.Drawing.Size(220, 22);
             this.pricetxt.TabIndex = 4;
             this.pricetxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.pricetxt_KeyPress);
             // 
@@ -769,7 +779,7 @@
             this.oemtxt.Name = "oemtxt";
             this.oemtxt.ReadOnly = true;
             this.oemtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.oemtxt.Size = new System.Drawing.Size(212, 20);
+            this.oemtxt.Size = new System.Drawing.Size(220, 20);
             this.oemtxt.TabIndex = 58;
             this.oemtxt.TabStop = false;
             // 
@@ -802,7 +812,7 @@
             this.Descriptiontxtbox.Name = "Descriptiontxtbox";
             this.Descriptiontxtbox.ReadOnly = true;
             this.Descriptiontxtbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.Descriptiontxtbox.Size = new System.Drawing.Size(212, 40);
+            this.Descriptiontxtbox.Size = new System.Drawing.Size(220, 40);
             this.Descriptiontxtbox.TabIndex = 55;
             this.Descriptiontxtbox.TabStop = false;
             // 
@@ -833,7 +843,7 @@
             this.ItemTxtBox.Name = "ItemTxtBox";
             this.ItemTxtBox.ReadOnly = true;
             this.ItemTxtBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.ItemTxtBox.Size = new System.Drawing.Size(212, 20);
+            this.ItemTxtBox.Size = new System.Drawing.Size(220, 20);
             this.ItemTxtBox.TabIndex = 54;
             this.ItemTxtBox.TabStop = false;
             // 
@@ -850,7 +860,7 @@
             this.itemsearchtxtbox.MinimumSize = new System.Drawing.Size(200, 20);
             this.itemsearchtxtbox.Name = "itemsearchtxtbox";
             this.itemsearchtxtbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.itemsearchtxtbox.Size = new System.Drawing.Size(267, 22);
+            this.itemsearchtxtbox.Size = new System.Drawing.Size(275, 22);
             this.itemsearchtxtbox.TabIndex = 2;
             this.itemsearchtxtbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.itemsearchtxtbox_KeyDown);
             // 
@@ -864,7 +874,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView1.BackgroundColor = System.Drawing.Color.LightGray;
+            this.dataGridView1.BackgroundColor = System.Drawing.Color.Gainsboro;
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
             this.dataGridView1.ColumnHeadersHeight = 50;
@@ -879,11 +889,11 @@
             this.OEMItemNumber,
             this.Price});
             this.dataGridView1.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(237)))), ((int)(((byte)(237)))));
-            this.dataGridView1.Location = new System.Drawing.Point(3, 293);
+            this.dataGridView1.Location = new System.Drawing.Point(3, 296);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.Size = new System.Drawing.Size(666, 326);
+            this.dataGridView1.Size = new System.Drawing.Size(678, 365);
             this.dataGridView1.TabIndex = 15;
             this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
             this.dataGridView1.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDown);
@@ -960,7 +970,7 @@
             this.totalcostlbl.AutoSize = true;
             this.totalcostlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.totalcostlbl.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.totalcostlbl.Location = new System.Drawing.Point(463, 658);
+            this.totalcostlbl.Location = new System.Drawing.Point(475, 697);
             this.totalcostlbl.Name = "totalcostlbl";
             this.totalcostlbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.totalcostlbl.Size = new System.Drawing.Size(91, 15);
@@ -1009,10 +1019,9 @@
             // 
             // PurchaseReqform
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.ClientSize = new System.Drawing.Size(984, 711);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
+            this.ClientSize = new System.Drawing.Size(1000, 750);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.MenuStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1060,45 +1069,12 @@
         private System.Windows.Forms.ToolStripMenuItem createNewPurchaseReqToolStripMenuItem;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage PreviewTabPage;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.DataGridView dataGridView1;
         public System.Windows.Forms.Button ecitbttn;
         public System.Windows.Forms.Button editbttn;
         public System.Windows.Forms.Button savebttn;
         private System.Windows.Forms.ToolTip TreeViewToolTip;
-        private System.Windows.Forms.TextBox itemsearchtxtbox;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox oemitemnotxt;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox qtytxt;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox pricetxt;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox oemtxt;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox Descriptiontxtbox;
-        private System.Windows.Forms.Label Itemlbl;
-        private System.Windows.Forms.TextBox ItemTxtBox;
-        private System.Windows.Forms.Button Addnewbttn;
-        private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.Button btnDelete;
-        private System.Windows.Forms.Label Preqlbl;
-        private System.Windows.Forms.TextBox purchreqtxt;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox datecreatedtxt;
-        private System.Windows.Forms.TextBox requestbytxt;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox lastsavedtxt;
         private System.Windows.Forms.SplitContainer splitContainer2;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TextBox notestxt;
-        private System.Windows.Forms.TextBox subassytxt;
-        private System.Windows.Forms.TextBox jobnumbertxt;
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.DataGridViewTextBoxColumn ID;
         private System.Windows.Forms.DataGridViewTextBoxColumn OrderId;
@@ -1112,5 +1088,39 @@
         private System.Windows.Forms.ToolStripMenuItem editItemToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteItemToolStripMenuItem;
         private System.Windows.Forms.Label totalcostlbl;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label Preqlbl;
+        private System.Windows.Forms.TextBox lastsavedtxt;
+        private System.Windows.Forms.TextBox datecreatedtxt;
+        private System.Windows.Forms.TextBox requestbytxt;
+        private System.Windows.Forms.TextBox subassytxt;
+        private System.Windows.Forms.TextBox jobnumbertxt;
+        private System.Windows.Forms.TextBox purchreqtxt;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox notestxt;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Button Addnewbttn;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox oemitemnotxt;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox qtytxt;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox pricetxt;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox oemtxt;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox Descriptiontxtbox;
+        private System.Windows.Forms.Label Itemlbl;
+        private System.Windows.Forms.TextBox ItemTxtBox;
+        private System.Windows.Forms.TextBox itemsearchtxtbox;
+        private System.Windows.Forms.ToolStripMenuItem printToolStripMenuItem;
     }
 }

@@ -506,6 +506,9 @@ namespace SearchDataSPM
         void processexitbutton()
         {
             tabControl1.TabPages.Remove(PreviewTabPage);
+            jobnumbertxt.ReadOnly = true;
+            subassytxt.ReadOnly = true;
+            notestxt.ReadOnly = true;
             dataGridView.Enabled = true;
             groupBox3.Visible = false;
             editbttn.Visible = false;
@@ -727,6 +730,8 @@ namespace SearchDataSPM
             notestxt.Text = dr[0]["Notes"].ToString();
         }
 
+        string reqnumber = "";
+
         void PopulateDataGridView()
         {
             int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
@@ -740,6 +745,7 @@ namespace SearchDataSPM
             //{
             //row.HeaderCell.Value = String.Format("{0}", row.Index + 1);
             //}
+            reqnumber = item.ToString();
 
             PreviewTabPage.Text = "ReqNo : " + item;
             UpdateFontdataitems();
@@ -971,6 +977,20 @@ namespace SearchDataSPM
         private void PurchaseReqform_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.Dispose();
+        }
+
+        private void printToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            reportpurchaereq(reqnumber, "Purchasereq");
+        }
+
+        private void reportpurchaereq(string itemvalue, string Reportname)
+        {
+            ReportViewer form1 = new ReportViewer();
+            form1.item(itemvalue);
+            form1.getreport(Reportname);
+            form1.Show();
+
         }
     }
 }
