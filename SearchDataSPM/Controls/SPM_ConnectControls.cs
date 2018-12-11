@@ -1165,13 +1165,14 @@ namespace SearchDataSPM
         {
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDate = datecreated.ToString("dd-MM-yyyy HH:mm tt");
+            string computername = System.Environment.MachineName;
             if (cn.State == ConnectionState.Closed)
                 cn.Open();
             try
             {
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Checkin] ([Last Login],[Application Running],[User Name]) VALUES('" + sqlFormattedDate + "', '" + applicationname + "', '" + username + "')";
+                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Checkin] ([Last Login],[Application Running],[User Name], [Computer Name]) VALUES('" + sqlFormattedDate + "', '" + applicationname + "', '" + username + "', '" + computername + "')";
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);

@@ -43,7 +43,7 @@ namespace SearchDataSPM
             }
             catch (Exception)
             {
-                MetroFramework.MetroMessageBox.Show(this,"Error Connecting to SQL Server.....", "SPM Connect - Engineering Initialize", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetroFramework.MetroMessageBox.Show(this, "Error Connecting to SQL Server.....", "SPM Connect - Engineering Initialize", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 Application.Exit();
             }
@@ -59,7 +59,7 @@ namespace SearchDataSPM
             string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
             checkadmin();
             Checkdeveloper();
-            this.Text = "SPM Connect Engineering - " + userName.ToString().Substring(4);            
+            this.Text = "SPM Connect Engineering - " + userName.ToString().Substring(4);
             chekin("SPM Connect Eng", userName);
             txtSearch.Focus();
 
@@ -84,7 +84,7 @@ namespace SearchDataSPM
                 }
                 catch (Exception)
                 {
-                    MetroFramework.MetroMessageBox.Show(this,"Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect - Engineering Load(showallitems)", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MetroFramework.MetroMessageBox.Show(this, "Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect - Engineering Load(showallitems)", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Application.Exit();
                 }
                 finally
@@ -1106,7 +1106,7 @@ namespace SearchDataSPM
 
         private void deleteitem(string _itemno)
         {
-            DialogResult result = MetroFramework.MetroMessageBox.Show(this,"Are you sure want to delete " + _itemno + "?", "SPM Connect - Delete Item?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to delete " + _itemno + "?", "SPM Connect - Delete Item?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result == DialogResult.Yes)
             {
@@ -1120,13 +1120,13 @@ namespace SearchDataSPM
                         SqlCommand sda = new SqlCommand(query, cn);
                         sda.ExecuteNonQuery();
                         cn.Close();
-                        MetroFramework.MetroMessageBox.Show(this,_itemno + " - Is removed from the system now!", "SPM Connect - Delete Item", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MetroFramework.MetroMessageBox.Show(this, _itemno + " - Is removed from the system now!", "SPM Connect - Delete Item", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 
                     }
                     catch (Exception ex)
                     {
-                        MetroFramework.MetroMessageBox.Show(this,ex.Message, "SPM Connect - Delete Item", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Delete Item", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     finally
                     {
@@ -1150,15 +1150,16 @@ namespace SearchDataSPM
 
         public void chekin(string applicationname, string username)
         {
-                DateTime datecreated = DateTime.Now;
-                string sqlFormattedDate = datecreated.ToString("dd-MM-yyyy HH:mm tt");
+            DateTime datecreated = DateTime.Now;
+            string sqlFormattedDate = datecreated.ToString("dd-MM-yyyy HH:mm tt");
+            string computername = System.Environment.MachineName;
             if (cn.State == ConnectionState.Closed)
                 cn.Open();
             try
             {
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Checkin] ([Last Login],[Application Running],[User Name]) VALUES('" + sqlFormattedDate + "', '"+ applicationname +"', '"+ username +"')";
+                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Checkin] ([Last Login],[Application Running],[User Name], [Computer Name]) VALUES('" + sqlFormattedDate + "', '" + applicationname + "', '" + username + "', '" + computername + "')";
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1186,7 +1187,7 @@ namespace SearchDataSPM
                 string query = "DELETE FROM [SPM_Database].[dbo].[Checkin] WHERE [User Name] ='" + username.ToString() + "'";
                 SqlCommand sda = new SqlCommand(query, cn);
                 sda.ExecuteNonQuery();
-                cn.Close();              
+                cn.Close();
 
             }
             catch (Exception ex)
@@ -1646,7 +1647,7 @@ namespace SearchDataSPM
         private void AddNewBttn_Click(object sender, EventArgs e)
         {
             chekeditbutton = "no";
-            DialogResult result = MetroFramework.MetroMessageBox.Show(this,"Are you sure want to create a new item?", "SPM Connect - Add New Item?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to create a new item?", "SPM Connect - Add New Item?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result == DialogResult.Yes)
             {
@@ -2840,8 +2841,8 @@ namespace SearchDataSPM
         private void pictureBox1_DoubleClick(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("http://www.spm-automation.com/");
-           // Edrawings.EModelViewer modelViewer = new Edrawings.EModelViewer();
-          //  modelViewer.Show();
+            // Edrawings.EModelViewer modelViewer = new Edrawings.EModelViewer();
+            //  modelViewer.Show();
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
