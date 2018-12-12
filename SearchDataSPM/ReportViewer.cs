@@ -54,6 +54,7 @@ namespace SearchDataSPM
 
         string itemnumber = "";
         string reportname = "";
+        string totalvalue = "";
 
         public string item(string item)
         {
@@ -68,7 +69,14 @@ namespace SearchDataSPM
                 return reportname = report;
             return null;
         }
-        
+
+        public string gettotal(string total)
+        {
+            if (total.Length > 0)
+                return totalvalue = total;
+            return null;
+        }
+
         void fillbomreport()
         {
             Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection();
@@ -89,6 +97,7 @@ namespace SearchDataSPM
         {
             Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection();
             reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("pReqno", itemnumber));
+            reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("ptotal", totalvalue));
             this.reportViewer1.ServerReport.SetParameters(reportParameters);
             this.reportViewer1.RefreshReport();
         }

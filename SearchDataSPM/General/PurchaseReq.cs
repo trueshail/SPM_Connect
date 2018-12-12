@@ -304,6 +304,8 @@ namespace SearchDataSPM
             }
         }
 
+        string totalvalue = "";
+
         void calculatetota()
         {
             if (dataGridView1.Rows.Count > 0)
@@ -329,6 +331,7 @@ namespace SearchDataSPM
                         }
                         total += (qty * price);
                         totalcostlbl.Text = "Total Cost : $" + string.Format("{0:#.00}", Convert.ToDecimal(total.ToString()));
+                        totalvalue = string.Format("{0:#.00}", Convert.ToDecimal(total.ToString()));
                     }
                     catch (Exception)
                     {
@@ -1064,6 +1067,7 @@ namespace SearchDataSPM
             ReportViewer form1 = new ReportViewer();
             form1.item(itemvalue);
             form1.getreport(Reportname);
+            form1.gettotal(totalvalue);
             form1.Show();
 
         }
