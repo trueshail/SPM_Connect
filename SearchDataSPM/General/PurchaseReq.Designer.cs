@@ -164,8 +164,8 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.PurchaseReqSearchTxt);
             this.splitContainer1.Panel1.Controls.Add(this.dataGridView);
+            this.splitContainer1.Panel1.Controls.Add(this.PurchaseReqSearchTxt);
             this.splitContainer1.Panel1MinSize = 300;
             // 
             // splitContainer1.Panel2

@@ -78,6 +78,7 @@ namespace SearchDataSPM
                     dataGridView.Columns[4].Visible = false;
                     dataGridView.Columns[5].Visible = false;
                     dataGridView.Columns[6].Visible = false;
+                    dataGridView.Columns[7].Visible = false;
                     dataGridView.Sort(dataGridView.Columns[0], ListSortDirection.Descending);
                     UpdateFont();
 
@@ -500,7 +501,71 @@ namespace SearchDataSPM
 
         private void ecitbttn_Click(object sender, EventArgs e)
         {
-            processexitbutton();
+            if (savebttn.Visible == true)
+            {
+                errorProvider1.SetError(savebttn, "Save before closing");
+                DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to close without saving changes?", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    errorProvider1.Clear();
+                    performdiscarditem();
+                    updateorderid(Convert.ToInt32(purchreqtxt.Text));
+                    PopulateDataGridView();
+                    Itemstodiscard.Clear();
+                    processexitbutton();
+                }
+                else
+                {
+                    
+                }
+                
+            }
+           
+        }
+
+        void performdiscarditem()
+        {
+            foreach (string item in Itemstodiscard)
+            {
+                splittagtovariables(item);
+            }
+        }
+
+        private void splittagtovariables(string s)
+        {
+            string[] values = s.Replace("][", "~").Split('~');
+            //string[] values = s.Split('][');
+            for (int i = 0; i < values.Length; i++)
+            {
+                values[i] = values[i].Trim();
+
+            }
+            removeitems(values[0], values[1]);
+        }
+
+        private void removeitems(string itemno, string description)
+        {
+            if (cn.State == ConnectionState.Closed)
+                cn.Open();
+            try
+            {
+                string query = "DELETE FROM [SPM_Database].[dbo].[PurchaseReq] WHERE Item ='" + itemno.ToString() + "' AND ReqNumber ='" + description.ToString() + "' ";
+                SqlCommand sda = new SqlCommand(query, cn);
+                sda.ExecuteNonQuery();
+                cn.Close();
+                //MetroFramework.MetroMessageBox.Show(this, itemno + " - Is removed from the system now!", "SPM Connect - Delete Item", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+            }
+            catch (Exception ex)
+            {
+                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Delete Item", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+
         }
 
         void processexitbutton()
@@ -654,6 +719,8 @@ namespace SearchDataSPM
             }
         }
 
+         List<string> Itemstodiscard = new List<string>();
+
         private void Addnewbttn_Click(object sender, EventArgs e)
         {
             int resultqty = 0;
@@ -679,6 +746,9 @@ namespace SearchDataSPM
                 model.Notes = "";
 
 
+                
+
+
                 using (SPM_DatabaseEntitiesPurchase db = new SPM_DatabaseEntitiesPurchase())
                 {
                     if (model.ID == 0)//Insert
@@ -694,6 +764,11 @@ namespace SearchDataSPM
                 Addnewbttn.Enabled = false;
                 itemsearchtxtbox.Focus();
                
+
+                string itemsonhold = model.Item + "][" + model.ReqNumber;
+                Itemstodiscard.Add(itemsonhold);
+                model.Qty = null;
+                model.Price =null;
             }
             else
             {
