@@ -76,6 +76,7 @@ namespace SearchDataSPM
             filloem();
             filldesignedby();
             filllastsavedby();
+            filluserwithblock();
             clearfilercombos();
             
         }
@@ -88,6 +89,7 @@ namespace SearchDataSPM
             lastsavedbycombo.SelectedItem = null;
             familycomboxbox.SelectedItem = null;
             designedbycombobox.SelectedItem = null;
+            ActiveCadblockcombobox.SelectedItem = null;
         }
 
         private void Showallitems()
@@ -2930,7 +2932,7 @@ namespace SearchDataSPM
             {
                 advsearchbttn.Text = "<<";
                 splitContainer1.Panel2Collapsed = false;
-                splitContainer1.SplitterDistance = 912;
+                splitContainer1.SplitterDistance = this.Width - 220 ;
                 this.Size = new Size(1135, formHeight);
                 //if (formWidth <= 1000)
                 //{
@@ -2947,9 +2949,11 @@ namespace SearchDataSPM
             else
             {
                 advsearchbttn.Text = ">>";
-                splitContainer1.Panel2Collapsed = true;
-                splitContainer1.SplitterDistance = 777;
+                
                 this.Size = new Size(1000, 800);
+                
+                splitContainer1.Panel2Collapsed = true;
+                splitContainer1.SplitterDistance = this.Width -220;
             }
         }
 
@@ -2972,11 +2976,11 @@ namespace SearchDataSPM
                     if (filter.Length > 0)
                     {
                         //filter += "AND";
-                        filter += string.Format("AND DesignedBy = '{0}'", designedbycombobox.Text);
+                        filter += string.Format("AND DesignedBy = '{0}'", designedbycombobox.SelectedItem.ToString());
                     }
                     else
                     {
-                        filter += string.Format("DesignedBy = '{0}'", designedbycombobox.Text);
+                        filter += string.Format("DesignedBy = '{0}'", designedbycombobox.SelectedItem.ToString());
                     }
 
                 }
@@ -2985,11 +2989,11 @@ namespace SearchDataSPM
                     if (filter.Length > 0)
                     {
                         //filter += "AND";
-                        filter += string.Format(" AND Manufacturer = '{0}'", oemitemcombobox.Text);
+                        filter += string.Format(" AND Manufacturer = '{0}'", oemitemcombobox.SelectedItem.ToString());
                     }
                     else
                     {
-                        filter += string.Format("Manufacturer = '{0}'", oemitemcombobox.Text);
+                        filter += string.Format("Manufacturer = '{0}'", oemitemcombobox.SelectedItem.ToString());
                     }
 
                 }
@@ -3029,6 +3033,19 @@ namespace SearchDataSPM
                     else
                     {
                         filter += string.Format("ManufacturerItemNumber = '{0}'", Manufactureritemcomboxbox.SelectedItem.ToString());
+                    }
+
+                }
+                if (ActiveCadblockcombobox.SelectedItem != null)
+                {
+                    if (filter.Length > 0)
+                    {
+                        //filter += "AND";
+                        filter += string.Format(" AND ItemNumber LIKE '%{0}%'", ActiveCadblockcombobox.SelectedItem.ToString().Substring(0,3));
+                    }
+                    else
+                    {
+                        filter += string.Format("ItemNumber LIKE '%{0}%'", ActiveCadblockcombobox.SelectedItem.ToString().Substring(0,3));
                     }
 
                 }
@@ -3212,6 +3229,38 @@ namespace SearchDataSPM
 
         }
 
+        private void filluserwithblock()
+        {
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT CONCAT(ActiveBlockNumber,' ',Name) AS UserWithCad FROM [SPM_Database].[dbo].[Users] WHERE ActiveBlockNumber is not null AND ActiveBlockNumber <> '' Order by ActiveBlockNumber", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+                    AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
+                    while (reader.Read())
+                    {
+                        MyCollection.Add(reader.GetString(0));
+                    }
+
+                    //familytxtbox.AutoCompleteCustomSource = MyCollection;
+                    ActiveCadblockcombobox.AutoCompleteCustomSource = MyCollection;
+                    ActiveCadblockcombobox.DataSource = MyCollection;
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect New Item - Fill FamilyCodes Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+
+        }
+
         private void Manufactureritemcomboxbox_SelectedIndexChanged(object sender, EventArgs e)
         {
             FilterProducts();
@@ -3327,6 +3376,11 @@ namespace SearchDataSPM
         private void clrfiltersbttn_Click(object sender, EventArgs e)
         {
             clearfilercombos();
+        }
+
+        private void ActiveCadblockcombobox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FilterProducts();
         }
     }
 

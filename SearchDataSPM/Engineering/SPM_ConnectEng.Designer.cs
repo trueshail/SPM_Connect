@@ -32,9 +32,9 @@ namespace SearchDataSPM
 		{
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SPM_Connect));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             this.FormSelector = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.bOMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.whereUsedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -79,19 +79,19 @@ namespace SearchDataSPM
             this.familyCodeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.manufacturerDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.manufacturerItemNumberDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clrfiltersbttn = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.actcadblk = new System.Windows.Forms.Label();
             this.Manufactureritemcomboxbox = new System.Windows.Forms.ComboBox();
             this.familycomboxbox = new System.Windows.Forms.ComboBox();
             this.lastsavedbycombo = new System.Windows.Forms.ComboBox();
             this.oemitemcombobox = new System.Windows.Forms.ComboBox();
             this.ActiveCadblockcombobox = new System.Windows.Forms.ComboBox();
             this.designedbycombobox = new System.Windows.Forms.ComboBox();
-            this.actcadblk = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.clrfiltersbttn = new System.Windows.Forms.Button();
             this.FormSelector.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.inventoryBindingSource3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sPM_DatabaseDataSet)).BeginInit();
@@ -269,7 +269,7 @@ namespace SearchDataSPM
             this.AddNewBttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.AddNewBttn.ForeColor = System.Drawing.Color.Transparent;
             this.AddNewBttn.Image = ((System.Drawing.Image)(resources.GetObject("AddNewBttn.Image")));
-            this.AddNewBttn.Location = new System.Drawing.Point(819, 13);
+            this.AddNewBttn.Location = new System.Drawing.Point(815, 16);
             this.AddNewBttn.MaximumSize = new System.Drawing.Size(25, 25);
             this.AddNewBttn.MinimumSize = new System.Drawing.Size(25, 25);
             this.AddNewBttn.Name = "AddNewBttn";
@@ -292,7 +292,7 @@ namespace SearchDataSPM
             this.jobsbttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.jobsbttn.ForeColor = System.Drawing.Color.Transparent;
             this.jobsbttn.Image = ((System.Drawing.Image)(resources.GetObject("jobsbttn.Image")));
-            this.jobsbttn.Location = new System.Drawing.Point(845, 12);
+            this.jobsbttn.Location = new System.Drawing.Point(845, 16);
             this.jobsbttn.MaximumSize = new System.Drawing.Size(25, 25);
             this.jobsbttn.MinimumSize = new System.Drawing.Size(25, 25);
             this.jobsbttn.Name = "jobsbttn";
@@ -315,7 +315,7 @@ namespace SearchDataSPM
             this.admin_bttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.admin_bttn.ForeColor = System.Drawing.Color.Transparent;
             this.admin_bttn.Image = ((System.Drawing.Image)(resources.GetObject("admin_bttn.Image")));
-            this.admin_bttn.Location = new System.Drawing.Point(872, 13);
+            this.admin_bttn.Location = new System.Drawing.Point(872, 11);
             this.admin_bttn.MaximumSize = new System.Drawing.Size(35, 35);
             this.admin_bttn.MinimumSize = new System.Drawing.Size(35, 35);
             this.admin_bttn.Name = "admin_bttn";
@@ -371,7 +371,7 @@ namespace SearchDataSPM
             this.txtSearch.MaximumSize = new System.Drawing.Size(32767, 25);
             this.txtSearch.MinimumSize = new System.Drawing.Size(4, 23);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(455, 25);
+            this.txtSearch.Size = new System.Drawing.Size(455, 26);
             this.txtSearch.TabIndex = 106;
             this.TreeViewToolTip.SetToolTip(this.txtSearch, "Enter Search Keyword.\r\n");
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
@@ -584,7 +584,7 @@ namespace SearchDataSPM
             this.recordlabel.AutoSize = true;
             this.recordlabel.Font = new System.Drawing.Font("Maiandra GD", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.recordlabel.ForeColor = System.Drawing.Color.White;
-            this.recordlabel.Location = new System.Drawing.Point(581, 80);
+            this.recordlabel.Location = new System.Drawing.Point(702, 80);
             this.recordlabel.Name = "recordlabel";
             this.recordlabel.Size = new System.Drawing.Size(0, 14);
             this.recordlabel.TabIndex = 119;
@@ -667,8 +667,8 @@ namespace SearchDataSPM
             // descriptionDataGridViewTextBoxColumn
             // 
             this.descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
-            dataGridViewCellStyle1.NullValue = null;
-            this.descriptionDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle10.NullValue = null;
+            this.descriptionDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle10;
             this.descriptionDataGridViewTextBoxColumn.FillWeight = 86.92893F;
             this.descriptionDataGridViewTextBoxColumn.HeaderText = "Description";
             this.descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
@@ -689,8 +689,8 @@ namespace SearchDataSPM
             // manufacturerDataGridViewTextBoxColumn
             // 
             this.manufacturerDataGridViewTextBoxColumn.DataPropertyName = "Manufacturer";
-            dataGridViewCellStyle2.NullValue = null;
-            this.manufacturerDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle11.NullValue = null;
+            this.manufacturerDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle11;
             this.manufacturerDataGridViewTextBoxColumn.FillWeight = 86.92893F;
             this.manufacturerDataGridViewTextBoxColumn.HeaderText = "Manufacturer";
             this.manufacturerDataGridViewTextBoxColumn.Name = "manufacturerDataGridViewTextBoxColumn";
@@ -699,12 +699,103 @@ namespace SearchDataSPM
             // manufacturerItemNumberDataGridViewTextBoxColumn
             // 
             this.manufacturerItemNumberDataGridViewTextBoxColumn.DataPropertyName = "ManufacturerItemNumber";
-            dataGridViewCellStyle3.NullValue = null;
-            this.manufacturerItemNumberDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle12.NullValue = null;
+            this.manufacturerItemNumberDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle12;
             this.manufacturerItemNumberDataGridViewTextBoxColumn.FillWeight = 86.92893F;
             this.manufacturerItemNumberDataGridViewTextBoxColumn.HeaderText = "Manufacturer Item Number";
             this.manufacturerItemNumberDataGridViewTextBoxColumn.Name = "manufacturerItemNumberDataGridViewTextBoxColumn";
             this.manufacturerItemNumberDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // clrfiltersbttn
+            // 
+            this.clrfiltersbttn.Dock = System.Windows.Forms.DockStyle.Top;
+            this.clrfiltersbttn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.clrfiltersbttn.Location = new System.Drawing.Point(0, 0);
+            this.clrfiltersbttn.MinimumSize = new System.Drawing.Size(0, 40);
+            this.clrfiltersbttn.Name = "clrfiltersbttn";
+            this.clrfiltersbttn.Size = new System.Drawing.Size(205, 40);
+            this.clrfiltersbttn.TabIndex = 128;
+            this.clrfiltersbttn.Text = "Clear Filters";
+            this.clrfiltersbttn.UseVisualStyleBackColor = true;
+            this.clrfiltersbttn.Click += new System.EventHandler(this.clrfiltersbttn_Click);
+            // 
+            // label6
+            // 
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(22, 510);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(145, 18);
+            this.label6.TabIndex = 145;
+            this.label6.Text = "Designed/Created by";
+            // 
+            // label5
+            // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(22, 431);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(102, 18);
+            this.label5.TabIndex = 144;
+            this.label5.Text = "Last Saved By";
+            // 
+            // label4
+            // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(22, 354);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(132, 18);
+            this.label4.TabIndex = 143;
+            this.label4.Text = "OEM Item Number";
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(22, 279);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(95, 18);
+            this.label3.TabIndex = 142;
+            this.label3.Text = "Manufacturer";
+            // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(22, 205);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(87, 18);
+            this.label2.TabIndex = 141;
+            this.label2.Text = "Family Type";
+            // 
+            // actcadblk
+            // 
+            this.actcadblk.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.actcadblk.AutoSize = true;
+            this.actcadblk.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.actcadblk.Location = new System.Drawing.Point(22, 127);
+            this.actcadblk.Name = "actcadblk";
+            this.actcadblk.Size = new System.Drawing.Size(148, 18);
+            this.actcadblk.TabIndex = 140;
+            this.actcadblk.Text = "Active CAD Block No";
             // 
             // Manufactureritemcomboxbox
             // 
@@ -715,10 +806,10 @@ namespace SearchDataSPM
             this.Manufactureritemcomboxbox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Manufactureritemcomboxbox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.Manufactureritemcomboxbox.FormattingEnabled = true;
-            this.Manufactureritemcomboxbox.Location = new System.Drawing.Point(5, 367);
+            this.Manufactureritemcomboxbox.Location = new System.Drawing.Point(5, 376);
             this.Manufactureritemcomboxbox.Name = "Manufactureritemcomboxbox";
-            this.Manufactureritemcomboxbox.Size = new System.Drawing.Size(188, 21);
-            this.Manufactureritemcomboxbox.TabIndex = 0;
+            this.Manufactureritemcomboxbox.Size = new System.Drawing.Size(190, 21);
+            this.Manufactureritemcomboxbox.TabIndex = 125;
             this.Manufactureritemcomboxbox.SelectedIndexChanged += new System.EventHandler(this.Manufactureritemcomboxbox_SelectedIndexChanged);
             this.Manufactureritemcomboxbox.TextChanged += new System.EventHandler(this.Manufactureritemcomboxbox_TextChanged);
             this.Manufactureritemcomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Manufactureritemcomboxbox_KeyDown);
@@ -734,8 +825,8 @@ namespace SearchDataSPM
             this.familycomboxbox.FormattingEnabled = true;
             this.familycomboxbox.Location = new System.Drawing.Point(5, 227);
             this.familycomboxbox.Name = "familycomboxbox";
-            this.familycomboxbox.Size = new System.Drawing.Size(188, 21);
-            this.familycomboxbox.TabIndex = 0;
+            this.familycomboxbox.Size = new System.Drawing.Size(190, 21);
+            this.familycomboxbox.TabIndex = 123;
             this.familycomboxbox.SelectedIndexChanged += new System.EventHandler(this.familycomboxbox_SelectedIndexChanged);
             this.familycomboxbox.TextChanged += new System.EventHandler(this.familycomboxbox_TextChanged);
             this.familycomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.familycomboxbox_KeyDown);
@@ -749,10 +840,10 @@ namespace SearchDataSPM
             this.lastsavedbycombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.lastsavedbycombo.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.lastsavedbycombo.FormattingEnabled = true;
-            this.lastsavedbycombo.Location = new System.Drawing.Point(5, 434);
+            this.lastsavedbycombo.Location = new System.Drawing.Point(5, 453);
             this.lastsavedbycombo.Name = "lastsavedbycombo";
-            this.lastsavedbycombo.Size = new System.Drawing.Size(188, 21);
-            this.lastsavedbycombo.TabIndex = 0;
+            this.lastsavedbycombo.Size = new System.Drawing.Size(190, 21);
+            this.lastsavedbycombo.TabIndex = 126;
             this.lastsavedbycombo.SelectedIndexChanged += new System.EventHandler(this.lastsavedbycombo_SelectedIndexChanged);
             this.lastsavedbycombo.TextChanged += new System.EventHandler(this.lastsavedbycombo_TextChanged);
             this.lastsavedbycombo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lastsavedbycombo_KeyDown);
@@ -769,10 +860,10 @@ namespace SearchDataSPM
             this.oemitemcombobox.Items.AddRange(new object[] {
             "Festo",
             "SPM AUTOMATION (Canada) INC."});
-            this.oemitemcombobox.Location = new System.Drawing.Point(5, 298);
+            this.oemitemcombobox.Location = new System.Drawing.Point(5, 301);
             this.oemitemcombobox.Name = "oemitemcombobox";
-            this.oemitemcombobox.Size = new System.Drawing.Size(188, 21);
-            this.oemitemcombobox.TabIndex = 0;
+            this.oemitemcombobox.Size = new System.Drawing.Size(190, 21);
+            this.oemitemcombobox.TabIndex = 124;
             this.oemitemcombobox.SelectedIndexChanged += new System.EventHandler(this.oemitemcombobox_SelectedIndexChanged);
             this.oemitemcombobox.TextChanged += new System.EventHandler(this.oemitemcombobox_TextChanged);
             this.oemitemcombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.oemitemcombobox_KeyDown);
@@ -788,9 +879,9 @@ namespace SearchDataSPM
             this.ActiveCadblockcombobox.FormattingEnabled = true;
             this.ActiveCadblockcombobox.Location = new System.Drawing.Point(5, 149);
             this.ActiveCadblockcombobox.Name = "ActiveCadblockcombobox";
-            this.ActiveCadblockcombobox.Size = new System.Drawing.Size(188, 21);
-            this.ActiveCadblockcombobox.TabIndex = 0;
-            this.ActiveCadblockcombobox.SelectedIndexChanged += new System.EventHandler(this.designedbycombobox_SelectedIndexChanged);
+            this.ActiveCadblockcombobox.Size = new System.Drawing.Size(190, 21);
+            this.ActiveCadblockcombobox.TabIndex = 122;
+            this.ActiveCadblockcombobox.SelectedIndexChanged += new System.EventHandler(this.ActiveCadblockcombobox_SelectedIndexChanged);
             this.ActiveCadblockcombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ActiveCadblockcombobox_KeyDown);
             // 
             // designedbycombobox
@@ -806,101 +897,13 @@ namespace SearchDataSPM
             "Shailkumar Patel",
             "Scott Reid",
             "Joel Goldsmith"});
-            this.designedbycombobox.Location = new System.Drawing.Point(5, 493);
+            this.designedbycombobox.Location = new System.Drawing.Point(5, 532);
             this.designedbycombobox.Name = "designedbycombobox";
-            this.designedbycombobox.Size = new System.Drawing.Size(188, 21);
-            this.designedbycombobox.TabIndex = 0;
+            this.designedbycombobox.Size = new System.Drawing.Size(190, 21);
+            this.designedbycombobox.TabIndex = 127;
             this.designedbycombobox.SelectedIndexChanged += new System.EventHandler(this.designedbycombobox_SelectedIndexChanged);
             this.designedbycombobox.TextChanged += new System.EventHandler(this.designedbycombobox_TextChanged);
             this.designedbycombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.designedbycombobox_KeyDown);
-            // 
-            // actcadblk
-            // 
-            this.actcadblk.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.actcadblk.AutoSize = true;
-            this.actcadblk.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.actcadblk.Location = new System.Drawing.Point(25, 130);
-            this.actcadblk.Name = "actcadblk";
-            this.actcadblk.Size = new System.Drawing.Size(134, 16);
-            this.actcadblk.TabIndex = 1;
-            this.actcadblk.Text = "Active CAD Block No";
-            // 
-            // label2
-            // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(25, 208);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(83, 16);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Family Type";
-            // 
-            // label3
-            // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(25, 279);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(85, 16);
-            this.label3.TabIndex = 1;
-            this.label3.Text = "Manufacturer";
-            // 
-            // label4
-            // 
-            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(25, 348);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(117, 16);
-            this.label4.TabIndex = 1;
-            this.label4.Text = "OEM Item Number";
-            // 
-            // label5
-            // 
-            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(25, 415);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(95, 16);
-            this.label5.TabIndex = 1;
-            this.label5.Text = "Last Saved By";
-            // 
-            // label6
-            // 
-            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(25, 474);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(137, 16);
-            this.label6.TabIndex = 1;
-            this.label6.Text = "Designed/Created by";
-            // 
-            // clrfiltersbttn
-            // 
-            this.clrfiltersbttn.Location = new System.Drawing.Point(58, 75);
-            this.clrfiltersbttn.Name = "clrfiltersbttn";
-            this.clrfiltersbttn.Size = new System.Drawing.Size(75, 23);
-            this.clrfiltersbttn.TabIndex = 2;
-            this.clrfiltersbttn.Text = "Clear Filters";
-            this.clrfiltersbttn.UseVisualStyleBackColor = true;
-            this.clrfiltersbttn.Click += new System.EventHandler(this.clrfiltersbttn_Click);
             // 
             // SPM_Connect
             // 
