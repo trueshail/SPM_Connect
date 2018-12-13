@@ -130,6 +130,7 @@ namespace SearchDataSPM
             txtSearch.Focus();
             SendKeys.Send("~");
             dataGridView.Refresh();
+            Showallitems();
 
         }
 
@@ -157,7 +158,7 @@ namespace SearchDataSPM
         DataTable table2 = new DataTable();
         DataTable table3 = new DataTable();
         DataTable table4 = new DataTable();
-
+        DataTable dataTable = new DataTable();
 
         #endregion
 
@@ -174,6 +175,12 @@ namespace SearchDataSPM
                     clearandhide();
                 }
 
+                if(txtSearch.Text.Length == 0)
+                {
+                    Showallitems();
+                    return;
+                }
+
                 if (txtSearch.Text.Length > 0)
                 {
 
@@ -187,7 +194,7 @@ namespace SearchDataSPM
                 }
 
 
-                Showallitems();
+               
                 if (txtSearch.Text.Length > 0)
                 {
                     mainsearch();
@@ -222,12 +229,14 @@ namespace SearchDataSPM
             table2.Clear();
             table3.Clear();
             table4.Clear();
+            dataTable.Clear();
             table0.Dispose();
             table1.Dispose();
             table2.Dispose();
             dt.Dispose();
             table3.Dispose();
             table4.Dispose();
+            dataTable.Dispose();
             listFiles.Clear();
             listView.Clear();
             recordlabel.Text = "";
@@ -236,7 +245,8 @@ namespace SearchDataSPM
         private void mainsearch()
         {
 
-            DataView dv = dt.DefaultView;
+            //DataView dv = dt.DefaultView;
+            DataView dv = (dataGridView.DataSource as DataTable).DefaultView;
             dt = dv.ToTable();
             string search1 = txtSearch.Text;
             if (search1.Length > 3)
@@ -2926,14 +2936,12 @@ namespace SearchDataSPM
 
         void collapse()
         {
-            int formHeight = this.Height;
-            int formWidth = this.Width;
             if (splitContainer1.Panel2Collapsed == true)
             {
                 advsearchbttn.Text = "<<";
                 splitContainer1.Panel2Collapsed = false;
                 splitContainer1.SplitterDistance = this.Width - 220 ;
-                this.Size = new Size(1135, formHeight);
+                this.Size = new Size(1000, 800);
                 //if (formWidth <= 1000)
                 //{
                 //    this.Size = new Size(formWidth + 200, formHeight);
@@ -2953,7 +2961,7 @@ namespace SearchDataSPM
                 this.Size = new Size(1000, 800);
                 
                 splitContainer1.Panel2Collapsed = true;
-                splitContainer1.SplitterDistance = this.Width -220;
+                splitContainer1.SplitterDistance =this.Width-220;
             }
         }
 
@@ -3050,15 +3058,35 @@ namespace SearchDataSPM
 
                 }
 
-            // Add another like above for your future textbox
-            // if (!string.IsNullOrEmpty(textBox1.Text)) 
-            // {
-            //     if (filter.length > 0) filter += "AND "
-            //     filter += string.Format("OtherColumn = '{0}'", textBox1.Text);
-            // }
+                if(designedbycombobox.SelectedItem == null && lastsavedbycombo.SelectedItem == null && familycomboxbox.SelectedItem == null && Manufactureritemcomboxbox.SelectedItem == null && oemitemcombobox.SelectedItem == null && ActiveCadblockcombobox.SelectedItem == null)
+                {
+                   
+                }
 
+                // Add another like above for your future textbox
+                // if (!string.IsNullOrEmpty(textBox1.Text)) 
+                // {
+                //     if (filter.length > 0) filter += "AND "
+                //     filter += string.Format("OtherColumn = '{0}'", textBox1.Text);
+                // }
+                if (!Descrip_txtbox.Visible)
+                {
+                    dataGridView.DataSource = dt;
+                }
+                else
+                {
+                    dataGridView.DataSource = (dataGridView.DataSource as DataTable).DefaultView.ToTable();
+                }
 
-            (dataGridView.DataSource as DataTable).DefaultView.RowFilter = filter;
+              
+
+                dataTable.Clear();
+                
+
+                (dataGridView.DataSource as DataTable).DefaultView.RowFilter = filter;
+                
+               dataTable = (dataGridView.DataSource as DataTable).DefaultView.ToTable();
+                dataGridView.DataSource = dataTable;
                 recordlabel.Text = "Found " + dataGridView.Rows.Count.ToString() +" Matching Items.";
 
             }
@@ -3082,7 +3110,7 @@ namespace SearchDataSPM
 
         private void filldesignedby()
         {
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT DesignedBy from [dbo].[UnionInventorytest] where DesignedBy is not null", cn))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT DesignedBy from [dbo].[UnionInventorytest] where DesignedBy is not null order by DesignedBy", cn))
             {
                 try
                 {
@@ -3111,7 +3139,7 @@ namespace SearchDataSPM
 
         private void filllastsavedby()
         {
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT LastSavedBy from [dbo].[UnionInventorytest] where LastSavedBy is not null", cn))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT LastSavedBy from [dbo].[UnionInventorytest] where LastSavedBy is not null order by LastSavedBy", cn))
             {
                 try
                 {
@@ -3140,7 +3168,7 @@ namespace SearchDataSPM
 
         private void fillmanufacturers()
         {
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM [SPM_Database].[dbo].[Manufacturers]", cn))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM [SPM_Database].[dbo].[Manufacturers] order by Manufacturer", cn))
             {
                 try
                 {
@@ -3170,7 +3198,7 @@ namespace SearchDataSPM
 
         private void filloem()
         {
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM [SPM_Database].[dbo].[ManufacturersItemNumbers]", cn))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM [SPM_Database].[dbo].[ManufacturersItemNumbers] order by [ManufacturerItemNumber]", cn))
             {
                 try
                 {
@@ -3199,7 +3227,7 @@ namespace SearchDataSPM
 
         private void fillfamilycodes()
         {
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT FamilyCodes FROM [SPM_Database].[dbo].[FamilyCodes]", cn))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT FamilyCodes FROM [SPM_Database].[dbo].[FamilyCodes] order by FamilyCodes", cn))
             {
                 try
                 {
