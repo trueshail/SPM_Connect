@@ -30,6 +30,7 @@ namespace SearchDataSPM
         String connection;
         SqlConnection cn;
         DataTable dt;
+        bool formloading = false;
 
         public SPM_Connect()
 
@@ -47,27 +48,51 @@ namespace SearchDataSPM
 
                 Application.Exit();
             }
-
-            dt = new DataTable();
-        }
-
-        private void SPM_Connect_Load(object sender, EventArgs e)
-        {
-            //pictureBox1.ImageLocation= (@"\\spm-adfs\SDBASE\SPM Connect SQL\spm_white_icon_2.gif");
-            //pictureBox1.Image = SearchDataSPM.Properties.Resources.spm_white_icon_2;
-            Showallitems();
             string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
             checkadmin();
             Checkdeveloper();
             this.Text = "SPM Connect Engineering - " + userName.ToString().Substring(4);
             chekin("SPM Connect Eng", userName);
-            txtSearch.Focus();
+            dt = new DataTable();
+        }
 
+        private void SPM_Connect_Load(object sender, EventArgs e)
+        {
+            collapse();
+            formloading = true;
+            //pictureBox1.ImageLocation= (@"\\spm-adfs\SDBASE\SPM Connect SQL\spm_white_icon_2.gif");
+            //pictureBox1.Image = SearchDataSPM.Properties.Resources.spm_white_icon_2;
+            Showallitems();
+            txtSearch.Focus();
+            fillinfo();
+            formloading = false;
+
+        }
+
+        private void fillinfo()
+        {
+            fillfamilycodes();
+            fillmanufacturers();
+            filloem();
+            filldesignedby();
+            filllastsavedby();
+            clearfilercombos();
+            
+        }
+
+        void clearfilercombos()
+        {
+            designedbycombobox.SelectedItem = null;
+            oemitemcombobox.SelectedItem = null;
+            Manufactureritemcomboxbox.SelectedItem = null;
+            lastsavedbycombo.SelectedItem = null;
+            familycomboxbox.SelectedItem = null;
+            designedbycombobox.SelectedItem = null;
         }
 
         private void Showallitems()
         {
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[UnionInventory] ORDER BY ItemNumber DESC", cn))
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[UnionInventorytest] ORDER BY ItemNumber DESC", cn))
             {
                 try
                 {
@@ -103,6 +128,7 @@ namespace SearchDataSPM
             txtSearch.Focus();
             SendKeys.Send("~");
             dataGridView.Refresh();
+
         }
 
         private void UpdateFont()
@@ -120,13 +146,15 @@ namespace SearchDataSPM
         #region Public Table & variables
 
         // variables required outside the functions to perfrom
-        string fullsearch = ("Description LIKE '%{0}%' OR Manufacturer LIKE '%{0}%' OR ManufacturerItemNumber LIKE '%{0}%' OR ItemNumber LIKE '%{0}%'");
+        // string fullsearch = ("Description LIKE '%{0}%' OR Manufacturer LIKE '%{0}%' OR ManufacturerItemNumber LIKE '%{0}%' OR ItemNumber LIKE '%{0}%'");
+        string fullsearch = ("FullSearch LIKE '%{0}%'");
         //string ItemNo;
         //string str;
         DataTable table0 = new DataTable();
         DataTable table1 = new DataTable();
         DataTable table2 = new DataTable();
         DataTable table3 = new DataTable();
+        DataTable table4 = new DataTable();
 
 
         #endregion
@@ -151,6 +179,11 @@ namespace SearchDataSPM
                     SendKeys.Send("{TAB}");
 
                 }
+                if (splitContainer1.Panel2Collapsed == false && this.Width <= 800)
+                {
+                    this.Size = new Size(1200, this.Height);
+                }
+
 
                 Showallitems();
                 if (txtSearch.Text.Length > 0)
@@ -172,8 +205,7 @@ namespace SearchDataSPM
 
         private void clearandhide()
         {
-
-
+            clearfilercombos();
             Descrip_txtbox.Hide();
             Descrip_txtbox.Clear();
             filteroem_txtbox.Hide();
@@ -187,11 +219,13 @@ namespace SearchDataSPM
             table1.Clear();
             table2.Clear();
             table3.Clear();
+            table4.Clear();
             table0.Dispose();
             table1.Dispose();
             table2.Dispose();
             dt.Dispose();
             table3.Dispose();
+            table4.Dispose();
             listFiles.Clear();
             listView.Clear();
             recordlabel.Text = "";
@@ -217,7 +251,7 @@ namespace SearchDataSPM
                         dv.RowFilter = string.Format(fullsearch1, search1);
 
                         table0 = dv.ToTable();
-                        dataGridView.DataSource = dv;
+                        dataGridView.DataSource = table0;
                         dataGridView.Update();
                         SearchStringPosition(txtSearch.Text.Substring(0, txtSearch.Text.Length - 1));
                         searchtext(txtSearch.Text.Substring(0, txtSearch.Text.Length - 1));
@@ -246,7 +280,7 @@ namespace SearchDataSPM
                         dv.RowFilter = string.Format(fullsearch, search1);
 
                         table0 = dv.ToTable();
-                        dataGridView.DataSource = dv;
+                        dataGridView.DataSource = table0;
                         dataGridView.Update();
                         SearchStringPosition(search1);
                         searchtext(search1);
@@ -276,7 +310,7 @@ namespace SearchDataSPM
                     dv.RowFilter = string.Format(fullsearch, search1);
 
                     table0 = dv.ToTable();
-                    dataGridView.DataSource = dv;
+                    dataGridView.DataSource = table0;
                     dataGridView.Update();
                     SearchStringPosition(search1);
                     searchtext(search1);
@@ -315,10 +349,10 @@ namespace SearchDataSPM
                         dv.RowFilter = secondFilter;
                     else
                         dv.RowFilter += " AND " + secondFilter;
-                    dataGridView.DataSource = dv;
+                    table1 = dv.ToTable();
+                    dataGridView.DataSource = table1;
                     SearchStringPosition(Descrip_txtbox.Text);
                     searchtext(Descrip_txtbox.Text);
-                    table1 = dv.ToTable();
                     dataGridView.Refresh();
                     recordlabel.Text = "Found " + table1.Rows.Count.ToString() + " Matching Items.";
                 }
@@ -332,6 +366,10 @@ namespace SearchDataSPM
                 {
                     search2 = null;
                     dv = null;
+                }
+                if (splitContainer1.Panel2Collapsed == false && this.Width <= 800)
+                {
+                    this.Size = new Size(1200, this.Height);
                 }
 
                 if (Descrip_txtbox.Text.Length > 0)
@@ -371,10 +409,11 @@ namespace SearchDataSPM
                         dv.RowFilter = thirdFilter;
                     else
                         dv.RowFilter += " AND " + thirdFilter;
-                    dataGridView.DataSource = dv;
+
+                    table2 = dv.ToTable();
+                    dataGridView.DataSource = table2;
                     SearchStringPosition(filteroem_txtbox.Text);
                     searchtext(filteroem_txtbox.Text);
-                    table2 = dv.ToTable();
                     dataGridView.Refresh();
                     recordlabel.Text = "Found " + table2.Rows.Count.ToString() + " Matching Items.";
                 }
@@ -389,7 +428,10 @@ namespace SearchDataSPM
                     search3 = null;
                     dv = null;
                 }
-
+                if (splitContainer1.Panel2Collapsed == false && this.Width <= 800)
+                {
+                    this.Size = new Size(1200, this.Height);
+                }
 
                 if (filteroem_txtbox.Text.Length > 0)
                 {
@@ -423,10 +465,11 @@ namespace SearchDataSPM
                         dv.RowFilter = fourthfilter;
                     else
                         dv.RowFilter += " AND " + fourthfilter;
-                    dataGridView.DataSource = dv;
+
+                    table3 = dv.ToTable();
+                    dataGridView.DataSource = table3;
                     SearchStringPosition(filteroemitem_txtbox.Text);
                     searchtext(filteroemitem_txtbox.Text);
-                    table3 = dv.ToTable();
                     dataGridView.Refresh();
                     recordlabel.Text = "Found " + table3.Rows.Count.ToString() + " Matching Items.";
                 }
@@ -440,6 +483,10 @@ namespace SearchDataSPM
                 {
                     search4 = null;
                     dv = null;
+                }
+                if (splitContainer1.Panel2Collapsed == false && this.Width <= 800)
+                {
+                    this.Size = new Size(1200, this.Height);
                 }
 
                 if (filteroemitem_txtbox.Text.Length > 0)
@@ -474,7 +521,8 @@ namespace SearchDataSPM
                         dv.RowFilter = fifthfilter;
                     else
                         dv.RowFilter += " AND " + fifthfilter;
-                    dataGridView.DataSource = dv;
+                    table4 = dv.ToTable();
+                    dataGridView.DataSource = table4;
                     SearchStringPosition(filter4.Text);
                     searchtext(filter4.Text);
                     dataGridView.Refresh();
@@ -2866,6 +2914,419 @@ namespace SearchDataSPM
 
             }
 
+        }
+
+        private void advsearchbttn_Click(object sender, EventArgs e)
+        {
+            collapse();
+
+        }
+
+        void collapse()
+        {
+            int formHeight = this.Height;
+            int formWidth = this.Width;
+            if (splitContainer1.Panel2Collapsed == true)
+            {
+                advsearchbttn.Text = "<<";
+                splitContainer1.Panel2Collapsed = false;
+                splitContainer1.SplitterDistance = 912;
+                this.Size = new Size(1135, formHeight);
+                //if (formWidth <= 1000)
+                //{
+                //    this.Size = new Size(formWidth + 200, formHeight);
+                //}
+
+                //else
+                //{
+                //    splitContainer1.SplitterDistance = 800;
+                //    this.Size = new Size(1200, formHeight);
+                //}
+
+            }
+            else
+            {
+                advsearchbttn.Text = ">>";
+                splitContainer1.Panel2Collapsed = true;
+                splitContainer1.SplitterDistance = 777;
+                this.Size = new Size(1000, 800);
+            }
+        }
+
+        private void designedbycombobox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FilterProducts();
+        }
+
+        private void FilterProducts()
+        {
+            if (formloading)
+            {
+
+            }
+            else
+            {
+                string filter = "";
+                if (designedbycombobox.SelectedItem != null)
+                {
+                    if (filter.Length > 0)
+                    {
+                        //filter += "AND";
+                        filter += string.Format("AND DesignedBy = '{0}'", designedbycombobox.Text);
+                    }
+                    else
+                    {
+                        filter += string.Format("DesignedBy = '{0}'", designedbycombobox.Text);
+                    }
+
+                }
+                if (oemitemcombobox.SelectedItem != null)
+                {
+                    if (filter.Length > 0)
+                    {
+                        //filter += "AND";
+                        filter += string.Format(" AND Manufacturer = '{0}'", oemitemcombobox.Text);
+                    }
+                    else
+                    {
+                        filter += string.Format("Manufacturer = '{0}'", oemitemcombobox.Text);
+                    }
+
+                }
+                if (lastsavedbycombo.SelectedItem != null)
+                {
+                    if (filter.Length > 0)
+                    {
+                        //filter += "AND";
+                        filter += string.Format(" AND LastSavedBy = '{0}'", lastsavedbycombo.SelectedItem.ToString());
+                    }
+                    else
+                    {
+                        filter += string.Format("LastSavedBy = '{0}'", lastsavedbycombo.SelectedItem.ToString());
+                    }
+
+                }
+                if (familycomboxbox.SelectedItem != null)
+                {
+                    if (filter.Length > 0)
+                    {
+                        //filter += "AND";
+                        filter += string.Format(" AND FamilyCode = '{0}'", familycomboxbox.SelectedItem.ToString());
+                    }
+                    else
+                    {
+                        filter += string.Format("FamilyCode = '{0}'", familycomboxbox.SelectedItem.ToString());
+                    }
+
+                }
+                if (Manufactureritemcomboxbox.SelectedItem != null)
+                {
+                    if (filter.Length > 0)
+                    {
+                        //filter += "AND";
+                        filter += string.Format(" AND ManufacturerItemNumber = '{0}'", Manufactureritemcomboxbox.SelectedItem.ToString());
+                    }
+                    else
+                    {
+                        filter += string.Format("ManufacturerItemNumber = '{0}'", Manufactureritemcomboxbox.SelectedItem.ToString());
+                    }
+
+                }
+
+            // Add another like above for your future textbox
+            // if (!string.IsNullOrEmpty(textBox1.Text)) 
+            // {
+            //     if (filter.length > 0) filter += "AND "
+            //     filter += string.Format("OtherColumn = '{0}'", textBox1.Text);
+            // }
+
+
+            (dataGridView.DataSource as DataTable).DefaultView.RowFilter = filter;
+                recordlabel.Text = "Found " + dataGridView.Rows.Count.ToString() +" Matching Items.";
+
+            }
+
+
+        }
+
+        private void oemitemcombobox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FilterProducts();
+        }
+
+        private void oemitemcombobox_TextChanged(object sender, EventArgs e)
+        {
+            if (oemitemcombobox.Text.Length == 0)
+            {
+                FilterProducts();
+            }
+
+        }
+
+        private void filldesignedby()
+        {
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT DesignedBy from [dbo].[UnionInventorytest] where DesignedBy is not null", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+                    AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
+                    while (reader.Read())
+                    {
+                        MyCollection.Add(reader.GetString(0));
+                    }
+                    designedbycombobox.AutoCompleteCustomSource = MyCollection;
+                    designedbycombobox.DataSource = MyCollection;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect New Item - Fill Description Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+
+        }
+
+        private void filllastsavedby()
+        {
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT LastSavedBy from [dbo].[UnionInventorytest] where LastSavedBy is not null", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+                    AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
+                    while (reader.Read())
+                    {
+                        MyCollection.Add(reader.GetString(0));
+                    }
+                    lastsavedbycombo.AutoCompleteCustomSource = MyCollection;
+                    lastsavedbycombo.DataSource = MyCollection;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect New Item - Fill Description Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+
+        }
+
+        private void fillmanufacturers()
+        {
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM [SPM_Database].[dbo].[Manufacturers]", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+                    AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
+                    while (reader.Read())
+                    {
+                        MyCollection.Add(reader.GetString(0));
+                    }
+                    oemitemcombobox.AutoCompleteCustomSource = MyCollection;
+                    oemitemcombobox.DataSource = MyCollection;
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect New Item - Fill Manufacturers Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+
+        }
+
+        private void filloem()
+        {
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM [SPM_Database].[dbo].[ManufacturersItemNumbers]", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+                    AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
+                    while (reader.Read())
+                    {
+                        MyCollection.Add(reader.GetString(0));
+                    }
+                    Manufactureritemcomboxbox.AutoCompleteCustomSource = MyCollection;
+                    Manufactureritemcomboxbox.DataSource = MyCollection;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect New Item - Fill oem items Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+
+        }
+
+        private void fillfamilycodes()
+        {
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT FamilyCodes FROM [SPM_Database].[dbo].[FamilyCodes]", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+                    AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
+                    while (reader.Read())
+                    {
+                        MyCollection.Add(reader.GetString(0));
+                    }
+
+                    //familytxtbox.AutoCompleteCustomSource = MyCollection;
+                    familycomboxbox.AutoCompleteCustomSource = MyCollection;
+                    familycomboxbox.DataSource = MyCollection;
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect New Item - Fill FamilyCodes Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+
+        }
+
+        private void Manufactureritemcomboxbox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FilterProducts();
+        }
+
+        private void lastsavedbycombo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FilterProducts();
+        }
+
+        private void familycomboxbox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FilterProducts();
+        }
+
+        private void ActiveCadblockcombobox_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void oemitemcombobox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                if (oemitemcombobox.Text.Length > 0)
+                {
+                    FilterProducts();
+                }
+
+            }
+        }
+
+        private void designedbycombobox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                if (designedbycombobox.Text.Length > 0)
+                {
+                    FilterProducts();
+                }
+
+            }
+        }
+
+        private void lastsavedbycombo_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                if (lastsavedbycombo.Text.Length > 0)
+                {
+                    FilterProducts();
+                }
+
+            }
+        }
+
+        private void Manufactureritemcomboxbox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                if (Manufactureritemcomboxbox.Text.Length > 0)
+                {
+                    FilterProducts();
+                }
+
+            }
+        }
+
+        private void familycomboxbox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                if (familycomboxbox.Text.Length > 0)
+                {
+                    FilterProducts();
+                }
+
+            }
+        }
+
+        private void familycomboxbox_TextChanged(object sender, EventArgs e)
+        {
+            if (familycomboxbox.Text.Length == 0)
+            {
+                FilterProducts();
+            }
+        }
+
+        private void Manufactureritemcomboxbox_TextChanged(object sender, EventArgs e)
+        {
+            if (Manufactureritemcomboxbox.Text.Length == 0)
+            {
+                FilterProducts();
+            }
+        }
+
+        private void lastsavedbycombo_TextChanged(object sender, EventArgs e)
+        {
+            if (lastsavedbycombo.Text.Length == 0)
+            {
+                FilterProducts();
+            }
+        }
+
+        private void designedbycombobox_TextChanged(object sender, EventArgs e)
+        {
+            if (designedbycombobox.Text.Length == 0)
+            {
+                FilterProducts();
+            }
+        }
+
+        private void clrfiltersbttn_Click(object sender, EventArgs e)
+        {
+            clearfilercombos();
         }
     }
 

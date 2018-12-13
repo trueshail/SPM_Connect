@@ -342,6 +342,7 @@ namespace SearchDataSPM
                     }
                     heattreat.AutoCompleteCustomSource = MyCollection;
 
+
                 }
                 catch (Exception ex)
                 {
