@@ -133,13 +133,16 @@ namespace SearchDataSPM
 
         private void Reload_Click(object sender, EventArgs e)
         {
+            performreload();
+        }
+
+        void performreload()
+        {
             clearandhide();
             txtSearch.Clear();
             txtSearch.Focus();
             SendKeys.Send("~");
             dataGridView.Refresh();
-            //Showallitems();
-
         }
 
         private void UpdateFont()
@@ -183,14 +186,10 @@ namespace SearchDataSPM
                     clearandhide();
                 }
 
-                if (txtSearch.Text.Length == 0)
+                if (designedbycombobox.Text == "" && lastsavedbycombo.Text == "" && familycomboxbox.Text == "" && Manufactureritemcomboxbox.Text == "" && oemitemcombobox.Text == "" && ActiveCadblockcombobox.Text == "")
                 {
                     Showallitems();
-                    e.Handled = true;
-                    e.SuppressKeyPress = true;
-                    return;
                 }
-
                 if (txtSearch.Text.Length > 0)
                 {
 
@@ -3425,7 +3424,8 @@ namespace SearchDataSPM
 
         private void clrfiltersbttn_Click(object sender, EventArgs e)
         {
-            clearfilercombos();
+
+            performreload();
         }
 
         #endregion

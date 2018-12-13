@@ -25,7 +25,7 @@ namespace SearchDataSPM
         public PurchaseReqform()
         {
             InitializeComponent();
-            
+
             connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
             try
             {
@@ -53,13 +53,15 @@ namespace SearchDataSPM
         private void PurchaseReq_Load(object sender, EventArgs e)
         {
             Clear();
-            showReqSearchItems();
             userfullname = getuserfullname(get_username().ToString()).ToString();
+            showReqSearchItems(userfullname);
+
+            dateTimePicker1.MinDate = DateTime.Today;
         }
 
-        private void showReqSearchItems()
+        private void showReqSearchItems(string user)
         {
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] ORDER BY ReqNumber DESC", cn))
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] Where [RequestedBy] = '" + user + "'ORDER BY ReqNumber DESC", cn))
             {
                 try
                 {
@@ -79,8 +81,15 @@ namespace SearchDataSPM
                     dataGridView.Columns[5].Visible = false;
                     dataGridView.Columns[6].Visible = false;
                     dataGridView.Columns[7].Visible = false;
+                    dataGridView.Columns[8].Visible = false;
+                    dataGridView.Columns[9].Visible = false;
+                    dataGridView.Columns[10].Visible = false;
+                    dataGridView.Columns[11].Visible = false;
+                    dataGridView.Columns[12].Visible = false;
+                    dataGridView.Columns[13].Visible = false;
                     dataGridView.Sort(dataGridView.Columns[0], ListSortDirection.Descending);
                     UpdateFont();
+
 
                 }
                 catch (Exception)
@@ -134,9 +143,11 @@ namespace SearchDataSPM
                 }
                 checkforeditrights();
             }
+
+
         }
 
-        private String getusernamefromgrid()
+        private String getapprovalstatus()
         {
             int selectedclmindex = dataGridView.SelectedCells[0].ColumnIndex;
             DataGridViewColumn columnchk = dataGridView.Columns[selectedclmindex];
@@ -147,8 +158,8 @@ namespace SearchDataSPM
             {
                 int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                 DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-                username = Convert.ToString(slectedrow.Cells[2].Value);
-                //MessageBox.Show(ItemNo);
+                username = Convert.ToString(slectedrow.Cells[10].Value);
+                //MessageBox.Show(username);
                 return username;
             }
             else
@@ -160,7 +171,7 @@ namespace SearchDataSPM
 
         private void checkforeditrights()
         {
-            if (getusernamefromgrid().ToString() == userfullname)
+            if (getapprovalstatus().ToString() == "0")
             {
                 editbttn.Visible = true;
 
@@ -187,7 +198,7 @@ namespace SearchDataSPM
 
         }
 
-        private object getuserfullname(string username)
+        private string getuserfullname(string username)
         {
             try
             {
@@ -220,6 +231,7 @@ namespace SearchDataSPM
             return null;
         }
 
+
         private void PurchaseReqSearchTxt_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
@@ -233,7 +245,7 @@ namespace SearchDataSPM
                 {
                     dataGridView.DataSource = null;
                     dataGridView.Refresh();
-                    showReqSearchItems();
+                    showReqSearchItems(userfullname);
                 }
 
                 e.Handled = true;
@@ -275,14 +287,11 @@ namespace SearchDataSPM
                 ecitbttn.Visible = false;
                 int lastreq = getlastreqnumber();
                 createnewreq(lastreq, userfullname.ToString());
-                showReqSearchItems();
+                showReqSearchItems(userfullname);
                 selectrowbeforeediting(lastreq.ToString());
                 populatereqdetails(lastreq);
                 PopulateDataGridView();
                 processeditbutton(false);
-                //PreviewTabPage.Text = "New Req : " + lastreq;
-                //purchreqtxt.Text = lastreq.ToString();
-                //fillitemssource();
             }
 
 
@@ -308,6 +317,7 @@ namespace SearchDataSPM
 
         void calculatetota()
         {
+            totalvalue = "";
             if (dataGridView1.Rows.Count > 0)
             {
                 int total = 0;
@@ -331,8 +341,9 @@ namespace SearchDataSPM
                         }
                         total += (qty * price);
                         totalcostlbl.Text = "Total Cost : $" + string.Format("{0:#.00}", Convert.ToDecimal(total.ToString()));
-                        totalvalue = string.Format("{0:#.00}", Convert.ToDecimal(total.ToString()));
+                        totalvalue = string.Format("{0:#.00}", total.ToString());
                     }
+
                     catch (Exception)
                     {
 
@@ -352,7 +363,7 @@ namespace SearchDataSPM
         {
             purchreqtxt.Clear();
             requestbytxt.Clear();
-            lastsavedtxt.Clear();
+            lastsavedby.Clear();
             datecreatedtxt.Clear();
             jobnumbertxt.Clear();
             subassytxt.Clear();
@@ -408,7 +419,7 @@ namespace SearchDataSPM
             {
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[PurchaseReqBase] (ReqNumber, RequestedBy, DateCreated, DateLastSaved, JobNumber, SubAssyNumber) VALUES('" + reqnumber + "','" + employee.ToString() + "','" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + jobnumber + "','" + subassy + "'  )";
+                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[PurchaseReqBase] (ReqNumber, RequestedBy, DateCreated, DateLastSaved, JobNumber, SubAssyNumber,LastSavedBy, Validate, Approved,Total,DateRequired) VALUES('" + reqnumber + "','" + employee.ToString() + "','" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + jobnumber + "','" + subassy + "','" + employee.ToString() + "','0','0','0','"+sqlFormattedDate+"')";
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -429,6 +440,7 @@ namespace SearchDataSPM
         {
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDate = datecreated.ToString("yyyy-MM-dd HH:mm:ss.fff");
+            string datereq = dateTimePicker1.Value.ToString("yyyy-MM-dd");
             string jobnumber = jobnumbertxt.Text.Trim();
             string subassy = subassytxt.Text.Trim();
             string notes = notestxt.Text;
@@ -438,7 +450,7 @@ namespace SearchDataSPM
             {
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "' WHERE ReqNumber = '" + reqnumber + "' ";
+                cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + userfullname.ToString() + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "' WHERE ReqNumber = '" + reqnumber + "' ";
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -464,6 +476,7 @@ namespace SearchDataSPM
         {
             dataGridView1.ContextMenuStrip = FormSelector;
             PurchaseReqSearchTxt.Enabled = false;
+            dateTimePicker1.Enabled = true;
             dataGridView.Enabled = false;
             editbttn.Visible = false;
             jobnumbertxt.ReadOnly = false;
@@ -473,6 +486,7 @@ namespace SearchDataSPM
             subassytxt.SelectionStart = subassytxt.Text.Length;
             groupBox3.Visible = true;
             savebttn.Visible = true;
+            Validatechk.Visible = true;
             fillitemssource();
             MenuStrip.Enabled = true;
             MenuStrip.Visible = false;
@@ -484,21 +498,38 @@ namespace SearchDataSPM
 
         private void savebttn_Click(object sender, EventArgs e)
         {
+            processsavebutton(false);
+        }
+
+        void processsavebutton(bool validatehit)
+        {
             errorProvider1.Clear();
-            if (jobnumbertxt.Text.Trim().Length > 0 && subassytxt.Text.Trim().Length > 0)
+            if (validatehit)
             {
                 UpdateReq(Convert.ToInt32(purchreqtxt.Text));
-                showReqSearchItems();
+                showReqSearchItems(userfullname);
                 clearaddnewtextboxes();
                 processexitbutton();
             }
             else
             {
-                errorProvider1.SetError(jobnumbertxt, "Job Number cannot be empty");
-                errorProvider1.SetError(subassytxt, "Sub Assy No cannot be empty");
-                //MessageBox.Show("Quantity cannot be empty in order to add new entry.", "SPM Connect - Add New Item", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                if (jobnumbertxt.Text.Trim().Length > 0 && subassytxt.Text.Trim().Length > 0)
+                {
+                    UpdateReq(Convert.ToInt32(purchreqtxt.Text));
+                    showReqSearchItems(userfullname);
+                    clearaddnewtextboxes();
+                    processexitbutton();
 
+                }
+                else
+                {
+                    errorProvider1.SetError(jobnumbertxt, "Job Number cannot be empty");
+                    errorProvider1.SetError(subassytxt, "Sub Assy No cannot be empty");
+                    //MessageBox.Show("Quantity cannot be empty in order to add new entry.", "SPM Connect - Add New Item", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                }
             }
+            
 
         }
 
@@ -519,11 +550,11 @@ namespace SearchDataSPM
                 }
                 else
                 {
-                    
+
                 }
-                
+
             }
-           
+
         }
 
         void performdiscarditem()
@@ -581,12 +612,14 @@ namespace SearchDataSPM
             groupBox3.Visible = false;
             editbttn.Visible = false;
             savebttn.Visible = false;
+            dateTimePicker1.Enabled = false;
             ecitbttn.Visible = false;
             tabControl1.Visible = true;
             MenuStrip.Enabled = true;
             MenuStrip.Visible = true;
             PurchaseReqSearchTxt.Enabled = true;
             dataGridView1.ContextMenuStrip = null;
+            Validatechk.Visible = false;
             Clear();
             if (tabControl1.TabPages.Count == 0)
             {
@@ -722,7 +755,7 @@ namespace SearchDataSPM
             }
         }
 
-         List<string> Itemstodiscard = new List<string>();
+        List<string> Itemstodiscard = new List<string>();
 
         private void Addnewbttn_Click(object sender, EventArgs e)
         {
@@ -747,11 +780,6 @@ namespace SearchDataSPM
                 if (int.TryParse(pricetxt.Text, out result))
                     model.Price = result;
                 model.Notes = "";
-
-
-                
-
-
                 using (SPM_DatabaseEntitiesPurchase db = new SPM_DatabaseEntitiesPurchase())
                 {
                     if (model.ID == 0)//Insert
@@ -766,12 +794,12 @@ namespace SearchDataSPM
                 PopulateDataGridView();
                 Addnewbttn.Enabled = false;
                 itemsearchtxtbox.Focus();
-               
+
 
                 string itemsonhold = model.Item + "][" + model.ReqNumber;
                 Itemstodiscard.Add(itemsonhold);
                 model.Qty = null;
-                model.Price =null;
+                model.Price = null;
             }
             else
             {
@@ -798,14 +826,48 @@ namespace SearchDataSPM
 
         void populatereqdetails(int item)
         {
-            DataRow[] dr = dt.Select("ReqNumber = '" + item + "'");
-            purchreqtxt.Text = dr[0]["ReqNumber"].ToString();
-            requestbytxt.Text = dr[0]["RequestedBy"].ToString();
-            datecreatedtxt.Text = dr[0]["DateCreated"].ToString();
-            jobnumbertxt.Text = dr[0]["JobNumber"].ToString();
-            subassytxt.Text = dr[0]["SubAssyNumber"].ToString();
-            lastsavedtxt.Text = dr[0]["DateLastSaved"].ToString();
-            notestxt.Text = dr[0]["Notes"].ToString();
+            try
+            {
+                DataRow[] dr = dt.Select("ReqNumber = '" + item + "'");
+                purchreqtxt.Text = dr[0]["ReqNumber"].ToString();
+                requestbytxt.Text = dr[0]["RequestedBy"].ToString();
+                datecreatedtxt.Text = dr[0]["DateCreated"].ToString();
+                jobnumbertxt.Text = dr[0]["JobNumber"].ToString();
+                subassytxt.Text = dr[0]["SubAssyNumber"].ToString();
+                lastsavedby.Text = dr[0]["LastSavedBy"].ToString();
+                lastsavedtxt.Text = dr[0]["DateLastSaved"].ToString();
+                notestxt.Text = dr[0]["Notes"].ToString();
+                DateTime dateValue = Convert.ToDateTime(dr[0]["DateRequired"]);
+                dateTimePicker1.Value = dateValue;
+                if (dr[0]["Validate"].ToString().Equals("1"))
+                {
+                    Validatechk.Checked = true;
+                    Validatechk.Text = "Invalidate";
+                    
+                }
+                else
+                {
+                    Validatechk.Text = "Validate";
+                    Validatechk.Checked = false;
+                }
+                if (dr[0]["Approved"].ToString().Equals("1") && dr[0]["Validate"].ToString().Equals("1"))
+                {
+                    approvechk.Text = "Approved";
+                    approvechk.Checked = true;
+                    approvechk.Visible = true;
+
+                }
+                else
+                {
+                    approvechk.Checked = false;
+                    approvechk.Visible = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Populate Req Detauils");
+            }
+
         }
 
         string reqnumber = "";
@@ -1039,14 +1101,14 @@ namespace SearchDataSPM
         {
             if (dataGridView1.Rows.Count > 0)
             {
-                
+
                 FormSelector.Items[0].Enabled = true;
                 FormSelector.Items[1].Enabled = true;
 
             }
             else
             {
-               
+
                 FormSelector.Items[0].Enabled = false;
                 FormSelector.Items[1].Enabled = false;
             }
@@ -1070,6 +1132,109 @@ namespace SearchDataSPM
             form1.gettotal(totalvalue);
             form1.Show();
 
+        }
+
+        private void Validatechk_Click(object sender, EventArgs e)
+        {
+            if (Validatechk.Checked == false)
+            {
+                if (getapprovedstatus(Convert.ToInt32(purchreqtxt.Text)))
+                {
+                    Validatechk.Checked = true;
+                    Validatechk.Text = "Invalidate";
+                    processexitbutton();
+                    showReqSearchItems(userfullname);
+                }
+                else
+                {
+                    Validatechk.Checked = false;
+                    Validatechk.Text = "Validate";
+
+                }
+                
+            }
+            else
+            {
+
+                DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to send this purchase req for order?", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    processsavebutton(true);
+                    Validatechk.Text = "Invalidate";
+                }
+                else
+                {
+                    Validatechk.Checked = false;
+                }
+           
+
+            }
+        }
+
+        private bool getapprovedstatus(int reqno)
+        {
+            bool approved = false;
+            try
+            {
+
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] where ReqNumber ='" + reqno + "'";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                sda.Fill(dt);
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    string useractiveblock = dr["Approved"].ToString();
+                    if (useractiveblock == "1")
+                    {
+                        approved = true;
+                    }
+                    else
+                    {
+                        approved = false;
+
+                    }
+                    return approved;
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //Application.Exit();
+
+            }
+            finally
+            {
+                cn.Close();
+            }
+
+            return approved;
+
+        }
+
+        private void Validatechk_CheckStateChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Validatechk_CheckedChanged(object sender, EventArgs e)
+        {
+            if (Validatechk.Checked && editbttn.Visible == true)
+            {
+                groupBox3.Visible = false;
+            }
+            else if( editbttn.Visible==true)
+            {
+                groupBox3.Visible = true;
+            }
         }
     }
 }
