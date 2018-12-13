@@ -78,7 +78,7 @@ namespace SearchDataSPM
             filllastsavedby();
             filluserwithblock();
             clearfilercombos();
-            
+
         }
 
         void clearfilercombos()
@@ -90,6 +90,14 @@ namespace SearchDataSPM
             familycomboxbox.SelectedItem = null;
             designedbycombobox.SelectedItem = null;
             ActiveCadblockcombobox.SelectedItem = null;
+            designedbycombobox.Text = null;
+            oemitemcombobox.Text = null;
+            Manufactureritemcomboxbox.Text = null;
+            lastsavedbycombo.Text = null;
+            familycomboxbox.Text = null;
+            designedbycombobox.Text = null;
+            ActiveCadblockcombobox.Text = null;
+
         }
 
         private void Showallitems()
@@ -130,7 +138,7 @@ namespace SearchDataSPM
             txtSearch.Focus();
             SendKeys.Send("~");
             dataGridView.Refresh();
-            Showallitems();
+            //Showallitems();
 
         }
 
@@ -175,9 +183,11 @@ namespace SearchDataSPM
                     clearandhide();
                 }
 
-                if(txtSearch.Text.Length == 0)
+                if (txtSearch.Text.Length == 0)
                 {
                     Showallitems();
+                    e.Handled = true;
+                    e.SuppressKeyPress = true;
                     return;
                 }
 
@@ -194,7 +204,7 @@ namespace SearchDataSPM
                 }
 
 
-               
+
                 if (txtSearch.Text.Length > 0)
                 {
                     mainsearch();
@@ -2847,6 +2857,8 @@ namespace SearchDataSPM
 
         #endregion
 
+        #region ToolStripMenu
+
         private void prorcessreportbom(string itemvalue, string Reportname)
         {
             ReportViewer form1 = new ReportViewer();
@@ -2928,6 +2940,10 @@ namespace SearchDataSPM
 
         }
 
+        #endregion
+
+        #region Advance Filters
+
         private void advsearchbttn_Click(object sender, EventArgs e)
         {
             collapse();
@@ -2940,8 +2956,8 @@ namespace SearchDataSPM
             {
                 advsearchbttn.Text = "<<";
                 splitContainer1.Panel2Collapsed = false;
-                splitContainer1.SplitterDistance = this.Width - 220 ;
-                this.Size = new Size(1000, 800);
+                this.Size = new Size(1135, 800);
+                splitContainer1.SplitterDistance = this.Width - 220;
                 //if (formWidth <= 1000)
                 //{
                 //    this.Size = new Size(formWidth + 200, formHeight);
@@ -2957,17 +2973,12 @@ namespace SearchDataSPM
             else
             {
                 advsearchbttn.Text = ">>";
-                
-                this.Size = new Size(1000, 800);
-                
-                splitContainer1.Panel2Collapsed = true;
-                splitContainer1.SplitterDistance =this.Width-220;
-            }
-        }
 
-        private void designedbycombobox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            FilterProducts();
+                this.Size = new Size(1000, 800);
+
+                splitContainer1.Panel2Collapsed = true;
+                splitContainer1.SplitterDistance = this.Width - 220;
+            }
         }
 
         private void FilterProducts()
@@ -2979,134 +2990,161 @@ namespace SearchDataSPM
             else
             {
                 string filter = "";
-                if (designedbycombobox.SelectedItem != null)
+                if (designedbycombobox.Text.Length > 0)
                 {
                     if (filter.Length > 0)
                     {
                         //filter += "AND";
-                        filter += string.Format("AND DesignedBy = '{0}'", designedbycombobox.SelectedItem.ToString());
+                        filter += string.Format("AND DesignedBy = '{0}'", designedbycombobox.Text.ToString());
                     }
                     else
                     {
-                        filter += string.Format("DesignedBy = '{0}'", designedbycombobox.SelectedItem.ToString());
+                        filter += string.Format("DesignedBy = '{0}'", designedbycombobox.Text.ToString());
                     }
 
                 }
-                if (oemitemcombobox.SelectedItem != null)
+                if (oemitemcombobox.Text.Length > 0)
                 {
                     if (filter.Length > 0)
                     {
                         //filter += "AND";
-                        filter += string.Format(" AND Manufacturer = '{0}'", oemitemcombobox.SelectedItem.ToString());
+                        filter += string.Format(" AND Manufacturer = '{0}'", oemitemcombobox.Text.ToString());
                     }
                     else
                     {
-                        filter += string.Format("Manufacturer = '{0}'", oemitemcombobox.SelectedItem.ToString());
+                        filter += string.Format("Manufacturer = '{0}'", oemitemcombobox.Text.ToString());
                     }
 
                 }
-                if (lastsavedbycombo.SelectedItem != null)
+                if (lastsavedbycombo.Text.Length > 0)
                 {
                     if (filter.Length > 0)
                     {
                         //filter += "AND";
-                        filter += string.Format(" AND LastSavedBy = '{0}'", lastsavedbycombo.SelectedItem.ToString());
+                        filter += string.Format(" AND LastSavedBy = '{0}'", lastsavedbycombo.Text.ToString());
                     }
                     else
                     {
-                        filter += string.Format("LastSavedBy = '{0}'", lastsavedbycombo.SelectedItem.ToString());
+                        filter += string.Format("LastSavedBy = '{0}'", lastsavedbycombo.Text.ToString());
                     }
 
                 }
-                if (familycomboxbox.SelectedItem != null)
+                if (familycomboxbox.Text.Length > 0)
                 {
                     if (filter.Length > 0)
                     {
                         //filter += "AND";
-                        filter += string.Format(" AND FamilyCode = '{0}'", familycomboxbox.SelectedItem.ToString());
+                        filter += string.Format(" AND FamilyCode = '{0}'", familycomboxbox.Text.ToString());
                     }
                     else
                     {
-                        filter += string.Format("FamilyCode = '{0}'", familycomboxbox.SelectedItem.ToString());
+                        filter += string.Format("FamilyCode = '{0}'", familycomboxbox.Text.ToString());
                     }
 
                 }
-                if (Manufactureritemcomboxbox.SelectedItem != null)
+                if (Manufactureritemcomboxbox.Text.Length > 0)
                 {
                     if (filter.Length > 0)
                     {
                         //filter += "AND";
-                        filter += string.Format(" AND ManufacturerItemNumber = '{0}'", Manufactureritemcomboxbox.SelectedItem.ToString());
+                        filter += string.Format(" AND ManufacturerItemNumber LIKE '%{0}%'", Manufactureritemcomboxbox.Text.ToString());
                     }
                     else
                     {
-                        filter += string.Format("ManufacturerItemNumber = '{0}'", Manufactureritemcomboxbox.SelectedItem.ToString());
+                        filter += string.Format("ManufacturerItemNumber LIKE '%{0}%'", Manufactureritemcomboxbox.Text.ToString());
                     }
 
                 }
-                if (ActiveCadblockcombobox.SelectedItem != null)
+                if (ActiveCadblockcombobox.Text.Length > 0)
                 {
                     if (filter.Length > 0)
                     {
                         //filter += "AND";
-                        filter += string.Format(" AND ItemNumber LIKE '%{0}%'", ActiveCadblockcombobox.SelectedItem.ToString().Substring(0,3));
+                        filter += string.Format(" AND ItemNumber LIKE '%{0}%'", ActiveCadblockcombobox.Text.ToString().Substring(0, 3));
                     }
                     else
                     {
-                        filter += string.Format("ItemNumber LIKE '%{0}%'", ActiveCadblockcombobox.SelectedItem.ToString().Substring(0,3));
+                        filter += string.Format("ItemNumber LIKE '%{0}%'", ActiveCadblockcombobox.Text.ToString().Substring(0, 3));
                     }
 
                 }
 
-                if(designedbycombobox.SelectedItem == null && lastsavedbycombo.SelectedItem == null && familycomboxbox.SelectedItem == null && Manufactureritemcomboxbox.SelectedItem == null && oemitemcombobox.SelectedItem == null && ActiveCadblockcombobox.SelectedItem == null)
+                if (designedbycombobox.SelectedItem == null && lastsavedbycombo.SelectedItem == null && familycomboxbox.SelectedItem == null && Manufactureritemcomboxbox.SelectedItem == null && oemitemcombobox.SelectedItem == null && ActiveCadblockcombobox.SelectedItem == null)
                 {
-                   
+
                 }
-
-                // Add another like above for your future textbox
-                // if (!string.IsNullOrEmpty(textBox1.Text)) 
-                // {
-                //     if (filter.length > 0) filter += "AND "
-                //     filter += string.Format("OtherColumn = '{0}'", textBox1.Text);
-                // }
-                if (!Descrip_txtbox.Visible)
-                {
-                    dataGridView.DataSource = dt;
-                }
-                else
-                {
-                    dataGridView.DataSource = (dataGridView.DataSource as DataTable).DefaultView.ToTable();
-                }
-
-              
-
-                dataTable.Clear();
-                
-
-                (dataGridView.DataSource as DataTable).DefaultView.RowFilter = filter;
-                
-               dataTable = (dataGridView.DataSource as DataTable).DefaultView.ToTable();
-                dataGridView.DataSource = dataTable;
-                recordlabel.Text = "Found " + dataGridView.Rows.Count.ToString() +" Matching Items.";
-
+                advfiltertables(filter);
             }
 
 
         }
 
-        private void oemitemcombobox_SelectedIndexChanged(object sender, EventArgs e)
+        void advfiltertables(string filter)
         {
-            FilterProducts();
-        }
-
-        private void oemitemcombobox_TextChanged(object sender, EventArgs e)
-        {
-            if (oemitemcombobox.Text.Length == 0)
+            if (!Descrip_txtbox.Visible)
             {
-                FilterProducts();
-            }
+                dataGridView.DataSource = dt;
+                dataTable.Clear();
+                (dataGridView.DataSource as DataTable).DefaultView.RowFilter = filter;
+                dataTable = (dataGridView.DataSource as DataTable).DefaultView.ToTable();
+                dataGridView.DataSource = dataTable;
+                recordlabel.Text = "Found " + dataGridView.Rows.Count.ToString() + " Matching Items.";
 
+            }
+            if (Descrip_txtbox.Visible)
+            {
+                dataGridView.DataSource = table0;
+                dataTable.Clear();
+                dataGridView.Refresh();
+                table0.DefaultView.RowFilter = filter;
+                dataTable = (dataGridView.DataSource as DataTable).DefaultView.ToTable();
+                dataGridView.DataSource = dataTable;
+                recordlabel.Text = "Found " + dataGridView.Rows.Count.ToString() + " Matching Items.";
+
+            }
+            if (filteroem_txtbox.Visible)
+            {
+                dataGridView.DataSource = table1;
+                dataTable.Clear();
+                table1.DefaultView.RowFilter = filter;
+                dataTable = (dataGridView.DataSource as DataTable).DefaultView.ToTable();
+                dataGridView.DataSource = dataTable;
+                recordlabel.Text = "Found " + dataGridView.Rows.Count.ToString() + " Matching Items.";
+
+            }
+            if (filteroemitem_txtbox.Visible)
+            {
+                dataGridView.DataSource = table2;
+                dataTable.Clear();
+                table2.DefaultView.RowFilter = filter;
+                dataTable = (dataGridView.DataSource as DataTable).DefaultView.ToTable();
+                dataGridView.DataSource = dataTable;
+                recordlabel.Text = "Found " + dataGridView.Rows.Count.ToString() + " Matching Items.";
+
+            }
+            if (filter4.Visible)
+            {
+                dataGridView.DataSource = table3;
+                dataTable.Clear();
+                table3.DefaultView.RowFilter = filter;
+                dataTable = (dataGridView.DataSource as DataTable).DefaultView.ToTable();
+                dataGridView.DataSource = dataTable;
+                recordlabel.Text = "Found " + dataGridView.Rows.Count.ToString() + " Matching Items.";
+
+            }
+            else
+            {
+                dataGridView.DataSource = (dataGridView.DataSource as DataTable).DefaultView.ToTable();
+                dataTable.Clear();
+                (dataGridView.DataSource as DataTable).DefaultView.RowFilter = filter;
+                dataTable = (dataGridView.DataSource as DataTable).DefaultView.ToTable();
+                dataGridView.DataSource = dataTable;
+                recordlabel.Text = "Found " + dataGridView.Rows.Count.ToString() + " Matching Items.";
+
+            }
         }
+
+        #region fillcomboboxes
 
         private void filldesignedby()
         {
@@ -3289,35 +3327,27 @@ namespace SearchDataSPM
 
         }
 
-        private void Manufactureritemcomboxbox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            FilterProducts();
-        }
+        #endregion
 
-        private void lastsavedbycombo_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            FilterProducts();
-        }
-
-        private void familycomboxbox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            FilterProducts();
-        }
+        #region advance filters events
 
         private void ActiveCadblockcombobox_KeyDown(object sender, KeyEventArgs e)
         {
-
+            if (e.KeyCode == Keys.Return)
+            {
+                FilterProducts();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
         }
 
         private void oemitemcombobox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
-                if (oemitemcombobox.Text.Length > 0)
-                {
-                    FilterProducts();
-                }
-
+                FilterProducts();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
             }
         }
 
@@ -3325,11 +3355,9 @@ namespace SearchDataSPM
         {
             if (e.KeyCode == Keys.Return)
             {
-                if (designedbycombobox.Text.Length > 0)
-                {
-                    FilterProducts();
-                }
-
+                FilterProducts();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
             }
         }
 
@@ -3337,11 +3365,9 @@ namespace SearchDataSPM
         {
             if (e.KeyCode == Keys.Return)
             {
-                if (lastsavedbycombo.Text.Length > 0)
-                {
-                    FilterProducts();
-                }
-
+                FilterProducts();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
             }
         }
 
@@ -3349,11 +3375,9 @@ namespace SearchDataSPM
         {
             if (e.KeyCode == Keys.Return)
             {
-                if (Manufactureritemcomboxbox.Text.Length > 0)
-                {
-                    FilterProducts();
-                }
-
+                FilterProducts();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
             }
         }
 
@@ -3361,11 +3385,9 @@ namespace SearchDataSPM
         {
             if (e.KeyCode == Keys.Return)
             {
-                if (familycomboxbox.Text.Length > 0)
-                {
-                    FilterProducts();
-                }
-
+                FilterProducts();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
             }
         }
 
@@ -3406,10 +3428,10 @@ namespace SearchDataSPM
             clearfilercombos();
         }
 
-        private void ActiveCadblockcombobox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            FilterProducts();
-        }
+        #endregion
+
+        #endregion
+
     }
 
 }

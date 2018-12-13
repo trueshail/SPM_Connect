@@ -32,9 +32,9 @@ namespace SearchDataSPM
 		{
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SPM_Connect));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.FormSelector = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.bOMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.whereUsedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -339,8 +339,8 @@ namespace SearchDataSPM
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(26, 8);
             this.label1.TabIndex = 116;
-            this.label1.Text = "V7.0.1";
-            this.TreeViewToolTip.SetToolTip(this.label1, "SPM Connect V7.0.1");
+            this.label1.Text = "V7.5.1";
+            this.TreeViewToolTip.SetToolTip(this.label1, "SPM Connect V7.5.1");
             // 
             // Reload
             // 
@@ -371,7 +371,7 @@ namespace SearchDataSPM
             this.txtSearch.MaximumSize = new System.Drawing.Size(32767, 25);
             this.txtSearch.MinimumSize = new System.Drawing.Size(4, 23);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(455, 25);
+            this.txtSearch.Size = new System.Drawing.Size(455, 26);
             this.txtSearch.TabIndex = 106;
             this.TreeViewToolTip.SetToolTip(this.txtSearch, "Enter Search Keyword.\r\n");
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
@@ -667,8 +667,8 @@ namespace SearchDataSPM
             // descriptionDataGridViewTextBoxColumn
             // 
             this.descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
-            dataGridViewCellStyle16.NullValue = null;
-            this.descriptionDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle4.NullValue = null;
+            this.descriptionDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle4;
             this.descriptionDataGridViewTextBoxColumn.FillWeight = 86.92893F;
             this.descriptionDataGridViewTextBoxColumn.HeaderText = "Description";
             this.descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
@@ -689,8 +689,8 @@ namespace SearchDataSPM
             // manufacturerDataGridViewTextBoxColumn
             // 
             this.manufacturerDataGridViewTextBoxColumn.DataPropertyName = "Manufacturer";
-            dataGridViewCellStyle17.NullValue = null;
-            this.manufacturerDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle5.NullValue = null;
+            this.manufacturerDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle5;
             this.manufacturerDataGridViewTextBoxColumn.FillWeight = 86.92893F;
             this.manufacturerDataGridViewTextBoxColumn.HeaderText = "Manufacturer";
             this.manufacturerDataGridViewTextBoxColumn.Name = "manufacturerDataGridViewTextBoxColumn";
@@ -699,8 +699,8 @@ namespace SearchDataSPM
             // manufacturerItemNumberDataGridViewTextBoxColumn
             // 
             this.manufacturerItemNumberDataGridViewTextBoxColumn.DataPropertyName = "ManufacturerItemNumber";
-            dataGridViewCellStyle18.NullValue = null;
-            this.manufacturerItemNumberDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle18;
+            dataGridViewCellStyle6.NullValue = null;
+            this.manufacturerItemNumberDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle6;
             this.manufacturerItemNumberDataGridViewTextBoxColumn.FillWeight = 86.92893F;
             this.manufacturerItemNumberDataGridViewTextBoxColumn.HeaderText = "Manufacturer Item Number";
             this.manufacturerItemNumberDataGridViewTextBoxColumn.Name = "manufacturerItemNumberDataGridViewTextBoxColumn";
@@ -726,7 +726,7 @@ namespace SearchDataSPM
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(22, 510);
+            this.label6.Location = new System.Drawing.Point(22, 128);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(145, 18);
             this.label6.TabIndex = 145;
@@ -791,7 +791,7 @@ namespace SearchDataSPM
             | System.Windows.Forms.AnchorStyles.Right)));
             this.actcadblk.AutoSize = true;
             this.actcadblk.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.actcadblk.Location = new System.Drawing.Point(22, 127);
+            this.actcadblk.Location = new System.Drawing.Point(22, 512);
             this.actcadblk.Name = "actcadblk";
             this.actcadblk.Size = new System.Drawing.Size(148, 18);
             this.actcadblk.TabIndex = 140;
@@ -802,15 +802,14 @@ namespace SearchDataSPM
             this.Manufactureritemcomboxbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.Manufactureritemcomboxbox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.Manufactureritemcomboxbox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.Manufactureritemcomboxbox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Manufactureritemcomboxbox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.Manufactureritemcomboxbox.FormattingEnabled = true;
             this.Manufactureritemcomboxbox.Location = new System.Drawing.Point(5, 376);
             this.Manufactureritemcomboxbox.Name = "Manufactureritemcomboxbox";
-            this.Manufactureritemcomboxbox.Size = new System.Drawing.Size(190, 21);
+            this.Manufactureritemcomboxbox.Size = new System.Drawing.Size(194, 21);
             this.Manufactureritemcomboxbox.TabIndex = 125;
-            this.Manufactureritemcomboxbox.SelectedIndexChanged += new System.EventHandler(this.Manufactureritemcomboxbox_SelectedIndexChanged);
             this.Manufactureritemcomboxbox.TextChanged += new System.EventHandler(this.Manufactureritemcomboxbox_TextChanged);
             this.Manufactureritemcomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Manufactureritemcomboxbox_KeyDown);
             // 
@@ -819,15 +818,14 @@ namespace SearchDataSPM
             this.familycomboxbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.familycomboxbox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.familycomboxbox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.familycomboxbox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.familycomboxbox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.familycomboxbox.FormattingEnabled = true;
             this.familycomboxbox.Location = new System.Drawing.Point(5, 227);
             this.familycomboxbox.Name = "familycomboxbox";
-            this.familycomboxbox.Size = new System.Drawing.Size(190, 21);
+            this.familycomboxbox.Size = new System.Drawing.Size(194, 21);
             this.familycomboxbox.TabIndex = 123;
-            this.familycomboxbox.SelectedIndexChanged += new System.EventHandler(this.familycomboxbox_SelectedIndexChanged);
             this.familycomboxbox.TextChanged += new System.EventHandler(this.familycomboxbox_TextChanged);
             this.familycomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.familycomboxbox_KeyDown);
             // 
@@ -836,15 +834,14 @@ namespace SearchDataSPM
             this.lastsavedbycombo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.lastsavedbycombo.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.lastsavedbycombo.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.lastsavedbycombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.lastsavedbycombo.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.lastsavedbycombo.FormattingEnabled = true;
             this.lastsavedbycombo.Location = new System.Drawing.Point(5, 453);
             this.lastsavedbycombo.Name = "lastsavedbycombo";
-            this.lastsavedbycombo.Size = new System.Drawing.Size(190, 21);
+            this.lastsavedbycombo.Size = new System.Drawing.Size(194, 21);
             this.lastsavedbycombo.TabIndex = 126;
-            this.lastsavedbycombo.SelectedIndexChanged += new System.EventHandler(this.lastsavedbycombo_SelectedIndexChanged);
             this.lastsavedbycombo.TextChanged += new System.EventHandler(this.lastsavedbycombo_TextChanged);
             this.lastsavedbycombo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lastsavedbycombo_KeyDown);
             // 
@@ -853,8 +850,8 @@ namespace SearchDataSPM
             this.oemitemcombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.oemitemcombobox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.oemitemcombobox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.oemitemcombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.oemitemcombobox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.oemitemcombobox.FormattingEnabled = true;
             this.oemitemcombobox.Items.AddRange(new object[] {
@@ -862,10 +859,8 @@ namespace SearchDataSPM
             "SPM AUTOMATION (Canada) INC."});
             this.oemitemcombobox.Location = new System.Drawing.Point(5, 301);
             this.oemitemcombobox.Name = "oemitemcombobox";
-            this.oemitemcombobox.Size = new System.Drawing.Size(190, 21);
+            this.oemitemcombobox.Size = new System.Drawing.Size(194, 21);
             this.oemitemcombobox.TabIndex = 124;
-            this.oemitemcombobox.SelectedIndexChanged += new System.EventHandler(this.oemitemcombobox_SelectedIndexChanged);
-            this.oemitemcombobox.TextChanged += new System.EventHandler(this.oemitemcombobox_TextChanged);
             this.oemitemcombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.oemitemcombobox_KeyDown);
             // 
             // ActiveCadblockcombobox
@@ -873,15 +868,14 @@ namespace SearchDataSPM
             this.ActiveCadblockcombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.ActiveCadblockcombobox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.ActiveCadblockcombobox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.ActiveCadblockcombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ActiveCadblockcombobox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.ActiveCadblockcombobox.FormattingEnabled = true;
-            this.ActiveCadblockcombobox.Location = new System.Drawing.Point(5, 149);
+            this.ActiveCadblockcombobox.Location = new System.Drawing.Point(5, 534);
             this.ActiveCadblockcombobox.Name = "ActiveCadblockcombobox";
-            this.ActiveCadblockcombobox.Size = new System.Drawing.Size(190, 21);
-            this.ActiveCadblockcombobox.TabIndex = 122;
-            this.ActiveCadblockcombobox.SelectedIndexChanged += new System.EventHandler(this.ActiveCadblockcombobox_SelectedIndexChanged);
+            this.ActiveCadblockcombobox.Size = new System.Drawing.Size(194, 21);
+            this.ActiveCadblockcombobox.TabIndex = 127;
             this.ActiveCadblockcombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ActiveCadblockcombobox_KeyDown);
             // 
             // designedbycombobox
@@ -889,19 +883,18 @@ namespace SearchDataSPM
             this.designedbycombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.designedbycombobox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.designedbycombobox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.designedbycombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.designedbycombobox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.designedbycombobox.FormattingEnabled = true;
             this.designedbycombobox.Items.AddRange(new object[] {
             "Shailkumar Patel",
             "Scott Reid",
             "Joel Goldsmith"});
-            this.designedbycombobox.Location = new System.Drawing.Point(5, 532);
+            this.designedbycombobox.Location = new System.Drawing.Point(5, 150);
             this.designedbycombobox.Name = "designedbycombobox";
-            this.designedbycombobox.Size = new System.Drawing.Size(190, 21);
-            this.designedbycombobox.TabIndex = 127;
-            this.designedbycombobox.SelectedIndexChanged += new System.EventHandler(this.designedbycombobox_SelectedIndexChanged);
+            this.designedbycombobox.Size = new System.Drawing.Size(194, 21);
+            this.designedbycombobox.TabIndex = 122;
             this.designedbycombobox.TextChanged += new System.EventHandler(this.designedbycombobox_TextChanged);
             this.designedbycombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.designedbycombobox_KeyDown);
             // 
