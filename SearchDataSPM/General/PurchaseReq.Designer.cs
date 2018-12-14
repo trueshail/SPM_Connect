@@ -156,10 +156,12 @@
             // 
             // printToolStripMenuItem
             // 
+            this.printToolStripMenuItem.Enabled = false;
             this.printToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("printToolStripMenuItem.Image")));
             this.printToolStripMenuItem.Name = "printToolStripMenuItem";
             this.printToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
             this.printToolStripMenuItem.Text = "Print";
+            this.printToolStripMenuItem.Visible = false;
             this.printToolStripMenuItem.Click += new System.EventHandler(this.printToolStripMenuItem_Click);
             // 
             // splitContainer1
@@ -287,6 +289,7 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(692, 690);
             this.tabControl1.TabIndex = 0;
+            this.tabControl1.Visible = false;
             // 
             // PreviewTabPage
             // 
@@ -1089,6 +1092,7 @@
             this.totalcostlbl.Size = new System.Drawing.Size(91, 15);
             this.totalcostlbl.TabIndex = 56;
             this.totalcostlbl.Text = "Total Cost $ :";
+            this.totalcostlbl.Visible = false;
             // 
             // TreeViewToolTip
             // 

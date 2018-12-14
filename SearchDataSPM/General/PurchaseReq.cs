@@ -21,6 +21,8 @@ namespace SearchDataSPM
         SqlDataAdapter _adapter;
         DataTable itemstable = new DataTable();
         DataTable dt;
+        bool formloading = false;
+        bool supervisor = false;
 
         public PurchaseReqform()
         {
@@ -45,18 +47,19 @@ namespace SearchDataSPM
                 cn.Close();
             }
             dt = new DataTable();
-
+             Clear();
+            userfullname = getuserfullname(get_username().ToString()).ToString();
         }
 
         string userfullname;
 
         private void PurchaseReq_Load(object sender, EventArgs e)
         {
-            Clear();
-            userfullname = getuserfullname(get_username().ToString()).ToString();
+            formloading = true;
             showReqSearchItems(userfullname);
 
-            dateTimePicker1.MinDate = DateTime.Today;
+            formloading = false;
+           
         }
 
         private void showReqSearchItems(string user)
@@ -127,22 +130,33 @@ namespace SearchDataSPM
 
         private void dataGridView_SelectionChanged(object sender, EventArgs e)
         {
-            if (dataGridView.Rows.Count > 0 && dataGridView.SelectedCells.Count == 1)
+            if (!formloading)
             {
-                dataGridView1.AutoGenerateColumns = false;
-                int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
-                DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-                int item = Convert.ToInt32(slectedrow.Cells[0].Value);
-                populatereqdetails(item);
-                PopulateDataGridView();
-
-                tabControl1.Visible = true;
-                if (tabControl1.TabPages.Count == 0)
+                if (dataGridView.Rows.Count > 0 && dataGridView.SelectedCells.Count == 1)
                 {
-                    tabControl1.TabPages.Add(PreviewTabPage);
+                    Cursor.Current = Cursors.WaitCursor;
+
+                    dataGridView1.AutoGenerateColumns = false;
+                    int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
+                    DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
+                    int item = Convert.ToInt32(slectedrow.Cells[0].Value);
+
+                    
+                    populatereqdetails(item);
+                    PopulateDataGridView();
+                    tabControl1.Visible = true;
+                    totalcostlbl.Visible = true;
+                    if (tabControl1.TabPages.Count == 0)
+                    {
+                        tabControl1.TabPages.Add(PreviewTabPage);
+                    }
+                    checkforeditrights();
+
+                    Cursor.Current = Cursors.Default;
                 }
-                checkforeditrights();
+
             }
+       
 
 
         }
@@ -214,6 +228,11 @@ namespace SearchDataSPM
                 foreach (DataRow dr in dt.Rows)
                 {
                     string fullname = dr["Name"].ToString();
+                    string manager = dr["PurchaseReqApproval"].ToString();
+                    if(manager == "1")
+                    {
+                        supervisor = true;
+                    }
                     return fullname;
                 }
             }
@@ -230,7 +249,6 @@ namespace SearchDataSPM
             }
             return null;
         }
-
 
         private void PurchaseReqSearchTxt_KeyDown(object sender, KeyEventArgs e)
         {
@@ -283,7 +301,7 @@ namespace SearchDataSPM
             {
                 //clearitemsbeforenewreq();
                 //Clear();
-
+                dateTimePicker1.MinDate = DateTime.Today;
                 ecitbttn.Visible = false;
                 int lastreq = getlastreqnumber();
                 createnewreq(lastreq, userfullname.ToString());
@@ -484,7 +502,15 @@ namespace SearchDataSPM
             notestxt.ReadOnly = false;
             jobnumbertxt.SelectionStart = jobnumbertxt.Text.Length;
             subassytxt.SelectionStart = subassytxt.Text.Length;
-            groupBox3.Visible = true;
+            if (Validatechk.Checked)
+            {
+                groupBox3.Visible = false;
+            }
+            else
+            {
+                groupBox3.Visible = true;
+            }
+            
             savebttn.Visible = true;
             Validatechk.Visible = true;
             fillitemssource();
@@ -855,12 +881,17 @@ namespace SearchDataSPM
                     approvechk.Text = "Approved";
                     approvechk.Checked = true;
                     approvechk.Visible = true;
+                    printToolStripMenuItem.Enabled = true;
+                    printToolStripMenuItem.Visible = true;
 
                 }
                 else
                 {
+                    approvechk.Text = "Approve";
                     approvechk.Checked = false;
                     approvechk.Visible = false;
+                    printToolStripMenuItem.Enabled = false;
+                    printToolStripMenuItem.Visible = false;
                 }
             }
             catch (Exception ex)
@@ -1142,6 +1173,7 @@ namespace SearchDataSPM
                 {
                     Validatechk.Checked = true;
                     Validatechk.Text = "Invalidate";
+                    groupBox3.Visible = false;
                     processexitbutton();
                     showReqSearchItems(userfullname);
                 }
@@ -1149,6 +1181,7 @@ namespace SearchDataSPM
                 {
                     Validatechk.Checked = false;
                     Validatechk.Text = "Validate";
+                    groupBox3.Visible = true;
 
                 }
                 
@@ -1227,14 +1260,23 @@ namespace SearchDataSPM
 
         private void Validatechk_CheckedChanged(object sender, EventArgs e)
         {
-            if (Validatechk.Checked && editbttn.Visible == true)
+            if (editbttn.Visible || approvechk.Checked)
             {
                 groupBox3.Visible = false;
             }
-            else if( editbttn.Visible==true)
+            else
             {
-                groupBox3.Visible = true;
+                groupBox3.Visible = false;
+                if (Validatechk.Checked)
+                {
+                    groupBox3.Visible = false;
+                }
+                else
+                {
+                    groupBox3.Visible = true;
+                }
             }
+           
         }
     }
 }
