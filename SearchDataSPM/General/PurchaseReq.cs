@@ -56,6 +56,12 @@ namespace SearchDataSPM
         private void PurchaseReq_Load(object sender, EventArgs e)
         {
             formloading = true;
+            if (supervisor)
+            {
+                Managertoolstip.Enabled = true;
+                Managertoolstip.Visible = true;
+
+            }
             showReqSearchItems(userfullname);
 
             formloading = false;
@@ -73,26 +79,7 @@ namespace SearchDataSPM
 
                     dt.Clear();
                     sda.Fill(dt);
-                    dataGridView.DataSource = dt;
-                    DataView dv = dt.DefaultView;
-                    dataGridView.Columns[0].Width = 60;
-                    dataGridView.Columns[0].HeaderText = "Req No";
-                    dataGridView.Columns[1].Width = 60;
-                    dataGridView.Columns[2].Width = 80;
-                    dataGridView.Columns[3].Width = 80;
-                    dataGridView.Columns[4].Visible = false;
-                    dataGridView.Columns[5].Visible = false;
-                    dataGridView.Columns[6].Visible = false;
-                    dataGridView.Columns[7].Visible = false;
-                    dataGridView.Columns[8].Visible = false;
-                    dataGridView.Columns[9].Visible = false;
-                    dataGridView.Columns[10].Visible = false;
-                    dataGridView.Columns[11].Visible = false;
-                    dataGridView.Columns[12].Visible = false;
-                    dataGridView.Columns[13].Visible = false;
-                    dataGridView.Sort(dataGridView.Columns[0], ListSortDirection.Descending);
-                    UpdateFont();
-
+                    preparedatagrid();
 
                 }
                 catch (Exception)
@@ -106,6 +93,29 @@ namespace SearchDataSPM
                 }
 
             }
+        }
+
+        void preparedatagrid()
+        {
+            dataGridView.DataSource = dt;
+            DataView dv = dt.DefaultView;
+            dataGridView.Columns[0].Width = 60;
+            dataGridView.Columns[0].HeaderText = "Req No";
+            dataGridView.Columns[1].Width = 60;
+            dataGridView.Columns[2].Width = 80;
+            dataGridView.Columns[3].Width = 80;
+            dataGridView.Columns[4].Visible = false;
+            dataGridView.Columns[5].Visible = false;
+            dataGridView.Columns[6].Visible = false;
+            dataGridView.Columns[7].Visible = false;
+            dataGridView.Columns[8].Visible = false;
+            dataGridView.Columns[9].Visible = false;
+            dataGridView.Columns[10].Visible = false;
+            dataGridView.Columns[11].Visible = false;
+            dataGridView.Columns[12].Visible = false;
+            dataGridView.Columns[13].Visible = false;
+            dataGridView.Sort(dataGridView.Columns[0], ListSortDirection.Descending);
+            UpdateFont();
         }
 
         private void UpdateFont()
@@ -1278,5 +1288,108 @@ namespace SearchDataSPM
             }
            
         }
+
+        private void showAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            showallreqitems();
+        }
+
+        private void showallreqitems()
+        {
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] ORDER BY ReqNumber DESC", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+                    preparedatagrid();
+
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect - Engineering Load(showallitems)", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+        }
+
+        private void showMyPurchaseReqsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            showReqSearchItems(userfullname);
+        }
+
+        private void showApprovedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            showallapproved();
+        }
+
+        private void showallapproved()
+        {
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '1' ORDER BY ReqNumber DESC", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+                    preparedatagrid();
+
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect - Engineering Load(showallitems)", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+        }
+
+        private void showWaitingForApprovalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            showwaitingonapproval();
+        }
+
+        private void showwaitingonapproval()
+        {
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '0' AND Validate = '1' ORDER BY ReqNumber DESC", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+                    preparedatagrid();
+
+
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect - Engineering Load(showallitems)", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+        }
+
     }
 }

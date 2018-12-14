@@ -1029,7 +1029,7 @@ namespace SearchDataSPM
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "SPM Connect - User Chechin", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "SPM Connect - User Checkin", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {

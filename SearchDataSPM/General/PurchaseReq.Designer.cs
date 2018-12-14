@@ -98,6 +98,11 @@
             this.FormSelector = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Managertoolstip = new System.Windows.Forms.ToolStripMenuItem();
+            this.showWaitingForApprovalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showApprovedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showMyPurchaseReqsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -120,20 +125,17 @@
             // 
             // MenuStrip
             // 
-            this.MenuStrip.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.MenuStrip.Dock = System.Windows.Forms.DockStyle.None;
             this.MenuStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
             this.MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.NewItem});
+            this.NewItem,
+            this.Managertoolstip});
             this.MenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MenuStrip.Name = "MenuStrip";
             this.MenuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
             this.MenuStrip.ShowItemToolTips = true;
-            this.MenuStrip.Size = new System.Drawing.Size(49, 24);
+            this.MenuStrip.Size = new System.Drawing.Size(1000, 24);
             this.MenuStrip.TabIndex = 1;
-            this.MenuStrip.Text = "menuStrip2";
+            this.MenuStrip.Text = "Toolstripmenu";
             this.TreeViewToolTip.SetToolTip(this.MenuStrip, "Create New Purchase Requistion");
             // 
             // NewItem
@@ -1134,6 +1136,47 @@
             this.deleteItemToolStripMenuItem.ToolTipText = "Delete Selected Item ";
             this.deleteItemToolStripMenuItem.Click += new System.EventHandler(this.deleteItemToolStripMenuItem_Click);
             // 
+            // Managertoolstip
+            // 
+            this.Managertoolstip.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showWaitingForApprovalToolStripMenuItem,
+            this.showApprovedToolStripMenuItem,
+            this.showAllToolStripMenuItem,
+            this.showMyPurchaseReqsToolStripMenuItem});
+            this.Managertoolstip.Enabled = false;
+            this.Managertoolstip.Name = "Managertoolstip";
+            this.Managertoolstip.Size = new System.Drawing.Size(66, 20);
+            this.Managertoolstip.Text = "Manager";
+            this.Managertoolstip.Visible = false;
+            // 
+            // showWaitingForApprovalToolStripMenuItem
+            // 
+            this.showWaitingForApprovalToolStripMenuItem.Name = "showWaitingForApprovalToolStripMenuItem";
+            this.showWaitingForApprovalToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
+            this.showWaitingForApprovalToolStripMenuItem.Text = "Show Waiting For Approval";
+            this.showWaitingForApprovalToolStripMenuItem.Click += new System.EventHandler(this.showWaitingForApprovalToolStripMenuItem_Click);
+            // 
+            // showApprovedToolStripMenuItem
+            // 
+            this.showApprovedToolStripMenuItem.Name = "showApprovedToolStripMenuItem";
+            this.showApprovedToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
+            this.showApprovedToolStripMenuItem.Text = "Show All Approved";
+            this.showApprovedToolStripMenuItem.Click += new System.EventHandler(this.showApprovedToolStripMenuItem_Click);
+            // 
+            // showAllToolStripMenuItem
+            // 
+            this.showAllToolStripMenuItem.Name = "showAllToolStripMenuItem";
+            this.showAllToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
+            this.showAllToolStripMenuItem.Text = "Show All";
+            this.showAllToolStripMenuItem.Click += new System.EventHandler(this.showAllToolStripMenuItem_Click);
+            // 
+            // showMyPurchaseReqsToolStripMenuItem
+            // 
+            this.showMyPurchaseReqsToolStripMenuItem.Name = "showMyPurchaseReqsToolStripMenuItem";
+            this.showMyPurchaseReqsToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
+            this.showMyPurchaseReqsToolStripMenuItem.Text = "Show My Purchase Reqs";
+            this.showMyPurchaseReqsToolStripMenuItem.Click += new System.EventHandler(this.showMyPurchaseReqsToolStripMenuItem_Click);
+            // 
             // PurchaseReqform
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -1248,5 +1291,10 @@
         private System.Windows.Forms.Panel itemspanel;
         private System.Windows.Forms.CheckBox approvechk;
         private System.Windows.Forms.CheckBox Validatechk;
+        private System.Windows.Forms.ToolStripMenuItem Managertoolstip;
+        private System.Windows.Forms.ToolStripMenuItem showWaitingForApprovalToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showApprovedToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showAllToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showMyPurchaseReqsToolStripMenuItem;
     }
 }
