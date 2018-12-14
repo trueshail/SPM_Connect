@@ -216,6 +216,7 @@
             this.dataGridView.Size = new System.Drawing.Size(304, 704);
             this.dataGridView.TabIndex = 7;
             this.dataGridView.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseDown);
+            this.dataGridView.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dataGridView_RowsRemoved);
             this.dataGridView.SelectionChanged += new System.EventHandler(this.dataGridView_SelectionChanged);
             // 
             // PurchaseReqSearchTxt

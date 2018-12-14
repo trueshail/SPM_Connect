@@ -139,6 +139,7 @@ namespace SearchDataSPM
         void performreload()
         {
             clearandhide();
+            clearfilercombos();
             txtSearch.Clear();
             txtSearch.Focus();
             SendKeys.Send("~");
@@ -3424,13 +3425,21 @@ namespace SearchDataSPM
 
         private void clrfiltersbttn_Click(object sender, EventArgs e)
         {
-
             performreload();
+        }
+
+        private void ActiveCadblockcombobox_TextChanged(object sender, EventArgs e)
+        {
+            if (ActiveCadblockcombobox.Text.Length == 0)
+            {
+                FilterProducts();
+            }
         }
 
         #endregion
 
         #endregion
+
 
     }
 

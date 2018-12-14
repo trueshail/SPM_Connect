@@ -6,6 +6,7 @@ using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,6 +24,8 @@ namespace SearchDataSPM
         DataTable dt;
         bool formloading = false;
         bool supervisor = false;
+        int supervisorid = 0;
+        int myid = 0;
 
         public PurchaseReqform()
         {
@@ -47,7 +50,7 @@ namespace SearchDataSPM
                 cn.Close();
             }
             dt = new DataTable();
-             Clear();
+            Clear();
             userfullname = getuserfullname(get_username().ToString()).ToString();
         }
 
@@ -114,6 +117,7 @@ namespace SearchDataSPM
             dataGridView.Columns[11].Visible = false;
             dataGridView.Columns[12].Visible = false;
             dataGridView.Columns[13].Visible = false;
+            dataGridView.Columns[14].Visible = false;
             dataGridView.Sort(dataGridView.Columns[0], ListSortDirection.Descending);
             UpdateFont();
         }
@@ -204,6 +208,10 @@ namespace SearchDataSPM
             {
                 editbttn.Visible = false;
             }
+            if (supervisor)
+            {
+                editbttn.Visible = true;
+            }
         }
 
         private String get_username()
@@ -238,6 +246,8 @@ namespace SearchDataSPM
                 foreach (DataRow dr in dt.Rows)
                 {
                     string fullname = dr["Name"].ToString();
+                    supervisorid = Convert.ToInt32(dr["Supervisor"].ToString());
+                    myid = Convert.ToInt32(dr["id"].ToString());
                     string manager = dr["PurchaseReqApproval"].ToString();
                     if(manager == "1")
                     {
@@ -447,7 +457,7 @@ namespace SearchDataSPM
             {
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[PurchaseReqBase] (ReqNumber, RequestedBy, DateCreated, DateLastSaved, JobNumber, SubAssyNumber,LastSavedBy, Validate, Approved,Total,DateRequired) VALUES('" + reqnumber + "','" + employee.ToString() + "','" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + jobnumber + "','" + subassy + "','" + employee.ToString() + "','0','0','0','"+sqlFormattedDate+"')";
+                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[PurchaseReqBase] (ReqNumber, RequestedBy, DateCreated, DateLastSaved, JobNumber, SubAssyNumber,LastSavedBy, Validate, Approved,Total,DateRequired, SupervisorId) VALUES('" + reqnumber + "','" + employee.ToString() + "','" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + jobnumber + "','" + subassy + "','" + employee.ToString() + "','0','0','0','"+sqlFormattedDate+"', '"+ supervisorid +"')";
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -481,7 +491,6 @@ namespace SearchDataSPM
                 cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + userfullname.ToString() + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "' WHERE ReqNumber = '" + reqnumber + "' ";
                 cmd.ExecuteNonQuery();
                 cn.Close();
-                //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             }
             catch (Exception ex)
@@ -520,7 +529,22 @@ namespace SearchDataSPM
             {
                 groupBox3.Visible = true;
             }
-            
+            if (supervisor && Validatechk.Checked)
+            {
+                approvechk.Visible = true;
+                approvechk.Enabled = true;
+
+            }
+            else
+            {
+                approvechk.Enabled = false;
+                approvechk.Visible = false;
+            }
+            if (approvechk.Checked)
+            {
+                Validatechk.Visible = false;
+            }
+
             savebttn.Visible = true;
             Validatechk.Visible = true;
             fillitemssource();
@@ -530,6 +554,7 @@ namespace SearchDataSPM
             {
                 ecitbttn.Visible = true;
             }
+            dateTimePicker1.MinDate = DateTime.Today;
         }
 
         private void savebttn_Click(object sender, EventArgs e)
@@ -565,8 +590,8 @@ namespace SearchDataSPM
 
                 }
             }
-            
 
+            dateTimePicker1.MinDate = new DateTime(2012, 05, 28);
         }
 
         private void ecitbttn_Click(object sender, EventArgs e)
@@ -656,11 +681,14 @@ namespace SearchDataSPM
             PurchaseReqSearchTxt.Enabled = true;
             dataGridView1.ContextMenuStrip = null;
             Validatechk.Visible = false;
+            approvechk.Visible = false;
+            approvechk.Enabled = false;
             Clear();
             if (tabControl1.TabPages.Count == 0)
             {
                 tabControl1.TabPages.Add(PreviewTabPage);
             }
+            dateTimePicker1.MinDate = new DateTime(2018, 01, 01);
         }
 
         private void dataGridView_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
@@ -891,11 +919,42 @@ namespace SearchDataSPM
                     approvechk.Text = "Approved";
                     approvechk.Checked = true;
                     approvechk.Visible = true;
+                    Validatechk.Visible = false;
                     printToolStripMenuItem.Enabled = true;
                     printToolStripMenuItem.Visible = true;
 
                 }
                 else
+                {
+                    approvechk.Text = "Approve";
+                    approvechk.Checked = false;
+                    approvechk.Visible = false;
+                    printToolStripMenuItem.Enabled = false;
+                    printToolStripMenuItem.Visible = false;
+                }
+
+                if (supervisor && dr[0]["Validate"].ToString().Equals("1"))
+                {
+                    if (dr[0]["Approved"].ToString().Equals("1"))
+                    {
+                        approvechk.Text = "Approved";
+                        approvechk.Checked = true;
+                        approvechk.Visible = true;
+                        printToolStripMenuItem.Enabled = true;
+                        printToolStripMenuItem.Visible = true;
+                    }
+                    else
+                    {
+                        approvechk.Text = "Approve";
+                        approvechk.Checked = false;
+                        approvechk.Visible = true;
+                        printToolStripMenuItem.Enabled = false;
+                        printToolStripMenuItem.Visible = false;
+                    }
+
+
+                }
+                else if(supervisor && dr[0]["Validate"].ToString().Equals("0"))
                 {
                     approvechk.Text = "Approve";
                     approvechk.Checked = false;
@@ -1211,8 +1270,8 @@ namespace SearchDataSPM
                     Validatechk.Checked = false;
                 }
            
-
             }
+
         }
 
         private bool getapprovedstatus(int reqno)
@@ -1284,9 +1343,16 @@ namespace SearchDataSPM
                 else
                 {
                     groupBox3.Visible = true;
+                    if (supervisor)
+                    {
+                        approvechk.Visible = false;
+                        approvechk.Enabled = false;
+                    }
+                
                 }
             }
-           
+
+
         }
 
         private void showAllToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1296,7 +1362,7 @@ namespace SearchDataSPM
 
         private void showallreqitems()
         {
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] ORDER BY ReqNumber DESC", cn))
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE SupervisorId = '" + myid + "' ORDER BY ReqNumber DESC", cn))
             {
                 try
                 {
@@ -1333,7 +1399,7 @@ namespace SearchDataSPM
 
         private void showallapproved()
         {
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '1' ORDER BY ReqNumber DESC", cn))
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '1'AND Validate = '1' AND SupervisorId = '" + myid + "' ORDER BY ReqNumber DESC", cn))
             {
                 try
                 {
@@ -1365,7 +1431,7 @@ namespace SearchDataSPM
 
         private void showwaitingonapproval()
         {
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '0' AND Validate = '1' ORDER BY ReqNumber DESC", cn))
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '0' AND Validate = '1' AND SupervisorId = '"+myid+"' ORDER BY ReqNumber DESC", cn))
             {
                 try
                 {
@@ -1391,5 +1457,28 @@ namespace SearchDataSPM
             }
         }
 
+        void sendemail( string emailtosend, string subject, string body)
+        {
+            MailMessage message = new MailMessage();
+            SmtpClient SmtpServer = new SmtpClient("spmautomation-com0i.mail.protection.outlook.com");
+            message.From = new MailAddress("connect@spm-automation.com", "SPM Connect");
+            message.To.Add(emailtosend);
+            message.Subject = subject;
+            message.Body = body;
+            SmtpServer.Port = 25;
+            SmtpServer.UseDefaultCredentials = true;
+            SmtpServer.EnableSsl = true;
+            SmtpServer.Send(message);
+        }
+
+        private void dataGridView_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+        {
+            if (dataGridView.Rows.Count < 1)
+            {
+                editbttn.Visible = false;
+                tabControl1.Visible = false;
+                totalcostlbl.Visible = false;
+            }
+        }
     }
 }
