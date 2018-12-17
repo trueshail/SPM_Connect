@@ -69,7 +69,7 @@ namespace SearchDataSPM
             showReqSearchItems(userfullname);
 
             formloading = false;
-           
+
         }
 
         private void showReqSearchItems(string user)
@@ -158,7 +158,7 @@ namespace SearchDataSPM
                     DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
                     int item = Convert.ToInt32(slectedrow.Cells[0].Value);
 
-                    
+
                     populatereqdetails(item);
                     PopulateDataGridView();
                     tabControl1.Visible = true;
@@ -173,7 +173,7 @@ namespace SearchDataSPM
                 }
 
             }
-       
+
 
 
         }
@@ -248,7 +248,7 @@ namespace SearchDataSPM
                     supervisorid = Convert.ToInt32(dr["Supervisor"].ToString());
                     myid = Convert.ToInt32(dr["id"].ToString());
                     string manager = dr["PurchaseReqApproval"].ToString();
-                    if(manager == "1")
+                    if (manager == "1")
                     {
                         supervisor = true;
                     }
@@ -427,6 +427,8 @@ namespace SearchDataSPM
                         cn.Open();
                     lastreqnumber = (int)cmd.ExecuteScalar();
                     lastreqnumber++;
+
+
                     // MessageBox.Show(lastreqnumber.ToString());
                     return lastreqnumber;
                 }
@@ -456,7 +458,7 @@ namespace SearchDataSPM
             {
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[PurchaseReqBase] (ReqNumber, RequestedBy, DateCreated, DateLastSaved, JobNumber, SubAssyNumber,LastSavedBy, Validate, Approved,Total,DateRequired, SupervisorId) VALUES('" + reqnumber + "','" + employee.ToString() + "','" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + jobnumber + "','" + subassy + "','" + employee.ToString() + "','0','0','0','"+sqlFormattedDate+"', '"+ supervisorid +"')";
+                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[PurchaseReqBase] (ReqNumber, RequestedBy, DateCreated, DateLastSaved, JobNumber, SubAssyNumber,LastSavedBy, Validate, Approved,Total,DateRequired, SupervisorId) VALUES('" + reqnumber + "','" + employee.ToString() + "','" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + jobnumber + "','" + subassy + "','" + employee.ToString() + "','0','0','0','" + sqlFormattedDate + "', '" + supervisorid + "')";
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -495,7 +497,7 @@ namespace SearchDataSPM
                 {
                     cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + userfullname.ToString() + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',DateValidated = '" + (Validatechk.Checked ? sqlFormattedDate : null) + "' WHERE ReqNumber = '" + reqnumber + "' ";
                 }
-                
+
                 cmd.ExecuteNonQuery();
                 cn.Close();
 
@@ -910,11 +912,15 @@ namespace SearchDataSPM
                 notestxt.Text = dr[0]["Notes"].ToString();
                 DateTime dateValue = Convert.ToDateTime(dr[0]["DateRequired"]);
                 dateTimePicker1.Value = dateValue;
+
+                approvebylabel.Text = "Approved by : " + dr[0]["Approvedby"].ToString();
+                apprvonlabel.Text = "Approved on : " + dr[0]["DateApproved"].ToString();
+
                 if (dr[0]["Validate"].ToString().Equals("1"))
                 {
                     Validatechk.Checked = true;
                     Validatechk.Text = "Invalidate";
-                    
+
                 }
                 else
                 {
@@ -929,7 +935,8 @@ namespace SearchDataSPM
                     Validatechk.Visible = false;
                     printToolStripMenuItem.Enabled = true;
                     printToolStripMenuItem.Visible = true;
-
+                    approvebylabel.Visible = true;
+                    apprvonlabel.Visible = true;
                 }
                 else
                 {
@@ -938,6 +945,8 @@ namespace SearchDataSPM
                     approvechk.Visible = false;
                     printToolStripMenuItem.Enabled = false;
                     printToolStripMenuItem.Visible = false;
+                    approvebylabel.Visible = false;
+                    apprvonlabel.Visible = false;
                 }
 
                 if (supervisor && dr[0]["Validate"].ToString().Equals("1"))
@@ -949,6 +958,8 @@ namespace SearchDataSPM
                         approvechk.Visible = true;
                         printToolStripMenuItem.Enabled = true;
                         printToolStripMenuItem.Visible = true;
+                        approvebylabel.Visible = true;
+                        apprvonlabel.Visible = true;
                     }
                     else
                     {
@@ -957,11 +968,13 @@ namespace SearchDataSPM
                         approvechk.Visible = true;
                         printToolStripMenuItem.Enabled = false;
                         printToolStripMenuItem.Visible = false;
+                        approvebylabel.Visible = false;
+                        apprvonlabel.Visible = false;
                     }
 
 
                 }
-                else if(supervisor && dr[0]["Validate"].ToString().Equals("0"))
+                else if (supervisor && dr[0]["Validate"].ToString().Equals("0"))
                 {
                     approvechk.Text = "Approve";
                     approvechk.Checked = false;
@@ -1232,7 +1245,7 @@ namespace SearchDataSPM
         }
 
 
-      
+
         private void reportpurchaereq(string itemvalue, string Reportname)
         {
             ReportViewer form1 = new ReportViewer();
@@ -1262,7 +1275,7 @@ namespace SearchDataSPM
                     groupBox3.Visible = true;
 
                 }
-                
+
             }
             else
             {
@@ -1271,14 +1284,16 @@ namespace SearchDataSPM
 
                 if (result == DialogResult.Yes)
                 {
+                    string reqno = purchreqtxt.Text;
                     processsavebutton(true);
                     Validatechk.Text = "Invalidate";
+                    SaveReport(reqno, true, "");
                 }
                 else
                 {
                     Validatechk.Checked = false;
                 }
-           
+
             }
 
         }
@@ -1357,7 +1372,7 @@ namespace SearchDataSPM
                         approvechk.Visible = false;
                         approvechk.Enabled = false;
                     }
-                
+
                 }
             }
 
@@ -1440,7 +1455,7 @@ namespace SearchDataSPM
 
         private void showwaitingonapproval()
         {
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '0' AND Validate = '1' AND SupervisorId = '"+myid+"' ORDER BY ReqNumber DESC", cn))
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '0' AND Validate = '1' AND SupervisorId = '" + myid + "' ORDER BY ReqNumber DESC", cn))
             {
                 try
                 {
@@ -1466,18 +1481,29 @@ namespace SearchDataSPM
             }
         }
 
-        void sendemail( string emailtosend, string subject, string body)
+        void sendemail(string emailtosend, string subject, string body, string filetoattach)
         {
-            MailMessage message = new MailMessage();
-            SmtpClient SmtpServer = new SmtpClient("spmautomation-com0i.mail.protection.outlook.com");
-            message.From = new MailAddress("connect@spm-automation.com", "SPM Connect");
-            message.To.Add(emailtosend);
-            message.Subject = subject;
-            message.Body = body;
-            SmtpServer.Port = 25;
-            SmtpServer.UseDefaultCredentials = true;
-            SmtpServer.EnableSsl = true;
-            SmtpServer.Send(message);
+            try
+            {
+                MailMessage message = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient("spmautomation-com0i.mail.protection.outlook.com");
+                message.From = new MailAddress("connect@spm-automation.com", "SPM Connect");
+                message.To.Add(emailtosend);
+                message.Subject = subject;
+                message.Body = body;
+                System.Net.Mail.Attachment attachment;
+                attachment = new System.Net.Mail.Attachment(filetoattach);
+                message.Attachments.Add(attachment);
+                SmtpServer.Port = 25;
+                SmtpServer.UseDefaultCredentials = true;
+                SmtpServer.EnableSsl = true;
+                SmtpServer.Send(message);
+            }
+            catch (Exception ex)
+            {
+
+            }
+
         }
 
         private void dataGridView_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
@@ -1492,7 +1518,7 @@ namespace SearchDataSPM
 
         private void approvechk_CheckedChanged(object sender, EventArgs e)
         {
-          
+
         }
 
         private void approvechk_Click(object sender, EventArgs e)
@@ -1503,6 +1529,7 @@ namespace SearchDataSPM
                 {
                     processsavebutton(true);
 
+
                 }
                 else
                 {
@@ -1510,8 +1537,12 @@ namespace SearchDataSPM
 
                     if (result == DialogResult.Yes)
                     {
+                        string reqno = purchreqtxt.Text;
+                        string requestby = requestbytxt.Text;
                         processsavebutton(true);
                         approvechk.Checked = true;
+                        SaveReport(reqno, false, requestby);
+
                     }
                     else
                     {
@@ -1519,13 +1550,13 @@ namespace SearchDataSPM
                     }
 
                 }
-               
-                
+
+
             }
         }
 
 
-        public static void SaveReport(string reqno, bool prelim)
+        public void SaveReport(string reqno, bool prelim, string requestby)
         {
 
             RS2005.ReportingService2005 rs;
@@ -1557,13 +1588,13 @@ namespace SearchDataSPM
 
             if (prelim)
             {
-                 fileName = @"\\spm-adfs\SDBASE\Reports\Prelim\" + reqno + ".pdf";
+                fileName = @"\\spm-adfs\SDBASE\Reports\Prelim\" + reqno + ".pdf";
             }
             else
             {
-                 fileName = @"\\spm-adfs\SDBASE\Reports\Approved\" + reqno + ".pdf";
+                fileName = @"\\spm-adfs\SDBASE\Reports\Approved\" + reqno + ".pdf";
             }
-           
+
             // Name of the report - Please note this is not the RDL file.
             string _reportName = @"/GeniusReports/PurchaseOrder/SPM_PurchaseReq";
             string _historyID = null;
@@ -1595,12 +1626,127 @@ namespace SearchDataSPM
                 {
                     stream.Write(results, 0, results.Length);
                 }
+
+
+
+
+
             }
             catch (Exception ex)
             {
                 throw ex;
             }
+            finally
+            {
+                if (prelim)
+                {
+                    snedemailtosupervisor(reqno, fileName);
+                }
+                else
+                {
+                    sendemailtouser(reqno, fileName, requestby);
+                }
 
+            }
+
+        }
+
+        void snedemailtosupervisor(string reqno, string fileName)
+        {
+            string nameemail = getsupervisornameandemail(supervisorid);
+
+            string[] values = nameemail.Replace("][", "~").Split('~');
+            for (int i = 0; i < values.Length; i++)
+            {
+                values[i] = values[i].Trim();
+
+            }
+            string email = values[0];
+            string name = values[1];
+
+            string[] names = name.Replace(" ", "~").Split('~');
+            for (int i = 0; i < names.Length; i++)
+            {
+                names[i] = names[i].Trim();
+
+            }
+            name = names[0];
+            sendemail(email, reqno + " Purchase Req Approval Required", "Hello " + name + "," + Environment.NewLine + userfullname + " sent this purchase req for approval.", fileName);
+        }
+
+        void sendemailtouser(string reqno, string fileName, string requestby)
+        {
+            string email = getusernameandemail(requestby);
+
+            sendemail(email, reqno + " Purchase Req Approved", "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is approved.", fileName);
+        }
+
+        private string getsupervisornameandemail(int id)
+        {
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [id]='" + id + "' ";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    string Email = dr["Email"].ToString();
+                    string name = dr["Name"].ToString();
+
+                    return Email + "][" + name;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return null;
+        }
+
+        private string getusernameandemail(string requestby)
+        {
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [Name]='" + requestby.ToString() + "' ";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    string Email = dr["Email"].ToString();
+                    return Email;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return null;
         }
 
 

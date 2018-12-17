@@ -34,6 +34,11 @@
             this.NewItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createNewPurchaseReqToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Managertoolstip = new System.Windows.Forms.ToolStripMenuItem();
+            this.showWaitingForApprovalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showApprovedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showMyPurchaseReqsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.PurchaseReqSearchTxt = new System.Windows.Forms.TextBox();
@@ -46,7 +51,7 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.approvechk = new System.Windows.Forms.CheckBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.label13 = new System.Windows.Forms.Label();
+            this.approvebylabel = new System.Windows.Forms.Label();
             this.lastsavedtxt = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -98,11 +103,7 @@
             this.FormSelector = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.Managertoolstip = new System.Windows.Forms.ToolStripMenuItem();
-            this.showWaitingForApprovalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.showApprovedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.showAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.showMyPurchaseReqsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.apprvonlabel = new System.Windows.Forms.Label();
             this.MenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -165,6 +166,47 @@
             this.printToolStripMenuItem.Text = "Print";
             this.printToolStripMenuItem.Visible = false;
             this.printToolStripMenuItem.Click += new System.EventHandler(this.printToolStripMenuItem_Click);
+            // 
+            // Managertoolstip
+            // 
+            this.Managertoolstip.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showWaitingForApprovalToolStripMenuItem,
+            this.showApprovedToolStripMenuItem,
+            this.showAllToolStripMenuItem,
+            this.showMyPurchaseReqsToolStripMenuItem});
+            this.Managertoolstip.Enabled = false;
+            this.Managertoolstip.Name = "Managertoolstip";
+            this.Managertoolstip.Size = new System.Drawing.Size(66, 20);
+            this.Managertoolstip.Text = "Manager";
+            this.Managertoolstip.Visible = false;
+            // 
+            // showWaitingForApprovalToolStripMenuItem
+            // 
+            this.showWaitingForApprovalToolStripMenuItem.Name = "showWaitingForApprovalToolStripMenuItem";
+            this.showWaitingForApprovalToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
+            this.showWaitingForApprovalToolStripMenuItem.Text = "Show Waiting For Approval";
+            this.showWaitingForApprovalToolStripMenuItem.Click += new System.EventHandler(this.showWaitingForApprovalToolStripMenuItem_Click);
+            // 
+            // showApprovedToolStripMenuItem
+            // 
+            this.showApprovedToolStripMenuItem.Name = "showApprovedToolStripMenuItem";
+            this.showApprovedToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
+            this.showApprovedToolStripMenuItem.Text = "Show All Approved";
+            this.showApprovedToolStripMenuItem.Click += new System.EventHandler(this.showApprovedToolStripMenuItem_Click);
+            // 
+            // showAllToolStripMenuItem
+            // 
+            this.showAllToolStripMenuItem.Name = "showAllToolStripMenuItem";
+            this.showAllToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
+            this.showAllToolStripMenuItem.Text = "Show All";
+            this.showAllToolStripMenuItem.Click += new System.EventHandler(this.showAllToolStripMenuItem_Click);
+            // 
+            // showMyPurchaseReqsToolStripMenuItem
+            // 
+            this.showMyPurchaseReqsToolStripMenuItem.Name = "showMyPurchaseReqsToolStripMenuItem";
+            this.showMyPurchaseReqsToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
+            this.showMyPurchaseReqsToolStripMenuItem.Text = "Show My Purchase Reqs";
+            this.showMyPurchaseReqsToolStripMenuItem.Click += new System.EventHandler(this.showMyPurchaseReqsToolStripMenuItem_Click);
             // 
             // splitContainer1
             // 
@@ -297,8 +339,8 @@
             // PreviewTabPage
             // 
             this.PreviewTabPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
-            this.PreviewTabPage.Controls.Add(this.splitContainer2);
             this.PreviewTabPage.Controls.Add(this.dataGridView1);
+            this.PreviewTabPage.Controls.Add(this.splitContainer2);
             this.PreviewTabPage.Location = new System.Drawing.Point(4, 22);
             this.PreviewTabPage.Name = "PreviewTabPage";
             this.PreviewTabPage.Padding = new System.Windows.Forms.Padding(3);
@@ -335,7 +377,8 @@
             this.groupBox4.BackColor = System.Drawing.Color.SteelBlue;
             this.groupBox4.Controls.Add(this.approvechk);
             this.groupBox4.Controls.Add(this.dateTimePicker1);
-            this.groupBox4.Controls.Add(this.label13);
+            this.groupBox4.Controls.Add(this.apprvonlabel);
+            this.groupBox4.Controls.Add(this.approvebylabel);
             this.groupBox4.Controls.Add(this.lastsavedtxt);
             this.groupBox4.Controls.Add(this.label9);
             this.groupBox4.Controls.Add(this.label8);
@@ -371,7 +414,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.approvechk.AutoSize = true;
             this.approvechk.Enabled = false;
-            this.approvechk.Location = new System.Drawing.Point(21, 308);
+            this.approvechk.Location = new System.Drawing.Point(13, 308);
             this.approvechk.Name = "approvechk";
             this.approvechk.Size = new System.Drawing.Size(86, 20);
             this.approvechk.TabIndex = 1;
@@ -390,20 +433,20 @@
             this.dateTimePicker1.Size = new System.Drawing.Size(200, 22);
             this.dateTimePicker1.TabIndex = 61;
             // 
-            // label13
+            // approvebylabel
             // 
-            this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.approvebylabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label13.Location = new System.Drawing.Point(9, 135);
-            this.label13.Name = "label13";
-            this.label13.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label13.Size = new System.Drawing.Size(85, 15);
-            this.label13.TabIndex = 60;
-            this.label13.Text = "Last Saved :";
+            this.approvebylabel.AutoSize = true;
+            this.approvebylabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.approvebylabel.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.approvebylabel.Location = new System.Drawing.Point(108, 298);
+            this.approvebylabel.Name = "approvebylabel";
+            this.approvebylabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.approvebylabel.Size = new System.Drawing.Size(77, 13);
+            this.approvebylabel.TabIndex = 60;
+            this.approvebylabel.Text = "Approved By : ";
             // 
             // lastsavedtxt
             // 
@@ -678,7 +721,7 @@
             this.itemspanel.Controls.Add(this.groupBox3);
             this.itemspanel.Location = new System.Drawing.Point(0, 0);
             this.itemspanel.Name = "itemspanel";
-            this.itemspanel.Size = new System.Drawing.Size(343, 275);
+            this.itemspanel.Size = new System.Drawing.Size(342, 296);
             this.itemspanel.TabIndex = 0;
             // 
             // groupBox3
@@ -707,7 +750,7 @@
             this.groupBox3.Location = new System.Drawing.Point(0, 0);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(1);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(343, 275);
+            this.groupBox3.Size = new System.Drawing.Size(342, 296);
             this.groupBox3.TabIndex = 9;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Add Item to order";
@@ -808,7 +851,7 @@
             this.oemitemnotxt.Name = "oemitemnotxt";
             this.oemitemnotxt.ReadOnly = true;
             this.oemitemnotxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.oemitemnotxt.Size = new System.Drawing.Size(220, 20);
+            this.oemitemnotxt.Size = new System.Drawing.Size(219, 20);
             this.oemitemnotxt.TabIndex = 64;
             this.oemitemnotxt.TabStop = false;
             // 
@@ -838,7 +881,7 @@
             this.qtytxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.qtytxt.Name = "qtytxt";
             this.qtytxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.qtytxt.Size = new System.Drawing.Size(220, 22);
+            this.qtytxt.Size = new System.Drawing.Size(219, 22);
             this.qtytxt.TabIndex = 3;
             this.qtytxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.qtytxt_KeyPress);
             // 
@@ -868,7 +911,7 @@
             this.pricetxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.pricetxt.Name = "pricetxt";
             this.pricetxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.pricetxt.Size = new System.Drawing.Size(220, 22);
+            this.pricetxt.Size = new System.Drawing.Size(219, 22);
             this.pricetxt.TabIndex = 4;
             this.pricetxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.pricetxt_KeyPress);
             // 
@@ -899,7 +942,7 @@
             this.oemtxt.Name = "oemtxt";
             this.oemtxt.ReadOnly = true;
             this.oemtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.oemtxt.Size = new System.Drawing.Size(220, 20);
+            this.oemtxt.Size = new System.Drawing.Size(219, 20);
             this.oemtxt.TabIndex = 58;
             this.oemtxt.TabStop = false;
             // 
@@ -933,7 +976,7 @@
             this.Descriptiontxtbox.Name = "Descriptiontxtbox";
             this.Descriptiontxtbox.ReadOnly = true;
             this.Descriptiontxtbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.Descriptiontxtbox.Size = new System.Drawing.Size(220, 44);
+            this.Descriptiontxtbox.Size = new System.Drawing.Size(219, 50);
             this.Descriptiontxtbox.TabIndex = 55;
             this.Descriptiontxtbox.TabStop = false;
             // 
@@ -964,7 +1007,7 @@
             this.ItemTxtBox.Name = "ItemTxtBox";
             this.ItemTxtBox.ReadOnly = true;
             this.ItemTxtBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.ItemTxtBox.Size = new System.Drawing.Size(220, 20);
+            this.ItemTxtBox.Size = new System.Drawing.Size(219, 20);
             this.ItemTxtBox.TabIndex = 54;
             this.ItemTxtBox.TabStop = false;
             // 
@@ -981,7 +1024,7 @@
             this.itemsearchtxtbox.MinimumSize = new System.Drawing.Size(200, 20);
             this.itemsearchtxtbox.Name = "itemsearchtxtbox";
             this.itemsearchtxtbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.itemsearchtxtbox.Size = new System.Drawing.Size(275, 22);
+            this.itemsearchtxtbox.Size = new System.Drawing.Size(274, 22);
             this.itemsearchtxtbox.TabIndex = 2;
             this.itemsearchtxtbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.itemsearchtxtbox_KeyDown);
             // 
@@ -1139,46 +1182,19 @@
             this.deleteItemToolStripMenuItem.ToolTipText = "Delete Selected Item ";
             this.deleteItemToolStripMenuItem.Click += new System.EventHandler(this.deleteItemToolStripMenuItem_Click);
             // 
-            // Managertoolstip
+            // apprvonlabel
             // 
-            this.Managertoolstip.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.showWaitingForApprovalToolStripMenuItem,
-            this.showApprovedToolStripMenuItem,
-            this.showAllToolStripMenuItem,
-            this.showMyPurchaseReqsToolStripMenuItem});
-            this.Managertoolstip.Enabled = false;
-            this.Managertoolstip.Name = "Managertoolstip";
-            this.Managertoolstip.Size = new System.Drawing.Size(66, 20);
-            this.Managertoolstip.Text = "Manager";
-            this.Managertoolstip.Visible = false;
-            // 
-            // showWaitingForApprovalToolStripMenuItem
-            // 
-            this.showWaitingForApprovalToolStripMenuItem.Name = "showWaitingForApprovalToolStripMenuItem";
-            this.showWaitingForApprovalToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
-            this.showWaitingForApprovalToolStripMenuItem.Text = "Show Waiting For Approval";
-            this.showWaitingForApprovalToolStripMenuItem.Click += new System.EventHandler(this.showWaitingForApprovalToolStripMenuItem_Click);
-            // 
-            // showApprovedToolStripMenuItem
-            // 
-            this.showApprovedToolStripMenuItem.Name = "showApprovedToolStripMenuItem";
-            this.showApprovedToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
-            this.showApprovedToolStripMenuItem.Text = "Show All Approved";
-            this.showApprovedToolStripMenuItem.Click += new System.EventHandler(this.showApprovedToolStripMenuItem_Click);
-            // 
-            // showAllToolStripMenuItem
-            // 
-            this.showAllToolStripMenuItem.Name = "showAllToolStripMenuItem";
-            this.showAllToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
-            this.showAllToolStripMenuItem.Text = "Show All";
-            this.showAllToolStripMenuItem.Click += new System.EventHandler(this.showAllToolStripMenuItem_Click);
-            // 
-            // showMyPurchaseReqsToolStripMenuItem
-            // 
-            this.showMyPurchaseReqsToolStripMenuItem.Name = "showMyPurchaseReqsToolStripMenuItem";
-            this.showMyPurchaseReqsToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
-            this.showMyPurchaseReqsToolStripMenuItem.Text = "Show My Purchase Reqs";
-            this.showMyPurchaseReqsToolStripMenuItem.Click += new System.EventHandler(this.showMyPurchaseReqsToolStripMenuItem_Click);
+            this.apprvonlabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.apprvonlabel.AutoSize = true;
+            this.apprvonlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.apprvonlabel.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.apprvonlabel.Location = new System.Drawing.Point(108, 315);
+            this.apprvonlabel.Name = "apprvonlabel";
+            this.apprvonlabel.Size = new System.Drawing.Size(79, 13);
+            this.apprvonlabel.TabIndex = 60;
+            this.apprvonlabel.Text = "Approved On : ";
             // 
             // PurchaseReqform
             // 
@@ -1287,7 +1303,7 @@
         private System.Windows.Forms.TextBox ItemTxtBox;
         private System.Windows.Forms.TextBox itemsearchtxtbox;
         private System.Windows.Forms.ToolStripMenuItem printToolStripMenuItem;
-        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label approvebylabel;
         private System.Windows.Forms.TextBox lastsavedtxt;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.Label label14;
@@ -1299,5 +1315,6 @@
         private System.Windows.Forms.ToolStripMenuItem showApprovedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showMyPurchaseReqsToolStripMenuItem;
+        private System.Windows.Forms.Label apprvonlabel;
     }
 }
