@@ -12,7 +12,7 @@ namespace SearchDataSPM.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.7.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.8.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -54,6 +54,26 @@ namespace SearchDataSPM.Properties {
         public string cntrlscn {
             get {
                 return ((string)(this["cntrlscn"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://spm-sql:80/ReportServer/ReportService2005.asmx")]
+        public string SPM_Connect_RS2005_ReportingService2005 {
+            get {
+                return ((string)(this["SPM_Connect_RS2005_ReportingService2005"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://spm-sql:80/ReportServer/ReportExecution2005.asmx")]
+        public string SPM_Connect_RE2005_ReportExecutionService {
+            get {
+                return ((string)(this["SPM_Connect_RE2005_ReportExecutionService"]));
             }
         }
     }

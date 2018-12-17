@@ -18,6 +18,7 @@ using SolidWorks.Interop.swconst;
 using System.Threading;
 using System.Management;
 using System.Deployment.Application;
+using System.Net;
 
 namespace SearchDataSPM
 {
@@ -3439,7 +3440,6 @@ namespace SearchDataSPM
         #endregion
 
         #endregion
-
 
     }
 

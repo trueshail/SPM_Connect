@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
@@ -1523,5 +1524,76 @@ namespace SearchDataSPM
                 
             }
         }
+
+
+        public static void SaveReport(string reportname)
+        {
+
+            RS2005.ReportingService2005 rs;
+            RE2005.ReportExecutionService rsExec;
+
+            // Create a new proxy to the web service
+            rs = new RS2005.ReportingService2005();
+            rsExec = new RE2005.ReportExecutionService();
+
+            // Authenticate to the Web service using Windows credentials
+            rs.Credentials = System.Net.CredentialCache.DefaultCredentials;
+            rsExec.Credentials = System.Net.CredentialCache.DefaultCredentials;
+
+            rs.Url = "http://spm-sql/reportserver/reportservice2005.asmx";
+            rsExec.Url = "http://spm-sql/reportserver/reportexecution2005.asmx";
+
+            string historyID = null;
+            string deviceInfo = null;
+            string format = "PDF";
+            Byte[] results;
+            string encoding = String.Empty;
+            string mimeType = String.Empty;
+            string extension = String.Empty;
+            RE2005.Warning[] warnings = null;
+            string[] streamIDs = null;
+
+            // Path of the Report - XLS, PDF etc.
+            string fileName = @"\\spm-adfs\SDBASE\Reports\" + reportname + ".pdf";
+            // Name of the report - Please note this is not the RDL file.
+            string _reportName = @"/GeniusReports/PurchaseOrder/SPM_PurchaseReq";
+            string _historyID = null;
+            bool _forRendering = false;
+            RS2005.ParameterValue[] _values = null;
+            RS2005.DataSourceCredentials[] _credentials = null;
+            RS2005.ReportParameter[] _parameters = null;
+
+            try
+            {
+                _parameters = rs.GetReportParameters(_reportName, _historyID, _forRendering, _values, _credentials);
+                RE2005.ExecutionInfo ei = rsExec.LoadReport(_reportName, historyID);
+                RE2005.ParameterValue[] parameters = new RE2005.ParameterValue[1];
+
+                if (_parameters.Length > 0)
+                {
+                    parameters[0] = new RE2005.ParameterValue();
+                    //parameters[0].Label = "";
+                    parameters[0].Name = "pReqno";
+                    parameters[0].Value = "1008";
+                }
+                rsExec.SetExecutionParameters(parameters, "en-us");
+
+                results = rsExec.Render(format, deviceInfo,
+                          out extension, out encoding,
+                          out mimeType, out warnings, out streamIDs);
+
+                using (FileStream stream = File.OpenWrite(fileName))
+                {
+                    stream.Write(results, 0, results.Length);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+
     }
 }

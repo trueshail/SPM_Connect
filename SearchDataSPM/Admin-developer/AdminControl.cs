@@ -54,6 +54,7 @@ namespace SearchDataSPM
 
         private void ParentView_Load(object sender, EventArgs e)
         {
+            fillsupervisor();
             Connect_SPMSQL();
         }
 
@@ -92,13 +93,44 @@ namespace SearchDataSPM
             }
         }
 
+
+        private void fillsupervisor()
+        {
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT CONCAT(id, ' ', Name) as Supervisors  FROM [SPM_Database].[dbo].[Users]  WHERE PurchaseReqApproval = '1'", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+                    AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
+                    while (reader.Read())
+                    {
+                        MyCollection.Add(reader.GetString(0));
+                    }
+                    supervisorcombox.AutoCompleteCustomSource = MyCollection;
+                    supervisorcombox.DataSource = MyCollection;
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect New Item - Fill supervisor items Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+
+        }
+
         #endregion
 
         private void Userlistbox_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
             {
-
+               
                 if (cn.State == ConnectionState.Closed)
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
@@ -114,6 +146,19 @@ namespace SearchDataSPM
                     nametextbox.Text = dr["Name"].ToString();
                     domaintxtbox.Text = dr["UserName"].ToString();
                     activecadblocktxt.Text = dr["ActiveBlockNumber"].ToString();
+                    useremailtxt.Text = dr["Email"].ToString();
+
+                    if (dr["Supervisor"].ToString().Length > 0)
+                    {
+                        string MyString = dr["Supervisor"].ToString();
+                        MyString += " ";
+                        MyString += getuserfullname(dr["Supervisor"].ToString());
+                        supervisorcombox.SelectedItem = MyString;
+                    }
+                    else
+                    {
+
+                    }
                     if (dr["Department"].ToString().Equals("Eng"))
                     {
                         engradio.Checked = true;
@@ -169,7 +214,16 @@ namespace SearchDataSPM
                     {
                         reqno.Checked = true;
                     }
+                    if (dr["PurchaseReqBuyer"].ToString().Equals("1"))
+                    {
+                        reqbuyeryes.Checked = true;
+                    }
+                    else
+                    {
+                        reqbuyerno.Checked = true;
+                    }
 
+                    
                 }
 
             }
@@ -186,10 +240,44 @@ namespace SearchDataSPM
             }
         }
 
+        private string getuserfullname(string supervisor)
+        {
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [id]='" + supervisor.ToString() + "' ";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    string fullname = dr["Name"].ToString();
+                    return fullname;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message, "SPM Connect - Get Full Supervisor Name", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return null;
+        }
+
         private void addnewbttn_Click(object sender, EventArgs e)
         {
             nametextbox.ReadOnly = false;
             activecadblocktxt.ReadOnly = false;
+            
             domaintxtbox.ReadOnly = false;
             delbttn.Visible = false;
             updatebttn.Visible = false;
@@ -209,6 +297,9 @@ namespace SearchDataSPM
             quoteno.Enabled = true;
             reqyes.Enabled = true;
             reqno.Enabled = true;
+            reqbuyeryes.Enabled = true;
+            reqbuyerno.Enabled = true;
+            supervisorcombox.Enabled = true;
             nametextbox.Text = "";
             cnclbttn.Visible = true;
             addnewbttn.Visible = false;
@@ -287,6 +378,9 @@ namespace SearchDataSPM
             quoteno.Enabled = true;
             reqyes.Enabled = true;
             reqno.Enabled = true;
+            reqbuyeryes.Enabled = true;
+            reqbuyerno.Enabled = true;
+            supervisorcombox.Enabled = true;
             delbttn.Visible = false;
             addnewbttn.Visible = false;
             updatesavebttn.Visible = true;
@@ -365,7 +459,9 @@ namespace SearchDataSPM
                     quoteno.Enabled = false;
                     reqyes.Enabled = false;
                     reqno.Enabled = false;
-
+                    reqbuyeryes.Enabled = false;
+                    reqbuyerno.Enabled = false;
+                    supervisorcombox.Enabled = false;
                     nametextbox.ReadOnly = true;
                     activecadblocktxt.ReadOnly = true;
                     domaintxtbox.ReadOnly = true;
@@ -403,6 +499,9 @@ namespace SearchDataSPM
                 quoteno.Enabled = false;
                 reqno.Enabled = false;
                 reqyes.Enabled = false;
+                reqbuyeryes.Enabled = false;
+                reqbuyerno.Enabled = false;
+                supervisorcombox.Enabled = false;
                 nametextbox.Text = "";
                 nametextbox.ReadOnly = true;
                 activecadblocktxt.Text = "";
@@ -466,6 +565,9 @@ namespace SearchDataSPM
                     quoteno.Enabled = false;
                     reqyes.Enabled = false;
                     reqno.Enabled = false;
+                    reqbuyeryes.Enabled = false;
+                    reqbuyerno.Enabled = false;
+                    supervisorcombox.Enabled = false;
                     nametextbox.ReadOnly = true;
                     activecadblocktxt.ReadOnly = true;
                     domaintxtbox.ReadOnly = true;
@@ -501,6 +603,9 @@ namespace SearchDataSPM
                 quoteno.Enabled = false;
                 reqyes.Enabled = false;
                 reqno.Enabled = false;
+                reqbuyeryes.Enabled = false;
+                reqbuyerno.Enabled = false;
+                supervisorcombox.Enabled = false;
                 nametextbox.Text = "";
                 nametextbox.ReadOnly = true;
                 activecadblocktxt.ReadOnly = true;
@@ -533,6 +638,9 @@ namespace SearchDataSPM
             quoteno.Enabled = false;
             reqyes.Enabled = false;
             reqno.Enabled = false;
+            reqbuyeryes.Enabled = false;
+            reqbuyerno.Enabled = false;
+            supervisorcombox.Enabled = false;
             // nametextbox.Text = "";
             nametextbox.ReadOnly = true;
             activecadblocktxt.ReadOnly = true;
@@ -630,6 +738,21 @@ namespace SearchDataSPM
         private void spmadmin_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.Dispose();
+        }
+
+        private void supervisorcombox_Format(object sender, ListControlConvertEventArgs e)
+        {
+            //e.Value = e.Value.ToString().Substring(0, 2);
+        }
+
+        private void supervisorcombox_DropDown(object sender, EventArgs e)
+        {
+         // supervisorcombox.FormattingEnabled = false;
+        }
+
+        private void supervisorcombox_DropDownClosed(object sender, EventArgs e)
+        {
+          // supervisorcombox.FormattingEnabled = true;
         }
     }
 

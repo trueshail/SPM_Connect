@@ -20,5 +20,11 @@
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
       <Value Profile="(Default)">Data Source=spm-sql;Initial Catalog=SPMControlCatalog;User ID=SPM_Controls;password=eyBzJehFP*uO</Value>
     </Setting>
+    <Setting Name="SPM_Connect_RS2005_ReportingService2005" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://spm-sql:80/ReportServer/ReportService2005.asmx</Value>
+    </Setting>
+    <Setting Name="SPM_Connect_RE2005_ReportExecutionService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://spm-sql:80/ReportServer/ReportExecution2005.asmx</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
