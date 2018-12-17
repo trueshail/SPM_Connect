@@ -488,7 +488,15 @@ namespace SearchDataSPM
             {
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + userfullname.ToString() + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "' WHERE ReqNumber = '" + reqnumber + "' ";
+                if (approvechk.Checked)
+                {
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + userfullname.ToString() + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',ApprovedBy = '" + userfullname + "',DateApproved = '" + sqlFormattedDate + "' WHERE ReqNumber = '" + reqnumber + "' ";
+                }
+                else
+                {
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + userfullname.ToString() + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "' WHERE ReqNumber = '" + reqnumber + "' ";
+                }
+                
                 cmd.ExecuteNonQuery();
                 cn.Close();
 
@@ -1224,6 +1232,8 @@ namespace SearchDataSPM
             reportpurchaereq(reqnumber, "Purchasereq");
         }
 
+
+      
         private void reportpurchaereq(string itemvalue, string Reportname)
         {
             ReportViewer form1 = new ReportViewer();
@@ -1478,6 +1488,39 @@ namespace SearchDataSPM
                 editbttn.Visible = false;
                 tabControl1.Visible = false;
                 totalcostlbl.Visible = false;
+            }
+        }
+
+        private void approvechk_CheckedChanged(object sender, EventArgs e)
+        {
+          
+        }
+
+        private void approvechk_Click(object sender, EventArgs e)
+        {
+            if (supervisor)
+            {
+                if (approvechk.Checked == false)
+                {
+                    processsavebutton(true);
+                }
+                else
+                {
+                    DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to approve this purchase requistion for order?", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                    if (result == DialogResult.Yes)
+                    {
+                        processsavebutton(true);
+                        approvechk.Checked = true;
+                    }
+                    else
+                    {
+                        approvechk.Checked = false;
+                    }
+
+                }
+               
+                
             }
         }
     }

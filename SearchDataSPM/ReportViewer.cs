@@ -1,4 +1,6 @@
-﻿using Microsoft.Reporting.WebForms;
+﻿using Microsoft.Reporting.Map.WebForms.BingMaps;
+using Microsoft.Reporting.WebForms;
+using Microsoft.Reporting.WebForms.Internal.Soap.ReportingServices2005.Execution;
 using Microsoft.Reporting.WinForms;
 using System;
 using System.Collections.Generic;
@@ -6,10 +8,12 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
 
 namespace SearchDataSPM
 {
@@ -97,9 +101,27 @@ namespace SearchDataSPM
         {
             Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection();
             reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("pReqno", itemnumber));
-            reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("ptotal", totalvalue));
+            
             this.reportViewer1.ServerReport.SetParameters(reportParameters);
             this.reportViewer1.RefreshReport();
+
+
+            System.Net.WebRequest request = System.Net.HttpWebRequest.Create("http://spm-sql/ReportServer/Pages/ReportViewer.aspx?%2fGeniusReports%2fPurchaseOrder%2fSPM_PurchaseReq&pReqno=1008&rs:Command=Render&rs:Format=PDF");
+
+            request.UseDefaultCredentials = true;
+
+            request.PreAuthenticate = true;
+
+            request.Credentials = CredentialCache.DefaultCredentials;
+
+            System.Net.WebResponse response = request.GetResponse();
+            System.Diagnostics.Process.Start("http://spm-sql/ReportServer/Pages/ReportViewer.aspx?%2fGeniusReports%2fPurchaseOrder%2fSPM_PurchaseReq&pReqno=1008&rs:Command=Render&rs:Format=PDF");
+
+            //using (var client = new WebClient())
+            //{
+            //   System.Diagnostics.Process.Start("http://spm-sql/ReportServer/Pages/ReportViewer.aspx?%2fGeniusReports%2fPurchaseOrder%2fSPM_PurchaseReq&pReqno=1008&rs:Command=Render&rs:Format=PDF", "SPM_PurchaseReq.pdf");
+            //}
+
         }
 
         private void ReportViewer_FormClosed(object sender, FormClosedEventArgs e)

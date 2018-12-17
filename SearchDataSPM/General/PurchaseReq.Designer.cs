@@ -378,6 +378,8 @@
             this.approvechk.Text = "Approve";
             this.approvechk.UseVisualStyleBackColor = true;
             this.approvechk.Visible = false;
+            this.approvechk.CheckedChanged += new System.EventHandler(this.approvechk_CheckedChanged);
+            this.approvechk.Click += new System.EventHandler(this.approvechk_Click);
             // 
             // dateTimePicker1
             // 
