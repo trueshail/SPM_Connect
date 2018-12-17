@@ -106,6 +106,7 @@ namespace SearchDataSPM
             dataGridView.Columns[0].Width = 60;
             dataGridView.Columns[0].HeaderText = "Req No";
             dataGridView.Columns[1].Width = 60;
+            dataGridView.Columns[1].HeaderText = "Job";
             dataGridView.Columns[2].Width = 80;
             dataGridView.Columns[3].Width = 80;
             dataGridView.Columns[4].Visible = false;
@@ -119,6 +120,7 @@ namespace SearchDataSPM
             dataGridView.Columns[12].Visible = false;
             dataGridView.Columns[13].Visible = false;
             dataGridView.Columns[14].Visible = false;
+            dataGridView.Columns[15].Visible = false;
             dataGridView.Sort(dataGridView.Columns[0], ListSortDirection.Descending);
             UpdateFont();
         }
@@ -178,16 +180,12 @@ namespace SearchDataSPM
 
         private String getapprovalstatus()
         {
-            int selectedclmindex = dataGridView.SelectedCells[0].ColumnIndex;
-            DataGridViewColumn columnchk = dataGridView.Columns[selectedclmindex];
-            string c = Convert.ToString(columnchk.Index);
-            //MessageBox.Show(c);
             string username;
             if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
             {
                 int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                 DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-                username = Convert.ToString(slectedrow.Cells[10].Value);
+                username = Convert.ToString(slectedrow.Cells["Approved"].Value);
                 //MessageBox.Show(username);
                 return username;
             }
@@ -449,7 +447,7 @@ namespace SearchDataSPM
         private void createnewreq(int reqnumber, string employee)
         {
             DateTime datecreated = DateTime.Now;
-            string sqlFormattedDate = datecreated.ToString("yyyy-MM-dd HH:mm:ss.fff");
+            string sqlFormattedDate = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
             string jobnumber = "";
             string subassy = "";
             if (cn.State == ConnectionState.Closed)
@@ -478,7 +476,7 @@ namespace SearchDataSPM
         private void UpdateReq(int reqnumber)
         {
             DateTime datecreated = DateTime.Now;
-            string sqlFormattedDate = datecreated.ToString("yyyy-MM-dd HH:mm:ss.fff");
+            string sqlFormattedDate = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
             string datereq = dateTimePicker1.Value.ToString("yyyy-MM-dd");
             string jobnumber = jobnumbertxt.Text.Trim();
             string subassy = subassytxt.Text.Trim();
@@ -491,11 +489,11 @@ namespace SearchDataSPM
                 cmd.CommandType = CommandType.Text;
                 if (approvechk.Checked)
                 {
-                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + userfullname.ToString() + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',ApprovedBy = '" + userfullname + "',DateApproved = '" + sqlFormattedDate + "' WHERE ReqNumber = '" + reqnumber + "' ";
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + userfullname.ToString() + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',DateValidated = '" + (Validatechk.Checked ? sqlFormattedDate : "") + "',ApprovedBy = '" + userfullname + "',DateApproved = '" + (approvechk.Checked ? sqlFormattedDate : "") + "' WHERE ReqNumber = '" + reqnumber + "' ";
                 }
                 else
                 {
-                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + userfullname.ToString() + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "' WHERE ReqNumber = '" + reqnumber + "' ";
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + userfullname.ToString() + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',DateValidated = '" + (Validatechk.Checked ? sqlFormattedDate : null) + "' WHERE ReqNumber = '" + reqnumber + "' ";
                 }
                 
                 cmd.ExecuteNonQuery();
@@ -1504,6 +1502,7 @@ namespace SearchDataSPM
                 if (approvechk.Checked == false)
                 {
                     processsavebutton(true);
+
                 }
                 else
                 {
@@ -1526,7 +1525,7 @@ namespace SearchDataSPM
         }
 
 
-        public static void SaveReport(string reportname)
+        public static void SaveReport(string reqno, bool prelim)
         {
 
             RS2005.ReportingService2005 rs;
@@ -1554,7 +1553,17 @@ namespace SearchDataSPM
             string[] streamIDs = null;
 
             // Path of the Report - XLS, PDF etc.
-            string fileName = @"\\spm-adfs\SDBASE\Reports\" + reportname + ".pdf";
+            string fileName = "";
+
+            if (prelim)
+            {
+                 fileName = @"\\spm-adfs\SDBASE\Reports\Prelim\" + reqno + ".pdf";
+            }
+            else
+            {
+                 fileName = @"\\spm-adfs\SDBASE\Reports\Approved\" + reqno + ".pdf";
+            }
+           
             // Name of the report - Please note this is not the RDL file.
             string _reportName = @"/GeniusReports/PurchaseOrder/SPM_PurchaseReq";
             string _historyID = null;
@@ -1574,7 +1583,7 @@ namespace SearchDataSPM
                     parameters[0] = new RE2005.ParameterValue();
                     //parameters[0].Label = "";
                     parameters[0].Name = "pReqno";
-                    parameters[0].Value = "1008";
+                    parameters[0].Value = reqno;
                 }
                 rsExec.SetExecutionParameters(parameters, "en-us");
 
