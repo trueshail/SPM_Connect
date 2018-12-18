@@ -5,10 +5,12 @@ using System.Data;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -143,6 +145,7 @@ namespace SearchDataSPM
             dataGridView1.DefaultCellStyle.BackColor = Color.FromArgb(237, 237, 237);
             dataGridView1.DefaultCellStyle.SelectionForeColor = Color.Tomato;
             dataGridView1.DefaultCellStyle.SelectionBackColor = Color.LightBlue;
+            dataGridView1.Columns["Price"].DefaultCellStyle.Format = "n2";
         }
 
         private void dataGridView_SelectionChanged(object sender, EventArgs e)
@@ -329,6 +332,8 @@ namespace SearchDataSPM
                 populatereqdetails(lastreq);
                 PopulateDataGridView();
                 processeditbutton(false);
+                jobnumbertxt.Text = jobnumbertxt.Text.TrimStart();
+                subassytxt.Text = subassytxt.Text.TrimStart();
             }
 
 
@@ -357,9 +362,9 @@ namespace SearchDataSPM
             totalvalue = "";
             if (dataGridView1.Rows.Count > 0)
             {
-                int total = 0;
+                decimal total =0.00m;
                 int qty = 1;
-                int price = 0;
+                decimal price = 0.00m;
                 foreach (DataGridViewRow row in dataGridView1.Rows)
                 {
                     if (row.Cells[3].Value.ToString().Length > 0 && row.Cells[3].Value.ToString() != null)
@@ -370,14 +375,15 @@ namespace SearchDataSPM
                     {
                         if (row.Cells[7].Value.ToString() != null && row.Cells[7].Value.ToString().Length > 0)
                         {
-                            price = Convert.ToInt32(row.Cells[7].Value.ToString());
+                            price = Convert.ToDecimal(row.Cells[7].Value.ToString());
                         }
                         else
                         {
                             price = 0;
                         }
                         total += (qty * price);
-                        totalcostlbl.Text = "Total Cost : $" + string.Format("{0:#.00}", Convert.ToDecimal(total.ToString()));
+                        totalcostlbl.Text = "Total Cost : $" + string.Format("{0:n}", Convert.ToDecimal(total.ToString()));
+
                         totalvalue = string.Format("{0:#.00}", total.ToString());
                     }
 
@@ -404,7 +410,8 @@ namespace SearchDataSPM
             datecreatedtxt.Clear();
             jobnumbertxt.Clear();
             subassytxt.Clear();
-
+            pricetxt.Text = "$0.00";
+            pricetxt.SelectionStart = pricetxt.Text.Length;
             editbttn.Visible = false;
             dataGridView.Enabled = false;
             dataGridView1.Enabled = true;
@@ -515,6 +522,7 @@ namespace SearchDataSPM
 
         private void editbttn_Click(object sender, EventArgs e)
         {
+            Itemstodiscard.Clear();
             processeditbutton(true);
         }
 
@@ -568,6 +576,7 @@ namespace SearchDataSPM
 
         private void savebttn_Click(object sender, EventArgs e)
         {
+            Itemstodiscard.Clear();
             processsavebutton(false);
         }
 
@@ -804,15 +813,15 @@ namespace SearchDataSPM
 
         private void pricetxt_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"[0-9+\b]"))
-            {
-                // Stop the character from being entered into the control since it is illegal.
+            //if (System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"[0-9+\b]"))
+            //{
+               
 
-            }
-            else
-            {
-                e.Handled = true;
-            }
+            //}
+            //else
+            //{
+            //    e.Handled = true;
+            //}
         }
 
         private void qtytxt_KeyPress(object sender, KeyPressEventArgs e)
@@ -833,7 +842,8 @@ namespace SearchDataSPM
         private void Addnewbttn_Click(object sender, EventArgs e)
         {
             int resultqty = 0;
-            int result = 0;
+            //int result = 0;
+           //double price12 = 0.00;
             errorProvider1.Clear();
             if (qtytxt.Text.Length > 0)
             {
@@ -850,8 +860,8 @@ namespace SearchDataSPM
                 if (int.TryParse(qtytxt.Text, out resultqty))
                     model.Qty = resultqty;
                 model.ReqNumber = Convert.ToInt32(purchreqtxt.Text);
-                if (int.TryParse(pricetxt.Text, out result))
-                    model.Price = result;
+                if (decimal.TryParse(pricetxt.Text.Replace(",", "").Replace("$", ""), out decimal result12))
+                    model.Price = result12;
                 model.Notes = "";
                 using (SPM_DatabaseEntitiesPurchase db = new SPM_DatabaseEntitiesPurchase())
                 {
@@ -1118,7 +1128,7 @@ namespace SearchDataSPM
                         Descriptiontxtbox.Text = model.Description;
                         oemtxt.Text = model.Manufacturer;
                         oemitemnotxt.Text = model.OEMItemNumber;
-                        pricetxt.Text = model.Price.ToString();
+                        pricetxt.Text = String.Format("{0:c2}", model.Price);
                         qtytxt.Text = model.Qty.ToString();
 
                     }
@@ -1262,6 +1272,7 @@ namespace SearchDataSPM
             {
                 if (getapprovedstatus(Convert.ToInt32(purchreqtxt.Text)))
                 {
+                    MessageBox.Show("This purchase requisition is approved. Only supervisor can edit the details.", "SPM Connect - Purchase Req already approved", MessageBoxButtons.OK);
                     Validatechk.Checked = true;
                     Validatechk.Text = "Invalidate";
                     groupBox3.Visible = false;
@@ -1333,7 +1344,7 @@ namespace SearchDataSPM
             catch (Exception ex)
             {
 
-                MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "SPM Connect - Get approval status", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 //Application.Exit();
 
             }
@@ -1501,7 +1512,7 @@ namespace SearchDataSPM
             }
             catch (Exception ex)
             {
-
+                MessageBox.Show(ex.Message);
             }
 
         }
@@ -1622,11 +1633,27 @@ namespace SearchDataSPM
                           out extension, out encoding,
                           out mimeType, out warnings, out streamIDs);
 
-                using (FileStream stream = File.OpenWrite(fileName))
-                {
-                    stream.Write(results, 0, results.Length);
-                }
+                //using (FileStream stream = File.Open(fileName,FileMode.Open,FileAccess.Write,FileShare.Read))
+                //{
+                //    stream.Write(results, 0, results.Length);
+                //    stream.Close();
+                //}
 
+
+                try
+                {
+                    //FileStream stream = File.Create(fileName, results.Length);
+
+                    //stream.Write(results, 0, results.Length);
+
+                    //stream.Close();
+
+                    File.WriteAllBytes(fileName, results);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
 
 
 
@@ -1749,6 +1776,42 @@ namespace SearchDataSPM
             return null;
         }
 
+        private void pricetxt_Leave(object sender, EventArgs e)
+        {
+            //Double value;
+            //if (Double.TryParse(pricetxt.Text, out value))
+            //    pricetxt.Text = String.Format(System.Globalization.CultureInfo.CurrentCulture, "{0:C2}", value);
+            //else
+            //    pricetxt.Text = String.Empty;
+        }
 
+        private void pricetxt_TextChanged(object sender, EventArgs e)
+        {
+           string value = pricetxt.Text.Replace(",", "").Replace("$", "").Replace(".", "").TrimStart('0');
+            decimal ul;
+            //Check we are indeed handling a number
+            if (decimal.TryParse(value, out ul))
+            {
+                ul /= 100;
+                //Unsub the event so we don't enter a loop
+                pricetxt.TextChanged -= pricetxt_TextChanged;
+                //Format the text as currency
+                pricetxt.Text = string.Format(CultureInfo.CreateSpecificCulture("en-US"), "{0:C2}", ul);
+                pricetxt.TextChanged += pricetxt_TextChanged;
+                pricetxt.Select(pricetxt.Text.Length, 0);
+            }
+            bool goodToGo = TextisValid(pricetxt.Text);
+            
+            if (!goodToGo)
+            {
+                pricetxt.Text = "$0.00";
+                pricetxt.Select(pricetxt.Text.Length, 0);
+            }
+        }
+        private bool TextisValid(string text)
+        {
+            Regex money = new Regex(@"^\$(\d{1,3}(\,\d{3})*|(\d+))(\.\d{2})?$");
+            return money.IsMatch(text);
+        }
     }
 }

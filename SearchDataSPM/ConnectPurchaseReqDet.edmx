@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SearchDataSPM.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SearchDataSPM.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="PurchaseReq">
           <Key>
             <PropertyRef Name="ID" />
@@ -17,14 +17,13 @@
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="Manufacturer" Type="nvarchar(max)" />
           <Property Name="OEMItemNumber" Type="nvarchar(max)" />
-          <Property Name="Price" Type="int" />
+          <Property Name="Price" Type="money" />
           <Property Name="Notes" Type="nvarchar(max)" />
         </EntityType>
         <EntityContainer Name="SearchDataSPMStoreContainer">
           <EntitySet Name="PurchaseReq" EntityType="Self.PurchaseReq" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SearchDataSPM" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -40,7 +39,7 @@
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Manufacturer" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="OEMItemNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Price" Type="Int32" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityContainer Name="SPM_DatabaseEntitiesPurchase" annotation:LazyLoadingEnabled="true">

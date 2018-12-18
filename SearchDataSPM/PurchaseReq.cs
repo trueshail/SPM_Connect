@@ -22,7 +22,7 @@ namespace SearchDataSPM
         public string Description { get; set; }
         public string Manufacturer { get; set; }
         public string OEMItemNumber { get; set; }
-        public Nullable<int> Price { get; set; }
+        public Nullable<decimal> Price { get; set; }
         public string Notes { get; set; }
     }
 }

@@ -89,6 +89,13 @@
             this.ItemTxtBox = new System.Windows.Forms.TextBox();
             this.itemsearchtxtbox = new System.Windows.Forms.TextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.totalcostlbl = new System.Windows.Forms.Label();
+            this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.FormSelector = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.editItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.apprvonlabel = new System.Windows.Forms.Label();
             this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.OrderId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Item = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -97,13 +104,6 @@
             this.Manufacturer = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.OEMItemNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.totalcostlbl = new System.Windows.Forms.Label();
-            this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-            this.FormSelector = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.editItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.apprvonlabel = new System.Windows.Forms.Label();
             this.MenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -431,7 +431,7 @@
             this.dateTimePicker1.Location = new System.Drawing.Point(120, 221);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(200, 22);
-            this.dateTimePicker1.TabIndex = 61;
+            this.dateTimePicker1.TabIndex = 8;
             // 
             // approvebylabel
             // 
@@ -693,7 +693,7 @@
             this.notestxt.Name = "notestxt";
             this.notestxt.ReadOnly = true;
             this.notestxt.Size = new System.Drawing.Size(257, 43);
-            this.notestxt.TabIndex = 8;
+            this.notestxt.TabIndex = 9;
             this.TreeViewToolTip.SetToolTip(this.notestxt, "Notes");
             // 
             // Validatechk
@@ -893,12 +893,12 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label3.Location = new System.Drawing.Point(55, 217);
+            this.label3.Location = new System.Drawing.Point(20, 217);
             this.label3.Name = "label3";
             this.label3.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label3.Size = new System.Drawing.Size(48, 15);
+            this.label3.Size = new System.Drawing.Size(84, 15);
             this.label3.TabIndex = 61;
-            this.label3.Text = "Price :";
+            this.label3.Text = "Price Each :";
             // 
             // pricetxt
             // 
@@ -913,7 +913,10 @@
             this.pricetxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.pricetxt.Size = new System.Drawing.Size(219, 22);
             this.pricetxt.TabIndex = 4;
+            this.pricetxt.Text = "$0.00";
+            this.pricetxt.TextChanged += new System.EventHandler(this.pricetxt_TextChanged);
             this.pricetxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.pricetxt_KeyPress);
+            this.pricetxt.Leave += new System.EventHandler(this.pricetxt_Leave);
             // 
             // label1
             // 
@@ -976,7 +979,7 @@
             this.Descriptiontxtbox.Name = "Descriptiontxtbox";
             this.Descriptiontxtbox.ReadOnly = true;
             this.Descriptiontxtbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.Descriptiontxtbox.Size = new System.Drawing.Size(219, 50);
+            this.Descriptiontxtbox.Size = new System.Drawing.Size(219, 44);
             this.Descriptiontxtbox.TabIndex = 55;
             this.Descriptiontxtbox.TabStop = false;
             // 
@@ -1064,70 +1067,6 @@
             this.dataGridView1.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dataGridView1_RowsRemoved);
             this.dataGridView1.DoubleClick += new System.EventHandler(this.dataGridView1_DoubleClick);
             // 
-            // ID
-            // 
-            this.ID.DataPropertyName = "ID";
-            this.ID.HeaderText = "ID";
-            this.ID.Name = "ID";
-            this.ID.ReadOnly = true;
-            this.ID.Visible = false;
-            // 
-            // OrderId
-            // 
-            this.OrderId.DataPropertyName = "OrderId";
-            this.OrderId.FillWeight = 30F;
-            this.OrderId.HeaderText = "OrderId";
-            this.OrderId.Name = "OrderId";
-            this.OrderId.ReadOnly = true;
-            // 
-            // Item
-            // 
-            this.Item.DataPropertyName = "Item";
-            this.Item.FillWeight = 50F;
-            this.Item.HeaderText = "Item";
-            this.Item.Name = "Item";
-            this.Item.ReadOnly = true;
-            // 
-            // Qty
-            // 
-            this.Qty.DataPropertyName = "Qty";
-            this.Qty.FillWeight = 30F;
-            this.Qty.HeaderText = "Qty";
-            this.Qty.Name = "Qty";
-            this.Qty.ReadOnly = true;
-            // 
-            // Description
-            // 
-            this.Description.DataPropertyName = "Description";
-            this.Description.FillWeight = 79.47787F;
-            this.Description.HeaderText = "Description";
-            this.Description.Name = "Description";
-            this.Description.ReadOnly = true;
-            // 
-            // Manufacturer
-            // 
-            this.Manufacturer.DataPropertyName = "Manufacturer";
-            this.Manufacturer.FillWeight = 79.47787F;
-            this.Manufacturer.HeaderText = "Manufacturer";
-            this.Manufacturer.Name = "Manufacturer";
-            this.Manufacturer.ReadOnly = true;
-            // 
-            // OEMItemNumber
-            // 
-            this.OEMItemNumber.DataPropertyName = "OEMItemNumber";
-            this.OEMItemNumber.FillWeight = 79.47787F;
-            this.OEMItemNumber.HeaderText = "OEMItemNumber";
-            this.OEMItemNumber.Name = "OEMItemNumber";
-            this.OEMItemNumber.ReadOnly = true;
-            // 
-            // Price
-            // 
-            this.Price.DataPropertyName = "Price";
-            this.Price.FillWeight = 50F;
-            this.Price.HeaderText = "Price";
-            this.Price.Name = "Price";
-            this.Price.ReadOnly = true;
-            // 
             // totalcostlbl
             // 
             this.totalcostlbl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -1196,6 +1135,70 @@
             this.apprvonlabel.TabIndex = 60;
             this.apprvonlabel.Text = "Approved On : ";
             // 
+            // ID
+            // 
+            this.ID.DataPropertyName = "ID";
+            this.ID.HeaderText = "ID";
+            this.ID.Name = "ID";
+            this.ID.ReadOnly = true;
+            this.ID.Visible = false;
+            // 
+            // OrderId
+            // 
+            this.OrderId.DataPropertyName = "OrderId";
+            this.OrderId.FillWeight = 20F;
+            this.OrderId.HeaderText = "Id";
+            this.OrderId.Name = "OrderId";
+            this.OrderId.ReadOnly = true;
+            // 
+            // Item
+            // 
+            this.Item.DataPropertyName = "Item";
+            this.Item.FillWeight = 50F;
+            this.Item.HeaderText = "Item";
+            this.Item.Name = "Item";
+            this.Item.ReadOnly = true;
+            // 
+            // Qty
+            // 
+            this.Qty.DataPropertyName = "Qty";
+            this.Qty.FillWeight = 30F;
+            this.Qty.HeaderText = "Qty";
+            this.Qty.Name = "Qty";
+            this.Qty.ReadOnly = true;
+            // 
+            // Description
+            // 
+            this.Description.DataPropertyName = "Description";
+            this.Description.FillWeight = 79.47787F;
+            this.Description.HeaderText = "Description";
+            this.Description.Name = "Description";
+            this.Description.ReadOnly = true;
+            // 
+            // Manufacturer
+            // 
+            this.Manufacturer.DataPropertyName = "Manufacturer";
+            this.Manufacturer.FillWeight = 79.47787F;
+            this.Manufacturer.HeaderText = "Manufacturer";
+            this.Manufacturer.Name = "Manufacturer";
+            this.Manufacturer.ReadOnly = true;
+            // 
+            // OEMItemNumber
+            // 
+            this.OEMItemNumber.DataPropertyName = "OEMItemNumber";
+            this.OEMItemNumber.FillWeight = 79.47787F;
+            this.OEMItemNumber.HeaderText = "OEMItemNumber";
+            this.OEMItemNumber.Name = "OEMItemNumber";
+            this.OEMItemNumber.ReadOnly = true;
+            // 
+            // Price
+            // 
+            this.Price.DataPropertyName = "Price";
+            this.Price.FillWeight = 50F;
+            this.Price.HeaderText = "Price Each";
+            this.Price.Name = "Price";
+            this.Price.ReadOnly = true;
+            // 
             // PurchaseReqform
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -1257,14 +1260,6 @@
         private System.Windows.Forms.ToolTip TreeViewToolTip;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.ErrorProvider errorProvider1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn OrderId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Item;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Qty;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Description;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Manufacturer;
-        private System.Windows.Forms.DataGridViewTextBoxColumn OEMItemNumber;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Price;
         private System.Windows.Forms.ContextMenuStrip FormSelector;
         private System.Windows.Forms.ToolStripMenuItem editItemToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteItemToolStripMenuItem;
@@ -1316,5 +1311,13 @@
         private System.Windows.Forms.ToolStripMenuItem showAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showMyPurchaseReqsToolStripMenuItem;
         private System.Windows.Forms.Label apprvonlabel;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn OrderId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Item;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Qty;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Description;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Manufacturer;
+        private System.Windows.Forms.DataGridViewTextBoxColumn OEMItemNumber;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Price;
     }
 }
