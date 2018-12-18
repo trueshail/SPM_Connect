@@ -317,6 +317,11 @@ namespace SearchDataSPM
 
         private void createNewPurchaseReqToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            createnew();
+        }
+
+        void createnew()
+        {
             DialogResult result = MessageBox.Show("Are you sure want to create a new purchase req?", "SPM Connect - Create New?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result == DialogResult.Yes)
@@ -335,8 +340,6 @@ namespace SearchDataSPM
                 jobnumbertxt.Text = jobnumbertxt.Text.TrimStart();
                 subassytxt.Text = subassytxt.Text.TrimStart();
             }
-
-
         }
 
         void selectrowbeforeediting(string searchValue)
@@ -565,8 +568,9 @@ namespace SearchDataSPM
             savebttn.Visible = true;
             Validatechk.Visible = true;
             fillitemssource();
-            MenuStrip.Enabled = true;
+            MenuStrip.Enabled = false;
             MenuStrip.Visible = false;
+            toolbarpanel.Enabled = false;
             if (showexit)
             {
                 ecitbttn.Visible = true;
@@ -696,6 +700,7 @@ namespace SearchDataSPM
             tabControl1.Visible = true;
             MenuStrip.Enabled = true;
             MenuStrip.Visible = true;
+            toolbarpanel.Enabled = true;
             PurchaseReqSearchTxt.Enabled = true;
             dataGridView1.ContextMenuStrip = null;
             Validatechk.Visible = false;
@@ -908,7 +913,7 @@ namespace SearchDataSPM
             model.ID = 0;
         }
 
-        void populatereqdetails(int item)
+        void populatereqdetails(int item) // populates details of selected purchase req
         {
             try
             {
@@ -946,6 +951,8 @@ namespace SearchDataSPM
                     Validatechk.Visible = false;
                     printToolStripMenuItem.Enabled = true;
                     printToolStripMenuItem.Visible = true;
+                    printbttn.Enabled = true;
+                    //printbttn.Visible = true;
                     approvebylabel.Visible = true;
                     apprvonlabel.Visible = true;
                 }
@@ -956,6 +963,8 @@ namespace SearchDataSPM
                     approvechk.Visible = false;
                     printToolStripMenuItem.Enabled = false;
                     printToolStripMenuItem.Visible = false;
+                    printbttn.Enabled = false;
+                   // printbttn.Visible = false;
                     approvebylabel.Visible = false;
                     apprvonlabel.Visible = false;
                 }
@@ -969,6 +978,9 @@ namespace SearchDataSPM
                         approvechk.Visible = true;
                         printToolStripMenuItem.Enabled = true;
                         printToolStripMenuItem.Visible = true;
+                        printbttn.Enabled = true;
+                       // printbttn.Visible = true;
+
                         approvebylabel.Visible = true;
                         apprvonlabel.Visible = true;
                     }
@@ -979,6 +991,8 @@ namespace SearchDataSPM
                         approvechk.Visible = true;
                         printToolStripMenuItem.Enabled = false;
                         printToolStripMenuItem.Visible = false;
+                        printbttn.Enabled = false;
+                       // printbttn.Visible = false;
                         approvebylabel.Visible = false;
                         apprvonlabel.Visible = false;
                     }
@@ -992,6 +1006,8 @@ namespace SearchDataSPM
                     approvechk.Visible = false;
                     printToolStripMenuItem.Enabled = false;
                     printToolStripMenuItem.Visible = false;
+                    printbttn.Enabled = false;
+                    //printbttn.Visible = false;
                 }
             }
             catch (Exception ex)
@@ -1549,6 +1565,7 @@ namespace SearchDataSPM
                     {
                         string reqno = purchreqtxt.Text;
                         string requestby = requestbytxt.Text;
+                  
                         processsavebutton(true);
                         approvechk.Checked = true;
                         SaveReport(reqno, false, requestby);
@@ -1815,10 +1832,30 @@ namespace SearchDataSPM
 
         private void newbttn_Click(object sender, EventArgs e)
         {
-
+            createnew();
         }
 
         private void printbttn_Click(object sender, EventArgs e)
+        {
+            reportpurchaereq(reqnumber, "Purchasereq");
+        }
+
+        private void bttnneedapproval_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void bttnshowapproved_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void bttnshowmydept_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void bttnshowmyreq_Click(object sender, EventArgs e)
         {
 
         }
