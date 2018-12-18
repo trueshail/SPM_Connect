@@ -85,6 +85,12 @@
             this.reqbuyeryes = new System.Windows.Forms.RadioButton();
             this.label7 = new System.Windows.Forms.Label();
             this.supervisorcombox = new System.Windows.Forms.ComboBox();
+            this.idlabel = new System.Windows.Forms.Label();
+            this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
+            this.lineShape4 = new Microsoft.VisualBasic.PowerPacks.LineShape();
+            this.lineShape3 = new Microsoft.VisualBasic.PowerPacks.LineShape();
+            this.lineShape2 = new Microsoft.VisualBasic.PowerPacks.LineShape();
+            this.lineShape1 = new Microsoft.VisualBasic.PowerPacks.LineShape();
             this.contextMenuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -153,8 +159,8 @@
             this.nametextbox.Name = "nametextbox";
             this.nametextbox.ReadOnly = true;
             this.nametextbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.nametextbox.Size = new System.Drawing.Size(180, 20);
-            this.nametextbox.TabIndex = 47;
+            this.nametextbox.Size = new System.Drawing.Size(180, 22);
+            this.nametextbox.TabIndex = 45;
             this.LabelTooltips.SetToolTip(this.nametextbox, "Item Family Group");
             // 
             // domaintxtbox
@@ -168,8 +174,8 @@
             this.domaintxtbox.Name = "domaintxtbox";
             this.domaintxtbox.ReadOnly = true;
             this.domaintxtbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.domaintxtbox.Size = new System.Drawing.Size(180, 20);
-            this.domaintxtbox.TabIndex = 49;
+            this.domaintxtbox.Size = new System.Drawing.Size(180, 22);
+            this.domaintxtbox.TabIndex = 46;
             this.LabelTooltips.SetToolTip(this.domaintxtbox, "Item Quantities Per Assembly");
             // 
             // activecadblocktxt
@@ -183,8 +189,8 @@
             this.activecadblocktxt.Name = "activecadblocktxt";
             this.activecadblocktxt.ReadOnly = true;
             this.activecadblocktxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.activecadblocktxt.Size = new System.Drawing.Size(180, 20);
-            this.activecadblocktxt.TabIndex = 68;
+            this.activecadblocktxt.Size = new System.Drawing.Size(180, 22);
+            this.activecadblocktxt.TabIndex = 47;
             this.LabelTooltips.SetToolTip(this.activecadblocktxt, "Item Family Group");
             this.activecadblocktxt.TextChanged += new System.EventHandler(this.activecadblocktxt_TextChanged);
             this.activecadblocktxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.activecadblocktxt_KeyPress);
@@ -405,7 +411,7 @@
             this.engradio.Location = new System.Drawing.Point(3, 9);
             this.engradio.Name = "engradio";
             this.engradio.Size = new System.Drawing.Size(47, 17);
-            this.engradio.TabIndex = 61;
+            this.engradio.TabIndex = 50;
             this.engradio.Text = "Eng.";
             this.engradio.UseVisualStyleBackColor = false;
             // 
@@ -418,7 +424,7 @@
             this.radioButton4.Location = new System.Drawing.Point(62, 9);
             this.radioButton4.Name = "radioButton4";
             this.radioButton4.Size = new System.Drawing.Size(63, 17);
-            this.radioButton4.TabIndex = 62;
+            this.radioButton4.TabIndex = 51;
             this.radioButton4.Text = "Controls";
             this.radioButton4.UseVisualStyleBackColor = false;
             // 
@@ -431,7 +437,7 @@
             this.panel1.Location = new System.Drawing.Point(336, 259);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(230, 33);
-            this.panel1.TabIndex = 63;
+            this.panel1.TabIndex = 49;
             // 
             // radioButton3
             // 
@@ -442,7 +448,7 @@
             this.radioButton3.Location = new System.Drawing.Point(139, 9);
             this.radioButton3.Name = "radioButton3";
             this.radioButton3.Size = new System.Drawing.Size(76, 17);
-            this.radioButton3.TabIndex = 63;
+            this.radioButton3.TabIndex = 52;
             this.radioButton3.Text = "Production";
             this.radioButton3.UseVisualStyleBackColor = false;
             // 
@@ -468,7 +474,7 @@
             this.manageradioButtonNo.Location = new System.Drawing.Point(56, 6);
             this.manageradioButtonNo.Name = "manageradioButtonNo";
             this.manageradioButtonNo.Size = new System.Drawing.Size(39, 17);
-            this.manageradioButtonNo.TabIndex = 72;
+            this.manageradioButtonNo.TabIndex = 58;
             this.manageradioButtonNo.Text = "No";
             this.manageradioButtonNo.UseVisualStyleBackColor = true;
             // 
@@ -480,7 +486,7 @@
             this.manageradioButtonyes.Location = new System.Drawing.Point(6, 6);
             this.manageradioButtonyes.Name = "manageradioButtonyes";
             this.manageradioButtonyes.Size = new System.Drawing.Size(43, 17);
-            this.manageradioButtonyes.TabIndex = 71;
+            this.manageradioButtonyes.TabIndex = 57;
             this.manageradioButtonyes.Text = "Yes";
             this.manageradioButtonyes.UseVisualStyleBackColor = true;
             // 
@@ -545,7 +551,7 @@
             this.panel2.Location = new System.Drawing.Point(287, 314);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(103, 24);
-            this.panel2.TabIndex = 76;
+            this.panel2.TabIndex = 53;
             // 
             // panel3
             // 
@@ -554,7 +560,7 @@
             this.panel3.Location = new System.Drawing.Point(506, 312);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(107, 26);
-            this.panel3.TabIndex = 77;
+            this.panel3.TabIndex = 56;
             // 
             // panel4
             // 
@@ -667,7 +673,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label5.Location = new System.Drawing.Point(234, 233);
+            this.label5.Location = new System.Drawing.Point(234, 230);
             this.label5.Name = "label5";
             this.label5.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label5.Size = new System.Drawing.Size(86, 15);
@@ -679,13 +685,13 @@
             this.useremailtxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.useremailtxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.useremailtxt.Location = new System.Drawing.Point(326, 230);
+            this.useremailtxt.Location = new System.Drawing.Point(326, 227);
             this.useremailtxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.useremailtxt.Name = "useremailtxt";
             this.useremailtxt.ReadOnly = true;
             this.useremailtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.useremailtxt.Size = new System.Drawing.Size(287, 22);
-            this.useremailtxt.TabIndex = 68;
+            this.useremailtxt.TabIndex = 48;
             this.useremailtxt.TextChanged += new System.EventHandler(this.activecadblocktxt_TextChanged);
             this.useremailtxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.activecadblocktxt_KeyPress);
             // 
@@ -744,7 +750,7 @@
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label7.Location = new System.Drawing.Point(501, 393);
+            this.label7.Location = new System.Drawing.Point(502, 407);
             this.label7.MaximumSize = new System.Drawing.Size(90, 15);
             this.label7.Name = "label7";
             this.label7.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -757,14 +763,87 @@
             this.supervisorcombox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.supervisorcombox.Enabled = false;
             this.supervisorcombox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.supervisorcombox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.supervisorcombox.FormattingEnabled = true;
-            this.supervisorcombox.Location = new System.Drawing.Point(454, 414);
+            this.supervisorcombox.Location = new System.Drawing.Point(455, 428);
             this.supervisorcombox.Name = "supervisorcombox";
-            this.supervisorcombox.Size = new System.Drawing.Size(165, 21);
+            this.supervisorcombox.Size = new System.Drawing.Size(165, 23);
             this.supervisorcombox.TabIndex = 83;
-            this.supervisorcombox.DropDown += new System.EventHandler(this.supervisorcombox_DropDown);
-            this.supervisorcombox.DropDownClosed += new System.EventHandler(this.supervisorcombox_DropDownClosed);
-            this.supervisorcombox.Format += new System.Windows.Forms.ListControlConvertEventHandler(this.supervisorcombox_Format);
+            // 
+            // idlabel
+            // 
+            this.idlabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.idlabel.AutoSize = true;
+            this.idlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.idlabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.idlabel.Location = new System.Drawing.Point(550, 116);
+            this.idlabel.Name = "idlabel";
+            this.idlabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.idlabel.Size = new System.Drawing.Size(27, 15);
+            this.idlabel.TabIndex = 53;
+            this.idlabel.Text = "Id :";
+            // 
+            // shapeContainer1
+            // 
+            this.shapeContainer1.Location = new System.Drawing.Point(0, 0);
+            this.shapeContainer1.Margin = new System.Windows.Forms.Padding(0);
+            this.shapeContainer1.Name = "shapeContainer1";
+            this.shapeContainer1.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
+            this.lineShape4,
+            this.lineShape3,
+            this.lineShape2,
+            this.lineShape1});
+            this.shapeContainer1.Size = new System.Drawing.Size(625, 674);
+            this.shapeContainer1.TabIndex = 84;
+            this.shapeContainer1.TabStop = false;
+            // 
+            // lineShape4
+            // 
+            this.lineShape4.BorderColor = System.Drawing.Color.LightGray;
+            this.lineShape4.BorderWidth = 3;
+            this.lineShape4.Cursor = System.Windows.Forms.Cursors.Default;
+            this.lineShape4.Name = "lineShape1";
+            this.lineShape4.SelectionColor = System.Drawing.Color.White;
+            this.lineShape4.X1 = 223;
+            this.lineShape4.X2 = 622;
+            this.lineShape4.Y1 = 582;
+            this.lineShape4.Y2 = 582;
+            // 
+            // lineShape3
+            // 
+            this.lineShape3.BorderColor = System.Drawing.Color.LightGray;
+            this.lineShape3.BorderWidth = 3;
+            this.lineShape3.Cursor = System.Windows.Forms.Cursors.Default;
+            this.lineShape3.Name = "lineShape1";
+            this.lineShape3.SelectionColor = System.Drawing.Color.White;
+            this.lineShape3.X1 = 222;
+            this.lineShape3.X2 = 621;
+            this.lineShape3.Y1 = 492;
+            this.lineShape3.Y2 = 492;
+            // 
+            // lineShape2
+            // 
+            this.lineShape2.BorderColor = System.Drawing.Color.LightGray;
+            this.lineShape2.BorderWidth = 3;
+            this.lineShape2.Cursor = System.Windows.Forms.Cursors.Default;
+            this.lineShape2.Name = "lineShape1";
+            this.lineShape2.SelectionColor = System.Drawing.Color.White;
+            this.lineShape2.X1 = 223;
+            this.lineShape2.X2 = 622;
+            this.lineShape2.Y1 = 390;
+            this.lineShape2.Y2 = 390;
+            // 
+            // lineShape1
+            // 
+            this.lineShape1.BorderColor = System.Drawing.Color.LightGray;
+            this.lineShape1.BorderWidth = 3;
+            this.lineShape1.Name = "lineShape1";
+            this.lineShape1.SelectionColor = System.Drawing.Color.White;
+            this.lineShape1.X1 = 223;
+            this.lineShape1.X2 = 622;
+            this.lineShape1.Y1 = 302;
+            this.lineShape1.Y2 = 302;
             // 
             // spmadmin
             // 
@@ -801,6 +880,7 @@
             this.Controls.Add(this.updatebttn);
             this.Controls.Add(this.addnewbttn);
             this.Controls.Add(this.UserFirstname);
+            this.Controls.Add(this.idlabel);
             this.Controls.Add(this.admin);
             this.Controls.Add(this.department);
             this.Controls.Add(this.nametextbox);
@@ -808,6 +888,7 @@
             this.Controls.Add(this.domaintxtbox);
             this.Controls.Add(this.Userlistbox);
             this.Controls.Add(this.SPM);
+            this.Controls.Add(this.shapeContainer1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -893,5 +974,11 @@
         private System.Windows.Forms.RadioButton reqbuyeryes;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ComboBox supervisorcombox;
+        private System.Windows.Forms.Label idlabel;
+        private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer1;
+        private Microsoft.VisualBasic.PowerPacks.LineShape lineShape2;
+        private Microsoft.VisualBasic.PowerPacks.LineShape lineShape1;
+        private Microsoft.VisualBasic.PowerPacks.LineShape lineShape4;
+        private Microsoft.VisualBasic.PowerPacks.LineShape lineShape3;
     }
 }

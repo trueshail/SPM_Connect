@@ -1,15 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
@@ -147,6 +138,7 @@ namespace SearchDataSPM
                     domaintxtbox.Text = dr["UserName"].ToString();
                     activecadblocktxt.Text = dr["ActiveBlockNumber"].ToString();
                     useremailtxt.Text = dr["Email"].ToString();
+                    idlabel.Text = "Id : " + dr["id"].ToString();
 
                     if (dr["Supervisor"].ToString().Length > 0)
                     {
@@ -284,6 +276,8 @@ namespace SearchDataSPM
             updatesavebttn.Visible = true;
             domaintxtbox.Text = @"SPM\";
             activecadblocktxt.Text = "";
+            useremailtxt.Text = "";
+            idlabel.Text = "";
             engradio.Enabled = true;
             radioButton1.Enabled = true;
             radioButton2.Enabled = true;
@@ -495,6 +489,8 @@ namespace SearchDataSPM
             else if (result == DialogResult.No)
             {
                 domaintxtbox.Text = "";
+                useremailtxt.Text = "";
+                idlabel.Text = "";
                 radioButton1.Enabled = false;
                 radioButton2.Enabled = false;
                 radioButton4.Enabled = false;
@@ -554,7 +550,7 @@ namespace SearchDataSPM
                 {
                     SqlCommand cmd = cn.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Users] VALUES('" + domaintxtbox.Text + "','" + (engradio.Checked ? "Eng" : radioButton4.Checked ? "Controls" : "Production") + "','" + (radioButton1.Checked ? "1" : "0") + "','" + nametextbox.Text + "','" + activeblocknumber + "','" + (DevradioButtonYes.Checked ? "1" : "0") + "','" + (manageradioButtonyes.Checked ? "1" : "0") + "','" + (quoteyes.Checked ? "1" : "0") + ",'" + (reqyes.Checked ? "1" : "0") + "','" + (reqbuyeryes.Checked ? "1" : "0") + "','" + supervisorcombox.SelectedItem.ToString().Substring(0,2) + "','" + useremailtxt.Text + "')";
+                    cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Users] VALUES('" + domaintxtbox.Text + "','" + (engradio.Checked ? "Eng" : radioButton4.Checked ? "Controls" : "Production") + "','" + (radioButton1.Checked ? "1" : "0") + "','" + nametextbox.Text + "','" + activeblocknumber + "','" + (DevradioButtonYes.Checked ? "1" : "0") + "','" + (manageradioButtonyes.Checked ? "1" : "0") + "','" + (quoteyes.Checked ? "1" : "0") + "','" + (reqyes.Checked ? "1" : "0") + "','" + (reqbuyeryes.Checked ? "1" : "0") + "','" + supervisorcombox.SelectedItem.ToString().Substring(0,2).TrimEnd() + "','" + useremailtxt.Text + "')";
                     cmd.ExecuteNonQuery();
                     cn.Close();
                     MessageBox.Show("New user added successfully", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -753,21 +749,6 @@ namespace SearchDataSPM
         private void spmadmin_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.Dispose();
-        }
-
-        private void supervisorcombox_Format(object sender, ListControlConvertEventArgs e)
-        {
-            //e.Value = e.Value.ToString().Substring(0, 2);
-        }
-
-        private void supervisorcombox_DropDown(object sender, EventArgs e)
-        {
-         // supervisorcombox.FormattingEnabled = false;
-        }
-
-        private void supervisorcombox_DropDownClosed(object sender, EventArgs e)
-        {
-          // supervisorcombox.FormattingEnabled = true;
         }
     }
 
