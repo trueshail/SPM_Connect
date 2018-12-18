@@ -808,6 +808,7 @@ namespace SearchDataSPM
             oemitemnotxt.Clear();
             oemtxt.Clear();
             pricetxt.Clear();
+            pricetxt.Text = "$0.00";
             qtytxt.Clear();
         }
 
@@ -1254,8 +1255,6 @@ namespace SearchDataSPM
             reportpurchaereq(reqnumber, "Purchasereq");
         }
 
-
-
         private void reportpurchaereq(string itemvalue, string Reportname)
         {
             ReportViewer form1 = new ReportViewer();
@@ -1566,7 +1565,6 @@ namespace SearchDataSPM
             }
         }
 
-
         public void SaveReport(string reqno, bool prelim, string requestby)
         {
 
@@ -1808,6 +1806,7 @@ namespace SearchDataSPM
                 pricetxt.Select(pricetxt.Text.Length, 0);
             }
         }
+
         private bool TextisValid(string text)
         {
             Regex money = new Regex(@"^\$(\d{1,3}(\,\d{3})*|(\d+))(\.\d{2})?$");
