@@ -47,10 +47,20 @@
             this.savebttn = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.PreviewTabPage = new System.Windows.Forms.TabPage();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.OrderId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Item = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Manufacturer = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.OEMItemNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.approvechk = new System.Windows.Forms.CheckBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.apprvonlabel = new System.Windows.Forms.Label();
             this.approvebylabel = new System.Windows.Forms.Label();
             this.lastsavedtxt = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -88,22 +98,18 @@
             this.Itemlbl = new System.Windows.Forms.Label();
             this.ItemTxtBox = new System.Windows.Forms.TextBox();
             this.itemsearchtxtbox = new System.Windows.Forms.TextBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.totalcostlbl = new System.Windows.Forms.Label();
             this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.FormSelector = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.apprvonlabel = new System.Windows.Forms.Label();
-            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.OrderId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Item = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Manufacturer = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.OEMItemNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toolbarpanel = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.newbttn = new System.Windows.Forms.Button();
+            this.printbttn = new System.Windows.Forms.Button();
+            this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
+            this.lineShape1 = new Microsoft.VisualBasic.PowerPacks.LineShape();
             this.MenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -112,6 +118,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.PreviewTabPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -119,9 +126,10 @@
             this.groupBox4.SuspendLayout();
             this.itemspanel.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.FormSelector.SuspendLayout();
+            this.toolbarpanel.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // MenuStrip
@@ -213,7 +221,8 @@
             this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer1.Location = new System.Drawing.Point(0, 24);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 89);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -225,13 +234,10 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
-            this.splitContainer1.Panel2.Controls.Add(this.ecitbttn);
-            this.splitContainer1.Panel2.Controls.Add(this.editbttn);
-            this.splitContainer1.Panel2.Controls.Add(this.savebttn);
+            this.splitContainer1.Panel2.Controls.Add(this.panel2);
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
-            this.splitContainer1.Panel2.Controls.Add(this.totalcostlbl);
             this.splitContainer1.Panel2MinSize = 500;
-            this.splitContainer1.Size = new System.Drawing.Size(1000, 726);
+            this.splitContainer1.Size = new System.Drawing.Size(1000, 661);
             this.splitContainer1.SplitterDistance = 304;
             this.splitContainer1.TabIndex = 2;
             // 
@@ -255,7 +261,7 @@
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.ReadOnly = true;
             this.dataGridView.RowHeadersVisible = false;
-            this.dataGridView.Size = new System.Drawing.Size(304, 704);
+            this.dataGridView.Size = new System.Drawing.Size(304, 634);
             this.dataGridView.TabIndex = 7;
             this.dataGridView.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseDown);
             this.dataGridView.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dataGridView_RowsRemoved);
@@ -277,7 +283,7 @@
             this.ecitbttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ecitbttn.Font = new System.Drawing.Font("Maiandra GD", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ecitbttn.Location = new System.Drawing.Point(283, 692);
+            this.ecitbttn.Location = new System.Drawing.Point(273, 14);
             this.ecitbttn.MaximumSize = new System.Drawing.Size(100, 25);
             this.ecitbttn.MinimumSize = new System.Drawing.Size(100, 25);
             this.ecitbttn.Name = "ecitbttn";
@@ -294,7 +300,7 @@
             this.editbttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.editbttn.Font = new System.Drawing.Font("Maiandra GD", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.editbttn.Location = new System.Drawing.Point(18, 692);
+            this.editbttn.Location = new System.Drawing.Point(13, 14);
             this.editbttn.MaximumSize = new System.Drawing.Size(100, 25);
             this.editbttn.MinimumSize = new System.Drawing.Size(100, 25);
             this.editbttn.Name = "editbttn";
@@ -311,7 +317,7 @@
             this.savebttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.savebttn.Font = new System.Drawing.Font("Maiandra GD", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.savebttn.Location = new System.Drawing.Point(150, 692);
+            this.savebttn.Location = new System.Drawing.Point(140, 14);
             this.savebttn.MaximumSize = new System.Drawing.Size(100, 25);
             this.savebttn.MinimumSize = new System.Drawing.Size(100, 25);
             this.savebttn.Name = "savebttn";
@@ -332,7 +338,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(692, 690);
+            this.tabControl1.Size = new System.Drawing.Size(692, 604);
             this.tabControl1.TabIndex = 0;
             this.tabControl1.Visible = false;
             // 
@@ -344,9 +350,109 @@
             this.PreviewTabPage.Location = new System.Drawing.Point(4, 22);
             this.PreviewTabPage.Name = "PreviewTabPage";
             this.PreviewTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.PreviewTabPage.Size = new System.Drawing.Size(684, 664);
+            this.PreviewTabPage.Size = new System.Drawing.Size(684, 578);
             this.PreviewTabPage.TabIndex = 1;
             this.PreviewTabPage.Text = "Preview";
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AllowUserToOrderColumns = true;
+            this.dataGridView1.AllowUserToResizeRows = false;
+            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView1.BackgroundColor = System.Drawing.Color.Gainsboro;
+            this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dataGridView1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
+            this.dataGridView1.ColumnHeadersHeight = 50;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ID,
+            this.OrderId,
+            this.Item,
+            this.Qty,
+            this.Description,
+            this.Manufacturer,
+            this.OEMItemNumber,
+            this.Price});
+            this.dataGridView1.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(237)))), ((int)(((byte)(237)))));
+            this.dataGridView1.Location = new System.Drawing.Point(3, 341);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.RowHeadersVisible = false;
+            this.dataGridView1.Size = new System.Drawing.Size(678, 231);
+            this.dataGridView1.TabIndex = 15;
+            this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
+            this.dataGridView1.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDown);
+            this.dataGridView1.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dataGridView1_RowsRemoved);
+            this.dataGridView1.DoubleClick += new System.EventHandler(this.dataGridView1_DoubleClick);
+            // 
+            // ID
+            // 
+            this.ID.DataPropertyName = "ID";
+            this.ID.HeaderText = "ID";
+            this.ID.Name = "ID";
+            this.ID.ReadOnly = true;
+            this.ID.Visible = false;
+            // 
+            // OrderId
+            // 
+            this.OrderId.DataPropertyName = "OrderId";
+            this.OrderId.FillWeight = 20F;
+            this.OrderId.HeaderText = "Id";
+            this.OrderId.Name = "OrderId";
+            this.OrderId.ReadOnly = true;
+            // 
+            // Item
+            // 
+            this.Item.DataPropertyName = "Item";
+            this.Item.FillWeight = 50F;
+            this.Item.HeaderText = "Item";
+            this.Item.Name = "Item";
+            this.Item.ReadOnly = true;
+            // 
+            // Qty
+            // 
+            this.Qty.DataPropertyName = "Qty";
+            this.Qty.FillWeight = 30F;
+            this.Qty.HeaderText = "Qty";
+            this.Qty.Name = "Qty";
+            this.Qty.ReadOnly = true;
+            // 
+            // Description
+            // 
+            this.Description.DataPropertyName = "Description";
+            this.Description.FillWeight = 79.47787F;
+            this.Description.HeaderText = "Description";
+            this.Description.Name = "Description";
+            this.Description.ReadOnly = true;
+            // 
+            // Manufacturer
+            // 
+            this.Manufacturer.DataPropertyName = "Manufacturer";
+            this.Manufacturer.FillWeight = 79.47787F;
+            this.Manufacturer.HeaderText = "Manufacturer";
+            this.Manufacturer.Name = "Manufacturer";
+            this.Manufacturer.ReadOnly = true;
+            // 
+            // OEMItemNumber
+            // 
+            this.OEMItemNumber.DataPropertyName = "OEMItemNumber";
+            this.OEMItemNumber.FillWeight = 79.47787F;
+            this.OEMItemNumber.HeaderText = "OEMItemNumber";
+            this.OEMItemNumber.Name = "OEMItemNumber";
+            this.OEMItemNumber.ReadOnly = true;
+            // 
+            // Price
+            // 
+            this.Price.DataPropertyName = "Price";
+            this.Price.FillWeight = 50F;
+            this.Price.HeaderText = "Price Each";
+            this.Price.Name = "Price";
+            this.Price.ReadOnly = true;
             // 
             // splitContainer2
             // 
@@ -363,7 +469,7 @@
             // 
             // splitContainer2.Panel2
             // 
-            this.splitContainer2.Panel2.BackColor = System.Drawing.Color.Gray;
+            this.splitContainer2.Panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
             this.splitContainer2.Panel2.Controls.Add(this.Validatechk);
             this.splitContainer2.Panel2.Controls.Add(this.itemspanel);
             this.splitContainer2.Panel2MinSize = 325;
@@ -432,6 +538,20 @@
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(200, 22);
             this.dateTimePicker1.TabIndex = 8;
+            // 
+            // apprvonlabel
+            // 
+            this.apprvonlabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.apprvonlabel.AutoSize = true;
+            this.apprvonlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.apprvonlabel.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.apprvonlabel.Location = new System.Drawing.Point(108, 315);
+            this.apprvonlabel.Name = "apprvonlabel";
+            this.apprvonlabel.Size = new System.Drawing.Size(79, 13);
+            this.apprvonlabel.TabIndex = 60;
+            this.apprvonlabel.Text = "Approved On : ";
             // 
             // approvebylabel
             // 
@@ -702,9 +822,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Validatechk.AutoSize = true;
-            this.Validatechk.Location = new System.Drawing.Point(14, 308);
+            this.Validatechk.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Validatechk.Location = new System.Drawing.Point(14, 304);
             this.Validatechk.Name = "Validatechk";
-            this.Validatechk.Size = new System.Drawing.Size(64, 17);
+            this.Validatechk.Size = new System.Drawing.Size(85, 20);
             this.Validatechk.TabIndex = 1;
             this.Validatechk.Text = "Validate";
             this.Validatechk.UseVisualStyleBackColor = true;
@@ -721,7 +842,7 @@
             this.itemspanel.Controls.Add(this.groupBox3);
             this.itemspanel.Location = new System.Drawing.Point(0, 0);
             this.itemspanel.Name = "itemspanel";
-            this.itemspanel.Size = new System.Drawing.Size(342, 296);
+            this.itemspanel.Size = new System.Drawing.Size(341, 296);
             this.itemspanel.TabIndex = 0;
             // 
             // groupBox3
@@ -750,7 +871,7 @@
             this.groupBox3.Location = new System.Drawing.Point(0, 0);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(1);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(342, 296);
+            this.groupBox3.Size = new System.Drawing.Size(341, 296);
             this.groupBox3.TabIndex = 9;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Add Item to order";
@@ -851,7 +972,7 @@
             this.oemitemnotxt.Name = "oemitemnotxt";
             this.oemitemnotxt.ReadOnly = true;
             this.oemitemnotxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.oemitemnotxt.Size = new System.Drawing.Size(219, 20);
+            this.oemitemnotxt.Size = new System.Drawing.Size(218, 20);
             this.oemitemnotxt.TabIndex = 64;
             this.oemitemnotxt.TabStop = false;
             // 
@@ -881,7 +1002,7 @@
             this.qtytxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.qtytxt.Name = "qtytxt";
             this.qtytxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.qtytxt.Size = new System.Drawing.Size(219, 22);
+            this.qtytxt.Size = new System.Drawing.Size(218, 22);
             this.qtytxt.TabIndex = 3;
             this.qtytxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.qtytxt_KeyPress);
             // 
@@ -911,7 +1032,7 @@
             this.pricetxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.pricetxt.Name = "pricetxt";
             this.pricetxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.pricetxt.Size = new System.Drawing.Size(219, 22);
+            this.pricetxt.Size = new System.Drawing.Size(218, 22);
             this.pricetxt.TabIndex = 4;
             this.pricetxt.Text = "$0.00";
             this.pricetxt.TextChanged += new System.EventHandler(this.pricetxt_TextChanged);
@@ -945,7 +1066,7 @@
             this.oemtxt.Name = "oemtxt";
             this.oemtxt.ReadOnly = true;
             this.oemtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.oemtxt.Size = new System.Drawing.Size(219, 20);
+            this.oemtxt.Size = new System.Drawing.Size(218, 20);
             this.oemtxt.TabIndex = 58;
             this.oemtxt.TabStop = false;
             // 
@@ -979,7 +1100,7 @@
             this.Descriptiontxtbox.Name = "Descriptiontxtbox";
             this.Descriptiontxtbox.ReadOnly = true;
             this.Descriptiontxtbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.Descriptiontxtbox.Size = new System.Drawing.Size(219, 44);
+            this.Descriptiontxtbox.Size = new System.Drawing.Size(218, 44);
             this.Descriptiontxtbox.TabIndex = 55;
             this.Descriptiontxtbox.TabStop = false;
             // 
@@ -1010,7 +1131,7 @@
             this.ItemTxtBox.Name = "ItemTxtBox";
             this.ItemTxtBox.ReadOnly = true;
             this.ItemTxtBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.ItemTxtBox.Size = new System.Drawing.Size(219, 20);
+            this.ItemTxtBox.Size = new System.Drawing.Size(218, 20);
             this.ItemTxtBox.TabIndex = 54;
             this.ItemTxtBox.TabStop = false;
             // 
@@ -1027,45 +1148,9 @@
             this.itemsearchtxtbox.MinimumSize = new System.Drawing.Size(200, 20);
             this.itemsearchtxtbox.Name = "itemsearchtxtbox";
             this.itemsearchtxtbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.itemsearchtxtbox.Size = new System.Drawing.Size(274, 22);
+            this.itemsearchtxtbox.Size = new System.Drawing.Size(273, 22);
             this.itemsearchtxtbox.TabIndex = 2;
             this.itemsearchtxtbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.itemsearchtxtbox_KeyDown);
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.AllowUserToOrderColumns = true;
-            this.dataGridView1.AllowUserToResizeRows = false;
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView1.BackgroundColor = System.Drawing.Color.Gainsboro;
-            this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dataGridView1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
-            this.dataGridView1.ColumnHeadersHeight = 50;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ID,
-            this.OrderId,
-            this.Item,
-            this.Qty,
-            this.Description,
-            this.Manufacturer,
-            this.OEMItemNumber,
-            this.Price});
-            this.dataGridView1.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(237)))), ((int)(((byte)(237)))));
-            this.dataGridView1.Location = new System.Drawing.Point(3, 341);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.Size = new System.Drawing.Size(678, 320);
-            this.dataGridView1.TabIndex = 15;
-            this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
-            this.dataGridView1.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDown);
-            this.dataGridView1.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dataGridView1_RowsRemoved);
-            this.dataGridView1.DoubleClick += new System.EventHandler(this.dataGridView1_DoubleClick);
             // 
             // totalcostlbl
             // 
@@ -1073,7 +1158,7 @@
             this.totalcostlbl.AutoSize = true;
             this.totalcostlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.totalcostlbl.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.totalcostlbl.Location = new System.Drawing.Point(499, 697);
+            this.totalcostlbl.Location = new System.Drawing.Point(461, 18);
             this.totalcostlbl.Name = "totalcostlbl";
             this.totalcostlbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.totalcostlbl.Size = new System.Drawing.Size(91, 15);
@@ -1121,89 +1206,107 @@
             this.deleteItemToolStripMenuItem.ToolTipText = "Delete Selected Item ";
             this.deleteItemToolStripMenuItem.Click += new System.EventHandler(this.deleteItemToolStripMenuItem_Click);
             // 
-            // apprvonlabel
+            // toolbarpanel
             // 
-            this.apprvonlabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.toolbarpanel.Controls.Add(this.printbttn);
+            this.toolbarpanel.Controls.Add(this.newbttn);
+            this.toolbarpanel.Controls.Add(this.shapeContainer1);
+            this.toolbarpanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.toolbarpanel.Location = new System.Drawing.Point(0, 24);
+            this.toolbarpanel.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.toolbarpanel.MaximumSize = new System.Drawing.Size(0, 65);
+            this.toolbarpanel.MinimumSize = new System.Drawing.Size(0, 65);
+            this.toolbarpanel.Name = "toolbarpanel";
+            this.toolbarpanel.Size = new System.Drawing.Size(1000, 65);
+            this.toolbarpanel.TabIndex = 3;
+            // 
+            // panel2
+            // 
+            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel2.Controls.Add(this.ecitbttn);
+            this.panel2.Controls.Add(this.editbttn);
+            this.panel2.Controls.Add(this.savebttn);
+            this.panel2.Controls.Add(this.totalcostlbl);
+            this.panel2.Location = new System.Drawing.Point(4, 608);
+            this.panel2.MinimumSize = new System.Drawing.Size(0, 51);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(688, 51);
+            this.panel2.TabIndex = 1;
+            // 
+            // newbttn
+            // 
+            this.newbttn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.apprvonlabel.AutoSize = true;
-            this.apprvonlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.apprvonlabel.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.apprvonlabel.Location = new System.Drawing.Point(108, 315);
-            this.apprvonlabel.Name = "apprvonlabel";
-            this.apprvonlabel.Size = new System.Drawing.Size(79, 13);
-            this.apprvonlabel.TabIndex = 60;
-            this.apprvonlabel.Text = "Approved On : ";
+            this.newbttn.BackColor = System.Drawing.Color.Transparent;
+            this.newbttn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.newbttn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.newbttn.ForeColor = System.Drawing.Color.Transparent;
+            this.newbttn.Image = ((System.Drawing.Image)(resources.GetObject("newbttn.Image")));
+            this.newbttn.Location = new System.Drawing.Point(12, 3);
+            this.newbttn.MaximumSize = new System.Drawing.Size(65, 56);
+            this.newbttn.MinimumSize = new System.Drawing.Size(65, 56);
+            this.newbttn.Name = "newbttn";
+            this.newbttn.Size = new System.Drawing.Size(65, 56);
+            this.newbttn.TabIndex = 21;
+            this.newbttn.Text = "Add New";
+            this.newbttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.TreeViewToolTip.SetToolTip(this.newbttn, "Create New Quote");
+            this.newbttn.UseVisualStyleBackColor = false;
+            this.newbttn.Click += new System.EventHandler(this.newbttn_Click);
             // 
-            // ID
+            // printbttn
             // 
-            this.ID.DataPropertyName = "ID";
-            this.ID.HeaderText = "ID";
-            this.ID.Name = "ID";
-            this.ID.ReadOnly = true;
-            this.ID.Visible = false;
+            this.printbttn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.printbttn.BackColor = System.Drawing.Color.Transparent;
+            this.printbttn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.printbttn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.printbttn.ForeColor = System.Drawing.Color.Transparent;
+            this.printbttn.Image = ((System.Drawing.Image)(resources.GetObject("printbttn.Image")));
+            this.printbttn.Location = new System.Drawing.Point(93, 3);
+            this.printbttn.MaximumSize = new System.Drawing.Size(65, 56);
+            this.printbttn.MinimumSize = new System.Drawing.Size(65, 56);
+            this.printbttn.Name = "printbttn";
+            this.printbttn.Size = new System.Drawing.Size(65, 56);
+            this.printbttn.TabIndex = 21;
+            this.printbttn.Text = "Print";
+            this.printbttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.printbttn.UseVisualStyleBackColor = false;
+            this.printbttn.Click += new System.EventHandler(this.printbttn_Click);
             // 
-            // OrderId
+            // shapeContainer1
             // 
-            this.OrderId.DataPropertyName = "OrderId";
-            this.OrderId.FillWeight = 20F;
-            this.OrderId.HeaderText = "Id";
-            this.OrderId.Name = "OrderId";
-            this.OrderId.ReadOnly = true;
+            this.shapeContainer1.Location = new System.Drawing.Point(0, 0);
+            this.shapeContainer1.Margin = new System.Windows.Forms.Padding(0);
+            this.shapeContainer1.Name = "shapeContainer1";
+            this.shapeContainer1.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
+            this.lineShape1});
+            this.shapeContainer1.Size = new System.Drawing.Size(1000, 65);
+            this.shapeContainer1.TabIndex = 22;
+            this.shapeContainer1.TabStop = false;
             // 
-            // Item
+            // lineShape1
             // 
-            this.Item.DataPropertyName = "Item";
-            this.Item.FillWeight = 50F;
-            this.Item.HeaderText = "Item";
-            this.Item.Name = "Item";
-            this.Item.ReadOnly = true;
-            // 
-            // Qty
-            // 
-            this.Qty.DataPropertyName = "Qty";
-            this.Qty.FillWeight = 30F;
-            this.Qty.HeaderText = "Qty";
-            this.Qty.Name = "Qty";
-            this.Qty.ReadOnly = true;
-            // 
-            // Description
-            // 
-            this.Description.DataPropertyName = "Description";
-            this.Description.FillWeight = 79.47787F;
-            this.Description.HeaderText = "Description";
-            this.Description.Name = "Description";
-            this.Description.ReadOnly = true;
-            // 
-            // Manufacturer
-            // 
-            this.Manufacturer.DataPropertyName = "Manufacturer";
-            this.Manufacturer.FillWeight = 79.47787F;
-            this.Manufacturer.HeaderText = "Manufacturer";
-            this.Manufacturer.Name = "Manufacturer";
-            this.Manufacturer.ReadOnly = true;
-            // 
-            // OEMItemNumber
-            // 
-            this.OEMItemNumber.DataPropertyName = "OEMItemNumber";
-            this.OEMItemNumber.FillWeight = 79.47787F;
-            this.OEMItemNumber.HeaderText = "OEMItemNumber";
-            this.OEMItemNumber.Name = "OEMItemNumber";
-            this.OEMItemNumber.ReadOnly = true;
-            // 
-            // Price
-            // 
-            this.Price.DataPropertyName = "Price";
-            this.Price.FillWeight = 50F;
-            this.Price.HeaderText = "Price Each";
-            this.Price.Name = "Price";
-            this.Price.ReadOnly = true;
+            this.lineShape1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lineShape1.BorderColor = System.Drawing.Color.DimGray;
+            this.lineShape1.BorderWidth = 5;
+            this.lineShape1.Name = "lineShape1";
+            this.lineShape1.X1 = 0;
+            this.lineShape1.X2 = 1000;
+            this.lineShape1.Y1 = 62;
+            this.lineShape1.Y2 = 62;
             // 
             // PurchaseReqform
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
             this.ClientSize = new System.Drawing.Size(1000, 750);
+            this.Controls.Add(this.toolbarpanel);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.MenuStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1219,12 +1322,12 @@
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
-            this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.PreviewTabPage.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             this.splitContainer2.Panel2.PerformLayout();
@@ -1235,9 +1338,11 @@
             this.itemspanel.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.FormSelector.ResumeLayout(false);
+            this.toolbarpanel.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1319,5 +1424,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Manufacturer;
         private System.Windows.Forms.DataGridViewTextBoxColumn OEMItemNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn Price;
+        private System.Windows.Forms.Panel toolbarpanel;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Button printbttn;
+        private System.Windows.Forms.Button newbttn;
+        private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer1;
+        private Microsoft.VisualBasic.PowerPacks.LineShape lineShape1;
     }
 }

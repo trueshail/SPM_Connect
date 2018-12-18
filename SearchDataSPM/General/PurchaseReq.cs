@@ -1812,5 +1812,15 @@ namespace SearchDataSPM
             Regex money = new Regex(@"^\$(\d{1,3}(\,\d{3})*|(\d+))(\.\d{2})?$");
             return money.IsMatch(text);
         }
+
+        private void newbttn_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void printbttn_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
