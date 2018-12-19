@@ -108,6 +108,10 @@
             this.managergroupbox = new System.Windows.Forms.GroupBox();
             this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
             this.lineShape1 = new Microsoft.VisualBasic.PowerPacks.LineShape();
+            this.hauthoritygroupbox = new System.Windows.Forms.GroupBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.happrovechk = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -129,6 +133,7 @@
             this.toolbarpanel.SuspendLayout();
             this.usercontrolgroupbox.SuspendLayout();
             this.managergroupbox.SuspendLayout();
+            this.hauthoritygroupbox.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -807,7 +812,7 @@
             this.itemspanel.Controls.Add(this.groupBox3);
             this.itemspanel.Location = new System.Drawing.Point(0, 0);
             this.itemspanel.Name = "itemspanel";
-            this.itemspanel.Size = new System.Drawing.Size(334, 296);
+            this.itemspanel.Size = new System.Drawing.Size(333, 296);
             this.itemspanel.TabIndex = 0;
             // 
             // groupBox3
@@ -836,7 +841,7 @@
             this.groupBox3.Location = new System.Drawing.Point(0, 0);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(1);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(334, 296);
+            this.groupBox3.Size = new System.Drawing.Size(333, 296);
             this.groupBox3.TabIndex = 9;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Add Item to order";
@@ -937,7 +942,7 @@
             this.oemitemnotxt.Name = "oemitemnotxt";
             this.oemitemnotxt.ReadOnly = true;
             this.oemitemnotxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.oemitemnotxt.Size = new System.Drawing.Size(211, 20);
+            this.oemitemnotxt.Size = new System.Drawing.Size(210, 20);
             this.oemitemnotxt.TabIndex = 64;
             this.oemitemnotxt.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.oemitemnotxt, "Manufacturer Item No");
@@ -968,7 +973,7 @@
             this.qtytxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.qtytxt.Name = "qtytxt";
             this.qtytxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.qtytxt.Size = new System.Drawing.Size(211, 22);
+            this.qtytxt.Size = new System.Drawing.Size(210, 22);
             this.qtytxt.TabIndex = 3;
             this.TreeViewToolTip.SetToolTip(this.qtytxt, "Quantity required");
             this.qtytxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.qtytxt_KeyPress);
@@ -999,7 +1004,7 @@
             this.pricetxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.pricetxt.Name = "pricetxt";
             this.pricetxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.pricetxt.Size = new System.Drawing.Size(211, 22);
+            this.pricetxt.Size = new System.Drawing.Size(210, 22);
             this.pricetxt.TabIndex = 4;
             this.pricetxt.Text = "$0.00";
             this.TreeViewToolTip.SetToolTip(this.pricetxt, "Unit price for the item");
@@ -1034,7 +1039,7 @@
             this.oemtxt.Name = "oemtxt";
             this.oemtxt.ReadOnly = true;
             this.oemtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.oemtxt.Size = new System.Drawing.Size(211, 20);
+            this.oemtxt.Size = new System.Drawing.Size(210, 20);
             this.oemtxt.TabIndex = 58;
             this.oemtxt.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.oemtxt, "Item Manufacturer");
@@ -1069,7 +1074,7 @@
             this.Descriptiontxtbox.Name = "Descriptiontxtbox";
             this.Descriptiontxtbox.ReadOnly = true;
             this.Descriptiontxtbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.Descriptiontxtbox.Size = new System.Drawing.Size(211, 44);
+            this.Descriptiontxtbox.Size = new System.Drawing.Size(210, 44);
             this.Descriptiontxtbox.TabIndex = 55;
             this.Descriptiontxtbox.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.Descriptiontxtbox, "Item Description");
@@ -1101,7 +1106,7 @@
             this.ItemTxtBox.Name = "ItemTxtBox";
             this.ItemTxtBox.ReadOnly = true;
             this.ItemTxtBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.ItemTxtBox.Size = new System.Drawing.Size(211, 20);
+            this.ItemTxtBox.Size = new System.Drawing.Size(210, 20);
             this.ItemTxtBox.TabIndex = 54;
             this.ItemTxtBox.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.ItemTxtBox, "Item Number");
@@ -1119,7 +1124,7 @@
             this.itemsearchtxtbox.MinimumSize = new System.Drawing.Size(200, 20);
             this.itemsearchtxtbox.Name = "itemsearchtxtbox";
             this.itemsearchtxtbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.itemsearchtxtbox.Size = new System.Drawing.Size(266, 22);
+            this.itemsearchtxtbox.Size = new System.Drawing.Size(265, 22);
             this.itemsearchtxtbox.TabIndex = 2;
             this.TreeViewToolTip.SetToolTip(this.itemsearchtxtbox, "Search for item to order \r\nStarting with Letter \'A\' or \'B\' or \'C\'");
             this.itemsearchtxtbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.itemsearchtxtbox_KeyDown);
@@ -1333,6 +1338,7 @@
             // 
             // toolbarpanel
             // 
+            this.toolbarpanel.Controls.Add(this.hauthoritygroupbox);
             this.toolbarpanel.Controls.Add(this.usercontrolgroupbox);
             this.toolbarpanel.Controls.Add(this.managergroupbox);
             this.toolbarpanel.Controls.Add(this.shapeContainer1);
@@ -1395,6 +1401,65 @@
             this.lineShape1.Y1 = 87;
             this.lineShape1.Y2 = 87;
             // 
+            // hauthoritygroupbox
+            // 
+            this.hauthoritygroupbox.Controls.Add(this.happrovechk);
+            this.hauthoritygroupbox.Controls.Add(this.label15);
+            this.hauthoritygroupbox.Controls.Add(this.label16);
+            this.hauthoritygroupbox.Enabled = false;
+            this.hauthoritygroupbox.ForeColor = System.Drawing.Color.White;
+            this.hauthoritygroupbox.Location = new System.Drawing.Point(730, -1);
+            this.hauthoritygroupbox.Name = "hauthoritygroupbox";
+            this.hauthoritygroupbox.Size = new System.Drawing.Size(180, 85);
+            this.hauthoritygroupbox.TabIndex = 24;
+            this.hauthoritygroupbox.TabStop = false;
+            this.hauthoritygroupbox.Text = "Admin Approvals";
+            this.hauthoritygroupbox.Visible = false;
+            // 
+            // label15
+            // 
+            this.label15.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.label15.Location = new System.Drawing.Point(8, 64);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(79, 13);
+            this.label15.TabIndex = 61;
+            this.label15.Text = "Approved On : ";
+            // 
+            // label16
+            // 
+            this.label16.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.label16.Location = new System.Drawing.Point(8, 47);
+            this.label16.Name = "label16";
+            this.label16.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label16.Size = new System.Drawing.Size(77, 13);
+            this.label16.TabIndex = 62;
+            this.label16.Text = "Approved By : ";
+            // 
+            // happrovechk
+            // 
+            this.happrovechk.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.happrovechk.AutoSize = true;
+            this.happrovechk.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.happrovechk.Location = new System.Drawing.Point(39, 20);
+            this.happrovechk.Name = "happrovechk";
+            this.happrovechk.Size = new System.Drawing.Size(111, 20);
+            this.happrovechk.TabIndex = 63;
+            this.happrovechk.Text = "Final Approve";
+            this.TreeViewToolTip.SetToolTip(this.happrovechk, "Approve purchase req");
+            this.happrovechk.UseVisualStyleBackColor = true;
+            // 
             // PurchaseReqform
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -1438,6 +1503,8 @@
             this.usercontrolgroupbox.PerformLayout();
             this.managergroupbox.ResumeLayout(false);
             this.managergroupbox.PerformLayout();
+            this.hauthoritygroupbox.ResumeLayout(false);
+            this.hauthoritygroupbox.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1521,5 +1588,9 @@
         private System.Windows.Forms.Button bttnneedapproval;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.GroupBox usercontrolgroupbox;
+        private System.Windows.Forms.GroupBox hauthoritygroupbox;
+        private System.Windows.Forms.CheckBox happrovechk;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label16;
     }
 }
