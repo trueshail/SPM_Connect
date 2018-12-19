@@ -111,11 +111,11 @@ namespace SearchDataSPM
         {
             dataGridView.DataSource = dt;
             DataView dv = dt.DefaultView;
-            dataGridView.Columns[0].Width = 60;
+            dataGridView.Columns[0].Width = 40;
             dataGridView.Columns[0].HeaderText = "Req No";
-            dataGridView.Columns[1].Width = 60;
+            dataGridView.Columns[1].Width = 40;
             dataGridView.Columns[1].HeaderText = "Job";
-            dataGridView.Columns[2].Width = 80;
+            dataGridView.Columns[2].Width = 90;
             dataGridView.Columns[3].Width = 80;
             dataGridView.Columns[4].Visible = false;
             dataGridView.Columns[5].Visible = false;
@@ -129,6 +129,9 @@ namespace SearchDataSPM
             dataGridView.Columns[13].Visible = false;
             dataGridView.Columns[14].Visible = false;
             dataGridView.Columns[15].Visible = false;
+            dataGridView.Columns[16].Visible = false;
+            dataGridView.Columns[17].Visible = false;
+            dataGridView.Columns[18].Visible = false;
             dataGridView.Sort(dataGridView.Columns[0], ListSortDirection.Descending);
             UpdateFont();
         }
@@ -294,14 +297,18 @@ namespace SearchDataSPM
                 dateTimePicker1.MinDate = DateTime.Today;
                 ecitbttn.Visible = false;
                 int lastreq = getlastreqnumber();
-                createnewreq(lastreq, userfullname.ToString());
-                showReqSearchItems(userfullname);
-                selectrowbeforeediting(lastreq.ToString());
-                populatereqdetails(lastreq);
-                PopulateDataGridView();
-                processeditbutton(false);
-                jobnumbertxt.Text = jobnumbertxt.Text.TrimStart();
-                subassytxt.Text = subassytxt.Text.TrimStart();
+                
+                if(createnewreq(lastreq, userfullname.ToString()))
+                {
+                    showReqSearchItems(userfullname);
+                    selectrowbeforeediting(lastreq.ToString());
+                    populatereqdetails(lastreq);
+                    PopulateDataGridView();
+                    processeditbutton(false);
+                    jobnumbertxt.Text = jobnumbertxt.Text.TrimStart();
+                    subassytxt.Text = subassytxt.Text.TrimStart();
+                }
+                
             }
         }
 
@@ -371,23 +378,23 @@ namespace SearchDataSPM
             return lastreqnumber;
         }
 
-        private void createnewreq(int reqnumber, string employee)
+        private bool createnewreq(int reqnumber, string employee)
         {
+            bool revtal = false;
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDate = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-            string jobnumber = "";
-            string subassy = "";
+            //string jobnumber = "";
+            //string subassy = "";
             if (cn.State == ConnectionState.Closed)
                 cn.Open();
             try
             {
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[PurchaseReqBase] (ReqNumber, RequestedBy, DateCreated, DateLastSaved, JobNumber, SubAssyNumber,LastSavedBy, Validate, Approved,Total,DateRequired, SupervisorId, DateValidated) VALUES('" + reqnumber + "','" + employee.ToString() + "','" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + jobnumber + "','" + subassy + "','" + employee.ToString() + "','0','0','0','" + sqlFormattedDate + "', '" + supervisorid + "', null)";
+                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[PurchaseReqBase] (ReqNumber, RequestedBy, DateCreated, DateLastSaved, JobNumber, SubAssyNumber,LastSavedBy, Validate, Approved,Total,DateRequired, SupervisorId, DateValidated) VALUES('" + reqnumber + "','" + employee.ToString() + "','" + sqlFormattedDate + "','" + sqlFormattedDate + "','','','" + employee.ToString() + "','0','0','0','" + sqlFormattedDate + "', '" + supervisorid + "', null)";
                 cmd.ExecuteNonQuery();
                 cn.Close();
-                //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                revtal = true;
             }
             catch (Exception ex)
             {
@@ -397,7 +404,7 @@ namespace SearchDataSPM
             {
                 cn.Close();
             }
-
+            return revtal;
         }
 
         #endregion
@@ -575,13 +582,19 @@ namespace SearchDataSPM
 
         void processsavebutton(bool validatehit, string typeofsave)
         {
+            
+            string reqnumber = purchreqtxt.Text;
             errorProvider1.Clear();
             if (validatehit)
             {
+                 
                 UpdateReq(Convert.ToInt32(purchreqtxt.Text),typeofsave);
                 showReqSearchItems(userfullname);
                 clearaddnewtextboxes();
                 processexitbutton();
+                selectrowbeforeediting(reqnumber);
+                populatereqdetails(Convert.ToInt32(reqnumber));
+                PopulateDataGridView();
             }
             else
             {
@@ -591,7 +604,9 @@ namespace SearchDataSPM
                     showReqSearchItems(userfullname);
                     clearaddnewtextboxes();
                     processexitbutton();
-
+                    selectrowbeforeediting(reqnumber);
+                    populatereqdetails(Convert.ToInt32(reqnumber));
+                    PopulateDataGridView();
                 }
                 else
                 {
@@ -1371,7 +1386,7 @@ namespace SearchDataSPM
 
         private void FormSelector_Opening(object sender, CancelEventArgs e)
         {
-            if (dataGridView1.Rows.Count > 0)
+            if (dataGridView1.Rows.Count > 0 && Validatechk.Checked==false)
             {
 
                 FormSelector.Items[0].Enabled = true;
@@ -1927,5 +1942,6 @@ namespace SearchDataSPM
         }
 
         #endregion
+
     }
 }
