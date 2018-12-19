@@ -32,9 +32,9 @@ namespace SearchDataSPM
 		{
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SPM_Connect));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.FormSelector = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.bOMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.whereUsedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -371,7 +371,7 @@ namespace SearchDataSPM
             this.txtSearch.MaximumSize = new System.Drawing.Size(32767, 25);
             this.txtSearch.MinimumSize = new System.Drawing.Size(4, 23);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(455, 25);
+            this.txtSearch.Size = new System.Drawing.Size(455, 26);
             this.txtSearch.TabIndex = 106;
             this.TreeViewToolTip.SetToolTip(this.txtSearch, "Enter Search Keyword.\r\n");
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
@@ -383,7 +383,7 @@ namespace SearchDataSPM
             | System.Windows.Forms.AnchorStyles.Right)));
             this.filter4.BackColor = System.Drawing.SystemColors.MenuBar;
             this.filter4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.filter4.Location = new System.Drawing.Point(705, 60);
+            this.filter4.Location = new System.Drawing.Point(705, 55);
             this.filter4.MaximumSize = new System.Drawing.Size(160, 26);
             this.filter4.MinimumSize = new System.Drawing.Size(160, 25);
             this.filter4.Name = "filter4";
@@ -400,7 +400,7 @@ namespace SearchDataSPM
             | System.Windows.Forms.AnchorStyles.Right)));
             this.filteroemitem_txtbox.BackColor = System.Drawing.SystemColors.MenuBar;
             this.filteroemitem_txtbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.filteroemitem_txtbox.Location = new System.Drawing.Point(540, 60);
+            this.filteroemitem_txtbox.Location = new System.Drawing.Point(540, 55);
             this.filteroemitem_txtbox.MaximumSize = new System.Drawing.Size(160, 26);
             this.filteroemitem_txtbox.MinimumSize = new System.Drawing.Size(160, 25);
             this.filteroemitem_txtbox.Name = "filteroemitem_txtbox";
@@ -417,7 +417,7 @@ namespace SearchDataSPM
             | System.Windows.Forms.AnchorStyles.Right)));
             this.filteroem_txtbox.BackColor = System.Drawing.SystemColors.MenuBar;
             this.filteroem_txtbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.filteroem_txtbox.Location = new System.Drawing.Point(375, 60);
+            this.filteroem_txtbox.Location = new System.Drawing.Point(375, 55);
             this.filteroem_txtbox.MaximumSize = new System.Drawing.Size(160, 26);
             this.filteroem_txtbox.MinimumSize = new System.Drawing.Size(160, 26);
             this.filteroem_txtbox.Name = "filteroem_txtbox";
@@ -434,7 +434,7 @@ namespace SearchDataSPM
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Descrip_txtbox.BackColor = System.Drawing.SystemColors.MenuBar;
             this.Descrip_txtbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Descrip_txtbox.Location = new System.Drawing.Point(209, 60);
+            this.Descrip_txtbox.Location = new System.Drawing.Point(209, 55);
             this.Descrip_txtbox.MaximumSize = new System.Drawing.Size(160, 26);
             this.Descrip_txtbox.MinimumSize = new System.Drawing.Size(160, 26);
             this.Descrip_txtbox.Name = "Descrip_txtbox";
@@ -574,6 +574,7 @@ namespace SearchDataSPM
             this.advsearchbttn.Size = new System.Drawing.Size(35, 25);
             this.advsearchbttn.TabIndex = 121;
             this.advsearchbttn.Text = ">>";
+            this.TreeViewToolTip.SetToolTip(this.advsearchbttn, "Show Advance Filters");
             this.advsearchbttn.UseVisualStyleBackColor = true;
             this.advsearchbttn.Click += new System.EventHandler(this.advsearchbttn_Click);
             // 
@@ -667,8 +668,8 @@ namespace SearchDataSPM
             // descriptionDataGridViewTextBoxColumn
             // 
             this.descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
-            dataGridViewCellStyle1.NullValue = null;
-            this.descriptionDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.NullValue = null;
+            this.descriptionDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle4;
             this.descriptionDataGridViewTextBoxColumn.FillWeight = 86.92893F;
             this.descriptionDataGridViewTextBoxColumn.HeaderText = "Description";
             this.descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
@@ -689,8 +690,8 @@ namespace SearchDataSPM
             // manufacturerDataGridViewTextBoxColumn
             // 
             this.manufacturerDataGridViewTextBoxColumn.DataPropertyName = "Manufacturer";
-            dataGridViewCellStyle2.NullValue = null;
-            this.manufacturerDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.NullValue = null;
+            this.manufacturerDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle5;
             this.manufacturerDataGridViewTextBoxColumn.FillWeight = 86.92893F;
             this.manufacturerDataGridViewTextBoxColumn.HeaderText = "Manufacturer";
             this.manufacturerDataGridViewTextBoxColumn.Name = "manufacturerDataGridViewTextBoxColumn";
@@ -699,8 +700,8 @@ namespace SearchDataSPM
             // manufacturerItemNumberDataGridViewTextBoxColumn
             // 
             this.manufacturerItemNumberDataGridViewTextBoxColumn.DataPropertyName = "ManufacturerItemNumber";
-            dataGridViewCellStyle3.NullValue = null;
-            this.manufacturerItemNumberDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.NullValue = null;
+            this.manufacturerItemNumberDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle6;
             this.manufacturerItemNumberDataGridViewTextBoxColumn.FillWeight = 86.92893F;
             this.manufacturerItemNumberDataGridViewTextBoxColumn.HeaderText = "Manufacturer Item Number";
             this.manufacturerItemNumberDataGridViewTextBoxColumn.Name = "manufacturerItemNumberDataGridViewTextBoxColumn";
@@ -806,10 +807,11 @@ namespace SearchDataSPM
             this.Manufactureritemcomboxbox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.Manufactureritemcomboxbox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.Manufactureritemcomboxbox.FormattingEnabled = true;
-            this.Manufactureritemcomboxbox.Location = new System.Drawing.Point(5, 376);
+            this.Manufactureritemcomboxbox.Location = new System.Drawing.Point(7, 376);
             this.Manufactureritemcomboxbox.Name = "Manufactureritemcomboxbox";
-            this.Manufactureritemcomboxbox.Size = new System.Drawing.Size(198, 21);
+            this.Manufactureritemcomboxbox.Size = new System.Drawing.Size(191, 21);
             this.Manufactureritemcomboxbox.TabIndex = 125;
+            this.TreeViewToolTip.SetToolTip(this.Manufactureritemcomboxbox, "Filter by OEM item number");
             this.Manufactureritemcomboxbox.TextChanged += new System.EventHandler(this.Manufactureritemcomboxbox_TextChanged);
             this.Manufactureritemcomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Manufactureritemcomboxbox_KeyDown);
             // 
@@ -822,10 +824,11 @@ namespace SearchDataSPM
             this.familycomboxbox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.familycomboxbox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.familycomboxbox.FormattingEnabled = true;
-            this.familycomboxbox.Location = new System.Drawing.Point(5, 227);
+            this.familycomboxbox.Location = new System.Drawing.Point(7, 227);
             this.familycomboxbox.Name = "familycomboxbox";
-            this.familycomboxbox.Size = new System.Drawing.Size(198, 21);
+            this.familycomboxbox.Size = new System.Drawing.Size(191, 21);
             this.familycomboxbox.TabIndex = 123;
+            this.TreeViewToolTip.SetToolTip(this.familycomboxbox, "Filter by family type");
             this.familycomboxbox.TextChanged += new System.EventHandler(this.familycomboxbox_TextChanged);
             this.familycomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.familycomboxbox_KeyDown);
             // 
@@ -838,10 +841,11 @@ namespace SearchDataSPM
             this.lastsavedbycombo.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.lastsavedbycombo.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.lastsavedbycombo.FormattingEnabled = true;
-            this.lastsavedbycombo.Location = new System.Drawing.Point(5, 453);
+            this.lastsavedbycombo.Location = new System.Drawing.Point(7, 453);
             this.lastsavedbycombo.Name = "lastsavedbycombo";
-            this.lastsavedbycombo.Size = new System.Drawing.Size(198, 21);
+            this.lastsavedbycombo.Size = new System.Drawing.Size(191, 21);
             this.lastsavedbycombo.TabIndex = 126;
+            this.TreeViewToolTip.SetToolTip(this.lastsavedbycombo, "Filter by last saved");
             this.lastsavedbycombo.TextChanged += new System.EventHandler(this.lastsavedbycombo_TextChanged);
             this.lastsavedbycombo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lastsavedbycombo_KeyDown);
             // 
@@ -857,10 +861,11 @@ namespace SearchDataSPM
             this.oemitemcombobox.Items.AddRange(new object[] {
             "Festo",
             "SPM AUTOMATION (Canada) INC."});
-            this.oemitemcombobox.Location = new System.Drawing.Point(5, 301);
+            this.oemitemcombobox.Location = new System.Drawing.Point(7, 301);
             this.oemitemcombobox.Name = "oemitemcombobox";
-            this.oemitemcombobox.Size = new System.Drawing.Size(198, 21);
+            this.oemitemcombobox.Size = new System.Drawing.Size(191, 21);
             this.oemitemcombobox.TabIndex = 124;
+            this.TreeViewToolTip.SetToolTip(this.oemitemcombobox, "Filter by manufacture");
             this.oemitemcombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.oemitemcombobox_KeyDown);
             // 
             // ActiveCadblockcombobox
@@ -872,10 +877,11 @@ namespace SearchDataSPM
             this.ActiveCadblockcombobox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.ActiveCadblockcombobox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.ActiveCadblockcombobox.FormattingEnabled = true;
-            this.ActiveCadblockcombobox.Location = new System.Drawing.Point(5, 534);
+            this.ActiveCadblockcombobox.Location = new System.Drawing.Point(7, 534);
             this.ActiveCadblockcombobox.Name = "ActiveCadblockcombobox";
-            this.ActiveCadblockcombobox.Size = new System.Drawing.Size(198, 21);
+            this.ActiveCadblockcombobox.Size = new System.Drawing.Size(191, 21);
             this.ActiveCadblockcombobox.TabIndex = 127;
+            this.TreeViewToolTip.SetToolTip(this.ActiveCadblockcombobox, "Filter by current cad block number");
             this.ActiveCadblockcombobox.TextChanged += new System.EventHandler(this.ActiveCadblockcombobox_TextChanged);
             this.ActiveCadblockcombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ActiveCadblockcombobox_KeyDown);
             // 
@@ -892,10 +898,11 @@ namespace SearchDataSPM
             "Shailkumar Patel",
             "Scott Reid",
             "Joel Goldsmith"});
-            this.designedbycombobox.Location = new System.Drawing.Point(5, 150);
+            this.designedbycombobox.Location = new System.Drawing.Point(7, 150);
             this.designedbycombobox.Name = "designedbycombobox";
-            this.designedbycombobox.Size = new System.Drawing.Size(198, 21);
+            this.designedbycombobox.Size = new System.Drawing.Size(191, 21);
             this.designedbycombobox.TabIndex = 122;
+            this.TreeViewToolTip.SetToolTip(this.designedbycombobox, "Filter by designed by");
             this.designedbycombobox.TextChanged += new System.EventHandler(this.designedbycombobox_TextChanged);
             this.designedbycombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.designedbycombobox_KeyDown);
             // 

@@ -103,7 +103,7 @@ namespace SearchDataSPM
 
         private void Showallitems()
         {
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[UnionInventorytest] ORDER BY ItemNumber DESC", cn))
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[UnionInventory] ORDER BY ItemNumber DESC", cn))
             {
                 try
                 {
@@ -3149,7 +3149,7 @@ namespace SearchDataSPM
 
         private void filldesignedby()
         {
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT DesignedBy from [dbo].[UnionInventorytest] where DesignedBy is not null order by DesignedBy", cn))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT DesignedBy from [dbo].[UnionInventory] where DesignedBy is not null order by DesignedBy", cn))
             {
                 try
                 {
@@ -3165,7 +3165,7 @@ namespace SearchDataSPM
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "SPM Connect New Item - Fill Description Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "SPM Connect ENG - Fill Designedby Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -3178,7 +3178,7 @@ namespace SearchDataSPM
 
         private void filllastsavedby()
         {
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT LastSavedBy from [dbo].[UnionInventorytest] where LastSavedBy is not null order by LastSavedBy", cn))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT LastSavedBy from [dbo].[UnionInventory] where LastSavedBy is not null order by LastSavedBy", cn))
             {
                 try
                 {
@@ -3194,7 +3194,7 @@ namespace SearchDataSPM
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "SPM Connect New Item - Fill Description Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "SPM Connect ENG - Fill LastSavedBy Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -3224,7 +3224,7 @@ namespace SearchDataSPM
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "SPM Connect New Item - Fill Manufacturers Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "SPM Connect ENG - Fill Manufacturers Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -3253,7 +3253,7 @@ namespace SearchDataSPM
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "SPM Connect New Item - Fill oem items Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "SPM Connect ENG - Fill oem items Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -3285,7 +3285,7 @@ namespace SearchDataSPM
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "SPM Connect New Item - Fill FamilyCodes Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "SPM Connect ENG - Fill FamilyCodes Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -3317,7 +3317,7 @@ namespace SearchDataSPM
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "SPM Connect New Item - Fill FamilyCodes Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "SPM Connect ENG - Fill FamilyCodes Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
