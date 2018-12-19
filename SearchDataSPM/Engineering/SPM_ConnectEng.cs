@@ -1171,6 +1171,47 @@ namespace SearchDataSPM
             this.Dispose();
         }
 
+        private void SPM_Connect_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            int openforms = Application.OpenForms.Count;
+            if (openforms > 2)
+            {
+                e.Cancel = true;
+                ListOpenWindows frm2 = new ListOpenWindows();
+                bool purchasereqopen = false;
+
+                foreach (Form frm in Application.OpenForms)
+                {
+                    //if (frm.Name.ToString() == "SPM_Connect" || frm.Name.ToString() == "SPM_ConnectHome")
+                    //{
+
+                    //}
+                    if (frm.Name.ToString() == "PurchaseReqform")
+                    {
+                        frm2.listBox1.Items.Add(frm.Text.ToString());
+                        purchasereqopen = true;
+                    }
+                    //else
+                    //{
+                    //    frm2.listBox1.Items.Add(frm.Text.ToString());
+                    //}
+                }
+                if (purchasereqopen)
+                {
+                    if (frm2.ShowDialog(this) == DialogResult.OK)
+                    {
+                    }
+                    frm2.Close();
+                    frm2.Dispose();
+                }
+                else
+                {
+                    e.Cancel = false;
+                }
+
+            }
+        }
+
         #endregion
 
         #region DELETE Item
@@ -2877,33 +2918,6 @@ namespace SearchDataSPM
         private void sparePartsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             prorcessreportbom(getitemnumberselected(), "SPAREPARTS");
-        }
-
-        private void SPM_Connect_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            //int openforms =  Application.OpenForms.Count;
-            // if (openforms > 2)
-            // {
-            //     e.Cancel = true;
-            //     ListOpenWindows frm2 = new ListOpenWindows();
-
-            //     foreach (Form frm in Application.OpenForms)
-            //     {
-            //         if(frm.Name.ToString() == "SPM_Connect" || frm.Name.ToString() == "SPM_ConnectHome")
-            //         {
-
-            //         }
-            //         else
-            //         {
-            //             frm2.listBox1.Items.Add(frm.Text.ToString());
-            //         }
-            //     }                
-            //     if (frm2.ShowDialog(this) == DialogResult.OK)
-            //     {
-            //     }
-            //     frm2.Close();
-            //     frm2.Dispose();
-            // }
         }
 
         private void copySelectedItemToolStripMenuItem_Click(object sender, EventArgs e)

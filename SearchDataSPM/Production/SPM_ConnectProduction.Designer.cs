@@ -613,6 +613,7 @@
             this.Name = "SPM_ConnectProduction";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SPM Connect - Production";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SPM_ConnectProduction_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SPM_ConnectProduction_FormClosed);
             this.Load += new System.EventHandler(this.SPM_Connect_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();

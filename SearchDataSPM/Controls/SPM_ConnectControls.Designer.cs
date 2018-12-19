@@ -562,6 +562,7 @@
             this.Name = "SPM_ConnectControls";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SPM Connect - Controls";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SPM_ConnectControls_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SPM_ConnectControls_FormClosed);
             this.Load += new System.EventHandler(this.SPM_Connect_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
