@@ -19,6 +19,8 @@ namespace SearchDataSPM
 {
     public partial class PurchaseReqform : Form
     {
+        #region Setting up Various Variables to Store information
+
         PurchaseReq model = new PurchaseReq();
         String connection;
         SqlConnection cn;
@@ -29,6 +31,12 @@ namespace SearchDataSPM
         bool supervisor = false;
         int supervisorid = 0;
         int myid = 0;
+        string userfullname = "";
+        List<string> Itemstodiscard = new List<string>();
+
+        #endregion
+
+        #region Form Loading
 
         public PurchaseReqform()
         {
@@ -57,15 +65,13 @@ namespace SearchDataSPM
             userfullname = getuserfullname(get_username().ToString()).ToString();
         }
 
-        string userfullname;
-
         private void PurchaseReq_Load(object sender, EventArgs e)
         {
             formloading = true;
             if (supervisor)
-            {
-                Managertoolstip.Enabled = true;
-                Managertoolstip.Visible = true;
+            {                
+                managergroupbox.Visible = true;
+                managergroupbox.Enabled = true;
 
             }
             showReqSearchItems(userfullname);
@@ -127,75 +133,25 @@ namespace SearchDataSPM
             UpdateFont();
         }
 
-        private void UpdateFont()
-        {
-            dataGridView.ColumnHeadersDefaultCellStyle.Font = new Font("Tahoma", 9.0F, FontStyle.Bold);
-            dataGridView.DefaultCellStyle.Font = new Font("Arial", 9.5F, FontStyle.Bold);
-            dataGridView.DefaultCellStyle.ForeColor = Color.Black;
-            dataGridView.DefaultCellStyle.BackColor = Color.FromArgb(237, 237, 237);
-            dataGridView.DefaultCellStyle.SelectionForeColor = Color.Yellow;
-            dataGridView.DefaultCellStyle.SelectionBackColor = Color.Black;
-        }
+        #endregion
 
-        private void UpdateFontdataitems()
-        {
-            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Tahoma", 9.0F, FontStyle.Bold);
-            dataGridView1.DefaultCellStyle.Font = new Font("Arial", 9.5F, FontStyle.Bold);
-            dataGridView1.DefaultCellStyle.ForeColor = Color.Black;
-            dataGridView1.DefaultCellStyle.BackColor = Color.FromArgb(237, 237, 237);
-            dataGridView1.DefaultCellStyle.SelectionForeColor = Color.Tomato;
-            dataGridView1.DefaultCellStyle.SelectionBackColor = Color.LightBlue;
-            dataGridView1.Columns["Price"].DefaultCellStyle.Format = "n2";
-        }
-
-        private void dataGridView_SelectionChanged(object sender, EventArgs e)
-        {
-            if (!formloading)
-            {
-                if (dataGridView.Rows.Count > 0 && dataGridView.SelectedCells.Count == 1)
-                {
-                    Cursor.Current = Cursors.WaitCursor;
-
-                    dataGridView1.AutoGenerateColumns = false;
-                    int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
-                    DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-                    int item = Convert.ToInt32(slectedrow.Cells[0].Value);
-
-
-                    populatereqdetails(item);
-                    PopulateDataGridView();
-                    tabControl1.Visible = true;
-                    totalcostlbl.Visible = true;
-                    if (tabControl1.TabPages.Count == 0)
-                    {
-                        tabControl1.TabPages.Add(PreviewTabPage);
-                    }
-                    checkforeditrights();
-
-                    Cursor.Current = Cursors.Default;
-                }
-
-            }
-
-
-
-        }
+        #region show edit button for approved req
 
         private String getapprovalstatus()
         {
-            string username;
+            string approved;
             if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
             {
                 int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                 DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-                username = Convert.ToString(slectedrow.Cells["Approved"].Value);
+                approved = Convert.ToString(slectedrow.Cells["Approved"].Value);
                 //MessageBox.Show(username);
-                return username;
+                return approved;
             }
             else
             {
-                username = "";
-                return username;
+                approved = "";
+                return approved;
             }
         }
 
@@ -215,6 +171,10 @@ namespace SearchDataSPM
                 editbttn.Visible = true;
             }
         }
+
+        #endregion
+
+        #region Get User Full Name
 
         private String get_username()
         {
@@ -272,6 +232,10 @@ namespace SearchDataSPM
             return null;
         }
 
+        #endregion
+
+        #region Purchase Req Item Search
+
         private void PurchaseReqSearchTxt_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
@@ -315,10 +279,9 @@ namespace SearchDataSPM
             }
         }
 
-        private void createNewPurchaseReqToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            createnew();
-        }
+        #endregion
+
+        #region Create New Purchase Req
 
         void createnew()
         {
@@ -344,7 +307,6 @@ namespace SearchDataSPM
 
         void selectrowbeforeediting(string searchValue)
         {
-
             int rowIndex = -1;
             foreach (DataGridViewRow row in dataGridView.Rows)
             {
@@ -356,53 +318,6 @@ namespace SearchDataSPM
                     break;
                 }
             }
-        }
-
-        string totalvalue = "";
-
-        void calculatetota()
-        {
-            totalvalue = "";
-            if (dataGridView1.Rows.Count > 0)
-            {
-                decimal total =0.00m;
-                int qty = 1;
-                decimal price = 0.00m;
-                foreach (DataGridViewRow row in dataGridView1.Rows)
-                {
-                    if (row.Cells[3].Value.ToString().Length > 0 && row.Cells[3].Value.ToString() != null)
-                    {
-                        qty = Convert.ToInt32(row.Cells[3].Value.ToString());
-                    }
-                    try
-                    {
-                        if (row.Cells[7].Value.ToString() != null && row.Cells[7].Value.ToString().Length > 0)
-                        {
-                            price = Convert.ToDecimal(row.Cells[7].Value.ToString());
-                        }
-                        else
-                        {
-                            price = 0;
-                        }
-                        total += (qty * price);
-                        totalcostlbl.Text = "Total Cost : $" + string.Format("{0:n}", Convert.ToDecimal(total.ToString()));
-
-                        totalvalue = string.Format("{0:#.00}", total.ToString());
-                    }
-
-                    catch (Exception)
-                    {
-
-                    }
-
-
-                }
-            }
-            else
-            {
-                totalcostlbl.Text = "";
-            }
-
         }
 
         void clearitemsbeforenewreq()
@@ -468,7 +383,7 @@ namespace SearchDataSPM
             {
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[PurchaseReqBase] (ReqNumber, RequestedBy, DateCreated, DateLastSaved, JobNumber, SubAssyNumber,LastSavedBy, Validate, Approved,Total,DateRequired, SupervisorId) VALUES('" + reqnumber + "','" + employee.ToString() + "','" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + jobnumber + "','" + subassy + "','" + employee.ToString() + "','0','0','0','" + sqlFormattedDate + "', '" + supervisorid + "')";
+                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[PurchaseReqBase] (ReqNumber, RequestedBy, DateCreated, DateLastSaved, JobNumber, SubAssyNumber,LastSavedBy, Validate, Approved,Total,DateRequired, SupervisorId, DateValidated) VALUES('" + reqnumber + "','" + employee.ToString() + "','" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + jobnumber + "','" + subassy + "','" + employee.ToString() + "','0','0','0','" + sqlFormattedDate + "', '" + supervisorid + "', null)";
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -485,7 +400,62 @@ namespace SearchDataSPM
 
         }
 
-        private void UpdateReq(int reqnumber)
+        #endregion
+
+        #region Calculate Total
+
+        string totalvalue = "";
+
+        void calculatetota()
+        {
+            totalvalue = "";
+            if (dataGridView1.Rows.Count > 0)
+            {
+                decimal total = 0.00m;
+                int qty = 1;
+                decimal price = 0.00m;
+                foreach (DataGridViewRow row in dataGridView1.Rows)
+                {
+                    if (row.Cells[3].Value.ToString().Length > 0 && row.Cells[3].Value.ToString() != null)
+                    {
+                        qty = Convert.ToInt32(row.Cells[3].Value.ToString());
+                    }
+                    try
+                    {
+                        if (row.Cells[7].Value.ToString() != null && row.Cells[7].Value.ToString().Length > 0)
+                        {
+                            price = Convert.ToDecimal(row.Cells[7].Value.ToString());
+                        }
+                        else
+                        {
+                            price = 0;
+                        }
+                        total += (qty * price);
+                        totalcostlbl.Text = "Total Cost : $" + string.Format("{0:n}", Convert.ToDecimal(total.ToString()));
+
+                        totalvalue = string.Format("{0:#.00}", total.ToString());
+                    }
+
+                    catch (Exception)
+                    {
+
+                    }
+
+
+                }
+            }
+            else
+            {
+                totalcostlbl.Text = "";
+            }
+
+        }
+
+        #endregion
+
+        #region Perform CRUD Operations
+
+        private void UpdateReq(int reqnumber, string typesave)
         {
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDate = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
@@ -499,14 +469,35 @@ namespace SearchDataSPM
             {
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                if (approvechk.Checked)
+
+                if(typesave == "Normal")
                 {
-                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + userfullname.ToString() + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',DateValidated = '" + (Validatechk.Checked ? sqlFormattedDate : "") + "',ApprovedBy = '" + userfullname + "',DateApproved = '" + (approvechk.Checked ? sqlFormattedDate : "") + "' WHERE ReqNumber = '" + reqnumber + "' ";
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + userfullname.ToString() + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "' WHERE ReqNumber = '" + reqnumber + "' ";
                 }
-                else
+
+                if(typesave == "Validated")
                 {
                     cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + userfullname.ToString() + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',DateValidated = '" + (Validatechk.Checked ? sqlFormattedDate : null) + "' WHERE ReqNumber = '" + reqnumber + "' ";
                 }
+
+                if(typesave == "Approved")
+                {
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + userfullname.ToString() + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',ApprovedBy = '" + userfullname + "',DateApproved = '" + (approvechk.Checked ? sqlFormattedDate : "") + "' WHERE ReqNumber = '" + reqnumber + "' ";
+                }
+
+                if (typesave == "ApprovedFalse")
+                {
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + userfullname.ToString() + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',ApprovedBy = ' ',DateApproved = null WHERE ReqNumber = '" + reqnumber + "' ";
+                }
+
+                //if (approvechk.Checked)
+                //{
+                //    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + userfullname.ToString() + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',DateValidated = '" + (Validatechk.Checked ? sqlFormattedDate : "") + "',ApprovedBy = '" + userfullname + "',DateApproved = '" + (approvechk.Checked ? sqlFormattedDate : "") + "' WHERE ReqNumber = '" + reqnumber + "' ";
+                //}
+                //else
+                //{
+                //    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + userfullname.ToString() + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',DateValidated = '" + (Validatechk.Checked ? sqlFormattedDate : null) + "' WHERE ReqNumber = '" + reqnumber + "' ";
+                //}
 
                 cmd.ExecuteNonQuery();
                 cn.Close();
@@ -568,8 +559,6 @@ namespace SearchDataSPM
             savebttn.Visible = true;
             Validatechk.Visible = true;
             fillitemssource();
-            MenuStrip.Enabled = false;
-            MenuStrip.Visible = false;
             toolbarpanel.Enabled = false;
             if (showexit)
             {
@@ -581,15 +570,15 @@ namespace SearchDataSPM
         private void savebttn_Click(object sender, EventArgs e)
         {
             Itemstodiscard.Clear();
-            processsavebutton(false);
+            processsavebutton(false,"Normal");
         }
 
-        void processsavebutton(bool validatehit)
+        void processsavebutton(bool validatehit, string typeofsave)
         {
             errorProvider1.Clear();
             if (validatehit)
             {
-                UpdateReq(Convert.ToInt32(purchreqtxt.Text));
+                UpdateReq(Convert.ToInt32(purchreqtxt.Text),typeofsave);
                 showReqSearchItems(userfullname);
                 clearaddnewtextboxes();
                 processexitbutton();
@@ -598,7 +587,7 @@ namespace SearchDataSPM
             {
                 if (jobnumbertxt.Text.Trim().Length > 0 && subassytxt.Text.Trim().Length > 0)
                 {
-                    UpdateReq(Convert.ToInt32(purchreqtxt.Text));
+                    UpdateReq(Convert.ToInt32(purchreqtxt.Text),typeofsave);
                     showReqSearchItems(userfullname);
                     clearaddnewtextboxes();
                     processexitbutton();
@@ -698,8 +687,6 @@ namespace SearchDataSPM
             dateTimePicker1.Enabled = false;
             ecitbttn.Visible = false;
             tabControl1.Visible = true;
-            MenuStrip.Enabled = true;
-            MenuStrip.Visible = true;
             toolbarpanel.Enabled = true;
             PurchaseReqSearchTxt.Enabled = true;
             dataGridView1.ContextMenuStrip = null;
@@ -714,21 +701,146 @@ namespace SearchDataSPM
             dateTimePicker1.MinDate = new DateTime(2018, 01, 01);
         }
 
-        private void dataGridView_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        private void updateorderid(int reqnumber)
         {
-            if (e.RowIndex == -1) return;
-
-            DataGridViewRow row = dataGridView.Rows[e.RowIndex];
-
-            if (e.Button == MouseButtons.Right)
+            //using (SqlCommand sqlCommand = new SqlCommand("[SPM_Database].[dbo].[UpdateOrderId]", cn))
+            //{
+            //    try
+            //    {
+            //        cn.Open();
+            //        sqlCommand.CommandType = CommandType.StoredProcedure;
+            //        sqlCommand.Parameters.AddWithValue("@itemnumber", reqnumber);
+            //        sqlCommand.ExecuteNonQuery();
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        MessageBox.Show(ex.Message, "SPM Connect - Update Order Id", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    }
+            //    finally
+            //    {
+            //        cn.Close();
+            //    }
+            //}
+            using (SqlCommand sqlCommand = new SqlCommand("with cte as(select *, new_row_id = row_number() over(partition by ReqNumber order by ReqNumber)from[dbo].[PurchaseReq] where ReqNumber = @itemnumber)update cte set OrderId = new_row_id", cn))
             {
-
-                int columnindex = e.RowIndex;
-                dataGridView.ClearSelection();
-                dataGridView.Rows[columnindex].Selected = true;
-
+                try
+                {
+                    cn.Open();
+                    sqlCommand.CommandType = CommandType.Text;
+                    sqlCommand.Parameters.AddWithValue("@itemnumber", reqnumber);
+                    sqlCommand.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Update Order Id", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
             }
         }
+
+        void processdeletebttn()
+        {
+            if (MessageBox.Show("Are You Sure to Delete this Record ?", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                using (SPM_DatabaseEntitiesPurchase db = new SPM_DatabaseEntitiesPurchase())
+                {
+                    var entry = db.Entry(model);
+                    if (entry.State == EntityState.Detached)
+                        db.PurchaseReqs.Attach(model);
+                    db.PurchaseReqs.Remove(model);
+                    db.SaveChanges();
+                    updateorderid(Convert.ToInt32(purchreqtxt.Text));
+                    PopulateDataGridView();
+                    Clear();
+                    //MessageBox.Show("Deleted Successfully", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                Addnewbttn.Enabled = false;
+                ecitbttn.Visible = false;
+            }
+            else
+            {
+                
+                Clear();
+                Addnewbttn.Enabled = false;
+            }
+
+        }
+
+        void addnewitemtoreq()
+        {
+            int resultqty = 0;
+            //int result = 0;
+            //double price12 = 0.00;
+            errorProvider1.Clear();
+            if (qtytxt.Text.Length > 0)
+            {
+                int maxSlNo = dataGridView1.Rows.Count;
+                maxSlNo++;
+                //int selectedrowindex = dataGridView1.SelectedCells[0].RowIndex;
+                //MessageBox.Show(this.dataGridView1.Rows[selectedrowindex].HeaderCell.Value.ToString());
+                model.OrderId = maxSlNo;
+                model.Item = ItemTxtBox.Text.Trim();
+                model.Description = Descriptiontxtbox.Text.Trim();
+                model.Manufacturer = oemtxt.Text.Trim();
+                model.OEMItemNumber = oemitemnotxt.Text.Trim();
+
+                if (int.TryParse(qtytxt.Text, out resultqty))
+                    model.Qty = resultqty;
+                model.ReqNumber = Convert.ToInt32(purchreqtxt.Text);
+                if (decimal.TryParse(pricetxt.Text.Replace(",", "").Replace("$", ""), out decimal result12))
+                    model.Price = result12;
+                model.Notes = "";
+                using (SPM_DatabaseEntitiesPurchase db = new SPM_DatabaseEntitiesPurchase())
+                {
+                    if (model.ID == 0)//Insert
+                        db.PurchaseReqs.Add(model);
+                    else //Update
+                        db.Entry(model).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+
+                Clear();
+                updateorderid(Convert.ToInt32(purchreqtxt.Text));
+                PopulateDataGridView();
+                Addnewbttn.Enabled = false;
+                itemsearchtxtbox.Focus();
+
+
+                string itemsonhold = model.Item + "][" + model.ReqNumber;
+                Itemstodiscard.Add(itemsonhold);
+                model.Qty = null;
+                model.Price = null;
+                
+            }
+            else
+            {
+                errorProvider1.SetError(qtytxt, "Cannot be null");
+                //MessageBox.Show("Quantity cannot be empty in order to add new entry.", "SPM Connect - Add New Item", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+        }
+
+        void Clear()
+        {
+            itemsearchtxtbox.Clear();
+            ItemTxtBox.Clear();
+            Descriptiontxtbox.Clear();
+            oemtxt.Clear();
+            oemitemnotxt.Clear();
+            pricetxt.Clear();
+            qtytxt.Clear();
+            itemsearchtxtbox.Text = ItemTxtBox.Text = Descriptiontxtbox.Text = oemtxt.Text = oemitemnotxt.Text = pricetxt.Text = qtytxt.Text = "";
+            Addnewbttn.Text = "Add";
+            btnDelete.Enabled = false;
+            model.ID = 0;
+        }
+
+        #endregion
+
+        #region Fill Items Source for search and add
 
         private void fillitemssource()
         {
@@ -754,23 +866,6 @@ namespace SearchDataSPM
                 {
                     cn.Close();
                 }
-            }
-        }
-
-        private void itemsearchtxtbox_KeyDown(object sender, KeyEventArgs e)
-        {
-
-            if (e.KeyCode == Keys.Return)
-            {
-                if (itemsearchtxtbox.Text.Length > 6)
-                {
-                    clearaddnewtextboxes();
-                    filldatatable(itemsearchtxtbox.Text.Trim().Substring(0, 6).ToString());
-                    Addnewbttn.Enabled = true;
-                }
-
-                e.Handled = true;
-                e.SuppressKeyPress = true;
             }
         }
 
@@ -817,101 +912,9 @@ namespace SearchDataSPM
             qtytxt.Clear();
         }
 
-        private void pricetxt_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            //if (System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"[0-9+\b]"))
-            //{
-               
+        #endregion
 
-            //}
-            //else
-            //{
-            //    e.Handled = true;
-            //}
-        }
-
-        private void qtytxt_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"[0-9+\b]"))
-            {
-                // Stop the character from being entered into the control since it is illegal.
-
-            }
-            else
-            {
-                e.Handled = true;
-            }
-        }
-
-        List<string> Itemstodiscard = new List<string>();
-
-        private void Addnewbttn_Click(object sender, EventArgs e)
-        {
-            int resultqty = 0;
-            //int result = 0;
-           //double price12 = 0.00;
-            errorProvider1.Clear();
-            if (qtytxt.Text.Length > 0)
-            {
-                int maxSlNo = dataGridView1.Rows.Count;
-                maxSlNo++;
-                //int selectedrowindex = dataGridView1.SelectedCells[0].RowIndex;
-                //MessageBox.Show(this.dataGridView1.Rows[selectedrowindex].HeaderCell.Value.ToString());
-                model.OrderId = maxSlNo;
-                model.Item = ItemTxtBox.Text.Trim();
-                model.Description = Descriptiontxtbox.Text.Trim();
-                model.Manufacturer = oemtxt.Text.Trim();
-                model.OEMItemNumber = oemitemnotxt.Text.Trim();
-
-                if (int.TryParse(qtytxt.Text, out resultqty))
-                    model.Qty = resultqty;
-                model.ReqNumber = Convert.ToInt32(purchreqtxt.Text);
-                if (decimal.TryParse(pricetxt.Text.Replace(",", "").Replace("$", ""), out decimal result12))
-                    model.Price = result12;
-                model.Notes = "";
-                using (SPM_DatabaseEntitiesPurchase db = new SPM_DatabaseEntitiesPurchase())
-                {
-                    if (model.ID == 0)//Insert
-                        db.PurchaseReqs.Add(model);
-                    else //Update
-                        db.Entry(model).State = EntityState.Modified;
-                    db.SaveChanges();
-                }
-
-                Clear();
-                updateorderid(Convert.ToInt32(purchreqtxt.Text));
-                PopulateDataGridView();
-                Addnewbttn.Enabled = false;
-                itemsearchtxtbox.Focus();
-
-
-                string itemsonhold = model.Item + "][" + model.ReqNumber;
-                Itemstodiscard.Add(itemsonhold);
-                model.Qty = null;
-                model.Price = null;
-            }
-            else
-            {
-                errorProvider1.SetError(qtytxt, "Cannot be null");
-                //MessageBox.Show("Quantity cannot be empty in order to add new entry.", "SPM Connect - Add New Item", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-
-        }
-
-        void Clear()
-        {
-            itemsearchtxtbox.Clear();
-            ItemTxtBox.Clear();
-            Descriptiontxtbox.Clear();
-            oemtxt.Clear();
-            oemitemnotxt.Clear();
-            pricetxt.Clear();
-            qtytxt.Clear();
-            itemsearchtxtbox.Text = ItemTxtBox.Text = Descriptiontxtbox.Text = oemtxt.Text = oemitemnotxt.Text = pricetxt.Text = qtytxt.Text = "";
-            Addnewbttn.Text = "Add";
-            btnDelete.Enabled = false;
-            model.ID = 0;
-        }
+        #region Populated Details for both datagrids showing purchase req details
 
         void populatereqdetails(int item) // populates details of selected purchase req
         {
@@ -949,10 +952,7 @@ namespace SearchDataSPM
                     approvechk.Checked = true;
                     approvechk.Visible = true;
                     Validatechk.Visible = false;
-                    printToolStripMenuItem.Enabled = true;
-                    printToolStripMenuItem.Visible = true;
                     printbttn.Enabled = true;
-                    //printbttn.Visible = true;
                     approvebylabel.Visible = true;
                     apprvonlabel.Visible = true;
                 }
@@ -961,40 +961,36 @@ namespace SearchDataSPM
                     approvechk.Text = "Approve";
                     approvechk.Checked = false;
                     approvechk.Visible = false;
-                    printToolStripMenuItem.Enabled = false;
-                    printToolStripMenuItem.Visible = false;
                     printbttn.Enabled = false;
-                   // printbttn.Visible = false;
                     approvebylabel.Visible = false;
                     apprvonlabel.Visible = false;
                 }
 
                 if (supervisor && dr[0]["Validate"].ToString().Equals("1"))
                 {
+                    
                     if (dr[0]["Approved"].ToString().Equals("1"))
                     {
                         approvechk.Text = "Approved";
                         approvechk.Checked = true;
                         approvechk.Visible = true;
-                        printToolStripMenuItem.Enabled = true;
-                        printToolStripMenuItem.Visible = true;
                         printbttn.Enabled = true;
-                       // printbttn.Visible = true;
-
                         approvebylabel.Visible = true;
                         apprvonlabel.Visible = true;
+                        Validatechk.Visible = false;
+                        Validatechk.Enabled = false;
                     }
                     else
                     {
                         approvechk.Text = "Approve";
                         approvechk.Checked = false;
                         approvechk.Visible = true;
-                        printToolStripMenuItem.Enabled = false;
-                        printToolStripMenuItem.Visible = false;
                         printbttn.Enabled = false;
-                       // printbttn.Visible = false;
                         approvebylabel.Visible = false;
                         apprvonlabel.Visible = false;
+                        Validatechk.Enabled = true;
+                        Validatechk.Visible = true;
+
                     }
 
 
@@ -1004,10 +1000,7 @@ namespace SearchDataSPM
                     approvechk.Text = "Approve";
                     approvechk.Checked = false;
                     approvechk.Visible = false;
-                    printToolStripMenuItem.Enabled = false;
-                    printToolStripMenuItem.Visible = false;
                     printbttn.Enabled = false;
-                    //printbttn.Visible = false;
                 }
             }
             catch (Exception ex)
@@ -1039,133 +1032,9 @@ namespace SearchDataSPM
             calculatetota();
         }
 
-        private void btnDelete_Click(object sender, EventArgs e)
-        {
-            processdeletebttn();
-        }
+        #endregion
 
-        void processdeletebttn()
-        {
-            if (MessageBox.Show("Are You Sure to Delete this Record ?", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                using (SPM_DatabaseEntitiesPurchase db = new SPM_DatabaseEntitiesPurchase())
-                {
-                    var entry = db.Entry(model);
-                    if (entry.State == EntityState.Detached)
-                        db.PurchaseReqs.Attach(model);
-                    db.PurchaseReqs.Remove(model);
-                    db.SaveChanges();
-                    updateorderid(Convert.ToInt32(purchreqtxt.Text));
-                    PopulateDataGridView();
-                    Clear();
-                    //MessageBox.Show("Deleted Successfully", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                Addnewbttn.Enabled = false;
-            }
-            else
-            {
-                Clear();
-                Addnewbttn.Enabled = false;
-            }
-
-        }
-
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-            Clear();
-            Addnewbttn.Enabled = false;
-        }
-
-        private void dataGridView1_DoubleClick(object sender, EventArgs e)
-        {
-        }
-
-        private void updateorderid(int reqnumber)
-        {
-            //using (SqlCommand sqlCommand = new SqlCommand("[SPM_Database].[dbo].[UpdateOrderId]", cn))
-            //{
-            //    try
-            //    {
-            //        cn.Open();
-            //        sqlCommand.CommandType = CommandType.StoredProcedure;
-            //        sqlCommand.Parameters.AddWithValue("@itemnumber", reqnumber);
-            //        sqlCommand.ExecuteNonQuery();
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        MessageBox.Show(ex.Message, "SPM Connect - Update Order Id", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //    }
-            //    finally
-            //    {
-            //        cn.Close();
-            //    }
-            //}
-            using (SqlCommand sqlCommand = new SqlCommand("with cte as(select *, new_row_id = row_number() over(partition by ReqNumber order by ReqNumber)from[dbo].[PurchaseReq] where ReqNumber = @itemnumber)update cte set OrderId = new_row_id", cn))
-            {
-                try
-                {
-                    cn.Open();
-                    sqlCommand.CommandType = CommandType.Text;
-                    sqlCommand.Parameters.AddWithValue("@itemnumber", reqnumber);
-                    sqlCommand.ExecuteNonQuery();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Update Order Id", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-        }
-
-        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-            getitemsfromgrid();
-
-        }
-
-        void getitemsfromgrid()
-        {
-            if (dataGridView1.Rows.Count > 0)
-            {
-                if (dataGridView1.CurrentRow.Index != -1)
-                {
-                    int selectedrowindex = dataGridView1.SelectedCells[0].RowIndex;
-                    DataGridViewRow slectedrow = dataGridView1.Rows[selectedrowindex];
-                    //string Item = Convert.ToString(slectedrow.Cells[0].Value);
-
-                    model.ID = Convert.ToInt32(slectedrow.Cells["ID"].Value);
-                    using (SPM_DatabaseEntitiesPurchase db = new SPM_DatabaseEntitiesPurchase())
-                    {
-                        model = db.PurchaseReqs.Where(x => x.ID == model.ID).FirstOrDefault();
-                        ItemTxtBox.Text = model.Item.ToString();
-                        Descriptiontxtbox.Text = model.Description;
-                        oemtxt.Text = model.Manufacturer;
-                        oemitemnotxt.Text = model.OEMItemNumber;
-                        pricetxt.Text = String.Format("{0:c2}", model.Price);
-                        qtytxt.Text = model.Qty.ToString();
-
-                    }
-                    Addnewbttn.Enabled = true;
-                    Addnewbttn.Text = "Update";
-                    btnDelete.Enabled = true;
-                }
-            }
-
-        }
-
-        private void jobnumbertxt_Leave(object sender, EventArgs e)
-        {
-            jobnumbertxt.Text = jobnumbertxt.Text.Trim();
-        }
-
-        private void subassytxt_Leave(object sender, EventArgs e)
-        {
-            subassytxt.Text = subassytxt.Text.Trim();
-        }
+        #region Form closing
 
         private void PurchaseReqform_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -1186,90 +1055,14 @@ namespace SearchDataSPM
             }
         }
 
-        private void jobnumbertxt_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"[0-9+\b]"))
-            {
-                // Stop the character from being entered into the control since it is illegal.
-
-            }
-            else
-            {
-                e.Handled = true;
-            }
-        }
-
-        private void subassytxt_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if ((sender as TextBox).SelectionStart == 0)
-                e.Handled = (e.KeyChar == (char)Keys.Space);
-            else
-                e.Handled = false;
-        }
-
-        private void deleteItemToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Clear();
-            getitemsfromgrid();
-            processdeletebttn();
-        }
-
-        private void editItemToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Clear();
-            getitemsfromgrid();
-            qtytxt.Focus();
-            qtytxt.SelectAll();
-        }
-
-        private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (e.RowIndex == -1) return;
-
-            DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
-
-            if (e.Button == MouseButtons.Right)
-            {
-
-                int columnindex = e.RowIndex;
-                dataGridView1.ClearSelection();
-                dataGridView1.Rows[columnindex].Selected = true;
-
-
-            }
-        }
-
-        private void dataGridView1_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
-        {
-
-        }
-
-        private void FormSelector_Opening(object sender, CancelEventArgs e)
-        {
-            if (dataGridView1.Rows.Count > 0)
-            {
-
-                FormSelector.Items[0].Enabled = true;
-                FormSelector.Items[1].Enabled = true;
-
-            }
-            else
-            {
-
-                FormSelector.Items[0].Enabled = false;
-                FormSelector.Items[1].Enabled = false;
-            }
-        }
-
         private void PurchaseReqform_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.Dispose();
         }
 
-        private void printToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            reportpurchaereq(reqnumber, "Purchasereq");
-        }
+        #endregion
+
+        #region Open report viewer
 
         private void reportpurchaereq(string itemvalue, string Reportname)
         {
@@ -1280,6 +1073,10 @@ namespace SearchDataSPM
             form1.Show();
 
         }
+
+        #endregion
+
+        #region Validation Check
 
         private void Validatechk_Click(object sender, EventArgs e)
         {
@@ -1311,7 +1108,7 @@ namespace SearchDataSPM
                 if (result == DialogResult.Yes)
                 {
                     string reqno = purchreqtxt.Text;
-                    processsavebutton(true);
+                    processsavebutton(true, "Validated");
                     Validatechk.Text = "Invalidate";
                     SaveReport(reqno, true, "");
                 }
@@ -1372,11 +1169,6 @@ namespace SearchDataSPM
 
         }
 
-        private void Validatechk_CheckStateChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void Validatechk_CheckedChanged(object sender, EventArgs e)
         {
             if (editbttn.Visible || approvechk.Checked)
@@ -1405,147 +1197,9 @@ namespace SearchDataSPM
 
         }
 
-        private void showAllToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            showallreqitems();
-        }
+        #endregion
 
-        private void showallreqitems()
-        {
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE SupervisorId = '" + myid + "' ORDER BY ReqNumber DESC", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-
-                    dt.Clear();
-                    sda.Fill(dt);
-                    preparedatagrid();
-
-                }
-                catch (Exception)
-                {
-                    MessageBox.Show("Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect - Engineering Load(showallitems)", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                }
-                finally
-                {
-                    cn.Close();
-                }
-
-            }
-        }
-
-        private void showMyPurchaseReqsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            showReqSearchItems(userfullname);
-        }
-
-        private void showApprovedToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            showallapproved();
-        }
-
-        private void showallapproved()
-        {
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '1'AND Validate = '1' AND SupervisorId = '" + myid + "' ORDER BY ReqNumber DESC", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-
-                    dt.Clear();
-                    sda.Fill(dt);
-                    preparedatagrid();
-
-                }
-                catch (Exception)
-                {
-                    MessageBox.Show("Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect - Engineering Load(showallitems)", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                }
-                finally
-                {
-                    cn.Close();
-                }
-
-            }
-        }
-
-        private void showWaitingForApprovalToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            showwaitingonapproval();
-        }
-
-        private void showwaitingonapproval()
-        {
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '0' AND Validate = '1' AND SupervisorId = '" + myid + "' ORDER BY ReqNumber DESC", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-
-                    dt.Clear();
-                    sda.Fill(dt);
-                    preparedatagrid();
-
-
-                }
-                catch (Exception)
-                {
-                    MessageBox.Show("Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect - Engineering Load(showallitems)", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                }
-                finally
-                {
-                    cn.Close();
-                }
-
-            }
-        }
-
-        void sendemail(string emailtosend, string subject, string body, string filetoattach)
-        {
-            try
-            {
-                MailMessage message = new MailMessage();
-                SmtpClient SmtpServer = new SmtpClient("spmautomation-com0i.mail.protection.outlook.com");
-                message.From = new MailAddress("connect@spm-automation.com", "SPM Connect");
-                message.To.Add(emailtosend);
-                message.Subject = subject;
-                message.Body = body;
-                System.Net.Mail.Attachment attachment;
-                attachment = new System.Net.Mail.Attachment(filetoattach);
-                message.Attachments.Add(attachment);
-                SmtpServer.Port = 25;
-                SmtpServer.UseDefaultCredentials = true;
-                SmtpServer.EnableSsl = true;
-                SmtpServer.Send(message);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-
-        }
-
-        private void dataGridView_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
-        {
-            if (dataGridView.Rows.Count < 1)
-            {
-                editbttn.Visible = false;
-                tabControl1.Visible = false;
-                totalcostlbl.Visible = false;
-            }
-        }
-
-        private void approvechk_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
+        #region manager approve check changed
 
         private void approvechk_Click(object sender, EventArgs e)
         {
@@ -1553,9 +1207,7 @@ namespace SearchDataSPM
             {
                 if (approvechk.Checked == false)
                 {
-                    processsavebutton(true);
-
-
+                    processsavebutton(true,"ApprovedFalse");
                 }
                 else
                 {
@@ -1565,8 +1217,8 @@ namespace SearchDataSPM
                     {
                         string reqno = purchreqtxt.Text;
                         string requestby = requestbytxt.Text;
-                  
-                        processsavebutton(true);
+
+                        processsavebutton(true,"Approved");
                         approvechk.Checked = true;
                         SaveReport(reqno, false, requestby);
 
@@ -1581,6 +1233,182 @@ namespace SearchDataSPM
 
             }
         }
+
+        #endregion
+
+        #region datagridview events
+
+        private void UpdateFont()
+        {
+            dataGridView.ColumnHeadersDefaultCellStyle.Font = new Font("Tahoma", 9.0F, FontStyle.Bold);
+            dataGridView.DefaultCellStyle.Font = new Font("Arial", 9.5F, FontStyle.Bold);
+            dataGridView.DefaultCellStyle.ForeColor = Color.Black;
+            dataGridView.DefaultCellStyle.BackColor = Color.FromArgb(237, 237, 237);
+            dataGridView.DefaultCellStyle.SelectionForeColor = Color.Yellow;
+            dataGridView.DefaultCellStyle.SelectionBackColor = Color.Black;
+        }
+
+        private void UpdateFontdataitems()
+        {
+            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Tahoma", 9.0F, FontStyle.Bold);
+            dataGridView1.DefaultCellStyle.Font = new Font("Arial", 9.5F, FontStyle.Bold);
+            dataGridView1.DefaultCellStyle.ForeColor = Color.Black;
+            dataGridView1.DefaultCellStyle.BackColor = Color.FromArgb(237, 237, 237);
+            dataGridView1.DefaultCellStyle.SelectionForeColor = Color.Tomato;
+            dataGridView1.DefaultCellStyle.SelectionBackColor = Color.LightBlue;
+            dataGridView1.Columns["Price"].DefaultCellStyle.Format = "n2";
+        }
+
+        private void dataGridView_SelectionChanged(object sender, EventArgs e)
+        {
+            if (!formloading)
+            {
+                if (dataGridView.Rows.Count > 0 && dataGridView.SelectedCells.Count == 1)
+                {
+                    Cursor.Current = Cursors.WaitCursor;
+
+                    dataGridView1.AutoGenerateColumns = false;
+                    int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
+                    DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
+                    int item = Convert.ToInt32(slectedrow.Cells[0].Value);
+
+
+                    populatereqdetails(item);
+                    PopulateDataGridView();
+                    tabControl1.Visible = true;
+                    totalcostlbl.Visible = true;
+                    if (tabControl1.TabPages.Count == 0)
+                    {
+                        tabControl1.TabPages.Add(PreviewTabPage);
+                    }
+                    checkforeditrights();
+
+                    Cursor.Current = Cursors.Default;
+                }
+
+            }
+
+
+
+        }
+
+        private void dataGridView_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+        {
+            if (dataGridView.Rows.Count < 1)
+            {
+                editbttn.Visible = false;
+                tabControl1.Visible = false;
+                totalcostlbl.Visible = false;
+            }
+        }
+
+        private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex == -1) return;
+
+            DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
+
+            if (e.Button == MouseButtons.Right)
+            {
+
+                int columnindex = e.RowIndex;
+                dataGridView1.ClearSelection();
+                dataGridView1.Rows[columnindex].Selected = true;
+
+
+            }
+        }
+
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+            getitemsfromgrid();
+
+        }
+
+        private void dataGridView_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex == -1) return;
+
+            DataGridViewRow row = dataGridView.Rows[e.RowIndex];
+
+            if (e.Button == MouseButtons.Right)
+            {
+
+                int columnindex = e.RowIndex;
+                dataGridView.ClearSelection();
+                dataGridView.Rows[columnindex].Selected = true;
+
+            }
+        }
+
+        void getitemsfromgrid()
+        {
+            if (dataGridView1.Rows.Count > 0)
+            {
+                if (dataGridView1.CurrentRow.Index != -1)
+                {
+                    int selectedrowindex = dataGridView1.SelectedCells[0].RowIndex;
+                    DataGridViewRow slectedrow = dataGridView1.Rows[selectedrowindex];
+                    //string Item = Convert.ToString(slectedrow.Cells[0].Value);
+
+                    model.ID = Convert.ToInt32(slectedrow.Cells["ID"].Value);
+                    using (SPM_DatabaseEntitiesPurchase db = new SPM_DatabaseEntitiesPurchase())
+                    {
+                        model = db.PurchaseReqs.Where(x => x.ID == model.ID).FirstOrDefault();
+                        ItemTxtBox.Text = model.Item.ToString();
+                        Descriptiontxtbox.Text = model.Description;
+                        oemtxt.Text = model.Manufacturer;
+                        oemitemnotxt.Text = model.OEMItemNumber;
+                        pricetxt.Text = String.Format("{0:c2}", model.Price);
+                        qtytxt.Text = model.Qty.ToString();
+
+                    }
+                    Addnewbttn.Enabled = true;
+                    Addnewbttn.Text = "Update";
+                    btnDelete.Enabled = true;
+                }
+            }
+
+        }
+
+        private void FormSelector_Opening(object sender, CancelEventArgs e)
+        {
+            if (dataGridView1.Rows.Count > 0)
+            {
+
+                FormSelector.Items[0].Enabled = true;
+                FormSelector.Items[1].Enabled = true;
+
+            }
+            else
+            {
+
+                FormSelector.Items[0].Enabled = false;
+                FormSelector.Items[1].Enabled = false;
+            }
+        }
+
+        private void deleteItemToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Clear();
+            getitemsfromgrid();
+            processdeletebttn();
+        }
+
+        private void editItemToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ecitbttn.Visible = false;
+            Clear();
+            getitemsfromgrid();
+            qtytxt.Focus();
+            qtytxt.SelectAll();
+            
+        }
+
+        #endregion
+
+        #region save report and send email
 
         public void SaveReport(string reqno, bool prelim, string requestby)
         {
@@ -1791,6 +1619,35 @@ namespace SearchDataSPM
             return null;
         }
 
+        void sendemail(string emailtosend, string subject, string body, string filetoattach)
+        {
+            try
+            {
+                MailMessage message = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient("spmautomation-com0i.mail.protection.outlook.com");
+                message.From = new MailAddress("connect@spm-automation.com", "SPM Connect");
+                message.To.Add(emailtosend);
+                message.Subject = subject;
+                message.Body = body;
+                System.Net.Mail.Attachment attachment;
+                attachment = new System.Net.Mail.Attachment(filetoattach);
+                message.Attachments.Add(attachment);
+                SmtpServer.Port = 25;
+                SmtpServer.UseDefaultCredentials = true;
+                SmtpServer.EnableSsl = true;
+                SmtpServer.Send(message);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+        }
+
+        #endregion
+
+        #region add items to purchase req button and text events groupbox 3
+
         private void pricetxt_Leave(object sender, EventArgs e)
         {
             //Double value;
@@ -1800,9 +1657,26 @@ namespace SearchDataSPM
             //    pricetxt.Text = String.Empty;
         }
 
+        private void itemsearchtxtbox_KeyDown(object sender, KeyEventArgs e)
+        {
+
+            if (e.KeyCode == Keys.Return)
+            {
+                if (itemsearchtxtbox.Text.Length > 6)
+                {
+                    clearaddnewtextboxes();
+                    filldatatable(itemsearchtxtbox.Text.Trim().Substring(0, 6).ToString());
+                    Addnewbttn.Enabled = true;
+                }
+
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
+
         private void pricetxt_TextChanged(object sender, EventArgs e)
         {
-           string value = pricetxt.Text.Replace(",", "").Replace("$", "").Replace(".", "").TrimStart('0');
+            string value = pricetxt.Text.Replace(",", "").Replace("$", "").Replace(".", "").TrimStart('0');
             decimal ul;
             //Check we are indeed handling a number
             if (decimal.TryParse(value, out ul))
@@ -1816,7 +1690,7 @@ namespace SearchDataSPM
                 pricetxt.Select(pricetxt.Text.Length, 0);
             }
             bool goodToGo = TextisValid(pricetxt.Text);
-            
+
             if (!goodToGo)
             {
                 pricetxt.Text = "$0.00";
@@ -1830,6 +1704,85 @@ namespace SearchDataSPM
             return money.IsMatch(text);
         }
 
+        private void pricetxt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            //if (System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"[0-9+\b]"))
+            //{
+
+
+            //}
+            //else
+            //{
+            //    e.Handled = true;
+            //}
+        }
+
+        private void qtytxt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"[0-9+\b]"))
+            {
+                // Stop the character from being entered into the control since it is illegal.
+
+            }
+            else
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void Addnewbttn_Click(object sender, EventArgs e)
+        {
+            addnewitemtoreq();
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            processdeletebttn();
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            Clear();
+            Addnewbttn.Enabled = false;
+        }
+
+        private void jobnumbertxt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"[0-9+\b]"))
+            {
+                // Stop the character from being entered into the control since it is illegal.
+
+            }
+            else
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void subassytxt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if ((sender as TextBox).SelectionStart == 0)
+                e.Handled = (e.KeyChar == (char)Keys.Space);
+            else
+                e.Handled = false;
+        }
+
+        private void jobnumbertxt_Leave(object sender, EventArgs e)
+        {
+            jobnumbertxt.Text = jobnumbertxt.Text.Trim();
+        }
+
+        private void subassytxt_Leave(object sender, EventArgs e)
+        {
+            subassytxt.Text = subassytxt.Text.Trim();
+        }
+
+
+        #endregion
+
+        #region button click events tool bars
+
+
         private void newbttn_Click(object sender, EventArgs e)
         {
             createnew();
@@ -1842,22 +1795,110 @@ namespace SearchDataSPM
 
         private void bttnneedapproval_Click(object sender, EventArgs e)
         {
-
+            showwaitingonapproval();
         }
 
         private void bttnshowapproved_Click(object sender, EventArgs e)
         {
-
+            showallapproved();
         }
 
         private void bttnshowmydept_Click(object sender, EventArgs e)
         {
-
+            showmydeptreq();
         }
 
         private void bttnshowmyreq_Click(object sender, EventArgs e)
         {
-
+            showReqSearchItems(userfullname);
         }
+
+        #endregion
+
+        #region manager commands to retrieve data
+
+        private void showwaitingonapproval()
+        {
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '0' AND Validate = '1' AND SupervisorId = '" + myid + "' ORDER BY ReqNumber DESC", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+                    preparedatagrid();
+
+
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect - Engineering Load(showallitems)", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+        }
+
+        private void showallapproved()
+        {
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '1'AND Validate = '1' AND SupervisorId = '" + myid + "' ORDER BY ReqNumber DESC", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+                    preparedatagrid();
+
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect - Engineering Load(showallitems)", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+        }
+
+        private void showmydeptreq()
+        {
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE SupervisorId = '" + myid + "' ORDER BY ReqNumber DESC", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+                    preparedatagrid();
+
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect - Engineering Load(showallitems)", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+        }
+
+        #endregion
     }
 }

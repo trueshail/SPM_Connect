@@ -30,21 +30,14 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PurchaseReqform));
-            this.MenuStrip = new System.Windows.Forms.MenuStrip();
-            this.NewItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.createNewPurchaseReqToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.Managertoolstip = new System.Windows.Forms.ToolStripMenuItem();
-            this.showWaitingForApprovalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.showApprovedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.showAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.showMyPurchaseReqsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.PurchaseReqSearchTxt = new System.Windows.Forms.TextBox();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.ecitbttn = new System.Windows.Forms.Button();
             this.editbttn = new System.Windows.Forms.Button();
             this.savebttn = new System.Windows.Forms.Button();
+            this.totalcostlbl = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.PreviewTabPage = new System.Windows.Forms.TabPage();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -58,6 +51,7 @@
             this.Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label13 = new System.Windows.Forms.Label();
             this.approvechk = new System.Windows.Forms.CheckBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.apprvonlabel = new System.Windows.Forms.Label();
@@ -98,29 +92,28 @@
             this.Itemlbl = new System.Windows.Forms.Label();
             this.ItemTxtBox = new System.Windows.Forms.TextBox();
             this.itemsearchtxtbox = new System.Windows.Forms.TextBox();
-            this.totalcostlbl = new System.Windows.Forms.Label();
             this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.newbttn = new System.Windows.Forms.Button();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.FormSelector = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolbarpanel = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.newbttn = new System.Windows.Forms.Button();
+            this.managergroupbox = new System.Windows.Forms.GroupBox();
+            this.bttnshowmyreq = new System.Windows.Forms.Button();
+            this.bttnshowmydept = new System.Windows.Forms.Button();
+            this.bttnshowapproved = new System.Windows.Forms.Button();
+            this.bttnneedapproval = new System.Windows.Forms.Button();
             this.printbttn = new System.Windows.Forms.Button();
             this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
             this.lineShape1 = new Microsoft.VisualBasic.PowerPacks.LineShape();
-            this.managergroupbox = new System.Windows.Forms.GroupBox();
-            this.bttnneedapproval = new System.Windows.Forms.Button();
-            this.bttnshowapproved = new System.Windows.Forms.Button();
-            this.bttnshowmydept = new System.Windows.Forms.Button();
-            this.bttnshowmyreq = new System.Windows.Forms.Button();
-            this.MenuStrip.SuspendLayout();
+            this.usercontrolgroupbox = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
+            this.panel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.PreviewTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -134,93 +127,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.FormSelector.SuspendLayout();
             this.toolbarpanel.SuspendLayout();
-            this.panel2.SuspendLayout();
             this.managergroupbox.SuspendLayout();
+            this.usercontrolgroupbox.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // MenuStrip
-            // 
-            this.MenuStrip.Dock = System.Windows.Forms.DockStyle.None;
-            this.MenuStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
-            this.MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.NewItem,
-            this.Managertoolstip});
-            this.MenuStrip.Location = new System.Drawing.Point(761, 9);
-            this.MenuStrip.Name = "MenuStrip";
-            this.MenuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.MenuStrip.ShowItemToolTips = true;
-            this.MenuStrip.Size = new System.Drawing.Size(115, 24);
-            this.MenuStrip.TabIndex = 1;
-            this.MenuStrip.Text = "Toolstripmenu";
-            this.TreeViewToolTip.SetToolTip(this.MenuStrip, "Create New Purchase Requistion");
-            // 
-            // NewItem
-            // 
-            this.NewItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.createNewPurchaseReqToolStripMenuItem,
-            this.printToolStripMenuItem});
-            this.NewItem.Name = "NewItem";
-            this.NewItem.Size = new System.Drawing.Size(37, 20);
-            this.NewItem.Text = "File";
-            // 
-            // createNewPurchaseReqToolStripMenuItem
-            // 
-            this.createNewPurchaseReqToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("createNewPurchaseReqToolStripMenuItem.Image")));
-            this.createNewPurchaseReqToolStripMenuItem.Name = "createNewPurchaseReqToolStripMenuItem";
-            this.createNewPurchaseReqToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
-            this.createNewPurchaseReqToolStripMenuItem.Text = "Create New Purchase Req";
-            this.createNewPurchaseReqToolStripMenuItem.ToolTipText = "Generate New Purchase Req";
-            this.createNewPurchaseReqToolStripMenuItem.Click += new System.EventHandler(this.createNewPurchaseReqToolStripMenuItem_Click);
-            // 
-            // printToolStripMenuItem
-            // 
-            this.printToolStripMenuItem.Enabled = false;
-            this.printToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("printToolStripMenuItem.Image")));
-            this.printToolStripMenuItem.Name = "printToolStripMenuItem";
-            this.printToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
-            this.printToolStripMenuItem.Text = "Print";
-            this.printToolStripMenuItem.Visible = false;
-            this.printToolStripMenuItem.Click += new System.EventHandler(this.printToolStripMenuItem_Click);
-            // 
-            // Managertoolstip
-            // 
-            this.Managertoolstip.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.showWaitingForApprovalToolStripMenuItem,
-            this.showApprovedToolStripMenuItem,
-            this.showAllToolStripMenuItem,
-            this.showMyPurchaseReqsToolStripMenuItem});
-            this.Managertoolstip.Enabled = false;
-            this.Managertoolstip.Name = "Managertoolstip";
-            this.Managertoolstip.Size = new System.Drawing.Size(66, 20);
-            this.Managertoolstip.Text = "Manager";
-            // 
-            // showWaitingForApprovalToolStripMenuItem
-            // 
-            this.showWaitingForApprovalToolStripMenuItem.Name = "showWaitingForApprovalToolStripMenuItem";
-            this.showWaitingForApprovalToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
-            this.showWaitingForApprovalToolStripMenuItem.Text = "Show Waiting For Approval";
-            this.showWaitingForApprovalToolStripMenuItem.Click += new System.EventHandler(this.showWaitingForApprovalToolStripMenuItem_Click);
-            // 
-            // showApprovedToolStripMenuItem
-            // 
-            this.showApprovedToolStripMenuItem.Name = "showApprovedToolStripMenuItem";
-            this.showApprovedToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
-            this.showApprovedToolStripMenuItem.Text = "Show All Approved";
-            this.showApprovedToolStripMenuItem.Click += new System.EventHandler(this.showApprovedToolStripMenuItem_Click);
-            // 
-            // showAllToolStripMenuItem
-            // 
-            this.showAllToolStripMenuItem.Name = "showAllToolStripMenuItem";
-            this.showAllToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
-            this.showAllToolStripMenuItem.Text = "Show All";
-            this.showAllToolStripMenuItem.Click += new System.EventHandler(this.showAllToolStripMenuItem_Click);
-            // 
-            // showMyPurchaseReqsToolStripMenuItem
-            // 
-            this.showMyPurchaseReqsToolStripMenuItem.Name = "showMyPurchaseReqsToolStripMenuItem";
-            this.showMyPurchaseReqsToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
-            this.showMyPurchaseReqsToolStripMenuItem.Text = "Show My Purchase Reqs";
-            this.showMyPurchaseReqsToolStripMenuItem.Click += new System.EventHandler(this.showMyPurchaseReqsToolStripMenuItem_Click);
             // 
             // splitContainer1
             // 
@@ -285,6 +194,20 @@
             this.PurchaseReqSearchTxt.TabIndex = 8;
             this.PurchaseReqSearchTxt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.PurchaseReqSearchTxt_KeyDown);
             // 
+            // panel2
+            // 
+            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel2.Controls.Add(this.ecitbttn);
+            this.panel2.Controls.Add(this.editbttn);
+            this.panel2.Controls.Add(this.savebttn);
+            this.panel2.Controls.Add(this.totalcostlbl);
+            this.panel2.Location = new System.Drawing.Point(4, 619);
+            this.panel2.MinimumSize = new System.Drawing.Size(0, 51);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(688, 51);
+            this.panel2.TabIndex = 1;
+            // 
             // ecitbttn
             // 
             this.ecitbttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -335,6 +258,20 @@
             this.savebttn.UseVisualStyleBackColor = true;
             this.savebttn.Visible = false;
             this.savebttn.Click += new System.EventHandler(this.savebttn_Click);
+            // 
+            // totalcostlbl
+            // 
+            this.totalcostlbl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.totalcostlbl.AutoSize = true;
+            this.totalcostlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.totalcostlbl.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.totalcostlbl.Location = new System.Drawing.Point(461, 18);
+            this.totalcostlbl.Name = "totalcostlbl";
+            this.totalcostlbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.totalcostlbl.Size = new System.Drawing.Size(91, 15);
+            this.totalcostlbl.TabIndex = 56;
+            this.totalcostlbl.Text = "Total Cost $ :";
+            this.totalcostlbl.Visible = false;
             // 
             // tabControl1
             // 
@@ -394,8 +331,6 @@
             this.dataGridView1.TabIndex = 15;
             this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
             this.dataGridView1.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDown);
-            this.dataGridView1.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dataGridView1_RowsRemoved);
-            this.dataGridView1.DoubleClick += new System.EventHandler(this.dataGridView1_DoubleClick);
             // 
             // ID
             // 
@@ -488,6 +423,7 @@
             // groupBox4
             // 
             this.groupBox4.BackColor = System.Drawing.Color.SteelBlue;
+            this.groupBox4.Controls.Add(this.label13);
             this.groupBox4.Controls.Add(this.approvechk);
             this.groupBox4.Controls.Add(this.dateTimePicker1);
             this.groupBox4.Controls.Add(this.apprvonlabel);
@@ -520,6 +456,21 @@
             this.groupBox4.Text = "Purchase Requisition Details";
             this.groupBox4.UseCompatibleTextRendering = true;
             // 
+            // label13
+            // 
+            this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.label13.Location = new System.Drawing.Point(8, 136);
+            this.label13.Name = "label13";
+            this.label13.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label13.Size = new System.Drawing.Size(107, 15);
+            this.label13.TabIndex = 61;
+            this.label13.Text = "Last Saved On :";
+            // 
             // approvechk
             // 
             this.approvechk.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -534,7 +485,6 @@
             this.approvechk.Text = "Approve";
             this.approvechk.UseVisualStyleBackColor = true;
             this.approvechk.Visible = false;
-            this.approvechk.CheckedChanged += new System.EventHandler(this.approvechk_CheckedChanged);
             this.approvechk.Click += new System.EventHandler(this.approvechk_Click);
             // 
             // dateTimePicker1
@@ -838,7 +788,6 @@
             this.Validatechk.UseVisualStyleBackColor = true;
             this.Validatechk.Visible = false;
             this.Validatechk.CheckedChanged += new System.EventHandler(this.Validatechk_CheckedChanged);
-            this.Validatechk.CheckStateChanged += new System.EventHandler(this.Validatechk_CheckStateChanged);
             this.Validatechk.Click += new System.EventHandler(this.Validatechk_Click);
             // 
             // itemspanel
@@ -849,7 +798,7 @@
             this.itemspanel.Controls.Add(this.groupBox3);
             this.itemspanel.Location = new System.Drawing.Point(0, 0);
             this.itemspanel.Name = "itemspanel";
-            this.itemspanel.Size = new System.Drawing.Size(341, 296);
+            this.itemspanel.Size = new System.Drawing.Size(337, 296);
             this.itemspanel.TabIndex = 0;
             // 
             // groupBox3
@@ -878,7 +827,7 @@
             this.groupBox3.Location = new System.Drawing.Point(0, 0);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(1);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(341, 296);
+            this.groupBox3.Size = new System.Drawing.Size(337, 296);
             this.groupBox3.TabIndex = 9;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Add Item to order";
@@ -906,7 +855,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.Font = new System.Drawing.Font("Palatino Linotype", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancel.Location = new System.Drawing.Point(233, 244);
+            this.btnCancel.Location = new System.Drawing.Point(239, 258);
             this.btnCancel.MaximumSize = new System.Drawing.Size(80, 25);
             this.btnCancel.MinimumSize = new System.Drawing.Size(80, 25);
             this.btnCancel.Name = "btnCancel";
@@ -923,7 +872,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDelete.Font = new System.Drawing.Font("Palatino Linotype", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDelete.Location = new System.Drawing.Point(137, 244);
+            this.btnDelete.Location = new System.Drawing.Point(137, 258);
             this.btnDelete.MaximumSize = new System.Drawing.Size(80, 25);
             this.btnDelete.MinimumSize = new System.Drawing.Size(80, 25);
             this.btnDelete.Name = "btnDelete";
@@ -941,7 +890,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Addnewbttn.Enabled = false;
             this.Addnewbttn.Font = new System.Drawing.Font("Palatino Linotype", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Addnewbttn.Location = new System.Drawing.Point(39, 244);
+            this.Addnewbttn.Location = new System.Drawing.Point(32, 258);
             this.Addnewbttn.MaximumSize = new System.Drawing.Size(80, 25);
             this.Addnewbttn.MinimumSize = new System.Drawing.Size(80, 25);
             this.Addnewbttn.Name = "Addnewbttn";
@@ -979,7 +928,7 @@
             this.oemitemnotxt.Name = "oemitemnotxt";
             this.oemitemnotxt.ReadOnly = true;
             this.oemitemnotxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.oemitemnotxt.Size = new System.Drawing.Size(218, 20);
+            this.oemitemnotxt.Size = new System.Drawing.Size(214, 20);
             this.oemitemnotxt.TabIndex = 64;
             this.oemitemnotxt.TabStop = false;
             // 
@@ -1009,7 +958,7 @@
             this.qtytxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.qtytxt.Name = "qtytxt";
             this.qtytxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.qtytxt.Size = new System.Drawing.Size(218, 22);
+            this.qtytxt.Size = new System.Drawing.Size(214, 22);
             this.qtytxt.TabIndex = 3;
             this.qtytxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.qtytxt_KeyPress);
             // 
@@ -1039,7 +988,7 @@
             this.pricetxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.pricetxt.Name = "pricetxt";
             this.pricetxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.pricetxt.Size = new System.Drawing.Size(218, 22);
+            this.pricetxt.Size = new System.Drawing.Size(214, 22);
             this.pricetxt.TabIndex = 4;
             this.pricetxt.Text = "$0.00";
             this.pricetxt.TextChanged += new System.EventHandler(this.pricetxt_TextChanged);
@@ -1073,7 +1022,7 @@
             this.oemtxt.Name = "oemtxt";
             this.oemtxt.ReadOnly = true;
             this.oemtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.oemtxt.Size = new System.Drawing.Size(218, 20);
+            this.oemtxt.Size = new System.Drawing.Size(214, 20);
             this.oemtxt.TabIndex = 58;
             this.oemtxt.TabStop = false;
             // 
@@ -1107,7 +1056,7 @@
             this.Descriptiontxtbox.Name = "Descriptiontxtbox";
             this.Descriptiontxtbox.ReadOnly = true;
             this.Descriptiontxtbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.Descriptiontxtbox.Size = new System.Drawing.Size(218, 44);
+            this.Descriptiontxtbox.Size = new System.Drawing.Size(214, 44);
             this.Descriptiontxtbox.TabIndex = 55;
             this.Descriptiontxtbox.TabStop = false;
             // 
@@ -1138,7 +1087,7 @@
             this.ItemTxtBox.Name = "ItemTxtBox";
             this.ItemTxtBox.ReadOnly = true;
             this.ItemTxtBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.ItemTxtBox.Size = new System.Drawing.Size(218, 20);
+            this.ItemTxtBox.Size = new System.Drawing.Size(214, 20);
             this.ItemTxtBox.TabIndex = 54;
             this.ItemTxtBox.TabStop = false;
             // 
@@ -1155,23 +1104,9 @@
             this.itemsearchtxtbox.MinimumSize = new System.Drawing.Size(200, 20);
             this.itemsearchtxtbox.Name = "itemsearchtxtbox";
             this.itemsearchtxtbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.itemsearchtxtbox.Size = new System.Drawing.Size(273, 22);
+            this.itemsearchtxtbox.Size = new System.Drawing.Size(269, 22);
             this.itemsearchtxtbox.TabIndex = 2;
             this.itemsearchtxtbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.itemsearchtxtbox_KeyDown);
-            // 
-            // totalcostlbl
-            // 
-            this.totalcostlbl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.totalcostlbl.AutoSize = true;
-            this.totalcostlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.totalcostlbl.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.totalcostlbl.Location = new System.Drawing.Point(461, 18);
-            this.totalcostlbl.Name = "totalcostlbl";
-            this.totalcostlbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.totalcostlbl.Size = new System.Drawing.Size(91, 15);
-            this.totalcostlbl.TabIndex = 56;
-            this.totalcostlbl.Text = "Total Cost $ :";
-            this.totalcostlbl.Visible = false;
             // 
             // TreeViewToolTip
             // 
@@ -1179,6 +1114,28 @@
             this.TreeViewToolTip.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.TreeViewToolTip.InitialDelay = 500;
             this.TreeViewToolTip.ReshowDelay = 100;
+            // 
+            // newbttn
+            // 
+            this.newbttn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.newbttn.BackColor = System.Drawing.Color.Transparent;
+            this.newbttn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.newbttn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.newbttn.ForeColor = System.Drawing.Color.Transparent;
+            this.newbttn.Image = ((System.Drawing.Image)(resources.GetObject("newbttn.Image")));
+            this.newbttn.Location = new System.Drawing.Point(14, 20);
+            this.newbttn.MaximumSize = new System.Drawing.Size(65, 56);
+            this.newbttn.MinimumSize = new System.Drawing.Size(65, 56);
+            this.newbttn.Name = "newbttn";
+            this.newbttn.Size = new System.Drawing.Size(65, 56);
+            this.newbttn.TabIndex = 21;
+            this.newbttn.Text = "Add New";
+            this.newbttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.TreeViewToolTip.SetToolTip(this.newbttn, "Create New Quote");
+            this.newbttn.UseVisualStyleBackColor = false;
+            this.newbttn.Click += new System.EventHandler(this.newbttn_Click);
             // 
             // errorProvider1
             // 
@@ -1215,10 +1172,8 @@
             // 
             // toolbarpanel
             // 
-            this.toolbarpanel.Controls.Add(this.MenuStrip);
+            this.toolbarpanel.Controls.Add(this.usercontrolgroupbox);
             this.toolbarpanel.Controls.Add(this.managergroupbox);
-            this.toolbarpanel.Controls.Add(this.printbttn);
-            this.toolbarpanel.Controls.Add(this.newbttn);
             this.toolbarpanel.Controls.Add(this.shapeContainer1);
             this.toolbarpanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.toolbarpanel.Location = new System.Drawing.Point(0, 0);
@@ -1227,41 +1182,105 @@
             this.toolbarpanel.Size = new System.Drawing.Size(1000, 90);
             this.toolbarpanel.TabIndex = 3;
             // 
-            // panel2
+            // managergroupbox
             // 
-            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel2.Controls.Add(this.ecitbttn);
-            this.panel2.Controls.Add(this.editbttn);
-            this.panel2.Controls.Add(this.savebttn);
-            this.panel2.Controls.Add(this.totalcostlbl);
-            this.panel2.Location = new System.Drawing.Point(4, 619);
-            this.panel2.MinimumSize = new System.Drawing.Size(0, 51);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(688, 51);
-            this.panel2.TabIndex = 1;
+            this.managergroupbox.Controls.Add(this.bttnshowmyreq);
+            this.managergroupbox.Controls.Add(this.bttnshowmydept);
+            this.managergroupbox.Controls.Add(this.bttnshowapproved);
+            this.managergroupbox.Controls.Add(this.bttnneedapproval);
+            this.managergroupbox.Enabled = false;
+            this.managergroupbox.ForeColor = System.Drawing.Color.White;
+            this.managergroupbox.Location = new System.Drawing.Point(184, -1);
+            this.managergroupbox.Name = "managergroupbox";
+            this.managergroupbox.Size = new System.Drawing.Size(538, 85);
+            this.managergroupbox.TabIndex = 23;
+            this.managergroupbox.TabStop = false;
+            this.managergroupbox.Text = "Supervisor Controls";
+            this.managergroupbox.Visible = false;
             // 
-            // newbttn
+            // bttnshowmyreq
             // 
-            this.newbttn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.bttnshowmyreq.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.newbttn.BackColor = System.Drawing.Color.Transparent;
-            this.newbttn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.newbttn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.newbttn.ForeColor = System.Drawing.Color.Transparent;
-            this.newbttn.Image = ((System.Drawing.Image)(resources.GetObject("newbttn.Image")));
-            this.newbttn.Location = new System.Drawing.Point(12, 18);
-            this.newbttn.MaximumSize = new System.Drawing.Size(65, 56);
-            this.newbttn.MinimumSize = new System.Drawing.Size(65, 56);
-            this.newbttn.Name = "newbttn";
-            this.newbttn.Size = new System.Drawing.Size(65, 56);
-            this.newbttn.TabIndex = 21;
-            this.newbttn.Text = "Add New";
-            this.newbttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.TreeViewToolTip.SetToolTip(this.newbttn, "Create New Quote");
-            this.newbttn.UseVisualStyleBackColor = false;
-            this.newbttn.Click += new System.EventHandler(this.newbttn_Click);
+            this.bttnshowmyreq.BackColor = System.Drawing.Color.Transparent;
+            this.bttnshowmyreq.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.bttnshowmyreq.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bttnshowmyreq.ForeColor = System.Drawing.Color.Transparent;
+            this.bttnshowmyreq.Image = ((System.Drawing.Image)(resources.GetObject("bttnshowmyreq.Image")));
+            this.bttnshowmyreq.Location = new System.Drawing.Point(410, 14);
+            this.bttnshowmyreq.MaximumSize = new System.Drawing.Size(115, 65);
+            this.bttnshowmyreq.MinimumSize = new System.Drawing.Size(115, 65);
+            this.bttnshowmyreq.Name = "bttnshowmyreq";
+            this.bttnshowmyreq.Size = new System.Drawing.Size(115, 65);
+            this.bttnshowmyreq.TabIndex = 21;
+            this.bttnshowmyreq.Text = "Show Mine";
+            this.bttnshowmyreq.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.bttnshowmyreq.UseVisualStyleBackColor = false;
+            this.bttnshowmyreq.Click += new System.EventHandler(this.bttnshowmyreq_Click);
+            // 
+            // bttnshowmydept
+            // 
+            this.bttnshowmydept.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.bttnshowmydept.BackColor = System.Drawing.Color.Transparent;
+            this.bttnshowmydept.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.bttnshowmydept.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bttnshowmydept.ForeColor = System.Drawing.Color.Transparent;
+            this.bttnshowmydept.Image = ((System.Drawing.Image)(resources.GetObject("bttnshowmydept.Image")));
+            this.bttnshowmydept.Location = new System.Drawing.Point(274, 14);
+            this.bttnshowmydept.MaximumSize = new System.Drawing.Size(115, 65);
+            this.bttnshowmydept.MinimumSize = new System.Drawing.Size(115, 65);
+            this.bttnshowmydept.Name = "bttnshowmydept";
+            this.bttnshowmydept.Size = new System.Drawing.Size(115, 65);
+            this.bttnshowmydept.TabIndex = 21;
+            this.bttnshowmydept.Text = "Show My Dept";
+            this.bttnshowmydept.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.bttnshowmydept.UseVisualStyleBackColor = false;
+            this.bttnshowmydept.Click += new System.EventHandler(this.bttnshowmydept_Click);
+            // 
+            // bttnshowapproved
+            // 
+            this.bttnshowapproved.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.bttnshowapproved.BackColor = System.Drawing.Color.Transparent;
+            this.bttnshowapproved.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.bttnshowapproved.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bttnshowapproved.ForeColor = System.Drawing.Color.Transparent;
+            this.bttnshowapproved.Image = ((System.Drawing.Image)(resources.GetObject("bttnshowapproved.Image")));
+            this.bttnshowapproved.Location = new System.Drawing.Point(140, 14);
+            this.bttnshowapproved.MaximumSize = new System.Drawing.Size(115, 65);
+            this.bttnshowapproved.MinimumSize = new System.Drawing.Size(115, 65);
+            this.bttnshowapproved.Name = "bttnshowapproved";
+            this.bttnshowapproved.Size = new System.Drawing.Size(115, 65);
+            this.bttnshowapproved.TabIndex = 21;
+            this.bttnshowapproved.Text = "Show  Approved";
+            this.bttnshowapproved.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.bttnshowapproved.UseVisualStyleBackColor = false;
+            this.bttnshowapproved.Click += new System.EventHandler(this.bttnshowapproved_Click);
+            // 
+            // bttnneedapproval
+            // 
+            this.bttnneedapproval.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.bttnneedapproval.BackColor = System.Drawing.Color.Transparent;
+            this.bttnneedapproval.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.bttnneedapproval.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bttnneedapproval.ForeColor = System.Drawing.Color.Transparent;
+            this.bttnneedapproval.Image = ((System.Drawing.Image)(resources.GetObject("bttnneedapproval.Image")));
+            this.bttnneedapproval.Location = new System.Drawing.Point(8, 15);
+            this.bttnneedapproval.MaximumSize = new System.Drawing.Size(115, 65);
+            this.bttnneedapproval.MinimumSize = new System.Drawing.Size(115, 65);
+            this.bttnneedapproval.Name = "bttnneedapproval";
+            this.bttnneedapproval.Size = new System.Drawing.Size(115, 65);
+            this.bttnneedapproval.TabIndex = 21;
+            this.bttnneedapproval.Text = "Needs Approval";
+            this.bttnneedapproval.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.bttnneedapproval.UseVisualStyleBackColor = false;
+            this.bttnneedapproval.Click += new System.EventHandler(this.bttnneedapproval_Click);
             // 
             // printbttn
             // 
@@ -1274,7 +1293,7 @@
             this.printbttn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.printbttn.ForeColor = System.Drawing.Color.Transparent;
             this.printbttn.Image = ((System.Drawing.Image)(resources.GetObject("printbttn.Image")));
-            this.printbttn.Location = new System.Drawing.Point(93, 18);
+            this.printbttn.Location = new System.Drawing.Point(95, 20);
             this.printbttn.MaximumSize = new System.Drawing.Size(65, 56);
             this.printbttn.MinimumSize = new System.Drawing.Size(65, 56);
             this.printbttn.Name = "printbttn";
@@ -1309,103 +1328,17 @@
             this.lineShape1.Y1 = 87;
             this.lineShape1.Y2 = 87;
             // 
-            // managergroupbox
+            // usercontrolgroupbox
             // 
-            this.managergroupbox.Controls.Add(this.bttnshowmyreq);
-            this.managergroupbox.Controls.Add(this.bttnshowmydept);
-            this.managergroupbox.Controls.Add(this.bttnshowapproved);
-            this.managergroupbox.Controls.Add(this.bttnneedapproval);
-            this.managergroupbox.ForeColor = System.Drawing.Color.White;
-            this.managergroupbox.Location = new System.Drawing.Point(184, -1);
-            this.managergroupbox.Name = "managergroupbox";
-            this.managergroupbox.Size = new System.Drawing.Size(538, 85);
-            this.managergroupbox.TabIndex = 23;
-            this.managergroupbox.TabStop = false;
-            this.managergroupbox.Text = "Supervisor Controls";
-            // 
-            // bttnneedapproval
-            // 
-            this.bttnneedapproval.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.bttnneedapproval.BackColor = System.Drawing.Color.Transparent;
-            this.bttnneedapproval.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.bttnneedapproval.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bttnneedapproval.ForeColor = System.Drawing.Color.Transparent;
-            this.bttnneedapproval.Image = ((System.Drawing.Image)(resources.GetObject("bttnneedapproval.Image")));
-            this.bttnneedapproval.Location = new System.Drawing.Point(8, 15);
-            this.bttnneedapproval.MaximumSize = new System.Drawing.Size(115, 65);
-            this.bttnneedapproval.MinimumSize = new System.Drawing.Size(115, 65);
-            this.bttnneedapproval.Name = "bttnneedapproval";
-            this.bttnneedapproval.Size = new System.Drawing.Size(115, 65);
-            this.bttnneedapproval.TabIndex = 21;
-            this.bttnneedapproval.Text = "Needs Approval";
-            this.bttnneedapproval.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.bttnneedapproval.UseVisualStyleBackColor = false;
-            this.bttnneedapproval.Click += new System.EventHandler(this.bttnneedapproval_Click);
-            // 
-            // bttnshowapproved
-            // 
-            this.bttnshowapproved.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.bttnshowapproved.BackColor = System.Drawing.Color.Transparent;
-            this.bttnshowapproved.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.bttnshowapproved.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bttnshowapproved.ForeColor = System.Drawing.Color.Transparent;
-            this.bttnshowapproved.Image = ((System.Drawing.Image)(resources.GetObject("bttnshowapproved.Image")));
-            this.bttnshowapproved.Location = new System.Drawing.Point(140, 14);
-            this.bttnshowapproved.MaximumSize = new System.Drawing.Size(115, 65);
-            this.bttnshowapproved.MinimumSize = new System.Drawing.Size(115, 65);
-            this.bttnshowapproved.Name = "bttnshowapproved";
-            this.bttnshowapproved.Size = new System.Drawing.Size(115, 65);
-            this.bttnshowapproved.TabIndex = 21;
-            this.bttnshowapproved.Text = "Show  Approved";
-            this.bttnshowapproved.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.bttnshowapproved.UseVisualStyleBackColor = false;
-            this.bttnshowapproved.Click += new System.EventHandler(this.bttnshowapproved_Click);
-            // 
-            // bttnshowmydept
-            // 
-            this.bttnshowmydept.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.bttnshowmydept.BackColor = System.Drawing.Color.Transparent;
-            this.bttnshowmydept.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.bttnshowmydept.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bttnshowmydept.ForeColor = System.Drawing.Color.Transparent;
-            this.bttnshowmydept.Image = ((System.Drawing.Image)(resources.GetObject("bttnshowmydept.Image")));
-            this.bttnshowmydept.Location = new System.Drawing.Point(274, 14);
-            this.bttnshowmydept.MaximumSize = new System.Drawing.Size(115, 65);
-            this.bttnshowmydept.MinimumSize = new System.Drawing.Size(115, 65);
-            this.bttnshowmydept.Name = "bttnshowmydept";
-            this.bttnshowmydept.Size = new System.Drawing.Size(115, 65);
-            this.bttnshowmydept.TabIndex = 21;
-            this.bttnshowmydept.Text = "Show My Dept";
-            this.bttnshowmydept.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.bttnshowmydept.UseVisualStyleBackColor = false;
-            this.bttnshowmydept.Click += new System.EventHandler(this.bttnshowmydept_Click);
-            // 
-            // bttnshowmyreq
-            // 
-            this.bttnshowmyreq.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.bttnshowmyreq.BackColor = System.Drawing.Color.Transparent;
-            this.bttnshowmyreq.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.bttnshowmyreq.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bttnshowmyreq.ForeColor = System.Drawing.Color.Transparent;
-            this.bttnshowmyreq.Image = ((System.Drawing.Image)(resources.GetObject("bttnshowmyreq.Image")));
-            this.bttnshowmyreq.Location = new System.Drawing.Point(410, 14);
-            this.bttnshowmyreq.MaximumSize = new System.Drawing.Size(115, 65);
-            this.bttnshowmyreq.MinimumSize = new System.Drawing.Size(115, 65);
-            this.bttnshowmyreq.Name = "bttnshowmyreq";
-            this.bttnshowmyreq.Size = new System.Drawing.Size(115, 65);
-            this.bttnshowmyreq.TabIndex = 21;
-            this.bttnshowmyreq.Text = "Show Mine";
-            this.bttnshowmyreq.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.bttnshowmyreq.UseVisualStyleBackColor = false;
-            this.bttnshowmyreq.Click += new System.EventHandler(this.bttnshowmyreq_Click);
+            this.usercontrolgroupbox.Controls.Add(this.printbttn);
+            this.usercontrolgroupbox.Controls.Add(this.newbttn);
+            this.usercontrolgroupbox.ForeColor = System.Drawing.Color.White;
+            this.usercontrolgroupbox.Location = new System.Drawing.Point(2, -1);
+            this.usercontrolgroupbox.Name = "usercontrolgroupbox";
+            this.usercontrolgroupbox.Size = new System.Drawing.Size(180, 85);
+            this.usercontrolgroupbox.TabIndex = 24;
+            this.usercontrolgroupbox.TabStop = false;
+            this.usercontrolgroupbox.Text = "User Controls";
             // 
             // PurchaseReqform
             // 
@@ -1422,14 +1355,14 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PurchaseReqform_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.PurchaseReqform_FormClosed);
             this.Load += new System.EventHandler(this.PurchaseReq_Load);
-            this.MenuStrip.ResumeLayout(false);
-            this.MenuStrip.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.PreviewTabPage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -1446,22 +1379,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.FormSelector.ResumeLayout(false);
             this.toolbarpanel.ResumeLayout(false);
-            this.toolbarpanel.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             this.managergroupbox.ResumeLayout(false);
+            this.usercontrolgroupbox.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.MenuStrip MenuStrip;
-        private System.Windows.Forms.ToolStripMenuItem NewItem;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.DataGridView dataGridView;
         private System.Windows.Forms.TextBox PurchaseReqSearchTxt;
-        private System.Windows.Forms.ToolStripMenuItem createNewPurchaseReqToolStripMenuItem;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage PreviewTabPage;
         private System.Windows.Forms.DataGridView dataGridView1;
@@ -1508,7 +1435,6 @@
         private System.Windows.Forms.Label Itemlbl;
         private System.Windows.Forms.TextBox ItemTxtBox;
         private System.Windows.Forms.TextBox itemsearchtxtbox;
-        private System.Windows.Forms.ToolStripMenuItem printToolStripMenuItem;
         private System.Windows.Forms.Label approvebylabel;
         private System.Windows.Forms.TextBox lastsavedtxt;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
@@ -1516,11 +1442,6 @@
         private System.Windows.Forms.Panel itemspanel;
         private System.Windows.Forms.CheckBox approvechk;
         private System.Windows.Forms.CheckBox Validatechk;
-        private System.Windows.Forms.ToolStripMenuItem Managertoolstip;
-        private System.Windows.Forms.ToolStripMenuItem showWaitingForApprovalToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem showApprovedToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem showAllToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem showMyPurchaseReqsToolStripMenuItem;
         private System.Windows.Forms.Label apprvonlabel;
         private System.Windows.Forms.DataGridViewTextBoxColumn ID;
         private System.Windows.Forms.DataGridViewTextBoxColumn OrderId;
@@ -1541,5 +1462,7 @@
         private System.Windows.Forms.Button bttnshowmydept;
         private System.Windows.Forms.Button bttnshowapproved;
         private System.Windows.Forms.Button bttnneedapproval;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.GroupBox usercontrolgroupbox;
     }
 }
