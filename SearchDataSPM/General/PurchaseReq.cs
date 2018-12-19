@@ -1783,31 +1783,61 @@ namespace SearchDataSPM
         private void newbttn_Click(object sender, EventArgs e)
         {
             createnew();
+           
         }
 
         private void printbttn_Click(object sender, EventArgs e)
         {
             reportpurchaereq(reqnumber, "Purchasereq");
+           
         }
 
         private void bttnneedapproval_Click(object sender, EventArgs e)
         {
             showwaitingonapproval();
+            foreach (Control c in managergroupbox.Controls)
+            {
+                c.BackColor = Color.Transparent;
+            }
+            //set the clicked control to a different color
+            Control o = (Control)sender;
+            o.BackColor = Color.FromArgb(255, 128, 0);
         }
 
         private void bttnshowapproved_Click(object sender, EventArgs e)
         {
             showallapproved();
+            foreach (Control c in managergroupbox.Controls)
+            {
+                c.BackColor = Color.Transparent;
+            }
+            //set the clicked control to a different color
+            Control o = (Control)sender;
+            o.BackColor = Color.FromArgb(255, 128, 0);
         }
 
         private void bttnshowmydept_Click(object sender, EventArgs e)
         {
             showmydeptreq();
+            foreach (Control c in managergroupbox.Controls)
+            {
+                c.BackColor = Color.Transparent;
+            }
+            //set the clicked control to a different color
+            Control o = (Control)sender;
+            o.BackColor = Color.FromArgb(255, 128, 0);
         }
 
         private void bttnshowmyreq_Click(object sender, EventArgs e)
         {
             showReqSearchItems(userfullname);
+            foreach (Control c in managergroupbox.Controls)
+            {
+                c.BackColor = Color.Transparent;
+            }
+            //set the clicked control to a different color
+            Control o = (Control)sender;
+            o.BackColor = Color.FromArgb(255, 128, 0);
         }
 
         #endregion
