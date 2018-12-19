@@ -53,7 +53,7 @@ namespace SearchDataSPM
             {
 
                 // MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                MessageBox.Show("Error Connecting to SQL Server.....", "SPM Connect - ENG", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetroFramework.MetroMessageBox.Show(this, "Error Connecting to SQL Server.....", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
             }
             finally
@@ -96,7 +96,7 @@ namespace SearchDataSPM
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show("Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect - Engineering Load(showallitems)", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MetroFramework.MetroMessageBox.Show(this, "Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect - Show All Req Items For User", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 }
                 finally
@@ -221,7 +221,7 @@ namespace SearchDataSPM
             catch (Exception ex)
             {
 
-                MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Error Getting Full User Name", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
 
             }
@@ -285,7 +285,7 @@ namespace SearchDataSPM
 
         void createnew()
         {
-            DialogResult result = MessageBox.Show("Are you sure want to create a new purchase req?", "SPM Connect - Create New?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to create a new purchase req?", "SPM Connect - Create New Purchase Requistion?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result == DialogResult.Yes)
             {
@@ -359,7 +359,7 @@ namespace SearchDataSPM
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "SPM Connect - Get Last Req Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Get Last Req Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -391,7 +391,7 @@ namespace SearchDataSPM
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "SPM Connect - Create Entry On SQL Purchase Req Base", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Create Entry On SQL Purchase Req Base", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -436,9 +436,9 @@ namespace SearchDataSPM
                         totalvalue = string.Format("{0:#.00}", total.ToString());
                     }
 
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-
+                        MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect -  Error Getting Total", MessageBoxButtons.OK);
                     }
 
 
@@ -505,7 +505,7 @@ namespace SearchDataSPM
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "SPM Connect - Update Entry On SQL Purchase Req Base", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Update Entry On SQL Purchase Req Base", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -597,8 +597,6 @@ namespace SearchDataSPM
                 {
                     errorProvider1.SetError(jobnumbertxt, "Job Number cannot be empty");
                     errorProvider1.SetError(subassytxt, "Sub Assy No cannot be empty");
-                    //MessageBox.Show("Quantity cannot be empty in order to add new entry.", "SPM Connect - Add New Item", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
                 }
             }
 
@@ -659,13 +657,10 @@ namespace SearchDataSPM
                 SqlCommand sda = new SqlCommand(query, cn);
                 sda.ExecuteNonQuery();
                 cn.Close();
-                //MetroFramework.MetroMessageBox.Show(this, itemno + " - Is removed from the system now!", "SPM Connect - Delete Item", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-
             }
             catch (Exception ex)
             {
-                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Delete Item", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Remove Items on Unsave", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -732,7 +727,7 @@ namespace SearchDataSPM
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "SPM Connect - Update Order Id", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Update Order Id", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -755,7 +750,6 @@ namespace SearchDataSPM
                     updateorderid(Convert.ToInt32(purchreqtxt.Text));
                     PopulateDataGridView();
                     Clear();
-                    //MessageBox.Show("Deleted Successfully", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 Addnewbttn.Enabled = false;
                 ecitbttn.Visible = false;
@@ -818,7 +812,6 @@ namespace SearchDataSPM
             else
             {
                 errorProvider1.SetError(qtytxt, "Cannot be null");
-                //MessageBox.Show("Quantity cannot be empty in order to add new entry.", "SPM Connect - Add New Item", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
         }
@@ -860,7 +853,7 @@ namespace SearchDataSPM
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "SPM Connect New Item - Fill Items Drop Down Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect New Item - Fill Items Drop Down Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -883,7 +876,7 @@ namespace SearchDataSPM
             }
             catch (SqlException ex)
             {
-                MessageBox.Show(ex.Message, "SPM Connect - Fill Items Details from Dropdown", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Fill Items Details For Dropdown Selected Item", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             }
             finally
@@ -1005,7 +998,7 @@ namespace SearchDataSPM
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "SPM Connect - Populate Req Detauils");
+                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Populate Req Details",MessageBoxButtons.OK);
             }
 
         }
@@ -1084,7 +1077,7 @@ namespace SearchDataSPM
             {
                 if (getapprovedstatus(Convert.ToInt32(purchreqtxt.Text)))
                 {
-                    MessageBox.Show("This purchase requisition is approved. Only supervisor can edit the details.", "SPM Connect - Purchase Req already approved", MessageBoxButtons.OK);
+                    MetroFramework.MetroMessageBox.Show(this, "This purchase requisition is approved. Only supervisor can edit the details.", "SPM Connect - Purchase Req already approved", MessageBoxButtons.OK);
                     Validatechk.Checked = true;
                     Validatechk.Text = "Invalidate";
                     groupBox3.Visible = false;
@@ -1103,7 +1096,9 @@ namespace SearchDataSPM
             else
             {
 
-                DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to send this purchase req for order?", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to send this purchase req for order?"+ Environment.NewLine +
+                    " " + Environment.NewLine +
+                    "This will send email to respective supervisor for approval.", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (result == DialogResult.Yes)
                 {
@@ -1156,7 +1151,7 @@ namespace SearchDataSPM
             catch (Exception ex)
             {
 
-                MessageBox.Show(ex.Message, "SPM Connect - Get approval status", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Get approval status", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 //Application.Exit();
 
             }
@@ -1211,7 +1206,9 @@ namespace SearchDataSPM
                 }
                 else
                 {
-                    DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to approve this purchase requistion for order?", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to approve this purchase requistion for order?" + Environment.NewLine +
+                    " " + Environment.NewLine +
+                    "This will send email to requested user attaching the approved purchase req.", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                     if (result == DialogResult.Yes)
                     {
@@ -1495,7 +1492,7 @@ namespace SearchDataSPM
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message);
+                    MetroFramework.MetroMessageBox.Show(this, e.Message,"SPM Connect - Save Report",MessageBoxButtons.OK);
                 }
 
 
@@ -1575,7 +1572,7 @@ namespace SearchDataSPM
             catch (Exception ex)
             {
 
-                MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Get Supervisor Name and Email", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
 
             }
@@ -1608,7 +1605,7 @@ namespace SearchDataSPM
             catch (Exception ex)
             {
 
-                MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Get User Name and Email", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
 
             }
@@ -1639,7 +1636,7 @@ namespace SearchDataSPM
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Send Email",MessageBoxButtons.OK);
             }
 
         }
@@ -1834,7 +1831,7 @@ namespace SearchDataSPM
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show("Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect - Engineering Load(showallitems)", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MetroFramework.MetroMessageBox.Show(this, "Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect - SHow Waiting For Approval", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 }
                 finally
@@ -1861,7 +1858,7 @@ namespace SearchDataSPM
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show("Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect - Engineering Load(showallitems)", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MetroFramework.MetroMessageBox.Show(this, "Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect - Show All Approved", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 }
                 finally
@@ -1888,7 +1885,7 @@ namespace SearchDataSPM
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show("Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect - Engineering Load(showallitems)", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MetroFramework.MetroMessageBox.Show(this, "Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect-  Show All Dept)", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 }
                 finally
