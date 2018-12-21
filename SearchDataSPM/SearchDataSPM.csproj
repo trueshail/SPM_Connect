@@ -353,6 +353,12 @@
     <Compile Include="General\SPM_ConnectWM.Designer.cs">
       <DependentUpon>SPM_ConnectWM.cs</DependentUpon>
     </Compile>
+    <Compile Include="lettergame.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="lettergame.Designer.cs">
+      <DependentUpon>lettergame.cs</DependentUpon>
+    </Compile>
     <Compile Include="ListOpenWindows.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -499,6 +505,7 @@
       <DependentUpon>SPM_DatabaseDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="SqlServerTypes\Loader.cs" />
+    <Compile Include="Stats.cs" />
     <Compile Include="Web References\RE2005\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -589,6 +596,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="General\SPM_ConnectWM.resx">
       <DependentUpon>SPM_ConnectWM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="lettergame.resx">
+      <DependentUpon>lettergame.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ListOpenWindows.resx">
       <DependentUpon>ListOpenWindows.cs</DependentUpon>

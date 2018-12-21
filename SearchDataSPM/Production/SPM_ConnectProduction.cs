@@ -135,11 +135,15 @@ namespace SearchDataSPM
         #region Search Parameters
 
         public void txtSearch_KeyDown(object sender, KeyEventArgs e)
-
         {
             if (e.KeyCode == Keys.Return)
-
             {
+                if (txtSearch.Text == "playgame")
+                {
+                    lettergame lettergame = new lettergame();
+                    lettergame.Show();
+                    return;
+                }
                 if (Descrip_txtbox.Visible == true)
                 {
                     clearandhide();

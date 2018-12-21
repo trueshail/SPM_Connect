@@ -181,8 +181,13 @@ namespace SearchDataSPM
 
         {
             if (e.KeyCode == Keys.Return)
-
             {
+                if(txtSearch.Text == "playgame")
+                {
+                    lettergame lettergame = new lettergame();
+                    lettergame.Show();
+                    return;
+                }
                 if (Descrip_txtbox.Visible == true)
                 {
                     clearandhide();
@@ -2928,8 +2933,8 @@ namespace SearchDataSPM
         private void pictureBox1_DoubleClick(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("http://www.spm-automation.com/");
-            // Edrawings.EModelViewer modelViewer = new Edrawings.EModelViewer();
-            //  modelViewer.Show();
+            //Edrawings.EModelViewer modelViewer = new Edrawings.EModelViewer();
+            //modelViewer.Show();
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
