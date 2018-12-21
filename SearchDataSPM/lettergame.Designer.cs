@@ -134,6 +134,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "lettergame";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SPM Connect - Time for some fun";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.statusStrip1.ResumeLayout(false);

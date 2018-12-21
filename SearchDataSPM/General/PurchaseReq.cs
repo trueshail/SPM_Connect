@@ -76,7 +76,7 @@ namespace SearchDataSPM
             {
                 managergroupbox.Visible = true;
                 managergroupbox.Enabled = true;
-
+                
             }
 
             if (higherauthority)
@@ -87,7 +87,7 @@ namespace SearchDataSPM
 
             }
 
-            if (higherauthority)
+            if (higherauthority || supervisor)
             {
                 bttnneedapproval.PerformClick();
             }
@@ -358,6 +358,7 @@ namespace SearchDataSPM
 
                 if (createnewreq(lastreq, userfullname.ToString()))
                 {
+
                     showReqSearchItems(userfullname);
                     selectrowbeforeediting(lastreq.ToString());
                     populatereqdetails(lastreq);
@@ -702,7 +703,7 @@ namespace SearchDataSPM
 
         void processsavebutton(bool validatehit, string typeofsave)
         {
-
+            tabControl1.TabPages.Remove(PreviewTabPage);
             string reqnumber = purchreqtxt.Text;
             errorProvider1.Clear();
             if (validatehit)
@@ -712,9 +713,22 @@ namespace SearchDataSPM
                 showReqSearchItems(userfullname);
                 clearaddnewtextboxes();
                 processexitbutton();
-                selectrowbeforeediting(reqnumber);
-                populatereqdetails(Convert.ToInt32(reqnumber));
-                PopulateDataGridView();
+                if(typeofsave == "Approved")
+                {
+                    bttnshowapproved.PerformClick();
+                }
+                if(typeofsave == "ApprovedFalse")
+                {
+                    bttnneedapproval.PerformClick();
+                }
+
+                if (dataGridView.Rows.Count > 0)
+                {
+                    selectrowbeforeediting(reqnumber);
+                }
+
+                //populatereqdetails(Convert.ToInt32(reqnumber));
+                //PopulateDataGridView();
             }
             else
             {
@@ -724,9 +738,13 @@ namespace SearchDataSPM
                     showReqSearchItems(userfullname);
                     clearaddnewtextboxes();
                     processexitbutton();
-                    selectrowbeforeediting(reqnumber);
-                    populatereqdetails(Convert.ToInt32(reqnumber));
-                    PopulateDataGridView();
+                    //if (dataGridView.Rows.Count > 0)
+                    //{
+                    //    selectrowbeforeediting(reqnumber);
+                    //}
+                  
+                    //populatereqdetails(Convert.ToInt32(reqnumber));
+                    //PopulateDataGridView();
                 }
                 else
                 {
@@ -1046,170 +1064,181 @@ namespace SearchDataSPM
 
         void populatereqdetails(int item) // populates details of selected purchase req
         {
-            try
+            if (dataGridView.Rows.Count > 0)
             {
-                DataRow[] dr = dt.Select("ReqNumber = '" + item + "'");
-                purchreqtxt.Text = dr[0]["ReqNumber"].ToString();
-                requestbytxt.Text = dr[0]["RequestedBy"].ToString();
-                datecreatedtxt.Text = dr[0]["DateCreated"].ToString();
-                jobnumbertxt.Text = dr[0]["JobNumber"].ToString();
-                subassytxt.Text = dr[0]["SubAssyNumber"].ToString();
-                lastsavedby.Text = dr[0]["LastSavedBy"].ToString();
-                lastsavedtxt.Text = dr[0]["DateLastSaved"].ToString();
-                notestxt.Text = dr[0]["Notes"].ToString();
-                DateTime dateValue = Convert.ToDateTime(dr[0]["DateRequired"]);
-                dateTimePicker1.Value = dateValue;
-
-                approvebylabel.Text = "Approved by : " + dr[0]["Approvedby"].ToString();
-                apprvonlabel.Text = "Approved on : " + dr[0]["DateApproved"].ToString();
-
-                happrovedbylbl.Text = "Approved by : " + dr[0]["HApprovedBy"].ToString();
-                happroveonlblb.Text = "Approved on : " + dr[0]["HDateApproved"].ToString();
-
-                supervisoridfromreq = Convert.ToInt32(dr[0]["SupervisorId"].ToString());
-
-                if (dr[0]["Validate"].ToString().Equals("1"))
+                try
                 {
-                    Validatechk.Checked = true;
-                    Validatechk.Text = "Invalidate";
+                    DataRow[] dr = dt.Select("ReqNumber = '" + item + "'");
+                    purchreqtxt.Text = dr[0]["ReqNumber"].ToString();
+                    requestbytxt.Text = dr[0]["RequestedBy"].ToString();
+                    datecreatedtxt.Text = dr[0]["DateCreated"].ToString();
+                    jobnumbertxt.Text = dr[0]["JobNumber"].ToString();
+                    subassytxt.Text = dr[0]["SubAssyNumber"].ToString();
+                    lastsavedby.Text = dr[0]["LastSavedBy"].ToString();
+                    lastsavedtxt.Text = dr[0]["DateLastSaved"].ToString();
+                    notestxt.Text = dr[0]["Notes"].ToString();
+                    DateTime dateValue = Convert.ToDateTime(dr[0]["DateRequired"]);
+                    dateTimePicker1.Value = dateValue;
 
-                }
-                else
-                {
-                    Validatechk.Text = "Validate";
-                    Validatechk.Checked = false;
-                }
-                if (dr[0]["Approved"].ToString().Equals("1") && dr[0]["Validate"].ToString().Equals("1"))
-                {
-                    approvechk.Text = "Approved";
-                    approvechk.Checked = true;
-                    approvechk.Visible = true;
-                    Validatechk.Visible = false;
-                    printbttn.Enabled = true;
-                    approvebylabel.Visible = true;
-                    apprvonlabel.Visible = true;
-                }
-                else
-                {
-                    approvechk.Text = "Approve";
-                    approvechk.Checked = false;
-                    approvechk.Visible = false;
-                    printbttn.Enabled = false;
-                    approvebylabel.Visible = false;
-                    apprvonlabel.Visible = false;
-                }
+                    approvebylabel.Text = "Approved by : " + dr[0]["Approvedby"].ToString();
+                    apprvonlabel.Text = "Approved on : " + dr[0]["DateApproved"].ToString();
 
-                if (supervisor && dr[0]["Validate"].ToString().Equals("1"))
-                {
+                    happrovedbylbl.Text = "Approved by : " + dr[0]["HApprovedBy"].ToString();
+                    happroveonlblb.Text = "Approved on : " + dr[0]["HDateApproved"].ToString();
 
-                    if (dr[0]["Approved"].ToString().Equals("1"))
+                    supervisoridfromreq = Convert.ToInt32(dr[0]["SupervisorId"].ToString());
+
+                    if (dr[0]["Validate"].ToString().Equals("1"))
+                    {
+                        Validatechk.Checked = true;
+                        Validatechk.Text = "Invalidate";
+
+                    }
+                    else
+                    {
+                        Validatechk.Text = "Validate";
+                        Validatechk.Checked = false;
+                    }
+                    if (dr[0]["Approved"].ToString().Equals("1") && dr[0]["Validate"].ToString().Equals("1"))
                     {
                         approvechk.Text = "Approved";
                         approvechk.Checked = true;
                         approvechk.Visible = true;
+                        Validatechk.Visible = false;
                         printbttn.Enabled = true;
                         approvebylabel.Visible = true;
                         apprvonlabel.Visible = true;
-                        Validatechk.Visible = false;
-                        Validatechk.Enabled = false;
                     }
                     else
                     {
                         approvechk.Text = "Approve";
                         approvechk.Checked = false;
-                        approvechk.Visible = true;
+                        approvechk.Visible = false;
                         printbttn.Enabled = false;
                         approvebylabel.Visible = false;
                         apprvonlabel.Visible = false;
+                    }
 
+                    if (supervisor && dr[0]["Validate"].ToString().Equals("1"))
+                    {
+
+                        if (dr[0]["Approved"].ToString().Equals("1"))
+                        {
+                            approvechk.Text = "Approved";
+                            approvechk.Checked = true;
+                            approvechk.Visible = true;
+                            printbttn.Enabled = true;
+                            approvebylabel.Visible = true;
+                            apprvonlabel.Visible = true;
+                            Validatechk.Visible = false;
+                            Validatechk.Enabled = false;
+                        }
+                        else
+                        {
+                            approvechk.Text = "Approve";
+                            approvechk.Checked = false;
+                            approvechk.Visible = true;
+                            printbttn.Enabled = false;
+                            approvebylabel.Visible = false;
+                            apprvonlabel.Visible = false;
+
+
+
+                        }
 
 
                     }
-
-
-                }
-                else if (supervisor && dr[0]["Validate"].ToString().Equals("0"))
-                {
-                    approvechk.Text = "Approve";
-                    approvechk.Checked = false;
-                    approvechk.Visible = false;
-                    printbttn.Enabled = false;
-                }
-
-                if (dr[0]["HApproval"].ToString().Equals("1"))
-                {
-                    if (dr[0]["Approved"].ToString().Equals("1") && dr[0]["Validate"].ToString().Equals("1"))
+                    else if (supervisor && dr[0]["Validate"].ToString().Equals("0"))
                     {
+                        approvechk.Text = "Approve";
+                        approvechk.Checked = false;
+                        approvechk.Visible = false;
+                        printbttn.Enabled = false;
+                    }
 
-                        if (higherauthority)
+                    if (dr[0]["HApproval"].ToString().Equals("1"))
+                    {
+                        if (dr[0]["Approved"].ToString().Equals("1") && dr[0]["Validate"].ToString().Equals("1"))
                         {
-                            if (dr[0]["Happroved"].ToString().Equals("0"))
-                            {
-                                hauthoritygroupbox.Visible = true;
-                                hauthoritygroupbox.Enabled = true;
-                                happrovechk.Text = "Final Approve";
-                                happrovechk.Checked = false;
 
+                            if (higherauthority)
+                            {
+                                if (dr[0]["Happroved"].ToString().Equals("0"))
+                                {
+                                    hauthoritygroupbox.Visible = true;
+                                    hauthoritygroupbox.Enabled = true;
+                                    happrovechk.Text = "Final Approve";
+                                    happrovechk.Checked = false;
+
+
+                                }
+                                else
+                                {
+                                    hauthoritygroupbox.Visible = true;
+                                    hauthoritygroupbox.Enabled = false;
+                                    happrovechk.Text = "Final Approved";
+                                    happrovechk.Checked = true;
+                                    // editbttn.Visible = false;
+                                }
 
                             }
                             else
                             {
-                                hauthoritygroupbox.Visible = true;
-                                hauthoritygroupbox.Enabled = false;
-                                happrovechk.Text = "Final Approved";
-                                happrovechk.Checked = true;
-                                // editbttn.Visible = false;
+                                if (supervisor)
+                                {
+                                    if (dr[0]["Happroved"].ToString().Equals("1"))
+                                    {
+                                        hauthoritygroupbox.Visible = true;
+                                        hauthoritygroupbox.Enabled = false;
+                                        happrovechk.Text = "Final Approved";
+                                        happrovechk.Checked = true;
+                                        printbttn.Enabled = true;
+                                        editbttn.Visible = false;
+                                    }
+                                    else
+                                    {
+                                        hauthoritygroupbox.Visible = false;
+                                        hauthoritygroupbox.Enabled = false;
+                                        happrovechk.Text = "Final Approved";
+                                        happrovechk.Checked = false;
+                                        printbttn.Enabled = false;
+                                        editbttn.Visible = true;
+                                    }
+                                }
+                                else
+                                {
+                                    if (dr[0]["Happroved"].ToString().Equals("1"))
+                                    {
+                                        hauthoritygroupbox.Visible = true;
+                                        hauthoritygroupbox.Enabled = false;
+                                        happrovechk.Text = "Final Approved";
+                                        happrovechk.Checked = true;
+                                        printbttn.Enabled = true;
+                                        editbttn.Visible = false;
+
+                                    }
+                                    else
+                                    {
+                                        hauthoritygroupbox.Visible = false;
+                                        hauthoritygroupbox.Enabled = false;
+                                        happrovechk.Text = "Final Approved";
+                                        happrovechk.Checked = false;
+                                        printbttn.Enabled = false;
+
+
+                                    }
+                                }
                             }
 
                         }
                         else
                         {
-                            if (supervisor)
-                            {
-                                if (dr[0]["Happroved"].ToString().Equals("1"))
-                                {
-                                    hauthoritygroupbox.Visible = true;
-                                    hauthoritygroupbox.Enabled = false;
-                                    happrovechk.Text = "Final Approved";
-                                    happrovechk.Checked = true;
-                                    printbttn.Enabled = true;
-                                    editbttn.Visible = false;
-                                }
-                                else
-                                {
-                                    hauthoritygroupbox.Visible = false;
-                                    hauthoritygroupbox.Enabled = false;
-                                    happrovechk.Text = "Final Approved";
-                                    happrovechk.Checked = false;
-                                    printbttn.Enabled = false;
-                                    editbttn.Visible = true;
-                                }
-                            }
-                            else
-                            {
-                                if (dr[0]["Happroved"].ToString().Equals("1"))
-                                {
-                                    hauthoritygroupbox.Visible = true;
-                                    hauthoritygroupbox.Enabled = false;
-                                    happrovechk.Text = "Final Approved";
-                                    happrovechk.Checked = true;
-                                    printbttn.Enabled = true;
-                                    editbttn.Visible = false;
-
-                                }
-                                else
-                                {
-                                    hauthoritygroupbox.Visible = false;
-                                    hauthoritygroupbox.Enabled = false;
-                                    happrovechk.Text = "Final Approved";
-                                    happrovechk.Checked = false;
-                                    printbttn.Enabled = false;
-
-
-                                }
-                            }
+                            hauthoritygroupbox.Visible = false;
+                            hauthoritygroupbox.Enabled = false;
+                            happrovechk.Text = "Final Approved";
+                            happrovechk.Checked = false;
+                            printbttn.Enabled = false;
                         }
-
                     }
                     else
                     {
@@ -1217,28 +1246,21 @@ namespace SearchDataSPM
                         hauthoritygroupbox.Enabled = false;
                         happrovechk.Text = "Final Approved";
                         happrovechk.Checked = false;
-                        printbttn.Enabled = false;
+
                     }
+                    if (higherauthority && getrequestname() == userfullname && happrovechk.Checked == false)
+                    {
+                        editbttn.Visible = true;
+                    }
+
+
                 }
-                else
+                catch (Exception ex)
                 {
-                    hauthoritygroupbox.Visible = false;
-                    hauthoritygroupbox.Enabled = false;
-                    happrovechk.Text = "Final Approved";
-                    happrovechk.Checked = false;
-
+                    MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Populate Req Details", MessageBoxButtons.OK);
                 }
-                if (higherauthority && getrequestname() == userfullname && happrovechk.Checked == false)
-                {
-                    editbttn.Visible = true;
-                }
-
-
             }
-            catch (Exception ex)
-            {
-                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Populate Req Details", MessageBoxButtons.OK);
-            }
+            
 
         }
 
@@ -1246,22 +1268,25 @@ namespace SearchDataSPM
 
         void PopulateDataGridView()
         {
-            int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
-            DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-            int item = Convert.ToInt32(slectedrow.Cells[0].Value);
-            using (SPM_DatabaseEntitiesPurchase db = new SPM_DatabaseEntitiesPurchase())
+            if (dataGridView.Rows.Count > 0)
             {
-                dataGridView1.DataSource = db.PurchaseReqs.Where(s => s.ReqNumber == item).ToList<PurchaseReq>();
+                int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
+                DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
+                int item = Convert.ToInt32(slectedrow.Cells[0].Value);
+                using (SPM_DatabaseEntitiesPurchase db = new SPM_DatabaseEntitiesPurchase())
+                {
+                    dataGridView1.DataSource = db.PurchaseReqs.Where(s => s.ReqNumber == item).ToList<PurchaseReq>();
+                }
+                //foreach (DataGridViewRow row in dataGridView1.Rows)
+                //{
+                //row.HeaderCell.Value = String.Format("{0}", row.Index + 1);
+                //}
+                reqnumber = item.ToString();
+                PreviewTabPage.Text = "ReqNo : " + item;
+                UpdateFontdataitems();
+                calculatetota();
             }
-            //foreach (DataGridViewRow row in dataGridView1.Rows)
-            //{
-            //row.HeaderCell.Value = String.Format("{0}", row.Index + 1);
-            //}
-            reqnumber = item.ToString();
-
-            PreviewTabPage.Text = "ReqNo : " + item;
-            UpdateFontdataitems();
-            calculatetota();
+           
         }
 
         #endregion
