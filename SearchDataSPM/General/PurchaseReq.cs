@@ -35,6 +35,8 @@ namespace SearchDataSPM
         int myid = 0;
         string userfullname = "";
         List<string> Itemstodiscard = new List<string>();
+        int supervisoridfromreq = 0;
+
 
         #endregion
 
@@ -222,7 +224,7 @@ namespace SearchDataSPM
             {
                 editbttn.Visible = false;
             }
-           
+
         }
 
         #endregion
@@ -664,7 +666,7 @@ namespace SearchDataSPM
                 approvechk.Visible = true;
                 approvechk.Enabled = true;
                 Validatechk.Visible = false;
-                if (userfullname == requestbytxt.Text && approvechk.Checked==false)
+                if (userfullname == requestbytxt.Text && approvechk.Checked == false)
                 {
                     Validatechk.Enabled = true;
                     Validatechk.Visible = true;
@@ -676,7 +678,7 @@ namespace SearchDataSPM
                 approvechk.Visible = false;
                 Validatechk.Visible = true;
             }
-          
+
 
 
 
@@ -1064,6 +1066,8 @@ namespace SearchDataSPM
                 happrovedbylbl.Text = "Approved by : " + dr[0]["HApprovedBy"].ToString();
                 happroveonlblb.Text = "Approved on : " + dr[0]["HDateApproved"].ToString();
 
+                supervisoridfromreq = Convert.ToInt32(dr[0]["SupervisorId"].ToString());
+
                 if (dr[0]["Validate"].ToString().Equals("1"))
                 {
                     Validatechk.Checked = true;
@@ -1117,7 +1121,7 @@ namespace SearchDataSPM
                         printbttn.Enabled = false;
                         approvebylabel.Visible = false;
                         apprvonlabel.Visible = false;
-                      
+
 
 
                     }
@@ -1145,7 +1149,7 @@ namespace SearchDataSPM
                                 hauthoritygroupbox.Enabled = true;
                                 happrovechk.Text = "Final Approve";
                                 happrovechk.Checked = false;
-                               
+
 
                             }
                             else
@@ -1154,7 +1158,7 @@ namespace SearchDataSPM
                                 hauthoritygroupbox.Enabled = false;
                                 happrovechk.Text = "Final Approved";
                                 happrovechk.Checked = true;
-                               // editbttn.Visible = false;
+                                // editbttn.Visible = false;
                             }
 
                         }
@@ -1205,7 +1209,7 @@ namespace SearchDataSPM
                                 }
                             }
                         }
-                        
+
                     }
                     else
                     {
@@ -1224,7 +1228,7 @@ namespace SearchDataSPM
                     happrovechk.Checked = false;
 
                 }
-                if (higherauthority && getrequestname() == userfullname && happrovechk.Checked==false)
+                if (higherauthority && getrequestname() == userfullname && happrovechk.Checked == false)
                 {
                     editbttn.Visible = true;
                 }
@@ -1342,7 +1346,7 @@ namespace SearchDataSPM
                     Validatechk.Text = "Invalidate";
                     string filename = makefilenameforreport(reqno, true);
                     SaveReport(reqno, filename);
-                    preparetosendemail(reqno, true, "", filename, false);
+                    preparetosendemail(reqno, true, "", filename, false, "user");
                 }
                 else
                 {
@@ -1471,7 +1475,7 @@ namespace SearchDataSPM
                         approvechk.Checked = true;
                         string filename = makefilenameforreport(reqno, false).ToString();
                         SaveReport(reqno, filename);
-                        preparetosendemail(reqno, false, requestby, filename, happroval());
+                        preparetosendemail(reqno, false, requestby, filename, happroval(), "supervisor");
 
                     }
                     else
@@ -1855,7 +1859,7 @@ namespace SearchDataSPM
             return null;
         }
 
-        void preparetosendemail(string reqno, bool prelim, string requestby, string fileName, bool happroval)
+        void preparetosendemail(string reqno, bool prelim, string requestby, string fileName, bool happroval, string triggerby)
         {
             if (prelim)
             {
@@ -1869,7 +1873,7 @@ namespace SearchDataSPM
                 }
                 else
                 {
-                    sendemailtouser(reqno, fileName, requestby);
+                    sendemailtouser(reqno, fileName, requestby, triggerby);
                 }
             }
 
@@ -1895,14 +1899,33 @@ namespace SearchDataSPM
 
             }
             name = names[0];
-            sendemail(email, reqno + " Purchase Req Approval Required", "Hello " + name + "," + Environment.NewLine + userfullname + " sent this purchase req for approval.", fileName);
+            sendemail(email, reqno + " Purchase Req Approval Required", "Hello " + name + "," + Environment.NewLine + userfullname + " sent this purchase req for approval.", fileName, "");
         }
 
-        void sendemailtouser(string reqno, string fileName, string requestby)
+        void sendemailtouser(string reqno, string fileName, string requestby, string triggerby)
         {
             string email = getusernameandemail(requestby);
 
-            sendemail(email, reqno + " Purchase Req Approved", "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is approved.", fileName);
+            if (triggerby == "supervisor")
+            {
+                sendemail(email, reqno + " Purchase Req Approved", "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is approved.", fileName, "");
+            }
+            else
+            {
+                string nameemail = getsupervisornameandemail(supervisoridfromreq);
+
+                string[] values = nameemail.Replace("][", "~").Split('~');
+                for (int i = 0; i < values.Length; i++)
+                {
+                    values[i] = values[i].Trim();
+
+                }
+                string supervisoremail = values[0];
+
+                sendemail(email, reqno + " Purchase Req Approved", "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is approved.", fileName, supervisoremail);
+
+            }
+
         }
 
         void sendmailforhapproval(string reqno, string fileName)
@@ -1927,7 +1950,7 @@ namespace SearchDataSPM
 
                 }
                 name = names[0];
-                sendemail(email, reqno + " Purchase Req Approval Required - 2nd Approval", "Hello " + name + "," + Environment.NewLine + userfullname + " sent this purchase req for second  approval.", fileName);
+                sendemail(email, reqno + " Purchase Req Approval Required - 2nd Approval", "Hello " + name + "," + Environment.NewLine + userfullname + " sent this purchase req for second approval.", fileName, "");
             }
 
         }
@@ -2061,32 +2084,74 @@ namespace SearchDataSPM
             return Happrovalnames;
         }
 
-        void sendemail(string emailtosend, string subject, string body, string filetoattach)
+        void sendemail(string emailtosend, string subject, string body, string filetoattach, string cc)
         {
-            try
+            if (sendemailyesno())
             {
-                MailMessage message = new MailMessage();
-                SmtpClient SmtpServer = new SmtpClient("spmautomation-com0i.mail.protection.outlook.com");
-                message.From = new MailAddress("connect@spm-automation.com", "SPM Connect");
-                message.To.Add(emailtosend);
-                message.Subject = subject;
-                message.Body = body;
-                System.Net.Mail.Attachment attachment;
-                attachment = new System.Net.Mail.Attachment(filetoattach);
+                try
+                {
+                    MailMessage message = new MailMessage();
+                    SmtpClient SmtpServer = new SmtpClient("spmautomation-com0i.mail.protection.outlook.com");
+                    message.From = new MailAddress("connect@spm-automation.com", "SPM Connect");
+                    message.To.Add(emailtosend);
+                    if (cc == "")
+                    {
 
-                message.Attachments.Add(attachment);
-                SmtpServer.Port = 25;
-                SmtpServer.UseDefaultCredentials = true;
-                SmtpServer.EnableSsl = true;
-                SmtpServer.Send(message);
-            }
-            catch (Exception ex)
-            {
-                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Send Email", MessageBoxButtons.OK);
+                    }
+                    else
+                    {
+                        message.CC.Add(cc);
+                    }
+                    message.Subject = subject;
+                    message.Body = body;
+
+                    System.Net.Mail.Attachment attachment;
+                    attachment = new System.Net.Mail.Attachment(filetoattach);
+
+                    message.Attachments.Add(attachment);
+                    SmtpServer.Port = 25;
+                    SmtpServer.UseDefaultCredentials = true;
+                    SmtpServer.EnableSsl = true;
+                    SmtpServer.Send(message);
+                }
+                catch (Exception ex)
+                {
+                    MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Send Email", MessageBoxButtons.OK);
+                }
             }
 
         }
 
+        private bool sendemailyesno()
+        {
+            bool sendemail = false;
+            string limit = "";
+            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'EmailReq'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    limit = (string)cmd.ExecuteScalar();
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Get Limit for purchasing", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+            if (limit == "1")
+            {
+                sendemail = true;
+            }
+            return sendemail;
+
+        }
 
         #endregion
 
@@ -2474,7 +2539,7 @@ namespace SearchDataSPM
             {
                 if (happrovechk.Checked == false)
                 {
-                        processsavebutton(true, "Happrovedfalse");
+                    processsavebutton(true, "Happrovedfalse");
                 }
                 else
                 {
@@ -2492,7 +2557,7 @@ namespace SearchDataSPM
                         string filename = makefilenameforreport(reqno, false).ToString();
                         //SaveReport(reqno, filename);
 
-                        preparetosendemail(reqno, false, requestby, filename, false);
+                        preparetosendemail(reqno, false, requestby, filename, false, "highautority");
 
                     }
                     else
