@@ -290,14 +290,14 @@
             this.purchasereq.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.purchasereq.ForeColor = System.Drawing.Color.Transparent;
             this.purchasereq.Image = ((System.Drawing.Image)(resources.GetObject("purchasereq.Image")));
-            this.purchasereq.Location = new System.Drawing.Point(957, 60);
+            this.purchasereq.Location = new System.Drawing.Point(955, 15);
             this.purchasereq.MaximumSize = new System.Drawing.Size(25, 25);
             this.purchasereq.MinimumSize = new System.Drawing.Size(25, 25);
             this.purchasereq.Name = "purchasereq";
             this.purchasereq.Size = new System.Drawing.Size(25, 25);
             this.purchasereq.TabIndex = 14;
             this.purchasereq.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.TreeViewToolTip.SetToolTip(this.purchasereq, "Create New Item");
+            this.TreeViewToolTip.SetToolTip(this.purchasereq, "Purchase Requsition");
             this.purchasereq.UseVisualStyleBackColor = false;
             this.purchasereq.Visible = false;
             this.purchasereq.Click += new System.EventHandler(this.purchasereq_Click);

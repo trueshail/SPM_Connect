@@ -58,15 +58,14 @@ namespace SearchDataSPM
                 cn.Close();
             }
             dt = new DataTable();
+            CheckManagement();
+            checkpruchasereqrights();
+            checkquoterights();
         }
 
         private void SPM_Connect_Load(object sender, EventArgs e)
         {
-            CheckManagement();
-            Checkdeveloper();
-            checkquoterights();
             Showallitems();
-
         }
 
         private void Showallitems()
@@ -574,11 +573,11 @@ namespace SearchDataSPM
             }
         }
 
-        private void Checkdeveloper()
+        private void checkpruchasereqrights()
         {
             string useradmin = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
 
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND Developer = '1'", cn))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND PurchaseReq = '1'", cn))
             {
                 try
                 {
@@ -997,7 +996,7 @@ namespace SearchDataSPM
             }
             if (Directory.Exists(destDirName))
             {
-                if (MessageBox.Show(destDirName + " already exists\r\nDo you want to overwrite it?", "Overwrite Folder  - SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk,MessageBoxDefaultButton.Button2,MessageBoxOptions.DefaultDesktopOnly) == DialogResult.Yes)
+                if (MessageBox.Show(destDirName + " already exists\r\nDo you want to overwrite it?", "Overwrite Folder  - SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button2, MessageBoxOptions.DefaultDesktopOnly) == DialogResult.Yes)
                 {
                     DirectoryInfo[] dirs = dir.GetDirectories();
                     // If the destination directory doesn't exist, create it.
@@ -1058,7 +1057,7 @@ namespace SearchDataSPM
 
         private void CreateFolderButton_Click(object sender, EventArgs e)
         {
-            createfolders();           
+            createfolders();
         }
 
         void createfolders()
@@ -1163,7 +1162,7 @@ namespace SearchDataSPM
 
                 Regex reg = new Regex("[*'\"/,_&#^@]");
                 jobdescription = reg.Replace(jobdescription, "-");
-                jobdescription=System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(jobdescription.ToLower());
+                jobdescription = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(jobdescription.ToLower());
                 return jobdescription;
             }
             else
@@ -1232,10 +1231,10 @@ namespace SearchDataSPM
 
         private void purchasereq_Click(object sender, EventArgs e)
         {
-           
+
             PurchaseReqform purchaseReq = new PurchaseReqform();
             purchaseReq.Show();
-           
+
         }
 
         private String getselectedjobnumber()
@@ -1279,7 +1278,7 @@ namespace SearchDataSPM
 
         private void quotebttn_Click(object sender, EventArgs e)
         {
-           
+
         }
 
         private void quotebttn_Click_1(object sender, EventArgs e)
