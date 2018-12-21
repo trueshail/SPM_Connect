@@ -23,7 +23,7 @@ namespace SearchDataSPM
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new PurchaseReqform());
+            Application.Run(new SPM_ConnectHome());
         }
 
     }
