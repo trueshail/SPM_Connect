@@ -222,10 +222,7 @@ namespace SearchDataSPM
             {
                 editbttn.Visible = false;
             }
-            if(higherauthority && getrequestname()==userfullname)
-            {
-                editbttn.Visible = true;
-            }
+           
         }
 
         #endregion
@@ -1148,6 +1145,7 @@ namespace SearchDataSPM
                                 hauthoritygroupbox.Enabled = true;
                                 happrovechk.Text = "Final Approve";
                                 happrovechk.Checked = false;
+                               
 
                             }
                             else
@@ -1156,7 +1154,7 @@ namespace SearchDataSPM
                                 hauthoritygroupbox.Enabled = false;
                                 happrovechk.Text = "Final Approved";
                                 happrovechk.Checked = true;
-
+                               // editbttn.Visible = false;
                             }
 
                         }
@@ -1192,6 +1190,7 @@ namespace SearchDataSPM
                                     happrovechk.Text = "Final Approved";
                                     happrovechk.Checked = true;
                                     printbttn.Enabled = true;
+                                    editbttn.Visible = false;
 
                                 }
                                 else
@@ -1201,6 +1200,7 @@ namespace SearchDataSPM
                                     happrovechk.Text = "Final Approved";
                                     happrovechk.Checked = false;
                                     printbttn.Enabled = false;
+
 
                                 }
                             }
@@ -1223,6 +1223,10 @@ namespace SearchDataSPM
                     happrovechk.Text = "Final Approved";
                     happrovechk.Checked = false;
 
+                }
+                if (higherauthority && getrequestname() == userfullname && happrovechk.Checked==false)
+                {
+                    editbttn.Visible = true;
                 }
 
 
@@ -2030,7 +2034,7 @@ namespace SearchDataSPM
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [PurchaseReqBuyer] = '1' ";
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [PurchaseReqApproval2] = '1' ";
                 cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
