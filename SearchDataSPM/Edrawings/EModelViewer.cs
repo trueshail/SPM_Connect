@@ -7,6 +7,8 @@ namespace SearchDataSPM.Edrawings
     public partial class EModelViewer : Form
     {
         eDrawingControl ctrl = null;
+        string filename = "";
+
         public EModelViewer()
         {
             InitializeComponent();
@@ -27,6 +29,13 @@ namespace SearchDataSPM.Edrawings
             
         }
 
+        public string filetoopen(string item)
+        {
+            if (item.Length > 0)
+                return filename = item;
+            return null;
+        }
+
         void openfile(string filename)
         {
             if (File.Exists(filename)) { }
@@ -35,7 +44,7 @@ namespace SearchDataSPM.Edrawings
 
         private void EModelViewer_Load(object sender, System.EventArgs e)
         {
-            string filename = @"\\spm-adfs\CAD Data\AAACAD\A78\A78001.sldasm";
+            //string filename = @"\\spm-adfs\CAD Data\AAACAD\A78\A78001.sldasm";
             if (File.Exists(filename)) { }
             ctrl.eDrawingControlWrapper.OpenDoc(filename, false, false, true, "");
         }

@@ -182,7 +182,7 @@ namespace SearchDataSPM
         {
             if (e.KeyCode == Keys.Return)
             {
-                if(txtSearch.Text == "playgame")
+                if (txtSearch.Text == "playgame")
                 {
                     lettergame lettergame = new lettergame();
                     lettergame.Show();
@@ -2933,8 +2933,7 @@ namespace SearchDataSPM
         private void pictureBox1_DoubleClick(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("http://www.spm-automation.com/");
-            //Edrawings.EModelViewer modelViewer = new Edrawings.EModelViewer();
-            //modelViewer.Show();
+
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
@@ -2958,6 +2957,37 @@ namespace SearchDataSPM
 
             }
 
+        }
+
+        private void eModelViewerToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (listView.Items.Count > 0)
+            {
+                string itemnumber = getitemnumberselected().ToString();
+                string Pathpart = Makepath(itemnumber);
+                string filename = Pathpart + itemnumber;
+
+                string[] s = Directory.GetFiles(Pathpart, "*" + itemnumber + "*", SearchOption.TopDirectoryOnly).Where(str => !str.Contains(@"\~$")).ToArray();
+
+                for (int i = 0; i < s.Length; i++)
+                {
+                    //MessageBox.Show(s[i]);
+                    //MessageBox.Show(Path.GetFileName(s[i]));
+
+                    if (s[i].Contains(".sldprt"))
+                    {
+
+                        filename += ".sldprt";
+                    }
+                    else if (s[i].Contains(".sldasm"))
+                    {
+                        filename += ".sldasm";
+                    }
+                }
+                Edrawings.EModelViewer modelViewer = new Edrawings.EModelViewer();
+                modelViewer.filetoopen(filename);
+                modelViewer.Show();
+            }
         }
 
         #endregion
@@ -3459,6 +3489,7 @@ namespace SearchDataSPM
         #endregion
 
         #endregion
+
 
     }
 
