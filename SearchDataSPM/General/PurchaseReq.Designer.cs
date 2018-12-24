@@ -99,19 +99,19 @@
             this.bttnshowapproved = new System.Windows.Forms.Button();
             this.bttnneedapproval = new System.Windows.Forms.Button();
             this.printbttn = new System.Windows.Forms.Button();
+            this.happrovechk = new System.Windows.Forms.CheckBox();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.FormSelector = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolbarpanel = new System.Windows.Forms.Panel();
+            this.hauthoritygroupbox = new System.Windows.Forms.GroupBox();
+            this.happroveonlblb = new System.Windows.Forms.Label();
+            this.happrovedbylbl = new System.Windows.Forms.Label();
             this.usercontrolgroupbox = new System.Windows.Forms.GroupBox();
             this.managergroupbox = new System.Windows.Forms.GroupBox();
             this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
             this.lineShape1 = new Microsoft.VisualBasic.PowerPacks.LineShape();
-            this.hauthoritygroupbox = new System.Windows.Forms.GroupBox();
-            this.happroveonlblb = new System.Windows.Forms.Label();
-            this.happrovedbylbl = new System.Windows.Forms.Label();
-            this.happrovechk = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -131,9 +131,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.FormSelector.SuspendLayout();
             this.toolbarpanel.SuspendLayout();
+            this.hauthoritygroupbox.SuspendLayout();
             this.usercontrolgroupbox.SuspendLayout();
             this.managergroupbox.SuspendLayout();
-            this.hauthoritygroupbox.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -812,7 +812,7 @@
             this.itemspanel.Controls.Add(this.groupBox3);
             this.itemspanel.Location = new System.Drawing.Point(0, 0);
             this.itemspanel.Name = "itemspanel";
-            this.itemspanel.Size = new System.Drawing.Size(333, 296);
+            this.itemspanel.Size = new System.Drawing.Size(343, 296);
             this.itemspanel.TabIndex = 0;
             // 
             // groupBox3
@@ -841,7 +841,7 @@
             this.groupBox3.Location = new System.Drawing.Point(0, 0);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(1);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(333, 296);
+            this.groupBox3.Size = new System.Drawing.Size(343, 296);
             this.groupBox3.TabIndex = 9;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Add Item to order";
@@ -942,7 +942,7 @@
             this.oemitemnotxt.Name = "oemitemnotxt";
             this.oemitemnotxt.ReadOnly = true;
             this.oemitemnotxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.oemitemnotxt.Size = new System.Drawing.Size(210, 20);
+            this.oemitemnotxt.Size = new System.Drawing.Size(220, 20);
             this.oemitemnotxt.TabIndex = 64;
             this.oemitemnotxt.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.oemitemnotxt, "Manufacturer Item No");
@@ -973,7 +973,7 @@
             this.qtytxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.qtytxt.Name = "qtytxt";
             this.qtytxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.qtytxt.Size = new System.Drawing.Size(210, 22);
+            this.qtytxt.Size = new System.Drawing.Size(220, 22);
             this.qtytxt.TabIndex = 3;
             this.TreeViewToolTip.SetToolTip(this.qtytxt, "Quantity required");
             this.qtytxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.qtytxt_KeyPress);
@@ -1004,7 +1004,7 @@
             this.pricetxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.pricetxt.Name = "pricetxt";
             this.pricetxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.pricetxt.Size = new System.Drawing.Size(210, 22);
+            this.pricetxt.Size = new System.Drawing.Size(220, 22);
             this.pricetxt.TabIndex = 4;
             this.pricetxt.Text = "$0.00";
             this.TreeViewToolTip.SetToolTip(this.pricetxt, "Unit price for the item");
@@ -1039,7 +1039,7 @@
             this.oemtxt.Name = "oemtxt";
             this.oemtxt.ReadOnly = true;
             this.oemtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.oemtxt.Size = new System.Drawing.Size(210, 20);
+            this.oemtxt.Size = new System.Drawing.Size(220, 20);
             this.oemtxt.TabIndex = 58;
             this.oemtxt.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.oemtxt, "Item Manufacturer");
@@ -1074,7 +1074,7 @@
             this.Descriptiontxtbox.Name = "Descriptiontxtbox";
             this.Descriptiontxtbox.ReadOnly = true;
             this.Descriptiontxtbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.Descriptiontxtbox.Size = new System.Drawing.Size(210, 44);
+            this.Descriptiontxtbox.Size = new System.Drawing.Size(220, 44);
             this.Descriptiontxtbox.TabIndex = 55;
             this.Descriptiontxtbox.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.Descriptiontxtbox, "Item Description");
@@ -1106,7 +1106,7 @@
             this.ItemTxtBox.Name = "ItemTxtBox";
             this.ItemTxtBox.ReadOnly = true;
             this.ItemTxtBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.ItemTxtBox.Size = new System.Drawing.Size(210, 20);
+            this.ItemTxtBox.Size = new System.Drawing.Size(220, 20);
             this.ItemTxtBox.TabIndex = 54;
             this.ItemTxtBox.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.ItemTxtBox, "Item Number");
@@ -1124,7 +1124,7 @@
             this.itemsearchtxtbox.MinimumSize = new System.Drawing.Size(200, 20);
             this.itemsearchtxtbox.Name = "itemsearchtxtbox";
             this.itemsearchtxtbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.itemsearchtxtbox.Size = new System.Drawing.Size(265, 22);
+            this.itemsearchtxtbox.Size = new System.Drawing.Size(275, 22);
             this.itemsearchtxtbox.TabIndex = 2;
             this.TreeViewToolTip.SetToolTip(this.itemsearchtxtbox, "Search for item to order \r\nStarting with Letter \'A\' or \'B\' or \'C\'");
             this.itemsearchtxtbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.itemsearchtxtbox_KeyDown);
@@ -1303,6 +1303,22 @@
             this.printbttn.UseVisualStyleBackColor = false;
             this.printbttn.Click += new System.EventHandler(this.printbttn_Click);
             // 
+            // happrovechk
+            // 
+            this.happrovechk.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.happrovechk.AutoSize = true;
+            this.happrovechk.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.happrovechk.Location = new System.Drawing.Point(14, 21);
+            this.happrovechk.Name = "happrovechk";
+            this.happrovechk.Size = new System.Drawing.Size(111, 20);
+            this.happrovechk.TabIndex = 63;
+            this.happrovechk.Text = "Final Approve";
+            this.TreeViewToolTip.SetToolTip(this.happrovechk, "Approve purchase req");
+            this.happrovechk.UseVisualStyleBackColor = true;
+            this.happrovechk.Click += new System.EventHandler(this.happrovechk_Click);
+            // 
             // errorProvider1
             // 
             this.errorProvider1.ContainerControl = this;
@@ -1348,6 +1364,50 @@
             this.toolbarpanel.Name = "toolbarpanel";
             this.toolbarpanel.Size = new System.Drawing.Size(1000, 90);
             this.toolbarpanel.TabIndex = 3;
+            // 
+            // hauthoritygroupbox
+            // 
+            this.hauthoritygroupbox.Controls.Add(this.happrovechk);
+            this.hauthoritygroupbox.Controls.Add(this.happroveonlblb);
+            this.hauthoritygroupbox.Controls.Add(this.happrovedbylbl);
+            this.hauthoritygroupbox.Enabled = false;
+            this.hauthoritygroupbox.ForeColor = System.Drawing.Color.White;
+            this.hauthoritygroupbox.Location = new System.Drawing.Point(730, -1);
+            this.hauthoritygroupbox.Name = "hauthoritygroupbox";
+            this.hauthoritygroupbox.Size = new System.Drawing.Size(238, 85);
+            this.hauthoritygroupbox.TabIndex = 24;
+            this.hauthoritygroupbox.TabStop = false;
+            this.hauthoritygroupbox.Text = "Admin Approvals";
+            this.hauthoritygroupbox.Visible = false;
+            // 
+            // happroveonlblb
+            // 
+            this.happroveonlblb.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.happroveonlblb.AutoSize = true;
+            this.happroveonlblb.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.happroveonlblb.ForeColor = System.Drawing.Color.White;
+            this.happroveonlblb.Location = new System.Drawing.Point(8, 64);
+            this.happroveonlblb.Name = "happroveonlblb";
+            this.happroveonlblb.Size = new System.Drawing.Size(79, 13);
+            this.happroveonlblb.TabIndex = 61;
+            this.happroveonlblb.Text = "Approved On : ";
+            // 
+            // happrovedbylbl
+            // 
+            this.happrovedbylbl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.happrovedbylbl.AutoSize = true;
+            this.happrovedbylbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.happrovedbylbl.ForeColor = System.Drawing.Color.White;
+            this.happrovedbylbl.Location = new System.Drawing.Point(8, 47);
+            this.happrovedbylbl.Name = "happrovedbylbl";
+            this.happrovedbylbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.happrovedbylbl.Size = new System.Drawing.Size(77, 13);
+            this.happrovedbylbl.TabIndex = 62;
+            this.happrovedbylbl.Text = "Approved By : ";
             // 
             // usercontrolgroupbox
             // 
@@ -1401,66 +1461,6 @@
             this.lineShape1.Y1 = 87;
             this.lineShape1.Y2 = 87;
             // 
-            // hauthoritygroupbox
-            // 
-            this.hauthoritygroupbox.Controls.Add(this.happrovechk);
-            this.hauthoritygroupbox.Controls.Add(this.happroveonlblb);
-            this.hauthoritygroupbox.Controls.Add(this.happrovedbylbl);
-            this.hauthoritygroupbox.Enabled = false;
-            this.hauthoritygroupbox.ForeColor = System.Drawing.Color.White;
-            this.hauthoritygroupbox.Location = new System.Drawing.Point(730, -1);
-            this.hauthoritygroupbox.Name = "hauthoritygroupbox";
-            this.hauthoritygroupbox.Size = new System.Drawing.Size(238, 85);
-            this.hauthoritygroupbox.TabIndex = 24;
-            this.hauthoritygroupbox.TabStop = false;
-            this.hauthoritygroupbox.Text = "Admin Approvals";
-            this.hauthoritygroupbox.Visible = false;
-            // 
-            // happroveonlblb
-            // 
-            this.happroveonlblb.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.happroveonlblb.AutoSize = true;
-            this.happroveonlblb.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.happroveonlblb.ForeColor = System.Drawing.Color.White;
-            this.happroveonlblb.Location = new System.Drawing.Point(8, 64);
-            this.happroveonlblb.Name = "happroveonlblb";
-            this.happroveonlblb.Size = new System.Drawing.Size(79, 13);
-            this.happroveonlblb.TabIndex = 61;
-            this.happroveonlblb.Text = "Approved On : ";
-            // 
-            // happrovedbylbl
-            // 
-            this.happrovedbylbl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.happrovedbylbl.AutoSize = true;
-            this.happrovedbylbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.happrovedbylbl.ForeColor = System.Drawing.Color.White;
-            this.happrovedbylbl.Location = new System.Drawing.Point(8, 47);
-            this.happrovedbylbl.Name = "happrovedbylbl";
-            this.happrovedbylbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.happrovedbylbl.Size = new System.Drawing.Size(77, 13);
-            this.happrovedbylbl.TabIndex = 62;
-            this.happrovedbylbl.Text = "Approved By : ";
-            // 
-            // happrovechk
-            // 
-            this.happrovechk.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.happrovechk.AutoSize = true;
-            this.happrovechk.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.happrovechk.Location = new System.Drawing.Point(14, 21);
-            this.happrovechk.Name = "happrovechk";
-            this.happrovechk.Size = new System.Drawing.Size(111, 20);
-            this.happrovechk.TabIndex = 63;
-            this.happrovechk.Text = "Final Approve";
-            this.TreeViewToolTip.SetToolTip(this.happrovechk, "Approve purchase req");
-            this.happrovechk.UseVisualStyleBackColor = true;
-            this.happrovechk.Click += new System.EventHandler(this.happrovechk_Click);
-            // 
             // PurchaseReqform
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -1500,12 +1500,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.FormSelector.ResumeLayout(false);
             this.toolbarpanel.ResumeLayout(false);
+            this.hauthoritygroupbox.ResumeLayout(false);
+            this.hauthoritygroupbox.PerformLayout();
             this.usercontrolgroupbox.ResumeLayout(false);
             this.usercontrolgroupbox.PerformLayout();
             this.managergroupbox.ResumeLayout(false);
             this.managergroupbox.PerformLayout();
-            this.hauthoritygroupbox.ResumeLayout(false);
-            this.hauthoritygroupbox.PerformLayout();
             this.ResumeLayout(false);
 
         }

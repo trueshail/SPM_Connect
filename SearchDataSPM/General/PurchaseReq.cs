@@ -31,6 +31,7 @@ namespace SearchDataSPM
         bool formloading = false;
         bool supervisor = false;
         bool higherauthority = false;
+        bool pbuyer = false;
         int supervisorid = 0;
         int myid = 0;
         string userfullname = "";
@@ -158,6 +159,11 @@ namespace SearchDataSPM
             dataGridView.Columns[17].Visible = false;
             dataGridView.Columns[18].Visible = false;
             dataGridView.Columns[19].Visible = false;
+            dataGridView.Columns[20].Visible = false;
+            dataGridView.Columns[21].Visible = false;
+            dataGridView.Columns[22].Visible = false;
+            dataGridView.Columns[23].Visible = false;
+            dataGridView.Columns[24].Visible = false;
             dataGridView.Sort(dataGridView.Columns[0], ListSortDirection.Descending);
             UpdateFont();
 
@@ -267,6 +273,7 @@ namespace SearchDataSPM
                     myid = Convert.ToInt32(dr["id"].ToString());
                     string manager = dr["PurchaseReqApproval"].ToString();
                     string hauthority = dr["PurchaseReqApproval2"].ToString();
+                    string PurchaseReqBuyer = dr["PurchaseReqBuyer"].ToString();
                     if (manager == "1")
                     {
                         supervisor = true;
@@ -274,6 +281,10 @@ namespace SearchDataSPM
                     if (hauthority == "1")
                     {
                         higherauthority = true;
+                    }
+                    if (PurchaseReqBuyer == "1")
+                    {
+                        pbuyer = true;
                     }
 
                     return fullname;
