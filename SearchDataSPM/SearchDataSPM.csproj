@@ -335,6 +335,12 @@
     <Compile Include="Engineering\WaitFormImport.Designer.cs">
       <DependentUpon>WaitFormImport.cs</DependentUpon>
     </Compile>
+    <Compile Include="General\PODetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="General\PODetails.Designer.cs">
+      <DependentUpon>PODetails.cs</DependentUpon>
+    </Compile>
     <Compile Include="General\QuoteDetails.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -587,6 +593,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Engineering\TreeView.resx">
       <DependentUpon>TreeView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="General\PODetails.resx">
+      <DependentUpon>PODetails.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="General\QuoteDetails.resx">
       <DependentUpon>QuoteDetails.cs</DependentUpon>

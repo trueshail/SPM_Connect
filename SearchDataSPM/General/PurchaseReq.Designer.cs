@@ -100,11 +100,15 @@
             this.bttnneedapproval = new System.Windows.Forms.Button();
             this.printbttn = new System.Windows.Forms.Button();
             this.happrovechk = new System.Windows.Forms.CheckBox();
+            this.purchasedchk = new System.Windows.Forms.CheckBox();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.FormSelector = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolbarpanel = new System.Windows.Forms.Panel();
+            this.purchasegrpbox = new System.Windows.Forms.GroupBox();
+            this.purchaseonlbl = new System.Windows.Forms.Label();
+            this.purchasebylbl = new System.Windows.Forms.Label();
             this.hauthoritygroupbox = new System.Windows.Forms.GroupBox();
             this.happroveonlblb = new System.Windows.Forms.Label();
             this.happrovedbylbl = new System.Windows.Forms.Label();
@@ -131,6 +135,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.FormSelector.SuspendLayout();
             this.toolbarpanel.SuspendLayout();
+            this.purchasegrpbox.SuspendLayout();
             this.hauthoritygroupbox.SuspendLayout();
             this.usercontrolgroupbox.SuspendLayout();
             this.managergroupbox.SuspendLayout();
@@ -157,8 +162,8 @@
             this.splitContainer1.Panel2.Controls.Add(this.panel2);
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
             this.splitContainer1.Panel2MinSize = 500;
-            this.splitContainer1.Size = new System.Drawing.Size(1000, 672);
-            this.splitContainer1.SplitterDistance = 304;
+            this.splitContainer1.Size = new System.Drawing.Size(1084, 672);
+            this.splitContainer1.SplitterDistance = 329;
             this.splitContainer1.TabIndex = 2;
             // 
             // dataGridView
@@ -181,7 +186,7 @@
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.ReadOnly = true;
             this.dataGridView.RowHeadersVisible = false;
-            this.dataGridView.Size = new System.Drawing.Size(304, 639);
+            this.dataGridView.Size = new System.Drawing.Size(329, 639);
             this.dataGridView.TabIndex = 7;
             this.dataGridView.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseDown);
             this.dataGridView.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dataGridView_RowsRemoved);
@@ -193,7 +198,7 @@
             this.PurchaseReqSearchTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PurchaseReqSearchTxt.Location = new System.Drawing.Point(0, 0);
             this.PurchaseReqSearchTxt.Name = "PurchaseReqSearchTxt";
-            this.PurchaseReqSearchTxt.Size = new System.Drawing.Size(304, 22);
+            this.PurchaseReqSearchTxt.Size = new System.Drawing.Size(329, 22);
             this.PurchaseReqSearchTxt.TabIndex = 8;
             this.TreeViewToolTip.SetToolTip(this.PurchaseReqSearchTxt, "Search by purchase req number");
             this.PurchaseReqSearchTxt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.PurchaseReqSearchTxt_KeyDown);
@@ -209,7 +214,7 @@
             this.panel2.Location = new System.Drawing.Point(4, 619);
             this.panel2.MinimumSize = new System.Drawing.Size(0, 51);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(688, 51);
+            this.panel2.Size = new System.Drawing.Size(747, 51);
             this.panel2.TabIndex = 1;
             // 
             // ecitbttn
@@ -269,7 +274,7 @@
             this.totalcostlbl.AutoSize = true;
             this.totalcostlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.totalcostlbl.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.totalcostlbl.Location = new System.Drawing.Point(461, 18);
+            this.totalcostlbl.Location = new System.Drawing.Point(520, 18);
             this.totalcostlbl.Name = "totalcostlbl";
             this.totalcostlbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.totalcostlbl.Size = new System.Drawing.Size(91, 15);
@@ -287,7 +292,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(692, 615);
+            this.tabControl1.Size = new System.Drawing.Size(751, 615);
             this.tabControl1.TabIndex = 0;
             this.tabControl1.Visible = false;
             // 
@@ -299,7 +304,7 @@
             this.PreviewTabPage.Location = new System.Drawing.Point(4, 22);
             this.PreviewTabPage.Name = "PreviewTabPage";
             this.PreviewTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.PreviewTabPage.Size = new System.Drawing.Size(684, 589);
+            this.PreviewTabPage.Size = new System.Drawing.Size(743, 589);
             this.PreviewTabPage.TabIndex = 1;
             this.PreviewTabPage.Text = "Preview";
             // 
@@ -332,7 +337,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.Size = new System.Drawing.Size(678, 242);
+            this.dataGridView1.Size = new System.Drawing.Size(737, 242);
             this.dataGridView1.TabIndex = 15;
             this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
             this.dataGridView1.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDown);
@@ -420,8 +425,8 @@
             this.splitContainer2.Panel2.Controls.Add(this.Validatechk);
             this.splitContainer2.Panel2.Controls.Add(this.itemspanel);
             this.splitContainer2.Panel2MinSize = 325;
-            this.splitContainer2.Size = new System.Drawing.Size(677, 334);
-            this.splitContainer2.SplitterDistance = 329;
+            this.splitContainer2.Size = new System.Drawing.Size(736, 334);
+            this.splitContainer2.SplitterDistance = 357;
             this.splitContainer2.SplitterWidth = 5;
             this.splitContainer2.TabIndex = 12;
             // 
@@ -455,7 +460,7 @@
             this.groupBox4.Location = new System.Drawing.Point(0, 0);
             this.groupBox4.Margin = new System.Windows.Forms.Padding(1);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(329, 334);
+            this.groupBox4.Size = new System.Drawing.Size(357, 334);
             this.groupBox4.TabIndex = 10;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Purchase Requisition Details";
@@ -543,7 +548,7 @@
             this.lastsavedtxt.Name = "lastsavedtxt";
             this.lastsavedtxt.ReadOnly = true;
             this.lastsavedtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.lastsavedtxt.Size = new System.Drawing.Size(200, 20);
+            this.lastsavedtxt.Size = new System.Drawing.Size(228, 20);
             this.lastsavedtxt.TabIndex = 59;
             this.lastsavedtxt.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.lastsavedtxt, "Purchase req last saved on");
@@ -664,7 +669,7 @@
             this.lastsavedby.Name = "lastsavedby";
             this.lastsavedby.ReadOnly = true;
             this.lastsavedby.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.lastsavedby.Size = new System.Drawing.Size(200, 20);
+            this.lastsavedby.Size = new System.Drawing.Size(228, 20);
             this.lastsavedby.TabIndex = 57;
             this.lastsavedby.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.lastsavedby, "Purchase req last saved by");
@@ -680,7 +685,7 @@
             this.datecreatedtxt.Name = "datecreatedtxt";
             this.datecreatedtxt.ReadOnly = true;
             this.datecreatedtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.datecreatedtxt.Size = new System.Drawing.Size(200, 20);
+            this.datecreatedtxt.Size = new System.Drawing.Size(228, 20);
             this.datecreatedtxt.TabIndex = 57;
             this.datecreatedtxt.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.datecreatedtxt, "Purchase req  date created");
@@ -696,7 +701,7 @@
             this.requestbytxt.Name = "requestbytxt";
             this.requestbytxt.ReadOnly = true;
             this.requestbytxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.requestbytxt.Size = new System.Drawing.Size(200, 20);
+            this.requestbytxt.Size = new System.Drawing.Size(228, 20);
             this.requestbytxt.TabIndex = 57;
             this.requestbytxt.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.requestbytxt, "Purchase req created and requested by");
@@ -713,7 +718,7 @@
             this.subassytxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.subassytxt.Name = "subassytxt";
             this.subassytxt.ReadOnly = true;
-            this.subassytxt.Size = new System.Drawing.Size(200, 21);
+            this.subassytxt.Size = new System.Drawing.Size(228, 21);
             this.subassytxt.TabIndex = 7;
             this.TreeViewToolTip.SetToolTip(this.subassytxt, "Sub-assembly number");
             this.subassytxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.subassytxt_KeyPress);
@@ -731,7 +736,7 @@
             this.jobnumbertxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.jobnumbertxt.Name = "jobnumbertxt";
             this.jobnumbertxt.ReadOnly = true;
-            this.jobnumbertxt.Size = new System.Drawing.Size(200, 21);
+            this.jobnumbertxt.Size = new System.Drawing.Size(228, 21);
             this.jobnumbertxt.TabIndex = 6;
             this.TreeViewToolTip.SetToolTip(this.jobnumbertxt, "Job-number associated with the items purchased");
             this.jobnumbertxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.jobnumbertxt_KeyPress);
@@ -748,7 +753,7 @@
             this.purchreqtxt.Name = "purchreqtxt";
             this.purchreqtxt.ReadOnly = true;
             this.purchreqtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.purchreqtxt.Size = new System.Drawing.Size(200, 20);
+            this.purchreqtxt.Size = new System.Drawing.Size(228, 20);
             this.purchreqtxt.TabIndex = 57;
             this.purchreqtxt.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.purchreqtxt, "Purchase Req No");
@@ -782,7 +787,7 @@
             this.notestxt.Multiline = true;
             this.notestxt.Name = "notestxt";
             this.notestxt.ReadOnly = true;
-            this.notestxt.Size = new System.Drawing.Size(257, 43);
+            this.notestxt.Size = new System.Drawing.Size(285, 43);
             this.notestxt.TabIndex = 9;
             this.TreeViewToolTip.SetToolTip(this.notestxt, "Notes - Additonal notes to purchase req");
             // 
@@ -812,7 +817,7 @@
             this.itemspanel.Controls.Add(this.groupBox3);
             this.itemspanel.Location = new System.Drawing.Point(0, 0);
             this.itemspanel.Name = "itemspanel";
-            this.itemspanel.Size = new System.Drawing.Size(343, 296);
+            this.itemspanel.Size = new System.Drawing.Size(371, 296);
             this.itemspanel.TabIndex = 0;
             // 
             // groupBox3
@@ -841,7 +846,7 @@
             this.groupBox3.Location = new System.Drawing.Point(0, 0);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(1);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(343, 296);
+            this.groupBox3.Size = new System.Drawing.Size(371, 296);
             this.groupBox3.TabIndex = 9;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Add Item to order";
@@ -942,7 +947,7 @@
             this.oemitemnotxt.Name = "oemitemnotxt";
             this.oemitemnotxt.ReadOnly = true;
             this.oemitemnotxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.oemitemnotxt.Size = new System.Drawing.Size(220, 20);
+            this.oemitemnotxt.Size = new System.Drawing.Size(248, 20);
             this.oemitemnotxt.TabIndex = 64;
             this.oemitemnotxt.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.oemitemnotxt, "Manufacturer Item No");
@@ -973,7 +978,7 @@
             this.qtytxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.qtytxt.Name = "qtytxt";
             this.qtytxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.qtytxt.Size = new System.Drawing.Size(220, 22);
+            this.qtytxt.Size = new System.Drawing.Size(248, 22);
             this.qtytxt.TabIndex = 3;
             this.TreeViewToolTip.SetToolTip(this.qtytxt, "Quantity required");
             this.qtytxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.qtytxt_KeyPress);
@@ -1004,7 +1009,7 @@
             this.pricetxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.pricetxt.Name = "pricetxt";
             this.pricetxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.pricetxt.Size = new System.Drawing.Size(220, 22);
+            this.pricetxt.Size = new System.Drawing.Size(248, 22);
             this.pricetxt.TabIndex = 4;
             this.pricetxt.Text = "$0.00";
             this.TreeViewToolTip.SetToolTip(this.pricetxt, "Unit price for the item");
@@ -1039,7 +1044,7 @@
             this.oemtxt.Name = "oemtxt";
             this.oemtxt.ReadOnly = true;
             this.oemtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.oemtxt.Size = new System.Drawing.Size(220, 20);
+            this.oemtxt.Size = new System.Drawing.Size(248, 20);
             this.oemtxt.TabIndex = 58;
             this.oemtxt.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.oemtxt, "Item Manufacturer");
@@ -1074,7 +1079,7 @@
             this.Descriptiontxtbox.Name = "Descriptiontxtbox";
             this.Descriptiontxtbox.ReadOnly = true;
             this.Descriptiontxtbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.Descriptiontxtbox.Size = new System.Drawing.Size(220, 44);
+            this.Descriptiontxtbox.Size = new System.Drawing.Size(248, 44);
             this.Descriptiontxtbox.TabIndex = 55;
             this.Descriptiontxtbox.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.Descriptiontxtbox, "Item Description");
@@ -1106,7 +1111,7 @@
             this.ItemTxtBox.Name = "ItemTxtBox";
             this.ItemTxtBox.ReadOnly = true;
             this.ItemTxtBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.ItemTxtBox.Size = new System.Drawing.Size(220, 20);
+            this.ItemTxtBox.Size = new System.Drawing.Size(248, 20);
             this.ItemTxtBox.TabIndex = 54;
             this.ItemTxtBox.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.ItemTxtBox, "Item Number");
@@ -1124,7 +1129,7 @@
             this.itemsearchtxtbox.MinimumSize = new System.Drawing.Size(200, 20);
             this.itemsearchtxtbox.Name = "itemsearchtxtbox";
             this.itemsearchtxtbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.itemsearchtxtbox.Size = new System.Drawing.Size(275, 22);
+            this.itemsearchtxtbox.Size = new System.Drawing.Size(303, 22);
             this.itemsearchtxtbox.TabIndex = 2;
             this.TreeViewToolTip.SetToolTip(this.itemsearchtxtbox, "Search for item to order \r\nStarting with Letter \'A\' or \'B\' or \'C\'");
             this.itemsearchtxtbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.itemsearchtxtbox_KeyDown);
@@ -1179,7 +1184,7 @@
             this.bttnshowmyreq.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bttnshowmyreq.ForeColor = System.Drawing.Color.Transparent;
             this.bttnshowmyreq.Image = ((System.Drawing.Image)(resources.GetObject("bttnshowmyreq.Image")));
-            this.bttnshowmyreq.Location = new System.Drawing.Point(410, 14);
+            this.bttnshowmyreq.Location = new System.Drawing.Point(381, 14);
             this.bttnshowmyreq.MaximumSize = new System.Drawing.Size(115, 65);
             this.bttnshowmyreq.MinimumSize = new System.Drawing.Size(115, 65);
             this.bttnshowmyreq.Name = "bttnshowmyreq";
@@ -1207,7 +1212,7 @@
             this.bttnshowmydept.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bttnshowmydept.ForeColor = System.Drawing.Color.Transparent;
             this.bttnshowmydept.Image = ((System.Drawing.Image)(resources.GetObject("bttnshowmydept.Image")));
-            this.bttnshowmydept.Location = new System.Drawing.Point(274, 14);
+            this.bttnshowmydept.Location = new System.Drawing.Point(256, 14);
             this.bttnshowmydept.MaximumSize = new System.Drawing.Size(115, 65);
             this.bttnshowmydept.MinimumSize = new System.Drawing.Size(115, 65);
             this.bttnshowmydept.Name = "bttnshowmydept";
@@ -1235,7 +1240,7 @@
             this.bttnshowapproved.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bttnshowapproved.ForeColor = System.Drawing.Color.Transparent;
             this.bttnshowapproved.Image = ((System.Drawing.Image)(resources.GetObject("bttnshowapproved.Image")));
-            this.bttnshowapproved.Location = new System.Drawing.Point(140, 14);
+            this.bttnshowapproved.Location = new System.Drawing.Point(132, 14);
             this.bttnshowapproved.MaximumSize = new System.Drawing.Size(115, 65);
             this.bttnshowapproved.MinimumSize = new System.Drawing.Size(115, 65);
             this.bttnshowapproved.Name = "bttnshowapproved";
@@ -1319,6 +1324,22 @@
             this.happrovechk.UseVisualStyleBackColor = true;
             this.happrovechk.Click += new System.EventHandler(this.happrovechk_Click);
             // 
+            // purchasedchk
+            // 
+            this.purchasedchk.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.purchasedchk.AutoSize = true;
+            this.purchasedchk.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.purchasedchk.Location = new System.Drawing.Point(35, 21);
+            this.purchasedchk.Name = "purchasedchk";
+            this.purchasedchk.Size = new System.Drawing.Size(92, 20);
+            this.purchasedchk.TabIndex = 63;
+            this.purchasedchk.Text = "Purchased";
+            this.TreeViewToolTip.SetToolTip(this.purchasedchk, "Approve purchase req");
+            this.purchasedchk.UseVisualStyleBackColor = true;
+            this.purchasedchk.Click += new System.EventHandler(this.purchasedchk_Click);
+            // 
             // errorProvider1
             // 
             this.errorProvider1.ContainerControl = this;
@@ -1354,6 +1375,7 @@
             // 
             // toolbarpanel
             // 
+            this.toolbarpanel.Controls.Add(this.purchasegrpbox);
             this.toolbarpanel.Controls.Add(this.hauthoritygroupbox);
             this.toolbarpanel.Controls.Add(this.usercontrolgroupbox);
             this.toolbarpanel.Controls.Add(this.managergroupbox);
@@ -1362,8 +1384,52 @@
             this.toolbarpanel.Location = new System.Drawing.Point(0, 0);
             this.toolbarpanel.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.toolbarpanel.Name = "toolbarpanel";
-            this.toolbarpanel.Size = new System.Drawing.Size(1000, 90);
+            this.toolbarpanel.Size = new System.Drawing.Size(1084, 90);
             this.toolbarpanel.TabIndex = 3;
+            // 
+            // purchasegrpbox
+            // 
+            this.purchasegrpbox.Controls.Add(this.purchasedchk);
+            this.purchasegrpbox.Controls.Add(this.purchaseonlbl);
+            this.purchasegrpbox.Controls.Add(this.purchasebylbl);
+            this.purchasegrpbox.Enabled = false;
+            this.purchasegrpbox.ForeColor = System.Drawing.Color.White;
+            this.purchasegrpbox.Location = new System.Drawing.Point(925, -1);
+            this.purchasegrpbox.Name = "purchasegrpbox";
+            this.purchasegrpbox.Size = new System.Drawing.Size(150, 85);
+            this.purchasegrpbox.TabIndex = 25;
+            this.purchasegrpbox.TabStop = false;
+            this.purchasegrpbox.Text = "Purchasing";
+            this.purchasegrpbox.Visible = false;
+            // 
+            // purchaseonlbl
+            // 
+            this.purchaseonlbl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.purchaseonlbl.AutoSize = true;
+            this.purchaseonlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.purchaseonlbl.ForeColor = System.Drawing.Color.White;
+            this.purchaseonlbl.Location = new System.Drawing.Point(8, 67);
+            this.purchaseonlbl.Name = "purchaseonlbl";
+            this.purchaseonlbl.Size = new System.Drawing.Size(79, 13);
+            this.purchaseonlbl.TabIndex = 61;
+            this.purchaseonlbl.Text = "Approved On : ";
+            // 
+            // purchasebylbl
+            // 
+            this.purchasebylbl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.purchasebylbl.AutoSize = true;
+            this.purchasebylbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.purchasebylbl.ForeColor = System.Drawing.Color.White;
+            this.purchasebylbl.Location = new System.Drawing.Point(8, 47);
+            this.purchasebylbl.Name = "purchasebylbl";
+            this.purchasebylbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.purchasebylbl.Size = new System.Drawing.Size(77, 13);
+            this.purchasebylbl.TabIndex = 62;
+            this.purchasebylbl.Text = "Approved By : ";
             // 
             // hauthoritygroupbox
             // 
@@ -1372,9 +1438,9 @@
             this.hauthoritygroupbox.Controls.Add(this.happrovedbylbl);
             this.hauthoritygroupbox.Enabled = false;
             this.hauthoritygroupbox.ForeColor = System.Drawing.Color.White;
-            this.hauthoritygroupbox.Location = new System.Drawing.Point(730, -1);
+            this.hauthoritygroupbox.Location = new System.Drawing.Point(689, -1);
             this.hauthoritygroupbox.Name = "hauthoritygroupbox";
-            this.hauthoritygroupbox.Size = new System.Drawing.Size(238, 85);
+            this.hauthoritygroupbox.Size = new System.Drawing.Size(230, 85);
             this.hauthoritygroupbox.TabIndex = 24;
             this.hauthoritygroupbox.TabStop = false;
             this.hauthoritygroupbox.Text = "Admin Approvals";
@@ -1431,7 +1497,7 @@
             this.managergroupbox.ForeColor = System.Drawing.Color.White;
             this.managergroupbox.Location = new System.Drawing.Point(184, -1);
             this.managergroupbox.Name = "managergroupbox";
-            this.managergroupbox.Size = new System.Drawing.Size(538, 85);
+            this.managergroupbox.Size = new System.Drawing.Size(500, 85);
             this.managergroupbox.TabIndex = 23;
             this.managergroupbox.TabStop = false;
             this.managergroupbox.Text = "Supervisor Controls";
@@ -1444,7 +1510,7 @@
             this.shapeContainer1.Name = "shapeContainer1";
             this.shapeContainer1.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
             this.lineShape1});
-            this.shapeContainer1.Size = new System.Drawing.Size(1000, 90);
+            this.shapeContainer1.Size = new System.Drawing.Size(1084, 90);
             this.shapeContainer1.TabIndex = 22;
             this.shapeContainer1.TabStop = false;
             // 
@@ -1457,7 +1523,7 @@
             this.lineShape1.BorderWidth = 5;
             this.lineShape1.Name = "lineShape1";
             this.lineShape1.X1 = 0;
-            this.lineShape1.X2 = 1000;
+            this.lineShape1.X2 = 1100;
             this.lineShape1.Y1 = 87;
             this.lineShape1.Y2 = 87;
             // 
@@ -1465,11 +1531,11 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
-            this.ClientSize = new System.Drawing.Size(1000, 761);
+            this.ClientSize = new System.Drawing.Size(1084, 761);
             this.Controls.Add(this.toolbarpanel);
             this.Controls.Add(this.splitContainer1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(1000, 750);
+            this.MinimumSize = new System.Drawing.Size(1100, 750);
             this.Name = "PurchaseReqform";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Purchase Requisition";
@@ -1500,6 +1566,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.FormSelector.ResumeLayout(false);
             this.toolbarpanel.ResumeLayout(false);
+            this.purchasegrpbox.ResumeLayout(false);
+            this.purchasegrpbox.PerformLayout();
             this.hauthoritygroupbox.ResumeLayout(false);
             this.hauthoritygroupbox.PerformLayout();
             this.usercontrolgroupbox.ResumeLayout(false);
@@ -1593,5 +1661,9 @@
         private System.Windows.Forms.CheckBox happrovechk;
         private System.Windows.Forms.Label happroveonlblb;
         private System.Windows.Forms.Label happrovedbylbl;
+        private System.Windows.Forms.GroupBox purchasegrpbox;
+        private System.Windows.Forms.CheckBox purchasedchk;
+        private System.Windows.Forms.Label purchaseonlbl;
+        private System.Windows.Forms.Label purchasebylbl;
     }
 }
