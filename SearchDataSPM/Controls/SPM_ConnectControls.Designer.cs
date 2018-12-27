@@ -122,7 +122,7 @@
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.ReadOnly = true;
             this.dataGridView.RowHeadersVisible = false;
-            this.dataGridView.Size = new System.Drawing.Size(980, 659);
+            this.dataGridView.Size = new System.Drawing.Size(980, 559);
             this.dataGridView.TabIndex = 6;
             this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellDoubleClick);
             this.dataGridView.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseDown);
@@ -469,7 +469,7 @@
             this.admin_bttn.MaximumSize = new System.Drawing.Size(40, 40);
             this.admin_bttn.MinimumSize = new System.Drawing.Size(25, 25);
             this.admin_bttn.Name = "admin_bttn";
-            this.admin_bttn.Size = new System.Drawing.Size(25, 26);
+            this.admin_bttn.Size = new System.Drawing.Size(25, 25);
             this.admin_bttn.TabIndex = 19;
             this.admin_bttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TreeViewToolTip.SetToolTip(this.admin_bttn, "Adminstrative Control");
@@ -553,7 +553,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
-            this.ClientSize = new System.Drawing.Size(984, 761);
+            this.ClientSize = new System.Drawing.Size(984, 661);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.getnewitembttn);
             this.Controls.Add(this.recordlabel);
