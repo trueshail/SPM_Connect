@@ -250,8 +250,8 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(26, 8);
             this.label1.TabIndex = 11;
-            this.label1.Text = "V7.0.1";
-            this.TreeViewToolTip.SetToolTip(this.label1, "SPM Connect V7.0.1");
+            this.label1.Text = "V7.5.0";
+            this.TreeViewToolTip.SetToolTip(this.label1, "SPM Connect V7.5.0");
             // 
             // filter4
             // 
@@ -310,7 +310,7 @@
             this.quotebttn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.quotebttn.ForeColor = System.Drawing.Color.Black;
             this.quotebttn.Image = ((System.Drawing.Image)(resources.GetObject("quotebttn.Image")));
-            this.quotebttn.Location = new System.Drawing.Point(904, 5);
+            this.quotebttn.Location = new System.Drawing.Point(901, 5);
             this.quotebttn.MaximumSize = new System.Drawing.Size(45, 45);
             this.quotebttn.MinimumSize = new System.Drawing.Size(45, 45);
             this.quotebttn.Name = "quotebttn";

@@ -29,9 +29,9 @@
 		private void InitializeComponent()
 		{
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SPM_ConnectControls));
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.dataGridView = new System.Windows.Forms.DataGridView();
@@ -146,8 +146,8 @@
             // descriptionDataGridViewTextBoxColumn
             // 
             this.descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
-            dataGridViewCellStyle4.NullValue = null;
-            this.descriptionDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.NullValue = null;
+            this.descriptionDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle1;
             this.descriptionDataGridViewTextBoxColumn.FillWeight = 86.92893F;
             this.descriptionDataGridViewTextBoxColumn.HeaderText = "Description";
             this.descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
@@ -168,8 +168,8 @@
             // manufacturerDataGridViewTextBoxColumn
             // 
             this.manufacturerDataGridViewTextBoxColumn.DataPropertyName = "Manufacturer";
-            dataGridViewCellStyle5.NullValue = null;
-            this.manufacturerDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.NullValue = null;
+            this.manufacturerDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle2;
             this.manufacturerDataGridViewTextBoxColumn.FillWeight = 86.92893F;
             this.manufacturerDataGridViewTextBoxColumn.HeaderText = "Manufacturer";
             this.manufacturerDataGridViewTextBoxColumn.Name = "manufacturerDataGridViewTextBoxColumn";
@@ -178,8 +178,8 @@
             // manufacturerItemNumberDataGridViewTextBoxColumn
             // 
             this.manufacturerItemNumberDataGridViewTextBoxColumn.DataPropertyName = "ManufacturerItemNumber";
-            dataGridViewCellStyle6.NullValue = null;
-            this.manufacturerItemNumberDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.NullValue = null;
+            this.manufacturerItemNumberDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle3;
             this.manufacturerItemNumberDataGridViewTextBoxColumn.FillWeight = 86.92893F;
             this.manufacturerItemNumberDataGridViewTextBoxColumn.HeaderText = "Manufacturer Item Number";
             this.manufacturerItemNumberDataGridViewTextBoxColumn.Name = "manufacturerItemNumberDataGridViewTextBoxColumn";
@@ -196,13 +196,13 @@
             this.eModelViewerToolStripMenuItem});
             this.FormSelector.Name = "contextMenuStrip1";
             this.FormSelector.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.FormSelector.Size = new System.Drawing.Size(181, 158);
+            this.FormSelector.Size = new System.Drawing.Size(176, 136);
             // 
             // addToCatalogToolStripMenuItem
             // 
             this.addToCatalogToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("addToCatalogToolStripMenuItem.Image")));
             this.addToCatalogToolStripMenuItem.Name = "addToCatalogToolStripMenuItem";
-            this.addToCatalogToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.addToCatalogToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.addToCatalogToolStripMenuItem.Text = "Add To Catalog";
             this.addToCatalogToolStripMenuItem.Click += new System.EventHandler(this.addToCatalogToolStripMenuItem_Click);
             // 
@@ -306,7 +306,7 @@
             // 
             this.eModelViewerToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("eModelViewerToolStripMenuItem.Image")));
             this.eModelViewerToolStripMenuItem.Name = "eModelViewerToolStripMenuItem";
-            this.eModelViewerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.eModelViewerToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.eModelViewerToolStripMenuItem.Text = "E Model Viewer";
             this.eModelViewerToolStripMenuItem.ToolTipText = "Show 3d Model";
             this.eModelViewerToolStripMenuItem.Click += new System.EventHandler(this.eModelViewerToolStripMenuItem_Click);
@@ -416,8 +416,8 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(26, 8);
             this.label1.TabIndex = 11;
-            this.label1.Text = "V7.0.1";
-            this.TreeViewToolTip.SetToolTip(this.label1, "SPM Connect V7.0.1");
+            this.label1.Text = "V7.5.0";
+            this.TreeViewToolTip.SetToolTip(this.label1, "SPM Connect V7.5.0");
             // 
             // filter4
             // 
