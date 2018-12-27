@@ -13,6 +13,7 @@ namespace SearchDataSPM
         String connection;
         SqlConnection cn;
         string controluseraction;
+        int selectedindex = 0;
 
         #endregion
 
@@ -45,11 +46,11 @@ namespace SearchDataSPM
 
         private void ParentView_Load(object sender, EventArgs e)
         {
-            fillsupervisor();
-            Connect_SPMSQL();
+           
+            Connect_SPMSQL(0);
         }
 
-        private void Connect_SPMSQL()
+        private void Connect_SPMSQL(int index)
 
         {
             try
@@ -69,7 +70,11 @@ namespace SearchDataSPM
                     Userlistbox.Items.Add(dr["Name"].ToString());
                 }
                 if (Userlistbox.Items.Count > 0)
-                    Userlistbox.SelectedItem = Userlistbox.Items[0];
+                {
+                   
+                    Userlistbox.SelectedItem = Userlistbox.Items[index];
+                }
+                   
             }
             catch (Exception ex)
             {
@@ -81,9 +86,9 @@ namespace SearchDataSPM
             finally
             {
                 cn.Close();
+                fillsupervisor();
             }
         }
-
 
         private void fillsupervisor()
         {
@@ -91,7 +96,8 @@ namespace SearchDataSPM
             {
                 try
                 {
-                    cn.Open();
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
                     SqlDataReader reader = sqlCommand.ExecuteReader();
                     AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
                     while (reader.Read())
@@ -119,9 +125,14 @@ namespace SearchDataSPM
 
         private void Userlistbox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            selectionchanged(selectedindex);
+        }
+
+        private void selectionchanged(int index)
+        {
             try
             {
-               
+
                 if (cn.State == ConnectionState.Closed)
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
@@ -230,7 +241,7 @@ namespace SearchDataSPM
                     {
                         preqno.Checked = true;
                     }
-
+                    
 
                 }
 
@@ -246,6 +257,7 @@ namespace SearchDataSPM
             {
                 cn.Close();
             }
+
         }
 
         private string getuserfullname(string supervisor)
@@ -283,6 +295,7 @@ namespace SearchDataSPM
 
         private void addnewbttn_Click(object sender, EventArgs e)
         {
+            selectedindex = Userlistbox.SelectedIndex;
             nametextbox.ReadOnly = false;
             activecadblocktxt.ReadOnly = false;
             useremailtxt.ReadOnly = false;
@@ -331,6 +344,7 @@ namespace SearchDataSPM
 
         private void delbttn_Click(object sender, EventArgs e)
         {
+
             DialogResult result = MessageBox.Show(
                 "Name = " + nametextbox.Text + Environment.NewLine +
                 @"Domain\Username = " + domaintxtbox.Text + Environment.NewLine +
@@ -348,6 +362,7 @@ namespace SearchDataSPM
                                                 MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
+                selectedindex = Userlistbox.SelectedIndex;
                 if (cn.State == ConnectionState.Closed)
                     cn.Open();
                 try
@@ -358,7 +373,7 @@ namespace SearchDataSPM
                     cmd.ExecuteNonQuery();
                     cn.Close();
                     MessageBox.Show("User deleted successfully", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    Connect_SPMSQL();
+                    Connect_SPMSQL(selectedindex);
                     domaintxtbox.Text = "";
                     nametextbox.Text = "";
 
@@ -404,6 +419,7 @@ namespace SearchDataSPM
 
         private void updatebttn_Click(object sender, EventArgs e)
         {
+            selectedindex = Userlistbox.SelectedIndex;
             nametextbox.ReadOnly = false;
             activecadblocktxt.ReadOnly = false;
             useremailtxt.ReadOnly = false;
@@ -493,7 +509,7 @@ namespace SearchDataSPM
                     cmd.ExecuteNonQuery();
                     cn.Close();
                     MessageBox.Show("User credentials updated successfully", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    Connect_SPMSQL();
+                    Connect_SPMSQL(selectedindex);
                     updatesavebttn.Visible = false;
                     delbttn.Visible = true;
                     updatebttn.Visible = true;
@@ -620,7 +636,7 @@ namespace SearchDataSPM
                     cmd.ExecuteNonQuery();
                     cn.Close();
                     MessageBox.Show("New user added successfully", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    Connect_SPMSQL();
+                    Connect_SPMSQL(selectedindex);
                     delbttn.Visible = true;
                     updatebttn.Visible = true;
                     addnewbttn.Visible = true;

@@ -629,10 +629,15 @@ namespace SearchDataSPM
         private bool happroval()
         {
             bool req = false;
-            if (Convert.ToInt32(Convert.ToDecimal(totalvalue.TrimEnd())) > Convert.ToInt32(Convert.ToDecimal(gethapporvallimit())))
+            if (totalcostlbl.Text.Length > 0)
             {
-                req = true;
+                if (Convert.ToInt32(Convert.ToDecimal(totalvalue.TrimEnd())) > Convert.ToInt32(Convert.ToDecimal(gethapporvallimit())))
+                {
+                    req = true;
+                }
             }
+            
+          
             return req;
         }
 
@@ -1643,6 +1648,8 @@ namespace SearchDataSPM
                         approvechk.Checked = true;
                         string filename = makefilenameforreport(reqno, false).ToString();
                         SaveReport(reqno, filename);
+
+
                         preparetosendemail(reqno, false, requestby, filename, happroval(), "supervisor");
 
                     }
@@ -2039,11 +2046,19 @@ namespace SearchDataSPM
             {
                 if (happroval)
                 {
-                    sendmailforhapproval(reqno, fileName);
+                    if (sendemailyesnohauthority())
+                    {
+                        sendmailforhapproval(reqno, fileName);
+                    }
+                   
                 }
                 else
                 {
                     sendemailtouser(reqno, fileName, requestby, triggerby);
+                    if (sendemailyesnopbuyer())
+                    {
+                        sendmailtopbuyers(reqno, "");
+                    }
                 }
             }
 
@@ -2080,7 +2095,11 @@ namespace SearchDataSPM
             {
                 sendemail(email, reqno + " Purchase Req Approved", "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is approved.", fileName, "");
             }
-            else
+            if(triggerby == "pbuyer")
+            {
+                sendemail(email, reqno + " Purchase Req Purchased", "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is sent out for purchase.", fileName, "");
+            }
+            if(triggerby == "highautority")
             {
                 string nameemail = getsupervisornameandemail(supervisoridfromreq);
 
@@ -2093,7 +2112,6 @@ namespace SearchDataSPM
                 string supervisoremail = values[0];
 
                 sendemail(email, reqno + " Purchase Req Approved", "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is approved.", fileName, supervisoremail);
-
             }
 
         }
@@ -2121,6 +2139,33 @@ namespace SearchDataSPM
                 }
                 name = names[0];
                 sendemail(email, reqno + " Purchase Req Approval Required - 2nd Approval", "Hello " + name + "," + Environment.NewLine + userfullname + " sent this purchase req for second approval.", fileName, "");
+            }
+
+        }
+
+        void sendmailtopbuyers(string reqno, string fileName)
+        {
+            string[] nameemail = getpbuyersnamesandemail().ToArray();
+            for (int i = 0; i < nameemail.Length; i++)
+            {
+                string[] values = nameemail[i].Replace("][", "~").Split('~');
+
+                for (int a = 0; a < values.Length; a++)
+                {
+                    values[a] = values[a].Trim();
+
+                }
+                string email = values[0];
+                string name = values[1];
+
+                string[] names = name.Replace(" ", "~").Split('~');
+                for (int b = 0; b < names.Length; b++)
+                {
+                    names[b] = names[b].Trim();
+
+                }
+                name = names[0];
+                sendemail(email, reqno + " Purchase Req needs PO - Notification", "Hello " + name + "," + Environment.NewLine + userfullname + " apporved this purchase req and on its way to be purchased. ", fileName, "");
             }
 
         }
@@ -2228,6 +2273,44 @@ namespace SearchDataSPM
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [PurchaseReqApproval2] = '1' ";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    Happrovalnames.Add(dr["Email"].ToString() + "][" + dr["Name"].ToString());
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Get User Name and Email", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return Happrovalnames;
+        }
+
+        private List<string> getpbuyersnamesandemail()
+        {
+
+            List<string> Happrovalnames = new List<string>();
+
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [PurchaseReqBuyer] = '1' ";
                 cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -2593,7 +2676,7 @@ namespace SearchDataSPM
 
                 }
             }
-            else
+            if(supervisor)
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '0' AND Validate = '1' AND SupervisorId = '" + myid + "' ORDER BY ReqNumber DESC", cn))
                 {
@@ -2677,7 +2760,7 @@ namespace SearchDataSPM
 
                 }
             }
-            else
+            if(supervisor)
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '1'AND Validate = '1' AND SupervisorId = '" + myid + "' ORDER BY ReqNumber DESC", cn))
                 {
@@ -2760,7 +2843,7 @@ namespace SearchDataSPM
 
                 }
             }
-            else
+            if(supervisor)
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE SupervisorId = '" + myid + "' ORDER BY ReqNumber DESC", cn))
                 {
@@ -2829,7 +2912,40 @@ namespace SearchDataSPM
             }
         }
 
+        private bool sendemailyesnohauthority()
+        {
+            bool sendemail = false;
+            string yesno = "";
+            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'EmailHapproval'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    yesno = (string)cmd.ExecuteScalar();
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Send email higher authority", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+            if (yesno == "1")
+            {
+                sendemail = true;
+            }
+            return sendemail;
+
+        }
+
         #endregion
+
+        #region Pbuyer
 
         private void purchasedchk_Click(object sender, EventArgs e)
         {
@@ -2853,7 +2969,7 @@ namespace SearchDataSPM
                         processsavebutton(true, "Papproved");
                         purchasedchk.Checked = true;
                        
-                        //preparetosendemail(reqno, false, requestby, "", false, "highautority");
+                        preparetosendemail(reqno, false, requestby, "", false, "pbuyer");
 
                     }
                     else
@@ -2864,5 +2980,38 @@ namespace SearchDataSPM
                 }
             }
         }
+
+        private bool sendemailyesnopbuyer()
+        {
+            bool sendemail = false;
+            string yesno = "";
+            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'EmailPbuyer'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    yesno = (string)cmd.ExecuteScalar();
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Send email higher authority", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+            if (yesno == "1")
+            {
+                sendemail = true;
+            }
+            return sendemail;
+
+        }
+
+        #endregion
     }
 }
