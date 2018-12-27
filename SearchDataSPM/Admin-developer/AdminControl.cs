@@ -211,27 +211,33 @@ namespace SearchDataSPM
                     }
                     if (dr["PurchaseReqApproval"].ToString().Equals("1"))
                     {
-                        reqyes.Checked = true;
+                        
+                        papprovalchk.Checked = true;
                     }
                     else
                     {
-                        reqno.Checked = true;
+                        
+                        papprovalchk.Checked = false;
                     }
                     if (dr["PurchaseReqBuyer"].ToString().Equals("1"))
                     {
-                        reqbuyeryes.Checked = true;
+                        
+                        pbuyerchk.Checked = true;
                     }
                     else
                     {
-                        reqbuyerno.Checked = true;
+                       
+                        pbuyerchk.Checked = false;
                     }
                     if (dr["PurchaseReqApproval2"].ToString().Equals("1"))
                     {
-                        scndapprvlyes.Checked = true;
+                        
+                        papproval2chk.Checked = true;
                     }
                     else
                     {
-                        scndapprvlno.Checked = true;
+                        
+                        papproval2chk.Checked = false;
                     }
                     if (dr["PurchaseReq"].ToString().Equals("1"))
                     {
@@ -318,14 +324,13 @@ namespace SearchDataSPM
             DevradioButtonNo.Enabled = true;
             quoteyes.Enabled = true;
             quoteno.Enabled = true;
-            reqyes.Enabled = true;
-            reqno.Enabled = true;
-            reqbuyeryes.Enabled = true;
-            reqbuyerno.Enabled = true;
+            papprovalchk.Enabled = true;
+            papproval2chk.Enabled = true;
+            pbuyerchk.Enabled = true;
+          
             preqyes.Enabled = true;
             preqno.Enabled = true;
-            scndapprvlyes.Enabled = true;
-            scndapprvlno.Enabled = true;
+            
             supervisorcombox.Enabled = true;
             nametextbox.Text = "";
             cnclbttn.Visible = true;
@@ -354,9 +359,9 @@ namespace SearchDataSPM
                 "Developer = " + (DevradioButtonYes.Checked ? "Yes" : "No") + Environment.NewLine +
                 "QuoteAccess = " + (quoteyes.Checked ? "Yes" : "No") + Environment.NewLine +
                 "PurchaseReq Access = " + (preqyes.Checked ? "Yes" : "No") + Environment.NewLine +
-                "PurchaseReqAdmin = " + (reqyes.Checked ? "Yes" : "No") + Environment.NewLine +
-                "PurchaseReqHigher Approval = " + (scndapprvlyes.Checked ? "Yes" : "No") + Environment.NewLine +
-                "PurchaseReqBuyer = " + (reqbuyeryes.Checked ? "Yes" : "No") + Environment.NewLine +
+                "PurchaseReqAdmin = " + (papprovalchk.Checked ? "Yes" : "No") + Environment.NewLine +
+                "PurchaseReqHigher Approval = " + (papproval2chk.Checked ? "Yes" : "No") + Environment.NewLine +
+                "PurchaseReqBuyer = " + (pbuyerchk.Checked ? "Yes" : "No") + Environment.NewLine +
                 "Supervisor = " + supervisorcombox.SelectedItem.ToString().Substring(2) + Environment.NewLine +
                 "Management = " + (manageradioButtonyes.Checked ? "Yes" : "No"), "Update User Information?",
                                                 MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -393,15 +398,12 @@ namespace SearchDataSPM
                     DevradioButtonNo.Checked = false;
                     quoteyes.Checked = false;
                     quoteno.Checked = false;
-                    reqyes.Checked = false;
-                    reqno.Checked = false;
-                    reqbuyeryes.Checked = false;
-                    reqbuyerno.Checked = false;
-
+                    papprovalchk.Checked = false;
+                    papproval2chk.Checked = false;
+                    pbuyerchk.Checked = false;
+                   
                     preqyes.Checked = false;
                     preqno.Checked = false;
-                    scndapprvlyes.Checked = false;
-                    scndapprvlno.Checked = false;
 
                 }
                 catch (Exception ex)
@@ -434,16 +436,13 @@ namespace SearchDataSPM
             DevradioButtonNo.Enabled = true;
             quoteyes.Enabled = true;
             quoteno.Enabled = true;
-            reqyes.Enabled = true;
-            reqno.Enabled = true;
-            reqbuyeryes.Enabled = true;
-            reqbuyerno.Enabled = true;
-
+            papprovalchk.Enabled = true;
+            papproval2chk.Enabled = true;
+            pbuyerchk.Enabled = true;
+           
             preqyes.Enabled = true;
             preqno.Enabled = true;
-            scndapprvlyes.Enabled = true;
-            scndapprvlno.Enabled = true;
-
+          
             supervisorcombox.Enabled = true;
             delbttn.Visible = false;
             addnewbttn.Visible = false;
@@ -483,9 +482,9 @@ namespace SearchDataSPM
                "Developer = " + (DevradioButtonYes.Checked ? "Yes" : "No") + Environment.NewLine +
                "QuoteAccess = " + (quoteyes.Checked ? "Yes" : "No") + Environment.NewLine +
                "PurchaseReq Access = " + (preqyes.Checked ? "Yes" : "No") + Environment.NewLine +
-               "PurchaseReqAdmin = " + (reqyes.Checked ? "Yes" : "No") + Environment.NewLine +
-               "PurchaseReqHigher Approval = " + (scndapprvlyes.Checked ? "Yes" : "No") + Environment.NewLine +
-               "PurchaseReqBuyer = " + (reqbuyeryes.Checked ? "Yes" : "No") + Environment.NewLine +
+               "PurchaseReqAdmin = " + (papprovalchk.Checked ? "Yes" : "No") + Environment.NewLine +
+               "PurchaseReqHigher Approval = " + (papproval2chk.Checked ? "Yes" : "No") + Environment.NewLine +
+               "PurchaseReqBuyer = " + (pbuyerchk.Checked ? "Yes" : "No") + Environment.NewLine +
                "Supervisor = " + supervisorcombox.SelectedItem.ToString().Substring(2) + Environment.NewLine +
                "Management = " + (manageradioButtonyes.Checked ? "Yes" : "No"), "Update User Information?",
                                                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -504,7 +503,7 @@ namespace SearchDataSPM
                 {
                     SqlCommand cmd = cn.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[Users] SET Department = '" + (engradio.Checked ? "Eng" : radioButton4.Checked ? "Controls" : "Production") + "',Admin = '" + (radioButton1.Checked ? "1" : "0") + "',Name = '" + nametextbox.Text + "',ActiveBlockNumber = '" + activeblocknumber + "',Developer = '" + (DevradioButtonYes.Checked ? "1" : "0") + "',Management = '" + (manageradioButtonyes.Checked ? "1" : "0") + "',Quote = '" + (quoteyes.Checked ? "1" : "0") + "',PurchaseReq = '" + (preqyes.Checked ? "1" : "0") + "',PurchaseReqApproval = '" + (reqyes.Checked ? "1" : "0") + "',PurchaseReqApproval2 = '" + (scndapprvlyes.Checked ? "1" : "0") + "',PurchaseReqBuyer = '" + (reqbuyeryes.Checked ? "1" : "0") + "',Supervisor = '" + supervisorcombox.SelectedItem.ToString().Substring(0,2) + "',Email = '" + useremailtxt.Text + "' WHERE UserName = '" + domaintxtbox.Text + "' ";
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[Users] SET Department = '" + (engradio.Checked ? "Eng" : radioButton4.Checked ? "Controls" : "Production") + "',Admin = '" + (radioButton1.Checked ? "1" : "0") + "',Name = '" + nametextbox.Text + "',ActiveBlockNumber = '" + activeblocknumber + "',Developer = '" + (DevradioButtonYes.Checked ? "1" : "0") + "',Management = '" + (manageradioButtonyes.Checked ? "1" : "0") + "',Quote = '" + (quoteyes.Checked ? "1" : "0") + "',PurchaseReq = '" + (preqyes.Checked ? "1" : "0") + "',PurchaseReqApproval = '" + (papprovalchk.Checked ? "1" : "0") + "',PurchaseReqApproval2 = '" + (papproval2chk.Checked ? "1" : "0") + "',PurchaseReqBuyer = '" + (pbuyerchk.Checked ? "1" : "0") + "',Supervisor = '" + supervisorcombox.SelectedItem.ToString().Substring(0,2) + "',Email = '" + useremailtxt.Text + "' WHERE UserName = '" + domaintxtbox.Text + "' ";
 
                     cmd.ExecuteNonQuery();
                     cn.Close();
@@ -527,16 +526,13 @@ namespace SearchDataSPM
                     DevradioButtonNo.Enabled = false;
                     quoteyes.Enabled = false;
                     quoteno.Enabled = false;
-                    reqyes.Enabled = false;
-                    reqno.Enabled = false;
-                    reqbuyeryes.Enabled = false;
-                    reqbuyerno.Enabled = false;
-
+                    papprovalchk.Enabled = false;
+                    papproval2chk.Enabled = false;
+                    pbuyerchk.Enabled = false;
+                   
                     preqyes.Enabled = false;
                     preqno.Enabled = false;
-                    scndapprvlyes.Enabled = false;
-                    scndapprvlno.Enabled = false;
-
+                    
                     supervisorcombox.Enabled = false;
                     nametextbox.ReadOnly = true;
                     activecadblocktxt.ReadOnly = true;
@@ -575,15 +571,13 @@ namespace SearchDataSPM
                 DevradioButtonNo.Enabled = false;
                 quoteyes.Enabled = false;
                 quoteno.Enabled = false;
-                reqno.Enabled = false;
-                reqyes.Enabled = false;
-                reqbuyeryes.Enabled = false;
-                reqbuyerno.Enabled = false;
+                papprovalchk.Enabled = false;
+                papproval2chk.Enabled = false;
+                pbuyerchk.Enabled = false;
 
                 preqyes.Enabled = false;
                 preqno.Enabled = false;
-                scndapprvlyes.Enabled = false;
-                scndapprvlno.Enabled = false;
+              
 
                 supervisorcombox.Enabled = false;
                 nametextbox.Text = "";
@@ -611,9 +605,9 @@ namespace SearchDataSPM
                "Developer = " + (DevradioButtonYes.Checked ? "Yes" : "No") + Environment.NewLine +
                "QuoteAccess = " + (quoteyes.Checked ? "Yes" : "No") + Environment.NewLine +
                "PurchaseReq Access = " + (preqyes.Checked ? "Yes" : "No") + Environment.NewLine +
-               "PurchaseReqAdmin = " + (reqyes.Checked ? "Yes" : "No") + Environment.NewLine +
-               "PurchaseReqHigher Approval = " + (scndapprvlyes.Checked ? "Yes" : "No") + Environment.NewLine +
-               "PurchaseReqBuyer = " + (reqbuyeryes.Checked ? "Yes" : "No") + Environment.NewLine +
+               "PurchaseReqAdmin = " + (papprovalchk.Checked ? "Yes" : "No") + Environment.NewLine +
+               "PurchaseReqHigher Approval = " + (papproval2chk.Checked ? "Yes" : "No") + Environment.NewLine +
+               "PurchaseReqBuyer = " + (pbuyerchk.Checked ? "Yes" : "No") + Environment.NewLine +
                "Supervisor = " + supervisorcombox.SelectedItem.ToString().Substring(2) + Environment.NewLine +
                "Management = " + (manageradioButtonyes.Checked ? "Yes" : "No"), "Update User Information?",
                                                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -632,7 +626,7 @@ namespace SearchDataSPM
                 {
                     SqlCommand cmd = cn.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Users] VALUES('" + domaintxtbox.Text + "','" + (engradio.Checked ? "Eng" : radioButton4.Checked ? "Controls" : "Production") + "','" + nametextbox.Text + "','" + activeblocknumber + "','" + (radioButton1.Checked ? "1" : "0") + "','" + (DevradioButtonYes.Checked ? "1" : "0") + "','" + (manageradioButtonyes.Checked ? "1" : "0") + "','" + (quoteyes.Checked ? "1" : "0") + "','" + (preqyes.Checked ? "1" : "0") + "','" + (reqyes.Checked ? "1" : "0") + "','" + (scndapprvlyes.Checked ? "1" : "0") + "','" + (reqbuyeryes.Checked ? "1" : "0") + "','" + supervisorcombox.SelectedItem.ToString().Substring(0,2).TrimEnd() + "','" + useremailtxt.Text + "')";
+                    cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Users] VALUES('" + domaintxtbox.Text + "','" + (engradio.Checked ? "Eng" : radioButton4.Checked ? "Controls" : "Production") + "','" + nametextbox.Text + "','" + activeblocknumber + "','" + (radioButton1.Checked ? "1" : "0") + "','" + (DevradioButtonYes.Checked ? "1" : "0") + "','" + (manageradioButtonyes.Checked ? "1" : "0") + "','" + (quoteyes.Checked ? "1" : "0") + "','" + (preqyes.Checked ? "1" : "0") + "','" + (papprovalchk.Checked ? "1" : "0") + "','" + (papproval2chk.Checked ? "1" : "0") + "','" + (pbuyerchk.Checked ? "1" : "0") + "','" + supervisorcombox.SelectedItem.ToString().Substring(0,2).TrimEnd() + "','" + useremailtxt.Text + "')";
                     cmd.ExecuteNonQuery();
                     cn.Close();
                     MessageBox.Show("New user added successfully", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -653,15 +647,13 @@ namespace SearchDataSPM
                     DevradioButtonNo.Enabled = false;
                     quoteyes.Enabled = false;
                     quoteno.Enabled = false;
-                    reqyes.Enabled = false;
-                    reqno.Enabled = false;
-                    reqbuyeryes.Enabled = false;
-                    reqbuyerno.Enabled = false;
-
+                    papprovalchk.Enabled = false;
+                    papproval2chk.Enabled = false;
+                    pbuyerchk.Enabled = false;
+                  
                     preqyes.Enabled = false;
                     preqno.Enabled = false;
-                    scndapprvlyes.Enabled = false;
-                    scndapprvlno.Enabled = false;
+                    
 
                     supervisorcombox.Enabled = false;
                     nametextbox.ReadOnly = true;
@@ -698,17 +690,13 @@ namespace SearchDataSPM
                 DevradioButtonNo.Enabled = false;
                 quoteyes.Enabled = false;
                 quoteno.Enabled = false;
-                reqyes.Enabled = false;
-                reqno.Enabled = false;
-                reqbuyeryes.Enabled = false;
-                reqbuyerno.Enabled = false;
-
+                papprovalchk.Enabled = false;
+                papproval2chk.Enabled = false;
+                pbuyerchk.Enabled = false;
+               
                 preqyes.Enabled = false;
                 preqno.Enabled = false;
-                scndapprvlyes.Enabled = false;
-                scndapprvlno.Enabled = false;
-
-
+             
                 supervisorcombox.Enabled = false;
                 nametextbox.Text = "";
                 nametextbox.ReadOnly = true;
@@ -741,17 +729,13 @@ namespace SearchDataSPM
             DevradioButtonNo.Enabled = false;
             quoteyes.Enabled = false;
             quoteno.Enabled = false;
-            reqyes.Enabled = false;
-            reqno.Enabled = false;
-            reqbuyeryes.Enabled = false;
-            reqbuyerno.Enabled = false;
-
+            papprovalchk.Enabled = false;
+            papproval2chk.Enabled = false;
+            pbuyerchk.Enabled = false;
+            
             preqyes.Enabled = false;
             preqno.Enabled = false;
-            scndapprvlyes.Enabled = false;
-            scndapprvlno.Enabled = false;
-
-
+           
             supervisorcombox.Enabled = false;
             // nametextbox.Text = "";
             nametextbox.ReadOnly = true;
@@ -851,6 +835,33 @@ namespace SearchDataSPM
         private void spmadmin_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.Dispose();
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (papprovalchk.Checked)
+            {
+                pbuyerchk.Checked = false;
+                papproval2chk.Checked = false;
+            }
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (pbuyerchk.Checked)
+            {
+                papprovalchk.Checked = false;
+                papproval2chk.Checked = false;
+            }
+        }
+
+        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        {
+            if (papproval2chk.Checked)
+            {
+                pbuyerchk.Checked = false;
+                papprovalchk.Checked = false;
+            }
         }
     }
 

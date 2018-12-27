@@ -73,16 +73,13 @@
             this.quoteno = new System.Windows.Forms.RadioButton();
             this.quoteyes = new System.Windows.Forms.RadioButton();
             this.label3 = new System.Windows.Forms.Label();
-            this.panel6 = new System.Windows.Forms.Panel();
-            this.reqno = new System.Windows.Forms.RadioButton();
-            this.reqyes = new System.Windows.Forms.RadioButton();
+            this.papproval2chk = new System.Windows.Forms.CheckBox();
+            this.pbuyerchk = new System.Windows.Forms.CheckBox();
+            this.papprovalchk = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.useremailtxt = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.panel7 = new System.Windows.Forms.Panel();
-            this.reqbuyerno = new System.Windows.Forms.RadioButton();
-            this.reqbuyeryes = new System.Windows.Forms.RadioButton();
             this.idlabel = new System.Windows.Forms.Label();
             this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
             this.lineShape4 = new Microsoft.VisualBasic.PowerPacks.LineShape();
@@ -91,9 +88,6 @@
             this.lineShape1 = new Microsoft.VisualBasic.PowerPacks.LineShape();
             this.supervisorcombox = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.panel8 = new System.Windows.Forms.Panel();
-            this.scndapprvlno = new System.Windows.Forms.RadioButton();
-            this.scndapprvlyes = new System.Windows.Forms.RadioButton();
             this.label9 = new System.Windows.Forms.Label();
             this.panel9 = new System.Windows.Forms.Panel();
             this.preqno = new System.Windows.Forms.RadioButton();
@@ -105,9 +99,6 @@
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel5.SuspendLayout();
-            this.panel6.SuspendLayout();
-            this.panel7.SuspendLayout();
-            this.panel8.SuspendLayout();
             this.panel9.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -169,7 +160,7 @@
             this.nametextbox.Name = "nametextbox";
             this.nametextbox.ReadOnly = true;
             this.nametextbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.nametextbox.Size = new System.Drawing.Size(180, 20);
+            this.nametextbox.Size = new System.Drawing.Size(180, 22);
             this.nametextbox.TabIndex = 45;
             this.LabelTooltips.SetToolTip(this.nametextbox, "Item Family Group");
             // 
@@ -184,7 +175,7 @@
             this.domaintxtbox.Name = "domaintxtbox";
             this.domaintxtbox.ReadOnly = true;
             this.domaintxtbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.domaintxtbox.Size = new System.Drawing.Size(180, 20);
+            this.domaintxtbox.Size = new System.Drawing.Size(180, 22);
             this.domaintxtbox.TabIndex = 46;
             this.LabelTooltips.SetToolTip(this.domaintxtbox, "Item Quantities Per Assembly");
             // 
@@ -199,7 +190,7 @@
             this.activecadblocktxt.Name = "activecadblocktxt";
             this.activecadblocktxt.ReadOnly = true;
             this.activecadblocktxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.activecadblocktxt.Size = new System.Drawing.Size(180, 20);
+            this.activecadblocktxt.Size = new System.Drawing.Size(180, 22);
             this.activecadblocktxt.TabIndex = 47;
             this.LabelTooltips.SetToolTip(this.activecadblocktxt, "Item Family Group");
             this.activecadblocktxt.TextChanged += new System.EventHandler(this.activecadblocktxt_TextChanged);
@@ -207,7 +198,7 @@
             // 
             // addnewbttn
             // 
-            this.addnewbttn.Location = new System.Drawing.Point(289, 492);
+            this.addnewbttn.Location = new System.Drawing.Point(289, 469);
             this.addnewbttn.Name = "addnewbttn";
             this.addnewbttn.Size = new System.Drawing.Size(87, 23);
             this.addnewbttn.TabIndex = 57;
@@ -218,7 +209,7 @@
             // 
             // updatebttn
             // 
-            this.updatebttn.Location = new System.Drawing.Point(396, 492);
+            this.updatebttn.Location = new System.Drawing.Point(396, 469);
             this.updatebttn.Name = "updatebttn";
             this.updatebttn.Size = new System.Drawing.Size(79, 23);
             this.updatebttn.TabIndex = 58;
@@ -229,7 +220,7 @@
             // 
             // delbttn
             // 
-            this.delbttn.Location = new System.Drawing.Point(494, 492);
+            this.delbttn.Location = new System.Drawing.Point(494, 469);
             this.delbttn.Name = "delbttn";
             this.delbttn.Size = new System.Drawing.Size(75, 23);
             this.delbttn.TabIndex = 59;
@@ -240,7 +231,7 @@
             // 
             // updatesavebttn
             // 
-            this.updatesavebttn.Location = new System.Drawing.Point(340, 539);
+            this.updatesavebttn.Location = new System.Drawing.Point(340, 523);
             this.updatesavebttn.Name = "updatesavebttn";
             this.updatesavebttn.Size = new System.Drawing.Size(79, 23);
             this.updatesavebttn.TabIndex = 64;
@@ -252,7 +243,7 @@
             // 
             // cnclbttn
             // 
-            this.cnclbttn.Location = new System.Drawing.Point(433, 539);
+            this.cnclbttn.Location = new System.Drawing.Point(433, 523);
             this.cnclbttn.Name = "cnclbttn";
             this.cnclbttn.Size = new System.Drawing.Size(72, 23);
             this.cnclbttn.TabIndex = 65;
@@ -628,38 +619,39 @@
             this.label3.TabIndex = 79;
             this.label3.Text = "Quote \r\nAccess :";
             // 
-            // panel6
+            // papproval2chk
             // 
-            this.panel6.Controls.Add(this.reqno);
-            this.panel6.Controls.Add(this.reqyes);
-            this.panel6.Location = new System.Drawing.Point(331, 341);
-            this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(107, 26);
-            this.panel6.TabIndex = 82;
+            this.papproval2chk.AutoSize = true;
+            this.papproval2chk.Enabled = false;
+            this.papproval2chk.Location = new System.Drawing.Point(508, 345);
+            this.papproval2chk.Name = "papproval2chk";
+            this.papproval2chk.Size = new System.Drawing.Size(15, 14);
+            this.papproval2chk.TabIndex = 1;
+            this.papproval2chk.UseVisualStyleBackColor = true;
+            this.papproval2chk.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
             // 
-            // reqno
+            // pbuyerchk
             // 
-            this.reqno.AutoSize = true;
-            this.reqno.Enabled = false;
-            this.reqno.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.reqno.Location = new System.Drawing.Point(56, 6);
-            this.reqno.Name = "reqno";
-            this.reqno.Size = new System.Drawing.Size(39, 17);
-            this.reqno.TabIndex = 72;
-            this.reqno.Text = "No";
-            this.reqno.UseVisualStyleBackColor = true;
+            this.pbuyerchk.AutoSize = true;
+            this.pbuyerchk.Enabled = false;
+            this.pbuyerchk.Location = new System.Drawing.Point(333, 395);
+            this.pbuyerchk.Name = "pbuyerchk";
+            this.pbuyerchk.Size = new System.Drawing.Size(15, 14);
+            this.pbuyerchk.TabIndex = 1;
+            this.pbuyerchk.UseVisualStyleBackColor = true;
+            this.pbuyerchk.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
-            // reqyes
+            // papprovalchk
             // 
-            this.reqyes.AutoSize = true;
-            this.reqyes.Enabled = false;
-            this.reqyes.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.reqyes.Location = new System.Drawing.Point(6, 6);
-            this.reqyes.Name = "reqyes";
-            this.reqyes.Size = new System.Drawing.Size(43, 17);
-            this.reqyes.TabIndex = 71;
-            this.reqyes.Text = "Yes";
-            this.reqyes.UseVisualStyleBackColor = true;
+            this.papprovalchk.AutoSize = true;
+            this.papprovalchk.Enabled = false;
+            this.papprovalchk.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.papprovalchk.Location = new System.Drawing.Point(334, 345);
+            this.papprovalchk.Name = "papprovalchk";
+            this.papprovalchk.Size = new System.Drawing.Size(15, 14);
+            this.papprovalchk.TabIndex = 0;
+            this.papprovalchk.UseVisualStyleBackColor = true;
+            this.papprovalchk.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // label4
             // 
@@ -720,39 +712,6 @@
             this.label6.TabIndex = 81;
             this.label6.Text = "Purchase Req\r\n            Buyer :";
             // 
-            // panel7
-            // 
-            this.panel7.Controls.Add(this.reqbuyerno);
-            this.panel7.Controls.Add(this.reqbuyeryes);
-            this.panel7.Location = new System.Drawing.Point(331, 387);
-            this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(107, 26);
-            this.panel7.TabIndex = 82;
-            // 
-            // reqbuyerno
-            // 
-            this.reqbuyerno.AutoSize = true;
-            this.reqbuyerno.Enabled = false;
-            this.reqbuyerno.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.reqbuyerno.Location = new System.Drawing.Point(56, 6);
-            this.reqbuyerno.Name = "reqbuyerno";
-            this.reqbuyerno.Size = new System.Drawing.Size(39, 17);
-            this.reqbuyerno.TabIndex = 72;
-            this.reqbuyerno.Text = "No";
-            this.reqbuyerno.UseVisualStyleBackColor = true;
-            // 
-            // reqbuyeryes
-            // 
-            this.reqbuyeryes.AutoSize = true;
-            this.reqbuyeryes.Enabled = false;
-            this.reqbuyeryes.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.reqbuyeryes.Location = new System.Drawing.Point(6, 6);
-            this.reqbuyeryes.Name = "reqbuyeryes";
-            this.reqbuyeryes.Size = new System.Drawing.Size(43, 17);
-            this.reqbuyeryes.TabIndex = 71;
-            this.reqbuyeryes.Text = "Yes";
-            this.reqbuyeryes.UseVisualStyleBackColor = true;
-            // 
             // idlabel
             // 
             this.idlabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -790,8 +749,8 @@
             this.lineShape4.SelectionColor = System.Drawing.Color.White;
             this.lineShape4.X1 = 223;
             this.lineShape4.X2 = 622;
-            this.lineShape4.Y1 = 573;
-            this.lineShape4.Y2 = 573;
+            this.lineShape4.Y1 = 563;
+            this.lineShape4.Y2 = 563;
             // 
             // lineShape3
             // 
@@ -802,8 +761,8 @@
             this.lineShape3.SelectionColor = System.Drawing.Color.White;
             this.lineShape3.X1 = 222;
             this.lineShape3.X2 = 621;
-            this.lineShape3.Y1 = 475;
-            this.lineShape3.Y2 = 475;
+            this.lineShape3.Y1 = 444;
+            this.lineShape3.Y2 = 444;
             // 
             // lineShape2
             // 
@@ -835,7 +794,7 @@
             this.supervisorcombox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.supervisorcombox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.supervisorcombox.FormattingEnabled = true;
-            this.supervisorcombox.Location = new System.Drawing.Point(455, 388);
+            this.supervisorcombox.Location = new System.Drawing.Point(389, 400);
             this.supervisorcombox.Name = "supervisorcombox";
             this.supervisorcombox.Size = new System.Drawing.Size(165, 23);
             this.supervisorcombox.TabIndex = 83;
@@ -847,46 +806,13 @@
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label7.Location = new System.Drawing.Point(502, 365);
+            this.label7.Location = new System.Drawing.Point(436, 377);
             this.label7.MaximumSize = new System.Drawing.Size(90, 15);
             this.label7.Name = "label7";
             this.label7.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label7.Size = new System.Drawing.Size(75, 15);
             this.label7.TabIndex = 73;
             this.label7.Text = "Supervisor";
-            // 
-            // panel8
-            // 
-            this.panel8.Controls.Add(this.scndapprvlno);
-            this.panel8.Controls.Add(this.scndapprvlyes);
-            this.panel8.Location = new System.Drawing.Point(332, 437);
-            this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(107, 26);
-            this.panel8.TabIndex = 86;
-            // 
-            // scndapprvlno
-            // 
-            this.scndapprvlno.AutoSize = true;
-            this.scndapprvlno.Enabled = false;
-            this.scndapprvlno.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.scndapprvlno.Location = new System.Drawing.Point(56, 6);
-            this.scndapprvlno.Name = "scndapprvlno";
-            this.scndapprvlno.Size = new System.Drawing.Size(39, 17);
-            this.scndapprvlno.TabIndex = 72;
-            this.scndapprvlno.Text = "No";
-            this.scndapprvlno.UseVisualStyleBackColor = true;
-            // 
-            // scndapprvlyes
-            // 
-            this.scndapprvlyes.AutoSize = true;
-            this.scndapprvlyes.Enabled = false;
-            this.scndapprvlyes.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.scndapprvlyes.Location = new System.Drawing.Point(6, 6);
-            this.scndapprvlyes.Name = "scndapprvlyes";
-            this.scndapprvlyes.Size = new System.Drawing.Size(43, 17);
-            this.scndapprvlyes.TabIndex = 71;
-            this.scndapprvlyes.Text = "Yes";
-            this.scndapprvlyes.UseVisualStyleBackColor = true;
             // 
             // label9
             // 
@@ -895,7 +821,7 @@
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label9.Location = new System.Drawing.Point(226, 433);
+            this.label9.Location = new System.Drawing.Point(395, 333);
             this.label9.MaximumSize = new System.Drawing.Size(150, 30);
             this.label9.Name = "label9";
             this.label9.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -956,13 +882,13 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(69)))), ((int)(((byte)(76)))));
             this.ClientSize = new System.Drawing.Size(625, 674);
+            this.Controls.Add(this.papproval2chk);
+            this.Controls.Add(this.pbuyerchk);
+            this.Controls.Add(this.papprovalchk);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.panel9);
-            this.Controls.Add(this.panel8);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.supervisorcombox);
-            this.Controls.Add(this.panel7);
-            this.Controls.Add(this.panel6);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.panel5);
@@ -1018,12 +944,6 @@
             this.panel4.PerformLayout();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
-            this.panel6.ResumeLayout(false);
-            this.panel6.PerformLayout();
-            this.panel7.ResumeLayout(false);
-            this.panel7.PerformLayout();
-            this.panel8.ResumeLayout(false);
-            this.panel8.PerformLayout();
             this.panel9.ResumeLayout(false);
             this.panel9.PerformLayout();
             this.ResumeLayout(false);
@@ -1075,16 +995,10 @@
         private System.Windows.Forms.RadioButton quoteno;
         private System.Windows.Forms.RadioButton quoteyes;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Panel panel6;
-        private System.Windows.Forms.RadioButton reqno;
-        private System.Windows.Forms.RadioButton reqyes;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox useremailtxt;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Panel panel7;
-        private System.Windows.Forms.RadioButton reqbuyerno;
-        private System.Windows.Forms.RadioButton reqbuyeryes;
         private System.Windows.Forms.Label idlabel;
         private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer1;
         private Microsoft.VisualBasic.PowerPacks.LineShape lineShape2;
@@ -1093,13 +1007,13 @@
         private Microsoft.VisualBasic.PowerPacks.LineShape lineShape3;
         private System.Windows.Forms.ComboBox supervisorcombox;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Panel panel8;
-        private System.Windows.Forms.RadioButton scndapprvlno;
-        private System.Windows.Forms.RadioButton scndapprvlyes;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Panel panel9;
         private System.Windows.Forms.RadioButton preqno;
         private System.Windows.Forms.RadioButton preqyes;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.CheckBox papproval2chk;
+        private System.Windows.Forms.CheckBox pbuyerchk;
+        private System.Windows.Forms.CheckBox papprovalchk;
     }
 }
