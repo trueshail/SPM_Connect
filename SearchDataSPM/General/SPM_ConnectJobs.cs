@@ -793,7 +793,7 @@ namespace SearchDataSPM
         private void checksqltable(string job, string bom)
         {
             contextMenuStrip1.Visible = false;
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[SPMJobsPath] WHERE JobNo = '" + job + "' AND BOMNo = '" + bom + "' AND PAth is not null", cn))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[SPMJobsPath] WHERE JobNo = '" + job + "' AND BOMNo = '" + bom + "' AND Path is not null", cn))
             {
                 cn.Open();
 
@@ -894,10 +894,11 @@ namespace SearchDataSPM
                 if (cn.State == ConnectionState.Closed)
                     cn.Open();
 
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[SPMJobsPath] WHERE  JobNo = '" + job + "' AND BOMNo = '" + bom + "' ", cn);
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[SPMJobsPath] WHERE  JobNo = '" + job + "' AND BOMNo = '" + bom + "'", cn);
 
                 sda.Fill(_acountsTb);
-
+                string path = _acountsTb.Rows[0]["Path"].ToString();
+                openprojecteng(path);
 
             }
             catch (Exception ex)
@@ -912,8 +913,7 @@ namespace SearchDataSPM
                 cn.Close();
             }
 
-            string path = _acountsTb.Rows[0]["Path"].ToString();
-            openprojecteng(path);
+            
         }
 
         private void openprojecteng(string folderPath)
