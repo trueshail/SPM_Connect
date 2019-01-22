@@ -3486,11 +3486,17 @@ namespace SearchDataSPM
             }
         }
 
+        private void oemitemcombobox_TextChanged(object sender, EventArgs e)
+        {
+            if (oemitemcombobox.Text.Length == 0)
+            {
+                FilterProducts();
+            }
+        }
 
         #endregion
 
         #endregion
-
 
     }
 
