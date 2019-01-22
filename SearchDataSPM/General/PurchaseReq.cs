@@ -277,6 +277,7 @@ namespace SearchDataSPM
                 {
                     string fullname = dr["Name"].ToString();
                     supervisorid = Convert.ToInt32(dr["Supervisor"].ToString());
+
                     myid = Convert.ToInt32(dr["id"].ToString());
                     string manager = dr["PurchaseReqApproval"].ToString();
                     string hauthority = dr["PurchaseReqApproval2"].ToString();
@@ -745,7 +746,7 @@ namespace SearchDataSPM
 
         void processsavebutton(bool validatehit, string typeofsave)
         {
-            tabControl1.TabPages.Remove(PreviewTabPage);
+            //tabControl1.TabPages.Remove(PreviewTabPage);
             string reqnumber = purchreqtxt.Text;
             errorProvider1.Clear();
             if (validatehit)
@@ -768,34 +769,49 @@ namespace SearchDataSPM
                 {
                     selectrowbeforeediting(reqnumber);
                 }
-
+                dateTimePicker1.MinDate = new DateTime(2012, 05, 28);
                 //populatereqdetails(Convert.ToInt32(reqnumber));
                 //PopulateDataGridView();
             }
             else
             {
-                if (jobnumbertxt.Text.Trim().Length > 0 && subassytxt.Text.Trim().Length > 0)
+                
+                if (jobnumbertxt.Text.Length > 0 && subassytxt.Text.Length > 0)
                 {
                     UpdateReq(Convert.ToInt32(purchreqtxt.Text), typeofsave);
                     showReqSearchItems(userfullname);
                     clearaddnewtextboxes();
                     processexitbutton();
+                    dateTimePicker1.MinDate = new DateTime(2012, 05, 28);
                     //if (dataGridView.Rows.Count > 0)
                     //{
                     //    selectrowbeforeediting(reqnumber);
                     //}
-                  
+
                     //populatereqdetails(Convert.ToInt32(reqnumber));
                     //PopulateDataGridView();
                 }
                 else
                 {
-                    errorProvider1.SetError(jobnumbertxt, "Job Number cannot be empty");
-                    errorProvider1.SetError(subassytxt, "Sub Assy No cannot be empty");
+                    if (jobnumbertxt.Text.Length > 0)
+                    {
+                        errorProvider1.SetError(subassytxt, "Sub Assy No cannot be empty");
+                    }
+                    else if(subassytxt.Text.Length > 0)
+                    {
+                        errorProvider1.SetError(jobnumbertxt, "Job Number cannot be empty");
+                    }
+                    else
+                    {
+                        errorProvider1.SetError(jobnumbertxt, "Job Number cannot be empty");
+                        errorProvider1.SetError(subassytxt, "Sub Assy No cannot be empty");
+                    }
+                    
+                    
                 }
             }
 
-            dateTimePicker1.MinDate = new DateTime(2012, 05, 28);
+          
         }
 
         private void ecitbttn_Click(object sender, EventArgs e)
@@ -1336,7 +1352,7 @@ namespace SearchDataSPM
                                         purchasegrpbox.Enabled = false;
                                         purchasedchk.Text = "Purchased";
                                         purchasedchk.Checked = true;
-                                        printbttn.Enabled = true;
+                                        //printbttn.Enabled = true;
                                         editbttn.Visible = false;
                                     }
                                     else
@@ -1345,7 +1361,7 @@ namespace SearchDataSPM
                                         purchasegrpbox.Enabled = false;
                                         purchasedchk.Text = "Purchase";
                                         purchasedchk.Checked = false;
-                                        printbttn.Enabled = false;
+                                        //printbttn.Enabled = false;
                                         editbttn.Visible = true;
                                     }
                                 }
@@ -2055,9 +2071,17 @@ namespace SearchDataSPM
                 else
                 {
                     sendemailtouser(reqno, fileName, requestby, triggerby);
-                    if (sendemailyesnopbuyer())
+                    if (triggerby == "pbuyer")
                     {
-                        sendmailtopbuyers(reqno, "");
+
+                    }
+                    else
+                    {
+                        if (sendemailyesnopbuyer())
+                        {
+                            sendmailtopbuyers(reqno, "");
+                        }
+                       
                     }
                 }
             }

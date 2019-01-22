@@ -62,7 +62,6 @@
             this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.admin_bttn = new System.Windows.Forms.Button();
             this.jobsbttn = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.listView = new System.Windows.Forms.ListView();
             this.Listviewcontextmenu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -76,7 +75,6 @@
             this.FormSelector.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.inventoryBindingSource3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sPM_DatabaseDataSet)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.Listviewcontextmenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -492,20 +490,6 @@
             this.jobsbttn.UseVisualStyleBackColor = false;
             this.jobsbttn.Click += new System.EventHandler(this.jobsbttn_Click);
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
-            this.pictureBox1.ErrorImage = global::SearchDataSPM.Properties.Resources.spm_white_icon;
-            this.pictureBox1.Image = global::SearchDataSPM.Properties.Resources.spmchristmas;
-            this.pictureBox1.InitialImage = global::SearchDataSPM.Properties.Resources.spmchristmas;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 10);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(198, 85);
-            this.pictureBox1.TabIndex = 103;
-            this.pictureBox1.TabStop = false;
-            this.TreeViewToolTip.SetToolTip(this.pictureBox1, "SPM Automation Inc.");
-            this.pictureBox1.DoubleClick += new System.EventHandler(this.pictureBox1_DoubleClick);
-            // 
             // imageList
             // 
             this.imageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
@@ -592,7 +576,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
             this.ClientSize = new System.Drawing.Size(984, 761);
-            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.recordlabel);
             this.Controls.Add(this.jobsbttn);
             this.Controls.Add(this.listView);
@@ -620,7 +603,6 @@
             this.FormSelector.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.inventoryBindingSource3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sPM_DatabaseDataSet)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.Listviewcontextmenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -667,7 +649,6 @@
         private System.Windows.Forms.ToolStripMenuItem viewReportBOM;
         private System.Windows.Forms.ToolStripMenuItem billsOfMaunfacturingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sparePartsToolStripMenuItem;
-        private System.Windows.Forms.PictureBox pictureBox1;
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member 'SPM_Connect.txtSearch'
     }
 }

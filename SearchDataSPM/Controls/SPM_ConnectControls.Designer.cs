@@ -68,13 +68,11 @@
             this.admin_bttn = new System.Windows.Forms.Button();
             this.jobsbttn = new System.Windows.Forms.Button();
             this.getnewitembttn = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.recordlabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.FormSelector.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.inventoryBindingSource3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sPM_DatabaseDataSet)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // txtSearch
@@ -395,7 +393,7 @@
             this.SPM.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SPM.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.SPM.Image = ((System.Drawing.Image)(resources.GetObject("SPM.Image")));
-            this.SPM.Location = new System.Drawing.Point(0, 10);
+            this.SPM.Location = new System.Drawing.Point(3, 10);
             this.SPM.Name = "SPM";
             this.SPM.Size = new System.Drawing.Size(200, 85);
             this.SPM.TabIndex = 10;
@@ -522,20 +520,6 @@
             this.getnewitembttn.UseVisualStyleBackColor = false;
             this.getnewitembttn.Click += new System.EventHandler(this.getnewitembttn_Click);
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
-            this.pictureBox1.ErrorImage = global::SearchDataSPM.Properties.Resources.spm_white_icon;
-            this.pictureBox1.Image = global::SearchDataSPM.Properties.Resources.spmchristmas;
-            this.pictureBox1.InitialImage = global::SearchDataSPM.Properties.Resources.spmchristmas;
-            this.pictureBox1.Location = new System.Drawing.Point(1, 10);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(198, 85);
-            this.pictureBox1.TabIndex = 105;
-            this.pictureBox1.TabStop = false;
-            this.TreeViewToolTip.SetToolTip(this.pictureBox1, "SPM Automation Inc.");
-            this.pictureBox1.DoubleClick += new System.EventHandler(this.pictureBox1_DoubleClick);
-            // 
             // recordlabel
             // 
             this.recordlabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -554,7 +538,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
             this.ClientSize = new System.Drawing.Size(984, 661);
-            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.getnewitembttn);
             this.Controls.Add(this.recordlabel);
             this.Controls.Add(this.jobsbttn);
@@ -580,7 +563,6 @@
             this.FormSelector.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.inventoryBindingSource3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sPM_DatabaseDataSet)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -620,7 +602,6 @@
         private System.Windows.Forms.Button jobsbttn;
         private System.Windows.Forms.Label recordlabel;
         private System.Windows.Forms.Button getnewitembttn;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ToolStripMenuItem viewReportBOM;
         private System.Windows.Forms.ToolStripMenuItem billsOfMaunfacturingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sparePartsToolStripMenuItem;

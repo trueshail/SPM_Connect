@@ -50,7 +50,6 @@ namespace SearchDataSPM
             this.inventoryBindingSource3 = new System.Windows.Forms.BindingSource(this.components);
             this.sPM_DatabaseDataSet = new SearchDataSPM.SPM_DatabaseDataSet();
             this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.SPM = new System.Windows.Forms.Label();
             this.AddNewBttn = new System.Windows.Forms.Button();
             this.jobsbttn = new System.Windows.Forms.Button();
@@ -96,7 +95,6 @@ namespace SearchDataSPM
             this.FormSelector.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.inventoryBindingSource3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sPM_DatabaseDataSet)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.Listviewcontextmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -241,20 +239,6 @@ namespace SearchDataSPM
             this.TreeViewToolTip.InitialDelay = 500;
             this.TreeViewToolTip.ReshowDelay = 100;
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
-            this.pictureBox1.ErrorImage = global::SearchDataSPM.Properties.Resources.spm_white_icon;
-            this.pictureBox1.Image = global::SearchDataSPM.Properties.Resources.spmchristmas;
-            this.pictureBox1.InitialImage = global::SearchDataSPM.Properties.Resources.spmchristmas;
-            this.pictureBox1.Location = new System.Drawing.Point(2, 7);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(198, 85);
-            this.pictureBox1.TabIndex = 120;
-            this.pictureBox1.TabStop = false;
-            this.TreeViewToolTip.SetToolTip(this.pictureBox1, "SPM Automation Inc.");
-            this.pictureBox1.DoubleClick += new System.EventHandler(this.pictureBox1_DoubleClick);
-            // 
             // SPM
             // 
             this.SPM.BackColor = System.Drawing.Color.Transparent;
@@ -267,6 +251,7 @@ namespace SearchDataSPM
             this.SPM.TabIndex = 114;
             this.SPM.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.TreeViewToolTip.SetToolTip(this.SPM, "SPM Automation Inc.");
+            this.SPM.DoubleClick += new System.EventHandler(this.SPM_DoubleClick);
             // 
             // AddNewBttn
             // 
@@ -479,9 +464,9 @@ namespace SearchDataSPM
             this.Manufactureritemcomboxbox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.Manufactureritemcomboxbox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.Manufactureritemcomboxbox.FormattingEnabled = true;
-            this.Manufactureritemcomboxbox.Location = new System.Drawing.Point(7, 376);
+            this.Manufactureritemcomboxbox.Location = new System.Drawing.Point(3, 376);
             this.Manufactureritemcomboxbox.Name = "Manufactureritemcomboxbox";
-            this.Manufactureritemcomboxbox.Size = new System.Drawing.Size(199, 21);
+            this.Manufactureritemcomboxbox.Size = new System.Drawing.Size(195, 21);
             this.Manufactureritemcomboxbox.TabIndex = 125;
             this.TreeViewToolTip.SetToolTip(this.Manufactureritemcomboxbox, "Filter by OEM item number");
             this.Manufactureritemcomboxbox.TextChanged += new System.EventHandler(this.Manufactureritemcomboxbox_TextChanged);
@@ -496,9 +481,9 @@ namespace SearchDataSPM
             this.familycomboxbox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.familycomboxbox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.familycomboxbox.FormattingEnabled = true;
-            this.familycomboxbox.Location = new System.Drawing.Point(7, 227);
+            this.familycomboxbox.Location = new System.Drawing.Point(3, 227);
             this.familycomboxbox.Name = "familycomboxbox";
-            this.familycomboxbox.Size = new System.Drawing.Size(199, 21);
+            this.familycomboxbox.Size = new System.Drawing.Size(195, 21);
             this.familycomboxbox.TabIndex = 123;
             this.TreeViewToolTip.SetToolTip(this.familycomboxbox, "Filter by family type");
             this.familycomboxbox.TextChanged += new System.EventHandler(this.familycomboxbox_TextChanged);
@@ -513,9 +498,9 @@ namespace SearchDataSPM
             this.lastsavedbycombo.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.lastsavedbycombo.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.lastsavedbycombo.FormattingEnabled = true;
-            this.lastsavedbycombo.Location = new System.Drawing.Point(7, 453);
+            this.lastsavedbycombo.Location = new System.Drawing.Point(3, 453);
             this.lastsavedbycombo.Name = "lastsavedbycombo";
-            this.lastsavedbycombo.Size = new System.Drawing.Size(199, 21);
+            this.lastsavedbycombo.Size = new System.Drawing.Size(195, 21);
             this.lastsavedbycombo.TabIndex = 126;
             this.TreeViewToolTip.SetToolTip(this.lastsavedbycombo, "Filter by last saved");
             this.lastsavedbycombo.TextChanged += new System.EventHandler(this.lastsavedbycombo_TextChanged);
@@ -533,9 +518,9 @@ namespace SearchDataSPM
             this.oemitemcombobox.Items.AddRange(new object[] {
             "Festo",
             "SPM AUTOMATION (Canada) INC."});
-            this.oemitemcombobox.Location = new System.Drawing.Point(7, 301);
+            this.oemitemcombobox.Location = new System.Drawing.Point(3, 301);
             this.oemitemcombobox.Name = "oemitemcombobox";
-            this.oemitemcombobox.Size = new System.Drawing.Size(199, 21);
+            this.oemitemcombobox.Size = new System.Drawing.Size(195, 21);
             this.oemitemcombobox.TabIndex = 124;
             this.TreeViewToolTip.SetToolTip(this.oemitemcombobox, "Filter by manufacture");
             this.oemitemcombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.oemitemcombobox_KeyDown);
@@ -549,9 +534,9 @@ namespace SearchDataSPM
             this.ActiveCadblockcombobox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.ActiveCadblockcombobox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.ActiveCadblockcombobox.FormattingEnabled = true;
-            this.ActiveCadblockcombobox.Location = new System.Drawing.Point(7, 534);
+            this.ActiveCadblockcombobox.Location = new System.Drawing.Point(3, 534);
             this.ActiveCadblockcombobox.Name = "ActiveCadblockcombobox";
-            this.ActiveCadblockcombobox.Size = new System.Drawing.Size(199, 21);
+            this.ActiveCadblockcombobox.Size = new System.Drawing.Size(195, 21);
             this.ActiveCadblockcombobox.TabIndex = 127;
             this.TreeViewToolTip.SetToolTip(this.ActiveCadblockcombobox, "Filter by current cad block number");
             this.ActiveCadblockcombobox.TextChanged += new System.EventHandler(this.ActiveCadblockcombobox_TextChanged);
@@ -570,9 +555,9 @@ namespace SearchDataSPM
             "Shailkumar Patel",
             "Scott Reid",
             "Joel Goldsmith"});
-            this.designedbycombobox.Location = new System.Drawing.Point(7, 150);
+            this.designedbycombobox.Location = new System.Drawing.Point(3, 150);
             this.designedbycombobox.Name = "designedbycombobox";
-            this.designedbycombobox.Size = new System.Drawing.Size(199, 21);
+            this.designedbycombobox.Size = new System.Drawing.Size(195, 21);
             this.designedbycombobox.TabIndex = 122;
             this.TreeViewToolTip.SetToolTip(this.designedbycombobox, "Filter Designed by");
             this.designedbycombobox.TextChanged += new System.EventHandler(this.designedbycombobox_TextChanged);
@@ -658,7 +643,6 @@ namespace SearchDataSPM
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.advsearchbttn);
-            this.splitContainer1.Panel1.Controls.Add(this.pictureBox1);
             this.splitContainer1.Panel1.Controls.Add(this.SPM);
             this.splitContainer1.Panel1.Controls.Add(this.recordlabel);
             this.splitContainer1.Panel1.Controls.Add(this.AddNewBttn);
@@ -936,7 +920,6 @@ namespace SearchDataSPM
             this.FormSelector.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.inventoryBindingSource3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sPM_DatabaseDataSet)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.Listviewcontextmenu.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
@@ -977,7 +960,6 @@ namespace SearchDataSPM
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Button advsearchbttn;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label SPM;
         private System.Windows.Forms.Label recordlabel;
         private System.Windows.Forms.Button AddNewBttn;
