@@ -1062,18 +1062,26 @@ namespace SearchDataSPM
 
         void createfolders()
         {
-            string jobnumber = getjobnumber().ToString();
-            string jobdescription = getjobdescription().ToString();
-            string customer = getcustomeralias(getcutomerid().ToString()).ToString();
-            DialogResult result = MessageBox.Show(
-               "JobNumber = " + jobnumber + Environment.NewLine +
-               "Job Description = " + jobdescription + Environment.NewLine +
-               "Customer = " + customer, "Create Job Folders?",
-                                               MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (result == DialogResult.Yes)
+            try
             {
-                createjobfolders(jobnumber, customer, jobdescription);
+                string jobnumber = getjobnumber().ToString();
+                string jobdescription = getjobdescription().ToString();
+                string customer = getcustomeralias(getcutomerid().ToString()).ToString();
+                DialogResult result = MessageBox.Show(
+                   "JobNumber = " + jobnumber + Environment.NewLine +
+                   "Job Description = " + jobdescription + Environment.NewLine +
+                   "Customer = " + customer, "Create Job Folders?",
+                                                   MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    createjobfolders(jobnumber, customer, jobdescription);
+                }
             }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Customer short name not found.Error with customer alias.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+           
         }
 
         private void createjobfolders(string jobnumber, string customer, string jobdescription)
