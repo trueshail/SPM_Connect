@@ -1383,7 +1383,7 @@ namespace SearchDataSPM
                                         purchasegrpbox.Enabled = false;
                                         purchasedchk.Text = "Purchase";
                                         purchasedchk.Checked = false;
-                                        printbttn.Enabled = false;
+                                       // printbttn.Enabled = false;
 
 
                                     }

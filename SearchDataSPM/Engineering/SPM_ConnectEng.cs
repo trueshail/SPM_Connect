@@ -33,6 +33,7 @@ namespace SearchDataSPM
         DataTable dt;
         bool formloading = false;
 
+
         public SPM_Connect()
 
         {
