@@ -32,9 +32,9 @@ namespace SearchDataSPM
 		{
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SPM_Connect));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.FormSelector = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.bOMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.whereUsedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -772,8 +772,8 @@ namespace SearchDataSPM
             // descriptionDataGridViewTextBoxColumn
             // 
             this.descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
-            dataGridViewCellStyle1.NullValue = null;
-            this.descriptionDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.NullValue = null;
+            this.descriptionDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle4;
             this.descriptionDataGridViewTextBoxColumn.FillWeight = 86.92893F;
             this.descriptionDataGridViewTextBoxColumn.HeaderText = "Description";
             this.descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
@@ -794,8 +794,8 @@ namespace SearchDataSPM
             // manufacturerDataGridViewTextBoxColumn
             // 
             this.manufacturerDataGridViewTextBoxColumn.DataPropertyName = "Manufacturer";
-            dataGridViewCellStyle2.NullValue = null;
-            this.manufacturerDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.NullValue = null;
+            this.manufacturerDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle5;
             this.manufacturerDataGridViewTextBoxColumn.FillWeight = 86.92893F;
             this.manufacturerDataGridViewTextBoxColumn.HeaderText = "Manufacturer";
             this.manufacturerDataGridViewTextBoxColumn.Name = "manufacturerDataGridViewTextBoxColumn";
@@ -804,8 +804,8 @@ namespace SearchDataSPM
             // manufacturerItemNumberDataGridViewTextBoxColumn
             // 
             this.manufacturerItemNumberDataGridViewTextBoxColumn.DataPropertyName = "ManufacturerItemNumber";
-            dataGridViewCellStyle3.NullValue = null;
-            this.manufacturerItemNumberDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.NullValue = null;
+            this.manufacturerItemNumberDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle6;
             this.manufacturerItemNumberDataGridViewTextBoxColumn.FillWeight = 86.92893F;
             this.manufacturerItemNumberDataGridViewTextBoxColumn.HeaderText = "Manufacturer Item Number";
             this.manufacturerItemNumberDataGridViewTextBoxColumn.Name = "manufacturerItemNumberDataGridViewTextBoxColumn";
