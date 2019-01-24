@@ -35,8 +35,7 @@ namespace SearchDataSPM
 
       
         public SPM_Connect()
-        {
-            
+        {          
             InitializeComponent();
             connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
             try
