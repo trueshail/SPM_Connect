@@ -980,7 +980,7 @@ namespace SearchDataSPM
             //int result = 0;
             //double price12 = 0.00;
             errorProvider1.Clear();
-            if (qtytxt.Text.Length > 0)
+            if (qtytxt.Text.Length > 0 && qtytxt.Text != "0" && pricetxt.Text != "$0.00")
             {
                 int maxSlNo = dataGridView1.Rows.Count;
                 maxSlNo++;
@@ -1022,7 +1022,19 @@ namespace SearchDataSPM
             }
             else
             {
+                if (qtytxt.Text.Length > 0  && qtytxt.Text != "0")
+                    errorProvider1.SetError(pricetxt, "Price cannot be null");
+                 
+                 else if(pricetxt.Text != "$0.00" && qtytxt.Text.Length != 1)
                 errorProvider1.SetError(qtytxt, "Cannot be null");
+                else if (qtytxt.Text == "0")
+                    errorProvider1.SetError(qtytxt, "Qty cannot be zero");
+                else
+                {
+                    errorProvider1.SetError(pricetxt, "Price cannot be null");
+                    errorProvider1.SetError(qtytxt, "Cannot be null");
+                }
+
             }
 
         }
