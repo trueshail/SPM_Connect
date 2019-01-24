@@ -17,10 +17,11 @@ namespace SearchDataSPM
         {
             time = time + 10;
             rectangleShape2.Width += 11;
+           
             if (time >= 250)
             {
                 timer1.Stop();
-                Connect_SPMSQL();
+               Connect_SPMSQL();
                
 
             }
@@ -28,7 +29,6 @@ namespace SearchDataSPM
 
         private void SPM_ConnectHome_Load(object sender, EventArgs e)
         {
-           
             timer1.Start();
         }
 
@@ -78,6 +78,7 @@ namespace SearchDataSPM
             }
             else if (chekusercredentialseng() == true)
             {
+               
                 this.Hide();
                 var form2 = new SPM_Connect();
                 form2.Closed += (s, args) => this.Close();

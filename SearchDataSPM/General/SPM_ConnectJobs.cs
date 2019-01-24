@@ -1077,7 +1077,7 @@ namespace SearchDataSPM
                     createjobfolders(jobnumber, customer, jobdescription);
                 }
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 MessageBox.Show("Customer short name not found.Error with customer alias.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }

@@ -33,10 +33,10 @@ namespace SearchDataSPM
         DataTable dt;
         bool formloading = false;
 
-
+      
         public SPM_Connect()
-
         {
+            
             InitializeComponent();
             connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
             try
@@ -68,7 +68,7 @@ namespace SearchDataSPM
             txtSearch.Focus();
             fillinfo();
             formloading = false;
-
+           
         }
 
         private void fillinfo()
@@ -80,7 +80,6 @@ namespace SearchDataSPM
             filllastsavedby();
             filluserwithblock();
             clearfilercombos();
-
         }
 
         void clearfilercombos()

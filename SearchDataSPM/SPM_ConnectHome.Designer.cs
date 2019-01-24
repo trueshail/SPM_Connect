@@ -53,6 +53,7 @@ namespace SearchDataSPM
             this.metroProgressSpinner1.UseCustomBackColor = true;
             this.metroProgressSpinner1.UseCustomForeColor = true;
             this.metroProgressSpinner1.UseSelectable = true;
+            this.metroProgressSpinner1.UseWaitCursor = true;
             this.metroProgressSpinner1.Click += new System.EventHandler(this.metroProgressSpinner1_Click);
             // 
             // timer1
@@ -72,6 +73,7 @@ namespace SearchDataSPM
             this.SPM.Size = new System.Drawing.Size(307, 161);
             this.SPM.TabIndex = 11;
             this.SPM.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.SPM.UseWaitCursor = true;
             // 
             // shapeContainer1
             // 
@@ -84,6 +86,7 @@ namespace SearchDataSPM
             this.shapeContainer1.Size = new System.Drawing.Size(330, 200);
             this.shapeContainer1.TabIndex = 12;
             this.shapeContainer1.TabStop = false;
+            this.shapeContainer1.UseWaitCursor = true;
             // 
             // rectangleShape2
             // 
@@ -99,6 +102,7 @@ namespace SearchDataSPM
             this.rectangleShape2.Name = "rectangleShape2";
             this.rectangleShape2.SelectionColor = System.Drawing.Color.White;
             this.rectangleShape2.Size = new System.Drawing.Size(20, 8);
+            this.rectangleShape2.UseWaitCursor = true;
             // 
             // rectangleShape1
             // 
@@ -109,6 +113,7 @@ namespace SearchDataSPM
             this.rectangleShape1.Location = new System.Drawing.Point(16, 165);
             this.rectangleShape1.Name = "rectangleShape1";
             this.rectangleShape1.Size = new System.Drawing.Size(300, 18);
+            this.rectangleShape1.UseWaitCursor = true;
             // 
             // SPM_ConnectHome
             // 
@@ -125,6 +130,7 @@ namespace SearchDataSPM
             this.Name = "SPM_ConnectHome";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SPM_ConnectHome";
+            this.UseWaitCursor = true;
             this.Load += new System.EventHandler(this.SPM_ConnectHome_Load);
             this.ResumeLayout(false);
 
