@@ -769,7 +769,7 @@ namespace SearchDataSPM
                 {
                     selectrowbeforeediting(reqnumber);
                 }
-                dateTimePicker1.MinDate = new DateTime(2012, 05, 28);
+                dateTimePicker1.MinDate = new DateTime(1900, 01, 01);
                 //populatereqdetails(Convert.ToInt32(reqnumber));
                 //PopulateDataGridView();
             }
@@ -782,7 +782,7 @@ namespace SearchDataSPM
                     showReqSearchItems(userfullname);
                     clearaddnewtextboxes();
                     processexitbutton();
-                    dateTimePicker1.MinDate = new DateTime(2012, 05, 28);
+                    dateTimePicker1.MinDate = new DateTime(1900, 01, 01);
                     //if (dataGridView.Rows.Count > 0)
                     //{
                     //    selectrowbeforeediting(reqnumber);
@@ -904,7 +904,7 @@ namespace SearchDataSPM
             {
                 tabControl1.TabPages.Add(PreviewTabPage);
             }
-            dateTimePicker1.MinDate = new DateTime(2018, 01, 01);
+            dateTimePicker1.MinDate = new DateTime(1900, 01, 01);
         }
 
         private void updateorderid(int reqnumber)
@@ -1431,9 +1431,9 @@ namespace SearchDataSPM
 
 
                 }
-                catch (Exception ex)
+                catch
                 {
-                    MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Populate Req Details", MessageBoxButtons.OK);
+                    //MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Populate Req Details", MessageBoxButtons.OK);
                 }
             }
             
