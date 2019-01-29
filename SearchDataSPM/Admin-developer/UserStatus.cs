@@ -128,27 +128,7 @@ namespace SearchDataSPM.Admin_developer
         {
             
             string userName = getuserselected().Trim();
-            string apprunning = getapplicaitonrunning().Trim().ToString();
-
-            if(apprunning == "SPM Connect Eng")
-            {
-                SPM_Connect sPM_Connect = new SPM_Connect();
-                sPM_Connect.sqlnotifier();
-            }
-            else if(apprunning == "SPM Connect Production")
-            {
-                SPM_ConnectProduction sPM_ConnectProduction = new SPM_ConnectProduction();
-                sPM_ConnectProduction.sqlnotifier();
-            }
-            else if(apprunning == "SPM Connect Controls")
-            {
-                SPM_ConnectControls sPM_ConnectControls = new SPM_ConnectControls();
-                sPM_ConnectControls.sqlnotifier();
-            }
-            else
-            {
-                return;
-            }
+            
 
             deleteuser(userName);
             if (userName == System.Security.Principal.WindowsIdentity.GetCurrent().Name)

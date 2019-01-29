@@ -68,7 +68,7 @@ namespace SearchDataSPM
             txtSearch.Focus();
             fillinfo();
             formloading = false;
-            //sqlnotifier();
+            sqlnotifier();
            
         }
 
