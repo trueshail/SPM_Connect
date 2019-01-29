@@ -296,6 +296,7 @@
     <Compile Include="Admin-developer\Customers.designer.cs">
       <DependentUpon>Customers.cs</DependentUpon>
     </Compile>
+    <Compile Include="ConverterHash.cs" />
     <Compile Include="Customer.cs">
       <DependentUpon>ConnectCustomers.tt</DependentUpon>
     </Compile>
@@ -394,6 +395,12 @@
     </Compile>
     <Compile Include="ListOpenWindows.Designer.cs">
       <DependentUpon>ListOpenWindows.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LoginForm.Designer.cs">
+      <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -643,6 +650,9 @@
     <EmbeddedResource Include="ListOpenWindows.resx">
       <DependentUpon>ListOpenWindows.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ReportViewer.resx">
       <DependentUpon>ReportViewer.cs</DependentUpon>
     </EmbeddedResource>
@@ -875,6 +885,7 @@
     </Content>
     <None Include="Resources\spmchristmas.gif" />
     <None Include="Resources\spm_smal3.bmp" />
+    <None Include="Resources\Login-Manager.png" />
     <Content Include="Resources\spm_white_icon.png" />
     <None Include="Resources\spm_white_icon_21.gif" />
     <None Include="Resources\spm_white_icon1.png" />

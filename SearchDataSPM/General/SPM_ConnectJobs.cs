@@ -81,16 +81,17 @@ namespace SearchDataSPM
                 sda.Fill(dt);
                 dataGridView.DataSource = dt;
                 dataGridView.Sort(dataGridView.Columns[0], ListSortDirection.Descending);
-                dataGridView.Columns[8].Visible = false;
                 dataGridView.Columns[9].Visible = false;
+                dataGridView.Columns[10].Visible = false;
                 dataGridView.Columns[0].Width = 60;
-                dataGridView.Columns[1].Width = 60;
-                dataGridView.Columns[2].Width = 60;
-                dataGridView.Columns[3].Width = 250;
-                dataGridView.Columns[4].Width = 60;
-                dataGridView.Columns[5].Width = 160;
-                dataGridView.Columns[6].Width = 40;
+                dataGridView.Columns[1].Width = 40;
+                dataGridView.Columns[2].Width = 40;
+                dataGridView.Columns[3].Width = 60;
+                dataGridView.Columns[4].Width = 250;
+                dataGridView.Columns[5].Width = 60;
+                dataGridView.Columns[6].Width = 160;
                 dataGridView.Columns[7].Width = 40;
+                dataGridView.Columns[8].Width = 40;
                 UpdateFont();
 
                 //foreach (DataGridViewRow row in dataGridView.Rows)

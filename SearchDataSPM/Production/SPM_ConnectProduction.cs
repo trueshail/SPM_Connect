@@ -17,6 +17,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using EModelView;
 using ExtractLargeIconFromFile;
+using TableDependency.SqlClient;
+using TableDependency.SqlClient.Base;
 using wpfPreviewFlowControl;
 
 namespace SearchDataSPM
@@ -64,6 +66,7 @@ namespace SearchDataSPM
             this.Text = "SPM Connect Production - " + userName.ToString().Substring(4);
             chekin("SPM Connect Production", userName);
             txtSearch.Focus();
+            sqlnotifier();
             
         }
 
@@ -116,6 +119,69 @@ namespace SearchDataSPM
             dataGridView.DefaultCellStyle.BackColor = Color.FromArgb(237, 237, 237);
             dataGridView.DefaultCellStyle.SelectionForeColor = Color.Yellow;
             dataGridView.DefaultCellStyle.SelectionBackColor = Color.Black;
+        }
+
+        #endregion
+
+        #region Sql Notifier
+
+        SqlTableDependency<UserControl> _dependency;
+
+        public void sqlnotifier()
+        {
+
+            // The mapper object is used to map model properties 
+            // that do not have a corresponding table column name.
+            // In case all properties of your model have same name 
+            // of table columns, you can avoid to use the mapper.
+            var mapper = new ModelToTableMapper<UserControl>();
+            mapper.AddMapping(c => c.username, "User Name");
+            mapper.AddMapping(c => c.computername, "Computer Name");
+
+            // Here - as second parameter - we pass table name: 
+            // this is necessary only if the model name is different from table name 
+            // (in our case we have Customer vs Customers). 
+            // If needed, you can also specifiy schema name.
+
+            _dependency = new SqlTableDependency<UserControl>(connection, tableName: "Checkin", mapper: mapper);
+            _dependency.OnChanged += _dependency_OnChanged;
+            _dependency.OnError += _dependency_OnError;
+            _dependency.Start();
+            //using (var dep = new SqlTableDependency<cust>(_con, tableName: "USER", mapper: mapper))
+            //{
+            //    dep.OnChanged += Changed;
+            //    dep.Start();
+
+            //    Console.WriteLine("Press a key to exit");
+            //    Console.ReadKey();
+
+            //    dep.Stop();
+            //}
+        }
+
+        private void _dependency_OnChanged(object sender, TableDependency.SqlClient.Base.EventArgs.RecordChangedEventArgs<UserControl> e)
+        {
+            string changed;
+            var changedEntity = e.Entity;
+            //Console.WriteLine("DML operation: " + e.ChangeType);
+            // //Console.WriteLine("ID: " + changedEntity.Id);
+            //Console.WriteLine("Name: " + changedEntity.Name);
+            //Console.WriteLine("Surame: " + changedEntity.Surname);
+            string type = e.ChangeType.ToString();
+            changed = string.Format((changedEntity.username));
+            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+            // MessageBox.Show(changed);
+            if (changed == userName && type == "Delete")
+            {
+                //MessageBox.Show(this,"Developer has kicked you out due to maintenance issues.");
+                _dependency.Stop();
+                System.Environment.Exit(0);
+            }
+        }
+
+        private void _dependency_OnError(object sender, TableDependency.SqlClient.Base.EventArgs.ErrorEventArgs e)
+        {
+            throw e.Error;
         }
 
         #endregion
@@ -1159,7 +1225,13 @@ namespace SearchDataSPM
 
                 return true;
             }
+            if (keyData == (Keys.Control | Keys.Alt | Keys.A))
+            {
+                LoginForm loginForm = new LoginForm();
+                loginForm.Show();
 
+                return true;
+            }
 
             return base.ProcessCmdKey(ref msg, keyData);
         }

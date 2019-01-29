@@ -250,8 +250,8 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(26, 8);
             this.label1.TabIndex = 11;
-            this.label1.Text = "V7.5.0";
-            this.TreeViewToolTip.SetToolTip(this.label1, "SPM Connect V7.5.0");
+            this.label1.Text = "V7.6.0";
+            this.TreeViewToolTip.SetToolTip(this.label1, "SPM Connect V7.6.0");
             // 
             // filter4
             // 
