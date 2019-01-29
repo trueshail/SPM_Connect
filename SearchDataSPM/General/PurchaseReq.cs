@@ -37,7 +37,7 @@ namespace SearchDataSPM
         string userfullname = "";
         List<string> Itemstodiscard = new List<string>();
         int supervisoridfromreq = 0;
-
+        //static Thread t;
 
         #endregion
 
@@ -749,75 +749,94 @@ namespace SearchDataSPM
 
         void processsavebutton(bool validatehit, string typeofsave)
         {
-            Thread t = new Thread(new ThreadStart(Splashsaving));
-            t.Start();
-            //tabControl1.TabPages.Remove(PreviewTabPage);
-            string reqnumber = purchreqtxt.Text;
-            errorProvider1.Clear();
-            if (validatehit)
+            try
             {
+                this.TopMost = false;
+               
+                Thread t = new Thread(new ThreadStart(Splashsaving));
+                t.Start();
+                this.Enabled = false;
+                //tabControl1.TabPages.Remove(PreviewTabPage);
+                string reqnumber = purchreqtxt.Text;
+                errorProvider1.Clear();
+                if (validatehit)
+                {
 
-                UpdateReq(Convert.ToInt32(purchreqtxt.Text), typeofsave);
-                showReqSearchItems(userfullname);
-                clearaddnewtextboxes();
-                processexitbutton();
-                if(typeofsave == "Approved" || typeofsave == "Papproved" || typeofsave == "Hpproved")
-                {
-                    bttnshowapproved.PerformClick();
-                }
-                if(typeofsave == "ApprovedFalse" || typeofsave == "HpprovedFalse" || typeofsave == "PpprovedFalse")
-                {
-                    bttnneedapproval.PerformClick();
-                }
-
-                if (dataGridView.Rows.Count > 0)
-                {
-                    selectrowbeforeediting(reqnumber);
-                }
-                dateTimePicker1.MinDate = new DateTime(1900, 01, 01);
-                //populatereqdetails(Convert.ToInt32(reqnumber));
-                //PopulateDataGridView();
-            }
-            else
-            {
-                
-                if (jobnumbertxt.Text.Length > 0 && subassytxt.Text.Length > 0)
-                {
                     UpdateReq(Convert.ToInt32(purchreqtxt.Text), typeofsave);
                     showReqSearchItems(userfullname);
                     clearaddnewtextboxes();
                     processexitbutton();
-                    dateTimePicker1.MinDate = new DateTime(1900, 01, 01);
-                    //if (dataGridView.Rows.Count > 0)
-                    //{
-                    //    selectrowbeforeediting(reqnumber);
-                    //}
+                    if (typeofsave == "Approved" || typeofsave == "Papproved" || typeofsave == "Hpproved")
+                    {
+                        bttnshowapproved.PerformClick();
+                    }
+                    if (typeofsave == "ApprovedFalse" || typeofsave == "HpprovedFalse" || typeofsave == "PpprovedFalse")
+                    {
+                        bttnneedapproval.PerformClick();
+                    }
 
+                    if (dataGridView.Rows.Count > 0)
+                    {
+                        selectrowbeforeediting(reqnumber);
+                    }
+                    dateTimePicker1.MinDate = new DateTime(1900, 01, 01);
                     //populatereqdetails(Convert.ToInt32(reqnumber));
                     //PopulateDataGridView();
                 }
                 else
                 {
-                    if (jobnumbertxt.Text.Length > 0)
+
+                    if (jobnumbertxt.Text.Length > 0 && subassytxt.Text.Length > 0)
                     {
-                        errorProvider1.SetError(subassytxt, "Sub Assy No cannot be empty");
-                    }
-                    else if(subassytxt.Text.Length > 0)
-                    {
-                        errorProvider1.SetError(jobnumbertxt, "Job Number cannot be empty");
+                        UpdateReq(Convert.ToInt32(purchreqtxt.Text), typeofsave);
+                        if (bttnshowmyreq.Visible)
+                        {
+                            bttnshowmyreq.PerformClick();
+                        }
+                        else
+                        {
+                            showReqSearchItems(userfullname);
+                        }
+
+                        clearaddnewtextboxes();
+                        processexitbutton();
+                        dateTimePicker1.MinDate = new DateTime(1900, 01, 01);
+                        //if (dataGridView.Rows.Count > 0)
+                        //{
+                        //    selectrowbeforeediting(reqnumber);
+                        //}
+
+                        //populatereqdetails(Convert.ToInt32(reqnumber));
+                        //PopulateDataGridView();
                     }
                     else
                     {
-                        errorProvider1.SetError(jobnumbertxt, "Job Number cannot be empty");
-                        errorProvider1.SetError(subassytxt, "Sub Assy No cannot be empty");
+                        if (jobnumbertxt.Text.Length > 0)
+                        {
+                            errorProvider1.SetError(subassytxt, "Sub Assy No cannot be empty");
+                        }
+                        else if (subassytxt.Text.Length > 0)
+                        {
+                            errorProvider1.SetError(jobnumbertxt, "Job Number cannot be empty");
+                        }
+                        else
+                        {
+                            errorProvider1.SetError(jobnumbertxt, "Job Number cannot be empty");
+                            errorProvider1.SetError(subassytxt, "Sub Assy No cannot be empty");
+                        }
+
+
                     }
-                    
-                    
                 }
+
+                t.Abort();
+                this.TopMost = true;
+                this.Enabled = true;
             }
+            catch
+            {
 
-            t.Abort();
-
+            }
 
         }
 
@@ -1552,13 +1571,17 @@ namespace SearchDataSPM
                     string reqno = purchreqtxt.Text;
                     processsavebutton(true, "Validated");
                     Validatechk.Text = "Invalidate";
+                    this.TopMost = false;
+
                     Thread t = new Thread(new ThreadStart(Splashemail));
-                    
-                    t.Start();                    
+                    t.Start();
+                    this.Enabled = false;
                     string filename = makefilenameforreport(reqno, true);
                     SaveReport(reqno, filename);
                     preparetosendemail(reqno, true, "", filename, false, "user");
                     t.Abort();
+                    this.TopMost = true;
+                    this.Enabled = true;
                 }
                 else
                 {
@@ -1685,15 +1708,19 @@ namespace SearchDataSPM
 
                         processsavebutton(true, "Approved");
                         approvechk.Checked = true;
+                        this.TopMost = false;
 
                         Thread t = new Thread(new ThreadStart(Splashemail));
                         t.Start();
+                        this.Enabled = false;
 
                         string filename = makefilenameforreport(reqno, false).ToString();
                         SaveReport(reqno, filename);
                         preparetosendemail(reqno, false, requestby, filename, happroval(), "supervisor");
 
                         t.Abort();
+                        this.TopMost = true;
+                        this.Enabled = true;
 
                     }
                     else
@@ -1785,16 +1812,18 @@ namespace SearchDataSPM
                
                 if (dataGridView.Rows.Count > 0 && dataGridView.SelectedCells.Count == 1)
                 {
-                    //Thread t = new Thread(new ThreadStart(Splashopening));
-                    //t.Start();
+                    this.TopMost = false;
+                    
                     Cursor.Current = Cursors.WaitCursor;
-
+                    Thread t = new Thread(new ThreadStart(Splashopening));
+                    t.Start();
+                    this.Enabled = false;
                     dataGridView1.AutoGenerateColumns = false;
                     int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                     DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
                     int item = Convert.ToInt32(slectedrow.Cells[0].Value);
                     checkforeditrights();
-
+                    
                     populatereqdetails(item);
                     PopulateDataGridView();
                     tabControl1.Visible = true;
@@ -1804,7 +1833,10 @@ namespace SearchDataSPM
                         tabControl1.TabPages.Add(PreviewTabPage);
                     }
                     Cursor.Current = Cursors.Default;
-                    //t.Abort();
+                    t.Abort();
+                    this.TopMost = true;
+                    this.Enabled = true;
+                    
                 }
                 
             }
@@ -2625,8 +2657,12 @@ namespace SearchDataSPM
 
         private void bttnneedapproval_Click(object sender, EventArgs e)
         {
+            this.TopMost = false;
+
             Thread t = new Thread(new ThreadStart(Splashopening));
             t.Start();
+            this.Enabled = false;
+
             showwaitingonapproval();
             foreach (Control c in managergroupbox.Controls)
             {
@@ -2636,12 +2672,16 @@ namespace SearchDataSPM
             Control o = (Control)sender;
             o.BackColor = Color.FromArgb(255, 128, 0);
             t.Abort();
+            this.TopMost = true;
+            this.Enabled = true;
         }
 
         private void bttnshowapproved_Click(object sender, EventArgs e)
         {
+            this.TopMost = false;
             Thread t = new Thread(new ThreadStart(Splashopening));
             t.Start();
+            this.Enabled = false;
             showallapproved();
             foreach (Control c in managergroupbox.Controls)
             {
@@ -2651,12 +2691,16 @@ namespace SearchDataSPM
             Control o = (Control)sender;
             o.BackColor = Color.FromArgb(255, 128, 0);
             t.Abort();
+            this.TopMost = true;
+            this.Enabled = true;
         }
 
         private void bttnshowmydept_Click(object sender, EventArgs e)
         {
+            this.TopMost = false;
             Thread t = new Thread(new ThreadStart(Splashopening));
             t.Start();
+            this.Enabled = false;
             showmydeptreq();
             foreach (Control c in managergroupbox.Controls)
             {
@@ -2666,12 +2710,17 @@ namespace SearchDataSPM
             Control o = (Control)sender;
             o.BackColor = Color.FromArgb(255, 128, 0);
             t.Abort();
+            this.TopMost = true;
+            this.Enabled = true;
         }
 
         private void bttnshowmyreq_Click(object sender, EventArgs e)
         {
-            Thread t = new Thread(new ThreadStart(Splashopening));
+            this.TopMost = false;
+           Thread t = new Thread(new ThreadStart(Splashopening));
+           
             t.Start();
+            this.Enabled = false;
             showReqSearchItems(userfullname);
             foreach (Control c in managergroupbox.Controls)
             {
@@ -2681,6 +2730,8 @@ namespace SearchDataSPM
             Control o = (Control)sender;
             o.BackColor = Color.FromArgb(255, 128, 0);
             t.Abort();
+            this.TopMost = true;
+            this.Enabled = true;
         }
 
         #endregion
@@ -2964,9 +3015,12 @@ namespace SearchDataSPM
 
                         processsavebutton(true, "Happroved");
                         approvechk.Checked = true;
-
+                        this.TopMost = false;
+                       
                         Thread t = new Thread(new ThreadStart(Splashemail));
                         t.Start();
+                        this.Enabled = false;
+
 
                         string filename = makefilenameforreport(reqno, false).ToString();
                         //SaveReport(reqno, filename);
@@ -2974,6 +3028,8 @@ namespace SearchDataSPM
                         preparetosendemail(reqno, false, requestby, filename, false, "highautority");
 
                         t.Abort();
+                        this.TopMost = true;
+                        this.Enabled = true;
 
                     }
                     else
@@ -3040,15 +3096,18 @@ namespace SearchDataSPM
                         string requestby = requestbytxt.Text;
 
                         processsavebutton(true, "Papproved");
+                        this.TopMost = false;
 
                         Thread t = new Thread(new ThreadStart(Splashemail));
                         t.Start();
-
+                        this.Enabled = false;
                         purchasedchk.Checked = true;
                        
                         preparetosendemail(reqno, false, requestby, "", false, "pbuyer");
 
                         t.Abort();
+                        this.TopMost = true;
+                        this.Enabled = true;
 
                     }
                     else
@@ -3095,20 +3154,56 @@ namespace SearchDataSPM
 
         void Splashsaving()
         {
-            Engineering.WaitFormSaving waitFormOpening = new Engineering.WaitFormSaving();
-            Application.Run(waitFormOpening);
+            try
+            {
+                if (!formloading)
+                {
+                    Engineering.WaitFormSaving waitFormOpening = new Engineering.WaitFormSaving();
+                  
+                    Application.Run(waitFormOpening);
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+           
         }
 
         void Splashopening()
         {
-            Engineering.WaitFormLoading waitFormOpening = new Engineering.WaitFormLoading();
-            Application.Run(waitFormOpening);
+            try
+            {
+                if (!formloading)
+                {
+                    Engineering.WaitFormLoading waitFormOpening = new Engineering.WaitFormLoading();
+                   //Thread.ResetAbort();
+                    Application.Run(waitFormOpening);
+                }
+                
+            }
+            catch (Exception)
+            {
+
+            }
+               
         }
 
         void Splashemail()
         {
-            Engineering.WaitFormEmail waitFormOpening = new Engineering.WaitFormEmail();
-            Application.Run(waitFormOpening);
+            try
+            {
+                if (!formloading)
+                {
+                    Engineering.WaitFormEmail waitFormOpening = new Engineering.WaitFormEmail();
+                    Application.Run(waitFormOpening);
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+          
         }
 
     }

@@ -418,7 +418,7 @@ namespace SearchDataSPM
                 {
                     int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                     DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-                    item = Convert.ToString(slectedrow.Cells[2].Value);
+                    item = Convert.ToString(slectedrow.Cells[3].Value);
                     //MessageBox.Show(ItemNo);
 
                 }
@@ -702,7 +702,7 @@ namespace SearchDataSPM
             {
                 int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                 DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-                item = Convert.ToString(slectedrow.Cells[2].Value);
+                item = Convert.ToString(slectedrow.Cells[3].Value);
                 //MessageBox.Show(ItemNo);
 
             }
@@ -1166,8 +1166,8 @@ namespace SearchDataSPM
             {
                 int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                 DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-                jobdescription = Convert.ToString(slectedrow.Cells[3].Value);
-                //MessageBox.Show(ItemNo);
+                jobdescription = Convert.ToString(slectedrow.Cells[4].Value);
+               //MessageBox.Show(jobdescription);
 
                 Regex reg = new Regex("[*'\"/,_&#^@]");
                 jobdescription = reg.Replace(jobdescription, "-");
@@ -1225,7 +1225,7 @@ namespace SearchDataSPM
             {
                 int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                 DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-                customer = Convert.ToString(slectedrow.Cells[9].Value);
+                customer = Convert.ToString(slectedrow.Cells[10].Value);
                 //MessageBox.Show(ItemNo);
                 return customer;
             }
