@@ -69,7 +69,7 @@ namespace SearchDataSPM
             this.Text = "SPM Connect Controls - " + userName.ToString().Substring(4);
             chekin("SPM Connect Controls", userName);
             txtSearch.Focus();
-            sqlnotifier();
+            //sqlnotifier();
 
         }
 

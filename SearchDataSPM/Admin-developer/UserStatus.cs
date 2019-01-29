@@ -126,7 +126,30 @@ namespace SearchDataSPM.Admin_developer
 
         private void freeuser_Click(object sender, EventArgs e)
         {
+            
             string userName = getuserselected().Trim();
+            string apprunning = getapplicaitonrunning().Trim().ToString();
+
+            if(apprunning == "SPM Connect Eng")
+            {
+                SPM_Connect sPM_Connect = new SPM_Connect();
+                sPM_Connect.sqlnotifier();
+            }
+            else if(apprunning == "SPM Connect Production")
+            {
+                SPM_ConnectProduction sPM_ConnectProduction = new SPM_ConnectProduction();
+                sPM_ConnectProduction.sqlnotifier();
+            }
+            else if(apprunning == "SPM Connect Controls")
+            {
+                SPM_ConnectControls sPM_ConnectControls = new SPM_ConnectControls();
+                sPM_ConnectControls.sqlnotifier();
+            }
+            else
+            {
+                return;
+            }
+
             deleteuser(userName);
             if (userName == System.Security.Principal.WindowsIdentity.GetCurrent().Name)
             {
@@ -176,7 +199,6 @@ namespace SearchDataSPM.Admin_developer
             }
         }
 
-
         private void UserStatus_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.Dispose();
@@ -203,5 +225,28 @@ namespace SearchDataSPM.Admin_developer
                 return item;
             }
         }
+
+        private String getapplicaitonrunning()
+        {
+            int selectedclmindex = dataGridView1.SelectedCells[0].ColumnIndex;
+            DataGridViewColumn columnchk = dataGridView1.Columns[selectedclmindex];
+            string c = Convert.ToString(columnchk.Index);
+            //MessageBox.Show(c);
+            string item;
+            if (dataGridView1.SelectedRows.Count == 1 || dataGridView1.SelectedCells.Count == 1)
+            {
+                int selectedrowindex = dataGridView1.SelectedCells[0].RowIndex;
+                DataGridViewRow slectedrow = dataGridView1.Rows[selectedrowindex];
+                item = Convert.ToString(slectedrow.Cells[1].Value);
+                //MessageBox.Show(ItemNo);
+                return item;
+            }
+            else
+            {
+                item = "";
+                return item;
+            }
+        }
+
     }
 }

@@ -66,7 +66,7 @@ namespace SearchDataSPM
             this.Text = "SPM Connect Production - " + userName.ToString().Substring(4);
             chekin("SPM Connect Production", userName);
             txtSearch.Focus();
-            sqlnotifier();
+           // sqlnotifier();
             
         }
 
