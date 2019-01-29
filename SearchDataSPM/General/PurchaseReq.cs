@@ -1782,10 +1782,11 @@ namespace SearchDataSPM
         {
             if (!formloading)
             {
-                Thread t = new Thread(new ThreadStart(Splashopening));
-                t.Start();
+               
                 if (dataGridView.Rows.Count > 0 && dataGridView.SelectedCells.Count == 1)
                 {
+                    //Thread t = new Thread(new ThreadStart(Splashopening));
+                    //t.Start();
                     Cursor.Current = Cursors.WaitCursor;
 
                     dataGridView1.AutoGenerateColumns = false;
@@ -1803,8 +1804,9 @@ namespace SearchDataSPM
                         tabControl1.TabPages.Add(PreviewTabPage);
                     }
                     Cursor.Current = Cursors.Default;
+                    //t.Abort();
                 }
-                t.Abort();
+                
             }
         }
 
