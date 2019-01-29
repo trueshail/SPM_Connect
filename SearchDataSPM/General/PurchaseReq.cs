@@ -740,12 +740,17 @@ namespace SearchDataSPM
 
         private void savebttn_Click(object sender, EventArgs e)
         {
+            
             Itemstodiscard.Clear();
             processsavebutton(false, "Normal");
+            
+
         }
 
         void processsavebutton(bool validatehit, string typeofsave)
         {
+            Thread t = new Thread(new ThreadStart(Splashsaving));
+            t.Start();
             //tabControl1.TabPages.Remove(PreviewTabPage);
             string reqnumber = purchreqtxt.Text;
             errorProvider1.Clear();
@@ -811,7 +816,9 @@ namespace SearchDataSPM
                 }
             }
 
-          
+            t.Abort();
+
+
         }
 
         private void ecitbttn_Click(object sender, EventArgs e)
@@ -1350,7 +1357,7 @@ namespace SearchDataSPM
                                     purchasegrpbox.Enabled = false;
                                     purchasedchk.Text = "Purchased";
                                     purchasedchk.Checked = true;
-                                    // editbttn.Visible = false;
+                                     editbttn.Visible = false;
                                 }
 
                             }
@@ -1545,9 +1552,13 @@ namespace SearchDataSPM
                     string reqno = purchreqtxt.Text;
                     processsavebutton(true, "Validated");
                     Validatechk.Text = "Invalidate";
+                    Thread t = new Thread(new ThreadStart(Splashemail));
+                    
+                    t.Start();                    
                     string filename = makefilenameforreport(reqno, true);
                     SaveReport(reqno, filename);
                     preparetosendemail(reqno, true, "", filename, false, "user");
+                    t.Abort();
                 }
                 else
                 {
@@ -1674,11 +1685,15 @@ namespace SearchDataSPM
 
                         processsavebutton(true, "Approved");
                         approvechk.Checked = true;
+
+                        Thread t = new Thread(new ThreadStart(Splashemail));
+                        t.Start();
+
                         string filename = makefilenameforreport(reqno, false).ToString();
                         SaveReport(reqno, filename);
-
-
                         preparetosendemail(reqno, false, requestby, filename, happroval(), "supervisor");
+
+                        t.Abort();
 
                     }
                     else
@@ -1767,6 +1782,8 @@ namespace SearchDataSPM
         {
             if (!formloading)
             {
+                Thread t = new Thread(new ThreadStart(Splashopening));
+                t.Start();
                 if (dataGridView.Rows.Count > 0 && dataGridView.SelectedCells.Count == 1)
                 {
                     Cursor.Current = Cursors.WaitCursor;
@@ -1787,7 +1804,7 @@ namespace SearchDataSPM
                     }
                     Cursor.Current = Cursors.Default;
                 }
-
+                t.Abort();
             }
         }
 
@@ -2933,10 +2950,16 @@ namespace SearchDataSPM
 
                         processsavebutton(true, "Happroved");
                         approvechk.Checked = true;
+
+                        Thread t = new Thread(new ThreadStart(Splashemail));
+                        t.Start();
+
                         string filename = makefilenameforreport(reqno, false).ToString();
                         //SaveReport(reqno, filename);
 
                         preparetosendemail(reqno, false, requestby, filename, false, "highautority");
+
+                        t.Abort();
 
                     }
                     else
@@ -3003,9 +3026,15 @@ namespace SearchDataSPM
                         string requestby = requestbytxt.Text;
 
                         processsavebutton(true, "Papproved");
+
+                        Thread t = new Thread(new ThreadStart(Splashemail));
+                        t.Start();
+
                         purchasedchk.Checked = true;
                        
                         preparetosendemail(reqno, false, requestby, "", false, "pbuyer");
+
+                        t.Abort();
 
                     }
                     else
@@ -3049,5 +3078,24 @@ namespace SearchDataSPM
         }
 
         #endregion
+
+        void Splashsaving()
+        {
+            Engineering.WaitFormSaving waitFormOpening = new Engineering.WaitFormSaving();
+            Application.Run(waitFormOpening);
+        }
+
+        void Splashopening()
+        {
+            Engineering.WaitFormLoading waitFormOpening = new Engineering.WaitFormLoading();
+            Application.Run(waitFormOpening);
+        }
+
+        void Splashemail()
+        {
+            Engineering.WaitFormEmail waitFormOpening = new Engineering.WaitFormEmail();
+            Application.Run(waitFormOpening);
+        }
+
     }
 }

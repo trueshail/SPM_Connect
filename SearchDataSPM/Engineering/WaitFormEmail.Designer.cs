@@ -1,6 +1,6 @@
 ﻿namespace SearchDataSPM.Engineering
 {
-    partial class WaitFormSaving
+    partial class WaitFormEmail
     {
         /// <summary>
         /// Required designer variable.
@@ -41,7 +41,7 @@
             this.metroProgressSpinner1.UseSelectable = true;
             this.metroProgressSpinner1.Click += new System.EventHandler(this.metroProgressSpinner1_Click);
             // 
-            // WaitFormSaving
+            // WaitFormEmail
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -51,12 +51,12 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Movable = false;
-            this.Name = "WaitFormSaving";
+            this.Name = "WaitFormEmail";
             this.Resizable = false;
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.None;
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
-            this.Text = "Saving Data.....";
+            this.Text = "Sending Email...";
             this.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.WaitFormSaving_FormClosed);
             this.Load += new System.EventHandler(this.WaitFormSaving_Load);

@@ -78,9 +78,14 @@ namespace SearchDataSPM
         {
             this.Text = "ItemInfo - SPM Connect (" + iteminfo2 + ")";
             CheckManagement();
+            CheckPriceRights();
             if (yesmanagement)
             {
                 showitemstogridview(iteminfo2);
+                
+            }
+            if (pricerights)
+            {
                 SHOWITEMPRICE(iteminfo2);
             }
 
@@ -92,6 +97,7 @@ namespace SearchDataSPM
         }
 
         bool yesmanagement = false;
+        bool pricerights = false;
 
         private void CheckManagement()
         {
@@ -110,7 +116,7 @@ namespace SearchDataSPM
 
                         panel1.Visible = true;
                         yesmanagement = true;
-                        checkBox1.Visible = true;
+                        //checkBox1.Visible = true;
 
 
                     }
@@ -118,6 +124,48 @@ namespace SearchDataSPM
                     {
                         panel1.Visible = false;
                         yesmanagement = false;
+                        //checkBox1.Visible = false;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //Application.Exit();
+                }
+                finally
+                {
+                    _connection.Close();
+                }
+
+            }
+        }
+
+        private void CheckPriceRights()
+        {
+            string useradmin = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND PriceRight = '1'", _connection))
+            {
+                try
+                {
+                    _connection.Open();
+                    sqlCommand.Parameters.AddWithValue("@username", useradmin);
+
+                    int userCount = (int)sqlCommand.ExecuteScalar();
+                    if (userCount == 1)
+                    {
+
+                        //panel1.Visible = true;
+                        pricerights = true;
+                        checkBox1.Visible = true;
+
+
+                    }
+                    else
+                    {
+                        //panel1.Visible = false;
+                        pricerights = false;
                         checkBox1.Visible = false;
                     }
 
@@ -125,7 +173,7 @@ namespace SearchDataSPM
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Application.Exit();
+                   // Application.Exit();
                 }
                 finally
                 {
@@ -204,6 +252,18 @@ namespace SearchDataSPM
                 _connection.Close();
             }
 
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+
+            if (keyData == (Keys.Control | Keys.W))
+            {
+                this.Close();
+                return true;
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
         }
 
         private void UpdateFont()

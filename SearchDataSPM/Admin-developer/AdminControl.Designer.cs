@@ -93,6 +93,10 @@
             this.preqno = new System.Windows.Forms.RadioButton();
             this.preqyes = new System.Windows.Forms.RadioButton();
             this.label8 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.panel6 = new System.Windows.Forms.Panel();
+            this.priceno = new System.Windows.Forms.RadioButton();
+            this.priceyes = new System.Windows.Forms.RadioButton();
             this.contextMenuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -100,6 +104,7 @@
             this.panel4.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel9.SuspendLayout();
+            this.panel6.SuspendLayout();
             this.SuspendLayout();
             // 
             // contextMenuStrip1
@@ -537,7 +542,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label2.Location = new System.Drawing.Point(319, 297);
+            this.label2.Location = new System.Drawing.Point(421, 297);
             this.label2.MaximumSize = new System.Drawing.Size(90, 15);
             this.label2.Name = "label2";
             this.label2.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -567,7 +572,7 @@
             // 
             this.panel4.Controls.Add(this.DevradioButtonNo);
             this.panel4.Controls.Add(this.DevradioButtonYes);
-            this.panel4.Location = new System.Drawing.Point(406, 291);
+            this.panel4.Location = new System.Drawing.Point(508, 291);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(107, 27);
             this.panel4.TabIndex = 78;
@@ -876,12 +881,62 @@
             this.label8.TabIndex = 70;
             this.label8.Text = "Purchase Req :";
             // 
+            // label10
+            // 
+            this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label10.Location = new System.Drawing.Point(225, 286);
+            this.label10.MaximumSize = new System.Drawing.Size(90, 30);
+            this.label10.Name = "label10";
+            this.label10.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label10.Size = new System.Drawing.Size(59, 30);
+            this.label10.TabIndex = 88;
+            this.label10.Text = "Price\r\nAccess :";
+            // 
+            // panel6
+            // 
+            this.panel6.Controls.Add(this.priceno);
+            this.panel6.Controls.Add(this.priceyes);
+            this.panel6.Location = new System.Drawing.Point(286, 291);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(107, 27);
+            this.panel6.TabIndex = 89;
+            // 
+            // priceno
+            // 
+            this.priceno.AutoSize = true;
+            this.priceno.Enabled = false;
+            this.priceno.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.priceno.Location = new System.Drawing.Point(56, 5);
+            this.priceno.Name = "priceno";
+            this.priceno.Size = new System.Drawing.Size(39, 17);
+            this.priceno.TabIndex = 75;
+            this.priceno.Text = "No";
+            this.priceno.UseVisualStyleBackColor = true;
+            // 
+            // priceyes
+            // 
+            this.priceyes.AutoSize = true;
+            this.priceyes.Enabled = false;
+            this.priceyes.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.priceyes.Location = new System.Drawing.Point(6, 5);
+            this.priceyes.Name = "priceyes";
+            this.priceyes.Size = new System.Drawing.Size(43, 17);
+            this.priceyes.TabIndex = 74;
+            this.priceyes.Text = "Yes";
+            this.priceyes.UseVisualStyleBackColor = true;
+            // 
             // spmadmin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(69)))), ((int)(((byte)(76)))));
             this.ClientSize = new System.Drawing.Size(625, 674);
+            this.Controls.Add(this.panel6);
+            this.Controls.Add(this.label10);
             this.Controls.Add(this.papproval2chk);
             this.Controls.Add(this.pbuyerchk);
             this.Controls.Add(this.papprovalchk);
@@ -946,6 +1001,8 @@
             this.panel5.PerformLayout();
             this.panel9.ResumeLayout(false);
             this.panel9.PerformLayout();
+            this.panel6.ResumeLayout(false);
+            this.panel6.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1015,5 +1072,9 @@
         private System.Windows.Forms.CheckBox papproval2chk;
         private System.Windows.Forms.CheckBox pbuyerchk;
         private System.Windows.Forms.CheckBox papprovalchk;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Panel panel6;
+        private System.Windows.Forms.RadioButton priceno;
+        private System.Windows.Forms.RadioButton priceyes;
     }
 }
