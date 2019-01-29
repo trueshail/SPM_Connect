@@ -2623,6 +2623,8 @@ namespace SearchDataSPM
 
         private void bttnneedapproval_Click(object sender, EventArgs e)
         {
+            Thread t = new Thread(new ThreadStart(Splashopening));
+            t.Start();
             showwaitingonapproval();
             foreach (Control c in managergroupbox.Controls)
             {
@@ -2631,10 +2633,13 @@ namespace SearchDataSPM
             //set the clicked control to a different color
             Control o = (Control)sender;
             o.BackColor = Color.FromArgb(255, 128, 0);
+            t.Abort();
         }
 
         private void bttnshowapproved_Click(object sender, EventArgs e)
         {
+            Thread t = new Thread(new ThreadStart(Splashopening));
+            t.Start();
             showallapproved();
             foreach (Control c in managergroupbox.Controls)
             {
@@ -2643,10 +2648,13 @@ namespace SearchDataSPM
             //set the clicked control to a different color
             Control o = (Control)sender;
             o.BackColor = Color.FromArgb(255, 128, 0);
+            t.Abort();
         }
 
         private void bttnshowmydept_Click(object sender, EventArgs e)
         {
+            Thread t = new Thread(new ThreadStart(Splashopening));
+            t.Start();
             showmydeptreq();
             foreach (Control c in managergroupbox.Controls)
             {
@@ -2655,10 +2663,13 @@ namespace SearchDataSPM
             //set the clicked control to a different color
             Control o = (Control)sender;
             o.BackColor = Color.FromArgb(255, 128, 0);
+            t.Abort();
         }
 
         private void bttnshowmyreq_Click(object sender, EventArgs e)
         {
+            Thread t = new Thread(new ThreadStart(Splashopening));
+            t.Start();
             showReqSearchItems(userfullname);
             foreach (Control c in managergroupbox.Controls)
             {
@@ -2667,6 +2678,7 @@ namespace SearchDataSPM
             //set the clicked control to a different color
             Control o = (Control)sender;
             o.BackColor = Color.FromArgb(255, 128, 0);
+            t.Abort();
         }
 
         #endregion
