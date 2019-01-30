@@ -44,6 +44,7 @@
             this.ponumbertxt.Name = "ponumbertxt";
             this.ponumbertxt.Size = new System.Drawing.Size(200, 26);
             this.ponumbertxt.TabIndex = 0;
+            this.ponumbertxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ponumbertxt_KeyPress);
             // 
             // label1
             // 
@@ -63,6 +64,7 @@
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(200, 26);
             this.dateTimePicker1.TabIndex = 9;
+            this.dateTimePicker1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dateTimePicker1_KeyDown);
             // 
             // label2
             // 

@@ -38,6 +38,7 @@ namespace SearchDataSPM
         List<string> Itemstodiscard = new List<string>();
         int supervisoridfromreq = 0;
         //static Thread t;
+        Thread loading;
 
         #endregion
 
@@ -399,6 +400,7 @@ namespace SearchDataSPM
                 {
                     rowIndex = row.Index;
                     dataGridView.Rows[rowIndex].Selected = true;
+                   
 
                     break;
                 }
@@ -752,9 +754,17 @@ namespace SearchDataSPM
             try
             {
                 this.TopMost = false;
-               
+
                 Thread t = new Thread(new ThreadStart(Splashsaving));
-                t.Start();
+                if (typeofsave != "Papproved")
+                {
+                    t.Start();
+                }
+                else
+                {
+                   // t.Abort();
+                }
+               
                 this.Enabled = false;
                 //tabControl1.TabPages.Remove(PreviewTabPage);
                 string reqnumber = purchreqtxt.Text;
@@ -777,7 +787,11 @@ namespace SearchDataSPM
 
                     if (dataGridView.Rows.Count > 0)
                     {
+                        dataGridView.ClearSelection();
                         selectrowbeforeediting(reqnumber);
+                        //selectrowbeforeediting(reqnumber);
+                        populatereqdetails(Convert.ToInt32(reqnumber));
+                        PopulateDataGridView();
                     }
                     dateTimePicker1.MinDate = new DateTime(1900, 01, 01);
                     //populatereqdetails(Convert.ToInt32(reqnumber));
@@ -1436,6 +1450,15 @@ namespace SearchDataSPM
                             purchasedchk.Text = "Purchase";
                             purchasedchk.Checked = false;
                             printbttn.Enabled = false;
+                            if(getrequestname() == userfullname)
+                            {
+                                editbttn.Visible = true;
+                            }
+                            else
+                            {
+                                editbttn.Visible = false;
+                            }
+                            
                         }
                     }
                     else
@@ -1812,30 +1835,46 @@ namespace SearchDataSPM
                
                 if (dataGridView.Rows.Count > 0 && dataGridView.SelectedCells.Count == 1)
                 {
-                    this.TopMost = false;
-                    
-                    Cursor.Current = Cursors.WaitCursor;
-                    Thread t = new Thread(new ThreadStart(Splashopening));
-                    t.Start();
-                    this.Enabled = false;
-                    dataGridView1.AutoGenerateColumns = false;
-                    int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
-                    DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-                    int item = Convert.ToInt32(slectedrow.Cells[0].Value);
-                    checkforeditrights();
-                    
-                    populatereqdetails(item);
-                    PopulateDataGridView();
-                    tabControl1.Visible = true;
-                    totalcostlbl.Visible = true;
-                    if (tabControl1.TabPages.Count == 0)
+                    try
                     {
-                        tabControl1.TabPages.Add(PreviewTabPage);
+                        this.TopMost = false;
+                        Cursor.Current = Cursors.WaitCursor;
+                        Thread t = new Thread(new ThreadStart(Splashopening));
+                        t.Start();
+                        //loading = new Thread(new ThreadStart(Splashopening));
+
+                        //loading.Start();
+
+                        this.Enabled = false;
+                        dataGridView1.AutoGenerateColumns = false;
+                        int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
+                        DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
+                        int item = Convert.ToInt32(slectedrow.Cells[0].Value);
+                        checkforeditrights();
+
+                        populatereqdetails(item);
+                        PopulateDataGridView();
+                        tabControl1.Visible = true;
+                        totalcostlbl.Visible = true;
+                        if (tabControl1.TabPages.Count == 0)
+                        {
+                            tabControl1.TabPages.Add(PreviewTabPage);
+                        }
+                        Cursor.Current = Cursors.Default;
+                        t.Abort();
+                        //loading.Abort();
+                        this.TopMost = true;
+                        this.Enabled = true;
                     }
-                    Cursor.Current = Cursors.Default;
-                    t.Abort();
-                    this.TopMost = true;
-                    this.Enabled = true;
+                    catch(ThreadAbortException)
+                    {
+                        throw;
+                    }
+                    catch(Exception)
+                    {
+
+                    }
+                    
                     
                 }
                 
@@ -2177,20 +2216,15 @@ namespace SearchDataSPM
         void sendemailtouser(string reqno, string fileName, string requestby, string triggerby)
         {
             string email = getusernameandemail(requestby);
-
+           
             if (triggerby == "supervisor")
             {
                 sendemail(email, reqno + " Purchase Req Approved", "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is approved.", fileName, "");
             }
-            if(triggerby == "pbuyer")
+            else
             {
-                sendemail(email, reqno + " Purchase Req Purchased", "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is sent out for purchase.", fileName, "");
-            }
-            if(triggerby == "highautority")
-            {
-                string nameemail = getsupervisornameandemail(supervisoridfromreq);
-
-                string[] values = nameemail.Replace("][", "~").Split('~');
+                string supnameemail = getsupervisornameandemail(supervisoridfromreq);
+                string[] values = supnameemail.Replace("][", "~").Split('~');
                 for (int i = 0; i < values.Length; i++)
                 {
                     values[i] = values[i].Trim();
@@ -2198,8 +2232,18 @@ namespace SearchDataSPM
                 }
                 string supervisoremail = values[0];
 
-                sendemail(email, reqno + " Purchase Req Approved", "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is approved.", fileName, supervisoremail);
+                if (triggerby == "pbuyer")
+                {
+                    sendemail(email, reqno + " Purchase Req Purchased", "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is sent out for purchase.", fileName, supervisoremail);
+                }
+                if (triggerby == "highautority")
+                {
+
+
+                    sendemail(email, reqno + " Purchase Req Approved", "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is approved.", fileName, supervisoremail);
+                }
             }
+           
 
         }
 
@@ -2447,19 +2491,19 @@ namespace SearchDataSPM
                     message.Body = body;
 
 
-                    if(filetoattach == "")
+                    if (filetoattach == "")
                     {
 
                     }
                     else
                     {
-                        
+
                         attachment = new System.Net.Mail.Attachment(filetoattach);
                         message.Attachments.Add(attachment);
                     }
-                   
 
-                  
+
+
                     SmtpServer.Port = 25;
                     SmtpServer.UseDefaultCredentials = true;
                     SmtpServer.EnableSsl = true;
@@ -2651,6 +2695,8 @@ namespace SearchDataSPM
 
         private void printbttn_Click(object sender, EventArgs e)
         {
+            this.TopMost = false;
+
             reportpurchaereq(reqnumber, "Purchasereq");
 
         }
@@ -3096,6 +3142,7 @@ namespace SearchDataSPM
                         string requestby = requestbytxt.Text;
 
                         processsavebutton(true, "Papproved");
+                        dataGridView_SelectionChanged(sender, e);
                         this.TopMost = false;
 
                         Thread t = new Thread(new ThreadStart(Splashemail));
@@ -3159,11 +3206,16 @@ namespace SearchDataSPM
                 if (!formloading)
                 {
                     Engineering.WaitFormSaving waitFormOpening = new Engineering.WaitFormSaving();
-                  
+                    waitFormOpening.Location = new Point(this.Location.X + (this.Width - waitFormOpening.Width) / 2, this.Location.Y + (this.Height - waitFormOpening.Height) / 2);
+                    loading = Thread.CurrentThread;
+                    if (loading.ThreadState == ThreadState.AbortRequested)
+                    {
+                        Thread.ResetAbort();
+                    }
                     Application.Run(waitFormOpening);
                 }
             }
-            catch (Exception)
+            catch (ThreadAbortException )
             {
 
             }
@@ -3177,12 +3229,18 @@ namespace SearchDataSPM
                 if (!formloading)
                 {
                     Engineering.WaitFormLoading waitFormOpening = new Engineering.WaitFormLoading();
-                   //Thread.ResetAbort();
+                    waitFormOpening.Location = new Point(this.Location.X + (this.Width - waitFormOpening.Width) / 2, this.Location.Y + (this.Height - waitFormOpening.Height) / 2);
+                    loading = Thread.CurrentThread;
+                    if (loading.ThreadState == ThreadState.AbortRequested)
+                    {
+                        Thread.ResetAbort();
+                    }
                     Application.Run(waitFormOpening);
+                    
                 }
                 
             }
-            catch (Exception)
+            catch (ThreadAbortException)
             {
 
             }
@@ -3196,10 +3254,17 @@ namespace SearchDataSPM
                 if (!formloading)
                 {
                     Engineering.WaitFormEmail waitFormOpening = new Engineering.WaitFormEmail();
+                    waitFormOpening.Location = new Point(this.Location.X + (this.Width - waitFormOpening.Width) / 2, this.Location.Y + (this.Height - waitFormOpening.Height) / 2);
+
+                    loading = Thread.CurrentThread;
+                    if (loading.ThreadState == ThreadState.AbortRequested)
+                    {
+                        Thread.ResetAbort();
+                    }
                     Application.Run(waitFormOpening);
                 }
             }
-            catch (Exception)
+            catch (ThreadAbortException)
             {
 
             }

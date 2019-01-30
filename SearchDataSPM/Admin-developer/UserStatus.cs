@@ -139,7 +139,7 @@ namespace SearchDataSPM.Admin_developer
             {
                 try
                 {
-                    dataGridView1.Rows.Clear();
+                    dt.Rows.Clear();
                     dataGridView1.Refresh();
                     loaddata();
                 }

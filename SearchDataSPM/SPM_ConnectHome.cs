@@ -17,12 +17,17 @@ namespace SearchDataSPM
         {
             time = time + 10;
             rectangleShape2.Width += 11;
+
+            if(time == 230)
+            {
+                Connect_SPMSQL();
+            }
            
             if (time >= 250)
             {
                 timer1.Stop();
-               Connect_SPMSQL();
-               
+                this.Hide();
+
 
             }
         }
@@ -70,7 +75,7 @@ namespace SearchDataSPM
         {
             if (chekusercredentialscontrols() == true)
             {
-                this.Hide();
+               // this.Hide();
                 var form2 = new SPM_ConnectControls();
                 form2.Closed += (s, args) => this.Close();
                 form2.Show();
@@ -79,7 +84,7 @@ namespace SearchDataSPM
             else if (chekusercredentialseng() == true)
             {
                
-                this.Hide();
+             
                 var form2 = new SPM_Connect();
                 form2.Closed += (s, args) => this.Close();
                 form2.Show();
@@ -87,7 +92,8 @@ namespace SearchDataSPM
             }
             else if (chekusercredentialsproduction() == true)
             {
-                this.Hide();
+
+               // this.Hide();
                 var form2 = new SPM_ConnectProduction();
                 form2.Closed += (s, args) => this.Close();
                 form2.Show();

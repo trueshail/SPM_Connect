@@ -34,9 +34,10 @@ namespace SearchDataSPM
         SqlConnection cn;
         DataTable dt;
         bool formloading = false;
-      
-        public SPM_Connect()
-        {          
+     
+        public  SPM_Connect()
+        {
+         
             InitializeComponent();
             connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
             try
@@ -69,7 +70,6 @@ namespace SearchDataSPM
             fillinfo();
             formloading = false;
             sqlnotifier();
-           
         }
 
         private void fillinfo()

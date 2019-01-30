@@ -56,6 +56,7 @@
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.None;
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Loading Data...";
             this.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.WaitFormOpening_FormClosed);

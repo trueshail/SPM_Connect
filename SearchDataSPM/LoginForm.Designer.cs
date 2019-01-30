@@ -57,6 +57,7 @@
             this.txtUserName.CustomButton.TabIndex = 1;
             this.txtUserName.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
             this.txtUserName.CustomButton.UseSelectable = true;
+            this.txtUserName.CustomButton.Visible = false;
             this.txtUserName.FontSize = MetroFramework.MetroTextBoxSize.Medium;
             this.txtUserName.Lines = new string[0];
             this.txtUserName.Location = new System.Drawing.Point(184, 109);
@@ -70,7 +71,6 @@
             this.txtUserName.SelectionLength = 0;
             this.txtUserName.SelectionStart = 0;
             this.txtUserName.ShortcutsEnabled = true;
-            this.txtUserName.ShowButton = true;
             this.txtUserName.ShowClearButton = true;
             this.txtUserName.Size = new System.Drawing.Size(236, 23);
             this.txtUserName.TabIndex = 0;
@@ -93,6 +93,7 @@
             this.txtPassword.CustomButton.TabIndex = 1;
             this.txtPassword.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
             this.txtPassword.CustomButton.UseSelectable = true;
+            this.txtPassword.CustomButton.Visible = false;
             this.txtPassword.FontSize = MetroFramework.MetroTextBoxSize.Medium;
             this.txtPassword.Lines = new string[0];
             this.txtPassword.Location = new System.Drawing.Point(184, 154);
@@ -106,7 +107,6 @@
             this.txtPassword.SelectionLength = 0;
             this.txtPassword.SelectionStart = 0;
             this.txtPassword.ShortcutsEnabled = true;
-            this.txtPassword.ShowButton = true;
             this.txtPassword.ShowClearButton = true;
             this.txtPassword.Size = new System.Drawing.Size(236, 23);
             this.txtPassword.TabIndex = 1;

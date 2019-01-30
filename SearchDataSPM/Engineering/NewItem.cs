@@ -620,6 +620,7 @@ namespace SearchDataSPM
         void splashsave()
         {
             Engineering.WaitFormSaving waitFormSaving = new Engineering.WaitFormSaving();
+            waitFormSaving.Location = new Point(this.Location.X + (this.Width - waitFormSaving.Width) / 2, this.Location.Y + (this.Height - waitFormSaving.Height) / 2);
             Application.Run(waitFormSaving);
         }
 

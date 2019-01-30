@@ -34,5 +34,18 @@ namespace SearchDataSPM.General
             this.DialogResult = System.Windows.Forms.DialogResult.OK;
             Close();
         }
+
+        private void ponumbertxt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)13)
+            {
+                dateTimePicker1.Focus();
+            }
+        }
+
+        private void dateTimePicker1_KeyDown(object sender, KeyEventArgs e)
+        {
+           
+        }
     }
 }
