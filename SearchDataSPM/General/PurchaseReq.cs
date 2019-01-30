@@ -753,7 +753,7 @@ namespace SearchDataSPM
         {
             try
             {
-                this.TopMost = false;
+               // this.TopMost = false;
 
                 Thread t = new Thread(new ThreadStart(Splashsaving));
                 if (typeofsave != "Papproved")
@@ -844,8 +844,10 @@ namespace SearchDataSPM
                 }
 
                 t.Abort();
-                this.TopMost = true;
+                //this.TopMost = true;
                 this.Enabled = true;
+                this.Focus();
+                this.Activate();
             }
             catch
             {
@@ -1594,7 +1596,7 @@ namespace SearchDataSPM
                     string reqno = purchreqtxt.Text;
                     processsavebutton(true, "Validated");
                     Validatechk.Text = "Invalidate";
-                    this.TopMost = false;
+                    //this.TopMost = false;
 
                     Thread t = new Thread(new ThreadStart(Splashemail));
                     t.Start();
@@ -1603,8 +1605,10 @@ namespace SearchDataSPM
                     SaveReport(reqno, filename);
                     preparetosendemail(reqno, true, "", filename, false, "user");
                     t.Abort();
-                    this.TopMost = true;
+                   // this.TopMost = true;
                     this.Enabled = true;
+                    this.Focus();
+                    this.Activate();
                 }
                 else
                 {
@@ -1731,7 +1735,7 @@ namespace SearchDataSPM
 
                         processsavebutton(true, "Approved");
                         approvechk.Checked = true;
-                        this.TopMost = false;
+                       // this.TopMost = false;
 
                         Thread t = new Thread(new ThreadStart(Splashemail));
                         t.Start();
@@ -1742,8 +1746,10 @@ namespace SearchDataSPM
                         preparetosendemail(reqno, false, requestby, filename, happroval(), "supervisor");
 
                         t.Abort();
-                        this.TopMost = true;
+                        //this.TopMost = true;
                         this.Enabled = true;
+                        this.Focus();
+                        this.Activate();
 
                     }
                     else
@@ -1837,7 +1843,7 @@ namespace SearchDataSPM
                 {
                     try
                     {
-                        this.TopMost = false;
+                       // this.TopMost = false;
                         Cursor.Current = Cursors.WaitCursor;
                         Thread t = new Thread(new ThreadStart(Splashopening));
                         t.Start();
@@ -1863,7 +1869,9 @@ namespace SearchDataSPM
                         Cursor.Current = Cursors.Default;
                         t.Abort();
                         //loading.Abort();
-                        this.TopMost = true;
+                        //this.TopMost = true;
+                        this.Focus();
+                        this.Activate();
                         this.Enabled = true;
                     }
                     catch(ThreadAbortException)
@@ -2695,7 +2703,7 @@ namespace SearchDataSPM
 
         private void printbttn_Click(object sender, EventArgs e)
         {
-            this.TopMost = false;
+           // this.TopMost = false;
 
             reportpurchaereq(reqnumber, "Purchasereq");
 
@@ -2703,7 +2711,7 @@ namespace SearchDataSPM
 
         private void bttnneedapproval_Click(object sender, EventArgs e)
         {
-            this.TopMost = false;
+            //this.TopMost = false;
 
             Thread t = new Thread(new ThreadStart(Splashopening));
             t.Start();
@@ -2718,13 +2726,15 @@ namespace SearchDataSPM
             Control o = (Control)sender;
             o.BackColor = Color.FromArgb(255, 128, 0);
             t.Abort();
-            this.TopMost = true;
+            //this.TopMost = true;
             this.Enabled = true;
+            this.Focus();
+            this.Activate();
         }
 
         private void bttnshowapproved_Click(object sender, EventArgs e)
         {
-            this.TopMost = false;
+           // this.TopMost = false;
             Thread t = new Thread(new ThreadStart(Splashopening));
             t.Start();
             this.Enabled = false;
@@ -2737,13 +2747,15 @@ namespace SearchDataSPM
             Control o = (Control)sender;
             o.BackColor = Color.FromArgb(255, 128, 0);
             t.Abort();
-            this.TopMost = true;
+            //this.TopMost = true;
             this.Enabled = true;
+             this.Focus();
+            this.Activate();
         }
 
         private void bttnshowmydept_Click(object sender, EventArgs e)
         {
-            this.TopMost = false;
+            //this.TopMost = false;
             Thread t = new Thread(new ThreadStart(Splashopening));
             t.Start();
             this.Enabled = false;
@@ -2756,13 +2768,16 @@ namespace SearchDataSPM
             Control o = (Control)sender;
             o.BackColor = Color.FromArgb(255, 128, 0);
             t.Abort();
-            this.TopMost = true;
+            //this.TopMost = true;
             this.Enabled = true;
+            this.Focus();
+            this.Activate();
+        
         }
 
         private void bttnshowmyreq_Click(object sender, EventArgs e)
         {
-            this.TopMost = false;
+            //this.TopMost = false;
            Thread t = new Thread(new ThreadStart(Splashopening));
            
             t.Start();
@@ -2776,8 +2791,10 @@ namespace SearchDataSPM
             Control o = (Control)sender;
             o.BackColor = Color.FromArgb(255, 128, 0);
             t.Abort();
-            this.TopMost = true;
+            //this.TopMost = true;
             this.Enabled = true;
+            this.Focus();
+            this.Activate();
         }
 
         #endregion
@@ -3061,7 +3078,7 @@ namespace SearchDataSPM
 
                         processsavebutton(true, "Happroved");
                         approvechk.Checked = true;
-                        this.TopMost = false;
+                        //this.TopMost = false;
                        
                         Thread t = new Thread(new ThreadStart(Splashemail));
                         t.Start();
@@ -3074,8 +3091,10 @@ namespace SearchDataSPM
                         preparetosendemail(reqno, false, requestby, filename, false, "highautority");
 
                         t.Abort();
-                        this.TopMost = true;
+                       // this.TopMost = true;
                         this.Enabled = true;
+                        this.Focus();
+                        this.Activate();
 
                     }
                     else
@@ -3143,7 +3162,7 @@ namespace SearchDataSPM
 
                         processsavebutton(true, "Papproved");
                         dataGridView_SelectionChanged(sender, e);
-                        this.TopMost = false;
+                        //this.TopMost = false;
 
                         Thread t = new Thread(new ThreadStart(Splashemail));
                         t.Start();
@@ -3153,8 +3172,10 @@ namespace SearchDataSPM
                         preparetosendemail(reqno, false, requestby, "", false, "pbuyer");
 
                         t.Abort();
-                        this.TopMost = true;
+                        //this.TopMost = true;
                         this.Enabled = true;
+                        this.Focus();
+                        this.Activate();
 
                     }
                     else
