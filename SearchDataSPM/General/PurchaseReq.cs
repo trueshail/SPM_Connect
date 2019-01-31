@@ -1853,11 +1853,13 @@ namespace SearchDataSPM
 
                         this.Enabled = false;
                         dataGridView1.AutoGenerateColumns = false;
+                       
                         int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                         DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
                         int item = Convert.ToInt32(slectedrow.Cells[0].Value);
                         checkforeditrights();
 
+                        
                         populatereqdetails(item);
                         PopulateDataGridView();
                         tabControl1.Visible = true;
@@ -1873,6 +1875,7 @@ namespace SearchDataSPM
                         this.Focus();
                         this.Activate();
                         this.Enabled = true;
+
                     }
                     catch(ThreadAbortException)
                     {
@@ -2574,7 +2577,7 @@ namespace SearchDataSPM
 
             if (e.KeyCode == Keys.Return)
             {
-                if (itemsearchtxtbox.Text.Length > 6)
+                if (itemsearchtxtbox.Text.Length >= 6 )
                 {
                     clearaddnewtextboxes();
                     filldatatable(itemsearchtxtbox.Text.Trim().Substring(0, 6).ToString());

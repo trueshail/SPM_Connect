@@ -136,6 +136,8 @@ namespace SearchDataSPM
         private void Reload_Click(object sender, EventArgs e)
         {
             performreload();
+            //notifyIcon1.ShowBalloonTip(1000, "New Purchase Req Issued ", "Click to know more", ToolTipIcon.Info);
+          
         }
 
         void performreload()
@@ -3568,6 +3570,27 @@ namespace SearchDataSPM
 
         #endregion
 
+        private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void notifyIcon1_BalloonTipClicked(object sender, EventArgs e)
+        {
+            PurchaseReqform purchaseReqform = new PurchaseReqform();
+            purchaseReqform.Show();
+        }
+
+        private void showToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Show();
+            this.WindowState = FormWindowState.Normal;
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 
 }
