@@ -1199,8 +1199,9 @@ namespace SearchDataSPM
                     happroveonlblb.Text = "Approved on : " + dr[0]["HDateApproved"].ToString();
 
 
-                    purchasebylbl.Text =  dr[0]["PApprovedBy"].ToString();
-                    purchaseonlbl.Text = dr[0]["PDateApproved"].ToString();
+                    purchasebylbl.Text = "Purchased by : "+ dr[0]["PApprovedBy"].ToString();
+                    purchaseonlbl.Text = "Purchased on : " + dr[0]["PDateApproved"].ToString();
+                    ponumberlbl.Text = "PO No. : " + dr[0]["PONumber"].ToString();
 
                     supervisoridfromreq = Convert.ToInt32(dr[0]["SupervisorId"].ToString());
 
@@ -3236,7 +3237,15 @@ namespace SearchDataSPM
                     {
                         Thread.ResetAbort();
                     }
-                    Application.Run(waitFormOpening);
+                    try
+                    {
+                        Application.Run(waitFormOpening);
+                    }
+                    catch (ThreadAbortException)
+                    {
+
+                    }
+
                 }
             }
             catch (ThreadAbortException )
@@ -3259,10 +3268,18 @@ namespace SearchDataSPM
                     {
                         Thread.ResetAbort();
                     }
-                    Application.Run(waitFormOpening);
-                    
+                    try
+                    {
+                        Application.Run(waitFormOpening);
+                    }
+                    catch (ThreadAbortException)
+                    {
+
+                    }
+
+
                 }
-                
+
             }
             catch (ThreadAbortException)
             {

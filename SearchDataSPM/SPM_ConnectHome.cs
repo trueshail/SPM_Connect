@@ -18,9 +18,9 @@ namespace SearchDataSPM
             time = time + 10;
             rectangleShape2.Width += 11;
 
-            if(time == 230)
+            if(time == 240)
             {
-                Connect_SPMSQL();
+               Connect_SPMSQL();
             }
            
             if (time >= 250)

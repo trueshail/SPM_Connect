@@ -53,24 +53,24 @@ namespace SearchDataSPM
 
                 Application.Exit();
             }
-            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-            checkadmin();
-            Checkdeveloper();
-            this.Text = "SPM Connect Engineering - " + userName.ToString().Substring(4);
-            chekin("SPM Connect Eng", userName);
-            dt = new DataTable();
+            
         }
 
         private void SPM_Connect_Load(object sender, EventArgs e)
         {
             collapse();
             formloading = true;
+            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+            checkadmin();
+            Checkdeveloper();
+            this.Text = "SPM Connect Engineering - " + userName.ToString().Substring(4);
+            chekin("SPM Connect Eng", userName);
+            dt = new DataTable();
             //pictureBox1.ImageLocation= (@"\\spm-adfs\SDBASE\SPM Connect SQL\spm_white_icon_2.gif");
             //pictureBox1.Image = SearchDataSPM.Properties.Resources.spm_white_icon_2;
             Showallitems();
             txtSearch.Focus();
             fillinfo();
-            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
             userfullname = getuserfullname(userName);
             //purchaseReq.SPM_Connect();
             sqlnotifier();
@@ -289,8 +289,9 @@ namespace SearchDataSPM
             if (changed == userName && type == "Delete")
             {
                 //MessageBox.Show(this,"Developer has kicked you out due to maintenance issues.");
-                _dependency.Stop();
+                 _dependency.Stop();
                 System.Environment.Exit(0);
+                
             }
         }
 
@@ -1316,6 +1317,7 @@ namespace SearchDataSPM
             string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
             checkout(userName);
             _preqdependency.Stop();
+            _dependency.Stop();
             this.Dispose();
         }
 
@@ -3648,6 +3650,8 @@ namespace SearchDataSPM
 
         #endregion
 
+        #region notification ballon
+
         private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
         {
 
@@ -3671,6 +3675,8 @@ namespace SearchDataSPM
         {
             this.Close();
         }
+
+        #endregion
     }
 
 }

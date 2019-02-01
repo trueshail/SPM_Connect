@@ -116,6 +116,7 @@
             this.managergroupbox = new System.Windows.Forms.GroupBox();
             this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
             this.lineShape1 = new Microsoft.VisualBasic.PowerPacks.LineShape();
+            this.ponumberlbl = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -818,7 +819,7 @@
             this.itemspanel.Controls.Add(this.groupBox3);
             this.itemspanel.Location = new System.Drawing.Point(0, 0);
             this.itemspanel.Name = "itemspanel";
-            this.itemspanel.Size = new System.Drawing.Size(368, 296);
+            this.itemspanel.Size = new System.Drawing.Size(367, 296);
             this.itemspanel.TabIndex = 0;
             // 
             // groupBox3
@@ -847,7 +848,7 @@
             this.groupBox3.Location = new System.Drawing.Point(0, 0);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(1);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(368, 296);
+            this.groupBox3.Size = new System.Drawing.Size(367, 296);
             this.groupBox3.TabIndex = 9;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Add Item to order";
@@ -948,7 +949,7 @@
             this.oemitemnotxt.Name = "oemitemnotxt";
             this.oemitemnotxt.ReadOnly = true;
             this.oemitemnotxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.oemitemnotxt.Size = new System.Drawing.Size(245, 20);
+            this.oemitemnotxt.Size = new System.Drawing.Size(244, 20);
             this.oemitemnotxt.TabIndex = 64;
             this.oemitemnotxt.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.oemitemnotxt, "Manufacturer Item No");
@@ -979,7 +980,7 @@
             this.qtytxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.qtytxt.Name = "qtytxt";
             this.qtytxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.qtytxt.Size = new System.Drawing.Size(245, 22);
+            this.qtytxt.Size = new System.Drawing.Size(244, 22);
             this.qtytxt.TabIndex = 3;
             this.TreeViewToolTip.SetToolTip(this.qtytxt, "Quantity required");
             this.qtytxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.qtytxt_KeyPress);
@@ -1010,7 +1011,7 @@
             this.pricetxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.pricetxt.Name = "pricetxt";
             this.pricetxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.pricetxt.Size = new System.Drawing.Size(245, 22);
+            this.pricetxt.Size = new System.Drawing.Size(244, 22);
             this.pricetxt.TabIndex = 4;
             this.pricetxt.Text = "$0.00";
             this.TreeViewToolTip.SetToolTip(this.pricetxt, "Unit price for the item");
@@ -1045,7 +1046,7 @@
             this.oemtxt.Name = "oemtxt";
             this.oemtxt.ReadOnly = true;
             this.oemtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.oemtxt.Size = new System.Drawing.Size(245, 20);
+            this.oemtxt.Size = new System.Drawing.Size(244, 20);
             this.oemtxt.TabIndex = 58;
             this.oemtxt.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.oemtxt, "Item Manufacturer");
@@ -1080,7 +1081,7 @@
             this.Descriptiontxtbox.Name = "Descriptiontxtbox";
             this.Descriptiontxtbox.ReadOnly = true;
             this.Descriptiontxtbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.Descriptiontxtbox.Size = new System.Drawing.Size(245, 44);
+            this.Descriptiontxtbox.Size = new System.Drawing.Size(244, 44);
             this.Descriptiontxtbox.TabIndex = 55;
             this.Descriptiontxtbox.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.Descriptiontxtbox, "Item Description");
@@ -1112,7 +1113,7 @@
             this.ItemTxtBox.Name = "ItemTxtBox";
             this.ItemTxtBox.ReadOnly = true;
             this.ItemTxtBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.ItemTxtBox.Size = new System.Drawing.Size(245, 20);
+            this.ItemTxtBox.Size = new System.Drawing.Size(244, 20);
             this.ItemTxtBox.TabIndex = 54;
             this.ItemTxtBox.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.ItemTxtBox, "Item Number");
@@ -1130,7 +1131,7 @@
             this.itemsearchtxtbox.MinimumSize = new System.Drawing.Size(200, 20);
             this.itemsearchtxtbox.Name = "itemsearchtxtbox";
             this.itemsearchtxtbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.itemsearchtxtbox.Size = new System.Drawing.Size(300, 22);
+            this.itemsearchtxtbox.Size = new System.Drawing.Size(299, 22);
             this.itemsearchtxtbox.TabIndex = 2;
             this.TreeViewToolTip.SetToolTip(this.itemsearchtxtbox, "Search for item to order \r\nStarting with Letter \'A\' or \'B\' or \'C\'");
             this.itemsearchtxtbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.itemsearchtxtbox_KeyDown);
@@ -1316,7 +1317,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.happrovechk.AutoSize = true;
             this.happrovechk.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.happrovechk.Location = new System.Drawing.Point(14, 21);
+            this.happrovechk.Location = new System.Drawing.Point(8, 21);
             this.happrovechk.Name = "happrovechk";
             this.happrovechk.Size = new System.Drawing.Size(111, 20);
             this.happrovechk.TabIndex = 63;
@@ -1332,7 +1333,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.purchasedchk.AutoSize = true;
             this.purchasedchk.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.purchasedchk.Location = new System.Drawing.Point(35, 21);
+            this.purchasedchk.Location = new System.Drawing.Point(46, 15);
             this.purchasedchk.Name = "purchasedchk";
             this.purchasedchk.Size = new System.Drawing.Size(92, 20);
             this.purchasedchk.TabIndex = 63;
@@ -1390,14 +1391,15 @@
             // 
             // purchasegrpbox
             // 
+            this.purchasegrpbox.Controls.Add(this.ponumberlbl);
             this.purchasegrpbox.Controls.Add(this.purchasedchk);
             this.purchasegrpbox.Controls.Add(this.purchaseonlbl);
             this.purchasegrpbox.Controls.Add(this.purchasebylbl);
             this.purchasegrpbox.Enabled = false;
             this.purchasegrpbox.ForeColor = System.Drawing.Color.White;
-            this.purchasegrpbox.Location = new System.Drawing.Point(925, -1);
+            this.purchasegrpbox.Location = new System.Drawing.Point(897, -1);
             this.purchasegrpbox.Name = "purchasegrpbox";
-            this.purchasegrpbox.Size = new System.Drawing.Size(150, 85);
+            this.purchasegrpbox.Size = new System.Drawing.Size(178, 85);
             this.purchasegrpbox.TabIndex = 25;
             this.purchasegrpbox.TabStop = false;
             this.purchasegrpbox.Text = "Purchasing";
@@ -1409,11 +1411,11 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.purchaseonlbl.AutoSize = true;
-            this.purchaseonlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.purchaseonlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.purchaseonlbl.ForeColor = System.Drawing.Color.White;
-            this.purchaseonlbl.Location = new System.Drawing.Point(8, 67);
+            this.purchaseonlbl.Location = new System.Drawing.Point(2, 51);
             this.purchaseonlbl.Name = "purchaseonlbl";
-            this.purchaseonlbl.Size = new System.Drawing.Size(79, 13);
+            this.purchaseonlbl.Size = new System.Drawing.Size(67, 12);
             this.purchaseonlbl.TabIndex = 61;
             this.purchaseonlbl.Text = "Approved On : ";
             // 
@@ -1423,12 +1425,12 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.purchasebylbl.AutoSize = true;
-            this.purchasebylbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.purchasebylbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.purchasebylbl.ForeColor = System.Drawing.Color.White;
-            this.purchasebylbl.Location = new System.Drawing.Point(8, 47);
+            this.purchasebylbl.Location = new System.Drawing.Point(4, 35);
             this.purchasebylbl.Name = "purchasebylbl";
             this.purchasebylbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.purchasebylbl.Size = new System.Drawing.Size(77, 13);
+            this.purchasebylbl.Size = new System.Drawing.Size(66, 12);
             this.purchasebylbl.TabIndex = 62;
             this.purchasebylbl.Text = "Approved By : ";
             // 
@@ -1441,7 +1443,7 @@
             this.hauthoritygroupbox.ForeColor = System.Drawing.Color.White;
             this.hauthoritygroupbox.Location = new System.Drawing.Point(689, -1);
             this.hauthoritygroupbox.Name = "hauthoritygroupbox";
-            this.hauthoritygroupbox.Size = new System.Drawing.Size(230, 85);
+            this.hauthoritygroupbox.Size = new System.Drawing.Size(202, 85);
             this.hauthoritygroupbox.TabIndex = 24;
             this.hauthoritygroupbox.TabStop = false;
             this.hauthoritygroupbox.Text = "Admin Approvals";
@@ -1455,7 +1457,7 @@
             this.happroveonlblb.AutoSize = true;
             this.happroveonlblb.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.happroveonlblb.ForeColor = System.Drawing.Color.White;
-            this.happroveonlblb.Location = new System.Drawing.Point(8, 64);
+            this.happroveonlblb.Location = new System.Drawing.Point(2, 64);
             this.happroveonlblb.Name = "happroveonlblb";
             this.happroveonlblb.Size = new System.Drawing.Size(79, 13);
             this.happroveonlblb.TabIndex = 61;
@@ -1469,7 +1471,7 @@
             this.happrovedbylbl.AutoSize = true;
             this.happrovedbylbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.happrovedbylbl.ForeColor = System.Drawing.Color.White;
-            this.happrovedbylbl.Location = new System.Drawing.Point(8, 47);
+            this.happrovedbylbl.Location = new System.Drawing.Point(2, 47);
             this.happrovedbylbl.Name = "happrovedbylbl";
             this.happrovedbylbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.happrovedbylbl.Size = new System.Drawing.Size(77, 13);
@@ -1527,6 +1529,20 @@
             this.lineShape1.X2 = 1100;
             this.lineShape1.Y1 = 87;
             this.lineShape1.Y2 = 87;
+            // 
+            // ponumberlbl
+            // 
+            this.ponumberlbl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ponumberlbl.AutoSize = true;
+            this.ponumberlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ponumberlbl.ForeColor = System.Drawing.Color.White;
+            this.ponumberlbl.Location = new System.Drawing.Point(2, 67);
+            this.ponumberlbl.Name = "ponumberlbl";
+            this.ponumberlbl.Size = new System.Drawing.Size(60, 12);
+            this.ponumberlbl.TabIndex = 64;
+            this.ponumberlbl.Text = "PO Number : ";
             // 
             // PurchaseReqform
             // 
@@ -1666,5 +1682,6 @@
         private System.Windows.Forms.CheckBox purchasedchk;
         private System.Windows.Forms.Label purchaseonlbl;
         private System.Windows.Forms.Label purchasebylbl;
+        private System.Windows.Forms.Label ponumberlbl;
     }
 }

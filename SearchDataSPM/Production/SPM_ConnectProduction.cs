@@ -32,6 +32,8 @@ namespace SearchDataSPM
         String connection;
         SqlConnection cn;
         DataTable dt;
+        string userfullname = "";
+        SearchDataSPM.pnotifier purchaseReq = new SearchDataSPM.pnotifier();
 
         public SPM_ConnectProduction()
 
@@ -66,8 +68,45 @@ namespace SearchDataSPM
             this.Text = "SPM Connect Production - " + userName.ToString().Substring(4);
             chekin("SPM Connect Production", userName);
             txtSearch.Focus();
+            userfullname = getuserfullname(userName);
+            purchaseReq.currentusercreds();
             sqlnotifier();
-            
+            watchpreqtable();
+
+        }
+
+        private string getuserfullname(string username)
+        {
+            string fullname = "";
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + username.ToString() + "' ";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    fullname = dr["Name"].ToString();
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message, "SPM Connect - Get Full User Name", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return fullname;
         }
 
         private void Showallitems()
@@ -180,6 +219,74 @@ namespace SearchDataSPM
         }
 
         private void _dependency_OnError(object sender, TableDependency.SqlClient.Base.EventArgs.ErrorEventArgs e)
+        {
+            throw e.Error;
+        }
+
+        #endregion
+
+        #region Monitor Purchase Req
+
+        SqlTableDependency<PurhcaseReqSQL> _preqdependency;
+
+        public void watchpreqtable()
+        {
+            var mapper = new ModelToTableMapper<PurhcaseReqSQL>();
+            mapper.AddMapping(c => c.reqnumber, "ReqNumber");
+            mapper.AddMapping(c => c.requestname, "RequestedBy");
+            mapper.AddMapping(c => c.supervisorid, "SupervisorId");
+            mapper.AddMapping(c => c.validate, "Validate");
+            mapper.AddMapping(c => c.approved, "Approved");
+            mapper.AddMapping(c => c.happroval, "HApproval");
+            mapper.AddMapping(c => c.happroved, "Happroved");
+            mapper.AddMapping(c => c.papproval, "PApproval");
+            mapper.AddMapping(c => c.papproved, "Papproved");
+
+
+
+            _preqdependency = new SqlTableDependency<PurhcaseReqSQL>(connection, tableName: "PurchaseReqBase", mapper: mapper);
+            _preqdependency.OnChanged += _preqdependency_OnChanged;
+            _preqdependency.OnError += _preqdependency_OnError;
+            _preqdependency.Start();
+
+        }
+
+        private void _preqdependency_OnChanged(object sender, TableDependency.SqlClient.Base.EventArgs.RecordChangedEventArgs<PurhcaseReqSQL> e)
+        {
+            var changedEntity = e.Entity;
+            string type = e.ChangeType.ToString();
+
+            if (type == "Update")
+            {
+                string requestname = "";
+                int reqno = 0, validate = 0, approved = 0, happroval = 0, happroved = 0, papproval = 0, papproved = 0, supervisoridfromreq = 0;
+                reqno = changedEntity.reqnumber;
+                validate = changedEntity.validate;
+                approved = changedEntity.approved;
+                happroval = changedEntity.happroval;
+                happroved = changedEntity.happroved;
+                papproval = changedEntity.papproval;
+                papproved = changedEntity.papproved;
+                supervisoridfromreq = changedEntity.supervisorid;
+                requestname = string.Format((changedEntity.requestname));
+
+
+                if (requestname == userfullname && validate == 1)
+                {
+
+                    string message = purchaseReq.showpopupnotifation(reqno, validate, approved, happroval, happroved, papproval, papproved, requestname, supervisoridfromreq).ToString();
+                    if (message != "no")
+                    {
+                        notifyIcon1.ShowBalloonTip(1000, reqno.ToString(), message + " \r\nClick to know more", ToolTipIcon.Info);
+                    }
+
+
+                }
+            }
+            // 
+        }
+
+        private void _preqdependency_OnError(object sender, TableDependency.SqlClient.Base.EventArgs.ErrorEventArgs e)
         {
             throw e.Error;
         }
@@ -1603,6 +1710,25 @@ namespace SearchDataSPM
                 }
 
             }
+        }
+
+        private void showToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Show();
+            this.Activate();
+            this.Focus();
+            this.WindowState = FormWindowState.Normal;
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void notifyIcon1_BalloonTipClicked(object sender, EventArgs e)
+        {
+            PurchaseReqform purchaseReqform = new PurchaseReqform();
+            purchaseReqform.Show();
         }
     }
 }
