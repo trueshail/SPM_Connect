@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SearchDataSPM
 {
-    public class PurchaseReqNotifications
+    public class pnotifier
     {
         SqlConnection cn;
         String connection;

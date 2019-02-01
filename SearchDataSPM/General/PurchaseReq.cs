@@ -3281,11 +3281,19 @@ namespace SearchDataSPM
                     waitFormOpening.Location = new Point(this.Location.X + (this.Width - waitFormOpening.Width) / 2, this.Location.Y + (this.Height - waitFormOpening.Height) / 2);
 
                     loading = Thread.CurrentThread;
-                    if (loading.ThreadState == ThreadState.AbortRequested)
+                    if (loading.ThreadState == ThreadState.Aborted)
                     {
                         Thread.ResetAbort();
                     }
-                    Application.Run(waitFormOpening);
+                    try
+                    {
+                        Application.Run(waitFormOpening);
+                    }
+                    catch(ThreadAbortException)
+                    {
+
+                    }
+                  
                 }
             }
             catch (ThreadAbortException)

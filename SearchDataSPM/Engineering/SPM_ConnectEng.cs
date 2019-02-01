@@ -35,7 +35,7 @@ namespace SearchDataSPM
         DataTable dt;
         bool formloading = false;
         string userfullname = "";
-        SearchDataSPM.PurchaseReqNotifications purchaseReq = new SearchDataSPM.PurchaseReqNotifications();
+        SearchDataSPM.pnotifier purchaseReq = new SearchDataSPM.pnotifier();
 
         public  SPM_Connect()
         {
@@ -70,14 +70,14 @@ namespace SearchDataSPM
             Showallitems();
             txtSearch.Focus();
             fillinfo();
-            formloading = false;
-            sqlnotifier();
-            watchpreqtable();
             string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
             userfullname = getuserfullname(userName);
             //purchaseReq.SPM_Connect();
+            sqlnotifier();
+            watchpreqtable();
             purchaseReq.currentusercreds();
-
+            formloading = false;
+          
         }
 
         private void fillinfo()
