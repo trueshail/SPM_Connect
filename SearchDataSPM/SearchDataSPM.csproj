@@ -405,6 +405,7 @@
     <Compile Include="LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="PurchaseReqNotifications.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -547,6 +548,7 @@
     <Compile Include="SQLNotifcationPReq.cs" />
     <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="Stats.cs" />
+    <Compile Include="PurchaseReqSQL.cs" />
     <Compile Include="UserControl.cs" />
     <Compile Include="Web References\RE2005\Reference.cs">
       <AutoGen>True</AutoGen>

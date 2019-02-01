@@ -11,6 +11,7 @@ namespace SPMConnectAPI
     public class SPMSQLCommands
     {
         SqlConnection cn;
+        string connection;
 
         public String UserName()
         {
@@ -26,7 +27,7 @@ namespace SPMConnectAPI
 
         }
 
-        public void SPM_Connect(string connection)
+        public void SPM_Connect()
         {
 
             connection = System.Configuration.ConfigurationManager.ConnectionStrings[connection].ConnectionString;
@@ -42,11 +43,11 @@ namespace SPMConnectAPI
 
         }
 
-        public string Userfullname(string connection)
+        public string Userfullname(string username)
         {
 
-            SPM_Connect(connection);
-            string username = UserName();
+            SPM_Connect();
+            string fullname = "";
             try
             {
                 if (cn.State == ConnectionState.Closed)
@@ -60,8 +61,8 @@ namespace SPMConnectAPI
                 da.Fill(dt);
                 foreach (DataRow dr in dt.Rows)
                 {
-                    string fullname = dr["Name"].ToString();
-                    return fullname;
+                     fullname = dr["Name"].ToString();
+                    
                 }
             }
             catch (Exception ex)
@@ -75,7 +76,7 @@ namespace SPMConnectAPI
             {
                 cn.Close();
             }
-            return null;
+            return fullname;
         }
 
         public void DeleteItem(string _itemno)
@@ -107,7 +108,7 @@ namespace SPMConnectAPI
 
         public int CheckAdmin(string connection)
         {
-            SPM_Connect(connection);
+            SPM_Connect();
             int usercount = 0;
             string useradmin = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
 
@@ -139,7 +140,7 @@ namespace SPMConnectAPI
 
         public int Checkdeveloper(string connection)
         {
-            SPM_Connect(connection);
+            SPM_Connect();
             int count = 0;
             string useradmin = UserName();
 
@@ -157,7 +158,7 @@ namespace SPMConnectAPI
                     }
 
                 }
-                catch (Exception ex)
+                catch (Exception )
                 {
 
                 }

@@ -34,7 +34,9 @@ namespace SearchDataSPM
         SqlConnection cn;
         DataTable dt;
         bool formloading = false;
-     
+        string userfullname = "";
+        SearchDataSPM.PurchaseReqNotifications purchaseReq = new SearchDataSPM.PurchaseReqNotifications();
+
         public  SPM_Connect()
         {
          
@@ -70,6 +72,12 @@ namespace SearchDataSPM
             fillinfo();
             formloading = false;
             sqlnotifier();
+            watchpreqtable();
+            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+            userfullname = getuserfullname(userName);
+            //purchaseReq.SPM_Connect();
+            purchaseReq.currentusercreds();
+
         }
 
         private void fillinfo()
@@ -136,7 +144,7 @@ namespace SearchDataSPM
         private void Reload_Click(object sender, EventArgs e)
         {
             performreload();
-            //notifyIcon1.ShowBalloonTip(1000, "New Purchase Req Issued ", "Click to know more", ToolTipIcon.Info);
+            
           
         }
 
@@ -162,7 +170,75 @@ namespace SearchDataSPM
 
         #endregion
 
-        #region Sql Notifier
+        #region Monitor Purchase Req
+
+        SqlTableDependency<PurhcaseReqSQL> _preqdependency;
+
+        public void watchpreqtable()
+        {
+            var mapper = new ModelToTableMapper<PurhcaseReqSQL>();
+            mapper.AddMapping(c => c.reqnumber, "ReqNumber");
+            mapper.AddMapping(c => c.requestname, "RequestedBy");
+            mapper.AddMapping(c => c.supervisorid, "SupervisorId");
+            mapper.AddMapping(c => c.validate, "Validate");
+            mapper.AddMapping(c => c.approved, "Approved");
+            mapper.AddMapping(c => c.happroval, "HApproval");
+            mapper.AddMapping(c => c.happroved, "Happroved");
+            mapper.AddMapping(c => c.papproval, "PApproval");
+            mapper.AddMapping(c => c.papproved, "Papproved");
+
+
+
+            _preqdependency = new SqlTableDependency<PurhcaseReqSQL>(connection, tableName: "PurchaseReqBase", mapper: mapper);
+            _preqdependency.OnChanged += _preqdependency_OnChanged;
+            _preqdependency.OnError += _preqdependency_OnError;
+            _preqdependency.Start();
+            
+        }
+
+        private void _preqdependency_OnChanged(object sender, TableDependency.SqlClient.Base.EventArgs.RecordChangedEventArgs<PurhcaseReqSQL> e)
+        {
+            var changedEntity = e.Entity;
+            string type = e.ChangeType.ToString();
+
+            if(type == "Update")
+            {
+                string requestname = "";
+                int reqno = 0, validate = 0, approved = 0, happroval = 0, happroved = 0, papproval = 0, papproved = 0, supervisoridfromreq = 0;
+                reqno = changedEntity.reqnumber;
+                validate = changedEntity.validate;
+                approved = changedEntity.approved;
+                happroval = changedEntity.happroval;
+                happroved = changedEntity.happroved;
+                papproval = changedEntity.papproval;
+                papproved = changedEntity.papproved;
+                supervisoridfromreq = changedEntity.supervisorid;
+                requestname = string.Format((changedEntity.requestname));
+
+                
+                if (requestname == userfullname && validate == 1)
+                {
+                    
+                    string message = purchaseReq.showpopupnotifation(reqno, validate, approved, happroval, happroved, papproval, papproved, requestname, supervisoridfromreq).ToString();
+                    if(message != "no")
+                    {
+                        notifyIcon1.ShowBalloonTip(1000, reqno.ToString() , message + " \r\nClick to know more", ToolTipIcon.Info);
+                    }
+                    
+                   
+                }
+            }
+           // 
+        }
+
+        private void _preqdependency_OnError(object sender, TableDependency.SqlClient.Base.EventArgs.ErrorEventArgs e)
+        {
+            throw e.Error;
+        }
+
+        #endregion
+
+        #region Monitorusertable
 
         SqlTableDependency<UserControl> _dependency;
 
@@ -212,7 +288,7 @@ namespace SearchDataSPM
             // MessageBox.Show(changed);
             if (changed == userName && type == "Delete")
             {
-               //MessageBox.Show(this,"Developer has kicked you out due to maintenance issues.");
+                //MessageBox.Show(this,"Developer has kicked you out due to maintenance issues.");
                 _dependency.Stop();
                 System.Environment.Exit(0);
             }
@@ -1239,6 +1315,7 @@ namespace SearchDataSPM
         {
             string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
             checkout(userName);
+            _preqdependency.Stop();
             this.Dispose();
         }
 
@@ -2104,8 +2181,9 @@ namespace SearchDataSPM
             return blocknumber.Substring(1) + "000";
         }
 
-        private object getuserfullname(string username)
+        private string getuserfullname(string username)
         {
+            string fullname = "";
             try
             {
                 if (cn.State == ConnectionState.Closed)
@@ -2119,8 +2197,8 @@ namespace SearchDataSPM
                 da.Fill(dt);
                 foreach (DataRow dr in dt.Rows)
                 {
-                    string fullname = dr["Name"].ToString();
-                    return fullname;
+                     fullname = dr["Name"].ToString();
+                    
                 }
             }
             catch (Exception ex)
@@ -2134,7 +2212,7 @@ namespace SearchDataSPM
             {
                 cn.Close();
             }
-            return null;
+            return fullname;
         }
 
         private void insertinto_blocks(string uniqueid, string blocknumber)
@@ -3584,6 +3662,8 @@ namespace SearchDataSPM
         private void showToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Show();
+            this.Activate();
+            this.Focus();
             this.WindowState = FormWindowState.Normal;
         }
 
