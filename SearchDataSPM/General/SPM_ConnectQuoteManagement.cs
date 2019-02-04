@@ -516,6 +516,9 @@ namespace SearchDataSPM.General
                 quoteDetails.ShowDialog();
                 quoteDetails.Dispose();
                 Showallitems();
+                this.Show();
+                this.Activate();
+                this.Focus();
             }
 
         }
