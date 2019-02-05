@@ -34,6 +34,7 @@ namespace SearchDataSPM
 
         private void SPM_ConnectHome_Load(object sender, EventArgs e)
         {
+            
             timer1.Start();
         }
 
@@ -43,7 +44,7 @@ namespace SearchDataSPM
 
         public void Connect_SPMSQL()
         {
-           
+            
             connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
             userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
             try
@@ -71,29 +72,30 @@ namespace SearchDataSPM
             
         }
 
-        private void checkforuser()
+        public void checkforuser()
         {
-            if (chekusercredentialscontrols() == true)
+           
+            if (chekusercredentialscontrols())
             {
-               // this.Hide();
+
+                // this.Hide();
                 var form2 = new SPM_ConnectControls();
                 form2.Closed += (s, args) => this.Close();
                 form2.Show();
                 //Application.Run(new SPM_ConnectControls());
             }
-            else if (chekusercredentialseng() == true)
+           
+            else if (chekusercredentialseng())
             {
-               
-             
+
                 var form2 = new SPM_Connect();
                 form2.Closed += (s, args) => this.Close();
                 form2.Show();
                 //Application.Run(new SPM_Connect());
             }
-            else if (chekusercredentialsproduction() == true)
+            else if (chekusercredentialsproduction())
             {
-
-               // this.Hide();
+                // this.Hide();
                 var form2 = new SPM_ConnectProduction();
                 form2.Closed += (s, args) => this.Close();
                 form2.Show();
@@ -101,15 +103,16 @@ namespace SearchDataSPM
             }
             else
             {
+               
                 MessageBox.Show("UserName " + userName + " is not a licensed user. Please contact the admin.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.ExitThread();
                 System.Environment.Exit(0);
             }
         }
 
-        private bool chekusercredentialscontrols()
+        public bool chekusercredentialscontrols()
         {
-
+          
             using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[USers] WHERE UserName = @username AND Department = 'Controls'", cn))
             {
                 cn.Open();
@@ -132,9 +135,9 @@ namespace SearchDataSPM
             return false;
         }
 
-        private bool chekusercredentialseng()
+        public bool chekusercredentialseng()
         {
-
+          
             using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[USers] WHERE UserName = @username AND Department = 'Eng'", cn))
             {
                 cn.Open();
@@ -158,9 +161,9 @@ namespace SearchDataSPM
             return false;
         }
 
-        private bool chekusercredentialsproduction()
+        public bool chekusercredentialsproduction()
         {
-
+            
             using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[USers] WHERE UserName = @username AND Department = 'Production'", cn))
             {
                 cn.Open();
@@ -190,5 +193,9 @@ namespace SearchDataSPM
 
         }
 
+        private void SPM_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace SearchDataSPM
 {
-    partial class SPM_ConnectHome
+    partial class Splash
     {
         /// <summary>
         /// Required designer variable.
@@ -30,14 +30,14 @@ namespace SearchDataSPM
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SPM_ConnectHome));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Splash));
             this.metroProgressSpinner1 = new MetroFramework.Controls.MetroProgressSpinner();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SPM = new System.Windows.Forms.Label();
             this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
             this.rectangleShape2 = new Microsoft.VisualBasic.PowerPacks.RectangleShape();
             this.rectangleShape1 = new Microsoft.VisualBasic.PowerPacks.RectangleShape();
+            this.label1 = new System.Windows.Forms.Label();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.SuspendLayout();
             // 
             // metroProgressSpinner1
@@ -55,12 +55,6 @@ namespace SearchDataSPM
             this.metroProgressSpinner1.UseSelectable = true;
             this.metroProgressSpinner1.UseWaitCursor = true;
             this.metroProgressSpinner1.Click += new System.EventHandler(this.metroProgressSpinner1_Click);
-            // 
-            // timer1
-            // 
-            this.timer1.Enabled = true;
-            this.timer1.Interval = 45;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // SPM
             // 
@@ -102,7 +96,7 @@ namespace SearchDataSPM
             this.rectangleShape2.Location = new System.Drawing.Point(21, 170);
             this.rectangleShape2.Name = "rectangleShape2";
             this.rectangleShape2.SelectionColor = System.Drawing.Color.White;
-            this.rectangleShape2.Size = new System.Drawing.Size(20, 8);
+            this.rectangleShape2.Size = new System.Drawing.Size(10, 8);
             this.rectangleShape2.UseWaitCursor = true;
             // 
             // rectangleShape1
@@ -116,33 +110,56 @@ namespace SearchDataSPM
             this.rectangleShape1.Size = new System.Drawing.Size(300, 18);
             this.rectangleShape1.UseWaitCursor = true;
             // 
-            // SPM_ConnectHome
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(69, 142);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(0, 15);
+            this.label1.TabIndex = 13;
+            this.label1.UseWaitCursor = true;
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.progressBar1.Location = new System.Drawing.Point(0, 190);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(330, 10);
+            this.progressBar1.TabIndex = 14;
+            this.progressBar1.UseWaitCursor = true;
+            // 
+            // Splash
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
             this.ClientSize = new System.Drawing.Size(330, 200);
+            this.Controls.Add(this.progressBar1);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.metroProgressSpinner1);
             this.Controls.Add(this.SPM);
             this.Controls.Add(this.shapeContainer1);
             this.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "SPM_ConnectHome";
+            this.Name = "Splash";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SPM_ConnectHome";
             this.UseWaitCursor = true;
             this.Load += new System.EventHandler(this.SPM_ConnectHome_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
         private MetroFramework.Controls.MetroProgressSpinner metroProgressSpinner1;
-        private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label SPM;
         private ShapeContainer shapeContainer1;
         private RectangleShape rectangleShape2;
         private RectangleShape rectangleShape1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }

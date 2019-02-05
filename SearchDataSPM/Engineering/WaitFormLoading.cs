@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -12,8 +13,6 @@ namespace SearchDataSPM.Engineering
 {
     public partial class WaitFormLoading : MetroFramework.Forms.MetroForm
     {
-       
-
         public WaitFormLoading()
         {
             InitializeComponent();
@@ -35,5 +34,6 @@ namespace SearchDataSPM.Engineering
         {
             this.Dispose();
         }
+
     }
 }

@@ -454,6 +454,12 @@
     <Compile Include="Shell\POINT.cs" />
     <Compile Include="Shell\RECT.cs" />
     <Compile Include="Shell\SHFILEINFO.cs" />
+    <Compile Include="SplashScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SplashScreen.Designer.cs">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
+    </Compile>
     <Compile Include="SPMConnectLoadUsers.cs" />
     <Compile Include="Controls\SPM_ConnectItems.cs">
       <SubType>Form</SubType>
@@ -530,6 +536,12 @@
     </Compile>
     <Compile Include="Production\SPM_ConnectProduction.Designer.cs">
       <DependentUpon>SPM_ConnectProduction.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Splash.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Splash.Designer.cs">
+      <DependentUpon>Splash.cs</DependentUpon>
     </Compile>
     <Compile Include="SPM_ConnectHome.cs">
       <SubType>Form</SubType>
@@ -681,6 +693,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Production\SPM_ConnectProduction.resx">
       <DependentUpon>SPM_ConnectProduction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SplashScreen.resx">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Splash.resx">
+      <DependentUpon>Splash.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SPM_ConnectHome.resx">
       <DependentUpon>SPM_ConnectHome.cs</DependentUpon>

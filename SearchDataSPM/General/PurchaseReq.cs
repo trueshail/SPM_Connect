@@ -78,7 +78,7 @@ namespace SearchDataSPM
             {
                 managergroupbox.Visible = true;
                 managergroupbox.Enabled = true;
-                
+
             }
 
             if (higherauthority || pbuyer)
@@ -105,7 +105,7 @@ namespace SearchDataSPM
         void changecontrolbuttonnames()
         {
             bttnshowmydept.Text = "Show All";
-          
+
             if (pbuyer)
             {
                 bttnneedapproval.Text = "Need's PO";
@@ -400,7 +400,7 @@ namespace SearchDataSPM
                 {
                     rowIndex = row.Index;
                     dataGridView.Rows[rowIndex].Selected = true;
-                   
+
 
                     break;
                 }
@@ -590,14 +590,14 @@ namespace SearchDataSPM
                     string ponumber = "";
                     string pdate = "";
                     General.PODetails pODetails = new SearchDataSPM.General.PODetails();
-       
+
                     if (pODetails.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {
                         ponumber = pODetails.ValueIWant;
                         pdate = pODetails.podate;
                     }
 
-                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET Papproved = '" + (purchasedchk.Checked ? "1" : "0") + "',PApprovedBy = '" + userfullname + "',PDateApproved = '" + (purchasedchk.Checked ? sqlFormattedDate : "") + "',PApproval = '1',PONumber = '"+ponumber+ "',PODate = '" + pdate + "'  WHERE ReqNumber = '" + reqnumber + "' ";
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET Papproved = '" + (purchasedchk.Checked ? "1" : "0") + "',PApprovedBy = '" + userfullname + "',PDateApproved = '" + (purchasedchk.Checked ? sqlFormattedDate : "") + "',PApproval = '1',PONumber = '" + ponumber + "',PODate = '" + pdate + "'  WHERE ReqNumber = '" + reqnumber + "' ";
                 }
 
                 if (typesave == "Papprovedfalse")
@@ -639,8 +639,8 @@ namespace SearchDataSPM
                     req = true;
                 }
             }
-            
-          
+
+
             return req;
         }
 
@@ -742,10 +742,10 @@ namespace SearchDataSPM
 
         private void savebttn_Click(object sender, EventArgs e)
         {
-            
+
             Itemstodiscard.Clear();
             processsavebutton(false, "Normal");
-            
+
 
         }
 
@@ -753,7 +753,7 @@ namespace SearchDataSPM
         {
             try
             {
-               // this.TopMost = false;
+                // this.TopMost = false;
 
                 Thread t = new Thread(new ThreadStart(Splashsaving));
                 if (typeofsave != "Papproved")
@@ -762,9 +762,9 @@ namespace SearchDataSPM
                 }
                 else
                 {
-                   // t.Abort();
+                    // t.Abort();
                 }
-               
+
                 this.Enabled = false;
                 //tabControl1.TabPages.Remove(PreviewTabPage);
                 string reqnumber = purchreqtxt.Text;
@@ -1064,11 +1064,11 @@ namespace SearchDataSPM
             }
             else
             {
-                if (qtytxt.Text.Length > 0  && qtytxt.Text != "0")
+                if (qtytxt.Text.Length > 0 && qtytxt.Text != "0")
                     errorProvider1.SetError(pricetxt, "Price cannot be null");
-                 
-                 else if(pricetxt.Text != "$0.00" && qtytxt.Text.Length != 1)
-                errorProvider1.SetError(qtytxt, "Cannot be null");
+
+                else if (pricetxt.Text != "$0.00" && qtytxt.Text.Length != 1)
+                    errorProvider1.SetError(qtytxt, "Cannot be null");
                 else if (qtytxt.Text == "0")
                     errorProvider1.SetError(qtytxt, "Qty cannot be zero");
                 else
@@ -1199,7 +1199,7 @@ namespace SearchDataSPM
                     happroveonlblb.Text = "Approved on : " + dr[0]["HDateApproved"].ToString();
 
 
-                    purchasebylbl.Text = "Purchased by : "+ dr[0]["PApprovedBy"].ToString();
+                    purchasebylbl.Text = "Purchased by : " + dr[0]["PApprovedBy"].ToString();
                     purchaseonlbl.Text = "Purchased on : " + dr[0]["PDateApproved"].ToString();
                     ponumberlbl.Text = "PO No. : " + dr[0]["PONumber"].ToString();
 
@@ -1393,7 +1393,7 @@ namespace SearchDataSPM
                                     purchasegrpbox.Enabled = false;
                                     purchasedchk.Text = "Purchased";
                                     purchasedchk.Checked = true;
-                                     editbttn.Visible = false;
+                                    editbttn.Visible = false;
                                 }
 
                             }
@@ -1438,7 +1438,7 @@ namespace SearchDataSPM
                                         purchasegrpbox.Enabled = false;
                                         purchasedchk.Text = "Purchase";
                                         purchasedchk.Checked = false;
-                                       // printbttn.Enabled = false;
+                                        // printbttn.Enabled = false;
 
 
                                     }
@@ -1453,7 +1453,7 @@ namespace SearchDataSPM
                             purchasedchk.Text = "Purchase";
                             purchasedchk.Checked = false;
                             printbttn.Enabled = false;
-                            if(getrequestname() == userfullname)
+                            if (getrequestname() == userfullname)
                             {
                                 editbttn.Visible = true;
                             }
@@ -1461,7 +1461,7 @@ namespace SearchDataSPM
                             {
                                 editbttn.Visible = false;
                             }
-                            
+
                         }
                     }
                     else
@@ -1488,7 +1488,7 @@ namespace SearchDataSPM
                     //MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Populate Req Details", MessageBoxButtons.OK);
                 }
             }
-            
+
 
         }
 
@@ -1514,7 +1514,7 @@ namespace SearchDataSPM
                 UpdateFontdataitems();
                 calculatetota();
             }
-           
+
         }
 
         #endregion
@@ -1606,7 +1606,7 @@ namespace SearchDataSPM
                     SaveReport(reqno, filename);
                     preparetosendemail(reqno, true, "", filename, false, "user");
                     t.Abort();
-                   // this.TopMost = true;
+                    // this.TopMost = true;
                     this.Enabled = true;
                     this.Focus();
                     this.Activate();
@@ -1736,7 +1736,7 @@ namespace SearchDataSPM
 
                         processsavebutton(true, "Approved");
                         approvechk.Checked = true;
-                       // this.TopMost = false;
+                        // this.TopMost = false;
 
                         Thread t = new Thread(new ThreadStart(Splashemail));
                         t.Start();
@@ -1839,28 +1839,48 @@ namespace SearchDataSPM
         {
             if (!formloading)
             {
-               
+
                 if (dataGridView.Rows.Count > 0 && dataGridView.SelectedCells.Count == 1)
                 {
                     try
                     {
-                       // this.TopMost = false;
+                        // this.TopMost = false;
+                       
+                        bool done = false;
+                        //ThreadPool.QueueUserWorkItem((x) =>
+                        //{
+                        //    using (var splashForm = new Engineering.WaitFormLoading())
+                        //    {
+                        //        splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
+                        //        splashForm.Show();
+                        //        while (!done)
+                        //            Application.DoEvents();
+                        //        splashForm.Close();
+                        //    }
+
+                        //});
+
+                        ThreadPool.QueueUserWorkItem(delegate
+                        {
+                            using (var splashForm = new Engineering.WaitFormLoading())
+                            {
+                                splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
+                                splashForm.Show();
+                                while (!done)
+                                    Application.DoEvents();
+                                splashForm.Close();
+                            }
+                        }, null);
+
+
                         Cursor.Current = Cursors.WaitCursor;
-                        Thread t = new Thread(new ThreadStart(Splashopening));
-                        t.Start();
-                        //loading = new Thread(new ThreadStart(Splashopening));
-
-                        //loading.Start();
-
                         this.Enabled = false;
                         dataGridView1.AutoGenerateColumns = false;
-                       
                         int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                         DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
                         int item = Convert.ToInt32(slectedrow.Cells[0].Value);
                         checkforeditrights();
 
-                        
                         populatereqdetails(item);
                         PopulateDataGridView();
                         tabControl1.Visible = true;
@@ -1870,26 +1890,36 @@ namespace SearchDataSPM
                             tabControl1.TabPages.Add(PreviewTabPage);
                         }
                         Cursor.Current = Cursors.Default;
-                        t.Abort();
-                        //loading.Abort();
-                        //this.TopMost = true;
                         this.Focus();
                         this.Activate();
                         this.Enabled = true;
+                        done = true;
+                        
+                        //Thread t = new Thread(new ThreadStart(Splashopening));
+                        //t.Start();
+                        //loading = new Thread(new ThreadStart(Splashopening));
+
+                        //loading.Start();
+
+
+                        // t.Abort();
+                        //loading.Abort();
+                        //this.TopMost = true;
+
 
                     }
-                    catch(ThreadAbortException)
-                    {
-                        throw;
-                    }
-                    catch(Exception)
+                    //catch (ThreadAbortException)
+                    //{
+                       
+                    //}
+                    catch (Exception)
                     {
 
                     }
-                    
-                    
+
+
                 }
-                
+
             }
         }
 
@@ -2180,7 +2210,7 @@ namespace SearchDataSPM
                     {
                         sendmailforhapproval(reqno, fileName);
                     }
-                   
+
                 }
                 else
                 {
@@ -2195,7 +2225,7 @@ namespace SearchDataSPM
                         {
                             sendmailtopbuyers(reqno, "");
                         }
-                       
+
                     }
                 }
             }
@@ -2228,7 +2258,7 @@ namespace SearchDataSPM
         void sendemailtouser(string reqno, string fileName, string requestby, string triggerby)
         {
             string email = getusernameandemail(requestby);
-           
+
             if (triggerby == "supervisor")
             {
                 sendemail(email, reqno + " Purchase Req Approved", "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is approved.", fileName, "");
@@ -2255,7 +2285,7 @@ namespace SearchDataSPM
                     sendemail(email, reqno + " Purchase Req Approved", "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is approved.", fileName, supervisoremail);
                 }
             }
-           
+
 
         }
 
@@ -2578,7 +2608,7 @@ namespace SearchDataSPM
 
             if (e.KeyCode == Keys.Return)
             {
-                if (itemsearchtxtbox.Text.Length >= 6 )
+                if (itemsearchtxtbox.Text.Length >= 6)
                 {
                     clearaddnewtextboxes();
                     filldatatable(itemsearchtxtbox.Text.Trim().Substring(0, 6).ToString());
@@ -2707,7 +2737,7 @@ namespace SearchDataSPM
 
         private void printbttn_Click(object sender, EventArgs e)
         {
-           // this.TopMost = false;
+            // this.TopMost = false;
 
             reportpurchaereq(reqnumber, "Purchasereq");
 
@@ -2717,10 +2747,34 @@ namespace SearchDataSPM
         {
             //this.TopMost = false;
 
-            Thread t = new Thread(new ThreadStart(Splashopening));
-            t.Start();
-            this.Enabled = false;
+            //Thread t = new Thread(new ThreadStart(Splashopening));
+            //t.Start();
+            bool done = false;
+            //ThreadPool.QueueUserWorkItem((x) =>
+            //{
+            //    using (var splashForm = new Engineering.WaitFormLoading())
+            //    {
+            //        splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
+            //        splashForm.Show();
+            //        while (!done)
+            //            Application.DoEvents();
+            //        splashForm.Close();
+            //    }
+            //});
 
+            ThreadPool.QueueUserWorkItem(delegate
+            {
+                using (var splashForm = new Engineering.WaitFormLoading())
+                {
+                    splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
+                    splashForm.Show();
+                    while (!done)
+                        Application.DoEvents();
+                    splashForm.Close();
+                }
+            }, null);
+
+            this.Enabled = false;
             showwaitingonapproval();
             foreach (Control c in managergroupbox.Controls)
             {
@@ -2729,18 +2783,35 @@ namespace SearchDataSPM
             //set the clicked control to a different color
             Control o = (Control)sender;
             o.BackColor = Color.FromArgb(255, 128, 0);
-            t.Abort();
+            //t.Abort();
             //this.TopMost = true;
             this.Enabled = true;
             this.Focus();
             this.Activate();
+            
+            done = true;
         }
 
         private void bttnshowapproved_Click(object sender, EventArgs e)
         {
-           // this.TopMost = false;
-            Thread t = new Thread(new ThreadStart(Splashopening));
-            t.Start();
+            // this.TopMost = false;
+            //Thread t = new Thread(new ThreadStart(Splashopening));
+            //t.Start();
+
+            bool done = false;
+            ThreadPool.QueueUserWorkItem((x) =>
+            {
+                using (var splashForm = new Engineering.WaitFormLoading())
+                {
+                    splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
+                    splashForm.Show();
+                    while (!done)
+                        Application.DoEvents();
+                    splashForm.Close();
+                }
+            });
+
+
             this.Enabled = false;
             showallapproved();
             foreach (Control c in managergroupbox.Controls)
@@ -2750,18 +2821,33 @@ namespace SearchDataSPM
             //set the clicked control to a different color
             Control o = (Control)sender;
             o.BackColor = Color.FromArgb(255, 128, 0);
-            t.Abort();
+            //t.Abort();
             //this.TopMost = true;
             this.Enabled = true;
-             this.Focus();
+            this.Focus();
             this.Activate();
+            done = true;
         }
 
         private void bttnshowmydept_Click(object sender, EventArgs e)
         {
             //this.TopMost = false;
-            Thread t = new Thread(new ThreadStart(Splashopening));
-            t.Start();
+            //Thread t = new Thread(new ThreadStart(Splashopening));
+            //t.Start();
+
+            bool done = false;
+            ThreadPool.QueueUserWorkItem((x) =>
+            {
+                using (var splashForm = new Engineering.WaitFormLoading())
+                {
+                    splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
+                    splashForm.Show();
+                    while (!done)
+                        Application.DoEvents();
+                    splashForm.Close();
+                }
+            });
+
             this.Enabled = false;
             showmydeptreq();
             foreach (Control c in managergroupbox.Controls)
@@ -2771,20 +2857,35 @@ namespace SearchDataSPM
             //set the clicked control to a different color
             Control o = (Control)sender;
             o.BackColor = Color.FromArgb(255, 128, 0);
-            t.Abort();
+            //t.Abort();
             //this.TopMost = true;
             this.Enabled = true;
             this.Focus();
             this.Activate();
-        
+            done = true;
+
         }
 
         private void bttnshowmyreq_Click(object sender, EventArgs e)
         {
             //this.TopMost = false;
-           Thread t = new Thread(new ThreadStart(Splashopening));
-           
-            t.Start();
+            //Thread t = new Thread(new ThreadStart(Splashopening));
+
+            //t.Start();
+
+            bool done = false;
+            ThreadPool.QueueUserWorkItem((x) =>
+            {
+                using (var splashForm = new Engineering.WaitFormLoading())
+                {
+                    splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
+                    splashForm.Show();
+                    while (!done)
+                        Application.DoEvents();
+                    splashForm.Close();
+                }
+            });
+
             this.Enabled = false;
             showReqSearchItems(userfullname);
             foreach (Control c in managergroupbox.Controls)
@@ -2794,11 +2895,12 @@ namespace SearchDataSPM
             //set the clicked control to a different color
             Control o = (Control)sender;
             o.BackColor = Color.FromArgb(255, 128, 0);
-            t.Abort();
+            //t.Abort();
             //this.TopMost = true;
             this.Enabled = true;
             this.Focus();
             this.Activate();
+            done = true;
         }
 
         #endregion
@@ -2861,7 +2963,7 @@ namespace SearchDataSPM
 
                 }
             }
-            if(supervisor)
+            if (supervisor)
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '0' AND Validate = '1' AND SupervisorId = '" + myid + "' ORDER BY ReqNumber DESC", cn))
                 {
@@ -2945,7 +3047,7 @@ namespace SearchDataSPM
 
                 }
             }
-            if(supervisor)
+            if (supervisor)
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '1'AND Validate = '1' AND SupervisorId = '" + myid + "' ORDER BY ReqNumber DESC", cn))
                 {
@@ -3028,7 +3130,7 @@ namespace SearchDataSPM
 
                 }
             }
-            if(supervisor)
+            if (supervisor)
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE SupervisorId = '" + myid + "' ORDER BY ReqNumber DESC", cn))
                 {
@@ -3083,7 +3185,7 @@ namespace SearchDataSPM
                         processsavebutton(true, "Happroved");
                         approvechk.Checked = true;
                         //this.TopMost = false;
-                       
+
                         Thread t = new Thread(new ThreadStart(Splashemail));
                         t.Start();
                         this.Enabled = false;
@@ -3095,7 +3197,7 @@ namespace SearchDataSPM
                         preparetosendemail(reqno, false, requestby, filename, false, "highautority");
 
                         t.Abort();
-                       // this.TopMost = true;
+                        // this.TopMost = true;
                         this.Enabled = true;
                         this.Focus();
                         this.Activate();
@@ -3172,7 +3274,7 @@ namespace SearchDataSPM
                         t.Start();
                         this.Enabled = false;
                         purchasedchk.Checked = true;
-                       
+
                         preparetosendemail(reqno, false, requestby, "", false, "pbuyer");
 
                         t.Abort();
@@ -3233,13 +3335,16 @@ namespace SearchDataSPM
                     Engineering.WaitFormSaving waitFormOpening = new Engineering.WaitFormSaving();
                     waitFormOpening.Location = new Point(this.Location.X + (this.Width - waitFormOpening.Width) / 2, this.Location.Y + (this.Height - waitFormOpening.Height) / 2);
                     loading = Thread.CurrentThread;
+
                     if (loading.ThreadState == ThreadState.AbortRequested)
                     {
                         Thread.ResetAbort();
                     }
                     try
                     {
-                        Application.Run(waitFormOpening);
+                        waitFormOpening.Show();
+                        Thread.Sleep(3000);
+                        // Application.Run(waitFormOpening);
                     }
                     catch (ThreadAbortException)
                     {
@@ -3247,45 +3352,47 @@ namespace SearchDataSPM
                     }
 
                 }
-            }
-            catch (ThreadAbortException )
-            {
-
-            }
-           
-        }
-
-        void Splashopening()
-        {
-            try
-            {
-                if (!formloading)
-                {
-                    Engineering.WaitFormLoading waitFormOpening = new Engineering.WaitFormLoading();
-                    waitFormOpening.Location = new Point(this.Location.X + (this.Width - waitFormOpening.Width) / 2, this.Location.Y + (this.Height - waitFormOpening.Height) / 2);
-                    loading = Thread.CurrentThread;
-                    if (loading.ThreadState == ThreadState.AbortRequested)
-                    {
-                        Thread.ResetAbort();
-                    }
-                    try
-                    {
-                        Application.Run(waitFormOpening);
-                    }
-                    catch (ThreadAbortException)
-                    {
-
-                    }
-
-
-                }
-
             }
             catch (ThreadAbortException)
             {
 
             }
-               
+
+        }
+
+        void Splashopening()
+        {
+            //try
+            //{
+            //    if (!formloading)
+            //    {
+            //        Engineering.WaitFormLoading waitFormOpening = new Engineering.WaitFormLoading();
+            //        waitFormOpening.Location = new Point(this.Location.X + (this.Width - waitFormOpening.Width) / 2, this.Location.Y + (this.Height - waitFormOpening.Height) / 2);
+            //        loading = Thread.CurrentThread;
+
+            //        if (loading.ThreadState == ThreadState.AbortRequested)
+            //        {
+            //            Thread.ResetAbort();
+            //        }
+            //        try
+            //        {
+            //            Application.Run(waitFormOpening);
+            //            Thread.Sleep(3000);
+            //        }
+            //        catch (ThreadAbortException)
+            //        {
+
+            //        }
+
+
+            //    }
+
+            //}
+            //catch (ThreadAbortException)
+            //{
+
+            //}
+
         }
 
         void Splashemail()
@@ -3298,27 +3405,31 @@ namespace SearchDataSPM
                     waitFormOpening.Location = new Point(this.Location.X + (this.Width - waitFormOpening.Width) / 2, this.Location.Y + (this.Height - waitFormOpening.Height) / 2);
 
                     loading = Thread.CurrentThread;
+
                     if (loading.ThreadState == ThreadState.Aborted)
                     {
                         Thread.ResetAbort();
                     }
                     try
                     {
+
                         Application.Run(waitFormOpening);
+                        Thread.Sleep(3000);
                     }
-                    catch(ThreadAbortException)
+                    catch (ThreadAbortException)
                     {
 
                     }
-                  
+
                 }
             }
             catch (ThreadAbortException)
             {
 
             }
-          
-        }
 
+        }
     }
-}
+
+ }
+ 
