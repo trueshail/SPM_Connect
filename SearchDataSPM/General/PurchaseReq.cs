@@ -1872,7 +1872,6 @@ namespace SearchDataSPM
                             }
                         }, null);
 
-
                         Cursor.Current = Cursors.WaitCursor;
                         this.Enabled = false;
                         dataGridView1.AutoGenerateColumns = false;
