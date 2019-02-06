@@ -32,6 +32,7 @@ namespace SearchDataSPM
         public String UserName()
         {
             string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+
             if (userName.Length > 0)
             {
                 return userName;
@@ -119,9 +120,9 @@ namespace SearchDataSPM
         {
            // SPM_Connect();
             //currentusercreds();
-            string message = "";
+            string message = "no";
 
-            string supervisorname = getsupervisorname(supervisorid);
+            string supervisorname = getsupervisorname(getsupervisorid(UserName()));
 
 
             if (validate == 1 && approved == 0)
@@ -130,6 +131,7 @@ namespace SearchDataSPM
                 {
                     message = "New purchase req issued for approval.";
                 }
+             
             }
             else if (validate == 1 && approved == 1 && happroval == 0 && papproval == 1 && papproved == 0)
             {
@@ -217,6 +219,40 @@ namespace SearchDataSPM
             {
 
                 return ex.ToString();
+
+
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return fullname;
+        }
+
+        public int getsupervisorid(string  username)
+        {
+            int fullname = 0;
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + username.ToString() + "' ";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    fullname = Convert.ToInt32(dr["Supervisor"]);
+
+                }
+            }
+            catch (Exception )
+            {
+
+                
 
 
             }

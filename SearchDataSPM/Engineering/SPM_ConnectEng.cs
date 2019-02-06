@@ -78,6 +78,8 @@ namespace SearchDataSPM
             purchaseReq.currentusercreds();
             formloading = false;
           
+
+
         }
 
         private void fillinfo()
