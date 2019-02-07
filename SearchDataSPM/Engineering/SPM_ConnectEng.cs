@@ -26,7 +26,6 @@ namespace SearchDataSPM
 {
 
     public partial class SPM_Connect : Form
-
     {
         #region SPM Connect Load
 
@@ -37,9 +36,9 @@ namespace SearchDataSPM
         string userfullname = "";
         SearchDataSPM.pnotifier purchaseReq = new SearchDataSPM.pnotifier();
 
-        public  SPM_Connect()
+        public SPM_Connect()
         {
-         
+
             InitializeComponent();
             connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
             try
@@ -53,7 +52,7 @@ namespace SearchDataSPM
 
                 Application.Exit();
             }
-            
+
         }
 
         private void SPM_Connect_Load(object sender, EventArgs e)
@@ -77,7 +76,7 @@ namespace SearchDataSPM
             watchpreqtable();
             purchaseReq.currentusercreds();
             formloading = false;
-          
+
 
 
         }
@@ -146,8 +145,8 @@ namespace SearchDataSPM
         private void Reload_Click(object sender, EventArgs e)
         {
             performreload();
-            
-          
+
+
         }
 
         void performreload()
@@ -195,7 +194,7 @@ namespace SearchDataSPM
             _preqdependency.OnChanged += _preqdependency_OnChanged;
             _preqdependency.OnError += _preqdependency_OnError;
             _preqdependency.Start();
-            
+
         }
 
         private void _preqdependency_OnChanged(object sender, TableDependency.SqlClient.Base.EventArgs.RecordChangedEventArgs<PurhcaseReqSQL> e)
@@ -203,7 +202,7 @@ namespace SearchDataSPM
             var changedEntity = e.Entity;
             string type = e.ChangeType.ToString();
 
-            if(type == "Update")
+            if (type == "Update")
             {
                 string requestname = "";
                 int reqno = 0, validate = 0, approved = 0, happroval = 0, happroved = 0, papproval = 0, papproved = 0, supervisoridfromreq = 0;
@@ -217,20 +216,20 @@ namespace SearchDataSPM
                 supervisoridfromreq = changedEntity.supervisorid;
                 requestname = string.Format((changedEntity.requestname));
 
-                
+
                 if (requestname == userfullname && validate == 1)
                 {
-                    
+
                     string message = purchaseReq.showpopupnotifation(reqno, validate, approved, happroval, happroved, papproval, papproved, requestname, supervisoridfromreq).ToString();
-                    if(message != "no")
+                    if (message != "no")
                     {
-                        notifyIcon1.ShowBalloonTip(1000, reqno.ToString() , message + " \r\nClick to know more", ToolTipIcon.Info);
+                        notifyIcon1.ShowBalloonTip(1000, reqno.ToString(), message + " \r\nClick to know more", ToolTipIcon.Info);
                     }
-                    
-                   
+
+
                 }
             }
-           // 
+            // 
         }
 
         private void _preqdependency_OnError(object sender, TableDependency.SqlClient.Base.EventArgs.ErrorEventArgs e)
@@ -291,9 +290,9 @@ namespace SearchDataSPM
             if (changed == userName && type == "Delete")
             {
                 //MessageBox.Show(this,"Developer has kicked you out due to maintenance issues.");
-                 _dependency.Stop();
+                _dependency.Stop();
                 System.Environment.Exit(0);
-                
+
             }
         }
 
@@ -2201,8 +2200,8 @@ namespace SearchDataSPM
                 da.Fill(dt);
                 foreach (DataRow dr in dt.Rows)
                 {
-                     fullname = dr["Name"].ToString();
-                    
+                    fullname = dr["Name"].ToString();
+
                 }
             }
             catch (Exception ex)
