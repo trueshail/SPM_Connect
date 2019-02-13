@@ -1192,13 +1192,14 @@ namespace SearchDataSPM
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDate = datecreated.ToString("dd-MM-yyyy HH:mm tt");
             string computername = System.Environment.MachineName;
+            Assembly assembly = Assembly.GetExecutingAssembly();
             if (cn.State == ConnectionState.Closed)
                 cn.Open();
             try
             {
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Checkin] ([Last Login],[Application Running],[User Name], [Computer Name]) VALUES('" + sqlFormattedDate + "', '" + applicationname + "', '" + username + "', '" + computername + "')";
+                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Checkin] ([Last Login],[Application Running],[User Name], [Computer Name], [Version]) VALUES('" + sqlFormattedDate + "', '" + applicationname + "', '" + username + "', '" + computername + "','" + assembly.GetName().Version.ToString(3) + "')";
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1727,8 +1728,35 @@ namespace SearchDataSPM
 
         private void notifyIcon1_BalloonTipClicked(object sender, EventArgs e)
         {
-            PurchaseReqform purchaseReqform = new PurchaseReqform();
-            purchaseReqform.Show();
+            int openforms = Application.OpenForms.Count;
+            if (openforms > 2)
+            {
+                bool purchasereqopen = false;
+
+                foreach (Form frm in Application.OpenForms)
+                {
+
+                    if (frm.Name.ToString() == "PurchaseReqform")
+                    {
+                        purchasereqopen = true;
+                        frm.Show();
+                        frm.Activate();
+                        frm.BringToFront();
+                        frm.Focus();
+                        frm.WindowState = FormWindowState.Normal;
+                    }
+
+                }
+                if (purchasereqopen)
+                {
+
+                }
+                else
+                {
+                    PurchaseReqform purchaseReq = new PurchaseReqform();
+                    purchaseReq.Show();
+                }
+            }
         }
     }
 }

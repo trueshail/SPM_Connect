@@ -25,6 +25,7 @@ namespace SearchDataSPM
 			Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new SPM_ConnectHome());
 
+            #region splash
             // Splash splash = new Splash();
             // splash.ShowSplashScreen();
             // while (!splash.Ready())
@@ -77,9 +78,9 @@ namespace SearchDataSPM
             //     System.Environment.Exit(0);
             // }
 
+            #endregion
+
         }
-
     }
-
 
 }

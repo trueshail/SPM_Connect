@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.Entity;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -38,7 +39,9 @@ namespace SearchDataSPM
         List<string> Itemstodiscard = new List<string>();
         int supervisoridfromreq = 0;
         //static Thread t;
-        Thread loading;
+        //Thread loading;
+
+
 
         #endregion
 
@@ -91,6 +94,7 @@ namespace SearchDataSPM
 
             if (higherauthority || supervisor || pbuyer)
             {
+
                 bttnneedapproval.PerformClick();
             }
             else
@@ -99,7 +103,14 @@ namespace SearchDataSPM
             }
 
             formloading = false;
-
+            
+            Debug.WriteLine(myid);
+            Debug.WriteLine(supervisorid);
+            Debug.WriteLine(userfullname);
+            Debug.WriteLine(supervisor);
+            Debug.WriteLine(higherauthority);
+            Debug.WriteLine(pbuyer);
+            Debug.WriteLine(supervisoridfromreq);
         }
 
         void changecontrolbuttonnames()
@@ -144,11 +155,11 @@ namespace SearchDataSPM
         {
             dataGridView.DataSource = dt;
             DataView dv = dt.DefaultView;
-            dataGridView.Columns[0].Width = 40;
+            dataGridView.Columns[0].Width = 35;
             dataGridView.Columns[0].HeaderText = "Req No";
-            dataGridView.Columns[1].Width = 40;
+            dataGridView.Columns[1].Width = 35;
             dataGridView.Columns[1].HeaderText = "Job";
-            dataGridView.Columns[2].Width = 90;
+            dataGridView.Columns[2].Width = 70;
             dataGridView.Columns[3].Width = 80;
             dataGridView.Columns[4].Visible = false;
             dataGridView.Columns[5].Visible = false;
@@ -234,10 +245,10 @@ namespace SearchDataSPM
             {
                 editbttn.Visible = true;
             }
-            if (higherauthority)
-            {
-                editbttn.Visible = false;
-            }
+            //if (higherauthority)
+            //{
+            //    editbttn.Visible = false;
+            //}
 
         }
 
@@ -755,16 +766,42 @@ namespace SearchDataSPM
             {
                 // this.TopMost = false;
 
-                Thread t = new Thread(new ThreadStart(Splashsaving));
+                //Thread t = new Thread(new ThreadStart(Splashsaving));
+                bool done = false;
+                //ThreadPool.QueueUserWorkItem(delegate
+                //{
+                //    using (var splashForm = new Engineering.WaitFormSaving())
+                //    {
+                //        splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
+                //        splashForm.Show();
+                //        while (!done)
+                //            Application.DoEvents();
+                //        splashForm.Close();
+                //    }
+                //}, null);
+                ThreadPool.QueueUserWorkItem((x) =>
+                {
+                    using (var splashForm = new Engineering.WaitFormSaving())
+                    {
+                        splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
+                        splashForm.Show();
+                        while (!done)
+                            Application.DoEvents();
+                        splashForm.Close();
+                    }
+
+                });
+
                 if (typeofsave != "Papproved")
                 {
-                    t.Start();
+                    //t.Start();
                 }
                 else
                 {
                     // t.Abort();
                 }
-
+               
+                Cursor.Current = Cursors.WaitCursor;
                 this.Enabled = false;
                 //tabControl1.TabPages.Remove(PreviewTabPage);
                 string reqnumber = purchreqtxt.Text;
@@ -805,7 +842,8 @@ namespace SearchDataSPM
                         UpdateReq(Convert.ToInt32(purchreqtxt.Text), typeofsave);
                         if (bttnshowmyreq.Visible)
                         {
-                            bttnshowmyreq.PerformClick();
+                           // bttnshowmyreq.PerformClick();
+                            perfromshowmyreqbuttn();
                         }
                         else
                         {
@@ -843,11 +881,13 @@ namespace SearchDataSPM
                     }
                 }
 
-                t.Abort();
+                // t.Abort();
                 //this.TopMost = true;
+                Cursor.Current = Cursors.Default;
                 this.Enabled = true;
                 this.Focus();
                 this.Activate();
+                done = true;
             }
             catch
             {
@@ -1259,8 +1299,6 @@ namespace SearchDataSPM
                             approvebylabel.Visible = false;
                             apprvonlabel.Visible = false;
 
-
-
                         }
 
 
@@ -1399,7 +1437,7 @@ namespace SearchDataSPM
                             }
                             else
                             {
-                                if (supervisor)
+                                if (supervisor || higherauthority)
                                 {
                                     if (dr[0]["Papproved"].ToString().Equals("1"))
                                     {
@@ -1417,7 +1455,18 @@ namespace SearchDataSPM
                                         purchasedchk.Text = "Purchase";
                                         purchasedchk.Checked = false;
                                         //printbttn.Enabled = false;
-                                        editbttn.Visible = true;
+                                        if(supervisor && higherauthority)
+                                        {
+                                            editbttn.Visible = true;
+                                        }
+                                        else
+                                        {
+                                            if(getrequestname() == userfullname)
+                                            {
+                                                editbttn.Visible = false;
+                                            }
+                                        }
+                                        
                                     }
                                 }
                                 else
@@ -1476,7 +1525,7 @@ namespace SearchDataSPM
                     ///////////////////////////////////////
 
 
-                    if (higherauthority && getrequestname() == userfullname && happrovechk.Checked == false)
+                    if (higherauthority && getrequestname() == userfullname && happrovechk.Checked == false && dr[0]["Papproved"].ToString().Equals("0"))
                     {
                         editbttn.Visible = true;
                     }
@@ -1594,22 +1643,80 @@ namespace SearchDataSPM
 
                 if (result == DialogResult.Yes)
                 {
-                    string reqno = purchreqtxt.Text;
-                    processsavebutton(true, "Validated");
-                    Validatechk.Text = "Invalidate";
-                    //this.TopMost = false;
+                   
+                    if (jobnumbertxt.Text.Length > 0 && subassytxt.Text.Length > 0 && dataGridView1.Rows.Count>0)
+                    {
+                        string reqno = purchreqtxt.Text;
+                        processsavebutton(true, "Validated");
+                        Validatechk.Text = "Invalidate";
+                        //this.TopMost = false;
 
-                    Thread t = new Thread(new ThreadStart(Splashemail));
-                    t.Start();
-                    this.Enabled = false;
-                    string filename = makefilenameforreport(reqno, true);
-                    SaveReport(reqno, filename);
-                    preparetosendemail(reqno, true, "", filename, false, "user");
-                    t.Abort();
-                    // this.TopMost = true;
-                    this.Enabled = true;
-                    this.Focus();
-                    this.Activate();
+                        //Thread t = new Thread(new ThreadStart(Splashemail));
+                        //t.Start();
+
+                        bool done = false;
+                        //ThreadPool.QueueUserWorkItem(delegate
+                        //{
+                        //    using (var splashForm = new Engineering.WaitFormEmail())
+                        //    {
+                        //        splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
+                        //        splashForm.Show();
+                        //        while (!done)
+                        //            Application.DoEvents();
+                        //        splashForm.Close();
+                        //    }
+                        //}, null);
+                        ThreadPool.QueueUserWorkItem((x) =>
+                        {
+                            using (var splashForm = new Engineering.WaitFormEmail())
+                            {
+                                splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
+                                splashForm.Show();
+                                while (!done)
+                                    Application.DoEvents();
+                                splashForm.Close();
+                            }
+
+                        });
+                        Cursor.Current = Cursors.WaitCursor;
+                        this.Enabled = false;
+                        string filename = makefilenameforreport(reqno, true);
+                        SaveReport(reqno, filename);
+                        preparetosendemail(reqno, true, "", filename, false, "user");
+                        //t.Abort();
+
+                        // this.TopMost = true;
+                        Cursor.Current = Cursors.Default;
+                        this.Enabled = true;
+                        this.Focus();
+                        this.Activate();
+                        done = true;
+                    }
+                    else
+                    {
+                        errorProvider1.Clear();
+                        if (jobnumbertxt.Text.Length > 0)
+                        {
+                            errorProvider1.SetError(subassytxt, "Sub Assy No cannot be empty");
+                        }
+                        else if (subassytxt.Text.Length > 0)
+                        {
+                            errorProvider1.SetError(jobnumbertxt, "Job Number cannot be empty");
+                        }
+                        else
+                        {
+                            errorProvider1.SetError(jobnumbertxt, "Job Number cannot be empty");
+                            errorProvider1.SetError(subassytxt, "Sub Assy No cannot be empty");
+                        }
+                        if (dataGridView1.Rows.Count< 1 && jobnumbertxt.Text.Length > 0 && subassytxt.Text.Length > 0)
+                        {
+                            errorProvider1.Clear();
+                            MetroFramework.MetroMessageBox.Show(this, "System cannot send out this purchase req for approval as there are no items to order.","SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                          
+                        }
+                        Validatechk.Checked = false;
+                    }
+      
                 }
                 else
                 {
@@ -1731,27 +1838,63 @@ namespace SearchDataSPM
 
                     if (result == DialogResult.Yes)
                     {
-                        string reqno = purchreqtxt.Text;
-                        string requestby = requestbytxt.Text;
+                        if (jobnumbertxt.Text.Length > 0 && subassytxt.Text.Length > 0)
+                        {
+                            string reqno = purchreqtxt.Text;
+                            string requestby = requestbytxt.Text;
 
-                        processsavebutton(true, "Approved");
-                        approvechk.Checked = true;
-                        // this.TopMost = false;
+                            processsavebutton(true, "Approved");
+                            approvechk.Checked = true;
+                            // this.TopMost = false;
 
-                        Thread t = new Thread(new ThreadStart(Splashemail));
-                        t.Start();
-                        this.Enabled = false;
+                            //Thread t = new Thread(new ThreadStart(Splashemail));
+                            //t.Start();
+                            bool done = false;
+                            ThreadPool.QueueUserWorkItem(delegate
+                            {
+                                using (var splashForm = new Engineering.WaitFormEmail())
+                                {
+                                    splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
+                                    splashForm.Show();
+                                    while (!done)
+                                        Application.DoEvents();
+                                    splashForm.Close();
+                                }
+                            }, null);
+                            this.Enabled = false;
 
-                        string filename = makefilenameforreport(reqno, false).ToString();
-                        SaveReport(reqno, filename);
-                        preparetosendemail(reqno, false, requestby, filename, happroval(), "supervisor");
+                            string filename = makefilenameforreport(reqno, false).ToString();
+                            SaveReport(reqno, filename);
+                            preparetosendemail(reqno, false, requestby, filename, happroval(), "supervisor");
 
-                        t.Abort();
-                        //this.TopMost = true;
-                        this.Enabled = true;
-                        this.Focus();
-                        this.Activate();
+                            //t.Abort();
+                            //this.TopMost = true;
+                            this.Enabled = true;
+                            this.Focus();
+                            this.Activate();
+                            done = true;
+                        }
+                        else
+                        {
+                            errorProvider1.Clear();
+                            if (jobnumbertxt.Text.Length > 0)
+                            {
+                                errorProvider1.SetError(subassytxt, "Sub Assy No cannot be empty");
+                            }
+                            else if (subassytxt.Text.Length > 0)
+                            {
+                                errorProvider1.SetError(jobnumbertxt, "Job Number cannot be empty");
+                            }
+                            else
+                            {
+                                errorProvider1.SetError(jobnumbertxt, "Job Number cannot be empty");
+                                errorProvider1.SetError(subassytxt, "Sub Assy No cannot be empty");
+                            }
 
+                            approvechk.Checked = false;
+                        }
+
+                       
                     }
                     else
                     {
@@ -1817,7 +1960,7 @@ namespace SearchDataSPM
         private void UpdateFont()
         {
             dataGridView.ColumnHeadersDefaultCellStyle.Font = new Font("Tahoma", 9.0F, FontStyle.Bold);
-            dataGridView.DefaultCellStyle.Font = new Font("Arial", 9.5F, FontStyle.Bold);
+            dataGridView.DefaultCellStyle.Font = new Font("Arial", 8.0F, FontStyle.Bold);
             dataGridView.DefaultCellStyle.ForeColor = Color.Black;
             dataGridView.DefaultCellStyle.BackColor = Color.FromArgb(237, 237, 237);
             dataGridView.DefaultCellStyle.SelectionForeColor = Color.Yellow;
@@ -1827,7 +1970,7 @@ namespace SearchDataSPM
         private void UpdateFontdataitems()
         {
             dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Tahoma", 9.0F, FontStyle.Bold);
-            dataGridView1.DefaultCellStyle.Font = new Font("Arial", 9.5F, FontStyle.Bold);
+            dataGridView1.DefaultCellStyle.Font = new Font("Arial", 8.0F, FontStyle.Regular);
             dataGridView1.DefaultCellStyle.ForeColor = Color.Black;
             dataGridView1.DefaultCellStyle.BackColor = Color.FromArgb(237, 237, 237);
             dataGridView1.DefaultCellStyle.SelectionForeColor = Color.Tomato;
@@ -1845,8 +1988,8 @@ namespace SearchDataSPM
                     try
                     {
                         // this.TopMost = false;
-                       
-                        bool done = false;
+
+
                         //ThreadPool.QueueUserWorkItem((x) =>
                         //{
                         //    using (var splashForm = new Engineering.WaitFormLoading())
@@ -1859,7 +2002,7 @@ namespace SearchDataSPM
                         //    }
 
                         //});
-
+                        bool done = false;
                         ThreadPool.QueueUserWorkItem(delegate
                         {
                             using (var splashForm = new Engineering.WaitFormLoading())
@@ -2867,6 +3010,12 @@ namespace SearchDataSPM
 
         private void bttnshowmyreq_Click(object sender, EventArgs e)
         {
+            perfromshowmyreqbuttn();
+        }
+
+
+        private void perfromshowmyreqbuttn()
+        {
             //this.TopMost = false;
             //Thread t = new Thread(new ThreadStart(Splashopening));
 
@@ -2892,8 +3041,8 @@ namespace SearchDataSPM
                 c.BackColor = Color.Transparent;
             }
             //set the clicked control to a different color
-            Control o = (Control)sender;
-            o.BackColor = Color.FromArgb(255, 128, 0);
+            //Control o = (Control)sender;
+            bttnshowmyreq.BackColor = Color.FromArgb(255, 128, 0);
             //t.Abort();
             //this.TopMost = true;
             this.Enabled = true;
@@ -2908,7 +3057,7 @@ namespace SearchDataSPM
 
         private void showwaitingonapproval()
         {
-            if (higherauthority)
+            if (higherauthority && !supervisor)
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '1' AND Validate = '1' AND HApproval = '1' AND Happroved = '0' ORDER BY ReqNumber DESC", cn))
                 {
@@ -2935,7 +3084,34 @@ namespace SearchDataSPM
 
                 }
             }
-            if (pbuyer)
+            else if (higherauthority && supervisor)
+            {
+                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '1' AND Validate = '1' AND HApproval = '1' AND Happroved = '0' UNION SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Validate = '1' AND SupervisorId = '" + myid + "' ORDER BY ReqNumber DESC", cn))
+                {
+                    try
+                    {
+                        if (cn.State == ConnectionState.Closed)
+                            cn.Open();
+
+                        dt.Clear();
+                        sda.Fill(dt);
+                        preparedatagrid();
+
+
+                    }
+                    catch (Exception)
+                    {
+                        MetroFramework.MetroMessageBox.Show(this, "Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect - SHow Waiting For Approval", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    }
+                    finally
+                    {
+                        cn.Close();
+                    }
+
+                }
+            }
+            else if (pbuyer)
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '1' AND Validate = '1' AND PApproval = '1' AND Papproved = '0' ORDER BY ReqNumber DESC", cn))
                 {
@@ -2962,7 +3138,7 @@ namespace SearchDataSPM
 
                 }
             }
-            if (supervisor)
+            else if (supervisor && !higherauthority)
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '0' AND Validate = '1' AND SupervisorId = '" + myid + "' ORDER BY ReqNumber DESC", cn))
                 {
@@ -3019,8 +3195,9 @@ namespace SearchDataSPM
                     }
 
                 }
+              
             }
-            if (pbuyer)
+            else if (pbuyer)
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Papproved = '1' ORDER BY ReqNumber DESC", cn))
                 {
@@ -3045,8 +3222,9 @@ namespace SearchDataSPM
                     }
 
                 }
+               
             }
-            if (supervisor)
+            else if (supervisor)
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '1'AND Validate = '1' AND SupervisorId = '" + myid + "' ORDER BY ReqNumber DESC", cn))
                 {
@@ -3102,8 +3280,9 @@ namespace SearchDataSPM
                     }
 
                 }
+                
             }
-            if (pbuyer)
+            else if (pbuyer)
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE PApproval = '1'  ORDER BY ReqNumber DESC", cn))
                 {
@@ -3128,8 +3307,9 @@ namespace SearchDataSPM
                     }
 
                 }
+                return;
             }
-            if (supervisor)
+            else if (supervisor)
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE SupervisorId = '" + myid + "' ORDER BY ReqNumber DESC", cn))
                 {
@@ -3154,6 +3334,7 @@ namespace SearchDataSPM
                     }
 
                 }
+                
             }
 
         }
@@ -3185,8 +3366,20 @@ namespace SearchDataSPM
                         approvechk.Checked = true;
                         //this.TopMost = false;
 
-                        Thread t = new Thread(new ThreadStart(Splashemail));
-                        t.Start();
+                        //Thread t = new Thread(new ThreadStart(Splashemail));
+                        //t.Start();
+                        bool done = false;
+                        ThreadPool.QueueUserWorkItem(delegate
+                        {
+                            using (var splashForm = new Engineering.WaitFormEmail())
+                            {
+                                splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
+                                splashForm.Show();
+                                while (!done)
+                                    Application.DoEvents();
+                                splashForm.Close();
+                            }
+                        }, null);
                         this.Enabled = false;
 
 
@@ -3195,11 +3388,12 @@ namespace SearchDataSPM
 
                         preparetosendemail(reqno, false, requestby, filename, false, "highautority");
 
-                        t.Abort();
+                       // t.Abort();
                         // this.TopMost = true;
                         this.Enabled = true;
                         this.Focus();
                         this.Activate();
+                        done = true;
 
                     }
                     else
@@ -3269,19 +3463,31 @@ namespace SearchDataSPM
                         dataGridView_SelectionChanged(sender, e);
                         //this.TopMost = false;
 
-                        Thread t = new Thread(new ThreadStart(Splashemail));
-                        t.Start();
+                        //Thread t = new Thread(new ThreadStart(Splashemail));
+                        //t.Start();
+                        bool done = false;
+                        ThreadPool.QueueUserWorkItem(delegate
+                        {
+                            using (var splashForm = new Engineering.WaitFormEmail())
+                            {
+                                splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
+                                splashForm.Show();
+                                while (!done)
+                                    Application.DoEvents();
+                                splashForm.Close();
+                            }
+                        }, null);
                         this.Enabled = false;
                         purchasedchk.Checked = true;
 
                         preparetosendemail(reqno, false, requestby, "", false, "pbuyer");
 
-                        t.Abort();
+                        //t.Abort();
                         //this.TopMost = true;
                         this.Enabled = true;
                         this.Focus();
                         this.Activate();
-
+                        done = true;
                     }
                     else
                     {
@@ -3325,109 +3531,109 @@ namespace SearchDataSPM
 
         #endregion
 
-        void Splashsaving()
-        {
-            try
-            {
-                if (!formloading)
-                {
-                    Engineering.WaitFormSaving waitFormOpening = new Engineering.WaitFormSaving();
-                    waitFormOpening.Location = new Point(this.Location.X + (this.Width - waitFormOpening.Width) / 2, this.Location.Y + (this.Height - waitFormOpening.Height) / 2);
-                    loading = Thread.CurrentThread;
+        //void Splashsaving()
+        //{
+        //    try
+        //    {
+        //        if (!formloading)
+        //        {
+        //            Engineering.WaitFormSaving waitFormOpening = new Engineering.WaitFormSaving();
+        //            waitFormOpening.Location = new Point(this.Location.X + (this.Width - waitFormOpening.Width) / 2, this.Location.Y + (this.Height - waitFormOpening.Height) / 2);
+        //            loading = Thread.CurrentThread;
 
-                    if (loading.ThreadState == ThreadState.AbortRequested)
-                    {
-                        Thread.ResetAbort();
-                    }
-                    try
-                    {
-                        waitFormOpening.Show();
-                        Thread.Sleep(3000);
-                        // Application.Run(waitFormOpening);
-                    }
-                    catch (ThreadAbortException)
-                    {
+        //            if (loading.ThreadState == System.Threading.ThreadState.AbortRequested)
+        //            {
+        //                Thread.ResetAbort();
+        //            }
+        //            try
+        //            {
+        //                waitFormOpening.Show();
+        //                Thread.Sleep(3000);
+        //                // Application.Run(waitFormOpening);
+        //            }
+        //            catch (ThreadAbortException)
+        //            {
 
-                    }
+        //            }
 
-                }
-            }
-            catch (ThreadAbortException)
-            {
+        //        }
+        //    }
+        //    catch (ThreadAbortException)
+        //    {
 
-            }
+        //    }
 
-        }
+        //}
 
-        void Splashopening()
-        {
-            //try
-            //{
-            //    if (!formloading)
-            //    {
-            //        Engineering.WaitFormLoading waitFormOpening = new Engineering.WaitFormLoading();
-            //        waitFormOpening.Location = new Point(this.Location.X + (this.Width - waitFormOpening.Width) / 2, this.Location.Y + (this.Height - waitFormOpening.Height) / 2);
-            //        loading = Thread.CurrentThread;
+        //void Splashopening()
+        //{
+        //    //try
+        //    //{
+        //    //    if (!formloading)
+        //    //    {
+        //    //        Engineering.WaitFormLoading waitFormOpening = new Engineering.WaitFormLoading();
+        //    //        waitFormOpening.Location = new Point(this.Location.X + (this.Width - waitFormOpening.Width) / 2, this.Location.Y + (this.Height - waitFormOpening.Height) / 2);
+        //    //        loading = Thread.CurrentThread;
 
-            //        if (loading.ThreadState == ThreadState.AbortRequested)
-            //        {
-            //            Thread.ResetAbort();
-            //        }
-            //        try
-            //        {
-            //            Application.Run(waitFormOpening);
-            //            Thread.Sleep(3000);
-            //        }
-            //        catch (ThreadAbortException)
-            //        {
+        //    //        if (loading.ThreadState == ThreadState.AbortRequested)
+        //    //        {
+        //    //            Thread.ResetAbort();
+        //    //        }
+        //    //        try
+        //    //        {
+        //    //            Application.Run(waitFormOpening);
+        //    //            Thread.Sleep(3000);
+        //    //        }
+        //    //        catch (ThreadAbortException)
+        //    //        {
 
-            //        }
+        //    //        }
 
 
-            //    }
+        //    //    }
 
-            //}
-            //catch (ThreadAbortException)
-            //{
+        //    //}
+        //    //catch (ThreadAbortException)
+        //    //{
 
-            //}
+        //    //}
 
-        }
+        //}
 
-        void Splashemail()
-        {
-            try
-            {
-                if (!formloading)
-                {
-                    Engineering.WaitFormEmail waitFormOpening = new Engineering.WaitFormEmail();
-                    waitFormOpening.Location = new Point(this.Location.X + (this.Width - waitFormOpening.Width) / 2, this.Location.Y + (this.Height - waitFormOpening.Height) / 2);
+        //void Splashemail()
+        //{
+        //    try
+        //    {
+        //        if (!formloading)
+        //        {
+        //            Engineering.WaitFormEmail waitFormOpening = new Engineering.WaitFormEmail();
+        //            waitFormOpening.Location = new Point(this.Location.X + (this.Width - waitFormOpening.Width) / 2, this.Location.Y + (this.Height - waitFormOpening.Height) / 2);
 
-                    loading = Thread.CurrentThread;
+        //            loading = Thread.CurrentThread;
 
-                    if (loading.ThreadState == ThreadState.Aborted)
-                    {
-                        Thread.ResetAbort();
-                    }
-                    try
-                    {
+        //            if (loading.ThreadState == System.Threading.ThreadState.Aborted)
+        //            {
+        //                Thread.ResetAbort();
+        //            }
+        //            try
+        //            {
 
-                        Application.Run(waitFormOpening);
-                        Thread.Sleep(3000);
-                    }
-                    catch (ThreadAbortException)
-                    {
+        //                Application.Run(waitFormOpening);
+        //                Thread.Sleep(3000);
+        //            }
+        //            catch (ThreadAbortException)
+        //            {
 
-                    }
+        //            }
 
-                }
-            }
-            catch (ThreadAbortException)
-            {
+        //        }
+        //    }
+        //    catch (ThreadAbortException)
+        //    {
 
-            }
+        //    }
 
-        }
+        //}
     }
 
  }

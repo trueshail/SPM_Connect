@@ -1240,10 +1240,35 @@ namespace SearchDataSPM
 
         private void purchasereq_Click(object sender, EventArgs e)
         {
+            int openforms = Application.OpenForms.Count;
+            if (openforms > 2)
+            {
+                bool purchasereqopen = false;
 
-            PurchaseReqform purchaseReq = new PurchaseReqform();
-            purchaseReq.Show();
-
+                foreach (Form frm in Application.OpenForms)
+                {
+                   
+                    if (frm.Name.ToString() == "PurchaseReqform")
+                    {
+                        purchasereqopen = true;
+                        frm.Show();
+                        frm.Activate();
+                        frm.BringToFront();
+                        frm.Focus();
+                        frm.WindowState = FormWindowState.Normal;
+                    }
+                    
+                }
+                if (purchasereqopen)
+                {
+                   
+                }
+                else
+                {
+                    PurchaseReqform purchaseReq = new PurchaseReqform();
+                    purchaseReq.Show();
+                }
+            }
         }
 
         private String getselectedjobnumber()

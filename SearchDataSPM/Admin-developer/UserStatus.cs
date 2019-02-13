@@ -56,9 +56,9 @@ namespace SearchDataSPM.Admin_developer
                 dt.Clear();
                 sda.Fill(dt);
                 dataGridView1.DataSource = dt;
-                dataGridView1.Columns[0].Width = 160;
-                dataGridView1.Columns[1].Width = 200;
-                dataGridView1.Columns[2].Width = 150;
+                dataGridView1.Columns[0].Width = 150;
+                dataGridView1.Columns[1].Width = 170;
+                dataGridView1.Columns[2].Width = 120;
                 UpdateFont();
             }
             catch (Exception)
@@ -80,6 +80,8 @@ namespace SearchDataSPM.Admin_developer
             dataGridView1.DefaultCellStyle.BackColor = Color.FromArgb(237, 237, 237);
             dataGridView1.DefaultCellStyle.SelectionForeColor = Color.Yellow;
             dataGridView1.DefaultCellStyle.SelectionBackColor = Color.Black;
+            string count = dataGridView1.Rows.Count.ToString();
+            this.Text = "User Status - " + count + " users live";
         }
 
         private void Checkdeveloper()

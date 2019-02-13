@@ -92,7 +92,7 @@ namespace SearchDataSPM
 
         private void fillsupervisor()
         {
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT CONCAT(id, ' ', Name) as Supervisors  FROM [SPM_Database].[dbo].[Users]  WHERE PurchaseReqApproval = '1'", cn))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT CONCAT(id, ' ', Name) as Supervisors  FROM [SPM_Database].[dbo].[Users]  WHERE PurchaseReqApproval = '1'  OR PurchaseReqApproval2 ='1'", cn))
             {
                 try
                 {
@@ -899,7 +899,7 @@ namespace SearchDataSPM
             if (papproval2chk.Checked)
             {
                 pbuyerchk.Checked = false;
-                papprovalchk.Checked = false;
+                //papprovalchk.Checked = false;
             }
         }
     }
