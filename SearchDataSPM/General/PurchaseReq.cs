@@ -3086,7 +3086,7 @@ namespace SearchDataSPM
             }
             else if (higherauthority && supervisor)
             {
-                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '1' AND Validate = '1' AND HApproval = '1' AND Happroved = '0' UNION SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Validate = '1' AND SupervisorId = '" + myid + "' ORDER BY ReqNumber DESC", cn))
+                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '1' AND Validate = '1' AND HApproval = '1' AND Happroved = '0' UNION SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Validate = '1' AND Approved = '0' AND SupervisorId = '" + myid + "' ORDER BY ReqNumber DESC", cn))
                 {
                     try
                     {
