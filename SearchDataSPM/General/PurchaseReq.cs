@@ -16,6 +16,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace SearchDataSPM
 {
@@ -103,7 +104,7 @@ namespace SearchDataSPM
             }
 
             formloading = false;
-            
+
             Debug.WriteLine(myid);
             Debug.WriteLine(supervisorid);
             Debug.WriteLine(userfullname);
@@ -274,6 +275,8 @@ namespace SearchDataSPM
 
         private string getuserfullname(string username)
         {
+
+            string fullname = "";
             try
             {
                 if (cn.State == ConnectionState.Closed)
@@ -287,7 +290,7 @@ namespace SearchDataSPM
                 da.Fill(dt);
                 foreach (DataRow dr in dt.Rows)
                 {
-                    string fullname = dr["Name"].ToString();
+                     fullname = dr["Name"].ToString();
                     supervisorid = Convert.ToInt32(dr["Supervisor"].ToString());
 
                     myid = Convert.ToInt32(dr["id"].ToString());
@@ -307,7 +310,7 @@ namespace SearchDataSPM
                         pbuyer = true;
                     }
 
-                    return fullname;
+                    
                 }
             }
             catch (Exception ex)
@@ -321,7 +324,7 @@ namespace SearchDataSPM
             {
                 cn.Close();
             }
-            return null;
+            return fullname;
         }
 
         #endregion
@@ -800,7 +803,7 @@ namespace SearchDataSPM
                 {
                     // t.Abort();
                 }
-               
+
                 Cursor.Current = Cursors.WaitCursor;
                 this.Enabled = false;
                 //tabControl1.TabPages.Remove(PreviewTabPage);
@@ -842,7 +845,7 @@ namespace SearchDataSPM
                         UpdateReq(Convert.ToInt32(purchreqtxt.Text), typeofsave);
                         if (bttnshowmyreq.Visible)
                         {
-                           // bttnshowmyreq.PerformClick();
+                            // bttnshowmyreq.PerformClick();
                             perfromshowmyreqbuttn();
                         }
                         else
@@ -1455,18 +1458,18 @@ namespace SearchDataSPM
                                         purchasedchk.Text = "Purchase";
                                         purchasedchk.Checked = false;
                                         //printbttn.Enabled = false;
-                                        if(supervisor && higherauthority)
+                                        if (supervisor && higherauthority)
                                         {
                                             editbttn.Visible = true;
                                         }
                                         else
                                         {
-                                            if(getrequestname() == userfullname)
+                                            if (getrequestname() == userfullname)
                                             {
                                                 editbttn.Visible = false;
                                             }
                                         }
-                                        
+
                                     }
                                 }
                                 else
@@ -1643,8 +1646,8 @@ namespace SearchDataSPM
 
                 if (result == DialogResult.Yes)
                 {
-                   
-                    if (jobnumbertxt.Text.Length > 0 && subassytxt.Text.Length > 0 && dataGridView1.Rows.Count>0)
+
+                    if (jobnumbertxt.Text.Length > 0 && subassytxt.Text.Length > 0 && dataGridView1.Rows.Count > 0)
                     {
                         string reqno = purchreqtxt.Text;
                         processsavebutton(true, "Validated");
@@ -1708,15 +1711,15 @@ namespace SearchDataSPM
                             errorProvider1.SetError(jobnumbertxt, "Job Number cannot be empty");
                             errorProvider1.SetError(subassytxt, "Sub Assy No cannot be empty");
                         }
-                        if (dataGridView1.Rows.Count< 1 && jobnumbertxt.Text.Length > 0 && subassytxt.Text.Length > 0)
+                        if (dataGridView1.Rows.Count < 1 && jobnumbertxt.Text.Length > 0 && subassytxt.Text.Length > 0)
                         {
                             errorProvider1.Clear();
-                            MetroFramework.MetroMessageBox.Show(this, "System cannot send out this purchase req for approval as there are no items to order.","SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                          
+                            MetroFramework.MetroMessageBox.Show(this, "System cannot send out this purchase req for approval as there are no items to order.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
                         }
                         Validatechk.Checked = false;
                     }
-      
+
                 }
                 else
                 {
@@ -1866,7 +1869,7 @@ namespace SearchDataSPM
                             string filename = makefilenameforreport(reqno, false).ToString();
                             SaveReport(reqno, filename);
                             preparetosendemail(reqno, false, requestby, filename, happroval(), "supervisor");
-
+                            exporttoexcel();
                             //t.Abort();
                             //this.TopMost = true;
                             this.Enabled = true;
@@ -1894,7 +1897,7 @@ namespace SearchDataSPM
                             approvechk.Checked = false;
                         }
 
-                       
+
                     }
                     else
                     {
@@ -2036,7 +2039,7 @@ namespace SearchDataSPM
                         this.Activate();
                         this.Enabled = true;
                         done = true;
-                        
+
                         //Thread t = new Thread(new ThreadStart(Splashopening));
                         //t.Start();
                         //loading = new Thread(new ThreadStart(Splashopening));
@@ -2052,7 +2055,7 @@ namespace SearchDataSPM
                     }
                     //catch (ThreadAbortException)
                     //{
-                       
+
                     //}
                     catch (Exception)
                     {
@@ -2930,7 +2933,7 @@ namespace SearchDataSPM
             this.Enabled = true;
             this.Focus();
             this.Activate();
-            
+
             done = true;
         }
 
@@ -3195,7 +3198,7 @@ namespace SearchDataSPM
                     }
 
                 }
-              
+
             }
             else if (pbuyer)
             {
@@ -3222,7 +3225,7 @@ namespace SearchDataSPM
                     }
 
                 }
-               
+
             }
             else if (supervisor)
             {
@@ -3280,7 +3283,7 @@ namespace SearchDataSPM
                     }
 
                 }
-                
+
             }
             else if (pbuyer)
             {
@@ -3334,7 +3337,7 @@ namespace SearchDataSPM
                     }
 
                 }
-                
+
             }
 
         }
@@ -3388,7 +3391,7 @@ namespace SearchDataSPM
 
                         preparetosendemail(reqno, false, requestby, filename, false, "highautority");
 
-                       // t.Abort();
+                        // t.Abort();
                         // this.TopMost = true;
                         this.Enabled = true;
                         this.Focus();
@@ -3634,7 +3637,147 @@ namespace SearchDataSPM
         //    }
 
         //}
-    }
 
- }
- 
+        #region export to excel
+
+        private void exporttoexcel()
+        {
+            try
+            {
+                //SaveFileDialog sfd = new SaveFileDialog();
+                //sfd.Filter = "Excel Documents (*.xls)|*.xls";
+                //sfd.FileName = "Inventory_Adjustment_Export.xls";
+
+                string filepath = getsupervisorsharepath(get_username()).ToString() + @"\SPM_Connect\PreliminaryPurchases\";
+                System.IO.Directory.CreateDirectory(filepath);
+                filepath += purchreqtxt.Text + " - "+ requestbytxt.Text +".xls";
+                // Copy DataGridView results to clipboard
+                copyAlltoClipboard();
+
+                object misValue = System.Reflection.Missing.Value;
+                Excel.Application xlexcel = new Excel.Application();
+
+                xlexcel.DisplayAlerts = false; // Without this you will get two confirm overwrite prompts
+                Excel.Workbook xlWorkBook = xlexcel.Workbooks.Add(misValue);
+                Excel.Worksheet xlWorkSheet = (Excel.Worksheet)xlWorkBook.Worksheets.get_Item(1);
+
+                // Format column D as text before pasting results, this was required for my data
+
+
+                // Paste clipboard results to worksheet range
+                Excel.Range CR = (Excel.Range)xlWorkSheet.Cells[2, 1];
+                CR.Select();
+                xlWorkSheet.PasteSpecial(CR, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, true);
+
+                // For some reason column A is always blank in the worksheet. ¯\_(ツ)_/¯
+                // Delete blank column A and select cell A1
+                Excel.Range delRng;
+                delRng = xlWorkSheet.get_Range("G:G").Cells;
+                delRng.Delete();
+                delRng = xlWorkSheet.get_Range("F:F").Cells;
+                delRng.Delete();
+                delRng = xlWorkSheet.get_Range("E:E").Cells;
+                delRng.Delete();
+                delRng = xlWorkSheet.get_Range("D:D").Cells;
+                delRng.Delete();
+                delRng = xlWorkSheet.get_Range("A:A").Cells;
+                delRng.Delete();
+
+                Excel.Range rng = xlWorkSheet.get_Range("D:D").Cells;
+                rng.NumberFormat = "@";
+
+                xlWorkSheet.Cells[1, 1] = "Item";
+                xlWorkSheet.Cells[1, 2] = "AllocatedQuantity";
+
+                //xlWorkSheet.get_Range("A1").Select();
+
+                // Save the excel file under the captured location from the SaveFileDialog
+                xlWorkBook.SaveAs(filepath, Excel.XlFileFormat.xlWorkbookNormal, misValue, misValue, misValue, misValue, Excel.XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
+                xlexcel.DisplayAlerts = true;
+                xlWorkBook.Close(true, misValue, misValue);
+                xlexcel.Quit();
+
+                releaseObject(xlWorkSheet);
+                releaseObject(xlWorkBook);
+                releaseObject(xlexcel);
+
+                // Clear Clipboard and DataGridView selection
+                Clipboard.Clear();
+                dataGridView1.ClearSelection();
+
+                // Open the newly saved excel file
+                //if (File.Exists(filepath))
+                //    System.Diagnostics.Process.Start(filepath);
+            }
+            catch(Exception ex)
+            {
+                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Error Saving excel file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
+        }
+
+        private void copyAlltoClipboard()
+        {
+            dataGridView1.SelectAll();
+            DataObject dataObj = dataGridView1.GetClipboardContent();
+            if (dataObj != null)
+                Clipboard.SetDataObject(dataObj);
+        }
+
+        private void releaseObject(object obj)
+        {
+            try
+            {
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
+                obj = null;
+            }
+            catch (Exception ex)
+            {
+                obj = null;
+                MessageBox.Show("Exception Occurred while releasing object " + ex.ToString());
+            }
+            finally
+            {
+                GC.Collect();
+            }
+        }
+
+        private string getsupervisorsharepath(string username)
+        {
+
+            string path = "";
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + username.ToString() + "' ";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    path = dr["SharesFolder"].ToString();
+                   
+                }
+            }
+            catch (Exception ex)
+            {
+
+                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Error Getting share folder path", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return path;
+        }
+
+        #endregion
+
+    }
+}

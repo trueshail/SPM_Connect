@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
 {
-
     public partial class spmadmin : Form
-
     {
         #region steupvariables
         String connection;
@@ -46,7 +45,8 @@ namespace SearchDataSPM
 
         private void ParentView_Load(object sender, EventArgs e)
         {
-           
+            fillsupervisor();
+
             Connect_SPMSQL(0);
         }
 
@@ -71,10 +71,10 @@ namespace SearchDataSPM
                 }
                 if (Userlistbox.Items.Count > 0)
                 {
-                   
+
                     Userlistbox.SelectedItem = Userlistbox.Items[index];
                 }
-                   
+
             }
             catch (Exception ex)
             {
@@ -86,7 +86,7 @@ namespace SearchDataSPM
             finally
             {
                 cn.Close();
-                fillsupervisor();
+
             }
         }
 
@@ -123,6 +123,8 @@ namespace SearchDataSPM
 
         #endregion
 
+        #region Fillinfo
+
         private void Userlistbox_SelectedIndexChanged(object sender, EventArgs e)
         {
             selectionchanged(selectedindex);
@@ -149,6 +151,7 @@ namespace SearchDataSPM
                     domaintxtbox.Text = dr["UserName"].ToString();
                     activecadblocktxt.Text = dr["ActiveBlockNumber"].ToString();
                     useremailtxt.Text = dr["Email"].ToString();
+                    sharepathtxt.Text = dr["SharesFolder"].ToString();
                     idlabel.Text = "Id : " + dr["id"].ToString();
 
                     if (dr["Supervisor"].ToString().Length > 0)
@@ -211,32 +214,32 @@ namespace SearchDataSPM
                     }
                     if (dr["PurchaseReqApproval"].ToString().Equals("1"))
                     {
-                        
+
                         papprovalchk.Checked = true;
                     }
                     else
                     {
-                        
+
                         papprovalchk.Checked = false;
                     }
                     if (dr["PurchaseReqBuyer"].ToString().Equals("1"))
                     {
-                        
+
                         pbuyerchk.Checked = true;
                     }
                     else
                     {
-                       
+
                         pbuyerchk.Checked = false;
                     }
                     if (dr["PurchaseReqApproval2"].ToString().Equals("1"))
                     {
-                        
+
                         papproval2chk.Checked = true;
                     }
                     else
                     {
-                        
+
                         papproval2chk.Checked = false;
                     }
                     if (dr["PurchaseReq"].ToString().Equals("1"))
@@ -307,12 +310,18 @@ namespace SearchDataSPM
             return null;
         }
 
+        #endregion
+
+        #region Perfrom CRUD
+
         private void addnewbttn_Click(object sender, EventArgs e)
         {
             selectedindex = Userlistbox.SelectedIndex;
             nametextbox.ReadOnly = false;
             activecadblocktxt.ReadOnly = false;
             useremailtxt.ReadOnly = false;
+            //sharepathtxt.ReadOnly = false;
+            selectfolder.Enabled = true;
             domaintxtbox.ReadOnly = false;
             delbttn.Visible = false;
             updatebttn.Visible = false;
@@ -320,6 +329,7 @@ namespace SearchDataSPM
             domaintxtbox.Text = @"SPM\";
             activecadblocktxt.Text = "";
             useremailtxt.Text = "";
+            sharepathtxt.Text = @"\\SPM-ADFS\Shares\";
             idlabel.Text = "";
             engradio.Enabled = true;
             radioButton1.Enabled = true;
@@ -335,7 +345,7 @@ namespace SearchDataSPM
             papprovalchk.Enabled = true;
             papproval2chk.Enabled = true;
             pbuyerchk.Enabled = true;
-          
+
             preqyes.Enabled = true;
             preqno.Enabled = true;
             priceyes.Enabled = true;
@@ -406,6 +416,7 @@ namespace SearchDataSPM
                     domaintxtbox.Text = @"SPM\";
                     activecadblocktxt.Text = "";
                     useremailtxt.Text = "";
+                    sharepathtxt.Text = "";
                     idlabel.Text = "";
 
                     radioButton1.Checked = false;
@@ -422,7 +433,7 @@ namespace SearchDataSPM
                     papprovalchk.Checked = false;
                     papproval2chk.Checked = false;
                     pbuyerchk.Checked = false;
-                   
+
                     preqyes.Checked = false;
                     preqno.Checked = false;
                     priceyes.Checked = false;
@@ -448,6 +459,8 @@ namespace SearchDataSPM
             nametextbox.ReadOnly = false;
             activecadblocktxt.ReadOnly = false;
             useremailtxt.ReadOnly = false;
+            //sharepathtxt.ReadOnly = false;
+            selectfolder.Enabled = true;
             engradio.Enabled = true;
             radioButton1.Enabled = true;
             radioButton2.Enabled = true;
@@ -462,7 +475,7 @@ namespace SearchDataSPM
             papprovalchk.Enabled = true;
             papproval2chk.Enabled = true;
             pbuyerchk.Enabled = true;
-           
+
             preqyes.Enabled = true;
             preqno.Enabled = true;
             priceyes.Enabled = true;
@@ -529,7 +542,7 @@ namespace SearchDataSPM
                 {
                     SqlCommand cmd = cn.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[Users] SET Department = '" + (engradio.Checked ? "Eng" : radioButton4.Checked ? "Controls" : "Production") + "',Admin = '" + (radioButton1.Checked ? "1" : "0") + "',Name = '" + nametextbox.Text + "',ActiveBlockNumber = '" + activeblocknumber + "',Developer = '" + (DevradioButtonYes.Checked ? "1" : "0") + "',Management = '" + (manageradioButtonyes.Checked ? "1" : "0") + "',Quote = '" + (quoteyes.Checked ? "1" : "0") + "',PurchaseReq = '" + (preqyes.Checked ? "1" : "0") + "',PurchaseReqApproval = '" + (papprovalchk.Checked ? "1" : "0") + "',PurchaseReqApproval2 = '" + (papproval2chk.Checked ? "1" : "0") + "',PurchaseReqBuyer = '" + (pbuyerchk.Checked ? "1" : "0") + "',Supervisor = '" + supervisorcombox.SelectedItem.ToString().Substring(0,2) + "',Email = '" + useremailtxt.Text + "',PriceRight = '" + (priceyes.Checked ? "1" : "0") + "' WHERE UserName = '" + domaintxtbox.Text + "' ";
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[Users] SET Department = '" + (engradio.Checked ? "Eng" : radioButton4.Checked ? "Controls" : "Production") + "',Admin = '" + (radioButton1.Checked ? "1" : "0") + "',Name = '" + nametextbox.Text + "',ActiveBlockNumber = '" + activeblocknumber + "',Developer = '" + (DevradioButtonYes.Checked ? "1" : "0") + "',Management = '" + (manageradioButtonyes.Checked ? "1" : "0") + "',Quote = '" + (quoteyes.Checked ? "1" : "0") + "',PurchaseReq = '" + (preqyes.Checked ? "1" : "0") + "',PurchaseReqApproval = '" + (papprovalchk.Checked ? "1" : "0") + "',PurchaseReqApproval2 = '" + (papproval2chk.Checked ? "1" : "0") + "',PurchaseReqBuyer = '" + (pbuyerchk.Checked ? "1" : "0") + "',Supervisor = '" + supervisorcombox.SelectedItem.ToString().Substring(0, 2) + "',Email = '" + useremailtxt.Text + "',PriceRight = '" + (priceyes.Checked ? "1" : "0") + "',SharesFolder = '" + sharepathtxt.Text + "' WHERE UserName = '" + domaintxtbox.Text + "' ";
 
                     cmd.ExecuteNonQuery();
                     cn.Close();
@@ -540,7 +553,7 @@ namespace SearchDataSPM
                     updatebttn.Visible = true;
                     addnewbttn.Visible = true;
                     cnclbttn.Visible = false;
-
+                    selectfolder.Enabled = false;
                     radioButton1.Enabled = false;
                     radioButton2.Enabled = false;
                     radioButton4.Enabled = false;
@@ -555,7 +568,7 @@ namespace SearchDataSPM
                     papprovalchk.Enabled = false;
                     papproval2chk.Enabled = false;
                     pbuyerchk.Enabled = false;
-                   
+
                     preqyes.Enabled = false;
                     preqno.Enabled = false;
                     priceyes.Enabled = false;
@@ -567,6 +580,7 @@ namespace SearchDataSPM
                     domaintxtbox.ReadOnly = true;
                     Userlistbox.Enabled = true;
                     useremailtxt.ReadOnly = true;
+                    //sharepathtxt.ReadOnly = true;
                     button1.Enabled = true;
                     reluanchbttn.Enabled = true;
                     custbttn.Enabled = true;
@@ -588,6 +602,8 @@ namespace SearchDataSPM
             {
                 domaintxtbox.Text = "";
                 useremailtxt.Text = "";
+                sharepathtxt.Text = "";
+                selectfolder.Enabled = false;
                 idlabel.Text = "";
                 radioButton1.Enabled = false;
                 radioButton2.Enabled = false;
@@ -615,6 +631,7 @@ namespace SearchDataSPM
                 activecadblocktxt.Text = "";
                 activecadblocktxt.ReadOnly = true;
                 useremailtxt.ReadOnly = true;
+                sharepathtxt.ReadOnly = true;
                 domaintxtbox.ReadOnly = true;
                 updatesavebttn.Visible = false;
                 performcancelbutton();
@@ -657,7 +674,7 @@ namespace SearchDataSPM
                 {
                     SqlCommand cmd = cn.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Users] VALUES('" + domaintxtbox.Text + "','" + (engradio.Checked ? "Eng" : radioButton4.Checked ? "Controls" : "Production") + "','" + nametextbox.Text + "','" + activeblocknumber + "','" + (radioButton1.Checked ? "1" : "0") + "','" + (DevradioButtonYes.Checked ? "1" : "0") + "','" + (manageradioButtonyes.Checked ? "1" : "0") + "','" + (quoteyes.Checked ? "1" : "0") + "','" + (preqyes.Checked ? "1" : "0") + "','" + (papprovalchk.Checked ? "1" : "0") + "','" + (papproval2chk.Checked ? "1" : "0") + "','" + (pbuyerchk.Checked ? "1" : "0") + "','" + supervisorcombox.SelectedItem.ToString().Substring(0,2).TrimEnd() + "','" + useremailtxt.Text + "','" + (priceyes.Checked ? "1" : "0") + "')";
+                    cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Users] VALUES('" + domaintxtbox.Text + "','" + (engradio.Checked ? "Eng" : radioButton4.Checked ? "Controls" : "Production") + "','" + nametextbox.Text + "','" + activeblocknumber + "','" + (radioButton1.Checked ? "1" : "0") + "','" + (DevradioButtonYes.Checked ? "1" : "0") + "','" + (manageradioButtonyes.Checked ? "1" : "0") + "','" + (quoteyes.Checked ? "1" : "0") + "','" + (preqyes.Checked ? "1" : "0") + "','" + (papprovalchk.Checked ? "1" : "0") + "','" + (papproval2chk.Checked ? "1" : "0") + "','" + (pbuyerchk.Checked ? "1" : "0") + "','" + supervisorcombox.SelectedItem.ToString().Substring(0, 2).TrimEnd() + "','" + useremailtxt.Text + "','" + (priceyes.Checked ? "1" : "0") + "','" + sharepathtxt.Text + "')";
                     cmd.ExecuteNonQuery();
                     cn.Close();
                     MessageBox.Show("New user added successfully", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -667,6 +684,7 @@ namespace SearchDataSPM
                     addnewbttn.Visible = true;
                     cnclbttn.Visible = false;
                     updatesavebttn.Visible = false;
+                    selectfolder.Enabled = false;
                     radioButton1.Enabled = false;
                     radioButton2.Enabled = false;
                     radioButton4.Enabled = false;
@@ -681,7 +699,7 @@ namespace SearchDataSPM
                     papprovalchk.Enabled = false;
                     papproval2chk.Enabled = false;
                     pbuyerchk.Enabled = false;
-                  
+
                     preqyes.Enabled = false;
                     preqno.Enabled = false;
                     priceyes.Enabled = false;
@@ -691,6 +709,7 @@ namespace SearchDataSPM
                     supervisorcombox.Enabled = false;
                     nametextbox.ReadOnly = true;
                     useremailtxt.ReadOnly = true;
+                    //sharepathtxt.ReadOnly = true;
                     activecadblocktxt.ReadOnly = true;
                     domaintxtbox.ReadOnly = true;
                     Userlistbox.Enabled = true;
@@ -726,7 +745,7 @@ namespace SearchDataSPM
                 papprovalchk.Enabled = false;
                 papproval2chk.Enabled = false;
                 pbuyerchk.Enabled = false;
-               
+                selectfolder.Enabled = false;
                 preqyes.Enabled = false;
                 preqno.Enabled = false;
 
@@ -737,6 +756,7 @@ namespace SearchDataSPM
                 nametextbox.Text = "";
                 nametextbox.ReadOnly = true;
                 useremailtxt.ReadOnly = true;
+                sharepathtxt.ReadOnly = true;
                 activecadblocktxt.ReadOnly = true;
                 domaintxtbox.ReadOnly = true;
                 updatesavebttn.Visible = false;
@@ -768,7 +788,7 @@ namespace SearchDataSPM
             papprovalchk.Enabled = false;
             papproval2chk.Enabled = false;
             pbuyerchk.Enabled = false;
-            
+
             preqyes.Enabled = false;
             preqno.Enabled = false;
 
@@ -780,6 +800,8 @@ namespace SearchDataSPM
             nametextbox.ReadOnly = true;
             activecadblocktxt.ReadOnly = true;
             useremailtxt.ReadOnly = true;
+            //sharepathtxt.ReadOnly = true;
+            selectfolder.Enabled = false;
             domaintxtbox.ReadOnly = true;
             updatesavebttn.Visible = false;
 
@@ -796,28 +818,40 @@ namespace SearchDataSPM
             Userlistbox.SelectedIndex = 0;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            SPM_ConnectDuplicates sPM_Connect = new SPM_ConnectDuplicates();
-            sPM_Connect.ShowDialog();
-
+            if (papprovalchk.Checked)
+            {
+                pbuyerchk.Checked = false;
+                papproval2chk.Checked = false;
+            }
         }
 
-        private void SPM_DoubleClick(object sender, EventArgs e)
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("http://www.spm-automation.com/");
+            if (pbuyerchk.Checked)
+            {
+                papprovalchk.Checked = false;
+                papproval2chk.Checked = false;
+            }
         }
 
-        private void reluanchbttn_Click(object sender, EventArgs e)
+        private void checkBox3_CheckedChanged(object sender, EventArgs e)
         {
-            Application.Restart();
-            Environment.Exit(0);
+            if (papproval2chk.Checked)
+            {
+                pbuyerchk.Checked = false;
+                //papprovalchk.Checked = false;
+            }
         }
 
-        private void UserStats_Click(object sender, EventArgs e)
+        private void selectfolder_Click(object sender, EventArgs e)
         {
-            Admin_developer.UserStatus userStatus = new Admin_developer.UserStatus();
-            userStatus.ShowDialog();
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                sharepathtxt.Text = Path.GetDirectoryName(openFileDialog1.FileName);
+
+            }
         }
 
         private void activecadblocktxt_TextChanged(object sender, EventArgs e)
@@ -859,6 +893,34 @@ namespace SearchDataSPM
 
         }
 
+        #endregion
+
+        #region Button Click Events
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            SPM_ConnectDuplicates sPM_Connect = new SPM_ConnectDuplicates();
+            sPM_Connect.ShowDialog();
+
+        }
+
+        private void SPM_DoubleClick(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://www.spm-automation.com/");
+        }
+
+        private void reluanchbttn_Click(object sender, EventArgs e)
+        {
+            Application.Restart();
+            Environment.Exit(0);
+        }
+
+        private void UserStats_Click(object sender, EventArgs e)
+        {
+            Admin_developer.UserStatus userStatus = new Admin_developer.UserStatus();
+            userStatus.ShowDialog();
+        }
+
         private void custbttn_Click(object sender, EventArgs e)
         {
             Customers customers = new Customers();
@@ -876,32 +938,6 @@ namespace SearchDataSPM
             this.Dispose();
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-            if (papprovalchk.Checked)
-            {
-                pbuyerchk.Checked = false;
-                papproval2chk.Checked = false;
-            }
-        }
-
-        private void checkBox2_CheckedChanged(object sender, EventArgs e)
-        {
-            if (pbuyerchk.Checked)
-            {
-                papprovalchk.Checked = false;
-                papproval2chk.Checked = false;
-            }
-        }
-
-        private void checkBox3_CheckedChanged(object sender, EventArgs e)
-        {
-            if (papproval2chk.Checked)
-            {
-                pbuyerchk.Checked = false;
-                //papprovalchk.Checked = false;
-            }
-        }
+        #endregion
     }
-
 }

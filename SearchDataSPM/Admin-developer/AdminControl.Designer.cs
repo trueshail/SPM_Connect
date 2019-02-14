@@ -97,6 +97,10 @@
             this.panel6 = new System.Windows.Forms.Panel();
             this.priceno = new System.Windows.Forms.RadioButton();
             this.priceyes = new System.Windows.Forms.RadioButton();
+            this.sharepathtxt = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.selectfolder = new System.Windows.Forms.Button();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.contextMenuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -159,7 +163,7 @@
             this.nametextbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.nametextbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nametextbox.Location = new System.Drawing.Point(361, 15);
+            this.nametextbox.Location = new System.Drawing.Point(361, 7);
             this.nametextbox.MaximumSize = new System.Drawing.Size(180, 20);
             this.nametextbox.MinimumSize = new System.Drawing.Size(180, 20);
             this.nametextbox.Name = "nametextbox";
@@ -174,7 +178,7 @@
             this.domaintxtbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.domaintxtbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.domaintxtbox.Location = new System.Drawing.Point(361, 55);
+            this.domaintxtbox.Location = new System.Drawing.Point(361, 36);
             this.domaintxtbox.MaximumSize = new System.Drawing.Size(180, 20);
             this.domaintxtbox.MinimumSize = new System.Drawing.Size(180, 20);
             this.domaintxtbox.Name = "domaintxtbox";
@@ -189,7 +193,7 @@
             this.activecadblocktxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.activecadblocktxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.activecadblocktxt.Location = new System.Drawing.Point(362, 92);
+            this.activecadblocktxt.Location = new System.Drawing.Point(362, 66);
             this.activecadblocktxt.MaximumSize = new System.Drawing.Size(180, 20);
             this.activecadblocktxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.activecadblocktxt.Name = "activecadblocktxt";
@@ -333,7 +337,7 @@
             this.department.AutoSize = true;
             this.department.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.department.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.department.Location = new System.Drawing.Point(234, 167);
+            this.department.Location = new System.Drawing.Point(234, 177);
             this.department.MaximumSize = new System.Drawing.Size(90, 15);
             this.department.Name = "department";
             this.department.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -348,7 +352,7 @@
             this.username.AutoSize = true;
             this.username.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.username.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.username.Location = new System.Drawing.Point(269, 47);
+            this.username.Location = new System.Drawing.Point(269, 28);
             this.username.Name = "username";
             this.username.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.username.Size = new System.Drawing.Size(79, 30);
@@ -401,7 +405,7 @@
             this.UserFirstname.AutoSize = true;
             this.UserFirstname.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UserFirstname.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.UserFirstname.Location = new System.Drawing.Point(295, 15);
+            this.UserFirstname.Location = new System.Drawing.Point(295, 7);
             this.UserFirstname.Name = "UserFirstname";
             this.UserFirstname.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.UserFirstname.Size = new System.Drawing.Size(53, 15);
@@ -440,7 +444,7 @@
             this.panel1.Controls.Add(this.radioButton3);
             this.panel1.Controls.Add(this.engradio);
             this.panel1.Controls.Add(this.radioButton4);
-            this.panel1.Location = new System.Drawing.Point(336, 160);
+            this.panel1.Location = new System.Drawing.Point(336, 170);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(230, 33);
             this.panel1.TabIndex = 49;
@@ -465,7 +469,7 @@
             this.Cadblock.AutoSize = true;
             this.Cadblock.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Cadblock.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.Cadblock.Location = new System.Drawing.Point(226, 92);
+            this.Cadblock.Location = new System.Drawing.Point(226, 66);
             this.Cadblock.Name = "Cadblock";
             this.Cadblock.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.Cadblock.Size = new System.Drawing.Size(122, 15);
@@ -680,7 +684,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label5.Location = new System.Drawing.Point(234, 131);
+            this.label5.Location = new System.Drawing.Point(234, 99);
             this.label5.Name = "label5";
             this.label5.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label5.Size = new System.Drawing.Size(86, 15);
@@ -692,7 +696,7 @@
             this.useremailtxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.useremailtxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.useremailtxt.Location = new System.Drawing.Point(326, 128);
+            this.useremailtxt.Location = new System.Drawing.Point(326, 96);
             this.useremailtxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.useremailtxt.Name = "useremailtxt";
             this.useremailtxt.ReadOnly = true;
@@ -929,12 +933,67 @@
             this.priceyes.Text = "Yes";
             this.priceyes.UseVisualStyleBackColor = true;
             // 
+            // sharepathtxt
+            // 
+            this.sharepathtxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.sharepathtxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
+            this.sharepathtxt.Location = new System.Drawing.Point(319, 132);
+            this.sharepathtxt.MinimumSize = new System.Drawing.Size(180, 20);
+            this.sharepathtxt.Name = "sharepathtxt";
+            this.sharepathtxt.ReadOnly = true;
+            this.sharepathtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.sharepathtxt.Size = new System.Drawing.Size(262, 22);
+            this.sharepathtxt.TabIndex = 48;
+            this.sharepathtxt.TextChanged += new System.EventHandler(this.activecadblocktxt_TextChanged);
+            this.sharepathtxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.activecadblocktxt_KeyPress);
+            // 
+            // label11
+            // 
+            this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label11.Location = new System.Drawing.Point(223, 135);
+            this.label11.Name = "label11";
+            this.label11.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label11.Size = new System.Drawing.Size(93, 15);
+            this.label11.TabIndex = 69;
+            this.label11.Text = "Shares Path :";
+            // 
+            // selectfolder
+            // 
+            this.selectfolder.Enabled = false;
+            this.selectfolder.Location = new System.Drawing.Point(587, 133);
+            this.selectfolder.Name = "selectfolder";
+            this.selectfolder.Size = new System.Drawing.Size(30, 20);
+            this.selectfolder.TabIndex = 90;
+            this.selectfolder.Text = "...";
+            this.selectfolder.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.selectfolder.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
+            this.LabelTooltips.SetToolTip(this.selectfolder, "Browse for folder");
+            this.selectfolder.UseVisualStyleBackColor = true;
+            this.selectfolder.Click += new System.EventHandler(this.selectfolder_Click);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.CheckFileExists = false;
+            this.openFileDialog1.CheckPathExists = false;
+            this.openFileDialog1.FileName = "Select Folder";
+            this.openFileDialog1.InitialDirectory = "\\\\SPM-ADFS\\Shares";
+            this.openFileDialog1.Title = "Assign Folder Path";
+            this.openFileDialog1.ValidateNames = false;
+            // 
             // spmadmin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(69)))), ((int)(((byte)(76)))));
             this.ClientSize = new System.Drawing.Size(625, 674);
+            this.Controls.Add(this.selectfolder);
+            this.Controls.Add(this.sharepathtxt);
+            this.Controls.Add(this.label11);
             this.Controls.Add(this.panel6);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.papproval2chk);
@@ -1076,5 +1135,9 @@
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.RadioButton priceno;
         private System.Windows.Forms.RadioButton priceyes;
+        private System.Windows.Forms.TextBox sharepathtxt;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Button selectfolder;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
 }
