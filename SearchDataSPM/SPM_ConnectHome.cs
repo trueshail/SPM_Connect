@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 
@@ -66,7 +67,17 @@ namespace SearchDataSPM
             finally
             {
                 cn.Close();
-                checkforuser();
+                if (!checkmaintenance())
+                {
+                    checkforuser();
+                }
+                else
+                {
+                    MetroFramework.MetroMessageBox.Show(this, "SPM Connect is under maintenance. Cannot start the application. Sorry for the inconvenience.", "System Under Maintenance", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Application.ExitThread();
+                    System.Environment.Exit(0);
+                }
+               
             }
 
             
@@ -186,6 +197,37 @@ namespace SearchDataSPM
 
             }
             return false;
+        }
+
+        private bool checkmaintenance()
+        {
+            bool maintenance = false;
+            string limit = "";
+            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'Maintenance'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    limit = (string)cmd.ExecuteScalar();
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect Error connecting to server", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+            if (limit == "1")
+            {
+                maintenance = true;
+            }
+            return maintenance;
+
         }
 
         private void metroProgressSpinner1_Click(object sender, EventArgs e)
