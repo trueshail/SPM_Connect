@@ -311,6 +311,7 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowDrop = true;
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.AllowUserToOrderColumns = true;
@@ -819,7 +820,7 @@
             this.itemspanel.Controls.Add(this.groupBox3);
             this.itemspanel.Location = new System.Drawing.Point(0, 0);
             this.itemspanel.Name = "itemspanel";
-            this.itemspanel.Size = new System.Drawing.Size(362, 296);
+            this.itemspanel.Size = new System.Drawing.Size(361, 296);
             this.itemspanel.TabIndex = 0;
             // 
             // groupBox3
@@ -848,7 +849,7 @@
             this.groupBox3.Location = new System.Drawing.Point(0, 0);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(1);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(362, 296);
+            this.groupBox3.Size = new System.Drawing.Size(361, 296);
             this.groupBox3.TabIndex = 9;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Add Item to order";
@@ -949,7 +950,7 @@
             this.oemitemnotxt.Name = "oemitemnotxt";
             this.oemitemnotxt.ReadOnly = true;
             this.oemitemnotxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.oemitemnotxt.Size = new System.Drawing.Size(239, 20);
+            this.oemitemnotxt.Size = new System.Drawing.Size(238, 20);
             this.oemitemnotxt.TabIndex = 64;
             this.oemitemnotxt.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.oemitemnotxt, "Manufacturer Item No");
@@ -980,7 +981,7 @@
             this.qtytxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.qtytxt.Name = "qtytxt";
             this.qtytxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.qtytxt.Size = new System.Drawing.Size(239, 22);
+            this.qtytxt.Size = new System.Drawing.Size(238, 22);
             this.qtytxt.TabIndex = 3;
             this.TreeViewToolTip.SetToolTip(this.qtytxt, "Quantity required");
             this.qtytxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.qtytxt_KeyPress);
@@ -1011,7 +1012,7 @@
             this.pricetxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.pricetxt.Name = "pricetxt";
             this.pricetxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.pricetxt.Size = new System.Drawing.Size(239, 22);
+            this.pricetxt.Size = new System.Drawing.Size(238, 22);
             this.pricetxt.TabIndex = 4;
             this.pricetxt.Text = "$0.00";
             this.TreeViewToolTip.SetToolTip(this.pricetxt, "Unit price for the item");
@@ -1046,7 +1047,7 @@
             this.oemtxt.Name = "oemtxt";
             this.oemtxt.ReadOnly = true;
             this.oemtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.oemtxt.Size = new System.Drawing.Size(239, 20);
+            this.oemtxt.Size = new System.Drawing.Size(238, 20);
             this.oemtxt.TabIndex = 58;
             this.oemtxt.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.oemtxt, "Item Manufacturer");
@@ -1081,7 +1082,7 @@
             this.Descriptiontxtbox.Name = "Descriptiontxtbox";
             this.Descriptiontxtbox.ReadOnly = true;
             this.Descriptiontxtbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.Descriptiontxtbox.Size = new System.Drawing.Size(239, 44);
+            this.Descriptiontxtbox.Size = new System.Drawing.Size(238, 44);
             this.Descriptiontxtbox.TabIndex = 55;
             this.Descriptiontxtbox.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.Descriptiontxtbox, "Item Description");
@@ -1113,7 +1114,7 @@
             this.ItemTxtBox.Name = "ItemTxtBox";
             this.ItemTxtBox.ReadOnly = true;
             this.ItemTxtBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.ItemTxtBox.Size = new System.Drawing.Size(239, 20);
+            this.ItemTxtBox.Size = new System.Drawing.Size(238, 20);
             this.ItemTxtBox.TabIndex = 54;
             this.ItemTxtBox.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.ItemTxtBox, "Item Number");
@@ -1131,7 +1132,7 @@
             this.itemsearchtxtbox.MinimumSize = new System.Drawing.Size(200, 20);
             this.itemsearchtxtbox.Name = "itemsearchtxtbox";
             this.itemsearchtxtbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.itemsearchtxtbox.Size = new System.Drawing.Size(294, 22);
+            this.itemsearchtxtbox.Size = new System.Drawing.Size(293, 22);
             this.itemsearchtxtbox.TabIndex = 2;
             this.TreeViewToolTip.SetToolTip(this.itemsearchtxtbox, "Search for item to order \r\nStarting with Letter \'A\' or \'B\' or \'C\'");
             this.itemsearchtxtbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.itemsearchtxtbox_KeyDown);

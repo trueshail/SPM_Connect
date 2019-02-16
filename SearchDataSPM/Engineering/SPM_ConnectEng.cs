@@ -923,8 +923,7 @@ namespace SearchDataSPM
                 dataGridView.Rows[columnindex].Selected = true;
 
             }
-
-
+          
         }
 
         private void openModelToolStripMenuItem_Click(object sender, EventArgs e)
