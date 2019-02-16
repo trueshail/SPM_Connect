@@ -68,9 +68,9 @@ namespace SearchDataSPM
             this.SPM.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SPM.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.SPM.Image = ((System.Drawing.Image)(resources.GetObject("SPM.Image")));
-            this.SPM.Location = new System.Drawing.Point(11, 0);
+            this.SPM.Location = new System.Drawing.Point(11, 39);
             this.SPM.Name = "SPM";
-            this.SPM.Size = new System.Drawing.Size(307, 161);
+            this.SPM.Size = new System.Drawing.Size(306, 96);
             this.SPM.TabIndex = 11;
             this.SPM.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.SPM.UseWaitCursor = true;
@@ -84,7 +84,7 @@ namespace SearchDataSPM
             this.shapeContainer1.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
             this.rectangleShape2,
             this.rectangleShape1});
-            this.shapeContainer1.Size = new System.Drawing.Size(330, 200);
+            this.shapeContainer1.Size = new System.Drawing.Size(330, 196);
             this.shapeContainer1.TabIndex = 12;
             this.shapeContainer1.TabStop = false;
             this.shapeContainer1.UseWaitCursor = true;
@@ -99,7 +99,7 @@ namespace SearchDataSPM
             this.rectangleShape2.FillGradientColor = System.Drawing.Color.White;
             this.rectangleShape2.FillGradientStyle = Microsoft.VisualBasic.PowerPacks.FillGradientStyle.Horizontal;
             this.rectangleShape2.FillStyle = Microsoft.VisualBasic.PowerPacks.FillStyle.Solid;
-            this.rectangleShape2.Location = new System.Drawing.Point(21, 170);
+            this.rectangleShape2.Location = new System.Drawing.Point(21, 163);
             this.rectangleShape2.Name = "rectangleShape2";
             this.rectangleShape2.SelectionColor = System.Drawing.Color.White;
             this.rectangleShape2.Size = new System.Drawing.Size(20, 8);
@@ -111,7 +111,7 @@ namespace SearchDataSPM
             this.rectangleShape1.BorderWidth = 4;
             this.rectangleShape1.CornerRadius = 8;
             this.rectangleShape1.FillGradientStyle = Microsoft.VisualBasic.PowerPacks.FillGradientStyle.Horizontal;
-            this.rectangleShape1.Location = new System.Drawing.Point(16, 165);
+            this.rectangleShape1.Location = new System.Drawing.Point(16, 158);
             this.rectangleShape1.Name = "rectangleShape1";
             this.rectangleShape1.Size = new System.Drawing.Size(300, 18);
             this.rectangleShape1.UseWaitCursor = true;
@@ -121,7 +121,7 @@ namespace SearchDataSPM
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
-            this.ClientSize = new System.Drawing.Size(330, 200);
+            this.ClientSize = new System.Drawing.Size(330, 196);
             this.Controls.Add(this.metroProgressSpinner1);
             this.Controls.Add(this.SPM);
             this.Controls.Add(this.shapeContainer1);
