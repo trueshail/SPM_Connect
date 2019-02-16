@@ -60,7 +60,7 @@
             this.filteroem_txtbox = new System.Windows.Forms.TextBox();
             this.filteroemitem_txtbox = new System.Windows.Forms.TextBox();
             this.SPM = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.versionlabel = new System.Windows.Forms.Label();
             this.filter4 = new System.Windows.Forms.TextBox();
             this.inventoryTableAdapter = new SearchDataSPM.SPM_DatabaseDataSetTableAdapters.InventoryTableAdapter();
             this.tableAdapterManager = new SearchDataSPM.SPM_DatabaseDataSetTableAdapters.TableAdapterManager();
@@ -406,21 +406,21 @@
             this.TreeViewToolTip.SetToolTip(this.SPM, "SPM Automation Inc.");
             this.SPM.DoubleClick += new System.EventHandler(this.SPM_DoubleClick);
             // 
-            // label1
+            // versionlabel
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.versionlabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(954, 4);
-            this.label1.MaximumSize = new System.Drawing.Size(26, 8);
-            this.label1.MinimumSize = new System.Drawing.Size(26, 8);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(26, 8);
-            this.label1.TabIndex = 11;
-            this.label1.Text = "V7.6.1";
-            this.TreeViewToolTip.SetToolTip(this.label1, "SPM Connect V7.6.1");
+            this.versionlabel.AutoSize = true;
+            this.versionlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.versionlabel.ForeColor = System.Drawing.Color.White;
+            this.versionlabel.Location = new System.Drawing.Point(954, 4);
+            this.versionlabel.MaximumSize = new System.Drawing.Size(26, 8);
+            this.versionlabel.MinimumSize = new System.Drawing.Size(26, 8);
+            this.versionlabel.Name = "versionlabel";
+            this.versionlabel.Size = new System.Drawing.Size(26, 8);
+            this.versionlabel.TabIndex = 11;
+            this.versionlabel.Text = "V7.6.1";
+            this.TreeViewToolTip.SetToolTip(this.versionlabel, "SPM Connect V7.6.1");
             // 
             // filter4
             // 
@@ -585,7 +585,7 @@
             this.Controls.Add(this.recordlabel);
             this.Controls.Add(this.jobsbttn);
             this.Controls.Add(this.admin_bttn);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.versionlabel);
             this.Controls.Add(this.SPM);
             this.Controls.Add(this.dataGridView);
             this.Controls.Add(this.Reload);
@@ -623,7 +623,7 @@
 		private System.Windows.Forms.BindingSource inventoryBindingSource3;
 		private SPM_DatabaseDataSetTableAdapters.InventoryTableAdapter inventoryTableAdapter;
 		private SPM_DatabaseDataSetTableAdapters.TableAdapterManager tableAdapterManager;
-		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Label versionlabel;
 		private System.Windows.Forms.TextBox filter4;
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member 'SPM_Connect.txtSearch'
 		public System.Windows.Forms.TextBox txtSearch;

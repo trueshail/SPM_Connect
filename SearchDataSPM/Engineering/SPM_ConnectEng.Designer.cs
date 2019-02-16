@@ -54,7 +54,7 @@ namespace SearchDataSPM
             this.AddNewBttn = new System.Windows.Forms.Button();
             this.jobsbttn = new System.Windows.Forms.Button();
             this.admin_bttn = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
+            this.versionlabel = new System.Windows.Forms.Label();
             this.Reload = new System.Windows.Forms.Button();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.filter4 = new System.Windows.Forms.TextBox();
@@ -327,21 +327,21 @@ namespace SearchDataSPM
             this.admin_bttn.UseVisualStyleBackColor = false;
             this.admin_bttn.Click += new System.EventHandler(this.admin_bttn_Click);
             // 
-            // label1
+            // versionlabel
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.versionlabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(879, 3);
-            this.label1.MaximumSize = new System.Drawing.Size(26, 8);
-            this.label1.MinimumSize = new System.Drawing.Size(26, 8);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(26, 8);
-            this.label1.TabIndex = 116;
-            this.label1.Text = "V7.6.1";
-            this.TreeViewToolTip.SetToolTip(this.label1, "SPM Connect V7.6.1");
+            this.versionlabel.AutoSize = true;
+            this.versionlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.versionlabel.ForeColor = System.Drawing.Color.White;
+            this.versionlabel.Location = new System.Drawing.Point(879, 3);
+            this.versionlabel.MaximumSize = new System.Drawing.Size(26, 8);
+            this.versionlabel.MinimumSize = new System.Drawing.Size(26, 8);
+            this.versionlabel.Name = "versionlabel";
+            this.versionlabel.Size = new System.Drawing.Size(26, 8);
+            this.versionlabel.TabIndex = 116;
+            this.versionlabel.Text = "V7.6.1";
+            this.TreeViewToolTip.SetToolTip(this.versionlabel, "SPM Connect V7.6.1");
             // 
             // Reload
             // 
@@ -471,7 +471,7 @@ namespace SearchDataSPM
             this.Manufactureritemcomboxbox.FormattingEnabled = true;
             this.Manufactureritemcomboxbox.Location = new System.Drawing.Point(5, 376);
             this.Manufactureritemcomboxbox.Name = "Manufactureritemcomboxbox";
-            this.Manufactureritemcomboxbox.Size = new System.Drawing.Size(193, 21);
+            this.Manufactureritemcomboxbox.Size = new System.Drawing.Size(197, 21);
             this.Manufactureritemcomboxbox.TabIndex = 125;
             this.TreeViewToolTip.SetToolTip(this.Manufactureritemcomboxbox, "Filter by OEM item number");
             this.Manufactureritemcomboxbox.TextChanged += new System.EventHandler(this.Manufactureritemcomboxbox_TextChanged);
@@ -488,7 +488,7 @@ namespace SearchDataSPM
             this.familycomboxbox.FormattingEnabled = true;
             this.familycomboxbox.Location = new System.Drawing.Point(5, 227);
             this.familycomboxbox.Name = "familycomboxbox";
-            this.familycomboxbox.Size = new System.Drawing.Size(193, 21);
+            this.familycomboxbox.Size = new System.Drawing.Size(197, 21);
             this.familycomboxbox.TabIndex = 123;
             this.TreeViewToolTip.SetToolTip(this.familycomboxbox, "Filter by family type");
             this.familycomboxbox.TextChanged += new System.EventHandler(this.familycomboxbox_TextChanged);
@@ -505,7 +505,7 @@ namespace SearchDataSPM
             this.lastsavedbycombo.FormattingEnabled = true;
             this.lastsavedbycombo.Location = new System.Drawing.Point(5, 453);
             this.lastsavedbycombo.Name = "lastsavedbycombo";
-            this.lastsavedbycombo.Size = new System.Drawing.Size(193, 21);
+            this.lastsavedbycombo.Size = new System.Drawing.Size(197, 21);
             this.lastsavedbycombo.TabIndex = 126;
             this.TreeViewToolTip.SetToolTip(this.lastsavedbycombo, "Filter by last saved");
             this.lastsavedbycombo.TextChanged += new System.EventHandler(this.lastsavedbycombo_TextChanged);
@@ -525,7 +525,7 @@ namespace SearchDataSPM
             "SPM AUTOMATION (Canada) INC."});
             this.oemitemcombobox.Location = new System.Drawing.Point(5, 301);
             this.oemitemcombobox.Name = "oemitemcombobox";
-            this.oemitemcombobox.Size = new System.Drawing.Size(193, 21);
+            this.oemitemcombobox.Size = new System.Drawing.Size(197, 21);
             this.oemitemcombobox.TabIndex = 124;
             this.TreeViewToolTip.SetToolTip(this.oemitemcombobox, "Filter by manufacture");
             this.oemitemcombobox.TextChanged += new System.EventHandler(this.oemitemcombobox_TextChanged);
@@ -542,7 +542,7 @@ namespace SearchDataSPM
             this.ActiveCadblockcombobox.FormattingEnabled = true;
             this.ActiveCadblockcombobox.Location = new System.Drawing.Point(5, 534);
             this.ActiveCadblockcombobox.Name = "ActiveCadblockcombobox";
-            this.ActiveCadblockcombobox.Size = new System.Drawing.Size(193, 21);
+            this.ActiveCadblockcombobox.Size = new System.Drawing.Size(197, 21);
             this.ActiveCadblockcombobox.TabIndex = 127;
             this.TreeViewToolTip.SetToolTip(this.ActiveCadblockcombobox, "Filter by current cad block number");
             this.ActiveCadblockcombobox.TextChanged += new System.EventHandler(this.ActiveCadblockcombobox_TextChanged);
@@ -563,7 +563,7 @@ namespace SearchDataSPM
             "Joel Goldsmith"});
             this.designedbycombobox.Location = new System.Drawing.Point(5, 150);
             this.designedbycombobox.Name = "designedbycombobox";
-            this.designedbycombobox.Size = new System.Drawing.Size(193, 21);
+            this.designedbycombobox.Size = new System.Drawing.Size(197, 21);
             this.designedbycombobox.TabIndex = 122;
             this.TreeViewToolTip.SetToolTip(this.designedbycombobox, "Filter Designed by");
             this.designedbycombobox.TextChanged += new System.EventHandler(this.designedbycombobox_TextChanged);
@@ -655,7 +655,7 @@ namespace SearchDataSPM
             this.splitContainer1.Panel1.Controls.Add(this.jobsbttn);
             this.splitContainer1.Panel1.Controls.Add(this.listView);
             this.splitContainer1.Panel1.Controls.Add(this.admin_bttn);
-            this.splitContainer1.Panel1.Controls.Add(this.label1);
+            this.splitContainer1.Panel1.Controls.Add(this.versionlabel);
             this.splitContainer1.Panel1.Controls.Add(this.dataGridView);
             this.splitContainer1.Panel1.Controls.Add(this.Reload);
             this.splitContainer1.Panel1.Controls.Add(this.txtSearch);
@@ -1012,7 +1012,7 @@ namespace SearchDataSPM
         private System.Windows.Forms.Button jobsbttn;
         private System.Windows.Forms.ListView listView;
         private System.Windows.Forms.Button admin_bttn;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label versionlabel;
         private System.Windows.Forms.DataGridView dataGridView;
         private System.Windows.Forms.DataGridViewTextBoxColumn itemNumberDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn descriptionDataGridViewTextBoxColumn;

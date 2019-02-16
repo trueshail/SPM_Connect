@@ -71,15 +71,15 @@ namespace SearchDataSPM
             Showallitems();
             txtSearch.Focus();
             fillinfo();
+            Assembly assembly = Assembly.GetExecutingAssembly();           
+            versionlabel.Text = "V" + assembly.GetName().Version.ToString(3);
+            TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
             userfullname = getuserfullname(userName);
             //purchaseReq.SPM_Connect();
             sqlnotifier();
             watchpreqtable();
-            purchaseReq.currentusercreds();
+            purchaseReq.currentusercreds();            
             formloading = false;
-
-
-
         }
 
         private void fillinfo()

@@ -69,9 +69,14 @@ namespace SearchDataSPM
             chekin("SPM Connect Production", userName);
             txtSearch.Focus();
             userfullname = getuserfullname(userName);
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            versionlabel.Text = assembly.GetName().Version.ToString(3);
+            versionlabel.Text = "V" + versionlabel.Text;
+            TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
             purchaseReq.currentusercreds();
             sqlnotifier();
             watchpreqtable();
+    
 
         }
 

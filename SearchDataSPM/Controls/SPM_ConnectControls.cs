@@ -71,7 +71,10 @@ namespace SearchDataSPM
             this.Text = "SPM Connect Controls - " + userName.ToString().Substring(4);
             chekin("SPM Connect Controls", userName);
             txtSearch.Focus();
-            
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            versionlabel.Text = assembly.GetName().Version.ToString(3);
+            versionlabel.Text = "V" + versionlabel.Text;
+            TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
             userfullname = getuserfullname(userName);           
             purchaseReq.currentusercreds();
             sqlnotifier();

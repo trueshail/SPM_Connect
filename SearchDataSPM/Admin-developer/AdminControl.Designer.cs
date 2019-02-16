@@ -48,6 +48,7 @@
             this.UserStats = new System.Windows.Forms.Button();
             this.custbttn = new System.Windows.Forms.Button();
             this.matbttn = new System.Windows.Forms.Button();
+            this.selectfolder = new System.Windows.Forms.Button();
             this.Userlistbox = new System.Windows.Forms.ListBox();
             this.department = new System.Windows.Forms.Label();
             this.username = new System.Windows.Forms.Label();
@@ -99,7 +100,6 @@
             this.priceyes = new System.Windows.Forms.RadioButton();
             this.sharepathtxt = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.selectfolder = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.contextMenuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -207,7 +207,7 @@
             // 
             // addnewbttn
             // 
-            this.addnewbttn.Location = new System.Drawing.Point(289, 469);
+            this.addnewbttn.Location = new System.Drawing.Point(284, 469);
             this.addnewbttn.Name = "addnewbttn";
             this.addnewbttn.Size = new System.Drawing.Size(87, 23);
             this.addnewbttn.TabIndex = 57;
@@ -218,7 +218,7 @@
             // 
             // updatebttn
             // 
-            this.updatebttn.Location = new System.Drawing.Point(396, 469);
+            this.updatebttn.Location = new System.Drawing.Point(391, 469);
             this.updatebttn.Name = "updatebttn";
             this.updatebttn.Size = new System.Drawing.Size(79, 23);
             this.updatebttn.TabIndex = 58;
@@ -229,7 +229,7 @@
             // 
             // delbttn
             // 
-            this.delbttn.Location = new System.Drawing.Point(494, 469);
+            this.delbttn.Location = new System.Drawing.Point(489, 469);
             this.delbttn.Name = "delbttn";
             this.delbttn.Size = new System.Drawing.Size(75, 23);
             this.delbttn.TabIndex = 59;
@@ -240,7 +240,7 @@
             // 
             // updatesavebttn
             // 
-            this.updatesavebttn.Location = new System.Drawing.Point(340, 523);
+            this.updatesavebttn.Location = new System.Drawing.Point(335, 523);
             this.updatesavebttn.Name = "updatesavebttn";
             this.updatesavebttn.Size = new System.Drawing.Size(79, 23);
             this.updatesavebttn.TabIndex = 64;
@@ -252,7 +252,7 @@
             // 
             // cnclbttn
             // 
-            this.cnclbttn.Location = new System.Drawing.Point(433, 523);
+            this.cnclbttn.Location = new System.Drawing.Point(428, 523);
             this.cnclbttn.Name = "cnclbttn";
             this.cnclbttn.Size = new System.Drawing.Size(72, 23);
             this.cnclbttn.TabIndex = 65;
@@ -317,6 +317,20 @@
             this.matbttn.UseVisualStyleBackColor = true;
             this.matbttn.Click += new System.EventHandler(this.matbttn_Click);
             // 
+            // selectfolder
+            // 
+            this.selectfolder.Enabled = false;
+            this.selectfolder.Location = new System.Drawing.Point(587, 133);
+            this.selectfolder.Name = "selectfolder";
+            this.selectfolder.Size = new System.Drawing.Size(30, 20);
+            this.selectfolder.TabIndex = 90;
+            this.selectfolder.Text = "...";
+            this.selectfolder.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.selectfolder.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
+            this.LabelTooltips.SetToolTip(this.selectfolder, "Browse for folder");
+            this.selectfolder.UseVisualStyleBackColor = true;
+            this.selectfolder.Click += new System.EventHandler(this.selectfolder_Click);
+            // 
             // Userlistbox
             // 
             this.Userlistbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -337,7 +351,7 @@
             this.department.AutoSize = true;
             this.department.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.department.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.department.Location = new System.Drawing.Point(234, 177);
+            this.department.Location = new System.Drawing.Point(234, 171);
             this.department.MaximumSize = new System.Drawing.Size(90, 15);
             this.department.Name = "department";
             this.department.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -444,7 +458,7 @@
             this.panel1.Controls.Add(this.radioButton3);
             this.panel1.Controls.Add(this.engradio);
             this.panel1.Controls.Add(this.radioButton4);
-            this.panel1.Location = new System.Drawing.Point(336, 170);
+            this.panel1.Location = new System.Drawing.Point(336, 164);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(230, 33);
             this.panel1.TabIndex = 49;
@@ -961,20 +975,6 @@
             this.label11.Size = new System.Drawing.Size(93, 15);
             this.label11.TabIndex = 69;
             this.label11.Text = "Shares Path :";
-            // 
-            // selectfolder
-            // 
-            this.selectfolder.Enabled = false;
-            this.selectfolder.Location = new System.Drawing.Point(587, 133);
-            this.selectfolder.Name = "selectfolder";
-            this.selectfolder.Size = new System.Drawing.Size(30, 20);
-            this.selectfolder.TabIndex = 90;
-            this.selectfolder.Text = "...";
-            this.selectfolder.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.selectfolder.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
-            this.LabelTooltips.SetToolTip(this.selectfolder, "Browse for folder");
-            this.selectfolder.UseVisualStyleBackColor = true;
-            this.selectfolder.Click += new System.EventHandler(this.selectfolder_Click);
             // 
             // openFileDialog1
             // 
