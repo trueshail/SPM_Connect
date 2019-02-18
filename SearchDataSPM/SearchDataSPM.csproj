@@ -28,12 +28,12 @@
     <ErrorReportUrl>http://www.spm-automation.com/contact.php</ErrorReportUrl>
     <ProductName>SPM Connect</ProductName>
     <PublisherName>SPM Automation</PublisherName>
-    <MinimumRequiredVersion>7.6.1.16</MinimumRequiredVersion>
+    <MinimumRequiredVersion>7.6.3.0</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>17</ApplicationRevision>
-    <ApplicationVersion>7.6.1.%2a</ApplicationVersion>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>7.6.3.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>

@@ -723,8 +723,13 @@ namespace SearchDataSPM
 
             if (supervisor && Validatechk.Checked)
             {
-                approvechk.Visible = true;
-                approvechk.Enabled = true;
+                if(myid==supervisoridfromreq)
+                {
+                    approvechk.Visible = true;
+                    approvechk.Enabled = true;
+                }
+
+               
                 Validatechk.Visible = false;
                 if (userfullname == requestbytxt.Text && approvechk.Checked == false)
                 {
@@ -1295,12 +1300,16 @@ namespace SearchDataSPM
                         }
                         else
                         {
-                            approvechk.Text = "Approve";
-                            approvechk.Checked = false;
-                            approvechk.Visible = true;
-                            printbttn.Enabled = false;
-                            approvebylabel.Visible = false;
-                            apprvonlabel.Visible = false;
+                            if(myid == supervisoridfromreq)
+                            {
+                                approvechk.Text = "Approve";
+                                approvechk.Checked = false;
+                                approvechk.Visible = true;
+                                printbttn.Enabled = false;
+                                approvebylabel.Visible = false;
+                                apprvonlabel.Visible = false;
+                            }
+                          
 
                         }
 
