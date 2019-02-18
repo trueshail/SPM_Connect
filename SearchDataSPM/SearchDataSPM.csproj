@@ -152,6 +152,8 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.VisualBasic.PowerPacks, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="SolidWorks.Interop.sldworks">
       <HintPath>C:\Program Files\SOLIDWORKS Corp\SOLIDWORKS\SolidWorks.Interop.sldworks.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -205,6 +207,7 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -216,6 +219,7 @@
     <Reference Include="TableDependency.SqlClient, Version=8.5.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SqlTableDependency.8.5.3\lib\net451\TableDependency.SqlClient.dll</HintPath>
     </Reference>
+    <Reference Include="WindowsBase" />
     <Reference Include="wpfPreviewFlowControl, Version=26.5.0.66, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\SOLIDWORKS Corp\SOLIDWORKS Explorer\SOLIDWORKS Explorer 2018\wpfPreviewFlowControl.dll</HintPath>
@@ -937,7 +941,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
