@@ -199,13 +199,14 @@
             this.eModelViewerToolStripMenuItem});
             this.FormSelector.Name = "contextMenuStrip1";
             this.FormSelector.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.FormSelector.Size = new System.Drawing.Size(176, 136);
+            this.FormSelector.Size = new System.Drawing.Size(181, 158);
+            this.FormSelector.Opening += new System.ComponentModel.CancelEventHandler(this.FormSelector_Opening);
             // 
             // addToCatalogToolStripMenuItem
             // 
             this.addToCatalogToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("addToCatalogToolStripMenuItem.Image")));
             this.addToCatalogToolStripMenuItem.Name = "addToCatalogToolStripMenuItem";
-            this.addToCatalogToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.addToCatalogToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.addToCatalogToolStripMenuItem.Text = "Add To Catalog";
             this.addToCatalogToolStripMenuItem.Click += new System.EventHandler(this.addToCatalogToolStripMenuItem_Click);
             // 
@@ -213,7 +214,7 @@
             // 
             this.createAssemblyToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("createAssemblyToolStripMenuItem.Image")));
             this.createAssemblyToolStripMenuItem.Name = "createAssemblyToolStripMenuItem";
-            this.createAssemblyToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.createAssemblyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.createAssemblyToolStripMenuItem.Text = "Create Assembly";
             this.createAssemblyToolStripMenuItem.Click += new System.EventHandler(this.createAssemblyToolStripMenuItem_Click);
             // 
@@ -224,7 +225,7 @@
             this.geniusToolStripMenuItem});
             this.bOMToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("bOMToolStripMenuItem.Image")));
             this.bOMToolStripMenuItem.Name = "bOMToolStripMenuItem";
-            this.bOMToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.bOMToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.bOMToolStripMenuItem.Text = "BOM";
             this.bOMToolStripMenuItem.ToolTipText = "Bills Of Material";
             this.bOMToolStripMenuItem.Click += new System.EventHandler(this.bOMToolStripMenuItem_Click);
@@ -254,7 +255,7 @@
             this.geniusJobsToolStripMenuItem});
             this.whereUsedToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("whereUsedToolStripMenuItem.Image")));
             this.whereUsedToolStripMenuItem.Name = "whereUsedToolStripMenuItem";
-            this.whereUsedToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.whereUsedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.whereUsedToolStripMenuItem.Text = "Where Used";
             this.whereUsedToolStripMenuItem.ToolTipText = "Check Where Used";
             // 
@@ -283,7 +284,7 @@
             this.sparePartsToolStripMenuItem});
             this.viewReportBOM.Image = ((System.Drawing.Image)(resources.GetObject("viewReportBOM.Image")));
             this.viewReportBOM.Name = "viewReportBOM";
-            this.viewReportBOM.Size = new System.Drawing.Size(175, 22);
+            this.viewReportBOM.Size = new System.Drawing.Size(180, 22);
             this.viewReportBOM.Text = "View Report (BOM)";
             this.viewReportBOM.ToolTipText = "View BOM Report";
             // 
@@ -309,7 +310,7 @@
             // 
             this.eModelViewerToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("eModelViewerToolStripMenuItem.Image")));
             this.eModelViewerToolStripMenuItem.Name = "eModelViewerToolStripMenuItem";
-            this.eModelViewerToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.eModelViewerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.eModelViewerToolStripMenuItem.Text = "E Model Viewer";
             this.eModelViewerToolStripMenuItem.ToolTipText = "Show 3d Model";
             this.eModelViewerToolStripMenuItem.Click += new System.EventHandler(this.eModelViewerToolStripMenuItem_Click);

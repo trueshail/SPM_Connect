@@ -22,6 +22,7 @@ using System.Net;
 using TableDependency.SqlClient;
 using TableDependency.SqlClient.Base;
 using System.Reflection;
+using SPMConnectAPI;
 
 namespace SearchDataSPM
 {
@@ -36,6 +37,8 @@ namespace SearchDataSPM
         bool formloading = false;
         string userfullname = "";
         SearchDataSPM.pnotifier purchaseReq = new SearchDataSPM.pnotifier();
+        SPMConnectAPI.SPMSQLCommands connectapi = new SPMSQLCommands();
+
 
         public SPM_Connect()
         {
@@ -50,35 +53,46 @@ namespace SearchDataSPM
             catch (Exception)
             {
                 MetroFramework.MetroMessageBox.Show(this, "Error Connecting to SQL Server.....", "SPM Connect - Engineering Initialize", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 Application.Exit();
             }
+
+            connectapi.SPM_Connect(connection);
 
         }
 
         private void SPM_Connect_Load(object sender, EventArgs e)
         {
+
             collapse();
             formloading = true;
             string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-            checkadmin();
-            Checkdeveloper();
+            if (connectapi.CheckAdmin())
+            {
+                admin_bttn.Visible = true;
+            }
+            if (connectapi.Checkdeveloper())
+            {
+                FormSelector.Items[7].Enabled = true;
+                FormSelector.Items[7].Visible = true;
+            }
+
             this.Text = "SPM Connect Engineering - " + userName.ToString().Substring(4);
-            chekin("SPM Connect Eng", userName);
+            connectapi.chekin("SPM Connect Eng");
             dt = new DataTable();
-            //pictureBox1.ImageLocation= (@"\\spm-adfs\SDBASE\SPM Connect SQL\spm_white_icon_2.gif");
-            //pictureBox1.Image = SearchDataSPM.Properties.Resources.spm_white_icon_2;
+
             Showallitems();
             txtSearch.Focus();
             fillinfo();
-            Assembly assembly = Assembly.GetExecutingAssembly();           
-            versionlabel.Text = "V" + assembly.GetName().Version.ToString(3);
+
+            versionlabel.Text = connectapi.getassyversionnumber();
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
-            userfullname = getuserfullname(userName);
-            //purchaseReq.SPM_Connect();
+
+
+            userfullname = connectapi.getuserfullname();
+
             sqlnotifier();
             watchpreqtable();
-            purchaseReq.currentusercreds();            
+            purchaseReq.currentusercreds();
             formloading = false;
         }
 
@@ -114,33 +128,12 @@ namespace SearchDataSPM
 
         private void Showallitems()
         {
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[UnionInventory] ORDER BY ItemNumber DESC", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-
-                    dt.Clear();
-                    sda.Fill(dt);
-                    dataGridView.DataSource = dt;
-                    DataView dv = dt.DefaultView;
-                    dataGridView.Sort(itemNumberDataGridViewTextBoxColumn, ListSortDirection.Descending);
-                    UpdateFont();
-
-                }
-                catch (Exception)
-                {
-                    MetroFramework.MetroMessageBox.Show(this, "Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect - Engineering Load(showallitems)", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Application.Exit();
-                }
-                finally
-                {
-                    cn.Close();
-                }
-
-            }
-
+            dt.Clear();
+            dt = connectapi.Showallitems();
+            dataGridView.DataSource = dt;
+            DataView dv = dt.DefaultView;
+            dataGridView.Sort(itemNumberDataGridViewTextBoxColumn, ListSortDirection.Descending);
+            UpdateFont();
         }
 
         private void Reload_Click(object sender, EventArgs e)
@@ -358,8 +351,8 @@ namespace SearchDataSPM
 
                 if (txtSearch.Text.Length > 0)
                 {
-                    mainsearch();
-
+                     mainsearch();
+                    
                 }
                 else
                 {
@@ -923,7 +916,7 @@ namespace SearchDataSPM
                 dataGridView.Rows[columnindex].Selected = true;
 
             }
-          
+
         }
 
         private void openModelToolStripMenuItem_Click(object sender, EventArgs e)
@@ -995,14 +988,14 @@ namespace SearchDataSPM
 
         bool IsSelected = false;
 
-        private void SearchStringPosition(string Searchstring)
+        public void SearchStringPosition(string Searchstring)
         {
             IsSelected = true;
 
         }
         string sw;
 
-        private void searchtext(string searchkey)
+        public void searchtext(string searchkey)
         {
 
             sw = searchkey;
@@ -1083,112 +1076,13 @@ namespace SearchDataSPM
         {
             BeginInvoke(new Action(() =>
             {
-                
+
                 spmadmin spmadmin = new spmadmin();
                 spmadmin.Owner = this;
                 spmadmin.ShowDialog(this);
             }));
-           
-        }
-
-        private void checkadmin()
-        {
-            string useradmin = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND Admin = '1'", cn))
-            {
-                try
-                {
-                    cn.Open();
-                    sqlCommand.Parameters.AddWithValue("@username", useradmin);
-
-                    int userCount = (int)sqlCommand.ExecuteScalar();
-                    if (userCount == 1)
-                    {
-                        admin_bttn.Visible = true;
-                    }
-                    else
-                    {
-
-                        admin_bttn.Visible = false;
-                    }
-
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Application.Exit();
-                }
-                finally
-                {
-                    cn.Close();
-                }
-
-            }
 
         }
-
-        private void Checkdeveloper()
-        {
-            string useradmin = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND Developer = '1'", cn))
-            {
-                try
-                {
-                    cn.Open();
-                    sqlCommand.Parameters.AddWithValue("@username", useradmin);
-
-                    int userCount = (int)sqlCommand.ExecuteScalar();
-                    if (userCount == 1)
-                    {
-                        FormSelector.Items[7].Enabled = true;
-                        FormSelector.Items[7].Visible = true;
-                    }
-                    else
-                    {
-                        FormSelector.Items[7].Enabled = false;
-                        FormSelector.Items[7].Visible = false;
-                    }
-
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Application.Exit();
-                }
-                finally
-                {
-                    cn.Close();
-                }
-
-            }
-
-        }
-
-        #endregion
-
-        #region Duplicates
-
-        //private void showduplicates()
-        //{
-        //    if (cn.State == ConnectionState.Closed)
-        //        cn.Open();
-
-        //    SqlDataAdapter sda = new SqlDataAdapter("[SPM_Database].[dbo].[ManufactureItemDuplicates]", cn);
-
-        //    sda.Fill(dt);
-        //    dataGridView.DataSource = dt;
-        //    UpdateFont();
-
-        //}
-
-        //public void shwduplicatesbttn_Click(object sender, EventArgs e)
-        //{
-        //    dataGridView.DataSource = null;
-        //    dt.Rows.Clear();
-        //    showduplicates();
-        //}
 
         #endregion
 
@@ -1321,13 +1215,7 @@ namespace SearchDataSPM
 
         private void SPM_Connect_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Cursor.Current = Cursors.WaitCursor;
-            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-            checkout(userName);
-            _preqdependency.Stop();
-            _dependency.Stop();
             this.Dispose();
-            Cursor.Current = Cursors.Default;
         }
 
         private void SPM_Connect_FormClosing(object sender, FormClosingEventArgs e)
@@ -1366,8 +1254,18 @@ namespace SearchDataSPM
                 else
                 {
                     e.Cancel = false;
+                  
+                  
                 }
 
+            }
+            else
+            {
+                Cursor.Current = Cursors.WaitCursor;
+                connectapi.checkout();
+                _preqdependency.Stop();
+                _dependency.Stop();
+                Cursor.Current = Cursors.Default;
             }
         }
 
@@ -1375,118 +1273,9 @@ namespace SearchDataSPM
 
         #region DELETE Item
 
-        private void deleteitem(string _itemno)
-        {
-            DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to delete " + _itemno + "?", "SPM Connect - Delete Item?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (result == DialogResult.Yes)
-            {
-                if (_itemno.Length > 0)
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-                    try
-                    {
-                        string query = "DELETE FROM [SPM_Database].[dbo].[Inventory] WHERE ItemNumber ='" + _itemno.ToString() + "'";
-                        SqlCommand sda = new SqlCommand(query, cn);
-                        sda.ExecuteNonQuery();
-                        cn.Close();
-                        MetroFramework.MetroMessageBox.Show(this, _itemno + " - Is removed from the system now!", "SPM Connect - Delete Item", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-
-                    }
-                    catch (Exception ex)
-                    {
-                        MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Delete Item", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    finally
-                    {
-                        cn.Close();
-                    }
-
-                }
-            }
-
-        }
-
         private void deleteItemToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            deleteitem(getitemnumberselected().ToString());
-        }
-
-
-        #endregion
-
-        #region UserLogs
-
-        public void chekin(string applicationname, string username)
-        {
-            DateTime datecreated = DateTime.Now;
-            string sqlFormattedDate = datecreated.ToString("dd-MM-yyyy HH:mm tt");
-            string computername = System.Environment.MachineName;
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            if (cn.State == ConnectionState.Closed)
-                cn.Open();
-            try
-            {
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Checkin] ([Last Login],[Application Running],[User Name], [Computer Name], [Version]) VALUES('" + sqlFormattedDate + "', '" + applicationname + "', '" + username + "', '" + computername + "','"+assembly.GetName().Version.ToString(3)+"')";
-                cmd.ExecuteNonQuery();
-                cn.Close();
-                //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - User Checkin", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally 
-            {
-                cn.Close();
-            }
-
-        }
-
-        public void checkout(string username)
-        {
-            if (cn.State == ConnectionState.Closed)
-                cn.Open();
-            try
-            {
-                string query = "DELETE FROM [SPM_Database].[dbo].[Checkin] WHERE [User Name] ='" + username.ToString() + "'";
-                SqlCommand sda = new SqlCommand(query, cn);
-                sda.ExecuteNonQuery();
-                cn.Close();
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Checkout User", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-
-        }
-
-        private void timer2_Tick(object sender, EventArgs e)
-        {
-            //try
-            //{
-            //    string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-            //    string contents = File.ReadAllText(@"\\spm-adfs\SDBASE\SPM_Connect_User_Logs\chekin.txt");
-            //    if (!contents.Contains(userName))
-            //    {
-            //        Application.Exit();
-            //    }
-            //}
-            //catch
-            //{
-
-            //}
-
+            connectapi.deleteitem(getitemnumberselected().ToString());
         }
 
         #endregion
@@ -2400,10 +2189,20 @@ namespace SearchDataSPM
 
         private void getitemonconnectsql(string item)
         {
+            if (dataGridView.SelectedRows.Count == 1)
+            {
+                if (additemtosqlinventory(item))
+                {
+                    updateitemtosqlinventory(item);
+                    processeditbutton(item);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Only one item can be selected at a time.", "SPM Connect - Edit Model", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
-            additemtosqlinventory(item);
-            updateitemtosqlinventory(item);
-            processeditbutton(item);
+
         }
 
         private void getitemopenforedit(string item)
@@ -2541,8 +2340,10 @@ namespace SearchDataSPM
 
         }
 
-        private void additemtosqlinventory(string uniqueid)
+        private bool additemtosqlinventory(string uniqueid)
         {
+            bool success = false;
+
 
             if (cn.State == ConnectionState.Closed)
                 cn.Open();
@@ -2550,9 +2351,10 @@ namespace SearchDataSPM
             {
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT [SPM_Database].[dbo].[Inventory] (ItemNumber,Description,FamilyCode,Manufacturer,ManufacturerItemNumber) SELECT * FROM [SPM_Database].[dbo].[UnionInventory] WHERE ItemNumber = '" + uniqueid + "'";
+                cmd.CommandText = "INSERT  [SPM_Database].[dbo].[Inventory] (ItemNumber,Description,FamilyCode,Manufacturer,ManufacturerItemNumber,DesignedBy,DateCreated,LastSavedBy,LastEdited) SELECT ItemNumber,Description,FamilyCode,Manufacturer,ManufacturerItemNumber,DesignedBy,DateCreated,LastSavedBy,LastEdited FROM [SPM_Database].[dbo].[UnionInventory] WHERE ItemNumber = '" + uniqueid + "'";
                 cmd.ExecuteNonQuery();
                 cn.Close();
+                success = true;
                 //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             }
@@ -2564,7 +2366,7 @@ namespace SearchDataSPM
             {
                 cn.Close();
             }
-
+            return success;
         }
 
         private void updateitemtosqlinventory(string uniqueid)
@@ -2607,10 +2409,6 @@ namespace SearchDataSPM
 
         private String getfamilycode()
         {
-            int selectedclmindex = dataGridView.SelectedCells[0].ColumnIndex;
-            DataGridViewColumn columnchk = dataGridView.Columns[selectedclmindex];
-            string c = Convert.ToString(columnchk.Index);
-            //MessageBox.Show(c);
             string familycode;
             if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
             {
@@ -2691,7 +2489,6 @@ namespace SearchDataSPM
         {
             perfomcopybuttonclick(getitemnumberselected().ToString());
         }
-
 
         void perfomcopybuttonclick(string item)
         {
@@ -2916,7 +2713,7 @@ namespace SearchDataSPM
             {
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT [SPM_Database].[dbo].[Inventory] (ItemNumber,Description,FamilyCode,Manufacturer,ManufacturerItemNumber) SELECT '" + newid + "',Description,FamilyCode,Manufacturer,ManufacturerItemNumber FROM [SPM_Database].[dbo].[UnionInventory] WHERE ItemNumber = '" + activeid + "'";
+                cmd.CommandText = "INSERT [SPM_Database].[dbo].[Inventory] (ItemNumber,Description,FamilyCode,Manufacturer,ManufacturerItemNumber,DesignedBy,DateCreated,LastSavedBy,LastEdited) SELECT '" + newid + "',Description,FamilyCode,Manufacturer,ManufacturerItemNumber,DesignedBy,DateCreated,LastSavedBy,LastEdited FROM [SPM_Database].[dbo].[UnionInventory] WHERE ItemNumber = '" + activeid + "'";
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -3360,183 +3157,46 @@ namespace SearchDataSPM
 
         private void filldesignedby()
         {
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT DesignedBy from [dbo].[UnionInventory] where DesignedBy is not null order by DesignedBy", cn))
-            {
-                try
-                {
-                    cn.Open();
-                    SqlDataReader reader = sqlCommand.ExecuteReader();
-                    AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
-                    while (reader.Read())
-                    {
-                        MyCollection.Add(reader.GetString(0));
-                    }
-                    designedbycombobox.AutoCompleteCustomSource = MyCollection;
-                    designedbycombobox.DataSource = MyCollection;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect ENG - Fill Designedby Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-
-            }
-
+            AutoCompleteStringCollection MyCollection = connectapi.filldesignedby();
+            designedbycombobox.AutoCompleteCustomSource = MyCollection;
+            designedbycombobox.DataSource = MyCollection;
         }
 
         private void filllastsavedby()
         {
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT LastSavedBy from [dbo].[UnionInventory] where LastSavedBy is not null order by LastSavedBy", cn))
-            {
-                try
-                {
-                    cn.Open();
-                    SqlDataReader reader = sqlCommand.ExecuteReader();
-                    AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
-                    while (reader.Read())
-                    {
-                        MyCollection.Add(reader.GetString(0));
-                    }
-                    lastsavedbycombo.AutoCompleteCustomSource = MyCollection;
-                    lastsavedbycombo.DataSource = MyCollection;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect ENG - Fill LastSavedBy Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-
-            }
-
+            AutoCompleteStringCollection MyCollection = connectapi.filllastsavedby();
+            lastsavedbycombo.AutoCompleteCustomSource = MyCollection;
+            lastsavedbycombo.DataSource = MyCollection;
         }
 
         private void fillmanufacturers()
         {
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM [SPM_Database].[dbo].[Manufacturers] order by Manufacturer", cn))
-            {
-                try
-                {
-                    cn.Open();
-                    SqlDataReader reader = sqlCommand.ExecuteReader();
-                    AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
-                    while (reader.Read())
-                    {
-                        MyCollection.Add(reader.GetString(0));
-                    }
-                    oemitemcombobox.AutoCompleteCustomSource = MyCollection;
-                    oemitemcombobox.DataSource = MyCollection;
-
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect ENG - Fill Manufacturers Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-
-            }
+            AutoCompleteStringCollection MyCollection = connectapi.fillmanufacturers();
+            oemitemcombobox.AutoCompleteCustomSource = MyCollection;
+            oemitemcombobox.DataSource = MyCollection;
 
         }
 
         private void filloem()
         {
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM [SPM_Database].[dbo].[ManufacturersItemNumbers] order by [ManufacturerItemNumber]", cn))
-            {
-                try
-                {
-                    cn.Open();
-                    SqlDataReader reader = sqlCommand.ExecuteReader();
-                    AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
-                    while (reader.Read())
-                    {
-                        MyCollection.Add(reader.GetString(0));
-                    }
-                    Manufactureritemcomboxbox.AutoCompleteCustomSource = MyCollection;
-                    Manufactureritemcomboxbox.DataSource = MyCollection;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect ENG - Fill oem items Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-
-            }
+            AutoCompleteStringCollection MyCollection = connectapi.filloem();
+            Manufactureritemcomboxbox.AutoCompleteCustomSource = MyCollection;
+            Manufactureritemcomboxbox.DataSource = MyCollection;
 
         }
 
         private void fillfamilycodes()
         {
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT FamilyCodes FROM [SPM_Database].[dbo].[FamilyCodes] order by FamilyCodes", cn))
-            {
-                try
-                {
-                    cn.Open();
-                    SqlDataReader reader = sqlCommand.ExecuteReader();
-                    AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
-                    while (reader.Read())
-                    {
-                        MyCollection.Add(reader.GetString(0));
-                    }
-
-                    //familytxtbox.AutoCompleteCustomSource = MyCollection;
-                    familycomboxbox.AutoCompleteCustomSource = MyCollection;
-                    familycomboxbox.DataSource = MyCollection;
-
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect ENG - Fill FamilyCodes Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-
-            }
-
+            AutoCompleteStringCollection MyCollection = connectapi.fillfamilycodes();
+            familycomboxbox.AutoCompleteCustomSource = MyCollection;
+            familycomboxbox.DataSource = MyCollection;
         }
 
         private void filluserwithblock()
         {
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT CONCAT(ActiveBlockNumber,' ',Name) AS UserWithCad FROM [SPM_Database].[dbo].[Users] WHERE ActiveBlockNumber is not null AND ActiveBlockNumber <> '' Order by ActiveBlockNumber", cn))
-            {
-                try
-                {
-                    cn.Open();
-                    SqlDataReader reader = sqlCommand.ExecuteReader();
-                    AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
-                    while (reader.Read())
-                    {
-                        MyCollection.Add(reader.GetString(0));
-                    }
-
-                    //familytxtbox.AutoCompleteCustomSource = MyCollection;
-                    ActiveCadblockcombobox.AutoCompleteCustomSource = MyCollection;
-                    ActiveCadblockcombobox.DataSource = MyCollection;
-
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect ENG - Fill FamilyCodes Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-
-            }
-
+            AutoCompleteStringCollection MyCollection = connectapi.filluserwithblock();
+            ActiveCadblockcombobox.AutoCompleteCustomSource = MyCollection;
+            ActiveCadblockcombobox.DataSource = MyCollection;
         }
 
         #endregion
@@ -3714,9 +3374,29 @@ namespace SearchDataSPM
         }
 
         #endregion
+
+        private void FormSelector_Opening(object sender, CancelEventArgs e)
+        {
+            if (dataGridView.SelectedRows.Count == 1)
+            {
+
+            }
+            else
+            {
+                e.Cancel = true;
+            }
+        }
+
+        private void toolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            if (listView.FocusedItem != null)
+            {
+                string file = listFiles[listView.FocusedItem.Index];
+                Edrawings.EModelViewer modelViewer = new Edrawings.EModelViewer();
+                modelViewer.filetoopen(file);
+                modelViewer.Show();
+            }
+        }
     }
 
 }
-
-
-

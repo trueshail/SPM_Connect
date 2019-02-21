@@ -1003,6 +1003,12 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SPMConnectAPI\SPMConnectAPI.csproj">
+      <Project>{fd0f6e6e-b1cd-498b-b634-19b23053c5d1}</Project>
+      <Name>SPMConnectAPI</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

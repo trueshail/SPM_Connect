@@ -1753,6 +1753,18 @@ namespace SearchDataSPM
             this.Close();
 
         }
+
+        private void FormSelector_Opening(object sender, CancelEventArgs e)
+        {
+            if (dataGridView.SelectedRows.Count == 1)
+            {
+
+            }
+            else
+            {
+                e.Cancel = true;
+            }
+        }
     }
 }
 
