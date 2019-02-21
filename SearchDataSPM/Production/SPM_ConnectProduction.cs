@@ -53,8 +53,8 @@ namespace SearchDataSPM
             }
             dt = new DataTable();
             Rectangle screen = Screen.PrimaryScreen.WorkingArea;
-            int w = Width >= screen.Width ? screen.Width : ((screen.Width + Width) / 3) + 30;
-            int h = Height >= screen.Height ? screen.Height : ((screen.Height + Height) / 3) + 60;
+            int w = Width >= screen.Width ? screen.Width : ((screen.Width + Width) / 3) ;
+            int h = Height >= screen.Height ? screen.Height : ((screen.Height + Height) / 3) + 100;
             this.Location = new Point((screen.Width - w) / 2, (screen.Height - h) / 2);
             this.Size = new Size(w, h);
 
@@ -1773,6 +1773,30 @@ namespace SearchDataSPM
             else
             {
                 e.Cancel = true;
+            }
+        }
+
+        private void iteminfolistviewStripMenu_Click(object sender, EventArgs e)
+        {
+            if (listView.FocusedItem != null)
+            {
+                string txt = listView.FocusedItem.Text;
+                txt = txt.Substring(0, 6);
+                ItemInfo itemInfo = new ItemInfo();
+                itemInfo.item(txt);
+                itemInfo.Show();
+
+            }
+        }
+
+        private void toolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            if (listView.FocusedItem != null)
+            {
+                string file = listFiles[listView.FocusedItem.Index];
+                Edrawings.EModelViewer modelViewer = new Edrawings.EModelViewer();
+                modelViewer.filetoopen(file);
+                modelViewer.Show();
             }
         }
     }

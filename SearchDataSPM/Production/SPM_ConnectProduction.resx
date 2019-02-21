@@ -123,6 +123,12 @@
   <metadata name="FormSelector.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>954, 17</value>
   </metadata>
+  <metadata name="inventoryBindingSource3.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>419, 17</value>
+  </metadata>
+  <metadata name="sPM_DatabaseDataSet.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>159, 17</value>
+  </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="bOMToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -248,12 +254,6 @@
         v3j/iBQkaAxVqlSpUlVeodAfZjxOXHqBtd4AAAAASUVORK5CYII=
 </value>
   </data>
-  <metadata name="inventoryBindingSource3.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>419, 17</value>
-  </metadata>
-  <metadata name="sPM_DatabaseDataSet.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>159, 17</value>
-  </metadata>
   <data name="billsOfMaunfacturingToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABGdBTUEAALGPC/xhBQAABhFJREFUeF7t
@@ -511,6 +511,44 @@
         4cLp8y6/DMJVghNrCUVgUFkSOfnshITpF2bgw6ASBaocFRBrSe7iq0/PPP7+Hxdedeb1QKeuzuNHgBYl
         EMKUWdJ+3IEYTJElxAK6WALKbCCDcOE5h59SbgkoN4MMwYd9uk6oAgCyFRnyu3Uv9QAAAABJRU5ErkJg
         gg==
+</value>
+  </data>
+  <data name="iteminfolistviewStripMenu.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABGdBTUEAALGPC/xhBQAAAbpJREFUaEPt
+        mTFKA0EYhdMoXkEUTNJaeiIR1ErwBpZeIAmp7K31BhaiEvAIiqiVkN012phxRp4o44Pfh7gzC/vBR4r9
+        379vYKpNp6WlpSVf1o/dYndU7vQGxWVvWD55XU36dxUX/nd7Y+wWUEdjdTRb8Qsm35am8mpt/LyMWr+j
+        e+SWfPA6WpTSSbgNqGfTH1T7ZElS/VXeQz0b3Hm6KJ3VOerZ+OGKL0lqgXo2JJyFqGfDwqpbpy/udvrm
+        brybJzM6o4p6Niysel/O3Sd3xZzOqKKeDQurPlRfBwiHYTOqqGfDwqrhCj36Q4SDNPIK/YeoZ8PCOYh6
+        Niycg6hnw8KqMWxGFfVsWFg1hs2oop4NC6vGsBlV1LNhYdUYNqOKejYsrBrDZlRRz4aFVWPYjCrq2bCw
+        agybUUU9GxZWjWEzqqhnw8KqMWxGFfVsWFg1hs2oop4NC6vGsBlV1LNh4RxEPRsWzkHUs2HhHEQ9GxbO
+        wCnq2ZBwDp6hng0JJ7c7LHdRz4YtSKz2cZcsSKn+eZ0sqdvXP/3BES37sD+sDvE4f36UH5QHeNQMGl0+
+        0OjygUaXDzS6fEutdDrvlCnHOmIOCHcAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="toolStripMenuItem3.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABGdBTUEAALGPC/xhBQAABJFJREFUeF7t
+        mW1MG3Ucx3HRF75ZQvZKF2M2EhY2nxDjshcjPkYT35GZGY1xLzQaXxFHTHSZFgbbjFvMXgzW0iICCsiC
+        hGE3UqCp9Cq0ZSjLQHt9uD4A46m9Bxgjk533m1dTz9/wuv7Plfa+yedN73+9//eTu/+1dwV69OjRo0fP
+        v9MXDheGWbYsmwglEk+JorhFnqK2qRkbLrNGgjUhnjdmEwzPfzrF89vkaWoXEGDwUMa+iD/rJAR5/jQj
+        CCXyVLVJUkC2SghxXENkefkV6ZK4T54y2aQKAL6O+L767sY1G0k8fLwVLZcGAY77MCqKD8rTJhelgArn
+        Bdsb0y7mXdEnkuIDkV7rWJ2xYcXSgeG4GmZl5SF56mSCCXh4wCweJCzhPYkvb0au0ALfiJVTjSCckSQ8
+        LU8/89xJwG0JMYqoBKBq3b9AXY+3o+XUcy6QSFQQuVVuJAB4XQMJcEm035gdQIqlhXSXOEwvLW2Vq9xd
+        /kvAXxKcxCUAtTdDvt941oKVS4OTDMvukOukHzUCgAPSmQDXMVYkEz66FYjbVxa7kGKqCXLc2WA8vl+u
+        lF7UCgCeiw1O7luwM8SZswdt0dDnmdIdCBTLtdQnHQFPRC7GHpmzilrQG/IZM6Uv7C+Ta6mPLkAXsDkE
+        VDmmL2Gfp5LTAnbUC+Jr5xcnu/10I7YdyHkBwL7WxIxlMtiCjckLAcAeM7tcN8r8oByTNwKAonPCH+/3
+        zzhSx2xqAZVD07aNUApIUtE9/2tPkDZtegFYObXs/YadNV8NtuatAOCxRlaoGwm/LNdSn1wQsMvIr33s
+        iF7a1GfAi+3xwEZgxYHHLSx3yhvuIrYGVLqH2h4dbFr9vwWkruYYWHkQ0+Gjm5JjiAgA3nJZL2wfMN/K
+        VgE7G4T1QxfnKOUYYgKAckfX5WwUUGLkrxuckV5sDFEBn7mHTXuG2qazScCzzeycaYJpw7YDRAUAlaP2
+        f6wH91IA/BE6T9NmbFsS4gKAg64frdsHLbfXg3spQA2aCADKHd+P57WAo+6fGnfbW2bzVgAAvw9Ko/1h
+        bPIkwAqli6YCgHb6ah124FSU/9zgxwo2Tgt0AbqAuxHgcZViZTFyUoBBFLdUe6nDWGElOSkAYhgZ2SpJ
+        OImVTiVnBUAMnuGdBi91FiueJKcFQAxuqhwrniTnBUCqPdTbWHlAKQBeV6WWVcurnYu/p34PKYgIMNjt
+        91e7nZ+oEQC82Tvvxkreib0t7OxGr7cygYgAyImJ4ULpcjilRgDwgnSaY2WV7DZxK/D4GvsOEhATADnm
+        pYqkRbFejQB4LlfaxMWx0kmK6vn12pFID7Y/KYgKgEh3hpfUCADOjIc6i43CGlYeeMd6zYXtRxLiAiCG
+        MeqQGgFA1VC0Hyuv1aKnRBMBRq/3AenOcESNAOBAz/x4avlnmtmFTh9twcaSRhMBkOOjo9skAafVCIAX
+        leVtSxEov8vErzZMMN9i47RAMwGQY2M/l3T4JmuxAytpnfI3P2nh2CPOWB+2XSs0FQDpnpoqhoOo4Ytf
+        Ys9jn2vLRKE8VT169OjRo+fvFBT8CfjZpBA58cbIAAAAAElFTkSuQmCC
 </value>
   </data>
   <metadata name="inventoryTableAdapter.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">

@@ -10,5 +10,10 @@ namespace SearchDataSPM
     {
         public string computername { get; set; }
         public string username { get; set; }
+
+        internal void Dispose(bool disposing)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

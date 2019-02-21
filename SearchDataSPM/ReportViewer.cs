@@ -28,7 +28,7 @@ namespace SearchDataSPM
             if(reportname == "BOM")
             {
                 this.Text = "Bills of Manufacturing - " + itemnumber;
-                reportViewer1.ServerReport.ReportPath = "/GeniusReports/BillOfManufacturing/BillOfManufacturing";
+                reportViewer1.ServerReport.ReportPath = "/GeniusReports/BillOfManufacturing/SPM_BOM";
                 this.reportViewer1.RefreshReport();
                 fillbomreport();
             }

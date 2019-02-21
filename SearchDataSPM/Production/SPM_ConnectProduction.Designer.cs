@@ -75,6 +75,8 @@
             this.trayiconstrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.showToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.iteminfolistviewStripMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.FormSelector.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.inventoryBindingSource3)).BeginInit();
@@ -219,7 +221,7 @@
             // 
             this.whereUsedToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("whereUsedToolStripMenuItem.Image")));
             this.whereUsedToolStripMenuItem.Name = "whereUsedToolStripMenuItem";
-            this.whereUsedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.whereUsedToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.whereUsedToolStripMenuItem.Text = "Where Used";
             this.whereUsedToolStripMenuItem.ToolTipText = "Check Where Used";
             this.whereUsedToolStripMenuItem.Click += new System.EventHandler(this.whereUsedToolStripMenuItem_Click);
@@ -228,7 +230,7 @@
             // 
             this.openModelToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openModelToolStripMenuItem.Image")));
             this.openModelToolStripMenuItem.Name = "openModelToolStripMenuItem";
-            this.openModelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openModelToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.openModelToolStripMenuItem.Text = "Open Model";
             this.openModelToolStripMenuItem.ToolTipText = "Open Selected Item\'s Model";
             this.openModelToolStripMenuItem.Click += new System.EventHandler(this.openModelToolStripMenuItem_Click);
@@ -237,7 +239,7 @@
             // 
             this.openDrawingToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openDrawingToolStripMenuItem.Image")));
             this.openDrawingToolStripMenuItem.Name = "openDrawingToolStripMenuItem";
-            this.openDrawingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openDrawingToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.openDrawingToolStripMenuItem.Text = "Open Drawing";
             this.openDrawingToolStripMenuItem.ToolTipText = "Open Selected Item\'s Drawing";
             this.openDrawingToolStripMenuItem.Click += new System.EventHandler(this.openDrawingToolStripMenuItem_Click);
@@ -249,7 +251,7 @@
             this.sparePartsToolStripMenuItem});
             this.viewReportBOM.Image = ((System.Drawing.Image)(resources.GetObject("viewReportBOM.Image")));
             this.viewReportBOM.Name = "viewReportBOM";
-            this.viewReportBOM.Size = new System.Drawing.Size(180, 22);
+            this.viewReportBOM.Size = new System.Drawing.Size(175, 22);
             this.viewReportBOM.Text = "View Report (BOM)";
             this.viewReportBOM.ToolTipText = "View BOM Report";
             // 
@@ -530,17 +532,19 @@
             // 
             this.Listviewcontextmenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.bomlistviewmenustrpc,
-            this.whereusedlistviewStripMenu});
+            this.whereusedlistviewStripMenu,
+            this.iteminfolistviewStripMenu,
+            this.toolStripMenuItem3});
             this.Listviewcontextmenu.Name = "contextMenuStrip1";
             this.Listviewcontextmenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.Listviewcontextmenu.Size = new System.Drawing.Size(138, 48);
+            this.Listviewcontextmenu.Size = new System.Drawing.Size(181, 114);
             this.Listviewcontextmenu.Opening += new System.ComponentModel.CancelEventHandler(this.Listviewcontextmenu_Opening);
             // 
             // bomlistviewmenustrpc
             // 
             this.bomlistviewmenustrpc.Image = ((System.Drawing.Image)(resources.GetObject("bomlistviewmenustrpc.Image")));
             this.bomlistviewmenustrpc.Name = "bomlistviewmenustrpc";
-            this.bomlistviewmenustrpc.Size = new System.Drawing.Size(137, 22);
+            this.bomlistviewmenustrpc.Size = new System.Drawing.Size(180, 22);
             this.bomlistviewmenustrpc.Text = "BOM";
             this.bomlistviewmenustrpc.ToolTipText = "Bills Of Material";
             this.bomlistviewmenustrpc.Click += new System.EventHandler(this.bomlistviewmenustrpc_Click);
@@ -549,7 +553,7 @@
             // 
             this.whereusedlistviewStripMenu.Image = ((System.Drawing.Image)(resources.GetObject("whereusedlistviewStripMenu.Image")));
             this.whereusedlistviewStripMenu.Name = "whereusedlistviewStripMenu";
-            this.whereusedlistviewStripMenu.Size = new System.Drawing.Size(137, 22);
+            this.whereusedlistviewStripMenu.Size = new System.Drawing.Size(180, 22);
             this.whereusedlistviewStripMenu.Text = "Where Used";
             this.whereusedlistviewStripMenu.ToolTipText = "Check Where Used";
             this.whereusedlistviewStripMenu.Click += new System.EventHandler(this.whereusedlistviewStripMenu_Click);
@@ -613,6 +617,24 @@
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.ToolTipText = "Close SPM Connect";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // iteminfolistviewStripMenu
+            // 
+            this.iteminfolistviewStripMenu.Image = ((System.Drawing.Image)(resources.GetObject("iteminfolistviewStripMenu.Image")));
+            this.iteminfolistviewStripMenu.Name = "iteminfolistviewStripMenu";
+            this.iteminfolistviewStripMenu.Size = new System.Drawing.Size(180, 22);
+            this.iteminfolistviewStripMenu.Text = "Get Item Info";
+            this.iteminfolistviewStripMenu.ToolTipText = "Get Selected Item\'s Info.";
+            this.iteminfolistviewStripMenu.Click += new System.EventHandler(this.iteminfolistviewStripMenu_Click);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem3.Image")));
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem3.Text = "E Model Viewer";
+            this.toolStripMenuItem3.ToolTipText = "Open Selected Item in Emodel Viewer";
+            this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
             // 
             // SPM_ConnectProduction
             // 
@@ -698,6 +720,8 @@
         private System.Windows.Forms.ContextMenuStrip trayiconstrip;
         private System.Windows.Forms.ToolStripMenuItem showToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem iteminfolistviewStripMenu;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member 'SPM_Connect.txtSearch'
     }
 }
