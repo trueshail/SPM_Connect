@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -32,12 +31,19 @@ namespace SearchDataSPM
         #region SPM Connect Load
 
         String connection;
+        String cntrlconnection;
         SqlConnection cn;
         DataTable dt;
         bool formloading = false;
         string userfullname = "";
+        string department = "";
+        bool eng = false;
+        bool production = false;
+        bool controls = false;
+        int _advcollapse = 0;
         SearchDataSPM.pnotifier purchaseReq = new SearchDataSPM.pnotifier();
         SPMConnectAPI.SPMSQLCommands connectapi = new SPMSQLCommands();
+        SPMConnectAPI.Controls connectapicntrls = new SPMConnectAPI.Controls();
 
 
         public SPM_Connect()
@@ -45,6 +51,7 @@ namespace SearchDataSPM
 
             InitializeComponent();
             connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
+            cntrlconnection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cntrlscn"].ConnectionString;
             try
             {
                 cn = new SqlConnection(connection);
@@ -58,6 +65,8 @@ namespace SearchDataSPM
 
             connectapi.SPM_Connect(connection);
 
+
+
         }
 
         private void SPM_Connect_Load(object sender, EventArgs e)
@@ -65,28 +74,14 @@ namespace SearchDataSPM
 
             collapse();
             formloading = true;
-            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-            if (connectapi.CheckAdmin())
-            {
-                admin_bttn.Visible = true;
-            }
-            if (connectapi.Checkdeveloper())
-            {
-                FormSelector.Items[7].Enabled = true;
-                FormSelector.Items[7].Visible = true;
-            }
 
-            this.Text = "SPM Connect Engineering - " + userName.ToString().Substring(4);
-            connectapi.chekin("SPM Connect Eng");
+            checkdeptsandrights();
+
             dt = new DataTable();
 
             Showallitems();
             txtSearch.Focus();
-            fillinfo();
-
-            versionlabel.Text = connectapi.getassyversionnumber();
-            TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
-
+            //fillinfo();
 
             userfullname = connectapi.getuserfullname();
 
@@ -96,15 +91,89 @@ namespace SearchDataSPM
             formloading = false;
         }
 
+        private void checkdeptsandrights()
+        {
+            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+            department = connectapi.getdepartment();
+
+            if (department == "Controls")
+            {
+                controls = true;
+                listView.ContextMenuStrip = Listviewcontextmenu;
+                Listviewcontextmenu.Items[3].Enabled = false;
+                Listviewcontextmenu.Items[3].Visible = false;
+                Listviewcontextmenu.Items[4].Enabled = false;
+                Listviewcontextmenu.Items[4].Visible = false;
+
+                AddNewBttn.Visible = false;
+                getnewitembttn.Visible = true;
+
+                dataGridView.ContextMenuStrip = FormSelectorControls;
+                this.Text = "SPM Connect Controls - " + userName.ToString().Substring(4);
+                connectapi.chekin("SPM Connect Controls");
+
+                connectapicntrls.SPM_Connect(cntrlconnection);
+                connectapicntrls.SPM_Connectconnectsql(connection);
+
+            }
+            else if (department == "Eng")
+            {
+                listView.ContextMenuStrip = Listviewcontextmenu;
+                dataGridView.ContextMenuStrip = FormSelectorEng;
+                AddNewBttn.Visible = true;
+                getnewitembttn.Visible = true;
+                this.Text = "SPM Connect Engineering - " + userName.ToString().Substring(4);
+                connectapi.chekin("SPM Connect Eng");
+                eng = true;
+            }
+            else if (department == "Production")
+            {
+                listView.ContextMenuStrip = Listviewcontextmenu;
+                Listviewcontextmenu.Items[3].Enabled = false;
+                Listviewcontextmenu.Items[3].Visible = false;
+                Listviewcontextmenu.Items[4].Enabled = false;
+                Listviewcontextmenu.Items[4].Visible = false;
+                AddNewBttn.Visible = false;
+                getnewitembttn.Visible = true;
+                dataGridView.ContextMenuStrip = FormSelectorEng;
+                FormSelectorEng.Items[4].Enabled = false;
+                FormSelectorEng.Items[4].Visible = false;
+                FormSelectorEng.Items[5].Enabled = false;
+                FormSelectorEng.Items[5].Visible = false;
+                this.Text = "SPM Connect Production - " + userName.ToString().Substring(4);
+                connectapi.chekin("SPM Connect Production");
+                production = true;
+            }
+
+            if (connectapi.CheckAdmin())
+            {
+                admin_bttn.Visible = true;
+            }
+
+            if (connectapi.Checkdeveloper())
+            {
+                FormSelectorEng.Items[7].Enabled = true;
+                FormSelectorEng.Items[7].Visible = true;
+            }
+
+            versionlabel.Text = connectapi.getassyversionnumber();
+            TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
+        }
+
         private void fillinfo()
         {
+            Cursor.Current = Cursors.WaitCursor;
+            formloading = true;
             fillfamilycodes();
             fillmanufacturers();
             filloem();
             filldesignedby();
             filllastsavedby();
             filluserwithblock();
+            FillMaterials();
             clearfilercombos();
+            formloading = false;
+            Cursor.Current = Cursors.Default;
         }
 
         void clearfilercombos()
@@ -123,6 +192,7 @@ namespace SearchDataSPM
             familycomboxbox.Text = null;
             designedbycombobox.Text = null;
             ActiveCadblockcombobox.Text = null;
+            MaterialcomboBox.Text = null;
 
         }
 
@@ -139,8 +209,6 @@ namespace SearchDataSPM
         private void Reload_Click(object sender, EventArgs e)
         {
             performreload();
-
-
         }
 
         void performreload()
@@ -331,7 +399,7 @@ namespace SearchDataSPM
                     clearandhide();
                 }
 
-                if (designedbycombobox.Text == "" && lastsavedbycombo.Text == "" && familycomboxbox.Text == "" && Manufactureritemcomboxbox.Text == "" && oemitemcombobox.Text == "" && ActiveCadblockcombobox.Text == "")
+                if (designedbycombobox.Text == "" && lastsavedbycombo.Text == "" && familycomboxbox.Text == "" && Manufactureritemcomboxbox.Text == "" && oemitemcombobox.Text == "" && ActiveCadblockcombobox.Text == "" && MaterialcomboBox.Text == "")
                 {
                     Showallitems();
                 }
@@ -351,8 +419,8 @@ namespace SearchDataSPM
 
                 if (txtSearch.Text.Length > 0)
                 {
-                     mainsearch();
-                    
+                    mainsearch();
+
                 }
                 else
                 {
@@ -718,189 +786,41 @@ namespace SearchDataSPM
         private void dataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             string itemnumber;
-            if (dataGridView.SelectedCells.Count == 1)
+
+            int selectedclmindex = dataGridView.SelectedCells[0].ColumnIndex;
+            DataGridViewColumn columnchk = dataGridView.Columns[selectedclmindex];
+            string c = Convert.ToString(columnchk.Index);
+            //MessageBox.Show(c);
+
+            if (dataGridView.SelectedCells.Count == 1 && c == "0")
             {
-                int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
-                DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-                itemnumber = Convert.ToString(slectedrow.Cells[0].Value);
-                ItemInfo itemInfo = new ItemInfo();
-                itemInfo.item(itemnumber);
-                itemInfo.Show();
-            }
-
-        }
-
-        public void checkforspmfile(string Item_No)
-        {
-            string ItemNumbero;
-            ItemNumbero = Item_No + "-0";
-
-            if (!String.IsNullOrWhiteSpace(Item_No) && Item_No.Length == 6)
-            {
-                string first3char = Item_No.Substring(0, 3) + @"\";
-                //MessageBox.Show(first3char);
-
-                string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
-
-                string Pathpart = (spmcadpath + first3char + Item_No + ".sldprt");
-                string Pathassy = (spmcadpath + first3char + Item_No + ".sldasm");
-                string PathPartNo = (spmcadpath + first3char + ItemNumbero + ".sldprt");
-                string PathAssyNo = (spmcadpath + first3char + ItemNumbero + ".sldasm");
-
-
-
-                if (File.Exists(Pathassy) && File.Exists(Pathpart))
+                if (controls)
                 {
-
-                    MessageBox.Show($"System has found a Part file and Assembly file with the same PartNo." + Item_No + "." +
-                        " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                }
-                else if (File.Exists(PathAssyNo) && File.Exists(PathPartNo))
-                {
-                    MessageBox.Show($"System has found a Part file and Assembly file with the same PartNo. " + ItemNumbero + "." +
-                        " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                }
-                else if (File.Exists(PathAssyNo) && File.Exists(Pathpart))
-                {
-                    MessageBox.Show($"System has found a Part file " + Item_No + "and Assembly file " + ItemNumbero + " with the same PartNo." +
-                        " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                }
-                else if (File.Exists(Pathassy) && File.Exists(PathPartNo))
-                {
-                    MessageBox.Show($"System has found a Part file " + ItemNumbero + "and Assembly file" + Item_No + " with the same PartNo." +
-                        " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                }
-                else if (File.Exists(PathPartNo) && File.Exists(Pathpart))
-                {
-                    MessageBox.Show($"System has found a Part two files " + Item_No + "," + ItemNumbero + " with the same PartNo." +
-                        " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                }
-                else if (File.Exists(PathAssyNo) && File.Exists(Pathassy))
-                {
-                    MessageBox.Show($"System has found a assembly files " + Item_No + "," + ItemNumbero + " with the same PartNo." +
-                        " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                }
-
-                else if (File.Exists(Pathassy))
-                {
-                    //Process.Start("explorer.exe", Pathassy);
-                    //fName = Pathassy;
-                    if (solidworks_running() == true)
-                    {
-                        Open_assy(Pathassy);
-                    }
-
-                }
-                else if (File.Exists(PathAssyNo))
-                {
-
-                    //Process.Start("explorer.exe", PathAssyNo);
-                    // fName = PathAssyNo;
-                    if (solidworks_running() == true)
-                    {
-                        Open_assy(PathAssyNo);
-                    }
-
-                }
-                else if (File.Exists(Pathpart))
-                {
-
-                    //Process.Start("explorer.exe", Pathpart);
-                    //fName = Pathpart;
-                    if (solidworks_running() == true)
-                    {
-                        Open_model(Pathpart);
-                    }
-                }
-                else if (File.Exists(PathPartNo))
-                {
-
-                    //Process.Start("explorer.exe", PathPartNo);
-                    //fName = PathPartNo;
-                    if (solidworks_running() == true)
-                    {
-                        Open_model(PathPartNo);
-                    }
-
+                    GetRowInfo();
                 }
                 else
                 {
-                    MessageBox.Show($"A file with the part number " + Item_No + " does not have Solidworks CAD Model. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    //fName = "";
-                }
-
-            }
-
-        }
-
-        private void checkforspmdrwfile(string Item_No)
-        {
-            string ItemNumbero = Item_No + "-0";
-
-
-            if (!String.IsNullOrWhiteSpace(Item_No) && Item_No.Length == 6)
-
-            {
-                string first3char = Item_No.Substring(0, 3) + @"\";
-                //MessageBox.Show(first3char);
-
-                string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
-
-                string Drawpath = (spmcadpath + first3char + Item_No + ".SLDDRW");
-
-                string drawpathno = (spmcadpath + first3char + ItemNumbero + ".SLDDRW");
-
-
-                if (File.Exists(drawpathno) && File.Exists(Drawpath))
-                {
-                    MessageBox.Show($"System has found a Part two files " + Item_No + "," + ItemNumbero + " with the same PartNo." +
-                        " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                }
-
-
-                else if (File.Exists(Drawpath))
-                {
-
-                    //Process.Start("explorer.exe", Drawpath);
-                    if (solidworks_running() == true)
-                    {
-                        Open_drw(Drawpath);
-                    }
-
-                }
-                else if (File.Exists(drawpathno))
-                {
-
-                    //Process.Start("explorer.exe", drawpathno);
-                    if (solidworks_running() == true)
-                    {
-                        Open_drw(drawpathno);
-                    }
-
-                }
-                else
-                {
-
-                    MessageBox.Show($"A file with the part number" + Item_No + " does not have Solidworks Drawing File. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
+                    int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
+                    DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
+                    itemnumber = Convert.ToString(slectedrow.Cells[0].Value);
+                    ItemInfo itemInfo = new ItemInfo();
+                    itemInfo.item(itemnumber);
+                    itemInfo.Show();
                 }
 
             }
             else
             {
 
+                int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
+                DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
+                itemnumber = Convert.ToString(slectedrow.Cells[0].Value);
+                ItemInfo itemInfo = new ItemInfo();
+                itemInfo.item(itemnumber);
+                itemInfo.Show();
+
             }
-
         }
-
-        //private string fName;
 
         private void dataGridView_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
@@ -926,7 +846,15 @@ namespace SearchDataSPM
             string Item = Convert.ToString(slectedrow.Cells[0].Value);
             //MessageBox.Show(ItemNo);
             //  checkforprocess();
-            checkforspmfile(Item);
+            if (production)
+            {
+                connectapi.checkforspmfileprod(Item);
+            }
+            else if (eng)
+            {
+                connectapi.checkforspmfile(Item);
+            }
+            
         }
 
         private void openDrawingToolStripMenuItem_Click(object sender, EventArgs e)
@@ -936,7 +864,14 @@ namespace SearchDataSPM
             string item = Convert.ToString(slectedrow.Cells[0].Value);
             //MessageBox.Show(str);
             // checkforprocess();
-            checkforspmdrwfile(item);
+            if (production)
+            {
+                connectapi.checkforspmdrwfileprod(item);
+            }
+            else if (eng)
+            {
+                connectapi.checkforspmdrwfile(item);
+            }
 
         }
 
@@ -1254,18 +1189,33 @@ namespace SearchDataSPM
                 else
                 {
                     e.Cancel = false;
-                  
-                  
+
+
                 }
 
             }
             else
             {
+                bool done = false;
+                ThreadPool.QueueUserWorkItem(delegate
+                {
+                    using (var splashForm = new Engineering.WaitFormOpening())
+                    {
+                        splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
+                        splashForm.Text = "Closing SPM Connect";
+                        splashForm.Size = new Size(275, 120);
+                        splashForm.Show();
+                        while (!done)
+                            Application.DoEvents();
+                        splashForm.Close();
+                    }
+                }, null);
                 Cursor.Current = Cursors.WaitCursor;
                 connectapi.checkout();
                 _preqdependency.Stop();
-                _dependency.Stop();
+                _dependency.Stop();                
                 Cursor.Current = Cursors.Default;
+                done = true;
             }
         }
 
@@ -1356,6 +1306,24 @@ namespace SearchDataSPM
                 LoginForm loginForm = new LoginForm();
                 loginForm.Show();
 
+                return true;
+            }
+
+            if (keyData == (Keys.Shift | Keys.OemPeriod))
+            {
+                if (splitContainer1.Panel2Collapsed == true)
+                {
+                    advsearchbttnclick();
+                }
+                return true;
+            }
+
+            if (keyData == (Keys.Shift | Keys.Oemcomma))
+            {
+                if (splitContainer1.Panel2Collapsed == false)
+                {
+                    advsearchbttnclick();
+                }
                 return true;
             }
 
@@ -1573,14 +1541,18 @@ namespace SearchDataSPM
 
         private void listView_Enter(object sender, EventArgs e)
         {
-            if (listView.Items.Count > 0)
+            if (department == "Eng")
             {
-                listView.ContextMenuStrip = Listviewcontextmenu;
+                if (listView.Items.Count > 0)
+                {
+                    listView.ContextMenuStrip = Listviewcontextmenu;
+                }
+                else
+                {
+                    listView.ContextMenuStrip = null;
+                }
             }
-            else
-            {
-                listView.ContextMenuStrip = null;
-            }
+
         }
 
 
@@ -1641,70 +1613,70 @@ namespace SearchDataSPM
 
         #region Solidworks Communication
 
-        private bool solidworks_running()
-        {
+        //private bool solidworks_running()
+        //{
 
-            if (Process.GetProcessesByName("SLDWORKS").Length >= 1)
-            {
-                //mysolidworks.ActiveModelDocChangeNotify += this.mysolidworks_activedocchange;
-                return true;
-            }
-            else if ((Process.GetProcessesByName("SLDWORKS").Length == 0))
-            {
+        //    if (Process.GetProcessesByName("SLDWORKS").Length >= 1)
+        //    {
+        //        //mysolidworks.ActiveModelDocChangeNotify += this.mysolidworks_activedocchange;
+        //        return true;
+        //    }
+        //    else if ((Process.GetProcessesByName("SLDWORKS").Length == 0))
+        //    {
 
-                MessageBox.Show("Soliworks application needs to be running in order for SPM Connect to perform. Thank you.", "SPM Connect - Solidworks Running", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-            else
-            {
-                MessageBox.Show("SPM Connect encountered more than one sesssion of solidworks running. Please close other sesssions in order for SPM Connect to perform. Thank you.", "SPM Connect - Solidworks Running", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return false;
-            }
-        }
+        //        MessageBox.Show("Soliworks application needs to be running in order for SPM Connect to perform. Thank you.", "SPM Connect - Solidworks Running", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //        return false;
+        //    }
+        //    else
+        //    {
+        //        MessageBox.Show("SPM Connect encountered more than one sesssion of solidworks running. Please close other sesssions in order for SPM Connect to perform. Thank you.", "SPM Connect - Solidworks Running", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+        //        return false;
+        //    }
+        //}
 
-        public void Open_model(string filename)
-        {
-            var progId = "SldWorks.Application";
-            SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
-            swApp.Visible = true;
-            int err = 0;
-            int warn = 0;
-            ModelDoc2 swModel = (ModelDoc2)swApp.OpenDoc6(filename, (int)swDocumentTypes_e.swDocPART, (int)swOpenDocOptions_e.swOpenDocOptions_Silent, "", ref err, ref warn);
-            swApp.ActivateDoc(filename);
-            swModel = swApp.ActiveDoc as ModelDoc2;
-            //swPart = (PartDoc)swModel;
-            //swPart = swApp.ActiveDoc;
-            //AttachEventHandlersPart();
-        }
+        //public void Open_model(string filename)
+        //{
+        //    var progId = "SldWorks.Application";
+        //    SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
+        //    swApp.Visible = true;
+        //    int err = 0;
+        //    int warn = 0;
+        //    ModelDoc2 swModel = (ModelDoc2)swApp.OpenDoc6(filename, (int)swDocumentTypes_e.swDocPART, (int)swOpenDocOptions_e.swOpenDocOptions_Silent, "", ref err, ref warn);
+        //    swApp.ActivateDoc(filename);
+        //    swModel = swApp.ActiveDoc as ModelDoc2;
+        //    //swPart = (PartDoc)swModel;
+        //    //swPart = swApp.ActiveDoc;
+        //    //AttachEventHandlersPart();
+        //}
 
-        public void Open_assy(string filename)
-        {
+        //public void Open_assy(string filename)
+        //{
 
-            var progId = "SldWorks.Application";
-            SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
-            swApp.Visible = true;
-            int err = 0;
-            int warn = 0;
-            ModelDoc2 swModel = (ModelDoc2)swApp.OpenDoc6(filename, (int)swDocumentTypes_e.swDocASSEMBLY, (int)swOpenDocOptions_e.swOpenDocOptions_Silent, "", ref err, ref warn);
-            swApp.ActivateDoc(filename);
-            swModel = swApp.ActiveDoc as ModelDoc2;
-            //swAssembly = (AssemblyDoc)swModel;
-            //AttachEventHandlers();
+        //    var progId = "SldWorks.Application";
+        //    SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
+        //    swApp.Visible = true;
+        //    int err = 0;
+        //    int warn = 0;
+        //    ModelDoc2 swModel = (ModelDoc2)swApp.OpenDoc6(filename, (int)swDocumentTypes_e.swDocASSEMBLY, (int)swOpenDocOptions_e.swOpenDocOptions_Silent, "", ref err, ref warn);
+        //    swApp.ActivateDoc(filename);
+        //    swModel = swApp.ActiveDoc as ModelDoc2;
+        //    //swAssembly = (AssemblyDoc)swModel;
+        //    //AttachEventHandlers();
 
-        }
+        //}
 
-        public void Open_drw(string filename)
-        {
+        //public void Open_drw(string filename)
+        //{
 
-            var progId = "SldWorks.Application";
-            SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
-            swApp.Visible = true;
-            int err = 0;
-            int warn = 0;
-            ModelDoc2 swModel = (ModelDoc2)swApp.OpenDoc6(filename, (int)swDocumentTypes_e.swDocDRAWING, (int)swOpenDocOptions_e.swOpenDocOptions_Silent, "", ref err, ref warn);
-            swApp.ActivateDoc(filename);
-            swModel = swApp.ActiveDoc as ModelDoc2;
-        }
+        //    var progId = "SldWorks.Application";
+        //    SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
+        //    swApp.Visible = true;
+        //    int err = 0;
+        //    int warn = 0;
+        //    ModelDoc2 swModel = (ModelDoc2)swApp.OpenDoc6(filename, (int)swDocumentTypes_e.swDocDRAWING, (int)swOpenDocOptions_e.swOpenDocOptions_Silent, "", ref err, ref warn);
+        //    swApp.ActivateDoc(filename);
+        //    swModel = swApp.ActiveDoc as ModelDoc2;
+        //}
 
 
         #endregion
@@ -1718,53 +1690,38 @@ namespace SearchDataSPM
 
             if (result == DialogResult.Yes)
             {
-                if (solidworks_running() == true)
+                if (connectapi.solidworks_running() == true)
                 {
-                    string user = get_username();
-                    string activeblock = getactiveblock(user);
+                    string user = connectapi.UserName();
+                    string activeblock = connectapi.getactiveblock();
 
                     if (activeblock.ToString().Length > 0)
                     {
-                        //MessageBox.Show(activeblock.ToString());     
-                        if (Convert.ToInt32(columnexists("Blocks", activeblock.ToString())) == 1)
+                        string lastnumber = connectapi.getlastnumber();
+                        if (lastnumber.ToString().Length > 0)
                         {
-                            string lastnumber = getlastnumber(activeblock.ToString());
-                            if (lastnumber.ToString().Length > 0)
+                            if (connectapi.validnumber(lastnumber.ToString()) == true)
                             {
-                                if (validnumber(lastnumber.ToString()) == true)
-                                {
-                                    spmnew_idincrement(lastnumber.ToString(), activeblock.ToString());
-                                    //insertinto_blocks(uniqueid, activeblock.ToString());
-                                    checkitempresentoninventory(uniqueid);
-                                    itempresentdecide();
-
-                                }
-
-                            }
-                            else
-                            {
-                                spmnew_id(activeblock.ToString());
+                                uniqueid = connectapi.spmnew_idincrement(lastnumber.ToString(), activeblock.ToString());
                                 //insertinto_blocks(uniqueid, activeblock.ToString());
-                                checkitempresentoninventory(uniqueid);
-                                itempresentdecide();
+                                itempresentdecide(connectapi.checkitempresentoninventory(uniqueid));
 
                             }
 
                         }
                         else
                         {
-                            // addblockcolumn(activeblock.ToString());
                             spmnew_id(activeblock.ToString());
                             //insertinto_blocks(uniqueid, activeblock.ToString());
-                            checkitempresentoninventory(uniqueid);
-                            itempresentdecide();
+                            itempresentdecide(connectapi.checkitempresentoninventory(uniqueid));
+
                         }
+
                     }
                     else
                     {
                         MessageBox.Show("User block number has not been assigned. Please contact the admin.", "SPM Connect - Add New", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-
 
                 }
             }
@@ -1773,316 +1730,13 @@ namespace SearchDataSPM
 
         string uniqueid;
 
-        private void spmnew_idincrement(string lastnumber, string blocknumber)
-        {
-            if (lastnumber.Substring(2) == "000")
-            {
-                string lastnumbergrp1 = blocknumber.Substring(0, 1).ToUpper();
-                uniqueid = lastnumbergrp1 + lastnumber.ToString();
-
-            }
-            else
-            {
-                string lastnumbergrp = blocknumber.Substring(0, 1).ToUpper();
-                int lastnumbers = Convert.ToInt32(lastnumber);
-                lastnumbers += 1;
-                uniqueid = lastnumbergrp + lastnumbers.ToString();
-
-            }
-            //string lastnumbergrp = blocknumber.Substring(0, 1).ToUpper();
-            //int lastnumbers = Convert.ToInt32(lastnumber);
-            //lastnumbers += 1;
-            //uniqueid = lastnumbergrp + lastnumbers.ToString();
-        }
-
-        private static bool validnumber(string lastnumber)
-        {
-            bool valid = true;
-            if (lastnumber.Substring(2) == "999")
-            {
-                MessageBox.Show("User block number limit has reached. Please ask the admin to asssign a new block number.", "SPM Connect - Valid Number Limit", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                valid = false;
-            }
-            return valid;
-        }
-
         private void spmnew_id(string blocknumber)
         {
             string letterblock = Char.ToUpper(blocknumber[0]) + blocknumber.Substring(1);
             uniqueid = letterblock + "000";
-            //insertinto_blocks(uniqueid, blocknumber.ToString());
         }
 
-        private static String get_username()
-        {
-            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-            if (userName.Length > 0)
-            {
-                return userName;
-            }
-            else
-            {
-                return null;
-            }
-
-        }
-
-        private string getactiveblock(string username)
-        {
-
-            try
-            {
-
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] where UserName ='" + username.ToString() + "'";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter sda = new SqlDataAdapter(cmd);
-                sda.Fill(dt);
-
-                foreach (DataRow dr in dt.Rows)
-                {
-                    string useractiveblock = dr["ActiveBlockNumber"].ToString();
-                    return useractiveblock;
-                }
-
-            }
-            catch (Exception ex)
-            {
-
-                MessageBox.Show(ex.Message, "SPM Connect - Get User Active Block", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //Application.Exit();
-
-            }
-            finally
-            {
-                cn.Close();
-            }
-
-            return "";
-
-        }
-
-        private bool columnexists(string tableName, string columnName)
-        {
-            var tblQuery = "SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = @tableName AND COLUMN_NAME = @columnName";
-            if (cn.State == ConnectionState.Closed)
-                cn.Open();
-            SqlCommand cmd = cn.CreateCommand();
-            cmd.CommandText = tblQuery;
-            var tblNameParam = new SqlParameter("@tableName", SqlDbType.NVarChar, 128);
-
-            tblNameParam.Value = tableName;
-            cmd.Parameters.Add(tblNameParam);
-            var colNameParam = new SqlParameter("@columnName", SqlDbType.NVarChar, 128);
-
-            colNameParam.Value = columnName;
-            cmd.Parameters.Add(colNameParam);
-            object objvalid = cmd.ExecuteScalar(); // will return 1 or null     
-            cn.Close();
-            return objvalid != null;
-
-
-        }
-
-        private void addblockcolumn(string blocknumber)
-        {
-            if (cn.State == ConnectionState.Closed)
-                cn.Open();
-            try
-            {
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "ALTER TABLE  [SPM_Database].[dbo].[Blocks] add " + Char.ToUpper(blocknumber[0]) + blocknumber.Substring(1) + " nvarchar(50) NULL ";
-                cmd.ExecuteNonQuery();
-                cn.Close();
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Add Block", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-
-        }
-
-        private string getlastnumberold(string blocknumber)
-        {
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT MAX(RIGHT(" + blocknumber.ToString() + ",5)) AS " + blocknumber.ToString() + " FROM [SPM_Database].[dbo].[Blocks]";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    string lastnumber = dr[blocknumber].ToString();
-                    return lastnumber;
-                }
-            }
-            catch (Exception ex)
-            {
-
-                MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-
-            }
-            finally
-            {
-                cn.Close();
-            }
-            return "";
-        }
-
-        private string getlastnumber(string blocknumber)
-        {
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT MAX(RIGHT(ItemNumber,5)) AS " + blocknumber.ToString() + " FROM [SPM_Database].[dbo].[UnionInventory] WHERE ItemNumber like '" + blocknumber.ToString() + "%' AND LEN(ItemNumber)=6";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    string lastnumber = dr[blocknumber].ToString();
-                    if (lastnumber == "")
-                    {
-                        return blocknumber.Substring(1) + "000";
-                    }
-                    return lastnumber;
-                }
-            }
-            catch (Exception ex)
-            {
-
-                MessageBox.Show(ex.Message, "SPM Connect - Get Last Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-
-            }
-            finally
-            {
-                cn.Close();
-            }
-            return blocknumber.Substring(1) + "000";
-        }
-
-        private string getuserfullname(string username)
-        {
-            string fullname = "";
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + username.ToString() + "' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    fullname = dr["Name"].ToString();
-
-                }
-            }
-            catch (Exception ex)
-            {
-
-                MessageBox.Show(ex.Message, "SPM Connect - Get Full User Name", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-
-            }
-            finally
-            {
-                cn.Close();
-            }
-            return fullname;
-        }
-
-        private void insertinto_blocks(string uniqueid, string blocknumber)
-        {
-            if (cn.State == ConnectionState.Closed)
-                cn.Open();
-            try
-            {
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Blocks] (" + blocknumber.ToString() + ") VALUES('" + uniqueid.ToString() + "')";
-                cmd.ExecuteNonQuery();
-                cn.Close();
-                //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Insert Into Blocks Table", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-
-        }
-
-        bool itempresent = false;
-
-        private void checkitempresentoninventory(string itemid)
-        {
-            string useradmin = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Inventory] WHERE [ItemNumber]='" + itemid.ToString() + "'", cn))
-            {
-                try
-                {
-                    cn.Open();
-                    sqlCommand.Parameters.AddWithValue("@username", useradmin);
-
-                    int userCount = (int)sqlCommand.ExecuteScalar();
-                    if (userCount == 1)
-                    {
-                        //MessageBox.Show("item already exists");
-                        itempresent = true;
-                    }
-                    else
-                    {
-                        //MessageBox.Show(" move forward");
-                        itempresent = false;
-                    }
-
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Check Item Present On SQL Inventory", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-
-                }
-
-            }
-
-
-        }
-
-        private void itempresentdecide()
+        private void itempresentdecide(bool itempresent)
         {
             if (itempresent == true)
             {
@@ -2090,7 +1744,7 @@ namespace SearchDataSPM
             }
             else
             {
-                string username = getuserfullname(get_username().ToString()).ToString();
+                string username = connectapi.getuserfullname();
                 createentryoninventory(uniqueid, username);
                 openiteminfo(uniqueid);
             }
@@ -2129,7 +1783,7 @@ namespace SearchDataSPM
             newItem.item(itemid);
             newItem.editbtn(chekeditbutton.ToString());
             chekeditbutton = "";
-            newItem.ShowDialog();
+            newItem.ShowDialog(this);
             newItem.Dispose();
 
         }
@@ -2147,13 +1801,11 @@ namespace SearchDataSPM
             Cursor.Current = Cursors.WaitCursor;
             chekeditbutton = "yes";
             this.Enabled = false;
-            if (solidworks_running() == true)
+            if (connectapi.solidworks_running() == true)
             {
                 //string item = getitemnumberselected().ToString();
 
-                checkitempresentoninventory(item);
-
-                if (itempresent == true)
+                if (connectapi.checkitempresentoninventory(item) == true)
                 {
                     if (listView.Items.Count > 0)
                     {
@@ -2199,7 +1851,7 @@ namespace SearchDataSPM
             }
             else
             {
-                MessageBox.Show("Only one item can be selected at a time.", "SPM Connect - Edit Model", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Only one item can be selected at a time.", "SPM Connect - Get Item on Connect SQL", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
 
@@ -2211,9 +1863,9 @@ namespace SearchDataSPM
             Thread t = new Thread(new ThreadStart(Splashopening));
             t.Start();
 
-            if (getfilename().ToString() != item)
+            if (connectapi.getfilename().ToString() != item)
             {
-                checkforspmfile(item);
+                connectapi.checkforspmfile(item);
                 if (checkforreadonly() == true)
                 {
                     chekeditbutton = "yes";
@@ -2228,9 +1880,11 @@ namespace SearchDataSPM
             {
                 //timer1.Start();
                 //Thread.Sleep(3000);
-                t.Abort();
-                openiteminfo(item);
-
+                if (checkforreadonly() == true)
+                {
+                    t.Abort();
+                    openiteminfo(item);
+                }
             }
         }
 
@@ -2262,50 +1916,7 @@ namespace SearchDataSPM
             }
         }
 
-        private static String getfilename()
-        {
-            ModelDoc2 swModel;
-            var progId = "SldWorks.Application";
-            SldWorks swApp = System.Runtime.InteropServices.Marshal.GetActiveObject(progId.ToString()) as SolidWorks.Interop.sldworks.SldWorks;
-
-
-            int count;
-            count = swApp.GetDocumentCount();
-
-            if (count > 0)
-            {
-                // MessageBox.Show("Number of open documents in this SOLIDWORKS session: " + count);
-                swModel = swApp.ActiveDoc as ModelDoc2;
-
-                string filename = swModel.GetTitle();
-                return filename;
-
-            }
-            else
-            {
-                return "";
-            }
-
-        }
-
-        private static String Makepath(string itemnumber)
-        {
-
-            if (itemnumber.Length > 0)
-            {
-                string first3char = itemnumber.Substring(0, 3) + @"\";
-                string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
-                string Pathpart = (spmcadpath + first3char);
-                return Pathpart;
-            }
-            else
-            {
-                return null;
-            }
-
-        }
-
-        public static bool checkforreadonly()
+        public bool checkforreadonly()
         {
             var progId = "SldWorks.Application";
             SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
@@ -2335,8 +1946,6 @@ namespace SearchDataSPM
             {
                 return true;
             }
-
-
 
         }
 
@@ -2371,8 +1980,8 @@ namespace SearchDataSPM
 
         private void updateitemtosqlinventory(string uniqueid)
         {
-            NewItem newItem = new NewItem();
-            string familycategory = newItem.getfamilycategory(getfamilycode().ToString());
+           
+            string familycategory = connectapi.getfamilycategory(getfamilycode().ToString());
             //MessageBox.Show(familycategory);
             string rupture = "ALWAYS";
 
@@ -2380,7 +1989,7 @@ namespace SearchDataSPM
             {
                 rupture = "NEVER";
             }
-            string username = getuserfullname(get_username().ToString()).ToString();
+            string username = connectapi.getuserfullname();
 
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDate = datecreated.ToString("yyyy-MM-dd HH:mm:ss.fff");
@@ -2433,45 +2042,52 @@ namespace SearchDataSPM
             }
             else
             {
-                NewItem newItem = new NewItem();
-                string category = newItem.getfamilycategory(getfamilycode().ToString());
-                string path = Makepath(item).ToString();
-                if (category.ToLower() == "manufactured")
+                string category = connectapi.getfamilycategory(getfamilycode().ToString());
+                string path = connectapi.Makepath(item).ToString();
+                if(category != "")
                 {
-                    //MessageBox.Show(path);
-                    System.IO.Directory.CreateDirectory(path);
-                    string filename = path + (item) + ".sldprt";
-                    newItem.createmodel(filename);
-                    string draw = path + (item) + ".slddrw";
-                    newItem.createdrawingpart(draw, item);
-                    getitemopenforedit(item);
+                    if (category.ToLower() == "manufactured")
+                    {
+                        //MessageBox.Show(path);
+                        System.IO.Directory.CreateDirectory(path);
+                        string filename = path + (item) + ".sldprt";
+                        connectapi.createmodel(filename);
+                        string draw = path + (item) + ".slddrw";
+                        connectapi.createdrawingpart(draw, item);
+                        getitemopenforedit(item);
 
-                }
-                else if (category.ToLower() == "assembly")
-                {
-                    System.IO.Directory.CreateDirectory(path);
-                    string filename = path + (item) + ".sldasm";
-                    newItem.createassy(filename);
-                    string draw = path + (item) + ".slddrw";
-                    newItem.createdrawingpart(draw, item);
-                    getitemopenforedit(item);
+                    }
+                    else if (category.ToLower() == "assembly")
+                    {
+                        System.IO.Directory.CreateDirectory(path);
+                        string filename = path + (item) + ".sldasm";
+                        connectapi.createassy(filename);
+                        string draw = path + (item) + ".slddrw";
+                        connectapi.createdrawingpart(draw, item);
+                        getitemopenforedit(item);
+                    }
+                    else
+                    {
+                        //DialogResult result = MessageBox.Show("Do you want to create a blank model for a purchased part?", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        //if (result == DialogResult.Yes)
+                        //{
+                        //    System.IO.Directory.CreateDirectory(path);
+                        //    string filename = path + (item) + ".sldprt";
+                        //    newItem.createmodel(filename);
+                        //}
+                        //else
+                        //{
+
+                        //}
+                        //return;
+                        openiteminfo(item);
+                    }
                 }
                 else
                 {
-                    //DialogResult result = MessageBox.Show("Do you want to create a blank model for a purchased part?", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    //if (result == DialogResult.Yes)
-                    //{
-                    //    System.IO.Directory.CreateDirectory(path);
-                    //    string filename = path + (item) + ".sldprt";
-                    //    newItem.createmodel(filename);
-                    //}
-                    //else
-                    //{
-
-                    //}
-                    //return;
-                    openiteminfo(item);
+                    MessageBox.Show("Please check on Family Code", "SPM Connect - Family Category Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+               
             }
 
         }
@@ -2494,75 +2110,60 @@ namespace SearchDataSPM
         {
             DialogResult result = MessageBox.Show("Are you sure want to copy item no. " + item + " to a new item?", "SPM Connect - Copy Item?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-
             if (result == DialogResult.Yes)
             {
-
-
-                if (solidworks_running() == true)
+                if (connectapi.solidworks_running() == true)
                 {
-                    string user = get_username();
-                    string activeblock = getactiveblock(user);
+                    string user = connectapi.UserName();
+                    string activeblock = connectapi.getactiveblock();
+                    string lastnumber = connectapi.getlastnumber();
                     if (activeblock.ToString().Length > 0)
                     {
-                        new Thread(() => new Engineering.WaitFormCopying().ShowDialog()).Start();
-                        //Thread.Sleep(3000);
-                        prepareforcopy(activeblock.ToString(), item);
+                        if (connectapi.validnumber(lastnumber.ToString()) == true)
+                        {
+                            new Thread(() => new Engineering.WaitFormCopying().ShowDialog()).Start();
+                            //Thread.Sleep(3000);
+                            prepareforcopy(activeblock.ToString(), item, lastnumber);
+                        }
                     }
                     else
                     {
                         MessageBox.Show("User block number has not been assigned. Please contact the admin.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-
                 }
-
             }
         }
 
-        private void prepareforcopy(string activeblock, string selecteditem)
+        private void prepareforcopy(string activeblock, string selecteditem, string lastnumber)
         {
-            string lastnumber = getlastnumber(activeblock.ToString());
+
             string first3char = selecteditem.Substring(0, 3) + @"\";
             string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
             string Pathpart = (spmcadpath + first3char);
 
-            if (Convert.ToInt32(columnexists("Blocks", activeblock.ToString())) == 1)
+            if (lastnumber.ToString().Length > 0)
             {
-                if (lastnumber.ToString().Length > 0)
+
+                uniqueid = connectapi.spmnew_idincrement(lastnumber.ToString(), activeblock.ToString());
+
+                if (connectapi.checkitempresentoninventory(uniqueid) == true)
                 {
-                    if (validnumber(lastnumber.ToString()) == true)
-                    {
-                        spmnew_idincrement(lastnumber.ToString(), activeblock.ToString());
-                        checkitempresentoninventory(uniqueid);
-                        if (itempresent == true)
-                        {
-                            //insertinto_blocks(uniqueid, activeblock.ToString());
-                            openiteminfo(uniqueid);
-                        }
-                        else
-                        {
-                            copy(Pathpart, selecteditem);
-                            aftercopy(activeblock, selecteditem);
-                        }
-
-                    }
-
+                    //insertinto_blocks(uniqueid, activeblock.ToString());
+                    openiteminfo(uniqueid);
                 }
                 else
                 {
-                    spmnew_id(activeblock.ToString());
                     copy(Pathpart, selecteditem);
                     aftercopy(activeblock, selecteditem);
                 }
-
             }
             else
             {
-                //addblockcolumn(activeblock.ToString());
                 spmnew_id(activeblock.ToString());
                 copy(Pathpart, selecteditem);
                 aftercopy(activeblock, selecteditem);
             }
+
         }
 
         private void aftercopy(string activeblock, string selecteditem)
@@ -2570,14 +2171,14 @@ namespace SearchDataSPM
             if (sucessreplacingreference == true)
             {
                 //insertinto_blocks(uniqueid, activeblock.ToString());
-                checkitempresentoninventory(selecteditem);
-                if (itempresent == true)
+
+                if (connectapi.checkitempresentoninventory(selecteditem) == true)
                 {
-                    addcpoieditemtosqltable(selecteditem);
+                    connectapi.addcpoieditemtosqltable(selecteditem,uniqueid);
                 }
                 else
                 {
-                    addcpoieditemtosqltablefromgenius(uniqueid, selecteditem);
+                    connectapi.addcpoieditemtosqltablefromgenius(uniqueid, selecteditem);
                     updateitemtosqlinventory(uniqueid);
                 }
                 Engineering.WaitFormCopying f = new Engineering.WaitFormCopying();
@@ -2590,14 +2191,14 @@ namespace SearchDataSPM
             else
             {
                 MessageBox.Show("SPM Connect failed to update drawing references.! Please manually update drawing references.", "SPM Connect - Copy References", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                checkitempresentoninventory(selecteditem);
-                if (itempresent == true)
+
+                if (connectapi.checkitempresentoninventory(selecteditem) == true)
                 {
-                    addcpoieditemtosqltable(selecteditem);
+                    connectapi.addcpoieditemtosqltable(selecteditem,uniqueid);
                 }
                 else
                 {
-                    addcpoieditemtosqltablefromgenius(uniqueid, selecteditem);
+                    connectapi.addcpoieditemtosqltablefromgenius(uniqueid, selecteditem);
                     updateitemtosqlinventory(uniqueid);
                 }
                 Engineering.WaitFormCopying f = new Engineering.WaitFormCopying();
@@ -2700,60 +2301,6 @@ namespace SearchDataSPM
             var progId = "SldWorks.Application";
             SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
             sucessreplacingreference = swApp.ReplaceReferencedDocument(newdraw, oldpath, newpath);
-
-        }
-
-        public void addcpoieditemtosqltablefromgenius(string newid, string activeid)
-        {
-
-
-            if (cn.State == ConnectionState.Closed)
-                cn.Open();
-            try
-            {
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT [SPM_Database].[dbo].[Inventory] (ItemNumber,Description,FamilyCode,Manufacturer,ManufacturerItemNumber,DesignedBy,DateCreated,LastSavedBy,LastEdited) SELECT '" + newid + "',Description,FamilyCode,Manufacturer,ManufacturerItemNumber,DesignedBy,DateCreated,LastSavedBy,LastEdited FROM [SPM_Database].[dbo].[UnionInventory] WHERE ItemNumber = '" + activeid + "'";
-                cmd.ExecuteNonQuery();
-                cn.Close();
-                //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Add Copied Item To Inventory From Genius", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-
-        }
-
-        private void addcpoieditemtosqltable(string selecteditem)
-        {
-            DateTime datecreated = DateTime.Now;
-            string sqlFormattedDate = datecreated.ToString("yyyy-MM-dd HH:mm:ss.fff");
-            if (cn.State == ConnectionState.Closed)
-                cn.Open();
-            try
-            {
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT [SPM_Database].[dbo].[Inventory](ItemNumber,Description,FamilyCode,Manufacturer,ManufacturerItemNumber,Material,Spare,DesignedBy,FamilyType,SurfaceProtection,HeatTreatment,Rupture,JobPlanning,Notes,DateCreated) SELECT '" + uniqueid + "',Description,FamilyCode,Manufacturer,ManufacturerItemNumber,Material,Spare,DesignedBy,FamilyType,SurfaceProtection,HeatTreatment,Rupture,JobPlanning,Notes,'" + sqlFormattedDate + "' FROM [SPM_Database].[dbo].[Inventory] WHERE ItemNumber = '" + selecteditem + "'";
-                cmd.ExecuteNonQuery();
-                cn.Close();
-                //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Add Copied Item To Inventory", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
 
         }
 
@@ -2920,10 +2467,15 @@ namespace SearchDataSPM
 
         private void eModelViewerToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            emodelviewtoolstrp();
+        }
+
+        private void emodelviewtoolstrp()
+        {
             if (listView.Items.Count > 0)
             {
                 string itemnumber = getitemnumberselected().ToString();
-                string Pathpart = Makepath(itemnumber);
+                string Pathpart = connectapi.Makepath(itemnumber);
                 string filename = Pathpart + itemnumber;
 
                 string[] s = Directory.GetFiles(Pathpart, "*" + itemnumber + "*", SearchOption.TopDirectoryOnly).Where(str => !str.Contains(@"\~$")).ToArray();
@@ -2949,23 +2501,57 @@ namespace SearchDataSPM
             }
         }
 
+        private void FormSelector_Opening(object sender, CancelEventArgs e)
+        {
+            if (dataGridView.SelectedRows.Count == 1)
+            {
+
+            }
+            else
+            {
+                e.Cancel = true;
+            }
+        }
+
+        private void toolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            if (listView.FocusedItem != null)
+            {
+                string file = listFiles[listView.FocusedItem.Index];
+                Edrawings.EModelViewer modelViewer = new Edrawings.EModelViewer();
+                modelViewer.filetoopen(file);
+                modelViewer.Show();
+            }
+        }
+
         #endregion
 
         #region Advance Filters
 
         private void advsearchbttn_Click(object sender, EventArgs e)
         {
-            collapse();
+            advsearchbttnclick();
 
+        }
+
+       private void advsearchbttnclick()
+        {
+            if (_advcollapse == 0)
+            {
+                fillinfo();
+                _advcollapse = 1;
+            }
+            collapse();
         }
 
         void collapse()
         {
+
             if (splitContainer1.Panel2Collapsed == true)
             {
                 advsearchbttn.Text = "<<";
                 splitContainer1.Panel2Collapsed = false;
-                this.Size = new Size(1135, 800);
+                this.Size = new Size(1135, 750);
                 splitContainer1.SplitterDistance = this.Width - 220;
                 //if (formWidth <= 1000)
                 //{
@@ -2983,7 +2569,7 @@ namespace SearchDataSPM
             {
                 advsearchbttn.Text = ">>";
 
-                this.Size = new Size(1000, 800);
+                this.Size = new Size(1000, 750);
 
                 splitContainer1.Panel2Collapsed = true;
                 splitContainer1.SplitterDistance = this.Width - 220;
@@ -3077,8 +2663,21 @@ namespace SearchDataSPM
                     }
 
                 }
+                if (MaterialcomboBox.Text.Length > 0)
+                {
+                    if (filter.Length > 0)
+                    {
+                        //filter += "AND";
+                        filter += string.Format(" AND Material LIKE '%{0}%'", MaterialcomboBox.Text.ToString().Substring(0, 3));
+                    }
+                    else
+                    {
+                        filter += string.Format("Material LIKE '%{0}%'", MaterialcomboBox.Text.ToString().Substring(0, 3));
+                    }
 
-                if (designedbycombobox.SelectedItem == null && lastsavedbycombo.SelectedItem == null && familycomboxbox.SelectedItem == null && Manufactureritemcomboxbox.SelectedItem == null && oemitemcombobox.SelectedItem == null && ActiveCadblockcombobox.SelectedItem == null)
+                }
+
+                if (designedbycombobox.SelectedItem == null && lastsavedbycombo.SelectedItem == null && familycomboxbox.SelectedItem == null && Manufactureritemcomboxbox.SelectedItem == null && oemitemcombobox.SelectedItem == null && ActiveCadblockcombobox.SelectedItem == null && MaterialcomboBox.SelectedItem == null)
                 {
 
                 }
@@ -3199,6 +2798,13 @@ namespace SearchDataSPM
             ActiveCadblockcombobox.DataSource = MyCollection;
         }
 
+        private void FillMaterials()
+        {
+            AutoCompleteStringCollection MyCollection = connectapi.FillMaterials();
+            MaterialcomboBox.AutoCompleteCustomSource = MyCollection;
+            MaterialcomboBox.DataSource = MyCollection;
+        }
+
         #endregion
 
         #region advance filters events
@@ -3263,36 +2869,46 @@ namespace SearchDataSPM
             }
         }
 
-        private void familycomboxbox_TextChanged(object sender, EventArgs e)
+        private void MaterialcomboBox_KeyDown(object sender, KeyEventArgs e)
         {
-            if (familycomboxbox.Text.Length == 0)
+            if (e.KeyCode == Keys.Return)
             {
                 FilterProducts();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
             }
+        }
+
+        private void familycomboxbox_TextChanged(object sender, EventArgs e)
+        {
+            //if (familycomboxbox.Text.Length == 0)
+            //{
+            //    FilterProducts();
+            //}
         }
 
         private void Manufactureritemcomboxbox_TextChanged(object sender, EventArgs e)
         {
-            if (Manufactureritemcomboxbox.Text.Length == 0)
-            {
-                FilterProducts();
-            }
+            //if (Manufactureritemcomboxbox.Text.Length == 0)
+            //{
+            //    FilterProducts();
+            //}
         }
 
         private void lastsavedbycombo_TextChanged(object sender, EventArgs e)
         {
-            if (lastsavedbycombo.Text.Length == 0)
-            {
-                FilterProducts();
-            }
+            //if (lastsavedbycombo.Text.Length == 0)
+            //{
+            //    FilterProducts();
+            //}
         }
 
         private void designedbycombobox_TextChanged(object sender, EventArgs e)
         {
-            if (designedbycombobox.Text.Length == 0)
-            {
-                FilterProducts();
-            }
+            //if (designedbycombobox.Text.Length == 0)
+            //{
+            //    FilterProducts();
+            //}
         }
 
         private void clrfiltersbttn_Click(object sender, EventArgs e)
@@ -3302,18 +2918,26 @@ namespace SearchDataSPM
 
         private void ActiveCadblockcombobox_TextChanged(object sender, EventArgs e)
         {
-            if (ActiveCadblockcombobox.Text.Length == 0)
-            {
-                FilterProducts();
-            }
+            //if (ActiveCadblockcombobox.Text.Length == 0)
+            //{
+            //    FilterProducts();
+            //}
         }
 
         private void oemitemcombobox_TextChanged(object sender, EventArgs e)
         {
-            if (oemitemcombobox.Text.Length == 0)
-            {
-                FilterProducts();
-            }
+            //if (oemitemcombobox.Text.Length == 0)
+            //{
+            //    FilterProducts();
+            //}
+        }
+
+        private void MaterialcomboBox_TextChanged(object sender, EventArgs e)
+        {
+            //if (MaterialcomboBox.Text.Length == 0)
+            //{
+            //    FilterProducts();
+            //}
         }
 
         #endregion
@@ -3375,7 +2999,158 @@ namespace SearchDataSPM
 
         #endregion
 
-        private void FormSelector_Opening(object sender, CancelEventArgs e)
+        #region CONTROLS
+
+        private void GetRowInfo()
+        {
+            int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
+            DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
+            string ItemNo = Convert.ToString(slectedrow.Cells[0].Value);
+            string description = Convert.ToString(slectedrow.Cells[1].Value);
+            string family = Convert.ToString(slectedrow.Cells[2].Value);
+            string Manufacturer = Convert.ToString(slectedrow.Cells[3].Value);
+            string oem = Convert.ToString(slectedrow.Cells[4].Value);
+            DialogResult result = MessageBox.Show(
+                "ItemNumber = " + ItemNo + System.Environment.NewLine +
+                "Description = " + description + System.Environment.NewLine +
+                "Family = " + family + System.Environment.NewLine +
+                "Manufacturer = " + Manufacturer + System.Environment.NewLine +
+                "OEM = " + oem, "Add To AutoCad Catalog?",
+                                                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                //code for Yes
+                connectapicntrls.CheckAutoCad(ItemNo, description, family, Manufacturer, oem);
+            }
+            else if (result == DialogResult.No)
+            {
+                //code for No
+            }
+        }
+
+        private void GetRowInfoforassy()
+        {
+            int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
+            DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
+            string ItemNo = Convert.ToString(slectedrow.Cells[0].Value);
+            string description = Convert.ToString(slectedrow.Cells[1].Value);
+            string family = Convert.ToString(slectedrow.Cells[2].Value);
+            string Manufacturer = Convert.ToString(slectedrow.Cells[3].Value);
+            string oem = Convert.ToString(slectedrow.Cells[4].Value);
+
+
+            if (family.ToString() == "ASEL" || family.ToString() == "AS" || family.ToString() == "ASPN")
+            {
+                DialogResult result = MessageBox.Show(
+                "ItemNumber = " + ItemNo + System.Environment.NewLine +
+                "Description = " + description + System.Environment.NewLine +
+                "Manufacturer = " + Manufacturer + System.Environment.NewLine +
+                "Family = " + family + System.Environment.NewLine +
+                "OEM = " + oem, "Create an Assembly To AutoCad Catalog?",
+                                                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    //code for Yes
+                    int checkutocadforassy = connectapicntrls.CheckAutoCadforassy(ItemNo, description, Manufacturer, oem);
+
+                    if (checkutocadforassy == 1)
+                    {
+                        openassytocatalog(ItemNo);
+                    }
+                    else if (checkutocadforassy == 3)
+                    {
+                        if (connectapicntrls.CheckAssyOnGenius(ItemNo))
+                        {
+                            createassycatalog(ItemNo, description, Manufacturer, oem, family);
+                        }
+                    }
+                }
+                else if (result == DialogResult.No)
+                {
+                    //code for No
+                }
+
+            }
+            else
+            {
+                MessageBox.Show("Item family must be a \"ASEL\" or \"ASPN\" or \"AS\". In order to create an assembly on the catalog.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+
+            }
+
+
+        }
+
+        private void createassycatalog(string ItemNo, string description, string Manufacturer, string oem, string family)
+        {
+            if (dataGridView.SelectedRows.Count == 1)
+            {
+                CreateAssyToCatalog treeView = new CreateAssyToCatalog();
+                treeView.getallitems(ItemNo, description, family, Manufacturer, oem);
+                treeView.ShowDialog();
+            }
+
+        }
+
+        private void openassytocatalog(string ItemNo)
+        {
+            AutocadAssembly treeView = new AutocadAssembly();
+            treeView.item(ItemNo);
+            treeView.Show();
+        }
+
+
+        #endregion
+
+        #region Controls ToolStrip
+
+        private void addToCatalogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GetRowInfo();
+        }
+
+        private void createAssemblyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GetRowInfoforassy();
+        }
+
+        private void autoCadCatalogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openassytocatalog(getitemnumberselected().ToString());
+        }
+
+        private void geniusToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            processbom(getitemnumberselected().ToString());
+        }
+
+        private void autoCadCatalogToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            AutocadWhereUsed treeView = new AutocadWhereUsed();
+            treeView.item(getitemnumberselected().ToString());
+            treeView.Show();
+        }
+
+        private void geniusJobsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            processwhereused(getitemnumberselected().ToString());
+        }
+
+        private void toolStripMenuItem7_Click(object sender, EventArgs e)
+        {
+            prorcessreportbom(getitemnumberselected(), "BOM");
+        }
+
+        private void toolStripMenuItem8_Click(object sender, EventArgs e)
+        {
+            prorcessreportbom(getitemnumberselected(), "SPAREPARTS");
+        }
+
+        private void eModelViewerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            emodelviewtoolstrp();
+        }
+
+        private void FormSelectorControls_Opening(object sender, CancelEventArgs e)
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
@@ -3387,14 +3162,18 @@ namespace SearchDataSPM
             }
         }
 
-        private void toolStripMenuItem3_Click(object sender, EventArgs e)
+
+
+
+        #endregion
+
+        private void getnewitembttn_Click(object sender, EventArgs e)
         {
-            if (listView.FocusedItem != null)
+            if (connectapi.validnumber(connectapi.getlastnumber()))
             {
-                string file = listFiles[listView.FocusedItem.Index];
-                Edrawings.EModelViewer modelViewer = new Edrawings.EModelViewer();
-                modelViewer.filetoopen(file);
-                modelViewer.Show();
+                string newid = connectapi.spmnew_idincrement(connectapi.getlastnumber(), connectapi.getactiveblock()).ToString();
+                MessageBox.Show("Your next ItemNumber to use is :- " + newid, "SPM Connect - New Item Number", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Clipboard.SetText(newid);
             }
         }
     }

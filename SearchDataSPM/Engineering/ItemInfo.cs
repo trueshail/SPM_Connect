@@ -296,8 +296,10 @@ namespace SearchDataSPM
                     }
                     else
                     {
-                        SPM_Connect sPM_Connect = new SPM_Connect();
-                        sPM_Connect.addcpoieditemtosqltablefromgenius(iteminfo2, iteminfo2);
+                        //SPM_Connect sPM_Connect = new SPM_Connect();
+                        SPMConnectAPI.SPMSQLCommands sPMSQLCommands = new SPMConnectAPI.SPMSQLCommands();
+                        sPMSQLCommands.SPM_Connect(connection);
+                        sPMSQLCommands.addcpoieditemtosqltablefromgenius(iteminfo2, iteminfo2);
                         filldatatable(iteminfo2);
                         //MessageBox.Show("Data not found on SPM Connect server.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         //this.Close();

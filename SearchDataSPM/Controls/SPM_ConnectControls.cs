@@ -1198,6 +1198,7 @@ namespace SearchDataSPM
                 }
                 else if (userCount > 1)
                 {
+                    _connection.Close();
                     MessageBox.Show("Technical error while looking up for assembly in autocad catalog. Please contact the admin.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else

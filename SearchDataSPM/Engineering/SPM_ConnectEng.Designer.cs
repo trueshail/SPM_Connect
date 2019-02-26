@@ -35,7 +35,7 @@ namespace SearchDataSPM
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.FormSelector = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.FormSelectorEng = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.bOMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.whereUsedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -68,6 +68,8 @@ namespace SearchDataSPM
             this.oemitemcombobox = new System.Windows.Forms.ComboBox();
             this.ActiveCadblockcombobox = new System.Windows.Forms.ComboBox();
             this.designedbycombobox = new System.Windows.Forms.ComboBox();
+            this.MaterialcomboBox = new System.Windows.Forms.ComboBox();
+            this.getnewitembttn = new System.Windows.Forms.Button();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.Listviewcontextmenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.bomlistviewmenustrpc = new System.Windows.Forms.ToolStripMenuItem();
@@ -86,6 +88,7 @@ namespace SearchDataSPM
             this.familyCodeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.manufacturerDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.manufacturerItemNumberDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.matlbl = new System.Windows.Forms.Label();
             this.clrfiltersbttn = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -97,7 +100,20 @@ namespace SearchDataSPM
             this.trayiconstrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.showToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.FormSelector.SuspendLayout();
+            this.FormSelectorControls = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.addToCatalogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.createAssemblyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
+            this.autoCadCatalogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.geniusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
+            this.autoCadCatalogToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.geniusJobsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripMenuItem();
+            this.eModelViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.FormSelectorEng.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.inventoryBindingSource3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sPM_DatabaseDataSet)).BeginInit();
             this.Listviewcontextmenu.SuspendLayout();
@@ -107,11 +123,12 @@ namespace SearchDataSPM
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.trayiconstrip.SuspendLayout();
+            this.FormSelectorControls.SuspendLayout();
             this.SuspendLayout();
             // 
-            // FormSelector
+            // FormSelectorEng
             // 
-            this.FormSelector.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.FormSelectorEng.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.bOMToolStripMenuItem,
             this.whereUsedToolStripMenuItem,
             this.openModelToolStripMenuItem,
@@ -121,10 +138,10 @@ namespace SearchDataSPM
             this.viewReportBOM,
             this.deleteItemToolStripMenuItem,
             this.eModelViewerToolStripMenuItem1});
-            this.FormSelector.Name = "contextMenuStrip1";
-            this.FormSelector.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.FormSelector.Size = new System.Drawing.Size(177, 202);
-            this.FormSelector.Opening += new System.ComponentModel.CancelEventHandler(this.FormSelector_Opening);
+            this.FormSelectorEng.Name = "contextMenuStrip1";
+            this.FormSelectorEng.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.FormSelectorEng.Size = new System.Drawing.Size(177, 202);
+            this.FormSelectorEng.Opening += new System.ComponentModel.CancelEventHandler(this.FormSelector_Opening);
             // 
             // bOMToolStripMenuItem
             // 
@@ -272,7 +289,7 @@ namespace SearchDataSPM
             this.AddNewBttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.AddNewBttn.ForeColor = System.Drawing.Color.Transparent;
             this.AddNewBttn.Image = ((System.Drawing.Image)(resources.GetObject("AddNewBttn.Image")));
-            this.AddNewBttn.Location = new System.Drawing.Point(815, 19);
+            this.AddNewBttn.Location = new System.Drawing.Point(812, 19);
             this.AddNewBttn.MaximumSize = new System.Drawing.Size(25, 25);
             this.AddNewBttn.MinimumSize = new System.Drawing.Size(25, 25);
             this.AddNewBttn.Name = "AddNewBttn";
@@ -281,6 +298,7 @@ namespace SearchDataSPM
             this.AddNewBttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TreeViewToolTip.SetToolTip(this.AddNewBttn, "Create New Item");
             this.AddNewBttn.UseVisualStyleBackColor = false;
+            this.AddNewBttn.Visible = false;
             this.AddNewBttn.Click += new System.EventHandler(this.AddNewBttn_Click);
             // 
             // jobsbttn
@@ -295,7 +313,7 @@ namespace SearchDataSPM
             this.jobsbttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.jobsbttn.ForeColor = System.Drawing.Color.Transparent;
             this.jobsbttn.Image = ((System.Drawing.Image)(resources.GetObject("jobsbttn.Image")));
-            this.jobsbttn.Location = new System.Drawing.Point(845, 19);
+            this.jobsbttn.Location = new System.Drawing.Point(855, 19);
             this.jobsbttn.MaximumSize = new System.Drawing.Size(25, 25);
             this.jobsbttn.MinimumSize = new System.Drawing.Size(25, 25);
             this.jobsbttn.Name = "jobsbttn";
@@ -318,7 +336,7 @@ namespace SearchDataSPM
             this.admin_bttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.admin_bttn.ForeColor = System.Drawing.Color.Transparent;
             this.admin_bttn.Image = ((System.Drawing.Image)(resources.GetObject("admin_bttn.Image")));
-            this.admin_bttn.Location = new System.Drawing.Point(872, 14);
+            this.admin_bttn.Location = new System.Drawing.Point(877, 14);
             this.admin_bttn.MaximumSize = new System.Drawing.Size(35, 35);
             this.admin_bttn.MinimumSize = new System.Drawing.Size(35, 35);
             this.admin_bttn.Name = "admin_bttn";
@@ -371,7 +389,7 @@ namespace SearchDataSPM
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSearch.BackColor = System.Drawing.SystemColors.MenuBar;
             this.txtSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSearch.Location = new System.Drawing.Point(209, 18);
+            this.txtSearch.Location = new System.Drawing.Point(209, 19);
             this.txtSearch.MaximumSize = new System.Drawing.Size(32767, 25);
             this.txtSearch.MinimumSize = new System.Drawing.Size(4, 23);
             this.txtSearch.Name = "txtSearch";
@@ -452,7 +470,7 @@ namespace SearchDataSPM
             // 
             this.advsearchbttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.advsearchbttn.Location = new System.Drawing.Point(869, 61);
+            this.advsearchbttn.Location = new System.Drawing.Point(871, 56);
             this.advsearchbttn.MaximumSize = new System.Drawing.Size(35, 25);
             this.advsearchbttn.MinimumSize = new System.Drawing.Size(35, 25);
             this.advsearchbttn.Name = "advsearchbttn";
@@ -472,9 +490,9 @@ namespace SearchDataSPM
             this.Manufactureritemcomboxbox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.Manufactureritemcomboxbox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.Manufactureritemcomboxbox.FormattingEnabled = true;
-            this.Manufactureritemcomboxbox.Location = new System.Drawing.Point(5, 376);
+            this.Manufactureritemcomboxbox.Location = new System.Drawing.Point(8, 376);
             this.Manufactureritemcomboxbox.Name = "Manufactureritemcomboxbox";
-            this.Manufactureritemcomboxbox.Size = new System.Drawing.Size(194, 21);
+            this.Manufactureritemcomboxbox.Size = new System.Drawing.Size(190, 21);
             this.Manufactureritemcomboxbox.TabIndex = 125;
             this.TreeViewToolTip.SetToolTip(this.Manufactureritemcomboxbox, "Filter by OEM item number");
             this.Manufactureritemcomboxbox.TextChanged += new System.EventHandler(this.Manufactureritemcomboxbox_TextChanged);
@@ -489,9 +507,9 @@ namespace SearchDataSPM
             this.familycomboxbox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.familycomboxbox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.familycomboxbox.FormattingEnabled = true;
-            this.familycomboxbox.Location = new System.Drawing.Point(5, 227);
+            this.familycomboxbox.Location = new System.Drawing.Point(8, 227);
             this.familycomboxbox.Name = "familycomboxbox";
-            this.familycomboxbox.Size = new System.Drawing.Size(194, 21);
+            this.familycomboxbox.Size = new System.Drawing.Size(190, 21);
             this.familycomboxbox.TabIndex = 123;
             this.TreeViewToolTip.SetToolTip(this.familycomboxbox, "Filter by family type");
             this.familycomboxbox.TextChanged += new System.EventHandler(this.familycomboxbox_TextChanged);
@@ -506,10 +524,10 @@ namespace SearchDataSPM
             this.lastsavedbycombo.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.lastsavedbycombo.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.lastsavedbycombo.FormattingEnabled = true;
-            this.lastsavedbycombo.Location = new System.Drawing.Point(5, 453);
+            this.lastsavedbycombo.Location = new System.Drawing.Point(8, 520);
             this.lastsavedbycombo.Name = "lastsavedbycombo";
-            this.lastsavedbycombo.Size = new System.Drawing.Size(194, 21);
-            this.lastsavedbycombo.TabIndex = 126;
+            this.lastsavedbycombo.Size = new System.Drawing.Size(190, 21);
+            this.lastsavedbycombo.TabIndex = 127;
             this.TreeViewToolTip.SetToolTip(this.lastsavedbycombo, "Filter by last saved");
             this.lastsavedbycombo.TextChanged += new System.EventHandler(this.lastsavedbycombo_TextChanged);
             this.lastsavedbycombo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lastsavedbycombo_KeyDown);
@@ -526,9 +544,9 @@ namespace SearchDataSPM
             this.oemitemcombobox.Items.AddRange(new object[] {
             "Festo",
             "SPM AUTOMATION (Canada) INC."});
-            this.oemitemcombobox.Location = new System.Drawing.Point(5, 301);
+            this.oemitemcombobox.Location = new System.Drawing.Point(8, 301);
             this.oemitemcombobox.Name = "oemitemcombobox";
-            this.oemitemcombobox.Size = new System.Drawing.Size(194, 21);
+            this.oemitemcombobox.Size = new System.Drawing.Size(190, 21);
             this.oemitemcombobox.TabIndex = 124;
             this.TreeViewToolTip.SetToolTip(this.oemitemcombobox, "Filter by manufacture");
             this.oemitemcombobox.TextChanged += new System.EventHandler(this.oemitemcombobox_TextChanged);
@@ -543,10 +561,10 @@ namespace SearchDataSPM
             this.ActiveCadblockcombobox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.ActiveCadblockcombobox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.ActiveCadblockcombobox.FormattingEnabled = true;
-            this.ActiveCadblockcombobox.Location = new System.Drawing.Point(5, 534);
+            this.ActiveCadblockcombobox.Location = new System.Drawing.Point(8, 601);
             this.ActiveCadblockcombobox.Name = "ActiveCadblockcombobox";
-            this.ActiveCadblockcombobox.Size = new System.Drawing.Size(194, 21);
-            this.ActiveCadblockcombobox.TabIndex = 127;
+            this.ActiveCadblockcombobox.Size = new System.Drawing.Size(190, 21);
+            this.ActiveCadblockcombobox.TabIndex = 128;
             this.TreeViewToolTip.SetToolTip(this.ActiveCadblockcombobox, "Filter by current cad block number");
             this.ActiveCadblockcombobox.TextChanged += new System.EventHandler(this.ActiveCadblockcombobox_TextChanged);
             this.ActiveCadblockcombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ActiveCadblockcombobox_KeyDown);
@@ -564,13 +582,54 @@ namespace SearchDataSPM
             "Shailkumar Patel",
             "Scott Reid",
             "Joel Goldsmith"});
-            this.designedbycombobox.Location = new System.Drawing.Point(5, 150);
+            this.designedbycombobox.Location = new System.Drawing.Point(8, 150);
             this.designedbycombobox.Name = "designedbycombobox";
-            this.designedbycombobox.Size = new System.Drawing.Size(194, 21);
+            this.designedbycombobox.Size = new System.Drawing.Size(190, 21);
             this.designedbycombobox.TabIndex = 122;
             this.TreeViewToolTip.SetToolTip(this.designedbycombobox, "Filter Designed by");
             this.designedbycombobox.TextChanged += new System.EventHandler(this.designedbycombobox_TextChanged);
             this.designedbycombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.designedbycombobox_KeyDown);
+            // 
+            // MaterialcomboBox
+            // 
+            this.MaterialcomboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.MaterialcomboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.MaterialcomboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.MaterialcomboBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.MaterialcomboBox.FormattingEnabled = true;
+            this.MaterialcomboBox.Location = new System.Drawing.Point(8, 447);
+            this.MaterialcomboBox.Name = "MaterialcomboBox";
+            this.MaterialcomboBox.Size = new System.Drawing.Size(190, 21);
+            this.MaterialcomboBox.TabIndex = 126;
+            this.TreeViewToolTip.SetToolTip(this.MaterialcomboBox, "Filter by Material");
+            this.MaterialcomboBox.TextChanged += new System.EventHandler(this.MaterialcomboBox_TextChanged);
+            this.MaterialcomboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MaterialcomboBox_KeyDown);
+            // 
+            // getnewitembttn
+            // 
+            this.getnewitembttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.getnewitembttn.BackColor = System.Drawing.Color.Transparent;
+            this.getnewitembttn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
+            this.getnewitembttn.FlatAppearance.BorderSize = 0;
+            this.getnewitembttn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.getnewitembttn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.getnewitembttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.getnewitembttn.ForeColor = System.Drawing.Color.Transparent;
+            this.getnewitembttn.Image = ((System.Drawing.Image)(resources.GetObject("getnewitembttn.Image")));
+            this.getnewitembttn.Location = new System.Drawing.Point(832, 19);
+            this.getnewitembttn.MaximumSize = new System.Drawing.Size(25, 25);
+            this.getnewitembttn.MinimumSize = new System.Drawing.Size(25, 25);
+            this.getnewitembttn.Name = "getnewitembttn";
+            this.getnewitembttn.Size = new System.Drawing.Size(25, 25);
+            this.getnewitembttn.TabIndex = 122;
+            this.getnewitembttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.TreeViewToolTip.SetToolTip(this.getnewitembttn, "What\'s My Next Item No.");
+            this.getnewitembttn.UseVisualStyleBackColor = false;
+            this.getnewitembttn.Visible = false;
+            this.getnewitembttn.Click += new System.EventHandler(this.getnewitembttn_Click);
             // 
             // imageList
             // 
@@ -660,6 +719,7 @@ namespace SearchDataSPM
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.getnewitembttn);
             this.splitContainer1.Panel1.Controls.Add(this.advsearchbttn);
             this.splitContainer1.Panel1.Controls.Add(this.SPM);
             this.splitContainer1.Panel1.Controls.Add(this.recordlabel);
@@ -680,6 +740,8 @@ namespace SearchDataSPM
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.BackColor = System.Drawing.Color.Gray;
+            this.splitContainer1.Panel2.Controls.Add(this.matlbl);
+            this.splitContainer1.Panel2.Controls.Add(this.MaterialcomboBox);
             this.splitContainer1.Panel2.Controls.Add(this.clrfiltersbttn);
             this.splitContainer1.Panel2.Controls.Add(this.label6);
             this.splitContainer1.Panel2.Controls.Add(this.label5);
@@ -694,7 +756,7 @@ namespace SearchDataSPM
             this.splitContainer1.Panel2.Controls.Add(this.ActiveCadblockcombobox);
             this.splitContainer1.Panel2.Controls.Add(this.designedbycombobox);
             this.splitContainer1.Panel2MinSize = 180;
-            this.splitContainer1.Size = new System.Drawing.Size(1119, 761);
+            this.splitContainer1.Size = new System.Drawing.Size(1119, 711);
             this.splitContainer1.SplitterDistance = 912;
             this.splitContainer1.SplitterWidth = 2;
             this.splitContainer1.TabIndex = 105;
@@ -720,7 +782,7 @@ namespace SearchDataSPM
             this.listView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.listView.ContextMenuStrip = this.Listviewcontextmenu;
             this.listView.LargeImageList = this.imageList;
-            this.listView.Location = new System.Drawing.Point(1, 538);
+            this.listView.Location = new System.Drawing.Point(1, 488);
             this.listView.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
             this.listView.MultiSelect = false;
             this.listView.Name = "listView";
@@ -756,7 +818,7 @@ namespace SearchDataSPM
             this.familyCodeDataGridViewTextBoxColumn,
             this.manufacturerDataGridViewTextBoxColumn,
             this.manufacturerItemNumberDataGridViewTextBoxColumn});
-            this.dataGridView.ContextMenuStrip = this.FormSelector;
+            this.dataGridView.ContextMenuStrip = this.FormSelectorEng;
             this.dataGridView.DataSource = this.inventoryBindingSource3;
             this.dataGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dataGridView.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(237)))), ((int)(((byte)(237)))));
@@ -764,7 +826,7 @@ namespace SearchDataSPM
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.ReadOnly = true;
             this.dataGridView.RowHeadersVisible = false;
-            this.dataGridView.Size = new System.Drawing.Size(911, 437);
+            this.dataGridView.Size = new System.Drawing.Size(911, 387);
             this.dataGridView.TabIndex = 111;
             this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellDoubleClick);
             this.dataGridView.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseDown);
@@ -828,6 +890,19 @@ namespace SearchDataSPM
             this.manufacturerItemNumberDataGridViewTextBoxColumn.Name = "manufacturerItemNumberDataGridViewTextBoxColumn";
             this.manufacturerItemNumberDataGridViewTextBoxColumn.ReadOnly = true;
             // 
+            // matlbl
+            // 
+            this.matlbl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.matlbl.AutoSize = true;
+            this.matlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.matlbl.Location = new System.Drawing.Point(22, 426);
+            this.matlbl.Name = "matlbl";
+            this.matlbl.Size = new System.Drawing.Size(68, 18);
+            this.matlbl.TabIndex = 147;
+            this.matlbl.Text = "Materials";
+            // 
             // clrfiltersbttn
             // 
             this.clrfiltersbttn.Dock = System.Windows.Forms.DockStyle.Top;
@@ -836,7 +911,7 @@ namespace SearchDataSPM
             this.clrfiltersbttn.MinimumSize = new System.Drawing.Size(0, 40);
             this.clrfiltersbttn.Name = "clrfiltersbttn";
             this.clrfiltersbttn.Size = new System.Drawing.Size(205, 40);
-            this.clrfiltersbttn.TabIndex = 128;
+            this.clrfiltersbttn.TabIndex = 129;
             this.clrfiltersbttn.Text = "Clear Filters";
             this.clrfiltersbttn.UseVisualStyleBackColor = true;
             this.clrfiltersbttn.Click += new System.EventHandler(this.clrfiltersbttn_Click);
@@ -861,7 +936,7 @@ namespace SearchDataSPM
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(22, 431);
+            this.label5.Location = new System.Drawing.Point(22, 498);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(102, 18);
             this.label5.TabIndex = 144;
@@ -913,7 +988,7 @@ namespace SearchDataSPM
             | System.Windows.Forms.AnchorStyles.Right)));
             this.actcadblk.AutoSize = true;
             this.actcadblk.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.actcadblk.Location = new System.Drawing.Point(22, 512);
+            this.actcadblk.Location = new System.Drawing.Point(22, 579);
             this.actcadblk.Name = "actcadblk";
             this.actcadblk.Size = new System.Drawing.Size(148, 18);
             this.actcadblk.TabIndex = 140;
@@ -958,12 +1033,138 @@ namespace SearchDataSPM
             this.exitToolStripMenuItem.ToolTipText = "Close SPM Connect";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
+            // FormSelectorControls
+            // 
+            this.FormSelectorControls.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addToCatalogToolStripMenuItem,
+            this.createAssemblyToolStripMenuItem,
+            this.toolStripMenuItem4,
+            this.toolStripMenuItem5,
+            this.toolStripMenuItem6,
+            this.eModelViewerToolStripMenuItem});
+            this.FormSelectorControls.Name = "contextMenuStrip1";
+            this.FormSelectorControls.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.FormSelectorControls.Size = new System.Drawing.Size(176, 136);
+            this.FormSelectorControls.Opening += new System.ComponentModel.CancelEventHandler(this.FormSelectorControls_Opening);
+            // 
+            // addToCatalogToolStripMenuItem
+            // 
+            this.addToCatalogToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("addToCatalogToolStripMenuItem.Image")));
+            this.addToCatalogToolStripMenuItem.Name = "addToCatalogToolStripMenuItem";
+            this.addToCatalogToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.addToCatalogToolStripMenuItem.Text = "Add To Catalog";
+            this.addToCatalogToolStripMenuItem.Click += new System.EventHandler(this.addToCatalogToolStripMenuItem_Click);
+            // 
+            // createAssemblyToolStripMenuItem
+            // 
+            this.createAssemblyToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("createAssemblyToolStripMenuItem.Image")));
+            this.createAssemblyToolStripMenuItem.Name = "createAssemblyToolStripMenuItem";
+            this.createAssemblyToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.createAssemblyToolStripMenuItem.Text = "Create Assembly";
+            this.createAssemblyToolStripMenuItem.Click += new System.EventHandler(this.createAssemblyToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.autoCadCatalogToolStripMenuItem,
+            this.geniusToolStripMenuItem});
+            this.toolStripMenuItem4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem4.Image")));
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(175, 22);
+            this.toolStripMenuItem4.Text = "BOM";
+            this.toolStripMenuItem4.ToolTipText = "Bills Of Material";
+            // 
+            // autoCadCatalogToolStripMenuItem
+            // 
+            this.autoCadCatalogToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("autoCadCatalogToolStripMenuItem.Image")));
+            this.autoCadCatalogToolStripMenuItem.Name = "autoCadCatalogToolStripMenuItem";
+            this.autoCadCatalogToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.autoCadCatalogToolStripMenuItem.Text = "AutoCad Catalog";
+            this.autoCadCatalogToolStripMenuItem.ToolTipText = "Displays assy from AutoCad Catalog";
+            this.autoCadCatalogToolStripMenuItem.Click += new System.EventHandler(this.autoCadCatalogToolStripMenuItem_Click);
+            // 
+            // geniusToolStripMenuItem
+            // 
+            this.geniusToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("geniusToolStripMenuItem.Image")));
+            this.geniusToolStripMenuItem.Name = "geniusToolStripMenuItem";
+            this.geniusToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.geniusToolStripMenuItem.Text = "SPM Jobs";
+            this.geniusToolStripMenuItem.ToolTipText = "Display BOM from Genius";
+            this.geniusToolStripMenuItem.Click += new System.EventHandler(this.geniusToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.autoCadCatalogToolStripMenuItem1,
+            this.geniusJobsToolStripMenuItem});
+            this.toolStripMenuItem5.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem5.Image")));
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(175, 22);
+            this.toolStripMenuItem5.Text = "Where Used";
+            this.toolStripMenuItem5.ToolTipText = "Check Where Used";
+            // 
+            // autoCadCatalogToolStripMenuItem1
+            // 
+            this.autoCadCatalogToolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("autoCadCatalogToolStripMenuItem1.Image")));
+            this.autoCadCatalogToolStripMenuItem1.Name = "autoCadCatalogToolStripMenuItem1";
+            this.autoCadCatalogToolStripMenuItem1.Size = new System.Drawing.Size(165, 22);
+            this.autoCadCatalogToolStripMenuItem1.Text = "AutoCad Catalog";
+            this.autoCadCatalogToolStripMenuItem1.ToolTipText = "Check where used on Autocad Catalog";
+            this.autoCadCatalogToolStripMenuItem1.Click += new System.EventHandler(this.autoCadCatalogToolStripMenuItem1_Click);
+            // 
+            // geniusJobsToolStripMenuItem
+            // 
+            this.geniusJobsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("geniusJobsToolStripMenuItem.Image")));
+            this.geniusJobsToolStripMenuItem.Name = "geniusJobsToolStripMenuItem";
+            this.geniusJobsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.geniusJobsToolStripMenuItem.Text = "SPM Jobs";
+            this.geniusJobsToolStripMenuItem.ToolTipText = "Check where used on Genius";
+            this.geniusJobsToolStripMenuItem.Click += new System.EventHandler(this.geniusJobsToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem6
+            // 
+            this.toolStripMenuItem6.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem7,
+            this.toolStripMenuItem8});
+            this.toolStripMenuItem6.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem6.Image")));
+            this.toolStripMenuItem6.Name = "toolStripMenuItem6";
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(175, 22);
+            this.toolStripMenuItem6.Text = "View Report (BOM)";
+            this.toolStripMenuItem6.ToolTipText = "View BOM Report";
+            // 
+            // toolStripMenuItem7
+            // 
+            this.toolStripMenuItem7.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem7.Image")));
+            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(191, 22);
+            this.toolStripMenuItem7.Text = "Bills of Manufacturing";
+            this.toolStripMenuItem7.ToolTipText = "Preview Bills Of Manufacturing Report";
+            this.toolStripMenuItem7.Click += new System.EventHandler(this.toolStripMenuItem7_Click);
+            // 
+            // toolStripMenuItem8
+            // 
+            this.toolStripMenuItem8.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem8.Image")));
+            this.toolStripMenuItem8.Name = "toolStripMenuItem8";
+            this.toolStripMenuItem8.Size = new System.Drawing.Size(191, 22);
+            this.toolStripMenuItem8.Text = "Spare Parts";
+            this.toolStripMenuItem8.ToolTipText = "Preview Spare Parts Report";
+            this.toolStripMenuItem8.Click += new System.EventHandler(this.toolStripMenuItem8_Click);
+            // 
+            // eModelViewerToolStripMenuItem
+            // 
+            this.eModelViewerToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("eModelViewerToolStripMenuItem.Image")));
+            this.eModelViewerToolStripMenuItem.Name = "eModelViewerToolStripMenuItem";
+            this.eModelViewerToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.eModelViewerToolStripMenuItem.Text = "E Model Viewer";
+            this.eModelViewerToolStripMenuItem.ToolTipText = "Show 3d Model";
+            this.eModelViewerToolStripMenuItem.Click += new System.EventHandler(this.eModelViewerToolStripMenuItem_Click);
+            // 
             // SPM_Connect
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
-            this.ClientSize = new System.Drawing.Size(1119, 761);
+            this.ClientSize = new System.Drawing.Size(1119, 711);
             this.Controls.Add(this.splitContainer1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
@@ -974,7 +1175,7 @@ namespace SearchDataSPM
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SPM_Connect_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SPM_Connect_FormClosed);
             this.Load += new System.EventHandler(this.SPM_Connect_Load);
-            this.FormSelector.ResumeLayout(false);
+            this.FormSelectorEng.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.inventoryBindingSource3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sPM_DatabaseDataSet)).EndInit();
             this.Listviewcontextmenu.ResumeLayout(false);
@@ -986,6 +1187,7 @@ namespace SearchDataSPM
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.trayiconstrip.ResumeLayout(false);
+            this.FormSelectorControls.ResumeLayout(false);
             this.ResumeLayout(false);
 
 		}
@@ -997,7 +1199,7 @@ namespace SearchDataSPM
 		private System.Windows.Forms.BindingSource inventoryBindingSource3;
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member 'SPM_Connect.txtSearch'
         private System.Windows.Forms.ToolTip TreeViewToolTip;
-        private System.Windows.Forms.ContextMenuStrip FormSelector;
+        private System.Windows.Forms.ContextMenuStrip FormSelectorEng;
         private System.Windows.Forms.ToolStripMenuItem bOMToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem whereUsedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openModelToolStripMenuItem;
@@ -1056,6 +1258,22 @@ namespace SearchDataSPM
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
         public System.Windows.Forms.DataGridView dataGridView;
         public System.Windows.Forms.Label recordlabel;
+        private System.Windows.Forms.ContextMenuStrip FormSelectorControls;
+        private System.Windows.Forms.ToolStripMenuItem addToCatalogToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem createAssemblyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
+        private System.Windows.Forms.ToolStripMenuItem autoCadCatalogToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem geniusToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
+        private System.Windows.Forms.ToolStripMenuItem autoCadCatalogToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem geniusJobsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem6;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem7;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem8;
+        private System.Windows.Forms.ToolStripMenuItem eModelViewerToolStripMenuItem;
+        private System.Windows.Forms.Label matlbl;
+        private System.Windows.Forms.ComboBox MaterialcomboBox;
+        private System.Windows.Forms.Button getnewitembttn;
 
 
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member 'SPM_Connect.txtSearch'

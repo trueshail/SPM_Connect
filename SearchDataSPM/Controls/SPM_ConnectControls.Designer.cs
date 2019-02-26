@@ -40,7 +40,7 @@
             this.familyCodeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.manufacturerDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.manufacturerItemNumberDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FormSelector = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.FormSelectorControls = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addToCatalogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createAssemblyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bOMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -74,7 +74,7 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
-            this.FormSelector.SuspendLayout();
+            this.FormSelectorControls.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.inventoryBindingSource3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sPM_DatabaseDataSet)).BeginInit();
             this.trayiconstrip.SuspendLayout();
@@ -118,7 +118,7 @@
             this.familyCodeDataGridViewTextBoxColumn,
             this.manufacturerDataGridViewTextBoxColumn,
             this.manufacturerItemNumberDataGridViewTextBoxColumn});
-            this.dataGridView.ContextMenuStrip = this.FormSelector;
+            this.dataGridView.ContextMenuStrip = this.FormSelectorControls;
             this.dataGridView.DataSource = this.inventoryBindingSource3;
             this.dataGridView.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(237)))), ((int)(((byte)(237)))));
             this.dataGridView.Location = new System.Drawing.Point(2, 100);
@@ -188,19 +188,19 @@
             this.manufacturerItemNumberDataGridViewTextBoxColumn.Name = "manufacturerItemNumberDataGridViewTextBoxColumn";
             this.manufacturerItemNumberDataGridViewTextBoxColumn.ReadOnly = true;
             // 
-            // FormSelector
+            // FormSelectorControls
             // 
-            this.FormSelector.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.FormSelectorControls.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addToCatalogToolStripMenuItem,
             this.createAssemblyToolStripMenuItem,
             this.bOMToolStripMenuItem,
             this.whereUsedToolStripMenuItem,
             this.viewReportBOM,
             this.eModelViewerToolStripMenuItem});
-            this.FormSelector.Name = "contextMenuStrip1";
-            this.FormSelector.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.FormSelector.Size = new System.Drawing.Size(181, 158);
-            this.FormSelector.Opening += new System.ComponentModel.CancelEventHandler(this.FormSelector_Opening);
+            this.FormSelectorControls.Name = "contextMenuStrip1";
+            this.FormSelectorControls.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.FormSelectorControls.Size = new System.Drawing.Size(181, 158);
+            this.FormSelectorControls.Opening += new System.ComponentModel.CancelEventHandler(this.FormSelector_Opening);
             // 
             // addToCatalogToolStripMenuItem
             // 
@@ -604,7 +604,7 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SPM_ConnectControls_FormClosed);
             this.Load += new System.EventHandler(this.SPM_Connect_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
-            this.FormSelector.ResumeLayout(false);
+            this.FormSelectorControls.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.inventoryBindingSource3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sPM_DatabaseDataSet)).EndInit();
             this.trayiconstrip.ResumeLayout(false);
@@ -629,7 +629,7 @@
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member 'SPM_Connect.txtSearch'
 		public System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.ToolTip TreeViewToolTip;
-        private System.Windows.Forms.ContextMenuStrip FormSelector;
+        private System.Windows.Forms.ContextMenuStrip FormSelectorControls;
         private System.Windows.Forms.ToolStripMenuItem bOMToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem whereUsedToolStripMenuItem;
         private System.Windows.Forms.DataGridViewTextBoxColumn itemNumberDataGridViewTextBoxColumn;

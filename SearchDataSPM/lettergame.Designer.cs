@@ -129,6 +129,7 @@
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.instructionLabel);
             this.Controls.Add(this.letterBox);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MaximizeBox = false;

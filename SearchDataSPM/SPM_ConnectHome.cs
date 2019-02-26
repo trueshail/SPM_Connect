@@ -21,14 +21,15 @@ namespace SearchDataSPM
 
             if(time == 240)
             {
-               Connect_SPMSQL();
+               
+                Connect_SPMSQL();
             }
            
             if (time >= 250)
             {
                 timer1.Stop();
                 this.Hide();
-
+                
 
             }
         }
@@ -69,7 +70,10 @@ namespace SearchDataSPM
                 cn.Close();
                 if (!checkmaintenance())
                 {
-                    checkforuser();
+                    //checkforuser();
+                    var form2 = new SPM_Connect();
+                    form2.Closed += (s, args) => this.Close();
+                    form2.Show();
                 }
                 else
                 {

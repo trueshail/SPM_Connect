@@ -63,13 +63,22 @@ namespace SearchDataSPM
 
 		private void ParentView_Load(object sender, EventArgs e)
 		{
-            ItemNo = SPM_ConnectControls.itemnumberct;
-            Description = SPM_ConnectControls.descriptionct;
-            OEM = SPM_ConnectControls.OEMct;
-            manufacturer = SPM_ConnectControls.manufacturerct;
-            family = SPM_ConnectControls.familyct;
+            //ItemNo = SPM_ConnectControls.itemnumberct;
+            //Description = SPM_ConnectControls.descriptionct;
+            //OEM = SPM_ConnectControls.OEMct;
+            //manufacturer = SPM_ConnectControls.manufacturerct;
+            //family = SPM_ConnectControls.familyct;
 
             Loadadding();           
+        }
+
+        public void  getallitems(string ItemNoimp, string descriptionimp, string familyimp, string Manufacturerimp, string oemimp)
+        {
+            ItemNo = ItemNoimp;
+            Description = descriptionimp;
+            OEM = oemimp;
+            manufacturer = Manufacturerimp;
+            family = familyimp;
         }
 
         #endregion
