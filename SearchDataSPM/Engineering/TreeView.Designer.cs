@@ -57,6 +57,7 @@
             this.qtylbl = new System.Windows.Forms.Label();
             this.listView = new System.Windows.Forms.ListView();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
+            this.foundlabel = new System.Windows.Forms.Label();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -100,13 +101,12 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSearch.BackColor = System.Drawing.SystemColors.MenuBar;
             this.txtSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSearch.Location = new System.Drawing.Point(12, 725);
+            this.txtSearch.Location = new System.Drawing.Point(12, 686);
             this.txtSearch.MaximumSize = new System.Drawing.Size(32767, 25);
             this.txtSearch.MinimumSize = new System.Drawing.Size(25, 25);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(415, 26);
+            this.txtSearch.Size = new System.Drawing.Size(415, 25);
             this.txtSearch.TabIndex = 4;
-            this.txtSearch.Text = "Search";
             this.LabelTooltips.SetToolTip(this.txtSearch, "Enter Search Keyword");
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
             this.txtSearch.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.txtSearch_MouseDoubleClick);
@@ -276,17 +276,18 @@
             this.treeView1.HotTracking = true;
             this.treeView1.ImageIndex = 0;
             this.treeView1.ImageList = this.imageList1;
-            this.treeView1.Location = new System.Drawing.Point(12, 59);
+            this.treeView1.Location = new System.Drawing.Point(12, 49);
             this.treeView1.MinimumSize = new System.Drawing.Size(100, 100);
             this.treeView1.Name = "treeView1";
             this.treeView1.SelectedImageIndex = 0;
             this.treeView1.ShowNodeToolTips = true;
-            this.treeView1.Size = new System.Drawing.Size(415, 655);
+            this.treeView1.Size = new System.Drawing.Size(415, 614);
             this.treeView1.TabIndex = 2;
             this.treeView1.BeforeCollapse += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeView1_BeforeCollapse);
             this.treeView1.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeView1_BeforeExpand);
             this.treeView1.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterExpand);
             this.treeView1.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeView1_ItemDrag);
+            this.treeView1.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeView1_BeforeSelect);
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
             this.treeView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeView1_KeyDown);
@@ -298,6 +299,7 @@
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             this.imageList1.Images.SetKeyName(0, "icons8_bookclose_64.png");
             this.imageList1.Images.SetKeyName(1, "icons8_bookopen_64.png");
+            this.imageList1.Images.SetKeyName(2, "icons8_Pageblue_32.png");
             // 
             // Assy_label
             // 
@@ -415,7 +417,7 @@
             this.listView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.listView.HideSelection = false;
             this.listView.LargeImageList = this.imageList;
-            this.listView.Location = new System.Drawing.Point(433, 580);
+            this.listView.Location = new System.Drawing.Point(433, 541);
             this.listView.MultiSelect = false;
             this.listView.Name = "listView";
             this.listView.ShowItemToolTips = true;
@@ -433,12 +435,26 @@
             this.imageList.ImageSize = new System.Drawing.Size(128, 128);
             this.imageList.TransparentColor = System.Drawing.Color.Black;
             // 
+            // foundlabel
+            // 
+            this.foundlabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.foundlabel.AutoSize = true;
+            this.foundlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.foundlabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.foundlabel.Location = new System.Drawing.Point(11, 666);
+            this.foundlabel.Name = "foundlabel";
+            this.foundlabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.foundlabel.Size = new System.Drawing.Size(49, 15);
+            this.foundlabel.TabIndex = 36;
+            this.foundlabel.Text = "Search:";
+            // 
             // TreeView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(69)))), ((int)(((byte)(76)))));
-            this.ClientSize = new System.Drawing.Size(784, 761);
+            this.ClientSize = new System.Drawing.Size(784, 716);
             this.Controls.Add(this.listView);
             this.Controls.Add(this.Descriptiontxtbox);
             this.Controls.Add(this.oemlbl);
@@ -447,6 +463,7 @@
             this.Controls.Add(this.SPM);
             this.Controls.Add(this.oemitemlbl);
             this.Controls.Add(this.SpareLbl);
+            this.Controls.Add(this.foundlabel);
             this.Controls.Add(this.descriptionlbl);
             this.Controls.Add(this.familytxtbox);
             this.Controls.Add(this.sparetxtbox);
@@ -501,5 +518,6 @@
         private System.Windows.Forms.ListView listView;
         private System.Windows.Forms.ImageList imageList;
         private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.Label foundlabel;
     }
 }

@@ -1038,7 +1038,7 @@ namespace SearchDataSPM
                 //whereused = ItemNo;
                 //ParentView parentView = new ParentView();
                 //parentView.Show();
-                WhereUsedSPM whereUsed = new WhereUsedSPM();
+                WhereUsed whereUsed = new WhereUsed();
                 whereUsed.item(ItemNo);
                 whereUsed.Show();
                 //whereused = null;
@@ -1049,7 +1049,7 @@ namespace SearchDataSPM
                 //whereused = "";
                 //ParentView parentView = new ParentView();
                 //parentView.Show();
-                WhereUsedSPM whereUsed = new WhereUsedSPM();
+                WhereUsed whereUsed = new WhereUsed();
                 whereUsed.Show();
                 //whereused = null;
             }
@@ -1097,7 +1097,7 @@ namespace SearchDataSPM
                 ItemNo = Convert.ToString(slectedrow.Cells[0].Value);
                 //MessageBox.Show(ItemNo);
                 //assytree = ItemNo;
-                TreeViewSPM treeView = new TreeViewSPM();
+                TreeView treeView = new TreeView();
                 treeView.item(ItemNo);
                 treeView.Show();
                 //assytree = null;
@@ -1105,7 +1105,7 @@ namespace SearchDataSPM
             else
             {
                 //assytree = "";
-                TreeViewSPM treeView = new TreeViewSPM();
+                TreeView treeView = new TreeView();
                 treeView.Show();
                 //assytree = null;
             }

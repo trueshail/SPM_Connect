@@ -411,6 +411,37 @@ namespace SPMConnectAPI
 
         }
 
+        public bool CheckPurchaseReqNotification()
+        {
+            bool maintenance = false;
+            string limit = "";
+            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'MonitorReqBase'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    limit = (string)cmd.ExecuteScalar();
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show( ex.Message, "SPM Connect - CheckPurchaseReq Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+            if (limit == "1")
+            {
+                maintenance = true;
+            }
+            return maintenance;
+
+        }
+
         #region GetNewItemNumber or copy items
 
         public string getactiveblock()

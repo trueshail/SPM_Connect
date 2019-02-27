@@ -723,36 +723,9 @@ namespace SearchDataSPM
 
         private void processbom(string itemvalue)
         {
-            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[USers] WHERE UserName = @username AND Department = 'Controls'", cn))
-            {
-                cn.Open();
-                sqlCommand.Parameters.AddWithValue("@username", userName);
-
-                int userCount = (int)sqlCommand.ExecuteScalar();
-                if (userCount == 1)
-                {
-                    cn.Close();
-                    //jobtree = itemvalue;
-                    TreeViewSPM treeView = new TreeViewSPM();
-                    treeView.item(itemvalue);
-                    treeView.Show();
-
-                }
-                else
-                {
-                    cn.Close();
-                    //jobtree = itemvalue;
-                    TreeView treeView = new TreeView();
-                    treeView.item(itemvalue);
-                    treeView.Show();
-                    //jobtree = null;
-
-                }
-            }
-
-
+            TreeView treeView = new TreeView();
+            treeView.item(itemvalue);
+            treeView.Show();
         }
 
         #endregion
@@ -838,7 +811,7 @@ namespace SearchDataSPM
                 string folderPath = Path.GetDirectoryName(openFileDialog1.FileName);
                 //MessageBox.Show(folderPath);
                 //Process.Start(folderPath);
-                createnewentry(job, bom, folderPath,true);
+                createnewentry(job, bom, folderPath, true);
 
                 //OpenFileDialog folderBrowser = new OpenFileDialog();
                 //// Set validate names and check file exists to false otherwise windows will
@@ -891,7 +864,7 @@ namespace SearchDataSPM
             {
                 openprojecteng(folderPath);
             }
-                
+
 
         }
 
@@ -923,7 +896,7 @@ namespace SearchDataSPM
                 cn.Close();
             }
 
-            
+
         }
 
         private void openprojecteng(string folderPath)
@@ -1086,14 +1059,14 @@ namespace SearchDataSPM
                                                    MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {
-                    createjobfolders(jobnumber, customer, jobdescription,salesorder);
+                    createjobfolders(jobnumber, customer, jobdescription, salesorder);
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
                 MessageBox.Show("Customer short name not found. Error with customer alias.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-           
+
         }
 
         private void createjobfolders(string jobnumber, string customer, string jobdescription, string salesorder)
@@ -1117,7 +1090,7 @@ namespace SearchDataSPM
             {
                 sourcepathseng = GetProjectEngSp();
                 destpatheng = GetProjectEngDp() + jobnumber + "_" + customer + "_" + jobdescription;
-                createnewentry(getjob(), getbomitem(), destpatheng,false);
+                createnewentry(getjob(), getbomitem(), destpatheng, false);
                 sourcepaths300 = GetProjectSalesSp();
                 destpaths300 = GetProjectSalesDp() + jobnumber + "_" + customer + "_" + jobdescription;
             }
@@ -1125,7 +1098,7 @@ namespace SearchDataSPM
             {
                 sourcepathseng = GetSpareEngSp();
                 destpatheng = GetSpareEngDp() + jobnumber + "_" + customer + "_Spare Parts" + "_" + jobdescription;
-                sourcepaths300 =GetSpareSalesSp();
+                sourcepaths300 = GetSpareSalesSp();
                 destpaths300 = GetSpareSalesDp() + salesorder + "_" + customer + "_Spare Parts" + "_" + jobdescription;
             }
             else if (ValueIWantFromProptForm == "service")
@@ -1137,7 +1110,7 @@ namespace SearchDataSPM
             }
             DirectoryCopy(sourcepathseng, destpatheng, true);
             DirectoryCopy(sourcepaths300, destpaths300, true);
-            
+
             Engineering.WaitFormCreatingFolders f = new Engineering.WaitFormCreatingFolders();
             f = (Engineering.WaitFormCreatingFolders)Application.OpenForms["WaitFormCreatingFolders"];
             f.Invoke(new ThreadStart(delegate { f.Close(); }));
@@ -1148,7 +1121,7 @@ namespace SearchDataSPM
 
         private String getjobnumber()
         {
-           
+
             string jobnumber;
             if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
             {
@@ -1167,7 +1140,7 @@ namespace SearchDataSPM
 
         private String getsalesorder()
         {
-           
+
             string jobnumber;
             if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
             {
@@ -1186,14 +1159,14 @@ namespace SearchDataSPM
 
         private String getjobdescription()
         {
-          
+
             string jobdescription;
             if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
             {
                 int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                 DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
                 jobdescription = Convert.ToString(slectedrow.Cells[4].Value);
-               //MessageBox.Show(jobdescription);
+                //MessageBox.Show(jobdescription);
 
                 Regex reg = new Regex("[*'\"/,_&#^@]");
                 jobdescription = reg.Replace(jobdescription, "-");
@@ -1223,8 +1196,8 @@ namespace SearchDataSPM
                 da.Fill(dt);
                 foreach (DataRow dr in dt.Rows)
                 {
-                     customername = dr["Alias"].ToString();
-                    
+                    customername = dr["Alias"].ToString();
+
                 }
             }
             catch (Exception ex)
@@ -1279,7 +1252,7 @@ namespace SearchDataSPM
 
                 foreach (Form frm in Application.OpenForms)
                 {
-                   
+
                     if (frm.Name.ToString() == "PurchaseReqform")
                     {
                         purchasereqopen = true;
@@ -1289,11 +1262,11 @@ namespace SearchDataSPM
                         frm.Focus();
                         frm.WindowState = FormWindowState.Normal;
                     }
-                    
+
                 }
                 if (purchasereqopen)
                 {
-                   
+
                 }
                 else
                 {
@@ -1384,7 +1357,7 @@ namespace SearchDataSPM
                 }
 
             }
-           
+
             return path;
         }
 

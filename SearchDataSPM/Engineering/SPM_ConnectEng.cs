@@ -41,6 +41,7 @@ namespace SearchDataSPM
         bool production = false;
         bool controls = false;
         int _advcollapse = 0;
+        bool purchasereqnotification = false;
         SearchDataSPM.pnotifier purchaseReq = new SearchDataSPM.pnotifier();
         SPMConnectAPI.SPMSQLCommands connectapi = new SPMSQLCommands();
         SPMConnectAPI.Controls connectapicntrls = new SPMConnectAPI.Controls();
@@ -86,8 +87,13 @@ namespace SearchDataSPM
             userfullname = connectapi.getuserfullname();
 
             sqlnotifier();
-            watchpreqtable();
-            purchaseReq.currentusercreds();
+
+            if (purchasereqnotification=connectapi.CheckPurchaseReqNotification())
+            {
+                watchpreqtable();
+                purchaseReq.currentusercreds();
+            }
+            
             formloading = false;
         }
 
@@ -1211,9 +1217,12 @@ namespace SearchDataSPM
                     }
                 }, null);
                 Cursor.Current = Cursors.WaitCursor;
+                if (purchasereqnotification)
+                {
+                    _preqdependency.Stop();
+                }                
+                _dependency.Stop();
                 connectapi.checkout();
-                _preqdependency.Stop();
-                _dependency.Stop();                
                 Cursor.Current = Cursors.Default;
                 done = true;
             }
@@ -1326,7 +1335,13 @@ namespace SearchDataSPM
                 }
                 return true;
             }
-
+            if (keyData == (Keys.Control | Keys.Q))
+            {
+                Compare sPM_ConnectJobs = new Compare();
+                sPM_ConnectJobs.item(getitemnumberselected());
+                sPM_ConnectJobs.Show();
+                return true;
+            }
 
             return base.ProcessCmdKey(ref msg, keyData);
         }

@@ -28,12 +28,12 @@
     <ErrorReportUrl>http://www.spm-automation.com/contact.php</ErrorReportUrl>
     <ProductName>SPM Connect</ProductName>
     <PublisherName>SPM Automation</PublisherName>
-    <MinimumRequiredVersion>7.6.3.1</MinimumRequiredVersion>
+    <MinimumRequiredVersion>7.6.5.0</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>2</ApplicationRevision>
-    <ApplicationVersion>7.6.3.%2a</ApplicationVersion>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>7.6.5.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -283,18 +283,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ConnectPurchaseReqDet.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Controls\TreeViewSPM.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Controls\TreeViewSPM.Designer.cs">
-      <DependentUpon>TreeViewSPM.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\WhereUsedSPM.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Controls\WhereUsedSPM.Designer.cs">
-      <DependentUpon>WhereUsedSPM.cs</DependentUpon>
-    </Compile>
     <Compile Include="Admin-developer\Customers.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -388,6 +376,12 @@
     </Compile>
     <Compile Include="General\SPM_ConnectWM.Designer.cs">
       <DependentUpon>SPM_ConnectWM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="General\Compare.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="General\Compare.Designer.cs">
+      <DependentUpon>Compare.cs</DependentUpon>
     </Compile>
     <Compile Include="lettergame.cs">
       <SubType>Form</SubType>
@@ -586,12 +580,6 @@
     <EmbeddedResource Include="Controls\SPM_ConnectControls.resx">
       <DependentUpon>SPM_ConnectControls.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\TreeViewSPM.resx">
-      <DependentUpon>TreeViewSPM.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\WhereUsedSPM.resx">
-      <DependentUpon>WhereUsedSPM.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Admin-developer\Customers.resx">
       <DependentUpon>Customers.cs</DependentUpon>
     </EmbeddedResource>
@@ -657,6 +645,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="General\SPM_ConnectWM.resx">
       <DependentUpon>SPM_ConnectWM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="General\Compare.resx">
+      <DependentUpon>Compare.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="lettergame.resx">
       <DependentUpon>lettergame.cs</DependentUpon>

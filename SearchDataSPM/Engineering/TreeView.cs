@@ -22,6 +22,7 @@ namespace SearchDataSPM
 
     {
         #region steupvariables
+
         String connection;
         DataTable _acountsTb = null;
         DataTable _productTB;
@@ -30,6 +31,8 @@ namespace SearchDataSPM
         SqlDataAdapter _adapter;
         TreeNode root = new TreeNode();
         string txtvalue;
+        bool eng = false;
+        SPMConnectAPI.SPMSQLCommands connectapi = new SPMConnectAPI.SPMSQLCommands();
 
         #endregion
 
@@ -53,7 +56,6 @@ namespace SearchDataSPM
 
             }
 
-
             _acountsTb = new DataTable();
             _command = new SqlCommand();
             _command.Connection = _connection;
@@ -63,6 +65,8 @@ namespace SearchDataSPM
             int h = Height >= screen.Height ? screen.Height : (screen.Height + Height) / 3;
             this.Location = new Point((screen.Width - w) / 2, (screen.Height - h) / 2);
             this.Size = new Size(w, h);
+            
+
         }
 
         string itemnumber;
@@ -77,40 +81,18 @@ namespace SearchDataSPM
         private void ParentView_Load(object sender, EventArgs e)
         {
             Assy_txtbox.Focus();
-
-            // Assy_txtbox.Text = SPM_Connect.assytree;
             Assy_txtbox.Text = itemnumber;
-
-            //if (Assy_txtbox.Text.Length == 0)
-            //{
-            //    Assy_txtbox.Text = SPM_ConnectDuplicates.assytree;
-            //}
-            //if (Assy_txtbox.Text.Length == 0)
-            //{
-            //    Assy_txtbox.Text = SPM_ConnectProduction.assytree;
-            //}
-            //if (Assy_txtbox.Text.Length == 0)
-            //{
-            //    Assy_txtbox.Text = WhereUsed.assytree;
-            //}
-            //if (Assy_txtbox.Text.Length == 0)
-            //{
-            //    Assy_txtbox.Text = SPM_ConnectJobs.jobtree;
-            //}
-
-
             if (Assy_txtbox.Text.Length == 5 || Assy_txtbox.Text.Length == 6)
             {
                 //SendKeys.Send("~");
                 itemnumber = null;
                 startprocessofbom();
-
+                CallRecursive();
+                connectapi.SPM_Connect(connection);
+                if (connectapi.getdepartment() == "Eng") eng = true;
+                Assy_txtbox.Select();
             }
-
-
-            Assy_txtbox.Select();
-
-
+           
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -136,7 +118,6 @@ namespace SearchDataSPM
         #endregion
 
         #region assytextbox and button events
-
 
         private void Assy_txtbox_MouseDoubleClick(object sender, MouseEventArgs e)
         {
@@ -187,14 +168,11 @@ namespace SearchDataSPM
 
         private void Assy_txtbox_KeyDown(object sender, KeyEventArgs e)
         {
-
-
             if (e.KeyCode == Keys.Return)
             {
                 startprocessofbom();
                 e.Handled = true;
                 e.SuppressKeyPress = true;
-
             }
         }
 
@@ -248,12 +226,10 @@ namespace SearchDataSPM
 
                 _adapter.Fill(_acountsTb);
 
-
-
             }
             catch (SqlException ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "BOM - Fill data table Items", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -266,7 +242,6 @@ namespace SearchDataSPM
 
         private void fillrootnode()
         {
-
             //if (Assy_txtbox.Text.Length == 6)
             //{
             Assy_txtbox.BackColor = Color.White; //to add high light
@@ -388,7 +363,7 @@ namespace SearchDataSPM
                 PopulateTreeView((dr["ItemNumber"].ToString()), childNode);
             }
             // treeView1.SelectedNode = treeView1.Nodes[0];
-
+           
         }
 
         private void RemoveChildNodes(TreeNode parentNode)
@@ -424,162 +399,18 @@ namespace SearchDataSPM
 
         #region open model and drawing
 
-        private void checkforspmfile(string ItemNo)
-        {
-            string ItemNumbero = ItemNo + "-0";
-
-
-            if (!String.IsNullOrWhiteSpace(ItemNo) && ItemNo.Length == 6)
-
-            {
-                string first3char = ItemNo.Substring(0, 3) + @"\";
-                //MessageBox.Show(first3char);
-
-                string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
-
-                string Pathpart = (spmcadpath + first3char + ItemNo + ".sldprt");
-                string Pathassy = (spmcadpath + first3char + ItemNo + ".sldasm");
-                string PathPartNo = (spmcadpath + first3char + ItemNumbero + ".sldprt");
-                string PathAssyNo = (spmcadpath + first3char + ItemNumbero + ".sldasm");
-
-
-
-                if (File.Exists(Pathassy) && File.Exists(Pathpart))
-                {
-
-                    MessageBox.Show($"System has found a Part file and Assembly file with the same PartNo." + ItemNo + "." +
-                        " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                }
-                else if (File.Exists(PathAssyNo) && File.Exists(PathPartNo))
-                {
-                    MessageBox.Show($"System has found a Part file and Assembly file with the same PartNo. " + ItemNumbero + "." +
-                        " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                }
-                else if (File.Exists(PathAssyNo) && File.Exists(Pathpart))
-                {
-                    MessageBox.Show($"System has found a Part file " + ItemNo + "and Assembly file " + ItemNumbero + " with the same PartNo." +
-                        " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                }
-                else if (File.Exists(Pathassy) && File.Exists(PathPartNo))
-                {
-                    MessageBox.Show($"System has found a Part file " + ItemNumbero + "and Assembly file" + ItemNo + " with the same PartNo." +
-                        " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                }
-                else if (File.Exists(PathPartNo) && File.Exists(Pathpart))
-                {
-                    MessageBox.Show($"System has found a Part two files " + ItemNo + "," + ItemNumbero + " with the same PartNo." +
-                        " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                }
-                else if (File.Exists(PathAssyNo) && File.Exists(Pathassy))
-                {
-                    MessageBox.Show($"System has found a assembly files " + ItemNo + "," + ItemNumbero + " with the same PartNo." +
-                        " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                }
-
-                else if (File.Exists(Pathassy))
-                {
-
-                    Process.Start("explorer.exe", Pathassy);
-
-                }
-                else if (File.Exists(PathAssyNo))
-                {
-
-                    Process.Start("explorer.exe", PathAssyNo);
-
-                }
-                else if (File.Exists(Pathpart))
-                {
-
-                    Process.Start("explorer.exe", Pathpart);
-
-                }
-                else if (File.Exists(PathPartNo))
-                {
-
-                    Process.Start("explorer.exe", PathPartNo);
-
-                }
-                else
-                {
-
-                    MessageBox.Show($"A file with the part number" + ItemNo + " does not have Solidworks CAD Model. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                }
-
-            }
-            else
-            {
-
-
-            }
-
-        }
-
-        private void checkforspmdrwfile(string str)
-        {
-            string ItemNumbero = str + "-0";
-
-
-            if (!String.IsNullOrWhiteSpace(str) && str.Length == 6)
-
-            {
-                string first3char = str.Substring(0, 3) + @"\";
-                //MessageBox.Show(first3char);
-
-                string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
-
-                string Drawpath = (spmcadpath + first3char + str + ".SLDDRW");
-
-                string drawpathno = (spmcadpath + first3char + ItemNumbero + ".SLDDRW");
-
-
-                if (File.Exists(drawpathno) && File.Exists(Drawpath))
-                {
-                    MessageBox.Show($"System has found a Part two files " + str + "," + ItemNumbero + " with the same PartNo." +
-                        " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                }
-
-
-                else if (File.Exists(Drawpath))
-                {
-
-                    Process.Start("explorer.exe", Drawpath);
-
-                }
-                else if (File.Exists(drawpathno))
-                {
-
-                    Process.Start("explorer.exe", drawpathno);
-
-                }
-                else
-                {
-
-                    MessageBox.Show($"A file with the part number" + str + " does not have Solidworks Drawing File. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                }
-
-            }
-            else
-            {
-
-            }
-
-        }
-
         private void openModelToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string itemstr = treeView1.SelectedNode.Text;
             itemstr = itemstr.Substring(0, 6);
-            checkforspmfile(itemstr);
+            if(eng)
+            {
+                connectapi.checkforspmfile(itemstr);
+            }
+            else
+            {
+                connectapi.checkforspmfileprod(itemstr);
+            }           
 
         }
 
@@ -588,16 +419,20 @@ namespace SearchDataSPM
 
             string itemstr = treeView1.SelectedNode.Text;
             itemstr = itemstr.Substring(0, 6);
-
-            //MessageBox.Show(ItemNo);
-
-            checkforspmdrwfile(itemstr);
-
+            if(eng)
+            {
+                connectapi.checkforspmdrwfile(itemstr);
+            }
+            else
+            {
+                connectapi.checkforspmdrwfileprod(itemstr);
+            }
         }
 
         #endregion
 
         #region search tree
+
         private List<TreeNode> CurrentNodeMatches = new List<TreeNode>();
 
         private int LastNodeIndex = 0;
@@ -638,59 +473,67 @@ namespace SearchDataSPM
 
         private void txtSearch_KeyDown(object sender, KeyEventArgs e)
         {
-            try
+            if (txtSearch.Text.Length > 0)
             {
-                string searchText = this.txtSearch.Text;
-                if (e.KeyCode == Keys.Return)
+                try
                 {
-                    txtSearch.Select();
-                    if (String.IsNullOrEmpty(searchText))
+                    string searchText = this.txtSearch.Text;
+                    if (e.KeyCode == Keys.Return)
                     {
-                        return;
-                    };
+                        txtSearch.Select();
+                        if (String.IsNullOrEmpty(searchText))
+                        {
+                            return;
+                        };
 
 
-                    if (LastSearchText != searchText)
-                    {
-                        //It's a new Search
-                        CurrentNodeMatches.Clear();
-                        LastSearchText = searchText;
-                        LastNodeIndex = 0;
-                        SearchNodes(searchText, treeView1.Nodes[0]);
+                        if (LastSearchText != searchText)
+                        {
+                            //It's a new Search
+                            CurrentNodeMatches.Clear();
+                            LastSearchText = searchText;
+                            LastNodeIndex = 0;
+                            SearchNodes(searchText, treeView1.Nodes[0]);
+                        }
+
+                        if (LastNodeIndex >= 0 && CurrentNodeMatches.Count > 0 && LastNodeIndex < CurrentNodeMatches.Count)
+                        {
+
+
+                            TreeNode selectedNode = CurrentNodeMatches[LastNodeIndex];
+                            LastNodeIndex++;
+                            this.treeView1.SelectedNode = selectedNode;
+                            this.treeView1.SelectedNode.Expand();
+                            this.treeView1.Select();
+                            if (txtSearch.Text.Length > 0)
+                                foundlabel.Text = "Found " + LastNodeIndex + " of " + CurrentNodeMatches.Count + " matching items containing keyword \"" + searchText + "\"";
+                            else foundlabel.Text = "Search:";
+
+
+                        }
+                        else
+                        {
+                            LastSearchText = "";
+                        }
+
+                        e.Handled = true;
+                        e.SuppressKeyPress = true;
+
                     }
+                }
 
-                    if (LastNodeIndex >= 0 && CurrentNodeMatches.Count > 0 && LastNodeIndex < CurrentNodeMatches.Count)
-                    {
-                        TreeNode selectedNode = CurrentNodeMatches[LastNodeIndex];
-                        LastNodeIndex++;
-                        this.treeView1.SelectedNode = selectedNode;
-                        this.treeView1.SelectedNode.Expand();
-                        this.treeView1.Select();
-
-                    }
-                    else
-                    {
-                        LastSearchText = "";
-                    }
-
-                    e.Handled = true;
-                    e.SuppressKeyPress = true;
+                catch (Exception)
+                {
 
                 }
-            }
-
-            catch (Exception)
-            {
-
-            }
-
-
+            }          
+            else foundlabel.Text = "Search:";
         }
 
         private void txtSearch_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             txtSearch.Clear();
-
+            foundlabel.Text = "Search:";
         }
 
         #endregion
@@ -700,6 +543,7 @@ namespace SearchDataSPM
         private void treeView1_AfterExpand(object sender, TreeViewEventArgs e)
         {
             Expandchk.Checked = true;
+            // CallRecursive();
 
         }
 
@@ -779,6 +623,7 @@ namespace SearchDataSPM
                 filllistview(ItemNo);
             }
 
+
         }
 
         private void filllistview(string item)
@@ -832,6 +677,7 @@ namespace SearchDataSPM
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             treeView1.SelectedNode = e.Node;
+
         }
 
         private void treeView1_ItemDrag(object sender, ItemDragEventArgs e)
@@ -1006,6 +852,7 @@ namespace SearchDataSPM
         {
             e.Node.SelectedImageIndex = 0;
             e.Node.ImageIndex = 0;
+
         }
 
         private void treeView1_BeforeExpand(object sender, TreeViewCancelEventArgs e)
@@ -1013,6 +860,7 @@ namespace SearchDataSPM
 
             e.Node.SelectedImageIndex = 1;
             e.Node.ImageIndex = 1;
+
             //Node doesn't exists
 
         }
@@ -1020,6 +868,55 @@ namespace SearchDataSPM
         private void TreeView_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.Dispose();
+        }
+
+        private void PrintRecursive(TreeNode treeNode)
+        {
+            // Print the node.  
+            System.Diagnostics.Debug.WriteLine(treeNode.Text);
+            if (treeNode.Nodes.Count == 0)
+            {
+                treeNode.ImageIndex = 2;
+            }
+
+            // Print each node recursively.  
+            foreach (TreeNode tn in treeNode.Nodes)
+            {
+                PrintRecursive(tn);
+            }
+        }
+
+        private void CallRecursive()
+        {
+            // Print each node recursively.  
+            TreeNodeCollection nodes = treeView1.Nodes;
+            foreach (TreeNode n in nodes)
+            {
+                if (n.Nodes.Count > 0)
+                {
+                    PrintRecursive(n);
+                }
+
+            }
+        }
+
+        private void treeView1_BeforeSelect(object sender, TreeViewCancelEventArgs e)
+        {
+            if (e.Node.ImageIndex == 2)
+            {
+                e.Node.SelectedImageIndex = 2;
+                e.Node.ImageIndex = 2;
+            }
+            else if (e.Node.ImageIndex == 1)
+            {
+                e.Node.SelectedImageIndex = 1;
+                e.Node.ImageIndex = 1;
+            }
+            else
+            {
+                e.Node.SelectedImageIndex = 0;
+                e.Node.ImageIndex = 0;
+            }
         }
     }
 

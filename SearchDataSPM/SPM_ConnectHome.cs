@@ -203,7 +203,7 @@ namespace SearchDataSPM
             return false;
         }
 
-        private bool checkmaintenance()
+        public bool checkmaintenance()
         {
             bool maintenance = false;
             string limit = "";
