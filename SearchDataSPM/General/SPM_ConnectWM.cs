@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -63,6 +64,10 @@ namespace SearchDataSPM
             Showallitems();
             txtSearch.Text = jobnumber;
             SendKeys.Send("~");
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            string version = "V" + assembly.GetName().Version.ToString(3);
+            versionlabel.Text = version;
+            TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
         }
 
         private void Showallitems()

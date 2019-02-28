@@ -56,9 +56,9 @@ namespace SearchDataSPM.Admin_developer
                 dt.Clear();
                 sda.Fill(dt);
                 dataGridView1.DataSource = dt;
-                dataGridView1.Columns[0].Width = 150;
-                dataGridView1.Columns[1].Width = 170;
-                dataGridView1.Columns[2].Width = 120;
+                dataGridView1.Columns[0].Width = 140;
+                dataGridView1.Columns[1].Width = 160;
+                dataGridView1.Columns[2].Width = 110;
                 UpdateFont();
             }
             catch (Exception)
