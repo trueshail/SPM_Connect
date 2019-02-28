@@ -105,7 +105,7 @@
             this.txtSearch.MaximumSize = new System.Drawing.Size(32767, 25);
             this.txtSearch.MinimumSize = new System.Drawing.Size(25, 25);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(415, 25);
+            this.txtSearch.Size = new System.Drawing.Size(415, 26);
             this.txtSearch.TabIndex = 4;
             this.LabelTooltips.SetToolTip(this.txtSearch, "Enter Search Keyword");
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
@@ -300,6 +300,14 @@
             this.imageList1.Images.SetKeyName(0, "icons8_bookclose_64.png");
             this.imageList1.Images.SetKeyName(1, "icons8_bookopen_64.png");
             this.imageList1.Images.SetKeyName(2, "icons8_Pageblue_32.png");
+            this.imageList1.Images.SetKeyName(3, "icons8_Electricity_64.png");
+            this.imageList1.Images.SetKeyName(4, "icons8_Book_Shelf_32.png");
+            this.imageList1.Images.SetKeyName(5, "icons8_Money_Bag_32.png");
+            this.imageList1.Images.SetKeyName(6, "icons8_Hammer_32.png");
+            this.imageList1.Images.SetKeyName(7, "icons8_Screw_32.png");
+            this.imageList1.Images.SetKeyName(8, "icons8_Triggering_32.png");
+            this.imageList1.Images.SetKeyName(9, "icons8_Pressure_32.png");
+            this.imageList1.Images.SetKeyName(10, "icons8_Price_Tag_32.png");
             // 
             // Assy_label
             // 

@@ -57,8 +57,8 @@
             this.qtylbl = new System.Windows.Forms.Label();
             this.listView = new System.Windows.Forms.ListView();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.foundlabel = new System.Windows.Forms.Label();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -116,7 +116,7 @@
             this.txtSearch.MaximumSize = new System.Drawing.Size(32767, 25);
             this.txtSearch.MinimumSize = new System.Drawing.Size(25, 25);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(415, 25);
+            this.txtSearch.Size = new System.Drawing.Size(415, 26);
             this.txtSearch.TabIndex = 3;
             this.LabelTooltips.SetToolTip(this.txtSearch, "Enter Search Keyword");
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
@@ -438,14 +438,6 @@
             this.imageList.ImageSize = new System.Drawing.Size(128, 128);
             this.imageList.TransparentColor = System.Drawing.Color.Black;
             // 
-            // imageList1
-            // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "icons8_bookclose_64.png");
-            this.imageList1.Images.SetKeyName(1, "icons8_bookopen_64.png");
-            this.imageList1.Images.SetKeyName(2, "icons8_Pageblue_32.png");
-            // 
             // foundlabel
             // 
             this.foundlabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -459,6 +451,22 @@
             this.foundlabel.Size = new System.Drawing.Size(49, 15);
             this.foundlabel.TabIndex = 47;
             this.foundlabel.Text = "Search:";
+            // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "icons8_bookclose_64.png");
+            this.imageList1.Images.SetKeyName(1, "icons8_bookopen_64.png");
+            this.imageList1.Images.SetKeyName(2, "icons8_Pageblue_32.png");
+            this.imageList1.Images.SetKeyName(3, "icons8_Electricity_64.png");
+            this.imageList1.Images.SetKeyName(4, "icons8_Book_Shelf_32.png");
+            this.imageList1.Images.SetKeyName(5, "icons8_Money_Bag_32.png");
+            this.imageList1.Images.SetKeyName(6, "icons8_Hammer_32.png");
+            this.imageList1.Images.SetKeyName(7, "icons8_Screw_32.png");
+            this.imageList1.Images.SetKeyName(8, "icons8_Triggering_32.png");
+            this.imageList1.Images.SetKeyName(9, "icons8_Pressure_32.png");
+            this.imageList1.Images.SetKeyName(10, "icons8_Price_Tag_32.png");
             // 
             // WhereUsed
             // 
@@ -528,7 +536,7 @@
         private System.Windows.Forms.ListView listView;
         private System.Windows.Forms.ImageList imageList;
         private System.Windows.Forms.ToolStripMenuItem getBOMToolStripMenuItem;
-        private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.Label foundlabel;
+        private System.Windows.Forms.ImageList imageList1;
     }
 }

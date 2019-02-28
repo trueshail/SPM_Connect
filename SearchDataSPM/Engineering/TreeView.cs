@@ -32,6 +32,7 @@ namespace SearchDataSPM
         TreeNode root = new TreeNode();
         string txtvalue;
         bool eng = false;
+        bool rootnodedone = false;
         SPMConnectAPI.SPMSQLCommands connectapi = new SPMConnectAPI.SPMSQLCommands();
 
         #endregion
@@ -65,7 +66,7 @@ namespace SearchDataSPM
             int h = Height >= screen.Height ? screen.Height : (screen.Height + Height) / 3;
             this.Location = new Point((screen.Width - w) / 2, (screen.Height - h) / 2);
             this.Size = new Size(w, h);
-            
+
 
         }
 
@@ -92,7 +93,7 @@ namespace SearchDataSPM
                 if (connectapi.getdepartment() == "Eng") eng = true;
                 Assy_txtbox.Select();
             }
-           
+
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -171,6 +172,8 @@ namespace SearchDataSPM
             if (e.KeyCode == Keys.Return)
             {
                 startprocessofbom();
+                rootnodedone = false;
+                CallRecursive();
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
@@ -259,7 +262,7 @@ namespace SearchDataSPM
 
                     root.Text = dr[0]["AssyNo"].ToString() + " - " + dr[0]["AssyDescription"].ToString();
                     root.Tag = _acountsTb.Rows.IndexOf(dr[0]);
-
+                    setimageaccordingtofamily(dr[0]["AssyFamily"].ToString(), root);
                     //Font f = FontStyle.Bold);
                     // root.NodeFont = f;
 
@@ -289,7 +292,7 @@ namespace SearchDataSPM
 
                     root.Text = dr[0]["ItemNumber"].ToString() + " - " + dr[0]["Description"].ToString();
                     root.Tag = _acountsTb.Rows.IndexOf(dr[0]);
-
+                    setimageaccordingtofamily(dr[0]["ItemFamily"].ToString(), root);
                     //Font f = FontStyle.Bold);
                     // root.NodeFont = f;
 
@@ -363,7 +366,7 @@ namespace SearchDataSPM
                 PopulateTreeView((dr["ItemNumber"].ToString()), childNode);
             }
             // treeView1.SelectedNode = treeView1.Nodes[0];
-           
+
         }
 
         private void RemoveChildNodes(TreeNode parentNode)
@@ -403,14 +406,14 @@ namespace SearchDataSPM
         {
             string itemstr = treeView1.SelectedNode.Text;
             itemstr = itemstr.Substring(0, 6);
-            if(eng)
+            if (eng)
             {
                 connectapi.checkforspmfile(itemstr);
             }
             else
             {
                 connectapi.checkforspmfileprod(itemstr);
-            }           
+            }
 
         }
 
@@ -419,7 +422,7 @@ namespace SearchDataSPM
 
             string itemstr = treeView1.SelectedNode.Text;
             itemstr = itemstr.Substring(0, 6);
-            if(eng)
+            if (eng)
             {
                 connectapi.checkforspmdrwfile(itemstr);
             }
@@ -526,7 +529,7 @@ namespace SearchDataSPM
                 {
 
                 }
-            }          
+            }
             else foundlabel.Text = "Search:";
         }
 
@@ -850,16 +853,25 @@ namespace SearchDataSPM
 
         private void treeView1_BeforeCollapse(object sender, TreeViewCancelEventArgs e)
         {
-            e.Node.SelectedImageIndex = 0;
-            e.Node.ImageIndex = 0;
-
+            //e.Node.SelectedImageIndex = 0;
+           // e.Node.ImageIndex = 0;
+            if (e.Node.ImageIndex == 1)
+            {
+                e.Node.SelectedImageIndex = 0;
+                e.Node.ImageIndex = 0;
+            }
         }
 
         private void treeView1_BeforeExpand(object sender, TreeViewCancelEventArgs e)
         {
 
-            e.Node.SelectedImageIndex = 1;
-            e.Node.ImageIndex = 1;
+            //e.Node.SelectedImageIndex = 1;
+            //e.Node.ImageIndex = 1;
+            if (e.Node.ImageIndex == 0)
+            {
+                e.Node.SelectedImageIndex = 1;
+                e.Node.ImageIndex = 1;
+            }
 
             //Node doesn't exists
 
@@ -873,16 +885,68 @@ namespace SearchDataSPM
         private void PrintRecursive(TreeNode treeNode)
         {
             // Print the node.  
-            System.Diagnostics.Debug.WriteLine(treeNode.Text);
             if (treeNode.Nodes.Count == 0)
             {
-                treeNode.ImageIndex = 2;
             }
-
+            if (treeNode.Index == 0 && rootnodedone == false)
+            {
+                rootnodedone = true;
+            }
+            else
+            {
+                DataRow r = _acountsTb.Rows[int.Parse(treeNode.Tag.ToString())];
+                string family = r["ItemFamily"].ToString();
+                setimageaccordingtofamily(family, treeNode);
+            }
+           
             // Print each node recursively.  
             foreach (TreeNode tn in treeNode.Nodes)
             {
                 PrintRecursive(tn);
+            }
+        }
+
+        private void setimageaccordingtofamily(string family, TreeNode treeNode)
+        {
+            if (family == "AG" || family == "JOB")
+            {
+                treeNode.ImageIndex = 4;
+            }
+            else if (family == "AS" || family == "ASPN")
+            {
+                treeNode.ImageIndex = 0;
+            }
+            else if (family == "ECC")
+            {
+                treeNode.ImageIndex = 3;
+            }
+            else if (family == "MPC" || family == "PU")
+            {
+                treeNode.ImageIndex = 5;
+            }
+            else if (family == "MA" || family == "MAWE")
+            {
+                treeNode.ImageIndex = 6;
+            }
+            else if (family == "FAHW" )
+            {
+                treeNode.ImageIndex = 7;
+            }
+            else if(family == "ASEL")
+            {
+                treeNode.ImageIndex = 8;
+            }
+            else if (family == "PCC")
+            {
+                treeNode.ImageIndex = 9;
+            }
+            else if (family == "MT"  || family == "DR")
+            {
+                treeNode.ImageIndex = 10;
+            }
+            else
+            {
+                treeNode.ImageIndex = 2;
             }
         }
 
@@ -902,20 +966,52 @@ namespace SearchDataSPM
 
         private void treeView1_BeforeSelect(object sender, TreeViewCancelEventArgs e)
         {
-            if (e.Node.ImageIndex == 2)
+            switch (e.Node.ImageIndex)      
             {
-                e.Node.SelectedImageIndex = 2;
-                e.Node.ImageIndex = 2;
-            }
-            else if (e.Node.ImageIndex == 1)
-            {
-                e.Node.SelectedImageIndex = 1;
-                e.Node.ImageIndex = 1;
-            }
-            else
-            {
-                e.Node.SelectedImageIndex = 0;
-                e.Node.ImageIndex = 0;
+                case 1:
+                    e.Node.SelectedImageIndex = 1;
+                    e.Node.ImageIndex = 1;
+                    break;
+                case 2:
+                    e.Node.SelectedImageIndex = 2;
+                    e.Node.ImageIndex = 2;
+                    break;
+                case 3:
+                    e.Node.SelectedImageIndex = 3;
+                    e.Node.ImageIndex = 3;
+                    break;
+                case 4:
+                    e.Node.SelectedImageIndex = 4;
+                    e.Node.ImageIndex = 4;
+                    break;
+                case 5:
+                    e.Node.SelectedImageIndex = 5;
+                    e.Node.ImageIndex = 5;
+                    break;
+                case 6:
+                    e.Node.SelectedImageIndex = 6;
+                    e.Node.ImageIndex = 6;
+                    break;
+                case 7:
+                    e.Node.SelectedImageIndex = 7;
+                    e.Node.ImageIndex = 7;
+                    break;
+                case 8:
+                    e.Node.SelectedImageIndex = 8;
+                    e.Node.ImageIndex = 8;
+                    break;
+                case 9:
+                    e.Node.SelectedImageIndex = 9;
+                    e.Node.ImageIndex = 9;
+                    break;
+                case 10:
+                    e.Node.SelectedImageIndex = 10;
+                    e.Node.ImageIndex = 10;
+                    break;
+                default:
+                    e.Node.SelectedImageIndex = 0;
+                    e.Node.ImageIndex = 0;
+                    break;
             }
         }
     }

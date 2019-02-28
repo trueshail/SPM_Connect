@@ -31,6 +31,7 @@ namespace SearchDataSPM
         TreeNode root = new TreeNode();
         string txtvalue;
         bool eng = false;
+        bool rootnodedone = false;
         SPMConnectAPI.SPMSQLCommands connectapi = new SPMConnectAPI.SPMSQLCommands();
 
         #endregion
@@ -63,7 +64,7 @@ namespace SearchDataSPM
             int h = Height >= screen.Height ? screen.Height : (screen.Height + Height) / 3;
             this.Location = new Point((screen.Width - w) / 2, (screen.Height - h) / 2);
             this.Size = new Size(w, h);
-            
+
         }
 
         string itemnumber;
@@ -77,7 +78,7 @@ namespace SearchDataSPM
 
         private void ParentView_Load(object sender, EventArgs e)
         {
-           
+
             Assy_txtbox.Focus();
             Assy_txtbox.Text = itemnumber;
             if (Assy_txtbox.Text.Length == 5 || Assy_txtbox.Text.Length == 6)
@@ -168,6 +169,8 @@ namespace SearchDataSPM
             if (e.KeyCode == Keys.Return)
             {
                 startprocessofwhereused();
+                rootnodedone = false;
+                CallRecursive();
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
@@ -221,7 +224,7 @@ namespace SearchDataSPM
                 //_adapaterproduct.Fill(_productTB);
 
                 _adapter.Fill(_acountsTb);
-                
+
 
             }
             catch (SqlException ex)
@@ -241,78 +244,79 @@ namespace SearchDataSPM
 
             //if (Assy_txtbox.Text.Length == 6)
             //{
-                Assy_txtbox.BackColor = Color.White; //to add high light
+            Assy_txtbox.BackColor = Color.White; //to add high light
+            try
+            {
                 try
                 {
-                    try
-                    {
-                        treeView1.Nodes.Clear();
-                        RemoveChildNodes(root);
-                        treeView1.ResetText();
-                        Expandchk.Checked = false;
-                        //DataRow[] dr = _productTB.Select("ItemNumber = '" + txtvalue.ToString() + "'");
-                        DataRow[] dr = _acountsTb.Select("ItemNumber = '" + txtvalue.ToString() + "'");
-
-
-                        root.Text = dr[0]["ItemNumber"].ToString() + " - " + dr[0]["Description"].ToString();
-                        root.Tag = _acountsTb.Rows.IndexOf(dr[0]);
-
-                        //Font f = FontStyle.Bold);
-                        // root.NodeFont = f;
-
-                        treeView1.Nodes.Add(root);
-                        PopulateTreeView(Assy_txtbox.Text, root);
-
-                        chekroot = "Item";
-                        treeView1.SelectedNode = treeView1.Nodes[0];
-                        ItemTxtBox.Text = dr[0]["ItemNumber"].ToString();
-                        Descriptiontxtbox.Text = dr[0]["Description"].ToString();
-                        oemtxtbox.Text = dr[0]["Manufacturer"].ToString();
-                        oemitemtxtbox.Text = dr[0]["ManufacturerItemNumber"].ToString();
-                        familytxtbox.Text = dr[0]["ItemFamily"].ToString();
-                        sparetxtbox.Text = dr[0]["Spare"].ToString();
-
-                    }
-                    catch
-                    {
-
-                        treeView1.Nodes.Clear();
-                        RemoveChildNodes(root);
-                        treeView1.ResetText();
-                        Expandchk.Checked = false;
-                        //DataRow[] dr = _productTB.Select("ItemNumber = '" + txtvalue.ToString() + "'");
-                        DataRow[] dr = _acountsTb.Select("AssyNo = '" + txtvalue.ToString() + "'");
-
-
-                        root.Text = dr[0]["AssyNo"].ToString() + " - " + dr[0]["AssyDescription"].ToString();
-                        root.Tag = _acountsTb.Rows.IndexOf(dr[0]);
-
-                        //Font f = FontStyle.Bold);
-                        // root.NodeFont = f;
-
-                        treeView1.Nodes.Add(root);
-                        PopulateTreeView(Assy_txtbox.Text, root);
-                        chekroot = "Assy";
-                        treeView1.SelectedNode = treeView1.Nodes[0];
-
-                        ItemTxtBox.Text = dr[0]["AssyNo"].ToString();
-                        Descriptiontxtbox.Text = dr[0]["AssyDescription"].ToString();
-                        oemtxtbox.Text = dr[0]["AssyManufacturer"].ToString();
-                        oemitemtxtbox.Text = dr[0]["AssyManufacturerItemNumber"].ToString();
-                        familytxtbox.Text = dr[0]["AssyFamily"].ToString();
-                        sparetxtbox.Text = dr[0]["AssySpare"].ToString();
-
-                    }
-
-                }
-                catch
-                {
-                    treeView1.TopNode.Nodes.Clear();
                     treeView1.Nodes.Clear();
                     RemoveChildNodes(root);
                     treeView1.ResetText();
                     Expandchk.Checked = false;
+                    //DataRow[] dr = _productTB.Select("ItemNumber = '" + txtvalue.ToString() + "'");
+                    DataRow[] dr = _acountsTb.Select("ItemNumber = '" + txtvalue.ToString() + "'");
+
+
+                    root.Text = dr[0]["ItemNumber"].ToString() + " - " + dr[0]["Description"].ToString();
+                    root.Tag = _acountsTb.Rows.IndexOf(dr[0]);
+                    setimageaccordingtofamily(dr[0]["ItemFamily"].ToString(), root);
+
+                    //Font f = FontStyle.Bold);
+                    // root.NodeFont = f;
+
+                    treeView1.Nodes.Add(root);
+                    PopulateTreeView(Assy_txtbox.Text, root);
+
+                    chekroot = "Item";
+                    treeView1.SelectedNode = treeView1.Nodes[0];
+                    ItemTxtBox.Text = dr[0]["ItemNumber"].ToString();
+                    Descriptiontxtbox.Text = dr[0]["Description"].ToString();
+                    oemtxtbox.Text = dr[0]["Manufacturer"].ToString();
+                    oemitemtxtbox.Text = dr[0]["ManufacturerItemNumber"].ToString();
+                    familytxtbox.Text = dr[0]["ItemFamily"].ToString();
+                    sparetxtbox.Text = dr[0]["Spare"].ToString();
+
                 }
+                catch
+                {
+
+                    treeView1.Nodes.Clear();
+                    RemoveChildNodes(root);
+                    treeView1.ResetText();
+                    Expandchk.Checked = false;
+                    //DataRow[] dr = _productTB.Select("ItemNumber = '" + txtvalue.ToString() + "'");
+                    DataRow[] dr = _acountsTb.Select("AssyNo = '" + txtvalue.ToString() + "'");
+
+
+                    root.Text = dr[0]["AssyNo"].ToString() + " - " + dr[0]["AssyDescription"].ToString();
+                    root.Tag = _acountsTb.Rows.IndexOf(dr[0]);
+                    setimageaccordingtofamily(dr[0]["AssyFamily"].ToString(), root);
+                    //Font f = FontStyle.Bold);
+                    // root.NodeFont = f;
+
+                    treeView1.Nodes.Add(root);
+                    PopulateTreeView(Assy_txtbox.Text, root);
+                    chekroot = "Assy";
+                    treeView1.SelectedNode = treeView1.Nodes[0];
+
+                    ItemTxtBox.Text = dr[0]["AssyNo"].ToString();
+                    Descriptiontxtbox.Text = dr[0]["AssyDescription"].ToString();
+                    oemtxtbox.Text = dr[0]["AssyManufacturer"].ToString();
+                    oemitemtxtbox.Text = dr[0]["AssyManufacturerItemNumber"].ToString();
+                    familytxtbox.Text = dr[0]["AssyFamily"].ToString();
+                    sparetxtbox.Text = dr[0]["AssySpare"].ToString();
+
+                }
+
+            }
+            catch
+            {
+                treeView1.TopNode.Nodes.Clear();
+                treeView1.Nodes.Clear();
+                RemoveChildNodes(root);
+                treeView1.ResetText();
+                Expandchk.Checked = false;
+            }
             //}
             //else
             //{
@@ -357,7 +361,7 @@ namespace SearchDataSPM
                 }
                 PopulateTreeView((dr["AssyNo"].ToString()), childNode);
             }
-           
+
         }
 
         private void RemoveChildNodes(TreeNode parentNode)
@@ -557,7 +561,7 @@ namespace SearchDataSPM
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
             string ItemNo;
-            if(n != null)
+            if (n != null)
             {
                 n.BackColor = treeView1.BackColor;
                 n.ForeColor = treeView1.ForeColor;
@@ -695,7 +699,7 @@ namespace SearchDataSPM
                 }
             }
 
-            
+
         }
 
         List<string> listFiles = new List<string>();
@@ -824,7 +828,7 @@ namespace SearchDataSPM
             if (treeView1.SelectedNode != null)
             {
                 item = ItemTxtBox.Text;
-            }            
+            }
             else
             {
                 item = "";
@@ -847,25 +851,37 @@ namespace SearchDataSPM
 
         private void treeView1_BeforeExpand(object sender, TreeViewCancelEventArgs e)
         {
-            e.Node.SelectedImageIndex = 1;
-            e.Node.ImageIndex = 1;
+            if (e.Node.ImageIndex == 0)
+            {
+                e.Node.SelectedImageIndex = 1;
+                e.Node.ImageIndex = 1;
+            }
 
         }
 
         private void treeView1_BeforeCollapse(object sender, TreeViewCancelEventArgs e)
         {
-            e.Node.SelectedImageIndex = 0;
-            e.Node.ImageIndex = 0;
+            if (e.Node.ImageIndex == 1)
+            {
+                e.Node.SelectedImageIndex = 0;
+                e.Node.ImageIndex = 0;
+            }
         }
 
         private void PrintRecursive(TreeNode treeNode)
         {
-            // Print the node.  
-            System.Diagnostics.Debug.WriteLine(treeNode.Text);
-            if (treeNode.Nodes.Count == 0)
+            if (treeNode.Index == 0 && rootnodedone == false)
             {
-                treeNode.ImageIndex = 2;
+                rootnodedone = true;
             }
+            else
+            {
+                DataRow r = _acountsTb.Rows[int.Parse(treeNode.Tag.ToString())];
+                string family = r["AssyFamily"].ToString();
+                setimageaccordingtofamily(family, treeNode);
+            }
+
+
 
             // Print each node recursively.  
             foreach (TreeNode tn in treeNode.Nodes)
@@ -888,22 +904,99 @@ namespace SearchDataSPM
             }
         }
 
-        private void treeView1_BeforeSelect(object sender, TreeViewCancelEventArgs e)
+        private void setimageaccordingtofamily(string family, TreeNode treeNode)
         {
-            if (e.Node.ImageIndex == 2)
+
+            if (family == "AG" || family == "JOB")
             {
-                e.Node.SelectedImageIndex = 2;
-                e.Node.ImageIndex = 2;
+                treeNode.ImageIndex = 4;
             }
-            else if (e.Node.ImageIndex == 1)
+            else if (family == "AS" || family == "ASPN")
             {
-                e.Node.SelectedImageIndex = 1;
-                e.Node.ImageIndex = 1;
+                treeNode.ImageIndex = 0;
+            }
+            else if (family == "ECC")
+            {
+                treeNode.ImageIndex = 3;
+            }
+            else if (family == "MPC" || family == "PU")
+            {
+                treeNode.ImageIndex = 5;
+            }
+            else if (family == "MA" || family == "MAWE")
+            {
+                treeNode.ImageIndex = 6;
+            }
+            else if (family == "FAHW")
+            {
+                treeNode.ImageIndex = 7;
+            }
+            else if (family == "ASEL")
+            {
+                treeNode.ImageIndex = 8;
+            }
+            else if (family == "PCC")
+            {
+                treeNode.ImageIndex = 9;
+            }
+            else if (family == "MT" || family == "DR")
+            {
+                treeNode.ImageIndex = 10;
             }
             else
             {
-                e.Node.SelectedImageIndex = 0;
-                e.Node.ImageIndex = 0;
+                treeNode.ImageIndex = 2;
+            }
+        }
+
+        private void treeView1_BeforeSelect(object sender, TreeViewCancelEventArgs e)
+        {
+            switch (e.Node.ImageIndex)
+            {
+                case 1:
+                    e.Node.SelectedImageIndex = 1;
+                    e.Node.ImageIndex = 1;
+                    break;
+                case 2:
+                    e.Node.SelectedImageIndex = 2;
+                    e.Node.ImageIndex = 2;
+                    break;
+                case 3:
+                    e.Node.SelectedImageIndex = 3;
+                    e.Node.ImageIndex = 3;
+                    break;
+                case 4:
+                    e.Node.SelectedImageIndex = 4;
+                    e.Node.ImageIndex = 4;
+                    break;
+                case 5:
+                    e.Node.SelectedImageIndex = 5;
+                    e.Node.ImageIndex = 5;
+                    break;
+                case 6:
+                    e.Node.SelectedImageIndex = 6;
+                    e.Node.ImageIndex = 6;
+                    break;
+                case 7:
+                    e.Node.SelectedImageIndex = 7;
+                    e.Node.ImageIndex = 7;
+                    break;
+                case 8:
+                    e.Node.SelectedImageIndex = 8;
+                    e.Node.ImageIndex = 8;
+                    break;
+                case 9:
+                    e.Node.SelectedImageIndex = 9;
+                    e.Node.ImageIndex = 9;
+                    break;
+                case 10:
+                    e.Node.SelectedImageIndex = 10;
+                    e.Node.ImageIndex = 10;
+                    break;
+                default:
+                    e.Node.SelectedImageIndex = 0;
+                    e.Node.ImageIndex = 0;
+                    break;
             }
         }
     }
