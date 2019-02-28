@@ -290,9 +290,8 @@ namespace SearchDataSPM
                 da.Fill(dt);
                 foreach (DataRow dr in dt.Rows)
                 {
-                     fullname = dr["Name"].ToString();
+                    fullname = dr["Name"].ToString();
                     supervisorid = Convert.ToInt32(dr["Supervisor"].ToString());
-
                     myid = Convert.ToInt32(dr["id"].ToString());
                     string manager = dr["PurchaseReqApproval"].ToString();
                     string hauthority = dr["PurchaseReqApproval2"].ToString();

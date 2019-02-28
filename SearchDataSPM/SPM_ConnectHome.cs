@@ -9,7 +9,8 @@ namespace SearchDataSPM
     {
         public SPM_ConnectHome()
         {
-            InitializeComponent();          
+            InitializeComponent();      
+            
         }
 
         int time = 0;

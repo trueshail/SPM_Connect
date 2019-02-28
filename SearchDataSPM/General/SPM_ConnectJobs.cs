@@ -16,7 +16,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.VisualBasic;
-
+using SPMConnectAPI;
 
 namespace SearchDataSPM
 {
@@ -30,8 +30,7 @@ namespace SearchDataSPM
         SqlConnection cn;
         DataTable dt;
         SqlCommand _command;
-        // SqlDataAdapter _adapter;
-
+        SPMConnectAPI.SPMSQLCommands connectapi = new SPMSQLCommands();
 
         public SPM_ConnectJobs()
 
@@ -48,19 +47,15 @@ namespace SearchDataSPM
             {
 
                 // MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                MessageBox.Show("Error Connecting to SQL Server.....", "SPM Connect - ENG", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
-                Environment.Exit(0);
-
+                MessageBox.Show("Error Connecting to SQL Server.....", "SPM Connect - Job Module", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
             }
             finally
             {
                 cn.Close();
             }
             dt = new DataTable();
-            CheckManagement();
-            checkpruchasereqrights();
-            checkquoterights();
+            connectapi.SPM_Connect(connection);
         }
 
         private void SPM_Connect_Load(object sender, EventArgs e)
@@ -70,6 +65,39 @@ namespace SearchDataSPM
             versionlabel.Text = "V" + versionlabel.Text;
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
             Showallitems();
+
+            if (connectapi.CheckManagement())
+            {
+                CreateFolderButton.Visible = true;
+                contextMenuStrip1.Items[3].Enabled = true;
+                contextMenuStrip1.Items[3].Visible = true;
+            }
+            else
+            {
+                CreateFolderButton.Visible = false;
+                contextMenuStrip1.Items[3].Enabled = false;
+                contextMenuStrip1.Items[3].Visible = false;
+            }
+            if (connectapi.checkpruchasereqrights())
+            {
+                purchasereq.Enabled = true;
+                purchasereq.Visible = true;
+            }
+            else
+            {
+                purchasereq.Enabled = false;
+                purchasereq.Visible = false;
+            }
+            if (connectapi.checkquoterights())
+            {
+                quotebttn.Enabled = true;
+                quotebttn.Visible = true;
+            }
+            else
+            {
+                quotebttn.Enabled = false;
+                quotebttn.Visible = false;
+            }
 
         }
 
@@ -109,8 +137,8 @@ namespace SearchDataSPM
             catch (Exception)
             {
                 //MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                MessageBox.Show("Data cannot be retrieved from server. Please contact the admin.", "SPM Connect - SQL SERVER ENG", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
+                MessageBox.Show("Data cannot be retrieved from server. Please contact the admin.", "SPM Connect - SQL SERVER Job", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
             }
             finally
             {
@@ -539,126 +567,6 @@ namespace SearchDataSPM
             System.Diagnostics.Process.Start("http://www.spm-automation.com/");
         }
 
-        private void CheckManagement()
-        {
-            string useradmin = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND Management = '1'", cn))
-            {
-                try
-                {
-                    cn.Open();
-                    sqlCommand.Parameters.AddWithValue("@username", useradmin);
-
-                    int userCount = (int)sqlCommand.ExecuteScalar();
-                    if (userCount == 1)
-                    {
-
-                        CreateFolderButton.Visible = true;
-                        contextMenuStrip1.Items[3].Enabled = true;
-                        contextMenuStrip1.Items[3].Visible = true;
-                    }
-                    else
-                    {
-                        CreateFolderButton.Visible = false;
-                        contextMenuStrip1.Items[3].Enabled = false;
-                        contextMenuStrip1.Items[3].Visible = false;
-                    }
-
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Application.Exit();
-                }
-                finally
-                {
-                    cn.Close();
-                }
-
-            }
-        }
-
-        private void checkpruchasereqrights()
-        {
-            string useradmin = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND PurchaseReq = '1'", cn))
-            {
-                try
-                {
-                    cn.Open();
-                    sqlCommand.Parameters.AddWithValue("@username", useradmin);
-
-                    int userCount = (int)sqlCommand.ExecuteScalar();
-                    if (userCount == 1)
-                    {
-                        purchasereq.Enabled = true;
-                        purchasereq.Visible = true;
-
-                    }
-                    else
-                    {
-                        purchasereq.Enabled = false;
-                        purchasereq.Visible = false;
-
-                    }
-
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Application.Exit();
-                }
-                finally
-                {
-                    cn.Close();
-                }
-
-            }
-        }
-
-
-        private void checkquoterights()
-        {
-            string useradmin = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND Quote = '1'", cn))
-            {
-                try
-                {
-                    cn.Open();
-                    sqlCommand.Parameters.AddWithValue("@username", useradmin);
-
-                    int userCount = (int)sqlCommand.ExecuteScalar();
-                    if (userCount == 1)
-                    {
-                        quotebttn.Enabled = true;
-                        quotebttn.Visible = true;
-
-                    }
-                    else
-                    {
-                        quotebttn.Enabled = false;
-                        quotebttn.Visible = false;
-
-                    }
-
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Application.Exit();
-                }
-                finally
-                {
-                    cn.Close();
-                }
-
-            }
-        }
-
-
         #endregion
 
         #region datagridview events
@@ -1050,7 +958,7 @@ namespace SearchDataSPM
                 string jobnumber = getjobnumber().ToString();
                 string salesorder = getsalesorder().ToString();
                 string jobdescription = getjobdescription().ToString();
-                string customer = getcustomeralias(getcutomerid().ToString()).ToString();
+                string customer = connectapi.getcustomeralias(getcutomerid().ToString()).ToString();
                 DialogResult result = MessageBox.Show(
                    "JobNumber = " + jobnumber + Environment.NewLine +
                    "SalesOrder = " + salesorder + Environment.NewLine +
@@ -1088,25 +996,25 @@ namespace SearchDataSPM
 
             if (ValueIWantFromProptForm == "project")
             {
-                sourcepathseng = GetProjectEngSp();
-                destpatheng = GetProjectEngDp() + jobnumber + "_" + customer + "_" + jobdescription;
+                sourcepathseng = connectapi.GetProjectEngSp();
+                destpatheng = connectapi.GetProjectEngDp() + jobnumber + "_" + customer + "_" + jobdescription;
                 createnewentry(getjob(), getbomitem(), destpatheng, false);
-                sourcepaths300 = GetProjectSalesSp();
-                destpaths300 = GetProjectSalesDp() + jobnumber + "_" + customer + "_" + jobdescription;
+                sourcepaths300 = connectapi.GetProjectSalesSp();
+                destpaths300 = connectapi.GetProjectSalesDp() + jobnumber + "_" + customer + "_" + jobdescription;
             }
             else if (ValueIWantFromProptForm == "spare")
             {
-                sourcepathseng = GetSpareEngSp();
-                destpatheng = GetSpareEngDp() + jobnumber + "_" + customer + "_Spare Parts" + "_" + jobdescription;
-                sourcepaths300 = GetSpareSalesSp();
-                destpaths300 = GetSpareSalesDp() + salesorder + "_" + customer + "_Spare Parts" + "_" + jobdescription;
+                sourcepathseng = connectapi.GetSpareEngSp();
+                destpatheng = connectapi.GetSpareEngDp() + jobnumber + "_" + customer + "_Spare Parts" + "_" + jobdescription;
+                sourcepaths300 = connectapi.GetSpareSalesSp();
+                destpaths300 = connectapi.GetSpareSalesDp() + salesorder + "_" + customer + "_Spare Parts" + "_" + jobdescription;
             }
             else if (ValueIWantFromProptForm == "service")
             {
-                sourcepathseng = GetServiceEngSp();
-                destpatheng = GetServiceEngDp() + jobnumber + "_" + customer + "_Service" + "_" + jobdescription;
-                sourcepaths300 = GetServiceSalesSp();
-                destpaths300 = GetServiceSalesDp() + salesorder + "_" + customer + "_Service" + "_" + jobdescription;
+                sourcepathseng = connectapi.GetServiceEngSp();
+                destpatheng = connectapi.GetServiceEngDp() + jobnumber + "_" + customer + "_Service" + "_" + jobdescription;
+                sourcepaths300 = connectapi.GetServiceSalesSp();
+                destpaths300 = connectapi.GetServiceSalesDp() + salesorder + "_" + customer + "_Service" + "_" + jobdescription;
             }
             DirectoryCopy(sourcepathseng, destpatheng, true);
             DirectoryCopy(sourcepaths300, destpaths300, true);
@@ -1180,46 +1088,9 @@ namespace SearchDataSPM
             }
         }
 
-        private String getcustomeralias(string customerid)
-        {
-            string customername = "";
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT Alias FROM [SPM_Database].[dbo].[Customers] WHERE [CustomerID]='" + customerid.ToString() + "' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    customername = dr["Alias"].ToString();
-
-                }
-            }
-            catch (Exception ex)
-            {
-
-                MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-
-            }
-            finally
-            {
-                cn.Close();
-            }
-            return customername;
-        }
-
         private String getcutomerid()
         {
-            int selectedclmindex = dataGridView.SelectedCells[0].ColumnIndex;
-            DataGridViewColumn columnchk = dataGridView.Columns[selectedclmindex];
-            string c = Convert.ToString(columnchk.Index);
-            //MessageBox.Show(c);
+            
             string customer;
             if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
             {
@@ -1332,325 +1203,6 @@ namespace SearchDataSPM
         }
 
         #endregion
-
-        #region GetFolderPaths
-
-        private String GetProjectEngSp()
-        {
-            string path = "";
-            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'ProjectEngSp'", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-                    path = (string)cmd.ExecuteScalar();
-                    cn.Close();
-                }
-                catch (Exception ex)
-                {
-                    MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Get Project Eng Source Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-
-            }
-
-            return path;
-        }
-
-        private String GetProjectEngDp()
-        {
-            string path = "";
-            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'ProjectEngDp'", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-                    path = (string)cmd.ExecuteScalar();
-                    cn.Close();
-                }
-                catch (Exception ex)
-                {
-                    MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Get Project Eng Destination Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-
-            }
-
-            return path;
-        }
-
-        private String GetSpareEngSp()
-        {
-            string path = "";
-            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'SpareEngSp'", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-                    path = (string)cmd.ExecuteScalar();
-                    cn.Close();
-                }
-                catch (Exception ex)
-                {
-                    MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Get Spare Eng Source Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-
-            }
-
-            return path;
-        }
-
-        private String GetSpareEngDp()
-        {
-            string path = "";
-            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'SpareEngDp'", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-                    path = (string)cmd.ExecuteScalar();
-                    cn.Close();
-                }
-                catch (Exception ex)
-                {
-                    MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Get Spare Eng Destination Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-
-            }
-
-            return path;
-        }
-
-        private String GetServiceEngSp()
-        {
-            string path = "";
-            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'ServiceEngSp'", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-                    path = (string)cmd.ExecuteScalar();
-                    cn.Close();
-                }
-                catch (Exception ex)
-                {
-                    MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Get Service Eng Source Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-
-            }
-
-            return path;
-        }
-
-        private String GetServiceEngDp()
-        {
-            string path = "";
-            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'ServiceEngDp'", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-                    path = (string)cmd.ExecuteScalar();
-                    cn.Close();
-                }
-                catch (Exception ex)
-                {
-                    MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Get Service Eng Destination Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-
-            }
-
-            return path;
-        }
-
-        ///////////////////////////////////////////////////////////////////////////
-
-        private String GetProjectSalesSp()
-        {
-            string path = "";
-            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'ProjectSalesSp'", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-                    path = (string)cmd.ExecuteScalar();
-                    cn.Close();
-                }
-                catch (Exception ex)
-                {
-                    MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Get Project Eng Source Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-
-            }
-
-            return path;
-        }
-
-        private String GetProjectSalesDp()
-        {
-            string path = "";
-            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'ProjectSalesDp'", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-                    path = (string)cmd.ExecuteScalar();
-                    cn.Close();
-                }
-                catch (Exception ex)
-                {
-                    MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Get Project Eng Destination Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-
-            }
-
-            return path;
-        }
-
-        private String GetSpareSalesSp()
-        {
-            string path = "";
-            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'SpareSalesSp'", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-                    path = (string)cmd.ExecuteScalar();
-                    cn.Close();
-                }
-                catch (Exception ex)
-                {
-                    MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Get Spare Eng Source Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-
-            }
-
-            return path;
-        }
-
-        private String GetSpareSalesDp()
-        {
-            string path = "";
-            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'SpareSalesDp'", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-                    path = (string)cmd.ExecuteScalar();
-                    cn.Close();
-                }
-                catch (Exception ex)
-                {
-                    MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Get Spare Eng Destination Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-
-            }
-
-            return path;
-        }
-
-        private String GetServiceSalesSp()
-        {
-            string path = "";
-            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'ServiceSalesSp'", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-                    path = (string)cmd.ExecuteScalar();
-                    cn.Close();
-                }
-                catch (Exception ex)
-                {
-                    MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Get Service Eng Source Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-
-            }
-
-            return path;
-        }
-
-        private String GetServiceSalesDp()
-        {
-            string path = "";
-            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'ServiceSalesDp'", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-                    path = (string)cmd.ExecuteScalar();
-                    cn.Close();
-                }
-                catch (Exception ex)
-                {
-                    MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Get Service Eng Destination Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-
-            }
-
-            return path;
-        }
-
-        #endregion
-
     }
 }
 

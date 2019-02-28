@@ -65,7 +65,8 @@ namespace SearchDataSPM
             }
 
             connectapi.SPM_Connect(connection);
-
+            Users users = new Users();
+            MessageBox.Show(users.Name);
 
 
         }

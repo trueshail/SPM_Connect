@@ -181,6 +181,7 @@
     <Reference Include="System.Data.Common, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Data.Common.4.3.0\lib\net451\System.Data.Common.dll</HintPath>
     </Reference>
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Data.SqlClient, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Data.SqlClient.4.3.0\lib\net46\System.Data.SqlClient.dll</HintPath>
     </Reference>
@@ -289,7 +290,7 @@
     <Compile Include="Admin-developer\Customers.designer.cs">
       <DependentUpon>Customers.cs</DependentUpon>
     </Compile>
-    <Compile Include="ConverterHash.cs" />
+    <Compile Include="Admin-developer\ConverterHash.cs" />
     <Compile Include="Customer.cs">
       <DependentUpon>ConnectCustomers.tt</DependentUpon>
     </Compile>
@@ -383,34 +384,35 @@
     <Compile Include="General\Compare.Designer.cs">
       <DependentUpon>Compare.cs</DependentUpon>
     </Compile>
-    <Compile Include="lettergame.cs">
+    <Compile Include="Miscellaneous\lettergame.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="lettergame.Designer.cs">
+    <Compile Include="Miscellaneous\lettergame.Designer.cs">
       <DependentUpon>lettergame.cs</DependentUpon>
     </Compile>
-    <Compile Include="ListOpenWindows.cs">
+    <Compile Include="Miscellaneous\ListOpenWindows.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ListOpenWindows.Designer.cs">
+    <Compile Include="Miscellaneous\ListOpenWindows.Designer.cs">
       <DependentUpon>ListOpenWindows.cs</DependentUpon>
     </Compile>
-    <Compile Include="LoginForm.cs">
+    <Compile Include="Admin-developer\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LoginForm.Designer.cs">
+    <Compile Include="Admin-developer\LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="pnotifier.cs" />
+    <Compile Include="Miscellaneous\Users.cs" />
+    <Compile Include="Purchasing\pnotifier.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ReportViewer.cs">
+    <Compile Include="Miscellaneous\ReportViewer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ReportViewer.Designer.cs">
+    <Compile Include="Miscellaneous\ReportViewer.Designer.cs">
       <DependentUpon>ReportViewer.cs</DependentUpon>
     </Compile>
     <Compile Include="General\SPM_ConnectJobs.cs">
@@ -431,10 +433,10 @@
     <Compile Include="Engineering\WaitFormCreatingFolders.Designer.cs">
       <DependentUpon>WaitFormCreatingFolders.cs</DependentUpon>
     </Compile>
-    <Compile Include="General\PurchaseReq.cs">
+    <Compile Include="Purchasing\PurchaseReq.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="General\PurchaseReq.Designer.cs">
+    <Compile Include="Purchasing\PurchaseReq.Designer.cs">
       <DependentUpon>PurchaseReq.cs</DependentUpon>
     </Compile>
     <Compile Include="Material.cs">
@@ -443,14 +445,13 @@
     <Compile Include="PurchaseReq.cs">
       <DependentUpon>ConnectPurchaseReqDet.tt</DependentUpon>
     </Compile>
-    <Compile Include="ShellEx.cs" />
+    <Compile Include="Engineering\ShellEx.cs" />
     <Compile Include="Shell\IImageList.cs" />
     <Compile Include="Shell\IMAGEINFO.cs" />
     <Compile Include="Shell\IMAGELISTDRAWPARAMS.cs" />
     <Compile Include="Shell\POINT.cs" />
     <Compile Include="Shell\RECT.cs" />
     <Compile Include="Shell\SHFILEINFO.cs" />
-    <Compile Include="SPMConnectLoadUsers.cs" />
     <Compile Include="Controls\SPM_ConnectItems.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -547,11 +548,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SPM_DatabaseDataSet.xsd</DependentUpon>
     </Compile>
-    <Compile Include="SQLNotifcationPReq.cs" />
     <Compile Include="SqlServerTypes\Loader.cs" />
-    <Compile Include="Stats.cs" />
-    <Compile Include="PurchaseReqSQL.cs" />
-    <Compile Include="UserControl.cs" />
+    <Compile Include="Miscellaneous\Stats.cs" />
+    <Compile Include="Purchasing\PurchaseReqSQL.cs" />
+    <Compile Include="Engineering\UserControl.cs" />
     <Compile Include="Web References\RE2005\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -649,19 +649,19 @@
     <EmbeddedResource Include="General\Compare.resx">
       <DependentUpon>Compare.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="lettergame.resx">
+    <EmbeddedResource Include="Miscellaneous\lettergame.resx">
       <DependentUpon>lettergame.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ListOpenWindows.resx">
+    <EmbeddedResource Include="Miscellaneous\ListOpenWindows.resx">
       <DependentUpon>ListOpenWindows.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LoginForm.resx">
+    <EmbeddedResource Include="Admin-developer\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ReportViewer.resx">
+    <EmbeddedResource Include="Miscellaneous\ReportViewer.resx">
       <DependentUpon>ReportViewer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="General\PurchaseReq.resx">
+    <EmbeddedResource Include="Purchasing\PurchaseReq.resx">
       <DependentUpon>PurchaseReq.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="General\SPM_ConnectJobs.resx">

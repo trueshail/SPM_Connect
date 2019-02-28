@@ -153,6 +153,8 @@ namespace SPMConnectAPI
 
         }
 
+        #region UserRights
+
         public bool CheckAdmin()
         {
 
@@ -207,7 +209,7 @@ namespace SPMConnectAPI
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "SPM Connect -Unable to retrieve developer rights", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve developer rights", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -218,6 +220,105 @@ namespace SPMConnectAPI
             return developer;
 
         }
+
+        public bool CheckManagement()
+        {          
+            bool management = false;
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND Management = '1'", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    sqlCommand.Parameters.AddWithValue("@username", UserName());
+
+                    int userCount = (int)sqlCommand.ExecuteScalar();
+                    if (userCount == 1)
+                    {
+                        management = true;
+                       
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Check management rights", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                  
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+            return management;
+        }
+
+        public bool checkpruchasereqrights()
+        {
+            bool purchasereq = false;
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND PurchaseReq = '1'", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    sqlCommand.Parameters.AddWithValue("@username", UserName());
+
+                    int userCount = (int)sqlCommand.ExecuteScalar();
+                    if (userCount == 1)
+                    {
+                        purchasereq = true;
+                       
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Check purchase rights", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+            return purchasereq;
+        }
+
+        public bool checkquoterights()
+        {
+            bool quoterights = false;
+
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND Quote = '1'", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    sqlCommand.Parameters.AddWithValue("@username", UserName());
+
+                    int userCount = (int)sqlCommand.ExecuteScalar();
+                    if (userCount == 1)
+                    {
+                        quoterights = true;
+                       
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Check quote rights", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                   
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+            return quoterights;
+        }
+
+        #endregion
 
         public void chekin(string applicationname)
         {
@@ -411,35 +512,38 @@ namespace SPMConnectAPI
 
         }
 
-        public bool CheckPurchaseReqNotification()
+        public string getcustomeralias(string customerid)
         {
-            bool maintenance = false;
-            string limit = "";
-            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'MonitorReqBase'", cn))
+            string customername = "";
+            try
             {
-                try
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT Alias FROM [SPM_Database].[dbo].[Customers] WHERE [CustomerID]='" + customerid.ToString() + "' ";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                foreach (DataRow dr in dt.Rows)
                 {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-                    limit = (string)cmd.ExecuteScalar();
-                    cn.Close();
+                    customername = dr["Alias"].ToString();
+
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show( ex.Message, "SPM Connect - CheckPurchaseReq Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message, "SPM Connect - Get Customer Alias", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
 
             }
-            if (limit == "1")
+            finally
             {
-                maintenance = true;
+                cn.Close();
             }
-            return maintenance;
-
+            return customername;
         }
 
         #region GetNewItemNumber or copy items
@@ -1175,73 +1279,6 @@ namespace SPMConnectAPI
 
         }
 
-        public bool solidworks_running()
-        {
-
-            if (Process.GetProcessesByName("SLDWORKS").Length >= 1)
-            {
-                //mysolidworks.ActiveModelDocChangeNotify += this.mysolidworks_activedocchange;
-                return true;
-            }
-            else if ((Process.GetProcessesByName("SLDWORKS").Length == 0))
-            {
-
-                MessageBox.Show("Soliworks application needs to be running in order for SPM Connect to perform. Thank you.", "SPM Connect - Solidworks Running", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-            else
-            {
-                MessageBox.Show("SPM Connect encountered more than one sesssion of solidworks running. Please close other sesssions in order for SPM Connect to perform. Thank you.", "SPM Connect - Solidworks Running", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return false;
-            }
-        }
-
-        public void Open_model(string filename)
-        {
-            var progId = "SldWorks.Application";
-            SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
-            swApp.Visible = true;
-            int err = 0;
-            int warn = 0;
-            ModelDoc2 swModel = (ModelDoc2)swApp.OpenDoc6(filename, (int)swDocumentTypes_e.swDocPART, (int)swOpenDocOptions_e.swOpenDocOptions_Silent, "", ref err, ref warn);
-            swApp.ActivateDoc(filename);
-            swModel = swApp.ActiveDoc as ModelDoc2;
-            //swPart = (PartDoc)swModel;
-            //swPart = swApp.ActiveDoc;
-            //AttachEventHandlersPart();
-        }
-
-        public void Open_assy(string filename)
-        {
-
-            var progId = "SldWorks.Application";
-            SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
-            swApp.Visible = true;
-            int err = 0;
-            int warn = 0;
-            ModelDoc2 swModel = (ModelDoc2)swApp.OpenDoc6(filename, (int)swDocumentTypes_e.swDocASSEMBLY, (int)swOpenDocOptions_e.swOpenDocOptions_Silent, "", ref err, ref warn);
-            swApp.ActivateDoc(filename);
-            swModel = swApp.ActiveDoc as ModelDoc2;
-            //swAssembly = (AssemblyDoc)swModel;
-            //AttachEventHandlers();
-
-        }
-
-        public void Open_drw(string filename)
-        {
-
-            var progId = "SldWorks.Application";
-            SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
-            swApp.Visible = true;
-            int err = 0;
-            int warn = 0;
-            ModelDoc2 swModel = (ModelDoc2)swApp.OpenDoc6(filename, (int)swDocumentTypes_e.swDocDRAWING, (int)swOpenDocOptions_e.swOpenDocOptions_Silent, "", ref err, ref warn);
-            swApp.ActivateDoc(filename);
-            swModel = swApp.ActiveDoc as ModelDoc2;
-        }
-
-        #endregion
-
         public void checkforspmfileprod(string ItemNo)
         {
             string ItemNumbero;
@@ -1392,6 +1429,73 @@ namespace SPMConnectAPI
             }
 
         }
+
+        public bool solidworks_running()
+        {
+
+            if (Process.GetProcessesByName("SLDWORKS").Length >= 1)
+            {
+                //mysolidworks.ActiveModelDocChangeNotify += this.mysolidworks_activedocchange;
+                return true;
+            }
+            else if ((Process.GetProcessesByName("SLDWORKS").Length == 0))
+            {
+
+                MessageBox.Show("Soliworks application needs to be running in order for SPM Connect to perform. Thank you.", "SPM Connect - Solidworks Running", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            else
+            {
+                MessageBox.Show("SPM Connect encountered more than one sesssion of solidworks running. Please close other sesssions in order for SPM Connect to perform. Thank you.", "SPM Connect - Solidworks Running", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return false;
+            }
+        }
+
+        public void Open_model(string filename)
+        {
+            var progId = "SldWorks.Application";
+            SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
+            swApp.Visible = true;
+            int err = 0;
+            int warn = 0;
+            ModelDoc2 swModel = (ModelDoc2)swApp.OpenDoc6(filename, (int)swDocumentTypes_e.swDocPART, (int)swOpenDocOptions_e.swOpenDocOptions_Silent, "", ref err, ref warn);
+            swApp.ActivateDoc(filename);
+            swModel = swApp.ActiveDoc as ModelDoc2;
+            //swPart = (PartDoc)swModel;
+            //swPart = swApp.ActiveDoc;
+            //AttachEventHandlersPart();
+        }
+
+        public void Open_assy(string filename)
+        {
+
+            var progId = "SldWorks.Application";
+            SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
+            swApp.Visible = true;
+            int err = 0;
+            int warn = 0;
+            ModelDoc2 swModel = (ModelDoc2)swApp.OpenDoc6(filename, (int)swDocumentTypes_e.swDocASSEMBLY, (int)swOpenDocOptions_e.swOpenDocOptions_Silent, "", ref err, ref warn);
+            swApp.ActivateDoc(filename);
+            swModel = swApp.ActiveDoc as ModelDoc2;
+            //swAssembly = (AssemblyDoc)swModel;
+            //AttachEventHandlers();
+
+        }
+
+        public void Open_drw(string filename)
+        {
+
+            var progId = "SldWorks.Application";
+            SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
+            swApp.Visible = true;
+            int err = 0;
+            int warn = 0;
+            ModelDoc2 swModel = (ModelDoc2)swApp.OpenDoc6(filename, (int)swDocumentTypes_e.swDocDRAWING, (int)swOpenDocOptions_e.swOpenDocOptions_Silent, "", ref err, ref warn);
+            swApp.ActivateDoc(filename);
+            swModel = swApp.ActiveDoc as ModelDoc2;
+        }
+
+        #endregion
 
         #region solidworks createmodels and open models
 
@@ -1731,8 +1835,472 @@ namespace SPMConnectAPI
             return false;
         }
 
-     
+
         #endregion
+
+        #region GetConnectParameters
+
+        public bool CheckPurchaseReqNotification()
+        {
+            bool maintenance = false;
+            string limit = "";
+            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'MonitorReqBase'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    limit = (string)cmd.ExecuteScalar();
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - CheckPurchaseReq Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+            if (limit == "1")
+            {
+                maintenance = true;
+            }
+            return maintenance;
+
+        }
+
+        #region GetFolderPaths for Connect Job Module
+
+        public String GetProjectEngSp()
+        {
+            string path = "";
+            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'ProjectEngSp'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    path = (string)cmd.ExecuteScalar();
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Project Eng Source Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+
+            return path;
+        }
+
+        public String GetProjectEngDp()
+        {
+            string path = "";
+            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'ProjectEngDp'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    path = (string)cmd.ExecuteScalar();
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                   MessageBox.Show( ex.Message, "SPM Connect - Get Project Eng Destination Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+
+            return path;
+        }
+
+        public String GetSpareEngSp()
+        {
+            string path = "";
+            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'SpareEngSp'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    path = (string)cmd.ExecuteScalar();
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show( ex.Message, "SPM Connect - Get Spare Eng Source Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+
+            return path;
+        }
+
+        public String GetSpareEngDp()
+        {
+            string path = "";
+            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'SpareEngDp'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    path = (string)cmd.ExecuteScalar();
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show( ex.Message, "SPM Connect - Get Spare Eng Destination Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+
+            return path;
+        }
+
+        public String GetServiceEngSp()
+        {
+            string path = "";
+            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'ServiceEngSp'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    path = (string)cmd.ExecuteScalar();
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show( ex.Message, "SPM Connect - Get Service Eng Source Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+
+            return path;
+        }
+
+        public String GetServiceEngDp()
+        {
+            string path = "";
+            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'ServiceEngDp'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    path = (string)cmd.ExecuteScalar();
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show( ex.Message, "SPM Connect - Get Service Eng Destination Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+
+            return path;
+        }
+
+        ///////////////////////////////////////////////////////////////////////////
+
+        public String GetProjectSalesSp()
+        {
+            string path = "";
+            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'ProjectSalesSp'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    path = (string)cmd.ExecuteScalar();
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show( ex.Message, "SPM Connect - Get Project Eng Source Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+
+            return path;
+        }
+
+        public String GetProjectSalesDp()
+        {
+            string path = "";
+            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'ProjectSalesDp'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    path = (string)cmd.ExecuteScalar();
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show( ex.Message, "SPM Connect - Get Project Eng Destination Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+
+            return path;
+        }
+
+        public String GetSpareSalesSp()
+        {
+            string path = "";
+            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'SpareSalesSp'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    path = (string)cmd.ExecuteScalar();
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show( ex.Message, "SPM Connect - Get Spare Eng Source Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+
+            return path;
+        }
+
+        public String GetSpareSalesDp()
+        {
+            string path = "";
+            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'SpareSalesDp'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    path = (string)cmd.ExecuteScalar();
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show( ex.Message, "SPM Connect - Get Spare Eng Destination Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+
+            return path;
+        }
+
+        public String GetServiceSalesSp()
+        {
+            string path = "";
+            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'ServiceSalesSp'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    path = (string)cmd.ExecuteScalar();
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show( ex.Message, "SPM Connect - Get Service Eng Source Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+
+            return path;
+        }
+
+        public String GetServiceSalesDp()
+        {
+            string path = "";
+            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'ServiceSalesDp'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    path = (string)cmd.ExecuteScalar();
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show( ex.Message, "SPM Connect - Get Service Eng Destination Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+
+            return path;
+        }
+
+        #endregion
+
+        #region ReportViewer Paths
+
+        public String GetReportBOM()
+        {
+            string report = "";
+            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'ReportBOM'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    report = (string)cmd.ExecuteScalar();
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Report BOM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+
+            return report;
+        }
+
+        public String GetReportSpareParts()
+        {
+            string report = "";
+            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'ReportSpareParts'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    report = (string)cmd.ExecuteScalar();
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Report Spare Parts", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+
+            return report;
+        }
+
+        public String GetReportWorkOrder()
+        {
+            string report = "";
+            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'ReportWorkOrder'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    report = (string)cmd.ExecuteScalar();
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Report Work Order", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+
+            return report;
+        }
+
+        public String GetReportPurchaseReq()
+        {
+            string report = "";
+            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'ReportPurchaseReq'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    report = (string)cmd.ExecuteScalar();
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Report Purchase Req", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+
+            return report;
+        }
+
+
+        #endregion
+
+        #endregion
+
+
 
     }
 }

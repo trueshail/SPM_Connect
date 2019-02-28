@@ -1,26 +1,18 @@
-﻿using Microsoft.Reporting.Map.WebForms.BingMaps;
-using Microsoft.Reporting.WebForms;
-using Microsoft.Reporting.WebForms.Internal.Soap.ReportingServices2005.Execution;
-using Microsoft.Reporting.WinForms;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Net;
-using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows.Forms;
+using SPMConnectAPI;
 
 namespace SearchDataSPM
 {
     public partial class ReportViewer : Form
     {
+        SPMConnectAPI.SPMSQLCommands connectapi = new SPMSQLCommands();
+
         public ReportViewer()
         {
             InitializeComponent();
+            string connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
+            connectapi.SPM_Connect(connection);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -28,28 +20,28 @@ namespace SearchDataSPM
             if(reportname == "BOM")
             {
                 this.Text = "Bills of Manufacturing - " + itemnumber;
-                reportViewer1.ServerReport.ReportPath = "/GeniusReports/BillOfManufacturing/SPM_BOM";
+                reportViewer1.ServerReport.ReportPath = connectapi.GetReportBOM();
                 this.reportViewer1.RefreshReport();
                 fillbomreport();
             }
             else if(reportname == "SPAREPARTS")
             {
                 this.Text = "Spare Parts - " + itemnumber;
-                reportViewer1.ServerReport.ReportPath = "/GeniusReports/BillOfManufacturing/SpareParts";
+                reportViewer1.ServerReport.ReportPath = connectapi.GetReportSpareParts();
                 this.reportViewer1.RefreshReport();
                 fillbomreport();
             }
             else if (reportname == "WorkOrder")
             {
                 this.Text = "Work Order - " + itemnumber;
-                reportViewer1.ServerReport.ReportPath = "/GeniusReports/WorkOrder/SPM_WorkOrder";
+                reportViewer1.ServerReport.ReportPath =connectapi.GetReportWorkOrder();
                 this.reportViewer1.RefreshReport();
                 fillwrokdorderreport();
             }
             else if(reportname == "Purchasereq")
             {
                 this.Text = "Purchase Requisition - " + itemnumber;
-                reportViewer1.ServerReport.ReportPath = "/GeniusReports/PurchaseOrder/SPM_PurchaseReq";
+                reportViewer1.ServerReport.ReportPath = connectapi.GetReportPurchaseReq();
                 this.reportViewer1.RefreshReport();
                 fillpurchasereq();
             }
