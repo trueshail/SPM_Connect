@@ -146,6 +146,8 @@ namespace SearchDataSPM
             familytxtbox.Clear();
             listView.Clear();
             listFiles.Clear();
+            foundlabel.Text = "Search:";
+
         }
 
         private void cleaup2()
@@ -165,6 +167,7 @@ namespace SearchDataSPM
             familytxtbox.Clear();
             listView.Clear();
             listFiles.Clear();
+            foundlabel.Text = "Search:";
         }
 
         private void Assy_txtbox_KeyDown(object sender, KeyEventArgs e)
@@ -695,8 +698,12 @@ namespace SearchDataSPM
 
         private void treeView1_Leave(object sender, EventArgs e)
         {
-            n = treeView1.SelectedNode;
-            n.BackColor = Color.LightBlue;
+            if (treeView1.Nodes.Count > 0)
+            {
+                n = treeView1.SelectedNode;
+                n.BackColor = Color.LightBlue;
+            }
+         
         }
 
         #endregion
@@ -1012,6 +1019,18 @@ namespace SearchDataSPM
                     e.Node.SelectedImageIndex = 0;
                     e.Node.ImageIndex = 0;
                     break;
+            }
+        }
+
+        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        {
+            if (treeView1.Nodes.Count > 0)
+            {
+
+            }
+            else
+            {
+                e.Cancel = true;
             }
         }
     }

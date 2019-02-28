@@ -47,6 +47,7 @@
             this.ItemTxtBox = new System.Windows.Forms.TextBox();
             this.qtytxtbox = new System.Windows.Forms.TextBox();
             this.treeView1 = new System.Windows.Forms.TreeView();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.Assy_label = new System.Windows.Forms.Label();
             this.oemlbl = new System.Windows.Forms.Label();
             this.oemitemlbl = new System.Windows.Forms.Label();
@@ -58,7 +59,6 @@
             this.listView = new System.Windows.Forms.ListView();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.foundlabel = new System.Windows.Forms.Label();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -69,13 +69,14 @@
             this.openDrawingToolStripMenuItem,
             this.getBOMToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(151, 70);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 92);
+            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // openModelToolStripMenuItem
             // 
             this.openModelToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openModelToolStripMenuItem.Image")));
             this.openModelToolStripMenuItem.Name = "openModelToolStripMenuItem";
-            this.openModelToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.openModelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openModelToolStripMenuItem.Text = "Open Model";
             this.openModelToolStripMenuItem.ToolTipText = "Open Selected Item Model";
             this.openModelToolStripMenuItem.Click += new System.EventHandler(this.openModelToolStripMenuItem_Click);
@@ -84,7 +85,7 @@
             // 
             this.openDrawingToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openDrawingToolStripMenuItem.Image")));
             this.openDrawingToolStripMenuItem.Name = "openDrawingToolStripMenuItem";
-            this.openDrawingToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.openDrawingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openDrawingToolStripMenuItem.Text = "Open Drawing";
             this.openDrawingToolStripMenuItem.ToolTipText = "Opens Selected Item Drawing";
             this.openDrawingToolStripMenuItem.Click += new System.EventHandler(this.openDrawingToolStripMenuItem_Click);
@@ -93,7 +94,7 @@
             // 
             this.getBOMToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("getBOMToolStripMenuItem.Image")));
             this.getBOMToolStripMenuItem.Name = "getBOMToolStripMenuItem";
-            this.getBOMToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.getBOMToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.getBOMToolStripMenuItem.Text = "Get BOM";
             this.getBOMToolStripMenuItem.ToolTipText = "Get Selected Assy\'s BOM";
             this.getBOMToolStripMenuItem.Click += new System.EventHandler(this.getBOMToolStripMenuItem_Click);
@@ -304,6 +305,22 @@
             this.treeView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeView1_KeyDown);
             this.treeView1.Leave += new System.EventHandler(this.treeView1_Leave);
             // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "icons8_bookclose_64.png");
+            this.imageList1.Images.SetKeyName(1, "icons8_bookopen_64.png");
+            this.imageList1.Images.SetKeyName(2, "icons8_Pageblue_32.png");
+            this.imageList1.Images.SetKeyName(3, "icons8_Electricity_64.png");
+            this.imageList1.Images.SetKeyName(4, "icons8_Book_Shelf_32.png");
+            this.imageList1.Images.SetKeyName(5, "icons8_Money_Bag_32.png");
+            this.imageList1.Images.SetKeyName(6, "icons8_Hammer_32.png");
+            this.imageList1.Images.SetKeyName(7, "icons8_Screw_32.png");
+            this.imageList1.Images.SetKeyName(8, "icons8_Triggering_32.png");
+            this.imageList1.Images.SetKeyName(9, "icons8_Pressure_32.png");
+            this.imageList1.Images.SetKeyName(10, "icons8_Price_Tag_32.png");
+            // 
             // Assy_label
             // 
             this.Assy_label.AutoSize = true;
@@ -451,22 +468,6 @@
             this.foundlabel.Size = new System.Drawing.Size(49, 15);
             this.foundlabel.TabIndex = 47;
             this.foundlabel.Text = "Search:";
-            // 
-            // imageList1
-            // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "icons8_bookclose_64.png");
-            this.imageList1.Images.SetKeyName(1, "icons8_bookopen_64.png");
-            this.imageList1.Images.SetKeyName(2, "icons8_Pageblue_32.png");
-            this.imageList1.Images.SetKeyName(3, "icons8_Electricity_64.png");
-            this.imageList1.Images.SetKeyName(4, "icons8_Book_Shelf_32.png");
-            this.imageList1.Images.SetKeyName(5, "icons8_Money_Bag_32.png");
-            this.imageList1.Images.SetKeyName(6, "icons8_Hammer_32.png");
-            this.imageList1.Images.SetKeyName(7, "icons8_Screw_32.png");
-            this.imageList1.Images.SetKeyName(8, "icons8_Triggering_32.png");
-            this.imageList1.Images.SetKeyName(9, "icons8_Pressure_32.png");
-            this.imageList1.Images.SetKeyName(10, "icons8_Price_Tag_32.png");
             // 
             // WhereUsed
             // 
