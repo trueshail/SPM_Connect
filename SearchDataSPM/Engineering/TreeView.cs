@@ -915,9 +915,13 @@ namespace SearchDataSPM
 
         private void setimageaccordingtofamily(string family, TreeNode treeNode)
         {
-            if (family == "AG" || family == "JOB")
+            if (family == "AG")
             {
                 treeNode.ImageIndex = 4;
+            }
+            else if (family == "JOB")
+            {
+                treeNode.ImageIndex = 12;
             }
             else if (family == "AS" || family == "ASPN")
             {
@@ -947,9 +951,13 @@ namespace SearchDataSPM
             {
                 treeNode.ImageIndex = 9;
             }
-            else if (family == "MT"  || family == "DR")
+            else if (family == "MT")
             {
                 treeNode.ImageIndex = 10;
+            }
+            else if ( family == "DR")
+            {
+                treeNode.ImageIndex = 11;
             }
             else
             {
@@ -1015,6 +1023,14 @@ namespace SearchDataSPM
                     e.Node.SelectedImageIndex = 10;
                     e.Node.ImageIndex = 10;
                     break;
+                case 11:
+                    e.Node.SelectedImageIndex = 11;
+                    e.Node.ImageIndex = 11;
+                    break;
+                case 12:
+                    e.Node.SelectedImageIndex = 12;
+                    e.Node.ImageIndex = 12;
+                    break;
                 default:
                     e.Node.SelectedImageIndex = 0;
                     e.Node.ImageIndex = 0;
@@ -1032,6 +1048,10 @@ namespace SearchDataSPM
             {
                 e.Cancel = true;
             }
+        }
+
+        private void SPM_MouseEnter(object sender, EventArgs e)
+        {
         }
     }
 

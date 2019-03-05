@@ -1835,7 +1835,6 @@ namespace SPMConnectAPI
             return false;
         }
 
-
         #endregion
 
         #region GetConnectParameters
@@ -2299,8 +2298,6 @@ namespace SPMConnectAPI
         #endregion
 
         #endregion
-
-
 
     }
 }

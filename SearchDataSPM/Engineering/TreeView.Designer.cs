@@ -67,14 +67,14 @@
             this.openModelToolStripMenuItem,
             this.openDrawingToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 70);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(151, 48);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // openModelToolStripMenuItem
             // 
             this.openModelToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openModelToolStripMenuItem.Image")));
             this.openModelToolStripMenuItem.Name = "openModelToolStripMenuItem";
-            this.openModelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openModelToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.openModelToolStripMenuItem.Text = "Open Model";
             this.openModelToolStripMenuItem.ToolTipText = "Open Selected Item Model";
             this.openModelToolStripMenuItem.Click += new System.EventHandler(this.openModelToolStripMenuItem_Click);
@@ -83,7 +83,7 @@
             // 
             this.openDrawingToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openDrawingToolStripMenuItem.Image")));
             this.openDrawingToolStripMenuItem.Name = "openDrawingToolStripMenuItem";
-            this.openDrawingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openDrawingToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.openDrawingToolStripMenuItem.Text = "Open Drawing";
             this.openDrawingToolStripMenuItem.ToolTipText = "Opens Selected Item Drawing";
             this.openDrawingToolStripMenuItem.Click += new System.EventHandler(this.openDrawingToolStripMenuItem_Click);
@@ -265,6 +265,7 @@
             this.SPM.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.LabelTooltips.SetToolTip(this.SPM, "SPM Automation Inc.");
             this.SPM.DoubleClick += new System.EventHandler(this.SPM_DoubleClick);
+            this.SPM.MouseEnter += new System.EventHandler(this.SPM_MouseEnter);
             // 
             // treeView1
             // 
@@ -309,6 +310,8 @@
             this.imageList1.Images.SetKeyName(8, "icons8_Triggering_32.png");
             this.imageList1.Images.SetKeyName(9, "icons8_Pressure_32.png");
             this.imageList1.Images.SetKeyName(10, "icons8_Price_Tag_32.png");
+            this.imageList1.Images.SetKeyName(11, "icons8_Design_32.png");
+            this.imageList1.Images.SetKeyName(12, "icons8_Repository_32.png");
             // 
             // Assy_label
             // 
@@ -486,6 +489,7 @@
             this.Controls.Add(this.Expandchk);
             this.Controls.Add(this.Assy_label);
             this.Controls.Add(this.Assy_txtbox);
+            this.HelpButton = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(600, 700);
             this.Name = "TreeView";

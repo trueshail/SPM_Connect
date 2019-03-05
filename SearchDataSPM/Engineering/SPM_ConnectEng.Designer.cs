@@ -78,7 +78,6 @@ namespace SearchDataSPM
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.recordlabel = new System.Windows.Forms.Label();
             this.listView = new System.Windows.Forms.ListView();
@@ -363,6 +362,7 @@ namespace SearchDataSPM
             this.versionlabel.TabIndex = 116;
             this.versionlabel.Text = "V7.6.1";
             this.TreeViewToolTip.SetToolTip(this.versionlabel, "SPM Connect V7.6.1");
+            this.versionlabel.DoubleClick += new System.EventHandler(this.versionlabel_DoubleClick);
             // 
             // Reload
             // 
@@ -492,7 +492,7 @@ namespace SearchDataSPM
             this.Manufactureritemcomboxbox.FormattingEnabled = true;
             this.Manufactureritemcomboxbox.Location = new System.Drawing.Point(8, 376);
             this.Manufactureritemcomboxbox.Name = "Manufactureritemcomboxbox";
-            this.Manufactureritemcomboxbox.Size = new System.Drawing.Size(190, 21);
+            this.Manufactureritemcomboxbox.Size = new System.Drawing.Size(194, 21);
             this.Manufactureritemcomboxbox.TabIndex = 125;
             this.TreeViewToolTip.SetToolTip(this.Manufactureritemcomboxbox, "Filter by OEM item number");
             this.Manufactureritemcomboxbox.TextChanged += new System.EventHandler(this.Manufactureritemcomboxbox_TextChanged);
@@ -509,7 +509,7 @@ namespace SearchDataSPM
             this.familycomboxbox.FormattingEnabled = true;
             this.familycomboxbox.Location = new System.Drawing.Point(8, 227);
             this.familycomboxbox.Name = "familycomboxbox";
-            this.familycomboxbox.Size = new System.Drawing.Size(190, 21);
+            this.familycomboxbox.Size = new System.Drawing.Size(194, 21);
             this.familycomboxbox.TabIndex = 123;
             this.TreeViewToolTip.SetToolTip(this.familycomboxbox, "Filter by family type");
             this.familycomboxbox.TextChanged += new System.EventHandler(this.familycomboxbox_TextChanged);
@@ -526,7 +526,7 @@ namespace SearchDataSPM
             this.lastsavedbycombo.FormattingEnabled = true;
             this.lastsavedbycombo.Location = new System.Drawing.Point(8, 520);
             this.lastsavedbycombo.Name = "lastsavedbycombo";
-            this.lastsavedbycombo.Size = new System.Drawing.Size(190, 21);
+            this.lastsavedbycombo.Size = new System.Drawing.Size(194, 21);
             this.lastsavedbycombo.TabIndex = 127;
             this.TreeViewToolTip.SetToolTip(this.lastsavedbycombo, "Filter by last saved");
             this.lastsavedbycombo.TextChanged += new System.EventHandler(this.lastsavedbycombo_TextChanged);
@@ -546,7 +546,7 @@ namespace SearchDataSPM
             "SPM AUTOMATION (Canada) INC."});
             this.oemitemcombobox.Location = new System.Drawing.Point(8, 301);
             this.oemitemcombobox.Name = "oemitemcombobox";
-            this.oemitemcombobox.Size = new System.Drawing.Size(190, 21);
+            this.oemitemcombobox.Size = new System.Drawing.Size(194, 21);
             this.oemitemcombobox.TabIndex = 124;
             this.TreeViewToolTip.SetToolTip(this.oemitemcombobox, "Filter by manufacture");
             this.oemitemcombobox.TextChanged += new System.EventHandler(this.oemitemcombobox_TextChanged);
@@ -563,7 +563,7 @@ namespace SearchDataSPM
             this.ActiveCadblockcombobox.FormattingEnabled = true;
             this.ActiveCadblockcombobox.Location = new System.Drawing.Point(8, 601);
             this.ActiveCadblockcombobox.Name = "ActiveCadblockcombobox";
-            this.ActiveCadblockcombobox.Size = new System.Drawing.Size(190, 21);
+            this.ActiveCadblockcombobox.Size = new System.Drawing.Size(194, 21);
             this.ActiveCadblockcombobox.TabIndex = 128;
             this.TreeViewToolTip.SetToolTip(this.ActiveCadblockcombobox, "Filter by current cad block number");
             this.ActiveCadblockcombobox.TextChanged += new System.EventHandler(this.ActiveCadblockcombobox_TextChanged);
@@ -584,7 +584,7 @@ namespace SearchDataSPM
             "Joel Goldsmith"});
             this.designedbycombobox.Location = new System.Drawing.Point(8, 150);
             this.designedbycombobox.Name = "designedbycombobox";
-            this.designedbycombobox.Size = new System.Drawing.Size(190, 21);
+            this.designedbycombobox.Size = new System.Drawing.Size(194, 21);
             this.designedbycombobox.TabIndex = 122;
             this.TreeViewToolTip.SetToolTip(this.designedbycombobox, "Filter Designed by");
             this.designedbycombobox.TextChanged += new System.EventHandler(this.designedbycombobox_TextChanged);
@@ -601,7 +601,7 @@ namespace SearchDataSPM
             this.MaterialcomboBox.FormattingEnabled = true;
             this.MaterialcomboBox.Location = new System.Drawing.Point(8, 447);
             this.MaterialcomboBox.Name = "MaterialcomboBox";
-            this.MaterialcomboBox.Size = new System.Drawing.Size(190, 21);
+            this.MaterialcomboBox.Size = new System.Drawing.Size(194, 21);
             this.MaterialcomboBox.TabIndex = 126;
             this.TreeViewToolTip.SetToolTip(this.MaterialcomboBox, "Filter by Material");
             this.MaterialcomboBox.TextChanged += new System.EventHandler(this.MaterialcomboBox_TextChanged);
@@ -704,10 +704,6 @@ namespace SearchDataSPM
             this.toolStripMenuItem3.Text = "E Model Viewer";
             this.toolStripMenuItem3.ToolTipText = "Open Selected Item in Emodel Viewer";
             this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
-            // 
-            // timer2
-            // 
-            this.timer2.Interval = 3000;
             // 
             // splitContainer1
             // 
@@ -1211,7 +1207,6 @@ namespace SearchDataSPM
         private System.Windows.Forms.ToolStripMenuItem iteminfolistviewStripMenu;
         private System.Windows.Forms.ToolStripMenuItem editItemToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteItemToolStripMenuItem;
-        public System.Windows.Forms.Timer timer2;
         private System.Windows.Forms.ToolStripMenuItem viewReportBOM;
         private System.Windows.Forms.ToolStripMenuItem billsOfMaunfacturingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sparePartsToolStripMenuItem;

@@ -1117,7 +1117,7 @@ namespace SearchDataSPM
         private void purchasereq_Click(object sender, EventArgs e)
         {
             int openforms = Application.OpenForms.Count;
-            if (openforms > 2)
+            if (openforms >= 2)
             {
                 bool purchasereqopen = false;
 

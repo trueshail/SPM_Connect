@@ -13,14 +13,12 @@ using System.Windows.Forms;
 using ExtractLargeIconFromFile;
 using wpfPreviewFlowControl;
 using SolidWorks.Interop.sldworks;
-using SolidWorks.Interop.swconst;
 using System.Threading;
 using System.Management;
 using System.Deployment.Application;
 using System.Net;
 using TableDependency.SqlClient;
 using TableDependency.SqlClient.Base;
-using System.Reflection;
 using SPMConnectAPI;
 
 namespace SearchDataSPM
@@ -45,12 +43,13 @@ namespace SearchDataSPM
         SearchDataSPM.pnotifier purchaseReq = new SearchDataSPM.pnotifier();
         SPMConnectAPI.SPMSQLCommands connectapi = new SPMSQLCommands();
         SPMConnectAPI.Controls connectapicntrls = new SPMConnectAPI.Controls();
-
+        AutoCompleteStringCollection autoComplete = new AutoCompleteStringCollection();
 
         public SPM_Connect()
         {
-
             InitializeComponent();
+            formloading = true;
+            
             connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
             cntrlconnection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cntrlscn"].ConnectionString;
             try
@@ -70,29 +69,23 @@ namespace SearchDataSPM
 
         private void SPM_Connect_Load(object sender, EventArgs e)
         {
-
+            this.Hide();
             collapse();
-            formloading = true;
-
-            checkdeptsandrights();
-
+            loadusersettings();        
             dt = new DataTable();
-
-            Showallitems();
-            txtSearch.Focus();
-            //fillinfo();
-
+            checkdeptsandrights();
             userfullname = connectapi.getuserfullname();
-
             sqlnotifier();
-
-            if (purchasereqnotification=connectapi.CheckPurchaseReqNotification())
+            if (purchasereqnotification = connectapi.CheckPurchaseReqNotification())
             {
                 watchpreqtable();
                 purchaseReq.currentusercreds();
             }
-            
+            assignhistory();
+            Showallitems();
+            txtSearch.Focus();
             formloading = false;
+            this.Show();
         }
 
         private void checkdeptsandrights()
@@ -164,6 +157,27 @@ namespace SearchDataSPM
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
         }
 
+        private void loadusersettings()
+        {
+            if (Properties.Settings.Default.F1Size.Width == 0) Properties.Settings.Default.Upgrade();
+
+            if (Properties.Settings.Default.F1Size.Width == 0 || Properties.Settings.Default.F1Size.Height == 0)
+            {
+                // first start
+                // optional: add default values
+            }
+            else
+            {
+                this.WindowState = Properties.Settings.Default.F1State;
+
+                // we don't want a minimized window at startup
+                if (this.WindowState == FormWindowState.Minimized) this.WindowState = FormWindowState.Normal;
+
+                this.Location = Properties.Settings.Default.F1Location;
+                this.Size = Properties.Settings.Default.F1Size;
+            }
+        }
+
         private void fillinfo()
         {
             Cursor.Current = Cursors.WaitCursor;
@@ -233,6 +247,25 @@ namespace SearchDataSPM
             dataGridView.DefaultCellStyle.BackColor = Color.FromArgb(237, 237, 237);
             dataGridView.DefaultCellStyle.SelectionForeColor = Color.Yellow;
             dataGridView.DefaultCellStyle.SelectionBackColor = Color.Black;
+        }
+
+        private void assignhistory()
+        {
+            txtSearch.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            txtSearch.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            txtSearch.AutoCompleteCustomSource = autoComplete;
+            Descrip_txtbox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            Descrip_txtbox.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            Descrip_txtbox.AutoCompleteCustomSource = autoComplete;
+            filteroem_txtbox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            filteroem_txtbox.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            filteroem_txtbox.AutoCompleteCustomSource = autoComplete;
+            filteroemitem_txtbox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            filteroemitem_txtbox.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            filteroemitem_txtbox.AutoCompleteCustomSource = autoComplete;
+            filter4.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            filter4.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            filter4.AutoCompleteCustomSource = autoComplete;
         }
 
         #endregion
@@ -388,10 +421,11 @@ namespace SearchDataSPM
         #region Search Parameters
 
         public void txtSearch_KeyDown(object sender, KeyEventArgs e)
-
         {
             if (e.KeyCode == Keys.Return)
             {
+                formloading = true;
+                autoComplete.Add(txtSearch.Text);
                 if (txtSearch.Text == "playgame")
                 {
                     lettergame lettergame = new lettergame();
@@ -407,6 +441,7 @@ namespace SearchDataSPM
                 {
                     Showallitems();
                 }
+
                 if (txtSearch.Text.Length > 0)
                 {
 
@@ -418,8 +453,6 @@ namespace SearchDataSPM
                 {
                     this.Size = new Size(1200, this.Height);
                 }
-
-
 
                 if (txtSearch.Text.Length > 0)
                 {
@@ -435,11 +468,13 @@ namespace SearchDataSPM
                 e.Handled = true;
                 e.SuppressKeyPress = true;
 
+                formloading = false;
             }
         }
 
         private void clearandhide()
         {
+            formloading = true;
             clearfilercombos();
             Descrip_txtbox.Hide();
             Descrip_txtbox.Clear();
@@ -466,11 +501,12 @@ namespace SearchDataSPM
             listFiles.Clear();
             listView.Clear();
             recordlabel.Text = "";
+            formloading = false;
         }
 
         private void mainsearch()
         {
-
+            formloading = true;
             //DataView dv = dt.DefaultView;
             DataView dv = (dataGridView.DataSource as DataTable).DefaultView;
             dt = dv.ToTable();
@@ -568,16 +604,20 @@ namespace SearchDataSPM
                     dv = null;
                 }
             }
+            formloading = false;
         }
 
         private void Descrip_txtbox_KeyDown(object sender, KeyEventArgs e)
         {
+            
             DataView dv = table0.DefaultView;
             table0 = dv.ToTable();
 
             if (e.KeyCode == Keys.Return)
             {
+                formloading = true;
                 string search2 = Descrip_txtbox.Text;
+                autoComplete.Add(search2);
                 try
                 {
                     search2 = search2.Replace("'", "''");
@@ -627,6 +667,7 @@ namespace SearchDataSPM
                 }
                 e.Handled = true;
                 e.SuppressKeyPress = true;
+                formloading = false;
             }
         }
 
@@ -637,7 +678,9 @@ namespace SearchDataSPM
 
             if (e.KeyCode == Keys.Return)
             {
+                formloading = true;
                 string search3 = filteroem_txtbox.Text;
+                autoComplete.Add(search3);
                 try
                 {
                     search3 = search3.Replace("'", "''");
@@ -683,6 +726,7 @@ namespace SearchDataSPM
                 }
                 e.Handled = true;
                 e.SuppressKeyPress = true;
+                formloading = false;
             }
         }
 
@@ -692,7 +736,9 @@ namespace SearchDataSPM
             table2 = dv.ToTable();
             if (e.KeyCode == Keys.Return)
             {
+                formloading = true;
                 string search4 = filteroemitem_txtbox.Text;
+                autoComplete.Add(search4);
                 try
                 {
                     search4 = search4.Replace("'", "''");
@@ -738,6 +784,7 @@ namespace SearchDataSPM
                 }
                 e.Handled = true;
                 e.SuppressKeyPress = true;
+                formloading = false;
             }
 
         }
@@ -748,7 +795,9 @@ namespace SearchDataSPM
             table3 = dv.ToTable();
             if (e.KeyCode == Keys.Return)
             {
+                formloading = true;
                 string search5 = filter4.Text;
+                autoComplete.Add(search5);
                 try
                 {
                     search5 = search5.Replace("'", "''");
@@ -780,6 +829,7 @@ namespace SearchDataSPM
 
                 e.Handled = true;
                 e.SuppressKeyPress = true;
+                formloading = false;
             }
         }
 
@@ -1160,7 +1210,7 @@ namespace SearchDataSPM
         private void SPM_Connect_FormClosing(object sender, FormClosingEventArgs e)
         {
             int openforms = Application.OpenForms.Count;
-            if (openforms > 2)
+            if (openforms >= 2)
             {
                 e.Cancel = true;
                 ListOpenWindows frm2 = new ListOpenWindows();
@@ -1200,29 +1250,32 @@ namespace SearchDataSPM
             }
             else
             {
-                bool done = false;
-                ThreadPool.QueueUserWorkItem(delegate
-                {
-                    using (var splashForm = new Engineering.WaitFormOpening())
-                    {
-                        splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
-                        splashForm.Text = "Closing SPM Connect";
-                        splashForm.Size = new Size(275, 120);
-                        splashForm.Show();
-                        while (!done)
-                            Application.DoEvents();
-                        splashForm.Close();
-                    }
-                }, null);
+              
                 Cursor.Current = Cursors.WaitCursor;
                 if (purchasereqnotification)
                 {
                     _preqdependency.Stop();
                 }                
                 _dependency.Stop();
+                Properties.Settings.Default.F1State = this.WindowState;
+                if (this.WindowState == FormWindowState.Normal)
+                {
+                    // save location and size if the state is normal
+                    Properties.Settings.Default.F1Location = this.Location;
+                    Properties.Settings.Default.F1Size = this.Size;
+                }
+                else
+                {
+                    // save the RestoreBounds if the form is minimized or maximized!
+                    Properties.Settings.Default.F1Location = this.RestoreBounds.Location;
+                    Properties.Settings.Default.F1Size = this.RestoreBounds.Size;
+                }
+
+                // don't forget to save the settings
+                Properties.Settings.Default.Save();
                 connectapi.checkout();
                 Cursor.Current = Cursors.Default;
-                done = true;
+               
             }
         }
 
@@ -1473,8 +1526,11 @@ namespace SearchDataSPM
 
         private void dataGridView_SelectionChanged(object sender, EventArgs e)
         {
-
-            showfilesonlistview();
+            if (!formloading)
+            {
+                showfilesonlistview();
+            }
+           
         }
 
         private void showfilesonlistview()
@@ -1507,7 +1563,7 @@ namespace SearchDataSPM
             }
             catch
             {
-                return;
+                
             }
         }
 
@@ -1518,7 +1574,7 @@ namespace SearchDataSPM
             if (listView.FocusedItem != null)
             {
 
-                makepathfordrag();
+               // makepathfordrag();
             }
 
         }
@@ -1620,76 +1676,6 @@ namespace SearchDataSPM
                 Listviewcontextmenu.Enabled = false;
             }
         }
-
-
-        #endregion
-
-        #region Solidworks Communication
-
-        //private bool solidworks_running()
-        //{
-
-        //    if (Process.GetProcessesByName("SLDWORKS").Length >= 1)
-        //    {
-        //        //mysolidworks.ActiveModelDocChangeNotify += this.mysolidworks_activedocchange;
-        //        return true;
-        //    }
-        //    else if ((Process.GetProcessesByName("SLDWORKS").Length == 0))
-        //    {
-
-        //        MessageBox.Show("Soliworks application needs to be running in order for SPM Connect to perform. Thank you.", "SPM Connect - Solidworks Running", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //        return false;
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("SPM Connect encountered more than one sesssion of solidworks running. Please close other sesssions in order for SPM Connect to perform. Thank you.", "SPM Connect - Solidworks Running", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-        //        return false;
-        //    }
-        //}
-
-        //public void Open_model(string filename)
-        //{
-        //    var progId = "SldWorks.Application";
-        //    SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
-        //    swApp.Visible = true;
-        //    int err = 0;
-        //    int warn = 0;
-        //    ModelDoc2 swModel = (ModelDoc2)swApp.OpenDoc6(filename, (int)swDocumentTypes_e.swDocPART, (int)swOpenDocOptions_e.swOpenDocOptions_Silent, "", ref err, ref warn);
-        //    swApp.ActivateDoc(filename);
-        //    swModel = swApp.ActiveDoc as ModelDoc2;
-        //    //swPart = (PartDoc)swModel;
-        //    //swPart = swApp.ActiveDoc;
-        //    //AttachEventHandlersPart();
-        //}
-
-        //public void Open_assy(string filename)
-        //{
-
-        //    var progId = "SldWorks.Application";
-        //    SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
-        //    swApp.Visible = true;
-        //    int err = 0;
-        //    int warn = 0;
-        //    ModelDoc2 swModel = (ModelDoc2)swApp.OpenDoc6(filename, (int)swDocumentTypes_e.swDocASSEMBLY, (int)swOpenDocOptions_e.swOpenDocOptions_Silent, "", ref err, ref warn);
-        //    swApp.ActivateDoc(filename);
-        //    swModel = swApp.ActiveDoc as ModelDoc2;
-        //    //swAssembly = (AssemblyDoc)swModel;
-        //    //AttachEventHandlers();
-
-        //}
-
-        //public void Open_drw(string filename)
-        //{
-
-        //    var progId = "SldWorks.Application";
-        //    SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
-        //    swApp.Visible = true;
-        //    int err = 0;
-        //    int warn = 0;
-        //    ModelDoc2 swModel = (ModelDoc2)swApp.OpenDoc6(filename, (int)swDocumentTypes_e.swDocDRAWING, (int)swOpenDocOptions_e.swOpenDocOptions_Silent, "", ref err, ref warn);
-        //    swApp.ActivateDoc(filename);
-        //    swModel = swApp.ActiveDoc as ModelDoc2;
-        //}
 
 
         #endregion
@@ -3188,6 +3174,13 @@ namespace SearchDataSPM
                 MessageBox.Show("Your next ItemNumber to use is :- " + newid, "SPM Connect - New Item Number", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 Clipboard.SetText(newid);
             }
+        }
+
+        private void versionlabel_DoubleClick(object sender, EventArgs e)
+        {
+            this.Size = new Size(1000, 750);
+            this.CenterToScreen();
+           
         }
     }
 
