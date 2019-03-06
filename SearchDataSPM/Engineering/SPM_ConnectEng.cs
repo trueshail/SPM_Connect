@@ -40,6 +40,7 @@ namespace SearchDataSPM
         bool controls = false;
         int _advcollapse = 0;
         bool purchasereqnotification = false;
+        bool showingfavorites = false;
         SearchDataSPM.pnotifier purchaseReq = new SearchDataSPM.pnotifier();
         SPMConnectAPI.SPMSQLCommands connectapi = new SPMSQLCommands();
         SPMConnectAPI.Controls connectapicntrls = new SPMConnectAPI.Controls();
@@ -222,6 +223,7 @@ namespace SearchDataSPM
             DataView dv = dt.DefaultView;
             dataGridView.Sort(itemNumberDataGridViewTextBoxColumn, ListSortDirection.Descending);
             UpdateFont();
+            showingfavorites = false;
         }
 
         private void Reload_Click(object sender, EventArgs e)
@@ -232,11 +234,11 @@ namespace SearchDataSPM
         void performreload()
         {
             clearandhide();
-            clearfilercombos();
-            txtSearch.Clear();
+            //clearfilercombos();          
             txtSearch.Focus();
             SendKeys.Send("~");
             dataGridView.Refresh();
+            showingfavorites = false;
         }
 
         private void UpdateFont()
@@ -436,11 +438,18 @@ namespace SearchDataSPM
                 {
                     clearandhide();
                 }
-
-                if (designedbycombobox.Text == "" && lastsavedbycombo.Text == "" && familycomboxbox.Text == "" && Manufactureritemcomboxbox.Text == "" && oemitemcombobox.Text == "" && ActiveCadblockcombobox.Text == "" && MaterialcomboBox.Text == "")
+                if (!showingfavorites)
                 {
-                    Showallitems();
+                    if (designedbycombobox.Text == "" && lastsavedbycombo.Text == "" && familycomboxbox.Text == "" && Manufactureritemcomboxbox.Text == "" && oemitemcombobox.Text == "" && ActiveCadblockcombobox.Text == "" && MaterialcomboBox.Text == "")
+                    {
+                        Showallitems();
+                    }
                 }
+                else
+                {
+                    showfavorites();
+                }
+                
 
                 if (txtSearch.Text.Length > 0)
                 {
@@ -476,6 +485,7 @@ namespace SearchDataSPM
         {
             formloading = true;
             clearfilercombos();
+            txtSearch.Clear();
             Descrip_txtbox.Hide();
             Descrip_txtbox.Clear();
             filteroem_txtbox.Hide();
@@ -1242,41 +1252,47 @@ namespace SearchDataSPM
                 }
                 else
                 {
+
                     e.Cancel = false;
 
-
+                    closeallconnections();
                 }
 
             }
             else
             {
-              
-                Cursor.Current = Cursors.WaitCursor;
-                if (purchasereqnotification)
-                {
-                    _preqdependency.Stop();
-                }                
-                _dependency.Stop();
-                Properties.Settings.Default.F1State = this.WindowState;
-                if (this.WindowState == FormWindowState.Normal)
-                {
-                    // save location and size if the state is normal
-                    Properties.Settings.Default.F1Location = this.Location;
-                    Properties.Settings.Default.F1Size = this.Size;
-                }
-                else
-                {
-                    // save the RestoreBounds if the form is minimized or maximized!
-                    Properties.Settings.Default.F1Location = this.RestoreBounds.Location;
-                    Properties.Settings.Default.F1Size = this.RestoreBounds.Size;
-                }
-
-                // don't forget to save the settings
-                Properties.Settings.Default.Save();
-                connectapi.checkout();
-                Cursor.Current = Cursors.Default;
-               
+                closeallconnections();
             }
+        }
+
+
+        private void closeallconnections()
+        {
+            Cursor.Current = Cursors.WaitCursor;
+            _dependency.Stop();
+            if (purchasereqnotification)
+            {
+                _preqdependency.Stop();
+            }
+           
+            Properties.Settings.Default.F1State = this.WindowState;
+            if (this.WindowState == FormWindowState.Normal)
+            {
+                // save location and size if the state is normal
+                Properties.Settings.Default.F1Location = this.Location;
+                Properties.Settings.Default.F1Size = this.Size;
+            }
+            else
+            {
+                // save the RestoreBounds if the form is minimized or maximized!
+                Properties.Settings.Default.F1Location = this.RestoreBounds.Location;
+                Properties.Settings.Default.F1Size = this.RestoreBounds.Size;
+            }
+
+            // don't forget to save the settings
+            Properties.Settings.Default.Save();
+            connectapi.checkout();
+            Cursor.Current = Cursors.Default;
         }
 
         #endregion
@@ -1351,6 +1367,19 @@ namespace SearchDataSPM
             {
                 txtSearch.Focus();
                 txtSearch.SelectAll();
+
+                return true;
+            }
+            if (keyData == (Keys.Shift | Keys.F))
+            {
+                if (showingfavorites)
+                {
+                    performreload();
+                }
+                else
+                {
+                    showfavorites();
+                }
 
                 return true;
             }
@@ -2305,110 +2334,6 @@ namespace SearchDataSPM
 
         #endregion
 
-        #region solidworks events manager
-
-        //public AssemblyDoc swAssembly;
-        //public PartDoc swPart;
-
-        //private int swAssembly_RegenNotify()
-        //{
-        //    // Display message before rebuild 
-        //    //System.Windows.Forms.MessageBox.Show("A rebuild pre-notification event was fired.");
-        //    return 0;
-        //}
-
-        //public void AttachEventHandlers()
-        //{
-        //    AttachSWEvents();
-        //}
-
-        //public void AttachSWEvents()
-        //{
-        //    swAssembly.RegenNotify += this.swAssembly_RegenNotify;
-        //    swAssembly.RegenPostNotify2 += this.swAssembly_RegenPostNotify2;
-        //}
-
-        //private int swAssembly_RegenPostNotify2(object stopFeature)
-        //{
-        //    // Display message after rebuild 
-        //    if ((stopFeature != null))
-        //    {
-        //        Feature feature = default(Feature);
-        //        feature = (Feature)stopFeature;
-        //        Debug.Print("The rollback bar is above " + feature.Name + " in the FeatureManager design tree.");
-        //    }
-        //    //System.Windows.Forms.MessageBox.Show("A rebuild post-notification event was fired.");
-        //    return 0;
-        //}
-
-        //private int swPart_RegenNotify()
-        //{
-        //    // Display message before rebuild 
-        //    System.Windows.Forms.MessageBox.Show("rebuild started");
-        //    return 0;
-        //}
-
-        //public void AttachEventHandlersPart()
-        //{
-        //    AttachSWEventsPart();
-        //}
-
-        //SldWorks mysolidworks = Marshal.GetActiveObject("SldWorks.Application") as SldWorks;
-
-        //public void AttachSWEventsPart()
-        //{
-        //    swPart.RegenNotify += this.swPart_RegenNotify;
-        //    swPart.RegenPostNotify2 += this.swPart_RegenPostNotify2;
-        //    swPart.FileSaveNotify += this.swPart_FileSaveNotify;
-
-        //}
-
-        //private int swPart_RegenPostNotify2(object stopFeature)
-        //{
-        //    // Display message after rebuild 
-        //    if ((stopFeature != null))
-        //    {
-        //        Feature feature = default(Feature);
-        //        feature = (Feature)stopFeature;
-        //        Debug.Print("The rollback bar is above " + feature.Name + " in the FeatureManager design tree.");
-        //    }
-        //    System.Windows.Forms.MessageBox.Show("rebuild completed");
-        //    return 0;
-        //}
-
-        //private int swPart_FileSaveNotify(string FileName)
-        //{
-        //    //MessageBox.Show("file saved");
-        //    return 1;
-        //}
-
-        //private int mysolidworks_activedocchange()
-        //{
-        //    //MessageBox.Show("active document changed");
-        //    ModelDoc2 swmodel = mysolidworks.ActiveDoc;
-        //    int type = swmodel.GetType();
-
-        //    if (type == (int)swDocumentTypes_e.swDocPART)
-        //    {
-        //        //MessageBox.Show("partfound");
-        //        swPart = (PartDoc)swmodel;
-        //        AttachEventHandlersPart();
-        //    }
-        //    else if (type == (int)swDocumentTypes_e.swDocASSEMBLY)
-        //    {
-        //        //MessageBox.Show("Assembly found");
-        //        swAssembly = (AssemblyDoc)swmodel;
-        //        AttachEventHandlers();
-        //    }
-
-        //    //AttachEventHandlersPart();
-
-
-        //    return 1;
-        // }
-
-        #endregion
-
         #region ToolStripMenu
 
         private void prorcessreportbom(string itemvalue, string Reportname)
@@ -2504,7 +2429,20 @@ namespace SearchDataSPM
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-
+                if (showingfavorites)
+                {
+                    FormSelectorEng.Items[11].Enabled = true;
+                    FormSelectorEng.Items[11].Visible = true;
+                    FormSelectorEng.Items[9].Enabled = false;
+                    FormSelectorEng.Items[9].Visible = false;
+                }
+                else
+                {
+                    FormSelectorEng.Items[11].Enabled = false;
+                    FormSelectorEng.Items[11].Visible = false;
+                    FormSelectorEng.Items[9].Enabled = true;
+                    FormSelectorEng.Items[9].Visible = true;
+                }
             }
             else
             {
@@ -2550,8 +2488,8 @@ namespace SearchDataSPM
             {
                 advsearchbttn.Text = "<<";
                 splitContainer1.Panel2Collapsed = false;
-                this.Size = new Size(1135, 750);
-                splitContainer1.SplitterDistance = this.Width - 220;
+                this.Size = new Size(1060, this.Height);
+                splitContainer1.SplitterDistance = this.Width - 170;
                 //if (formWidth <= 1000)
                 //{
                 //    this.Size = new Size(formWidth + 200, formHeight);
@@ -2568,10 +2506,10 @@ namespace SearchDataSPM
             {
                 advsearchbttn.Text = ">>";
 
-                this.Size = new Size(1000, 750);
+                this.Size = new Size(900, this.Height);
 
                 splitContainer1.Panel2Collapsed = true;
-                splitContainer1.SplitterDistance = this.Width - 220;
+                splitContainer1.SplitterDistance = this.Width - 170;
             }
         }
 
@@ -2808,6 +2746,11 @@ namespace SearchDataSPM
 
         #region advance filters events
 
+        private void clrfiltersbttn_Click(object sender, EventArgs e)
+        {
+            performreload();
+        }
+
         private void ActiveCadblockcombobox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
@@ -2878,77 +2821,11 @@ namespace SearchDataSPM
             }
         }
 
-        private void familycomboxbox_TextChanged(object sender, EventArgs e)
-        {
-            //if (familycomboxbox.Text.Length == 0)
-            //{
-            //    FilterProducts();
-            //}
-        }
-
-        private void Manufactureritemcomboxbox_TextChanged(object sender, EventArgs e)
-        {
-            //if (Manufactureritemcomboxbox.Text.Length == 0)
-            //{
-            //    FilterProducts();
-            //}
-        }
-
-        private void lastsavedbycombo_TextChanged(object sender, EventArgs e)
-        {
-            //if (lastsavedbycombo.Text.Length == 0)
-            //{
-            //    FilterProducts();
-            //}
-        }
-
-        private void designedbycombobox_TextChanged(object sender, EventArgs e)
-        {
-            //if (designedbycombobox.Text.Length == 0)
-            //{
-            //    FilterProducts();
-            //}
-        }
-
-        private void clrfiltersbttn_Click(object sender, EventArgs e)
-        {
-            performreload();
-        }
-
-        private void ActiveCadblockcombobox_TextChanged(object sender, EventArgs e)
-        {
-            //if (ActiveCadblockcombobox.Text.Length == 0)
-            //{
-            //    FilterProducts();
-            //}
-        }
-
-        private void oemitemcombobox_TextChanged(object sender, EventArgs e)
-        {
-            //if (oemitemcombobox.Text.Length == 0)
-            //{
-            //    FilterProducts();
-            //}
-        }
-
-        private void MaterialcomboBox_TextChanged(object sender, EventArgs e)
-        {
-            //if (MaterialcomboBox.Text.Length == 0)
-            //{
-            //    FilterProducts();
-            //}
-        }
-
         #endregion
 
         #endregion
 
         #region notification ballon
-
-        private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
-        {
-
-        }
 
         private void notifyIcon1_BalloonTipClicked(object sender, EventArgs e)
         {
@@ -3097,7 +2974,6 @@ namespace SearchDataSPM
             treeView.Show();
         }
 
-
         #endregion
 
         #region Controls ToolStrip
@@ -3162,8 +3038,6 @@ namespace SearchDataSPM
         }
 
 
-
-
         #endregion
 
         private void getnewitembttn_Click(object sender, EventArgs e)
@@ -3178,10 +3052,44 @@ namespace SearchDataSPM
 
         private void versionlabel_DoubleClick(object sender, EventArgs e)
         {
-            this.Size = new Size(1000, 750);
+            this.Size = new Size(900, 750);
             this.CenterToScreen();
            
         }
+
+        #region AddtoFavorites
+
+        private void addToFavoritesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            connectapi.addtofavorites(getitemnumberselected());
+        }
+
+        private void showFavoritesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            showfavorites();
+        }
+
+        private void showfavorites()
+        {
+            clearandhide();
+            clearfilercombos();
+            dt.Clear();
+            dt = connectapi.ShowFavorites();
+            dataGridView.DataSource = dt;
+            DataView dv = dt.DefaultView;
+            dataGridView.Sort(itemNumberDataGridViewTextBoxColumn, ListSortDirection.Descending);
+            UpdateFont();            
+            showingfavorites = true;
+            recordlabel.Text = "Showing " + dataGridView.Rows.Count + " favorite items.";
+        }
+
+        private void removeFromFavoritesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            connectapi.removefromfavorites(getitemnumberselected());
+            showfavorites();
+        }
+
+        #endregion
     }
 
 }

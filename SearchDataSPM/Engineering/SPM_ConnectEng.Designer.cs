@@ -47,6 +47,9 @@ namespace SearchDataSPM
             this.sparePartsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.eModelViewerToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.addToFavoritesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showFavoritesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeFromFavoritesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.inventoryBindingSource3 = new System.Windows.Forms.BindingSource(this.components);
             this.sPM_DatabaseDataSet = new SearchDataSPM.SPM_DatabaseDataSet();
             this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
@@ -112,6 +115,9 @@ namespace SearchDataSPM
             this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripMenuItem();
             this.eModelViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem11 = new System.Windows.Forms.ToolStripMenuItem();
             this.FormSelectorEng.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.inventoryBindingSource3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sPM_DatabaseDataSet)).BeginInit();
@@ -136,17 +142,20 @@ namespace SearchDataSPM
             this.copySelectedItemToolStripMenuItem,
             this.viewReportBOM,
             this.deleteItemToolStripMenuItem,
-            this.eModelViewerToolStripMenuItem1});
+            this.eModelViewerToolStripMenuItem1,
+            this.addToFavoritesToolStripMenuItem,
+            this.showFavoritesToolStripMenuItem,
+            this.removeFromFavoritesToolStripMenuItem});
             this.FormSelectorEng.Name = "contextMenuStrip1";
             this.FormSelectorEng.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.FormSelectorEng.Size = new System.Drawing.Size(177, 202);
+            this.FormSelectorEng.Size = new System.Drawing.Size(199, 268);
             this.FormSelectorEng.Opening += new System.ComponentModel.CancelEventHandler(this.FormSelector_Opening);
             // 
             // bOMToolStripMenuItem
             // 
             this.bOMToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("bOMToolStripMenuItem.Image")));
             this.bOMToolStripMenuItem.Name = "bOMToolStripMenuItem";
-            this.bOMToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.bOMToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
             this.bOMToolStripMenuItem.Text = "BOM";
             this.bOMToolStripMenuItem.ToolTipText = "Bills Of Material";
             this.bOMToolStripMenuItem.Click += new System.EventHandler(this.bOMToolStripMenuItem_Click);
@@ -155,7 +164,7 @@ namespace SearchDataSPM
             // 
             this.whereUsedToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("whereUsedToolStripMenuItem.Image")));
             this.whereUsedToolStripMenuItem.Name = "whereUsedToolStripMenuItem";
-            this.whereUsedToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.whereUsedToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
             this.whereUsedToolStripMenuItem.Text = "Where Used";
             this.whereUsedToolStripMenuItem.ToolTipText = "Check Where Used";
             this.whereUsedToolStripMenuItem.Click += new System.EventHandler(this.whereUsedToolStripMenuItem_Click);
@@ -164,7 +173,7 @@ namespace SearchDataSPM
             // 
             this.openModelToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openModelToolStripMenuItem.Image")));
             this.openModelToolStripMenuItem.Name = "openModelToolStripMenuItem";
-            this.openModelToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.openModelToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
             this.openModelToolStripMenuItem.Text = "Open Model";
             this.openModelToolStripMenuItem.ToolTipText = "Open Selected Item\'s Model";
             this.openModelToolStripMenuItem.Click += new System.EventHandler(this.openModelToolStripMenuItem_Click);
@@ -173,7 +182,7 @@ namespace SearchDataSPM
             // 
             this.openDrawingToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openDrawingToolStripMenuItem.Image")));
             this.openDrawingToolStripMenuItem.Name = "openDrawingToolStripMenuItem";
-            this.openDrawingToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.openDrawingToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
             this.openDrawingToolStripMenuItem.Text = "Open Drawing";
             this.openDrawingToolStripMenuItem.ToolTipText = "Open Selected Item\'s Drawing";
             this.openDrawingToolStripMenuItem.Click += new System.EventHandler(this.openDrawingToolStripMenuItem_Click);
@@ -182,7 +191,7 @@ namespace SearchDataSPM
             // 
             this.editItemToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("editItemToolStripMenuItem.Image")));
             this.editItemToolStripMenuItem.Name = "editItemToolStripMenuItem";
-            this.editItemToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.editItemToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
             this.editItemToolStripMenuItem.Text = "Edit Item";
             this.editItemToolStripMenuItem.ToolTipText = "Edit Selected Item\'s Properties";
             this.editItemToolStripMenuItem.Click += new System.EventHandler(this.editItemToolStripMenuItem_Click);
@@ -191,7 +200,7 @@ namespace SearchDataSPM
             // 
             this.copySelectedItemToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("copySelectedItemToolStripMenuItem.Image")));
             this.copySelectedItemToolStripMenuItem.Name = "copySelectedItemToolStripMenuItem";
-            this.copySelectedItemToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.copySelectedItemToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
             this.copySelectedItemToolStripMenuItem.Text = "Copy Selected Item";
             this.copySelectedItemToolStripMenuItem.ToolTipText = "Copy selected item to new item number";
             this.copySelectedItemToolStripMenuItem.Click += new System.EventHandler(this.copySelectedItemToolStripMenuItem_Click);
@@ -203,7 +212,7 @@ namespace SearchDataSPM
             this.sparePartsToolStripMenuItem});
             this.viewReportBOM.Image = ((System.Drawing.Image)(resources.GetObject("viewReportBOM.Image")));
             this.viewReportBOM.Name = "viewReportBOM";
-            this.viewReportBOM.Size = new System.Drawing.Size(176, 22);
+            this.viewReportBOM.Size = new System.Drawing.Size(198, 22);
             this.viewReportBOM.Text = "View Report (BOM)";
             this.viewReportBOM.ToolTipText = "View BOM Report";
             // 
@@ -230,7 +239,7 @@ namespace SearchDataSPM
             this.deleteItemToolStripMenuItem.Enabled = false;
             this.deleteItemToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("deleteItemToolStripMenuItem.Image")));
             this.deleteItemToolStripMenuItem.Name = "deleteItemToolStripMenuItem";
-            this.deleteItemToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.deleteItemToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
             this.deleteItemToolStripMenuItem.Text = "Delete Item";
             this.deleteItemToolStripMenuItem.ToolTipText = "Delete Selected Item From Connect";
             this.deleteItemToolStripMenuItem.Visible = false;
@@ -240,10 +249,39 @@ namespace SearchDataSPM
             // 
             this.eModelViewerToolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("eModelViewerToolStripMenuItem1.Image")));
             this.eModelViewerToolStripMenuItem1.Name = "eModelViewerToolStripMenuItem1";
-            this.eModelViewerToolStripMenuItem1.Size = new System.Drawing.Size(176, 22);
+            this.eModelViewerToolStripMenuItem1.Size = new System.Drawing.Size(198, 22);
             this.eModelViewerToolStripMenuItem1.Text = "E Model Viewer";
             this.eModelViewerToolStripMenuItem1.ToolTipText = "Show E Model";
             this.eModelViewerToolStripMenuItem1.Click += new System.EventHandler(this.eModelViewerToolStripMenuItem1_Click);
+            // 
+            // addToFavoritesToolStripMenuItem
+            // 
+            this.addToFavoritesToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("addToFavoritesToolStripMenuItem.Image")));
+            this.addToFavoritesToolStripMenuItem.Name = "addToFavoritesToolStripMenuItem";
+            this.addToFavoritesToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.addToFavoritesToolStripMenuItem.Text = "Add To Favorites";
+            this.addToFavoritesToolStripMenuItem.ToolTipText = "Add selected item to favorites";
+            this.addToFavoritesToolStripMenuItem.Click += new System.EventHandler(this.addToFavoritesToolStripMenuItem_Click);
+            // 
+            // showFavoritesToolStripMenuItem
+            // 
+            this.showFavoritesToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("showFavoritesToolStripMenuItem.Image")));
+            this.showFavoritesToolStripMenuItem.Name = "showFavoritesToolStripMenuItem";
+            this.showFavoritesToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.showFavoritesToolStripMenuItem.Text = "Show Favorites";
+            this.showFavoritesToolStripMenuItem.ToolTipText = "Show list of your favorite items";
+            this.showFavoritesToolStripMenuItem.Click += new System.EventHandler(this.showFavoritesToolStripMenuItem_Click);
+            // 
+            // removeFromFavoritesToolStripMenuItem
+            // 
+            this.removeFromFavoritesToolStripMenuItem.Enabled = false;
+            this.removeFromFavoritesToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("removeFromFavoritesToolStripMenuItem.Image")));
+            this.removeFromFavoritesToolStripMenuItem.Name = "removeFromFavoritesToolStripMenuItem";
+            this.removeFromFavoritesToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.removeFromFavoritesToolStripMenuItem.Text = "Remove From Favorites";
+            this.removeFromFavoritesToolStripMenuItem.ToolTipText = "Remove selected item from favorites";
+            this.removeFromFavoritesToolStripMenuItem.Visible = false;
+            this.removeFromFavoritesToolStripMenuItem.Click += new System.EventHandler(this.removeFromFavoritesToolStripMenuItem_Click);
             // 
             // inventoryBindingSource3
             // 
@@ -288,7 +326,7 @@ namespace SearchDataSPM
             this.AddNewBttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.AddNewBttn.ForeColor = System.Drawing.Color.Transparent;
             this.AddNewBttn.Image = ((System.Drawing.Image)(resources.GetObject("AddNewBttn.Image")));
-            this.AddNewBttn.Location = new System.Drawing.Point(812, 19);
+            this.AddNewBttn.Location = new System.Drawing.Point(768, 19);
             this.AddNewBttn.MaximumSize = new System.Drawing.Size(25, 25);
             this.AddNewBttn.MinimumSize = new System.Drawing.Size(25, 25);
             this.AddNewBttn.Name = "AddNewBttn";
@@ -312,7 +350,7 @@ namespace SearchDataSPM
             this.jobsbttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.jobsbttn.ForeColor = System.Drawing.Color.Transparent;
             this.jobsbttn.Image = ((System.Drawing.Image)(resources.GetObject("jobsbttn.Image")));
-            this.jobsbttn.Location = new System.Drawing.Point(855, 19);
+            this.jobsbttn.Location = new System.Drawing.Point(811, 19);
             this.jobsbttn.MaximumSize = new System.Drawing.Size(25, 25);
             this.jobsbttn.MinimumSize = new System.Drawing.Size(25, 25);
             this.jobsbttn.Name = "jobsbttn";
@@ -335,7 +373,7 @@ namespace SearchDataSPM
             this.admin_bttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.admin_bttn.ForeColor = System.Drawing.Color.Transparent;
             this.admin_bttn.Image = ((System.Drawing.Image)(resources.GetObject("admin_bttn.Image")));
-            this.admin_bttn.Location = new System.Drawing.Point(877, 14);
+            this.admin_bttn.Location = new System.Drawing.Point(832, 14);
             this.admin_bttn.MaximumSize = new System.Drawing.Size(35, 35);
             this.admin_bttn.MinimumSize = new System.Drawing.Size(35, 35);
             this.admin_bttn.Name = "admin_bttn";
@@ -354,7 +392,7 @@ namespace SearchDataSPM
             this.versionlabel.AutoSize = true;
             this.versionlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.versionlabel.ForeColor = System.Drawing.Color.White;
-            this.versionlabel.Location = new System.Drawing.Point(879, 3);
+            this.versionlabel.Location = new System.Drawing.Point(839, 3);
             this.versionlabel.MaximumSize = new System.Drawing.Size(26, 8);
             this.versionlabel.MinimumSize = new System.Drawing.Size(26, 8);
             this.versionlabel.Name = "versionlabel";
@@ -370,7 +408,7 @@ namespace SearchDataSPM
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Reload.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.Reload.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Reload.Location = new System.Drawing.Point(670, 17);
+            this.Reload.Location = new System.Drawing.Point(630, 17);
             this.Reload.MaximumSize = new System.Drawing.Size(140, 30);
             this.Reload.MinimumSize = new System.Drawing.Size(140, 30);
             this.Reload.Name = "Reload";
@@ -391,9 +429,9 @@ namespace SearchDataSPM
             this.txtSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSearch.Location = new System.Drawing.Point(209, 19);
             this.txtSearch.MaximumSize = new System.Drawing.Size(32767, 25);
-            this.txtSearch.MinimumSize = new System.Drawing.Size(4, 23);
+            this.txtSearch.MinimumSize = new System.Drawing.Size(4, 25);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(455, 26);
+            this.txtSearch.Size = new System.Drawing.Size(415, 25);
             this.txtSearch.TabIndex = 106;
             this.TreeViewToolTip.SetToolTip(this.txtSearch, "Enter Search Keyword.\r\n");
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
@@ -405,11 +443,11 @@ namespace SearchDataSPM
             | System.Windows.Forms.AnchorStyles.Right)));
             this.filter4.BackColor = System.Drawing.SystemColors.MenuBar;
             this.filter4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.filter4.Location = new System.Drawing.Point(705, 55);
-            this.filter4.MaximumSize = new System.Drawing.Size(160, 26);
-            this.filter4.MinimumSize = new System.Drawing.Size(160, 25);
+            this.filter4.Location = new System.Drawing.Point(675, 55);
+            this.filter4.MaximumSize = new System.Drawing.Size(150, 26);
+            this.filter4.MinimumSize = new System.Drawing.Size(150, 25);
             this.filter4.Name = "filter4";
-            this.filter4.Size = new System.Drawing.Size(160, 26);
+            this.filter4.Size = new System.Drawing.Size(150, 26);
             this.filter4.TabIndex = 110;
             this.TreeViewToolTip.SetToolTip(this.filter4, "Enter Keyword 5");
             this.filter4.Visible = false;
@@ -422,11 +460,11 @@ namespace SearchDataSPM
             | System.Windows.Forms.AnchorStyles.Right)));
             this.filteroemitem_txtbox.BackColor = System.Drawing.SystemColors.MenuBar;
             this.filteroemitem_txtbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.filteroemitem_txtbox.Location = new System.Drawing.Point(540, 55);
-            this.filteroemitem_txtbox.MaximumSize = new System.Drawing.Size(160, 26);
-            this.filteroemitem_txtbox.MinimumSize = new System.Drawing.Size(160, 25);
+            this.filteroemitem_txtbox.Location = new System.Drawing.Point(520, 55);
+            this.filteroemitem_txtbox.MaximumSize = new System.Drawing.Size(150, 26);
+            this.filteroemitem_txtbox.MinimumSize = new System.Drawing.Size(150, 25);
             this.filteroemitem_txtbox.Name = "filteroemitem_txtbox";
-            this.filteroemitem_txtbox.Size = new System.Drawing.Size(160, 26);
+            this.filteroemitem_txtbox.Size = new System.Drawing.Size(150, 26);
             this.filteroemitem_txtbox.TabIndex = 109;
             this.TreeViewToolTip.SetToolTip(this.filteroemitem_txtbox, "Enter keyworkd 4");
             this.filteroemitem_txtbox.Visible = false;
@@ -439,11 +477,11 @@ namespace SearchDataSPM
             | System.Windows.Forms.AnchorStyles.Right)));
             this.filteroem_txtbox.BackColor = System.Drawing.SystemColors.MenuBar;
             this.filteroem_txtbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.filteroem_txtbox.Location = new System.Drawing.Point(375, 55);
-            this.filteroem_txtbox.MaximumSize = new System.Drawing.Size(160, 26);
-            this.filteroem_txtbox.MinimumSize = new System.Drawing.Size(160, 26);
+            this.filteroem_txtbox.Location = new System.Drawing.Point(365, 55);
+            this.filteroem_txtbox.MaximumSize = new System.Drawing.Size(150, 26);
+            this.filteroem_txtbox.MinimumSize = new System.Drawing.Size(150, 26);
             this.filteroem_txtbox.Name = "filteroem_txtbox";
-            this.filteroem_txtbox.Size = new System.Drawing.Size(160, 26);
+            this.filteroem_txtbox.Size = new System.Drawing.Size(150, 26);
             this.filteroem_txtbox.TabIndex = 108;
             this.TreeViewToolTip.SetToolTip(this.filteroem_txtbox, "Enter Keyword 3");
             this.filteroem_txtbox.Visible = false;
@@ -457,10 +495,10 @@ namespace SearchDataSPM
             this.Descrip_txtbox.BackColor = System.Drawing.SystemColors.MenuBar;
             this.Descrip_txtbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Descrip_txtbox.Location = new System.Drawing.Point(209, 55);
-            this.Descrip_txtbox.MaximumSize = new System.Drawing.Size(160, 26);
-            this.Descrip_txtbox.MinimumSize = new System.Drawing.Size(160, 26);
+            this.Descrip_txtbox.MaximumSize = new System.Drawing.Size(150, 26);
+            this.Descrip_txtbox.MinimumSize = new System.Drawing.Size(150, 26);
             this.Descrip_txtbox.Name = "Descrip_txtbox";
-            this.Descrip_txtbox.Size = new System.Drawing.Size(160, 26);
+            this.Descrip_txtbox.Size = new System.Drawing.Size(150, 26);
             this.Descrip_txtbox.TabIndex = 107;
             this.TreeViewToolTip.SetToolTip(this.Descrip_txtbox, "Enter Keyword 2");
             this.Descrip_txtbox.Visible = false;
@@ -470,7 +508,7 @@ namespace SearchDataSPM
             // 
             this.advsearchbttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.advsearchbttn.Location = new System.Drawing.Point(871, 56);
+            this.advsearchbttn.Location = new System.Drawing.Point(831, 56);
             this.advsearchbttn.MaximumSize = new System.Drawing.Size(35, 25);
             this.advsearchbttn.MinimumSize = new System.Drawing.Size(35, 25);
             this.advsearchbttn.Name = "advsearchbttn";
@@ -490,12 +528,11 @@ namespace SearchDataSPM
             this.Manufactureritemcomboxbox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.Manufactureritemcomboxbox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.Manufactureritemcomboxbox.FormattingEnabled = true;
-            this.Manufactureritemcomboxbox.Location = new System.Drawing.Point(8, 376);
+            this.Manufactureritemcomboxbox.Location = new System.Drawing.Point(5, 376);
             this.Manufactureritemcomboxbox.Name = "Manufactureritemcomboxbox";
-            this.Manufactureritemcomboxbox.Size = new System.Drawing.Size(194, 21);
+            this.Manufactureritemcomboxbox.Size = new System.Drawing.Size(160, 21);
             this.Manufactureritemcomboxbox.TabIndex = 125;
             this.TreeViewToolTip.SetToolTip(this.Manufactureritemcomboxbox, "Filter by OEM item number");
-            this.Manufactureritemcomboxbox.TextChanged += new System.EventHandler(this.Manufactureritemcomboxbox_TextChanged);
             this.Manufactureritemcomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Manufactureritemcomboxbox_KeyDown);
             // 
             // familycomboxbox
@@ -507,12 +544,11 @@ namespace SearchDataSPM
             this.familycomboxbox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.familycomboxbox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.familycomboxbox.FormattingEnabled = true;
-            this.familycomboxbox.Location = new System.Drawing.Point(8, 227);
+            this.familycomboxbox.Location = new System.Drawing.Point(5, 227);
             this.familycomboxbox.Name = "familycomboxbox";
-            this.familycomboxbox.Size = new System.Drawing.Size(194, 21);
+            this.familycomboxbox.Size = new System.Drawing.Size(160, 21);
             this.familycomboxbox.TabIndex = 123;
             this.TreeViewToolTip.SetToolTip(this.familycomboxbox, "Filter by family type");
-            this.familycomboxbox.TextChanged += new System.EventHandler(this.familycomboxbox_TextChanged);
             this.familycomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.familycomboxbox_KeyDown);
             // 
             // lastsavedbycombo
@@ -524,12 +560,11 @@ namespace SearchDataSPM
             this.lastsavedbycombo.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.lastsavedbycombo.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.lastsavedbycombo.FormattingEnabled = true;
-            this.lastsavedbycombo.Location = new System.Drawing.Point(8, 520);
+            this.lastsavedbycombo.Location = new System.Drawing.Point(5, 520);
             this.lastsavedbycombo.Name = "lastsavedbycombo";
-            this.lastsavedbycombo.Size = new System.Drawing.Size(194, 21);
+            this.lastsavedbycombo.Size = new System.Drawing.Size(160, 21);
             this.lastsavedbycombo.TabIndex = 127;
             this.TreeViewToolTip.SetToolTip(this.lastsavedbycombo, "Filter by last saved");
-            this.lastsavedbycombo.TextChanged += new System.EventHandler(this.lastsavedbycombo_TextChanged);
             this.lastsavedbycombo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lastsavedbycombo_KeyDown);
             // 
             // oemitemcombobox
@@ -544,12 +579,11 @@ namespace SearchDataSPM
             this.oemitemcombobox.Items.AddRange(new object[] {
             "Festo",
             "SPM AUTOMATION (Canada) INC."});
-            this.oemitemcombobox.Location = new System.Drawing.Point(8, 301);
+            this.oemitemcombobox.Location = new System.Drawing.Point(5, 301);
             this.oemitemcombobox.Name = "oemitemcombobox";
-            this.oemitemcombobox.Size = new System.Drawing.Size(194, 21);
+            this.oemitemcombobox.Size = new System.Drawing.Size(160, 21);
             this.oemitemcombobox.TabIndex = 124;
             this.TreeViewToolTip.SetToolTip(this.oemitemcombobox, "Filter by manufacture");
-            this.oemitemcombobox.TextChanged += new System.EventHandler(this.oemitemcombobox_TextChanged);
             this.oemitemcombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.oemitemcombobox_KeyDown);
             // 
             // ActiveCadblockcombobox
@@ -561,12 +595,11 @@ namespace SearchDataSPM
             this.ActiveCadblockcombobox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.ActiveCadblockcombobox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.ActiveCadblockcombobox.FormattingEnabled = true;
-            this.ActiveCadblockcombobox.Location = new System.Drawing.Point(8, 601);
+            this.ActiveCadblockcombobox.Location = new System.Drawing.Point(5, 601);
             this.ActiveCadblockcombobox.Name = "ActiveCadblockcombobox";
-            this.ActiveCadblockcombobox.Size = new System.Drawing.Size(194, 21);
+            this.ActiveCadblockcombobox.Size = new System.Drawing.Size(160, 21);
             this.ActiveCadblockcombobox.TabIndex = 128;
             this.TreeViewToolTip.SetToolTip(this.ActiveCadblockcombobox, "Filter by current cad block number");
-            this.ActiveCadblockcombobox.TextChanged += new System.EventHandler(this.ActiveCadblockcombobox_TextChanged);
             this.ActiveCadblockcombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ActiveCadblockcombobox_KeyDown);
             // 
             // designedbycombobox
@@ -582,12 +615,11 @@ namespace SearchDataSPM
             "Shailkumar Patel",
             "Scott Reid",
             "Joel Goldsmith"});
-            this.designedbycombobox.Location = new System.Drawing.Point(8, 150);
+            this.designedbycombobox.Location = new System.Drawing.Point(5, 150);
             this.designedbycombobox.Name = "designedbycombobox";
-            this.designedbycombobox.Size = new System.Drawing.Size(194, 21);
+            this.designedbycombobox.Size = new System.Drawing.Size(160, 21);
             this.designedbycombobox.TabIndex = 122;
             this.TreeViewToolTip.SetToolTip(this.designedbycombobox, "Filter Designed by");
-            this.designedbycombobox.TextChanged += new System.EventHandler(this.designedbycombobox_TextChanged);
             this.designedbycombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.designedbycombobox_KeyDown);
             // 
             // MaterialcomboBox
@@ -599,12 +631,11 @@ namespace SearchDataSPM
             this.MaterialcomboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.MaterialcomboBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.MaterialcomboBox.FormattingEnabled = true;
-            this.MaterialcomboBox.Location = new System.Drawing.Point(8, 447);
+            this.MaterialcomboBox.Location = new System.Drawing.Point(5, 447);
             this.MaterialcomboBox.Name = "MaterialcomboBox";
-            this.MaterialcomboBox.Size = new System.Drawing.Size(194, 21);
+            this.MaterialcomboBox.Size = new System.Drawing.Size(160, 21);
             this.MaterialcomboBox.TabIndex = 126;
             this.TreeViewToolTip.SetToolTip(this.MaterialcomboBox, "Filter by Material");
-            this.MaterialcomboBox.TextChanged += new System.EventHandler(this.MaterialcomboBox_TextChanged);
             this.MaterialcomboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MaterialcomboBox_KeyDown);
             // 
             // getnewitembttn
@@ -619,7 +650,7 @@ namespace SearchDataSPM
             this.getnewitembttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.getnewitembttn.ForeColor = System.Drawing.Color.Transparent;
             this.getnewitembttn.Image = ((System.Drawing.Image)(resources.GetObject("getnewitembttn.Image")));
-            this.getnewitembttn.Location = new System.Drawing.Point(832, 19);
+            this.getnewitembttn.Location = new System.Drawing.Point(788, 19);
             this.getnewitembttn.MaximumSize = new System.Drawing.Size(25, 25);
             this.getnewitembttn.MinimumSize = new System.Drawing.Size(25, 25);
             this.getnewitembttn.Name = "getnewitembttn";
@@ -710,7 +741,7 @@ namespace SearchDataSPM
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.IsSplitterFixed = true;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.MinimumSize = new System.Drawing.Size(700, 600);
+            this.splitContainer1.MinimumSize = new System.Drawing.Size(750, 600);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -731,7 +762,8 @@ namespace SearchDataSPM
             this.splitContainer1.Panel1.Controls.Add(this.filteroemitem_txtbox);
             this.splitContainer1.Panel1.Controls.Add(this.filteroem_txtbox);
             this.splitContainer1.Panel1.Controls.Add(this.Descrip_txtbox);
-            this.splitContainer1.Panel1MinSize = 500;
+            this.splitContainer1.Panel1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.splitContainer1.Panel1MinSize = 600;
             // 
             // splitContainer1.Panel2
             // 
@@ -751,9 +783,11 @@ namespace SearchDataSPM
             this.splitContainer1.Panel2.Controls.Add(this.oemitemcombobox);
             this.splitContainer1.Panel2.Controls.Add(this.ActiveCadblockcombobox);
             this.splitContainer1.Panel2.Controls.Add(this.designedbycombobox);
-            this.splitContainer1.Panel2MinSize = 180;
-            this.splitContainer1.Size = new System.Drawing.Size(1119, 711);
-            this.splitContainer1.SplitterDistance = 912;
+            this.splitContainer1.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.splitContainer1.Panel2MinSize = 170;
+            this.splitContainer1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.splitContainer1.Size = new System.Drawing.Size(1044, 711);
+            this.splitContainer1.SplitterDistance = 872;
             this.splitContainer1.SplitterWidth = 2;
             this.splitContainer1.TabIndex = 105;
             // 
@@ -764,7 +798,7 @@ namespace SearchDataSPM
             this.recordlabel.AutoSize = true;
             this.recordlabel.Font = new System.Drawing.Font("Maiandra GD", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.recordlabel.ForeColor = System.Drawing.Color.White;
-            this.recordlabel.Location = new System.Drawing.Point(702, 80);
+            this.recordlabel.Location = new System.Drawing.Point(662, 80);
             this.recordlabel.Name = "recordlabel";
             this.recordlabel.Size = new System.Drawing.Size(0, 14);
             this.recordlabel.TabIndex = 119;
@@ -783,7 +817,7 @@ namespace SearchDataSPM
             this.listView.MultiSelect = false;
             this.listView.Name = "listView";
             this.listView.ShowItemToolTips = true;
-            this.listView.Size = new System.Drawing.Size(908, 220);
+            this.listView.Size = new System.Drawing.Size(868, 220);
             this.listView.TabIndex = 112;
             this.listView.UseCompatibleStateImageBehavior = false;
             this.listView.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.listView_ItemDrag);
@@ -822,7 +856,7 @@ namespace SearchDataSPM
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.ReadOnly = true;
             this.dataGridView.RowHeadersVisible = false;
-            this.dataGridView.Size = new System.Drawing.Size(911, 387);
+            this.dataGridView.Size = new System.Drawing.Size(868, 387);
             this.dataGridView.TabIndex = 111;
             this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellDoubleClick);
             this.dataGridView.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseDown);
@@ -893,7 +927,7 @@ namespace SearchDataSPM
             | System.Windows.Forms.AnchorStyles.Right)));
             this.matlbl.AutoSize = true;
             this.matlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.matlbl.Location = new System.Drawing.Point(22, 426);
+            this.matlbl.Location = new System.Drawing.Point(12, 425);
             this.matlbl.Name = "matlbl";
             this.matlbl.Size = new System.Drawing.Size(68, 18);
             this.matlbl.TabIndex = 147;
@@ -906,7 +940,7 @@ namespace SearchDataSPM
             this.clrfiltersbttn.Location = new System.Drawing.Point(0, 0);
             this.clrfiltersbttn.MinimumSize = new System.Drawing.Size(0, 40);
             this.clrfiltersbttn.Name = "clrfiltersbttn";
-            this.clrfiltersbttn.Size = new System.Drawing.Size(205, 40);
+            this.clrfiltersbttn.Size = new System.Drawing.Size(170, 40);
             this.clrfiltersbttn.TabIndex = 129;
             this.clrfiltersbttn.Text = "Clear Filters";
             this.clrfiltersbttn.UseVisualStyleBackColor = true;
@@ -919,7 +953,7 @@ namespace SearchDataSPM
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(22, 128);
+            this.label6.Location = new System.Drawing.Point(12, 129);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(145, 18);
             this.label6.TabIndex = 145;
@@ -932,7 +966,7 @@ namespace SearchDataSPM
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(22, 498);
+            this.label5.Location = new System.Drawing.Point(12, 499);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(102, 18);
             this.label5.TabIndex = 144;
@@ -945,7 +979,7 @@ namespace SearchDataSPM
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(22, 354);
+            this.label4.Location = new System.Drawing.Point(12, 355);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(132, 18);
             this.label4.TabIndex = 143;
@@ -958,7 +992,7 @@ namespace SearchDataSPM
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(22, 279);
+            this.label3.Location = new System.Drawing.Point(12, 280);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(95, 18);
             this.label3.TabIndex = 142;
@@ -971,7 +1005,7 @@ namespace SearchDataSPM
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(22, 205);
+            this.label2.Location = new System.Drawing.Point(12, 206);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(87, 18);
             this.label2.TabIndex = 141;
@@ -984,7 +1018,7 @@ namespace SearchDataSPM
             | System.Windows.Forms.AnchorStyles.Right)));
             this.actcadblk.AutoSize = true;
             this.actcadblk.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.actcadblk.Location = new System.Drawing.Point(22, 579);
+            this.actcadblk.Location = new System.Drawing.Point(12, 580);
             this.actcadblk.Name = "actcadblk";
             this.actcadblk.Size = new System.Drawing.Size(148, 18);
             this.actcadblk.TabIndex = 140;
@@ -999,7 +1033,6 @@ namespace SearchDataSPM
             this.notifyIcon1.Text = "SPM Connect";
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.BalloonTipClicked += new System.EventHandler(this.notifyIcon1_BalloonTipClicked);
-            this.notifyIcon1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseClick);
             // 
             // trayiconstrip
             // 
@@ -1037,17 +1070,20 @@ namespace SearchDataSPM
             this.toolStripMenuItem4,
             this.toolStripMenuItem5,
             this.toolStripMenuItem6,
-            this.eModelViewerToolStripMenuItem});
+            this.eModelViewerToolStripMenuItem,
+            this.toolStripMenuItem9,
+            this.toolStripMenuItem10,
+            this.toolStripMenuItem11});
             this.FormSelectorControls.Name = "contextMenuStrip1";
             this.FormSelectorControls.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.FormSelectorControls.Size = new System.Drawing.Size(176, 136);
+            this.FormSelectorControls.Size = new System.Drawing.Size(199, 202);
             this.FormSelectorControls.Opening += new System.ComponentModel.CancelEventHandler(this.FormSelectorControls_Opening);
             // 
             // addToCatalogToolStripMenuItem
             // 
             this.addToCatalogToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("addToCatalogToolStripMenuItem.Image")));
             this.addToCatalogToolStripMenuItem.Name = "addToCatalogToolStripMenuItem";
-            this.addToCatalogToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.addToCatalogToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
             this.addToCatalogToolStripMenuItem.Text = "Add To Catalog";
             this.addToCatalogToolStripMenuItem.Click += new System.EventHandler(this.addToCatalogToolStripMenuItem_Click);
             // 
@@ -1055,7 +1091,7 @@ namespace SearchDataSPM
             // 
             this.createAssemblyToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("createAssemblyToolStripMenuItem.Image")));
             this.createAssemblyToolStripMenuItem.Name = "createAssemblyToolStripMenuItem";
-            this.createAssemblyToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.createAssemblyToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
             this.createAssemblyToolStripMenuItem.Text = "Create Assembly";
             this.createAssemblyToolStripMenuItem.Click += new System.EventHandler(this.createAssemblyToolStripMenuItem_Click);
             // 
@@ -1066,7 +1102,7 @@ namespace SearchDataSPM
             this.geniusToolStripMenuItem});
             this.toolStripMenuItem4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem4.Image")));
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(175, 22);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(198, 22);
             this.toolStripMenuItem4.Text = "BOM";
             this.toolStripMenuItem4.ToolTipText = "Bills Of Material";
             // 
@@ -1095,7 +1131,7 @@ namespace SearchDataSPM
             this.geniusJobsToolStripMenuItem});
             this.toolStripMenuItem5.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem5.Image")));
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(175, 22);
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(198, 22);
             this.toolStripMenuItem5.Text = "Where Used";
             this.toolStripMenuItem5.ToolTipText = "Check Where Used";
             // 
@@ -1124,7 +1160,7 @@ namespace SearchDataSPM
             this.toolStripMenuItem8});
             this.toolStripMenuItem6.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem6.Image")));
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(175, 22);
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(198, 22);
             this.toolStripMenuItem6.Text = "View Report (BOM)";
             this.toolStripMenuItem6.ToolTipText = "View BOM Report";
             // 
@@ -1150,21 +1186,50 @@ namespace SearchDataSPM
             // 
             this.eModelViewerToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("eModelViewerToolStripMenuItem.Image")));
             this.eModelViewerToolStripMenuItem.Name = "eModelViewerToolStripMenuItem";
-            this.eModelViewerToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.eModelViewerToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
             this.eModelViewerToolStripMenuItem.Text = "E Model Viewer";
             this.eModelViewerToolStripMenuItem.ToolTipText = "Show 3d Model";
             this.eModelViewerToolStripMenuItem.Click += new System.EventHandler(this.eModelViewerToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem9
+            // 
+            this.toolStripMenuItem9.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem9.Image")));
+            this.toolStripMenuItem9.Name = "toolStripMenuItem9";
+            this.toolStripMenuItem9.Size = new System.Drawing.Size(198, 22);
+            this.toolStripMenuItem9.Text = "Add To Favorites";
+            this.toolStripMenuItem9.ToolTipText = "Add selected item to favorites";
+            this.toolStripMenuItem9.Click += new System.EventHandler(this.addToFavoritesToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem10
+            // 
+            this.toolStripMenuItem10.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem10.Image")));
+            this.toolStripMenuItem10.Name = "toolStripMenuItem10";
+            this.toolStripMenuItem10.Size = new System.Drawing.Size(198, 22);
+            this.toolStripMenuItem10.Text = "Show Favorites";
+            this.toolStripMenuItem10.ToolTipText = "Show list of your favorite items";
+            this.toolStripMenuItem10.Click += new System.EventHandler(this.showFavoritesToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem11
+            // 
+            this.toolStripMenuItem11.Enabled = false;
+            this.toolStripMenuItem11.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem11.Image")));
+            this.toolStripMenuItem11.Name = "toolStripMenuItem11";
+            this.toolStripMenuItem11.Size = new System.Drawing.Size(198, 22);
+            this.toolStripMenuItem11.Text = "Remove From Favorites";
+            this.toolStripMenuItem11.ToolTipText = "Remove selected item from favorites";
+            this.toolStripMenuItem11.Visible = false;
+            this.toolStripMenuItem11.Click += new System.EventHandler(this.removeFromFavoritesToolStripMenuItem_Click);
             // 
             // SPM_Connect
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
-            this.ClientSize = new System.Drawing.Size(1119, 711);
+            this.ClientSize = new System.Drawing.Size(1044, 711);
             this.Controls.Add(this.splitContainer1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
-            this.MinimumSize = new System.Drawing.Size(800, 600);
+            this.MinimumSize = new System.Drawing.Size(800, 650);
             this.Name = "SPM_Connect";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SPM Connect - Eng.";
@@ -1269,6 +1334,12 @@ namespace SearchDataSPM
         private System.Windows.Forms.Label matlbl;
         private System.Windows.Forms.ComboBox MaterialcomboBox;
         private System.Windows.Forms.Button getnewitembttn;
+        private System.Windows.Forms.ToolStripMenuItem addToFavoritesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showFavoritesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem removeFromFavoritesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem9;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem10;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem11;
 
 
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member 'SPM_Connect.txtSearch'

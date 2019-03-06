@@ -31,7 +31,7 @@ namespace SPMConnectAPI
             catch (Exception)
             {
                 MessageBox.Show("Error Connecting to SQL Server.....", "SPM Connect Initialize", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                
+
             }
 
         }
@@ -121,7 +121,7 @@ namespace SPMConnectAPI
 
         public void deleteitem(string _itemno)
         {
-            DialogResult result = MessageBox.Show( "Are you sure want to delete " + _itemno + "?", "SPM Connect - Delete Item?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MessageBox.Show("Are you sure want to delete " + _itemno + "?", "SPM Connect - Delete Item?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result == DialogResult.Yes)
             {
@@ -135,7 +135,7 @@ namespace SPMConnectAPI
                         SqlCommand sda = new SqlCommand(query, cn);
                         sda.ExecuteNonQuery();
                         cn.Close();
-                        MessageBox.Show( _itemno + " - Is removed from the system now!", "SPM Connect - Delete Item", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show(_itemno + " - Is removed from the system now!", "SPM Connect - Delete Item", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 
                     }
@@ -222,7 +222,7 @@ namespace SPMConnectAPI
         }
 
         public bool CheckManagement()
-        {          
+        {
             bool management = false;
             using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND Management = '1'", cn))
             {
@@ -235,14 +235,14 @@ namespace SPMConnectAPI
                     if (userCount == 1)
                     {
                         management = true;
-                       
+
                     }
 
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "SPM Connect - Check management rights", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                  
+
                 }
                 finally
                 {
@@ -267,14 +267,14 @@ namespace SPMConnectAPI
                     if (userCount == 1)
                     {
                         purchasereq = true;
-                       
+
 
                     }
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "SPM Connect - Check purchase rights", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    
+
                 }
                 finally
                 {
@@ -300,14 +300,14 @@ namespace SPMConnectAPI
                     if (userCount == 1)
                     {
                         quoterights = true;
-                       
+
 
                     }
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "SPM Connect - Check quote rights", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                   
+
                 }
                 finally
                 {
@@ -325,7 +325,7 @@ namespace SPMConnectAPI
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDate = datecreated.ToString("dd-MM-yyyy HH:mm tt");
             string computername = System.Environment.MachineName;
-           
+
             if (cn.State == ConnectionState.Closed)
                 cn.Open();
             try
@@ -400,7 +400,35 @@ namespace SPMConnectAPI
             return dt;
         }
 
-        public string  getfilename()
+        public DataTable ShowFavorites()
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT[ItemNumber],[Description],[FamilyCode],[Manufacturer],[ManufacturerItemNumber],[DesignedBy],[DateCreated],[LastSavedBy],[LastEdited],[Material],[FullSearch] FROM [SPM_Database].[dbo].[SPMConnectFavorites] where UserName like'%" + UserName() + "%'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Show all items Inventory", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+            return dt;
+        }
+
+        public string getfilename()
         {
             ModelDoc2 swModel;
             var progId = "SldWorks.Application";
@@ -415,8 +443,8 @@ namespace SPMConnectAPI
                 // MessageBox.Show("Number of open documents in this SOLIDWORKS session: " + count);
                 swModel = swApp.ActiveDoc as ModelDoc2;
 
-                 filename = swModel.GetTitle();
-                
+                filename = swModel.GetTitle();
+
 
             }
             return filename;
@@ -440,7 +468,7 @@ namespace SPMConnectAPI
 
                 pathName = swModel.GetPathName();
 
-                
+
 
             }
             return pathName;
@@ -489,13 +517,13 @@ namespace SPMConnectAPI
             {
                 string first3char = itemnumber.Substring(0, 3) + @"\";
                 string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
-                 Pathpart = (spmcadpath + first3char);
-                
+                Pathpart = (spmcadpath + first3char);
+
             }
             return Pathpart;
         }
 
-        public  bool checkforreadonly()
+        public bool checkforreadonly()
         {
             bool notreadonly = true;
             var progId = "SldWorks.Application";
@@ -567,13 +595,13 @@ namespace SPMConnectAPI
 
                 foreach (DataRow dr in dt.Rows)
                 {
-                     useractiveblock = dr["ActiveBlockNumber"].ToString();
+                    useractiveblock = dr["ActiveBlockNumber"].ToString();
                     if (useractiveblock == "")
                     {
                         MessageBox.Show("User has not been assigned a block number. Please contact the admin.", "SPM Connect - Get Active Block Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
                     }
-                    
+
                 }
 
             }
@@ -619,12 +647,12 @@ namespace SPMConnectAPI
                     da.Fill(dt);
                     foreach (DataRow dr in dt.Rows)
                     {
-                         lastnumber = dr[blocknumber].ToString();
+                        lastnumber = dr[blocknumber].ToString();
                         if (lastnumber == "")
                         {
-                            lastnumber =  blocknumber.Substring(1) + "000";
+                            lastnumber = blocknumber.Substring(1) + "000";
                         }
-                       
+
                     }
                 }
                 catch (Exception ex)
@@ -677,7 +705,7 @@ namespace SPMConnectAPI
             }
             else
             {
-                valid =  false;
+                valid = false;
             }
             return valid;
         }
@@ -749,7 +777,7 @@ namespace SPMConnectAPI
         {
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDate = datecreated.ToString("yyyy-MM-dd HH:mm:ss.fff");
-            
+
             try
             {
                 if (cn.State == ConnectionState.Closed)
@@ -786,7 +814,7 @@ namespace SPMConnectAPI
                 {
                     cn.Open();
                     SqlDataReader reader = sqlCommand.ExecuteReader();
-                   
+
                     while (reader.Read())
                     {
                         MyCollection.Add(reader.GetString(0));
@@ -804,7 +832,7 @@ namespace SPMConnectAPI
             }
 
             return MyCollection;
-         }
+        }
 
         public AutoCompleteStringCollection filluserwithblock()
         {
@@ -815,7 +843,7 @@ namespace SPMConnectAPI
                 {
                     cn.Open();
                     SqlDataReader reader = sqlCommand.ExecuteReader();
-                    
+
                     while (reader.Read())
                     {
                         MyCollection.Add(reader.GetString(0));
@@ -846,12 +874,12 @@ namespace SPMConnectAPI
                 {
                     cn.Open();
                     SqlDataReader reader = sqlCommand.ExecuteReader();
-                    
+
                     while (reader.Read())
                     {
                         MyCollection.Add(reader.GetString(0));
                     }
-                   
+
                 }
                 catch (Exception ex)
                 {
@@ -876,12 +904,12 @@ namespace SPMConnectAPI
                 {
                     cn.Open();
                     SqlDataReader reader = sqlCommand.ExecuteReader();
-                    
+
                     while (reader.Read())
                     {
                         MyCollection.Add(reader.GetString(0));
                     }
-                  
+
                 }
                 catch (Exception ex)
                 {
@@ -906,12 +934,12 @@ namespace SPMConnectAPI
                 {
                     cn.Open();
                     SqlDataReader reader = sqlCommand.ExecuteReader();
-                   
+
                     while (reader.Read())
                     {
                         MyCollection.Add(reader.GetString(0));
                     }
-                   
+
 
                 }
                 catch (Exception ex)
@@ -937,12 +965,12 @@ namespace SPMConnectAPI
                 {
                     cn.Open();
                     SqlDataReader reader = sqlCommand.ExecuteReader();
-                   
+
                     while (reader.Read())
                     {
                         MyCollection.Add(reader.GetString(0));
                     }
-                   
+
                 }
                 catch (Exception ex)
                 {
@@ -1872,7 +1900,7 @@ namespace SPMConnectAPI
 
         #region GetFolderPaths for Connect Job Module
 
-        public String GetProjectEngSp()
+        public string GetProjectEngSp()
         {
             string path = "";
             using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'ProjectEngSp'", cn))
@@ -1898,7 +1926,7 @@ namespace SPMConnectAPI
             return path;
         }
 
-        public String GetProjectEngDp()
+        public string GetProjectEngDp()
         {
             string path = "";
             using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'ProjectEngDp'", cn))
@@ -1912,7 +1940,7 @@ namespace SPMConnectAPI
                 }
                 catch (Exception ex)
                 {
-                   MessageBox.Show( ex.Message, "SPM Connect - Get Project Eng Destination Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Project Eng Destination Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -1924,7 +1952,7 @@ namespace SPMConnectAPI
             return path;
         }
 
-        public String GetSpareEngSp()
+        public string GetSpareEngSp()
         {
             string path = "";
             using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'SpareEngSp'", cn))
@@ -1938,7 +1966,7 @@ namespace SPMConnectAPI
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show( ex.Message, "SPM Connect - Get Spare Eng Source Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Spare Eng Source Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -1950,7 +1978,7 @@ namespace SPMConnectAPI
             return path;
         }
 
-        public String GetSpareEngDp()
+        public string GetSpareEngDp()
         {
             string path = "";
             using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'SpareEngDp'", cn))
@@ -1964,7 +1992,7 @@ namespace SPMConnectAPI
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show( ex.Message, "SPM Connect - Get Spare Eng Destination Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Spare Eng Destination Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -1976,7 +2004,7 @@ namespace SPMConnectAPI
             return path;
         }
 
-        public String GetServiceEngSp()
+        public string GetServiceEngSp()
         {
             string path = "";
             using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'ServiceEngSp'", cn))
@@ -1990,7 +2018,7 @@ namespace SPMConnectAPI
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show( ex.Message, "SPM Connect - Get Service Eng Source Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Service Eng Source Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -2002,7 +2030,7 @@ namespace SPMConnectAPI
             return path;
         }
 
-        public String GetServiceEngDp()
+        public string GetServiceEngDp()
         {
             string path = "";
             using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'ServiceEngDp'", cn))
@@ -2016,7 +2044,7 @@ namespace SPMConnectAPI
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show( ex.Message, "SPM Connect - Get Service Eng Destination Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Service Eng Destination Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -2030,7 +2058,7 @@ namespace SPMConnectAPI
 
         ///////////////////////////////////////////////////////////////////////////
 
-        public String GetProjectSalesSp()
+        public string GetProjectSalesSp()
         {
             string path = "";
             using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'ProjectSalesSp'", cn))
@@ -2044,7 +2072,7 @@ namespace SPMConnectAPI
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show( ex.Message, "SPM Connect - Get Project Eng Source Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Project Eng Source Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -2056,7 +2084,7 @@ namespace SPMConnectAPI
             return path;
         }
 
-        public String GetProjectSalesDp()
+        public string GetProjectSalesDp()
         {
             string path = "";
             using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'ProjectSalesDp'", cn))
@@ -2070,7 +2098,7 @@ namespace SPMConnectAPI
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show( ex.Message, "SPM Connect - Get Project Eng Destination Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Project Eng Destination Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -2082,7 +2110,7 @@ namespace SPMConnectAPI
             return path;
         }
 
-        public String GetSpareSalesSp()
+        public string GetSpareSalesSp()
         {
             string path = "";
             using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'SpareSalesSp'", cn))
@@ -2096,7 +2124,7 @@ namespace SPMConnectAPI
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show( ex.Message, "SPM Connect - Get Spare Eng Source Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Spare Eng Source Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -2108,7 +2136,7 @@ namespace SPMConnectAPI
             return path;
         }
 
-        public String GetSpareSalesDp()
+        public string GetSpareSalesDp()
         {
             string path = "";
             using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'SpareSalesDp'", cn))
@@ -2122,7 +2150,7 @@ namespace SPMConnectAPI
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show( ex.Message, "SPM Connect - Get Spare Eng Destination Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Spare Eng Destination Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -2134,7 +2162,7 @@ namespace SPMConnectAPI
             return path;
         }
 
-        public String GetServiceSalesSp()
+        public string GetServiceSalesSp()
         {
             string path = "";
             using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'ServiceSalesSp'", cn))
@@ -2148,7 +2176,7 @@ namespace SPMConnectAPI
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show( ex.Message, "SPM Connect - Get Service Eng Source Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Service Eng Source Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -2160,7 +2188,7 @@ namespace SPMConnectAPI
             return path;
         }
 
-        public String GetServiceSalesDp()
+        public string GetServiceSalesDp()
         {
             string path = "";
             using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'ServiceSalesDp'", cn))
@@ -2174,7 +2202,7 @@ namespace SPMConnectAPI
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show( ex.Message, "SPM Connect - Get Service Eng Destination Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Service Eng Destination Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -2299,6 +2327,213 @@ namespace SPMConnectAPI
 
         #endregion
 
+        #region Favorites
+
+        public bool addtofavorites(string itemid)
+        {
+            bool completed = false;
+            if (checkitempresentonFavorites(itemid))
+            {
+                string usernamesfromitem = Getusernamesfromfavorites(itemid);
+                if (!userexists(usernamesfromitem))
+                {
+                    string newuseradded = usernamesfromitem + UserName() + ",";
+                    updateusernametoitemonfavorites(itemid, newuseradded);
+
+                }
+                else
+                {
+                    MessageBox.Show("Item already exists on your favorite list", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            else
+            {
+                additemtofavoritessql(itemid);
+            }
+
+            return completed;
+        }
+
+        public bool removefromfavorites(string itemid)
+        {
+            bool completed = false;
+
+            string usernamesfromitem = Getusernamesfromfavorites(itemid);
+           
+            updateusernametoitemonfavorites(itemid, removeusername(usernamesfromitem));
+
+            MessageBox.Show("Item removed from your favorite list", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+            return completed;
+        }
+
+        private bool checkitempresentonFavorites(string itemid)
+        {
+            bool itempresent = false;
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[favourite] WHERE [Item]='" + itemid.ToString() + "'", cn))
+            {
+                try
+                {
+                    cn.Open();
+
+                    int userCount = (int)sqlCommand.ExecuteScalar();
+                    if (userCount == 1)
+                    {
+                        //MessageBox.Show("item already exists");
+                        itempresent = true;
+                    }
+                    else
+                    {
+                        //MessageBox.Show(" move forward");
+                        itempresent = false;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Check Item Present On SQL Favorites", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+
+                }
+
+            }
+            return itempresent;
+
+        }
+
+        private void additemtofavoritessql(string itemid)
+        {
+            string userid = UserName();
+            userid += ",";
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[favourite] (Item,UserName) VALUES('" + itemid + "','" + userid + " ')";
+                cmd.ExecuteNonQuery();
+                cn.Close();
+                MessageBox.Show("Item Added To your Favorites", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Add  Item To Favorites", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+
+        }
+
+        private void updateusernametoitemonfavorites(string itemid, string updatedusername)
+        {
+            if (cn.State == ConnectionState.Closed)
+                cn.Open();
+            try
+            {
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                if (updatedusername != "")
+                {
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[favourite] SET UserName = '" + updatedusername + "'  WHERE Item = '" + itemid + "'";
+                }
+                else
+                {
+                    cmd.CommandText = "DELETE FROM [SPM_Database].[dbo].[favourite] WHERE Item = '" + itemid + "'";
+                }
+                
+                cmd.ExecuteNonQuery();
+                cn.Close();
+                //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Update Item on Favorites", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+
+        }
+
+        private string Getusernamesfromfavorites(string itemid)
+        {
+            string usersfav = "";
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[favourite] WHERE [Item]='" + itemid + "' ";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    usersfav = dr["UserName"].ToString();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve user names from favorites", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return usersfav;
+        }
+
+        private bool userexists(string usernames)
+        {
+            bool exists = false;
+            string userid = UserName();
+            // Split string on spaces (this will separate all the words).
+            string[] words = usernames.Split(',');
+            foreach (string word in words)
+            {
+                if (word == userid)
+                    exists = true;
+            }
+
+            return exists;
+        }
+
+        private string removeusername(string usernames)
+        {
+            string removedusername = "";
+            string userid = UserName();
+            // Split string on spaces (this will separate all the words).
+            string[] words = usernames.Split(',');
+            foreach (string word in words)
+            {
+                if (word.Trim() == userid)
+                {
+
+                }
+                else
+                {
+                    removedusername += word.Trim();
+                    if(word.Trim() != "")
+                    removedusername += ",";                
+                }
+            }
+            return removedusername.Trim();
+        }
+
+        #endregion
     }
 }
 
