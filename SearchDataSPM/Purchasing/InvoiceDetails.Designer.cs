@@ -1,4 +1,4 @@
-﻿namespace SearchDataSPM.General
+﻿namespace SearchDataSPM
 {
     partial class InvoiceDetails
     {
@@ -42,7 +42,7 @@
             this.currencycombox = new System.Windows.Forms.ComboBox();
             this.Termscombobox = new System.Windows.Forms.ComboBox();
             this.requestcomboBox = new System.Windows.Forms.ComboBox();
-            this.Saledpersoncombobox = new System.Windows.Forms.ComboBox();
+            this.Salespersoncombobox = new System.Windows.Forms.ComboBox();
             this.Carriercombox = new System.Windows.Forms.ComboBox();
             this.foblabel = new System.Windows.Forms.Label();
             this.termslbl = new System.Windows.Forms.Label();
@@ -50,10 +50,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.Lastsavedlbl = new System.Windows.Forms.Label();
-            this.Lastsavedbylbl = new System.Windows.Forms.Label();
-            this.invoicebylbl = new System.Windows.Forms.Label();
-            this.invoicedatelblb = new System.Windows.Forms.Label();
             this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.savbttn = new System.Windows.Forms.Button();
             this.editbttn = new System.Windows.Forms.Button();
@@ -77,10 +73,10 @@
             this.sld2name = new System.Windows.Forms.TextBox();
             this.ShiptogroupBox = new System.Windows.Forms.GroupBox();
             this.shiptocombobox = new System.Windows.Forms.ComboBox();
-            this.textBox10 = new System.Windows.Forms.TextBox();
-            this.textBox11 = new System.Windows.Forms.TextBox();
-            this.textBox12 = new System.Windows.Forms.TextBox();
-            this.textBox13 = new System.Windows.Forms.TextBox();
+            this.ship2fax = new System.Windows.Forms.TextBox();
+            this.ship2zip = new System.Windows.Forms.TextBox();
+            this.ship2phone = new System.Windows.Forms.TextBox();
+            this.ship2country = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
@@ -89,49 +85,61 @@
             this.label20 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
-            this.textBox14 = new System.Windows.Forms.TextBox();
-            this.textBox15 = new System.Windows.Forms.TextBox();
-            this.textBox16 = new System.Windows.Forms.TextBox();
-            this.textBox17 = new System.Windows.Forms.TextBox();
+            this.ship2city = new System.Windows.Forms.TextBox();
+            this.ship2province = new System.Windows.Forms.TextBox();
+            this.ship2add = new System.Windows.Forms.TextBox();
+            this.ship2name = new System.Windows.Forms.TextBox();
             this.sPM_DatabaseDataSet = new SearchDataSPM.SPM_DatabaseDataSet();
             this.sPMDatabaseDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.dataRepeater1 = new Microsoft.VisualBasic.PowerPacks.DataRepeater();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.jobtxt = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.LastSavedOn = new System.Windows.Forms.ToolStripStatusLabel();
+            this.Createdon = new System.Windows.Forms.ToolStripStatusLabel();
+            this.CreatedBy = new System.Windows.Forms.ToolStripStatusLabel();
+            this.LastSavedBy = new System.Windows.Forms.ToolStripStatusLabel();
+            this.VendorCust = new System.Windows.Forms.ToolStripStatusLabel();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Item = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Origin = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Tariff = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cost = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.shippinggroupBox.SuspendLayout();
             this.soldtogroupBox.SuspendLayout();
             this.ShiptogroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.sPM_DatabaseDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sPMDatabaseDataSetBindingSource)).BeginInit();
-            this.dataRepeater1.ItemTemplate.SuspendLayout();
-            this.dataRepeater1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // Costlbl
             // 
-            this.Costlbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.Costlbl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.Costlbl.AutoSize = true;
             this.Costlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Costlbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.Costlbl.Location = new System.Drawing.Point(11, 699);
+            this.Costlbl.Location = new System.Drawing.Point(6, 649);
             this.Costlbl.Name = "Costlbl";
             this.Costlbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.Costlbl.Size = new System.Drawing.Size(83, 15);
+            this.Costlbl.Size = new System.Drawing.Size(124, 15);
             this.Costlbl.TabIndex = 87;
-            this.Costlbl.Text = "Comments :";
+            this.Costlbl.Text = "Comments/Notes :";
             // 
             // notestxt
             // 
+            this.notestxt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.notestxt.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.notestxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.notestxt.Location = new System.Drawing.Point(109, 649);
+            this.notestxt.Location = new System.Drawing.Point(5, 667);
             this.notestxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.notestxt.Multiline = true;
             this.notestxt.Name = "notestxt";
             this.notestxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.notestxt.Size = new System.Drawing.Size(412, 77);
+            this.notestxt.Size = new System.Drawing.Size(568, 45);
             this.notestxt.TabIndex = 8;
             // 
             // invoicelbl
@@ -141,7 +149,7 @@
             this.invoicelbl.AutoSize = true;
             this.invoicelbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.invoicelbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.invoicelbl.Location = new System.Drawing.Point(12, 105);
+            this.invoicelbl.Location = new System.Drawing.Point(6, 128);
             this.invoicelbl.Name = "invoicelbl";
             this.invoicelbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.invoicelbl.Size = new System.Drawing.Size(77, 13);
@@ -152,14 +160,14 @@
             // 
             this.invoicetxtbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.invoicetxtbox.Enabled = false;
-            this.invoicetxtbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.invoicetxtbox.Location = new System.Drawing.Point(91, 102);
+            this.invoicetxtbox.BackColor = System.Drawing.Color.White;
+            this.invoicetxtbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.invoicetxtbox.Location = new System.Drawing.Point(90, 123);
             this.invoicetxtbox.MaximumSize = new System.Drawing.Size(200, 30);
             this.invoicetxtbox.Name = "invoicetxtbox";
             this.invoicetxtbox.ReadOnly = true;
             this.invoicetxtbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.invoicetxtbox.Size = new System.Drawing.Size(143, 20);
+            this.invoicetxtbox.Size = new System.Drawing.Size(143, 22);
             this.invoicetxtbox.TabIndex = 0;
             // 
             // soldtocombobox
@@ -183,7 +191,7 @@
             this.shippinggroupBox.Controls.Add(this.currencycombox);
             this.shippinggroupBox.Controls.Add(this.Termscombobox);
             this.shippinggroupBox.Controls.Add(this.requestcomboBox);
-            this.shippinggroupBox.Controls.Add(this.Saledpersoncombobox);
+            this.shippinggroupBox.Controls.Add(this.Salespersoncombobox);
             this.shippinggroupBox.Controls.Add(this.Carriercombox);
             this.shippinggroupBox.Controls.Add(this.foblabel);
             this.shippinggroupBox.Controls.Add(this.termslbl);
@@ -191,6 +199,7 @@
             this.shippinggroupBox.Controls.Add(this.label4);
             this.shippinggroupBox.Controls.Add(this.label5);
             this.shippinggroupBox.Controls.Add(this.label1);
+            this.shippinggroupBox.Enabled = false;
             this.shippinggroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.shippinggroupBox.ForeColor = System.Drawing.Color.White;
             this.shippinggroupBox.Location = new System.Drawing.Point(5, 250);
@@ -227,7 +236,6 @@
             this.FOBPointcombox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.FOBPointcombox.BackColor = System.Drawing.SystemColors.Window;
             this.FOBPointcombox.DropDownHeight = 110;
-            this.FOBPointcombox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.FOBPointcombox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.FOBPointcombox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FOBPointcombox.FormattingEnabled = true;
@@ -247,7 +255,7 @@
             this.currencycombox.FormattingEnabled = true;
             this.currencycombox.ItemHeight = 13;
             this.currencycombox.Items.AddRange(new object[] {
-            "CDN",
+            "CAD",
             "US"});
             this.currencycombox.Location = new System.Drawing.Point(262, 46);
             this.currencycombox.Name = "currencycombox";
@@ -259,7 +267,6 @@
             this.Termscombobox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.Termscombobox.BackColor = System.Drawing.SystemColors.Window;
             this.Termscombobox.DropDownHeight = 110;
-            this.Termscombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Termscombobox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.Termscombobox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Termscombobox.FormattingEnabled = true;
@@ -285,20 +292,20 @@
             this.requestcomboBox.Size = new System.Drawing.Size(202, 21);
             this.requestcomboBox.TabIndex = 4;
             // 
-            // Saledpersoncombobox
+            // Salespersoncombobox
             // 
-            this.Saledpersoncombobox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.Saledpersoncombobox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.Saledpersoncombobox.BackColor = System.Drawing.SystemColors.Window;
-            this.Saledpersoncombobox.DropDownWidth = 150;
-            this.Saledpersoncombobox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.Saledpersoncombobox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Saledpersoncombobox.FormattingEnabled = true;
-            this.Saledpersoncombobox.ItemHeight = 13;
-            this.Saledpersoncombobox.Location = new System.Drawing.Point(831, 12);
-            this.Saledpersoncombobox.Name = "Saledpersoncombobox";
-            this.Saledpersoncombobox.Size = new System.Drawing.Size(202, 21);
-            this.Saledpersoncombobox.TabIndex = 4;
+            this.Salespersoncombobox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.Salespersoncombobox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.Salespersoncombobox.BackColor = System.Drawing.SystemColors.Window;
+            this.Salespersoncombobox.DropDownWidth = 150;
+            this.Salespersoncombobox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.Salespersoncombobox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Salespersoncombobox.FormattingEnabled = true;
+            this.Salespersoncombobox.ItemHeight = 13;
+            this.Salespersoncombobox.Location = new System.Drawing.Point(831, 12);
+            this.Salespersoncombobox.Name = "Salespersoncombobox";
+            this.Salespersoncombobox.Size = new System.Drawing.Size(202, 21);
+            this.Salespersoncombobox.TabIndex = 4;
             // 
             // Carriercombox
             // 
@@ -404,58 +411,6 @@
             this.label1.Text = "Shipped Via :";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // Lastsavedlbl
-            // 
-            this.Lastsavedlbl.AutoSize = true;
-            this.Lastsavedlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lastsavedlbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.Lastsavedlbl.Location = new System.Drawing.Point(21, 219);
-            this.Lastsavedlbl.Name = "Lastsavedlbl";
-            this.Lastsavedlbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.Lastsavedlbl.Size = new System.Drawing.Size(85, 15);
-            this.Lastsavedlbl.TabIndex = 89;
-            this.Lastsavedlbl.Text = "Last Saved :";
-            this.Lastsavedlbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // Lastsavedbylbl
-            // 
-            this.Lastsavedbylbl.AutoSize = true;
-            this.Lastsavedbylbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lastsavedbylbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.Lastsavedbylbl.Location = new System.Drawing.Point(2, 193);
-            this.Lastsavedbylbl.Name = "Lastsavedbylbl";
-            this.Lastsavedbylbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.Lastsavedbylbl.Size = new System.Drawing.Size(104, 15);
-            this.Lastsavedbylbl.TabIndex = 89;
-            this.Lastsavedbylbl.Text = "Last Saved By :";
-            this.Lastsavedbylbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // invoicebylbl
-            // 
-            this.invoicebylbl.AutoSize = true;
-            this.invoicebylbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.invoicebylbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.invoicebylbl.Location = new System.Drawing.Point(22, 164);
-            this.invoicebylbl.Name = "invoicebylbl";
-            this.invoicebylbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.invoicebylbl.Size = new System.Drawing.Size(84, 15);
-            this.invoicebylbl.TabIndex = 89;
-            this.invoicebylbl.Text = "Created By :";
-            this.invoicebylbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // invoicedatelblb
-            // 
-            this.invoicedatelblb.AutoSize = true;
-            this.invoicedatelblb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.invoicedatelblb.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.invoicedatelblb.Location = new System.Drawing.Point(12, 137);
-            this.invoicedatelblb.Name = "invoicedatelblb";
-            this.invoicedatelblb.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.invoicedatelblb.Size = new System.Drawing.Size(94, 15);
-            this.invoicedatelblb.TabIndex = 89;
-            this.invoicedatelblb.Text = "Invoice Date :";
-            this.invoicedatelblb.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // TreeViewToolTip
             // 
             this.TreeViewToolTip.AutoPopDelay = 4000;
@@ -465,14 +420,15 @@
             // 
             // savbttn
             // 
-            this.savbttn.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.savbttn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.savbttn.BackColor = System.Drawing.Color.Transparent;
+            this.savbttn.Enabled = false;
             this.savbttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.savbttn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.savbttn.ForeColor = System.Drawing.Color.White;
             this.savbttn.Image = ((System.Drawing.Image)(resources.GetObject("savbttn.Image")));
             this.savbttn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.savbttn.Location = new System.Drawing.Point(790, 699);
+            this.savbttn.Location = new System.Drawing.Point(683, 676);
             this.savbttn.Name = "savbttn";
             this.savbttn.Size = new System.Drawing.Size(78, 27);
             this.savbttn.TabIndex = 10;
@@ -481,18 +437,19 @@
             this.savbttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.TreeViewToolTip.SetToolTip(this.savbttn, "Save Quote Details");
             this.savbttn.UseVisualStyleBackColor = false;
+            this.savbttn.Visible = false;
             this.savbttn.Click += new System.EventHandler(this.savbttn_Click);
             // 
             // editbttn
             // 
-            this.editbttn.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.editbttn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.editbttn.BackColor = System.Drawing.Color.Transparent;
             this.editbttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.editbttn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.editbttn.ForeColor = System.Drawing.Color.White;
             this.editbttn.Image = ((System.Drawing.Image)(resources.GetObject("editbttn.Image")));
             this.editbttn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.editbttn.Location = new System.Drawing.Point(647, 699);
+            this.editbttn.Location = new System.Drawing.Point(586, 676);
             this.editbttn.Name = "editbttn";
             this.editbttn.Size = new System.Drawing.Size(78, 27);
             this.editbttn.TabIndex = 11;
@@ -511,7 +468,7 @@
             this.SPM.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SPM.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.SPM.Image = ((System.Drawing.Image)(resources.GetObject("SPM.Image")));
-            this.SPM.Location = new System.Drawing.Point(23, 1);
+            this.SPM.Location = new System.Drawing.Point(22, 9);
             this.SPM.MaximumSize = new System.Drawing.Size(288, 100);
             this.SPM.MinimumSize = new System.Drawing.Size(100, 100);
             this.SPM.Name = "SPM";
@@ -540,6 +497,7 @@
             this.soldtogroupBox.Controls.Add(this.sld2province);
             this.soldtogroupBox.Controls.Add(this.sld2add);
             this.soldtogroupBox.Controls.Add(this.sld2name);
+            this.soldtogroupBox.Enabled = false;
             this.soldtogroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.soldtogroupBox.ForeColor = System.Drawing.Color.White;
             this.soldtogroupBox.Location = new System.Drawing.Point(246, 1);
@@ -556,12 +514,13 @@
             this.sld2fax.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.sld2fax.BackColor = System.Drawing.SystemColors.Control;
+            this.sld2fax.BackColor = System.Drawing.Color.White;
             this.sld2fax.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.sld2fax.Location = new System.Drawing.Point(74, 218);
             this.sld2fax.MinimumSize = new System.Drawing.Size(200, 18);
             this.sld2fax.Multiline = true;
             this.sld2fax.Name = "sld2fax";
+            this.sld2fax.ReadOnly = true;
             this.sld2fax.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.sld2fax.Size = new System.Drawing.Size(308, 20);
             this.sld2fax.TabIndex = 5;
@@ -572,12 +531,13 @@
             this.sld2zip.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.sld2zip.BackColor = System.Drawing.SystemColors.Control;
+            this.sld2zip.BackColor = System.Drawing.Color.White;
             this.sld2zip.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.sld2zip.Location = new System.Drawing.Point(74, 170);
             this.sld2zip.MinimumSize = new System.Drawing.Size(200, 18);
             this.sld2zip.Multiline = true;
             this.sld2zip.Name = "sld2zip";
+            this.sld2zip.ReadOnly = true;
             this.sld2zip.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.sld2zip.Size = new System.Drawing.Size(308, 20);
             this.sld2zip.TabIndex = 5;
@@ -588,12 +548,13 @@
             this.sld2phone.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.sld2phone.BackColor = System.Drawing.SystemColors.Control;
+            this.sld2phone.BackColor = System.Drawing.Color.White;
             this.sld2phone.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.sld2phone.Location = new System.Drawing.Point(74, 194);
             this.sld2phone.MinimumSize = new System.Drawing.Size(200, 18);
             this.sld2phone.Multiline = true;
             this.sld2phone.Name = "sld2phone";
+            this.sld2phone.ReadOnly = true;
             this.sld2phone.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.sld2phone.Size = new System.Drawing.Size(308, 20);
             this.sld2phone.TabIndex = 5;
@@ -604,12 +565,13 @@
             this.sld2country.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.sld2country.BackColor = System.Drawing.SystemColors.Control;
+            this.sld2country.BackColor = System.Drawing.Color.White;
             this.sld2country.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.sld2country.Location = new System.Drawing.Point(74, 146);
             this.sld2country.MinimumSize = new System.Drawing.Size(200, 18);
             this.sld2country.Multiline = true;
             this.sld2country.Name = "sld2country";
+            this.sld2country.ReadOnly = true;
             this.sld2country.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.sld2country.Size = new System.Drawing.Size(308, 20);
             this.sld2country.TabIndex = 5;
@@ -733,12 +695,13 @@
             this.sld2city.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.sld2city.BackColor = System.Drawing.SystemColors.Control;
+            this.sld2city.BackColor = System.Drawing.Color.White;
             this.sld2city.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.sld2city.Location = new System.Drawing.Point(74, 99);
             this.sld2city.MinimumSize = new System.Drawing.Size(200, 18);
             this.sld2city.Multiline = true;
             this.sld2city.Name = "sld2city";
+            this.sld2city.ReadOnly = true;
             this.sld2city.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.sld2city.Size = new System.Drawing.Size(308, 20);
             this.sld2city.TabIndex = 5;
@@ -749,12 +712,13 @@
             this.sld2province.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.sld2province.BackColor = System.Drawing.SystemColors.Control;
+            this.sld2province.BackColor = System.Drawing.Color.White;
             this.sld2province.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.sld2province.Location = new System.Drawing.Point(74, 122);
             this.sld2province.MinimumSize = new System.Drawing.Size(200, 18);
             this.sld2province.Multiline = true;
             this.sld2province.Name = "sld2province";
+            this.sld2province.ReadOnly = true;
             this.sld2province.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.sld2province.Size = new System.Drawing.Size(308, 20);
             this.sld2province.TabIndex = 5;
@@ -765,12 +729,13 @@
             this.sld2add.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.sld2add.BackColor = System.Drawing.SystemColors.Control;
+            this.sld2add.BackColor = System.Drawing.Color.White;
             this.sld2add.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.sld2add.Location = new System.Drawing.Point(74, 75);
             this.sld2add.MinimumSize = new System.Drawing.Size(200, 18);
             this.sld2add.Multiline = true;
             this.sld2add.Name = "sld2add";
+            this.sld2add.ReadOnly = true;
             this.sld2add.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.sld2add.Size = new System.Drawing.Size(308, 20);
             this.sld2add.TabIndex = 5;
@@ -781,12 +746,13 @@
             this.sld2name.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.sld2name.BackColor = System.Drawing.SystemColors.Control;
+            this.sld2name.BackColor = System.Drawing.Color.White;
             this.sld2name.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.sld2name.Location = new System.Drawing.Point(74, 51);
             this.sld2name.MinimumSize = new System.Drawing.Size(200, 18);
             this.sld2name.Multiline = true;
             this.sld2name.Name = "sld2name";
+            this.sld2name.ReadOnly = true;
             this.sld2name.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.sld2name.Size = new System.Drawing.Size(308, 20);
             this.sld2name.TabIndex = 5;
@@ -797,10 +763,10 @@
             this.ShiptogroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ShiptogroupBox.Controls.Add(this.shiptocombobox);
-            this.ShiptogroupBox.Controls.Add(this.textBox10);
-            this.ShiptogroupBox.Controls.Add(this.textBox11);
-            this.ShiptogroupBox.Controls.Add(this.textBox12);
-            this.ShiptogroupBox.Controls.Add(this.textBox13);
+            this.ShiptogroupBox.Controls.Add(this.ship2fax);
+            this.ShiptogroupBox.Controls.Add(this.ship2zip);
+            this.ShiptogroupBox.Controls.Add(this.ship2phone);
+            this.ShiptogroupBox.Controls.Add(this.ship2country);
             this.ShiptogroupBox.Controls.Add(this.label15);
             this.ShiptogroupBox.Controls.Add(this.label16);
             this.ShiptogroupBox.Controls.Add(this.label17);
@@ -809,10 +775,11 @@
             this.ShiptogroupBox.Controls.Add(this.label20);
             this.ShiptogroupBox.Controls.Add(this.label21);
             this.ShiptogroupBox.Controls.Add(this.label22);
-            this.ShiptogroupBox.Controls.Add(this.textBox14);
-            this.ShiptogroupBox.Controls.Add(this.textBox15);
-            this.ShiptogroupBox.Controls.Add(this.textBox16);
-            this.ShiptogroupBox.Controls.Add(this.textBox17);
+            this.ShiptogroupBox.Controls.Add(this.ship2city);
+            this.ShiptogroupBox.Controls.Add(this.ship2province);
+            this.ShiptogroupBox.Controls.Add(this.ship2add);
+            this.ShiptogroupBox.Controls.Add(this.ship2name);
+            this.ShiptogroupBox.Enabled = false;
             this.ShiptogroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ShiptogroupBox.ForeColor = System.Drawing.Color.White;
             this.ShiptogroupBox.Location = new System.Drawing.Point(654, 1);
@@ -837,69 +804,73 @@
             this.shiptocombobox.Size = new System.Drawing.Size(370, 21);
             this.shiptocombobox.TabIndex = 1;
             // 
-            // textBox10
+            // ship2fax
             // 
-            this.textBox10.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.ship2fax.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox10.BackColor = System.Drawing.SystemColors.Control;
-            this.textBox10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox10.Location = new System.Drawing.Point(74, 218);
-            this.textBox10.MinimumSize = new System.Drawing.Size(200, 18);
-            this.textBox10.Multiline = true;
-            this.textBox10.Name = "textBox10";
-            this.textBox10.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.textBox10.Size = new System.Drawing.Size(308, 20);
-            this.textBox10.TabIndex = 5;
-            this.textBox10.Leave += new System.EventHandler(this.textBox1_Leave);
+            this.ship2fax.BackColor = System.Drawing.Color.White;
+            this.ship2fax.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ship2fax.Location = new System.Drawing.Point(74, 218);
+            this.ship2fax.MinimumSize = new System.Drawing.Size(200, 18);
+            this.ship2fax.Multiline = true;
+            this.ship2fax.Name = "ship2fax";
+            this.ship2fax.ReadOnly = true;
+            this.ship2fax.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.ship2fax.Size = new System.Drawing.Size(308, 20);
+            this.ship2fax.TabIndex = 5;
+            this.ship2fax.Leave += new System.EventHandler(this.textBox1_Leave);
             // 
-            // textBox11
+            // ship2zip
             // 
-            this.textBox11.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.ship2zip.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox11.BackColor = System.Drawing.SystemColors.Control;
-            this.textBox11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox11.Location = new System.Drawing.Point(74, 170);
-            this.textBox11.MinimumSize = new System.Drawing.Size(200, 18);
-            this.textBox11.Multiline = true;
-            this.textBox11.Name = "textBox11";
-            this.textBox11.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.textBox11.Size = new System.Drawing.Size(308, 20);
-            this.textBox11.TabIndex = 5;
-            this.textBox11.Leave += new System.EventHandler(this.textBox1_Leave);
+            this.ship2zip.BackColor = System.Drawing.Color.White;
+            this.ship2zip.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ship2zip.Location = new System.Drawing.Point(74, 170);
+            this.ship2zip.MinimumSize = new System.Drawing.Size(200, 18);
+            this.ship2zip.Multiline = true;
+            this.ship2zip.Name = "ship2zip";
+            this.ship2zip.ReadOnly = true;
+            this.ship2zip.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.ship2zip.Size = new System.Drawing.Size(308, 20);
+            this.ship2zip.TabIndex = 5;
+            this.ship2zip.Leave += new System.EventHandler(this.textBox1_Leave);
             // 
-            // textBox12
+            // ship2phone
             // 
-            this.textBox12.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.ship2phone.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox12.BackColor = System.Drawing.SystemColors.Control;
-            this.textBox12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox12.Location = new System.Drawing.Point(74, 194);
-            this.textBox12.MinimumSize = new System.Drawing.Size(200, 18);
-            this.textBox12.Multiline = true;
-            this.textBox12.Name = "textBox12";
-            this.textBox12.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.textBox12.Size = new System.Drawing.Size(308, 20);
-            this.textBox12.TabIndex = 5;
-            this.textBox12.Leave += new System.EventHandler(this.textBox1_Leave);
+            this.ship2phone.BackColor = System.Drawing.Color.White;
+            this.ship2phone.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ship2phone.Location = new System.Drawing.Point(74, 194);
+            this.ship2phone.MinimumSize = new System.Drawing.Size(200, 18);
+            this.ship2phone.Multiline = true;
+            this.ship2phone.Name = "ship2phone";
+            this.ship2phone.ReadOnly = true;
+            this.ship2phone.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.ship2phone.Size = new System.Drawing.Size(308, 20);
+            this.ship2phone.TabIndex = 5;
+            this.ship2phone.Leave += new System.EventHandler(this.textBox1_Leave);
             // 
-            // textBox13
+            // ship2country
             // 
-            this.textBox13.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.ship2country.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox13.BackColor = System.Drawing.SystemColors.Control;
-            this.textBox13.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox13.Location = new System.Drawing.Point(74, 146);
-            this.textBox13.MinimumSize = new System.Drawing.Size(200, 18);
-            this.textBox13.Multiline = true;
-            this.textBox13.Name = "textBox13";
-            this.textBox13.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.textBox13.Size = new System.Drawing.Size(308, 20);
-            this.textBox13.TabIndex = 5;
-            this.textBox13.Leave += new System.EventHandler(this.textBox1_Leave);
+            this.ship2country.BackColor = System.Drawing.Color.White;
+            this.ship2country.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ship2country.Location = new System.Drawing.Point(74, 146);
+            this.ship2country.MinimumSize = new System.Drawing.Size(200, 18);
+            this.ship2country.Multiline = true;
+            this.ship2country.Name = "ship2country";
+            this.ship2country.ReadOnly = true;
+            this.ship2country.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.ship2country.Size = new System.Drawing.Size(308, 20);
+            this.ship2country.TabIndex = 5;
+            this.ship2country.Leave += new System.EventHandler(this.textBox1_Leave);
             // 
             // label15
             // 
@@ -1014,69 +985,73 @@
             this.label22.Text = "Name :";
             this.label22.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // textBox14
+            // ship2city
             // 
-            this.textBox14.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.ship2city.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox14.BackColor = System.Drawing.SystemColors.Control;
-            this.textBox14.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox14.Location = new System.Drawing.Point(74, 99);
-            this.textBox14.MinimumSize = new System.Drawing.Size(200, 18);
-            this.textBox14.Multiline = true;
-            this.textBox14.Name = "textBox14";
-            this.textBox14.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.textBox14.Size = new System.Drawing.Size(308, 20);
-            this.textBox14.TabIndex = 5;
-            this.textBox14.Leave += new System.EventHandler(this.textBox1_Leave);
+            this.ship2city.BackColor = System.Drawing.Color.White;
+            this.ship2city.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ship2city.Location = new System.Drawing.Point(74, 99);
+            this.ship2city.MinimumSize = new System.Drawing.Size(200, 18);
+            this.ship2city.Multiline = true;
+            this.ship2city.Name = "ship2city";
+            this.ship2city.ReadOnly = true;
+            this.ship2city.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.ship2city.Size = new System.Drawing.Size(308, 20);
+            this.ship2city.TabIndex = 5;
+            this.ship2city.Leave += new System.EventHandler(this.textBox1_Leave);
             // 
-            // textBox15
+            // ship2province
             // 
-            this.textBox15.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.ship2province.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox15.BackColor = System.Drawing.SystemColors.Control;
-            this.textBox15.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox15.Location = new System.Drawing.Point(74, 122);
-            this.textBox15.MinimumSize = new System.Drawing.Size(200, 18);
-            this.textBox15.Multiline = true;
-            this.textBox15.Name = "textBox15";
-            this.textBox15.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.textBox15.Size = new System.Drawing.Size(308, 20);
-            this.textBox15.TabIndex = 5;
-            this.textBox15.Leave += new System.EventHandler(this.textBox1_Leave);
+            this.ship2province.BackColor = System.Drawing.Color.White;
+            this.ship2province.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ship2province.Location = new System.Drawing.Point(74, 122);
+            this.ship2province.MinimumSize = new System.Drawing.Size(200, 18);
+            this.ship2province.Multiline = true;
+            this.ship2province.Name = "ship2province";
+            this.ship2province.ReadOnly = true;
+            this.ship2province.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.ship2province.Size = new System.Drawing.Size(308, 20);
+            this.ship2province.TabIndex = 5;
+            this.ship2province.Leave += new System.EventHandler(this.textBox1_Leave);
             // 
-            // textBox16
+            // ship2add
             // 
-            this.textBox16.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.ship2add.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox16.BackColor = System.Drawing.SystemColors.Control;
-            this.textBox16.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox16.Location = new System.Drawing.Point(74, 75);
-            this.textBox16.MinimumSize = new System.Drawing.Size(200, 18);
-            this.textBox16.Multiline = true;
-            this.textBox16.Name = "textBox16";
-            this.textBox16.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.textBox16.Size = new System.Drawing.Size(308, 20);
-            this.textBox16.TabIndex = 5;
-            this.textBox16.Leave += new System.EventHandler(this.textBox1_Leave);
+            this.ship2add.BackColor = System.Drawing.Color.White;
+            this.ship2add.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ship2add.Location = new System.Drawing.Point(74, 75);
+            this.ship2add.MinimumSize = new System.Drawing.Size(200, 18);
+            this.ship2add.Multiline = true;
+            this.ship2add.Name = "ship2add";
+            this.ship2add.ReadOnly = true;
+            this.ship2add.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.ship2add.Size = new System.Drawing.Size(308, 20);
+            this.ship2add.TabIndex = 5;
+            this.ship2add.Leave += new System.EventHandler(this.textBox1_Leave);
             // 
-            // textBox17
+            // ship2name
             // 
-            this.textBox17.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.ship2name.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox17.BackColor = System.Drawing.SystemColors.Control;
-            this.textBox17.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox17.Location = new System.Drawing.Point(74, 51);
-            this.textBox17.MinimumSize = new System.Drawing.Size(200, 18);
-            this.textBox17.Multiline = true;
-            this.textBox17.Name = "textBox17";
-            this.textBox17.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.textBox17.Size = new System.Drawing.Size(308, 20);
-            this.textBox17.TabIndex = 5;
-            this.textBox17.Leave += new System.EventHandler(this.textBox1_Leave);
+            this.ship2name.BackColor = System.Drawing.Color.White;
+            this.ship2name.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ship2name.Location = new System.Drawing.Point(74, 51);
+            this.ship2name.MinimumSize = new System.Drawing.Size(200, 18);
+            this.ship2name.Multiline = true;
+            this.ship2name.Name = "ship2name";
+            this.ship2name.ReadOnly = true;
+            this.ship2name.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.ship2name.Size = new System.Drawing.Size(308, 20);
+            this.ship2name.TabIndex = 5;
+            this.ship2name.Leave += new System.EventHandler(this.textBox1_Leave);
             // 
             // sPM_DatabaseDataSet
             // 
@@ -1088,45 +1063,150 @@
             this.sPMDatabaseDataSetBindingSource.DataSource = this.sPM_DatabaseDataSet;
             this.sPMDatabaseDataSetBindingSource.Position = 0;
             // 
-            // dataRepeater1
+            // jobtxt
             // 
-            this.dataRepeater1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataRepeater1.ItemHeaderVisible = false;
+            this.jobtxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.jobtxt.BackColor = System.Drawing.Color.White;
+            this.jobtxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.jobtxt.Location = new System.Drawing.Point(68, 168);
+            this.jobtxt.MaximumSize = new System.Drawing.Size(165, 60);
+            this.jobtxt.Multiline = true;
+            this.jobtxt.Name = "jobtxt";
+            this.jobtxt.ReadOnly = true;
+            this.jobtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.jobtxt.Size = new System.Drawing.Size(165, 60);
+            this.jobtxt.TabIndex = 0;
             // 
-            // dataRepeater1.ItemTemplate
+            // label2
             // 
-            this.dataRepeater1.ItemTemplate.Controls.Add(this.textBox3);
-            this.dataRepeater1.ItemTemplate.Controls.Add(this.textBox2);
-            this.dataRepeater1.ItemTemplate.Controls.Add(this.textBox1);
-            this.dataRepeater1.ItemTemplate.Size = new System.Drawing.Size(1031, 100);
-            this.dataRepeater1.Location = new System.Drawing.Point(5, 332);
-            this.dataRepeater1.Name = "dataRepeater1";
-            this.dataRepeater1.Size = new System.Drawing.Size(1039, 294);
-            this.dataRepeater1.TabIndex = 90;
-            this.dataRepeater1.Text = "dataRepeater1";
-            this.dataRepeater1.VirtualMode = true;
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label2.Location = new System.Drawing.Point(7, 192);
+            this.label2.Name = "label2";
+            this.label2.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label2.Size = new System.Drawing.Size(55, 13);
+            this.label2.TabIndex = 81;
+            this.label2.Text = "Job No :";
             // 
-            // textBox3
+            // statusStrip1
             // 
-            this.textBox3.Location = new System.Drawing.Point(6, 70);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(144, 20);
-            this.textBox3.TabIndex = 0;
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Createdon,
+            this.CreatedBy,
+            this.LastSavedOn,
+            this.LastSavedBy,
+            this.VendorCust});
+            this.statusStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
+            this.statusStrip1.Location = new System.Drawing.Point(0, 716);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.statusStrip1.Size = new System.Drawing.Size(1049, 20);
+            this.statusStrip1.TabIndex = 90;
+            this.statusStrip1.Text = "statusStrip1";
             // 
-            // textBox2
+            // LastSavedOn
             // 
-            this.textBox2.Location = new System.Drawing.Point(6, 44);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(144, 20);
-            this.textBox2.TabIndex = 0;
+            this.LastSavedOn.Name = "LastSavedOn";
+            this.LastSavedOn.Size = new System.Drawing.Size(81, 15);
+            this.LastSavedOn.Text = "Last Saved On";
             // 
-            // textBox1
+            // Createdon
             // 
-            this.textBox1.Location = new System.Drawing.Point(6, 18);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(144, 20);
-            this.textBox1.TabIndex = 0;
+            this.Createdon.Name = "Createdon";
+            this.Createdon.Size = new System.Drawing.Size(67, 15);
+            this.Createdon.Text = "Created On";
+            // 
+            // CreatedBy
+            // 
+            this.CreatedBy.Name = "CreatedBy";
+            this.CreatedBy.Size = new System.Drawing.Size(64, 15);
+            this.CreatedBy.Text = "Created By";
+            // 
+            // LastSavedBy
+            // 
+            this.LastSavedBy.Name = "LastSavedBy";
+            this.LastSavedBy.Size = new System.Drawing.Size(78, 15);
+            this.LastSavedBy.Text = "Last Saved By";
+            // 
+            // VendorCust
+            // 
+            this.VendorCust.Name = "VendorCust";
+            this.VendorCust.Size = new System.Drawing.Size(73, 15);
+            this.VendorCust.Text = "Vendor/Cust";
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.BackgroundColor = System.Drawing.Color.Azure;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Item,
+            this.Description,
+            this.Origin,
+            this.Tariff,
+            this.Qty,
+            this.Cost,
+            this.Total});
+            this.dataGridView1.Location = new System.Drawing.Point(5, 332);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(1039, 315);
+            this.dataGridView1.TabIndex = 91;
+            // 
+            // Item
+            // 
+            this.Item.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.Item.Frozen = true;
+            this.Item.HeaderText = "ItemNo";
+            this.Item.MinimumWidth = 100;
+            this.Item.Name = "Item";
+            this.Item.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Item.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // Description
+            // 
+            this.Description.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Description.HeaderText = "Description";
+            this.Description.Name = "Description";
+            this.Description.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Description.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // Origin
+            // 
+            this.Origin.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.Origin.HeaderText = "Origin";
+            this.Origin.MinimumWidth = 50;
+            this.Origin.Name = "Origin";
+            // 
+            // Tariff
+            // 
+            this.Tariff.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.Tariff.HeaderText = "Tariff";
+            this.Tariff.MinimumWidth = 50;
+            this.Tariff.Name = "Tariff";
+            // 
+            // Qty
+            // 
+            this.Qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.Qty.HeaderText = "Qty";
+            this.Qty.MinimumWidth = 60;
+            this.Qty.Name = "Qty";
+            this.Qty.Width = 60;
+            // 
+            // Cost
+            // 
+            this.Cost.HeaderText = "Cost";
+            this.Cost.MinimumWidth = 50;
+            this.Cost.Name = "Cost";
+            // 
+            // Total
+            // 
+            this.Total.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.Total.HeaderText = "Total";
+            this.Total.MinimumWidth = 100;
+            this.Total.Name = "Total";
             // 
             // InvoiceDetails
             // 
@@ -1134,21 +1214,20 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(69)))), ((int)(((byte)(76)))));
             this.ClientSize = new System.Drawing.Size(1049, 736);
-            this.Controls.Add(this.dataRepeater1);
+            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.ShiptogroupBox);
             this.Controls.Add(this.soldtogroupBox);
             this.Controls.Add(this.savbttn);
             this.Controls.Add(this.editbttn);
             this.Controls.Add(this.shippinggroupBox);
             this.Controls.Add(this.SPM);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.invoicelbl);
+            this.Controls.Add(this.jobtxt);
             this.Controls.Add(this.invoicetxtbox);
             this.Controls.Add(this.notestxt);
             this.Controls.Add(this.Costlbl);
-            this.Controls.Add(this.invoicedatelblb);
-            this.Controls.Add(this.Lastsavedlbl);
-            this.Controls.Add(this.invoicebylbl);
-            this.Controls.Add(this.Lastsavedbylbl);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximumSize = new System.Drawing.Size(1065, 2000);
             this.MinimumSize = new System.Drawing.Size(1065, 775);
@@ -1165,9 +1244,9 @@
             this.ShiptogroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.sPM_DatabaseDataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sPMDatabaseDataSetBindingSource)).EndInit();
-            this.dataRepeater1.ItemTemplate.ResumeLayout(false);
-            this.dataRepeater1.ItemTemplate.PerformLayout();
-            this.dataRepeater1.ResumeLayout(false);
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1184,15 +1263,11 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox FOBPointcombox;
-        private System.Windows.Forms.ComboBox Saledpersoncombobox;
+        private System.Windows.Forms.ComboBox Salespersoncombobox;
         private System.Windows.Forms.ComboBox Carriercombox;
         private System.Windows.Forms.Label foblabel;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox currencycombox;
-        private System.Windows.Forms.Label Lastsavedlbl;
-        private System.Windows.Forms.Label Lastsavedbylbl;
-        private System.Windows.Forms.Label invoicebylbl;
-        private System.Windows.Forms.Label invoicedatelblb;
         private System.Windows.Forms.Button savbttn;
         private System.Windows.Forms.Button editbttn;
         private System.Windows.Forms.ToolTip TreeViewToolTip;
@@ -1215,10 +1290,10 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.GroupBox ShiptogroupBox;
         private System.Windows.Forms.ComboBox shiptocombobox;
-        private System.Windows.Forms.TextBox textBox10;
-        private System.Windows.Forms.TextBox textBox11;
-        private System.Windows.Forms.TextBox textBox12;
-        private System.Windows.Forms.TextBox textBox13;
+        private System.Windows.Forms.TextBox ship2fax;
+        private System.Windows.Forms.TextBox ship2zip;
+        private System.Windows.Forms.TextBox ship2phone;
+        private System.Windows.Forms.TextBox ship2country;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label17;
@@ -1227,10 +1302,10 @@
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.TextBox textBox14;
-        private System.Windows.Forms.TextBox textBox15;
-        private System.Windows.Forms.TextBox textBox16;
-        private System.Windows.Forms.TextBox textBox17;
+        private System.Windows.Forms.TextBox ship2city;
+        private System.Windows.Forms.TextBox ship2province;
+        private System.Windows.Forms.TextBox ship2add;
+        private System.Windows.Forms.TextBox ship2name;
         private System.Windows.Forms.CheckBox prepaidchkbox;
         private System.Windows.Forms.CheckBox collectchkbox;
         private System.Windows.Forms.ComboBox Termscombobox;
@@ -1239,9 +1314,21 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.BindingSource sPMDatabaseDataSetBindingSource;
         private SPM_DatabaseDataSet sPM_DatabaseDataSet;
-        private Microsoft.VisualBasic.PowerPacks.DataRepeater dataRepeater1;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox jobtxt;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel LastSavedOn;
+        private System.Windows.Forms.ToolStripStatusLabel Createdon;
+        private System.Windows.Forms.ToolStripStatusLabel CreatedBy;
+        private System.Windows.Forms.ToolStripStatusLabel LastSavedBy;
+        private System.Windows.Forms.ToolStripStatusLabel VendorCust;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Item;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Description;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Origin;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Tariff;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Qty;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Cost;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Total;
     }
 }

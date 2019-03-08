@@ -1,96 +1,69 @@
-﻿using Microsoft.VisualBasic;
+﻿using SPMConnectAPI;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace SearchDataSPM.General
+namespace SearchDataSPM
 {
     public partial class InvoiceDetails : Form
     {
         String connection;
-        DataTable dt = new DataTable();
+        DataTable dt = new DataTable();        
         SqlConnection cn;
         SqlCommand _command;
         SqlDataAdapter _adapter;
-        string quoteno2 ="";
+        string Invoice_Number = "";
+        SPMConnectAPI.SPMSQLCommands connectapi = new SPMSQLCommands();
 
         public InvoiceDetails()
         {
             InitializeComponent();
             connection = ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
-
             try
             {
                 cn = new SqlConnection(connection);
-
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
             }
-            
+            connectapi.SPM_Connect(connection);
+
             dt = new DataTable();
             _command = new SqlCommand();
         }
 
-        public string quotenubmber(string quoteno)
+        public string invoicenumber(string number)
         {
-            if (quoteno.Length > 0)
-                return quoteno2 = quoteno;
+            if (number.Length > 0)
+                return Invoice_Number = number;
             return null;
         }
 
         private void QuoteDetails_Load(object sender, EventArgs e)
         {
-            this.Text = "Invoice Details - " + quoteno2;
-            
-            Fillcustomers();
-            HowFound();
-            Rating();
-            Category();
-            
-            //filldatatable(quoteno2);
+          
+            this.Text = "Invoice Details - " + Invoice_Number;
+           
+            FillFobPoint();
+            FillSalesPerson();
+            FillCarriers();
+            FillTerms();
+
+            if (GetShippingBaseInfo(Invoice_Number))
+                FillShippingBaseInfo();
             //processeditbutton();
-            //Open the connection
-            //cn.Open();
-            //SqlCommand cmd = new SqlCommand();
-            //SqlDataAdapter da = new SqlDataAdapter();
-            //// Write the query
-            //cmd.CommandText = "select * from PurchaseReqBase";
-            //da.SelectCommand = cmd;
-            //cmd.Connection = cn;
-            //da.SelectCommand = cmd;
-            ////create a dataset
-            //DataSet ds = new DataSet();
-            //da.Fill(ds);
-            ////Close the connection
-            //cn.Close();
-            //// Bind data to TextBox
-            //textBox1.DataBindings.Add("Text", da, "JobNumber");
-            //textBox2.DataBindings.Add("Text", da, "RequestedBy");
-            //textBox3.DataBindings.Add("Text", da, "ReqNumber");
-            dataRepeater1.Visible = true;
-            //dataRepeater1.ItemTemplate.Show();
-            //dataRepeater1.DataSource = ds.Tables[0];
-            dataRepeater1.AddNew();
+
         }
 
-        private void filldatatable(string quotenumber)
+        private bool GetShippingBaseInfo(string invoicenumber)
         {
-            String sql = "SELECT *  FROM [SPM_Database].[dbo].[Opportunities]";
+            bool fillled = false;
+            string sql = "SELECT * FROM [SPM_Database].[dbo].[ShippingBase] WHERE InvoiceNo = '"+invoicenumber+"'";
             try
             {
                 if (cn.State == ConnectionState.Closed)
@@ -98,11 +71,8 @@ namespace SearchDataSPM.General
                 _adapter = new SqlDataAdapter(sql, cn);
                 dt.Clear();
                 _adapter.Fill(dt);
-                textBox1.DataBindings.Add("Text", _adapter, "Title");
-                textBox2.DataBindings.Add("Text", _adapter, "Customer");
-                textBox3.DataBindings.Add("Text", _adapter, "Employee");
-                dataRepeater1.Visible = true;
-                fillinfo();                
+               
+                fillled = true;
             }
             catch (SqlException ex)
             {
@@ -113,196 +83,258 @@ namespace SearchDataSPM.General
             {
                 cn.Close();
             }
+            return fillled;
         }
 
-        private void fillinfo()
+        #region Fill information on controls
+
+        private void FillShippingBaseInfo()
         {
             DataRow r = dt.Rows[0];
-            invoicetxtbox.Text = r["Quote"].ToString();
-                 
-            notestxt.Text = r["Comments"].ToString();
-           
 
-            string quoteddate = r["Quote_Date"].ToString();
-            string quotedby = r["Employee"].ToString();
+            invoicetxtbox.Text = r["InvoiceNo"].ToString();
+            notestxt.Text = r["Notes"].ToString();
+            string DateCreated = r["DateCreated"].ToString();
+            string CreatedBy = r["CreatedBy"].ToString();
             string lastsavedby = r["LastSavedby"].ToString();
-            string lastsaved = r["Lastsaved"].ToString();
-            if (quoteddate.Length > 0)
-            {
-                invoicedatelblb.Text = "Quote Date : " + quoteddate.Substring(0, 10);
-            }
-           
-            invoicebylbl.Text = "Quoted By : " + quotedby;
-            Lastsavedbylbl.Text = "Last Saved By : " + lastsavedby;
-            Lastsavedlbl.Text = "Last Saved : " + lastsaved;
+            string lastsaved = r["DateLastSaved"].ToString();
 
-            string category = r["Category"].ToString();
-            if (category.Length > 0)
-            {
-                Carriercombox.SelectedItem = category;
-            }
 
-            string customer = r["Company_Name"].ToString();
-            if (customer.Length > 0)
-            {
-                soldtocombobox.SelectedItem = customer;
-            }
+            Createdon.Text = "Created On : " + DateCreated;
 
-            string rating = r["Rating"].ToString();
-            if (rating.Length > 0)
+            this.CreatedBy.Text = "Created By : " + CreatedBy;
+
+            LastSavedOn.Text = "Last Saved By : " + lastsavedby;
+
+            LastSavedBy.Text = "Last Saved On : " + lastsaved;
+
+            string vendorcust = r["Vendor_Cust"].ToString();
+            if (r["Vendor_Cust"].ToString() == "1")
             {
-                Saledpersoncombobox.SelectedItem = rating;
+                VendorCust.Text = "Invoice For Customer";
+                FillcustomersShipto();
+                FillcustomersSoldto();
+              
+            }
+            else
+            {
+                VendorCust.Text = "Invoice For Vendor";
+                FillVendorsShipto();
+                FillVendorsSoldto();
             }
 
-            string howfound = r["How_Found"].ToString();
-            if (howfound.Length > 0)
+            string Carrier = r["Carrier"].ToString();
+            if (Carrier.Length > 0)
             {
-                FOBPointcombox.SelectedItem = howfound;
+                Carriercombox.SelectedItem = Carrier;
             }
 
-            string currency = r["Currency"].ToString();
+            string terms = r["Terms"].ToString();
+
+            if (terms.Length > 0)
+            {
+                Termscombobox.SelectedItem = terms;
+            }
+
+            string salesperson = r["SalesPerson"].ToString();
+
+            if (salesperson.Length > 0)
+            {
+                Salespersoncombobox.SelectedItem = salesperson;
+            }
+
+            string Requistioner = r["Requistioner"].ToString();
+
+            if (Requistioner.Length > 0)
+            {
+                requestcomboBox.SelectedItem = Requistioner;
+            }
+
+            string fobpoint = r["FobPoint"].ToString();
+
+            if (fobpoint.Length > 0)
+            {
+                FOBPointcombox.SelectedItem = fobpoint;
+            }
+
+            string currency = r["Currency"].ToString().Trim();
+
             if (currency.Length > 0)
             {
                 currencycombox.SelectedItem = currency;
             }
 
-
-        }
-
-        private void Fillcustomers()
-        {
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM [SPM_Database].[dbo].[Customersmerged]", cn))
+            string SoldTo = r["SoldTo"].ToString();
+            if (SoldTo.Length > 0)
             {
-                try
-                {
-                    cn.Open();
-                    SqlDataReader reader = sqlCommand.ExecuteReader();
-                    AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
-                    while (reader.Read())
-                    {
-                        MyCollection.Add(reader.GetString(0));
-                    }
+                FillSoldToInformation(SoldTo,vendorcust);
+            }
 
-                    //familytxtbox.AutoCompleteCustomSource = MyCollection;
-                    soldtocombobox.AutoCompleteCustomSource = MyCollection;
-                    soldtocombobox.DataSource = MyCollection;
+            string ShipTo = r["ShipTo"].ToString();
+            if (ShipTo.Length > 0)
+            {
+                FillShipToInformation(ShipTo,vendorcust);
+            }
 
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect New Item - Fill Customers Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-
+            if (r["Collect_Prepaid"].ToString() == "1")
+            {
+                prepaidchkbox.Checked = true;
+            }
+            else
+            {
+                collectchkbox.Checked = true;
             }
 
         }
 
-        private void HowFound()
+        private void FillSoldToInformation(string custid, string vendorcust)
         {
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT [How Found] FROM [SPM_Database].[dbo].[QuoteFilters]  where [How Found] is not null ", cn))
+            if (vendorcust == "1")
             {
-                try
-                {
-                    cn.Open();
-                    SqlDataReader reader = sqlCommand.ExecuteReader();
-                    AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
-                    while (reader.Read())
-                    {
-                        MyCollection.Add(reader.GetString(0));
-                    }
+                DataTable dtsoldto = new DataTable();
+                dtsoldto.Clear();
+                dtsoldto = connectapi.GetCustomerSoldShipToInfo(custid);
+                DataRow r = dtsoldto.Rows[0];
 
-                    //familytxtbox.AutoCompleteCustomSource = MyCollection;
-                    FOBPointcombox.AutoCompleteCustomSource = MyCollection;
-                    FOBPointcombox.DataSource = MyCollection;
-
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect New Item - Fill howfound Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-
+                sld2name.Text = r["Nom"].ToString();
+                soldtocombobox.SelectedItem = r["Nom"].ToString();
+                sld2add.Text = r["Adresse"].ToString();
+                sld2city.Text = r["Ville"].ToString();
+                sld2province.Text = r["Province"].ToString();
+                sld2country.Text = r["Pays"].ToString();
+                sld2zip.Text = r["Codepostal"].ToString();
+                sld2phone.Text = r["Telephone"].ToString();
+                sld2fax.Text = r["Fax"].ToString();
             }
+            else
+            {
+                DataTable dtsoldto = new DataTable();
+                dtsoldto.Clear();
+                dtsoldto = connectapi.GetVendorShipSoldToInfo(custid);
+                DataRow r = dtsoldto.Rows[0];
+
+                sld2name.Text = r["Name"].ToString();
+                soldtocombobox.SelectedItem = r["Name"].ToString();
+                sld2add.Text = r["Address1"].ToString();
+                sld2city.Text = r["City"].ToString();
+                sld2province.Text = r["Province"].ToString();
+                sld2country.Text = r["Country"].ToString();
+                sld2zip.Text = r["ZipCode"].ToString();
+                sld2phone.Text = r["Phone"].ToString();
+                sld2fax.Text = r["Fax"].ToString();
+            }
+
 
         }
 
-        private void Rating()
+        private void FillShipToInformation(string custid, string vendorcust)
         {
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT [Rating] FROM [SPM_Database].[dbo].[QuoteFilters]  WHERE [Rating] is not null ", cn))
+            if (vendorcust == "1")
             {
-                try
-                {
-                    cn.Open();
-                    SqlDataReader reader = sqlCommand.ExecuteReader();
-                    AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
-                    while (reader.Read())
-                    {
-                        MyCollection.Add(reader.GetString(0));
-                    }
+                DataTable dtsoldto = new DataTable();
+                dtsoldto.Clear();
+                dtsoldto = connectapi.GetCustomerSoldShipToInfo(custid);
+                DataRow r = dtsoldto.Rows[0];
 
-                    //familytxtbox.AutoCompleteCustomSource = MyCollection;
-                    Saledpersoncombobox.AutoCompleteCustomSource = MyCollection;
-                    Saledpersoncombobox.DataSource = MyCollection;
-
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect New Item - Fill Rating Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-
+                ship2name.Text = r["Nom"].ToString();
+                shiptocombobox.SelectedItem = r["Nom"].ToString();
+                ship2add.Text = r["Adresse"].ToString();
+                ship2city.Text = r["Ville"].ToString();
+                ship2province.Text = r["Province"].ToString();
+                ship2country.Text = r["Pays"].ToString();
+                ship2zip.Text = r["Codepostal"].ToString();
+                ship2phone.Text = r["Telephone"].ToString();
+                ship2fax.Text = r["Fax"].ToString();
             }
+            else
+            {
+                DataTable dtsoldto = new DataTable();
+                dtsoldto.Clear();
+                dtsoldto = connectapi.GetVendorShipSoldToInfo(custid);
+                DataRow r = dtsoldto.Rows[0];
+
+                ship2name.Text = r["Name"].ToString();
+                shiptocombobox.SelectedItem = r["Name"].ToString();
+                ship2add.Text = r["Address1"].ToString();
+                ship2city.Text = r["City"].ToString();
+                ship2province.Text = r["Province"].ToString();
+                ship2country.Text = r["Country"].ToString();
+                ship2zip.Text = r["ZipCode"].ToString();
+                ship2phone.Text = r["Phone"].ToString();
+                ship2fax.Text = r["Fax"].ToString();
+            }
+
 
         }
 
-        private void Category()
+        #endregion
+
+        #region Filling Up Comboboxes
+
+        private void FillcustomersSoldto()
         {
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT Category FROM [SPM_Database].[dbo].[QuoteFilters]", cn))
-            {
-                try
-                {
-                    cn.Open();
-                    SqlDataReader reader = sqlCommand.ExecuteReader();
-                    AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
-                    while (reader.Read())
-                    {
-                        MyCollection.Add(reader.GetString(0));
-                    }
-
-                    //familytxtbox.AutoCompleteCustomSource = MyCollection;
-                    Carriercombox.AutoCompleteCustomSource = MyCollection;
-                    Carriercombox.DataSource = MyCollection;
-
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect New Item - Fill Customers Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-
-            }
-
+            AutoCompleteStringCollection MyCollection = connectapi.FillShipToSoldToCustomers();
+            soldtocombobox.AutoCompleteCustomSource = MyCollection;
+            soldtocombobox.DataSource = MyCollection;
         }
+
+        private void FillcustomersShipto()
+        {
+            AutoCompleteStringCollection MyCollection = connectapi.FillShipToSoldToCustomers();
+            shiptocombobox.AutoCompleteCustomSource = MyCollection;
+            shiptocombobox.DataSource = MyCollection;
+        }
+
+        private void FillVendorsSoldto()
+        {
+            AutoCompleteStringCollection MyCollection = connectapi.FillShipToSoldToVendors();
+            soldtocombobox.AutoCompleteCustomSource = MyCollection;
+            soldtocombobox.DataSource = MyCollection;
+        }
+
+        private void FillVendorsShipto()
+        {
+            AutoCompleteStringCollection MyCollection = connectapi.FillShipToSoldToVendors();
+            shiptocombobox.AutoCompleteCustomSource = MyCollection;
+            shiptocombobox.DataSource = MyCollection;
+        }
+
+        private void FillFobPoint()
+        {
+            AutoCompleteStringCollection MyCollection = connectapi.FillFobPoint();
+            FOBPointcombox.AutoCompleteCustomSource = MyCollection;
+            FOBPointcombox.DataSource = MyCollection;
+        }
+
+        private void FillSalesPerson()
+        {
+            AutoCompleteStringCollection MyCollection = connectapi.FillSalesPersonShip();
+            Salespersoncombobox.AutoCompleteCustomSource = MyCollection;
+            Salespersoncombobox.DataSource = MyCollection;
+        }
+
+        private void FillTerms()
+        {
+            AutoCompleteStringCollection MyCollection = connectapi.FillTerms();
+            Termscombobox.AutoCompleteCustomSource = MyCollection;
+            Termscombobox.DataSource = MyCollection;
+        }
+
+        private void FillCarriers()
+        {
+            AutoCompleteStringCollection MyCollection = connectapi.FillCarrierShip();
+            Carriercombox.AutoCompleteCustomSource = MyCollection;
+            Carriercombox.DataSource = MyCollection;
+        }
+
+        #endregion
+
+
 
         private void textBox1_Leave(object sender, EventArgs e)
         {
-           
-        }
 
-       
+        }
 
         private bool TextisValid(string text)
         {
@@ -361,7 +393,7 @@ namespace SearchDataSPM.General
         {
             if (savbttn.Visible == true)
             {
-                DialogResult result = MetroFramework.MetroMessageBox.Show(this,"Are you sure want to close without saving changes?", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to close without saving changes?", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {
                 }
@@ -377,28 +409,23 @@ namespace SearchDataSPM.General
             editbttn.Visible = false;
             savbttn.Enabled = true;
             savbttn.Visible = true;
-            soldtocombobox.Enabled = true;
-            Carriercombox.Enabled = true;
-            Saledpersoncombobox.Enabled = true;
-            FOBPointcombox.Enabled = true;
-            currencycombox.Enabled = true;           
-            notestxt.Enabled = true;
-            
+            jobtxt.ReadOnly = false;
+            soldtogroupBox.Enabled = true;
+            ShiptogroupBox.Enabled = true;
+            shippinggroupBox.Enabled = true;
+
         }
 
         private void perfromlockdown()
         {
             editbttn.Visible = true;
-          
             savbttn.Enabled = false;
             savbttn.Visible = false;
-            soldtocombobox.Enabled = false;
-            Carriercombox.Enabled = false;
-            Saledpersoncombobox.Enabled = false;
-            FOBPointcombox.Enabled = false;
-            currencycombox.Enabled = false;
-          
-            notestxt.Enabled = false;
+            jobtxt.ReadOnly = true;
+            soldtogroupBox.Enabled = false;
+            ShiptogroupBox.Enabled = false;
+            shippinggroupBox.Enabled = false;
+
         }
 
         List<string> list = new List<string>();
@@ -409,10 +436,10 @@ namespace SearchDataSPM.General
             string quote = invoicetxtbox.Text;
             string customer = soldtocombobox.Text;
             string category = Carriercombox.Text;
-            string rating = Saledpersoncombobox.Text;
+            string rating = Salespersoncombobox.Text;
             string howfound = FOBPointcombox.Text;
             string currency = currencycombox.Text;
-          
+
             string notes = notestxt.Text;
             list.Add(quote);
             list.Add(customer);
@@ -431,7 +458,7 @@ namespace SearchDataSPM.General
 
         private void savbttn_Click(object sender, EventArgs e)
         {
-            perfromsavebttn(true);           
+            perfromsavebttn(true);
         }
 
         void perfromsavebttn(bool createfolder)
@@ -440,13 +467,13 @@ namespace SearchDataSPM.General
             this.Enabled = false;
             perfromlockdown();
             graballinfor();
-           
-            string lastsavedby = getuserfullname(get_username().ToString()).ToString();
-            createnewitemtosql(list[0].ToString(), list[1].ToString(), list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(), list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(), list[10].ToString(), lastsavedby);
-           
+
+            //string lastsavedby = getuserfullname(get_username().ToString()).ToString();
+            //createnewitemtosql(list[0].ToString(), list[1].ToString(), list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(), list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(), list[10].ToString(), lastsavedby);
+
             this.Enabled = true;
             Cursor.Current = Cursors.Default;
-            filldatatable(list[0].ToString());
+            GetShippingBaseInfo(list[0].ToString());
         }
 
         private void createnewitemtosql(string quote, string description, string customer, string category, string rating, string howfound, string quotedprice, string currency, string closed, string convertedtojob, string notes, string user)
@@ -468,7 +495,7 @@ namespace SearchDataSPM.General
             }
             catch (Exception ex)
             {
-                MetroFramework.MetroMessageBox.Show(this,ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -497,9 +524,6 @@ namespace SearchDataSPM.General
             }
         }
 
-        private void dataRepeater1_CurrentItemIndexChanged(object sender, EventArgs e)
-        {
-
-        }
+   
     }
 }

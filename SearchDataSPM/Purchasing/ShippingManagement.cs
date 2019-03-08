@@ -62,7 +62,7 @@ namespace SearchDataSPM.General
                 if (cn.State == ConnectionState.Closed)
                     cn.Open();
 
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[Quotes] ORDER BY DateCreated DESC", cn);
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[ShippingBase] ORDER BY DateCreated DESC", cn);
 
                 dt.Clear();
                 sda.Fill(dt);
@@ -501,7 +501,7 @@ namespace SearchDataSPM.General
             if (e.ColumnIndex == 0 && dataGridView.SelectedCells.Count == 1)
             {
 
-                showshippingdetails(getinvoicenumberselected());
+               // showshippingdetails(getinvoicenumberselected());
             }
 
         }
@@ -627,7 +627,7 @@ namespace SearchDataSPM.General
         private void addnewbttn_Click(object sender, EventArgs e)
         {
             
-            DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to create a new quote?", "SPM Connect - Create New Quote?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to create a new shipping invoice?", "SPM Connect - Create New Invoice?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result == DialogResult.Yes)
             {

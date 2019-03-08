@@ -14,9 +14,6 @@ using ExtractLargeIconFromFile;
 using wpfPreviewFlowControl;
 using SolidWorks.Interop.sldworks;
 using System.Threading;
-using System.Management;
-using System.Deployment.Application;
-using System.Net;
 using TableDependency.SqlClient;
 using TableDependency.SqlClient.Base;
 using SPMConnectAPI;
@@ -44,13 +41,13 @@ namespace SearchDataSPM
         SearchDataSPM.pnotifier purchaseReq = new SearchDataSPM.pnotifier();
         SPMConnectAPI.SPMSQLCommands connectapi = new SPMSQLCommands();
         SPMConnectAPI.Controls connectapicntrls = new SPMConnectAPI.Controls();
-        AutoCompleteStringCollection autoComplete = new AutoCompleteStringCollection();
+        //AutoCompleteStringCollection autoComplete = new AutoCompleteStringCollection();
 
         public SPM_Connect()
         {
             InitializeComponent();
             formloading = true;
-            
+
             connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
             cntrlconnection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cntrlscn"].ConnectionString;
             try
@@ -65,14 +62,14 @@ namespace SearchDataSPM
             }
 
             connectapi.SPM_Connect(connection);
-           
+
         }
 
         private void SPM_Connect_Load(object sender, EventArgs e)
         {
             this.Hide();
             collapse();
-            loadusersettings();        
+            loadusersettings();
             dt = new DataTable();
             checkdeptsandrights();
             userfullname = connectapi.getuserfullname();
@@ -82,7 +79,7 @@ namespace SearchDataSPM
                 watchpreqtable();
                 purchaseReq.currentusercreds();
             }
-            assignhistory();
+            //assignhistory();
             Showallitems();
             txtSearch.Focus();
             formloading = false;
@@ -234,7 +231,8 @@ namespace SearchDataSPM
         void performreload()
         {
             clearandhide();
-            //clearfilercombos();          
+            //clearfilercombos();
+            txtSearch.Clear();
             txtSearch.Focus();
             SendKeys.Send("~");
             dataGridView.Refresh();
@@ -251,24 +249,24 @@ namespace SearchDataSPM
             dataGridView.DefaultCellStyle.SelectionBackColor = Color.Black;
         }
 
-        private void assignhistory()
-        {
-            txtSearch.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            txtSearch.AutoCompleteSource = AutoCompleteSource.CustomSource;
-            txtSearch.AutoCompleteCustomSource = autoComplete;
-            Descrip_txtbox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            Descrip_txtbox.AutoCompleteSource = AutoCompleteSource.CustomSource;
-            Descrip_txtbox.AutoCompleteCustomSource = autoComplete;
-            filteroem_txtbox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            filteroem_txtbox.AutoCompleteSource = AutoCompleteSource.CustomSource;
-            filteroem_txtbox.AutoCompleteCustomSource = autoComplete;
-            filteroemitem_txtbox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            filteroemitem_txtbox.AutoCompleteSource = AutoCompleteSource.CustomSource;
-            filteroemitem_txtbox.AutoCompleteCustomSource = autoComplete;
-            filter4.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            filter4.AutoCompleteSource = AutoCompleteSource.CustomSource;
-            filter4.AutoCompleteCustomSource = autoComplete;
-        }
+        //private void assignhistory()
+        //{
+        //    txtSearch.AutoCompleteMode = AutoCompleteMode.Suggest;
+        //    txtSearch.AutoCompleteSource = AutoCompleteSource.CustomSource;
+        //    txtSearch.AutoCompleteCustomSource = autoComplete;
+        //    Descrip_txtbox.AutoCompleteMode = AutoCompleteMode.Suggest;
+        //    Descrip_txtbox.AutoCompleteSource = AutoCompleteSource.CustomSource;
+        //    Descrip_txtbox.AutoCompleteCustomSource = autoComplete;
+        //    filteroem_txtbox.AutoCompleteMode = AutoCompleteMode.Suggest;
+        //    filteroem_txtbox.AutoCompleteSource = AutoCompleteSource.CustomSource;
+        //    filteroem_txtbox.AutoCompleteCustomSource = autoComplete;
+        //    filteroemitem_txtbox.AutoCompleteMode = AutoCompleteMode.Suggest;
+        //    filteroemitem_txtbox.AutoCompleteSource = AutoCompleteSource.CustomSource;
+        //    filteroemitem_txtbox.AutoCompleteCustomSource = autoComplete;
+        //    filter4.AutoCompleteMode = AutoCompleteMode.Suggest;
+        //    filter4.AutoCompleteSource = AutoCompleteSource.CustomSource;
+        //    filter4.AutoCompleteCustomSource = autoComplete;
+        //}
 
         #endregion
 
@@ -426,8 +424,9 @@ namespace SearchDataSPM
         {
             if (e.KeyCode == Keys.Return)
             {
+                string searchtexttxt = txtSearch.Text;
                 formloading = true;
-                autoComplete.Add(txtSearch.Text);
+                //autoComplete.Add(txtSearch.Text);
                 if (txtSearch.Text == "playgame")
                 {
                     lettergame lettergame = new lettergame();
@@ -448,8 +447,9 @@ namespace SearchDataSPM
                 else
                 {
                     showfavorites();
+                    txtSearch.Text = searchtexttxt ;
                 }
-                
+
 
                 if (txtSearch.Text.Length > 0)
                 {
@@ -485,7 +485,6 @@ namespace SearchDataSPM
         {
             formloading = true;
             clearfilercombos();
-            txtSearch.Clear();
             Descrip_txtbox.Hide();
             Descrip_txtbox.Clear();
             filteroem_txtbox.Hide();
@@ -619,7 +618,7 @@ namespace SearchDataSPM
 
         private void Descrip_txtbox_KeyDown(object sender, KeyEventArgs e)
         {
-            
+
             DataView dv = table0.DefaultView;
             table0 = dv.ToTable();
 
@@ -627,7 +626,7 @@ namespace SearchDataSPM
             {
                 formloading = true;
                 string search2 = Descrip_txtbox.Text;
-                autoComplete.Add(search2);
+                //autoComplete.Add(search2);
                 try
                 {
                     search2 = search2.Replace("'", "''");
@@ -690,7 +689,7 @@ namespace SearchDataSPM
             {
                 formloading = true;
                 string search3 = filteroem_txtbox.Text;
-                autoComplete.Add(search3);
+                //autoComplete.Add(search3);
                 try
                 {
                     search3 = search3.Replace("'", "''");
@@ -748,7 +747,7 @@ namespace SearchDataSPM
             {
                 formloading = true;
                 string search4 = filteroemitem_txtbox.Text;
-                autoComplete.Add(search4);
+                //autoComplete.Add(search4);
                 try
                 {
                     search4 = search4.Replace("'", "''");
@@ -807,7 +806,7 @@ namespace SearchDataSPM
             {
                 formloading = true;
                 string search5 = filter4.Text;
-                autoComplete.Add(search5);
+                //autoComplete.Add(search5);
                 try
                 {
                     search5 = search5.Replace("'", "''");
@@ -918,7 +917,7 @@ namespace SearchDataSPM
             {
                 connectapi.checkforspmfile(Item);
             }
-            
+
         }
 
         private void openDrawingToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1274,7 +1273,7 @@ namespace SearchDataSPM
             {
                 _preqdependency.Stop();
             }
-           
+
             Properties.Settings.Default.F1State = this.WindowState;
             if (this.WindowState == FormWindowState.Normal)
             {
@@ -1555,11 +1554,7 @@ namespace SearchDataSPM
 
         private void dataGridView_SelectionChanged(object sender, EventArgs e)
         {
-            if (!formloading)
-            {
-                showfilesonlistview();
-            }
-           
+            showfilesonlistview();
         }
 
         private void showfilesonlistview()
@@ -1592,7 +1587,7 @@ namespace SearchDataSPM
             }
             catch
             {
-                
+
             }
         }
 
@@ -1603,7 +1598,7 @@ namespace SearchDataSPM
             if (listView.FocusedItem != null)
             {
 
-               // makepathfordrag();
+                // makepathfordrag();
             }
 
         }
@@ -2008,7 +2003,7 @@ namespace SearchDataSPM
 
         private void updateitemtosqlinventory(string uniqueid)
         {
-           
+
             string familycategory = connectapi.getfamilycategory(getfamilycode().ToString());
             //MessageBox.Show(familycategory);
             string rupture = "ALWAYS";
@@ -2072,7 +2067,7 @@ namespace SearchDataSPM
             {
                 string category = connectapi.getfamilycategory(getfamilycode().ToString());
                 string path = connectapi.Makepath(item).ToString();
-                if(category != "")
+                if (category != "")
                 {
                     if (category.ToLower() == "manufactured")
                     {
@@ -2115,7 +2110,7 @@ namespace SearchDataSPM
                 {
                     MessageBox.Show("Please check on Family Code", "SPM Connect - Family Category Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-               
+
             }
 
         }
@@ -2202,7 +2197,7 @@ namespace SearchDataSPM
 
                 if (connectapi.checkitempresentoninventory(selecteditem) == true)
                 {
-                    connectapi.addcpoieditemtosqltable(selecteditem,uniqueid);
+                    connectapi.addcpoieditemtosqltable(selecteditem, uniqueid);
                 }
                 else
                 {
@@ -2222,7 +2217,7 @@ namespace SearchDataSPM
 
                 if (connectapi.checkitempresentoninventory(selecteditem) == true)
                 {
-                    connectapi.addcpoieditemtosqltable(selecteditem,uniqueid);
+                    connectapi.addcpoieditemtosqltable(selecteditem, uniqueid);
                 }
                 else
                 {
@@ -2471,7 +2466,7 @@ namespace SearchDataSPM
 
         }
 
-       private void advsearchbttnclick()
+        private void advsearchbttnclick()
         {
             if (_advcollapse == 0)
             {
@@ -3054,7 +3049,7 @@ namespace SearchDataSPM
         {
             this.Size = new Size(900, 750);
             this.CenterToScreen();
-           
+
         }
 
         #region AddtoFavorites
@@ -3072,13 +3067,14 @@ namespace SearchDataSPM
         private void showfavorites()
         {
             clearandhide();
-            clearfilercombos();
+            txtSearch.Clear();
+            txtSearch.Focus();
             dt.Clear();
             dt = connectapi.ShowFavorites();
             dataGridView.DataSource = dt;
             DataView dv = dt.DefaultView;
             dataGridView.Sort(itemNumberDataGridViewTextBoxColumn, ListSortDirection.Descending);
-            UpdateFont();            
+            UpdateFont();
             showingfavorites = true;
             recordlabel.Text = "Showing " + dataGridView.Rows.Count + " favorite items.";
         }

@@ -120,7 +120,7 @@
             this.Expandchk.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.Expandchk.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Expandchk.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.Expandchk.Location = new System.Drawing.Point(444, 57);
+            this.Expandchk.Location = new System.Drawing.Point(430, 52);
             this.Expandchk.MinimumSize = new System.Drawing.Size(30, 0);
             this.Expandchk.Name = "Expandchk";
             this.Expandchk.Size = new System.Drawing.Size(49, 28);
@@ -256,7 +256,7 @@
             this.SPM.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SPM.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.SPM.Image = ((System.Drawing.Image)(resources.GetObject("SPM.Image")));
-            this.SPM.Location = new System.Drawing.Point(484, 22);
+            this.SPM.Location = new System.Drawing.Point(489, 22);
             this.SPM.MaximumSize = new System.Drawing.Size(288, 100);
             this.SPM.MinimumSize = new System.Drawing.Size(100, 100);
             this.SPM.Name = "SPM";
