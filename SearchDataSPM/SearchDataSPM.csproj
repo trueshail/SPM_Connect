@@ -403,6 +403,12 @@
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Miscellaneous\Users.cs" />
+    <Compile Include="Purchasing\InvoiceAddItem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Purchasing\InvoiceAddItem.Designer.cs">
+      <DependentUpon>InvoiceAddItem.cs</DependentUpon>
+    </Compile>
     <Compile Include="Purchasing\InvoiceFor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -457,12 +463,6 @@
     </Compile>
     <Compile Include="Purchasing\InvoiceDetails.Designer.cs">
       <DependentUpon>InvoiceDetails.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Purchasing\ShippingManagement.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Purchasing\ShippingManagement.Designer.cs">
-      <DependentUpon>ShippingManagement.cs</DependentUpon>
     </Compile>
     <Compile Include="Purchasing\ShippingHome.cs">
       <SubType>Form</SubType>
@@ -685,6 +685,9 @@
     <EmbeddedResource Include="Miscellaneous\ReportViewer.resx">
       <DependentUpon>ReportViewer.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\InvoiceAddItem.resx">
+      <DependentUpon>InvoiceAddItem.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Purchasing\InvoiceFor.resx">
       <DependentUpon>InvoiceFor.cs</DependentUpon>
     </EmbeddedResource>
@@ -710,9 +713,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Purchasing\InvoiceDetails.resx">
       <DependentUpon>InvoiceDetails.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Purchasing\ShippingManagement.resx">
-      <DependentUpon>ShippingManagement.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Purchasing\ShippingHome.resx">
       <DependentUpon>ShippingHome.cs</DependentUpon>

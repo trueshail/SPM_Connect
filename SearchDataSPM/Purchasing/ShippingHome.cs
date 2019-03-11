@@ -1,24 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Windows.Forms;
-using ExtractLargeIconFromFile;
-using wpfPreviewFlowControl;
-using SolidWorks.Interop.sldworks;
-using System.Threading;
-using System.Management;
-using System.Deployment.Application;
-using System.Net;
-using TableDependency.SqlClient;
-using TableDependency.SqlClient.Base;
 using SPMConnectAPI;
 
 namespace SearchDataSPM
@@ -36,7 +21,7 @@ namespace SearchDataSPM
         bool formloading = false;
         string userfullname = "";
         int _advcollapse = 0;
-        SPMConnectAPI.SPMSQLCommands connectapi = new SPMSQLCommands();
+        SPMConnectAPI.Shipping connectapi = new Shipping();
 
         public ShippingHome()
         {
@@ -173,7 +158,7 @@ namespace SearchDataSPM
         private void UpdateFont()
         {
             dataGridView.ColumnHeadersDefaultCellStyle.Font = new Font("Tahoma", 9.0F, FontStyle.Bold);
-            dataGridView.DefaultCellStyle.Font = new Font("Arial", 9.5F, FontStyle.Bold);
+            dataGridView.DefaultCellStyle.Font = new Font("Arial", 8.5F, FontStyle.Regular);
             dataGridView.DefaultCellStyle.ForeColor = Color.Black;
             dataGridView.DefaultCellStyle.BackColor = Color.FromArgb(237, 237, 237);
             dataGridView.DefaultCellStyle.SelectionForeColor = Color.Yellow;
@@ -586,19 +571,20 @@ namespace SearchDataSPM
             {
                 if (dataGridView.Rows.Count > 0 && dataGridView.SelectedCells.Count == 1)
                 {
-
+                   
                     int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                     DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
                     string item = Convert.ToString(slectedrow.Cells[0].Value);
+                    InvoiceItemsgrp.Text = "Showing items for InvoiceNo: " + item;
                     temptable.Clear();
                     DataView dv = new DataView(invoiceitems);
                     dv.RowFilter = string.Format("InvoiceNo = {0}", item);
                     temptable = dv.ToTable();
                     invoiceitemsdataGridView2.DataSource = temptable;
                     invoiceitemsdataGridView2.Columns[0].Visible = false;
-                    invoiceitemsdataGridView2.Columns[8].Visible = false;
-                    invoiceitemsdataGridView2.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                    invoiceitemsdataGridView2.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    invoiceitemsdataGridView2.Columns[9].Visible = false;
+                    //invoiceitemsdataGridView2.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    invoiceitemsdataGridView2.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 }
             }
         }
@@ -607,7 +593,7 @@ namespace SearchDataSPM
         {
             if (dataGridView.SelectedCells.Count == 1)
             {
-                showshippinginvoice(getselectedinvoicenumber());
+                showshippinginvoice(getselectedinvoicenumber(),"1");
             }
         }
 
@@ -1101,13 +1087,6 @@ namespace SearchDataSPM
 
         #endregion
 
-        private void versionlabel_DoubleClick(object sender, EventArgs e)
-        {
-            this.Size = new Size(900, 750);
-            this.CenterToScreen();
-
-        }
-
         private void addnewbttn_Click(object sender, EventArgs e)
         {
             DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to create a new shipping invoice?", "SPM Connect - Create New Invoice?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -1131,7 +1110,7 @@ namespace SearchDataSPM
                     string status = connectapi.Createnewshippinginvoice(vendorcust);
                     if (status.Length > 1)
                     {
-                        showshippinginvoice(status);
+                        showshippinginvoice(status,vendorcust);
                     }
                 }
                 else
@@ -1143,11 +1122,12 @@ namespace SearchDataSPM
             }
         }
 
-        void showshippinginvoice(string invoice)
+        void showshippinginvoice(string invoice,string vendorcust)
         {
             using (InvoiceDetails invoiceDetails = new InvoiceDetails())
             {
                 invoiceDetails.invoicenumber(invoice);
+                invoiceDetails.setcustvendor(vendorcust);
                 invoiceDetails.ShowDialog();
                 invoiceDetails.Dispose();
                 Showallitems();
@@ -1155,8 +1135,7 @@ namespace SearchDataSPM
                 this.Activate();
                 this.Focus();
             }
-
-        }
+        }        
 
         private String getselectedinvoicenumber()
         {

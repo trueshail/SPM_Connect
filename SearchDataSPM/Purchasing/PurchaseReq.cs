@@ -10,8 +10,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
-using System.Net.Mime;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -39,10 +37,6 @@ namespace SearchDataSPM
         string userfullname = "";
         List<string> Itemstodiscard = new List<string>();
         int supervisoridfromreq = 0;
-        //static Thread t;
-        //Thread loading;
-
-
 
         #endregion
 
@@ -760,32 +754,15 @@ namespace SearchDataSPM
 
         private void savebttn_Click(object sender, EventArgs e)
         {
-
             Itemstodiscard.Clear();
             processsavebutton(false, "Normal");
-
-
         }
 
         void processsavebutton(bool validatehit, string typeofsave)
         {
             try
             {
-                // this.TopMost = false;
-
-                //Thread t = new Thread(new ThreadStart(Splashsaving));
                 bool done = false;
-                //ThreadPool.QueueUserWorkItem(delegate
-                //{
-                //    using (var splashForm = new Engineering.WaitFormSaving())
-                //    {
-                //        splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
-                //        splashForm.Show();
-                //        while (!done)
-                //            Application.DoEvents();
-                //        splashForm.Close();
-                //    }
-                //}, null);
                 ThreadPool.QueueUserWorkItem((x) =>
                 {
                     using (var splashForm = new Engineering.WaitFormSaving())
@@ -998,24 +975,6 @@ namespace SearchDataSPM
 
         private void updateorderid(int reqnumber)
         {
-            //using (SqlCommand sqlCommand = new SqlCommand("[SPM_Database].[dbo].[UpdateOrderId]", cn))
-            //{
-            //    try
-            //    {
-            //        cn.Open();
-            //        sqlCommand.CommandType = CommandType.StoredProcedure;
-            //        sqlCommand.Parameters.AddWithValue("@itemnumber", reqnumber);
-            //        sqlCommand.ExecuteNonQuery();
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        MessageBox.Show(ex.Message, "SPM Connect - Update Order Id", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //    }
-            //    finally
-            //    {
-            //        cn.Close();
-            //    }
-            //}
             using (SqlCommand sqlCommand = new SqlCommand("with cte as(select *, new_row_id = row_number() over(partition by ReqNumber order by ReqNumber)from[dbo].[PurchaseReq] where ReqNumber = @itemnumber)update cte set OrderId = new_row_id", cn))
             {
                 try

@@ -32,6 +32,7 @@ namespace SearchDataSPM
 		{
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ShippingHome));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.SPM = new System.Windows.Forms.Label();
             this.versionlabel = new System.Windows.Forms.Label();
@@ -90,7 +91,7 @@ namespace SearchDataSPM
             this.SPM.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SPM.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.SPM.Image = ((System.Drawing.Image)(resources.GetObject("SPM.Image")));
-            this.SPM.Location = new System.Drawing.Point(4, 7);
+            this.SPM.Location = new System.Drawing.Point(4, 9);
             this.SPM.Name = "SPM";
             this.SPM.Size = new System.Drawing.Size(198, 85);
             this.SPM.TabIndex = 114;
@@ -112,7 +113,6 @@ namespace SearchDataSPM
             this.versionlabel.TabIndex = 116;
             this.versionlabel.Text = "V7.6.1";
             this.TreeViewToolTip.SetToolTip(this.versionlabel, "SPM Connect V7.6.1");
-            this.versionlabel.DoubleClick += new System.EventHandler(this.versionlabel_DoubleClick);
             // 
             // Reload
             // 
@@ -242,9 +242,9 @@ namespace SearchDataSPM
             this.Shiptocomboxbox.FormattingEnabled = true;
             this.Shiptocomboxbox.Location = new System.Drawing.Point(6, 379);
             this.Shiptocomboxbox.Name = "Shiptocomboxbox";
-            this.Shiptocomboxbox.Size = new System.Drawing.Size(157, 21);
+            this.Shiptocomboxbox.Size = new System.Drawing.Size(165, 21);
             this.Shiptocomboxbox.TabIndex = 125;
-            this.TreeViewToolTip.SetToolTip(this.Shiptocomboxbox, "Filter by OEM item number");
+            this.TreeViewToolTip.SetToolTip(this.Shiptocomboxbox, "Filter by ship to");
             this.Shiptocomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Manufactureritemcomboxbox_KeyDown);
             // 
             // Salespersoncomboxbox
@@ -258,9 +258,9 @@ namespace SearchDataSPM
             this.Salespersoncomboxbox.FormattingEnabled = true;
             this.Salespersoncomboxbox.Location = new System.Drawing.Point(6, 230);
             this.Salespersoncomboxbox.Name = "Salespersoncomboxbox";
-            this.Salespersoncomboxbox.Size = new System.Drawing.Size(157, 21);
+            this.Salespersoncomboxbox.Size = new System.Drawing.Size(165, 21);
             this.Salespersoncomboxbox.TabIndex = 123;
-            this.TreeViewToolTip.SetToolTip(this.Salespersoncomboxbox, "Filter by family type");
+            this.TreeViewToolTip.SetToolTip(this.Salespersoncomboxbox, "Filter by sales person");
             this.Salespersoncomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.familycomboxbox_KeyDown);
             // 
             // lastsavedbycombo
@@ -274,7 +274,7 @@ namespace SearchDataSPM
             this.lastsavedbycombo.FormattingEnabled = true;
             this.lastsavedbycombo.Location = new System.Drawing.Point(6, 520);
             this.lastsavedbycombo.Name = "lastsavedbycombo";
-            this.lastsavedbycombo.Size = new System.Drawing.Size(157, 21);
+            this.lastsavedbycombo.Size = new System.Drawing.Size(165, 21);
             this.lastsavedbycombo.TabIndex = 127;
             this.TreeViewToolTip.SetToolTip(this.lastsavedbycombo, "Filter by last saved");
             this.lastsavedbycombo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lastsavedbycombo_KeyDown);
@@ -293,9 +293,9 @@ namespace SearchDataSPM
             "SPM AUTOMATION (Canada) INC."});
             this.Soldtocombobox.Location = new System.Drawing.Point(6, 304);
             this.Soldtocombobox.Name = "Soldtocombobox";
-            this.Soldtocombobox.Size = new System.Drawing.Size(157, 21);
+            this.Soldtocombobox.Size = new System.Drawing.Size(165, 21);
             this.Soldtocombobox.TabIndex = 124;
-            this.TreeViewToolTip.SetToolTip(this.Soldtocombobox, "Filter by manufacture");
+            this.TreeViewToolTip.SetToolTip(this.Soldtocombobox, "Filter by sold to");
             this.Soldtocombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.oemitemcombobox_KeyDown);
             // 
             // custvendcombobox
@@ -315,9 +315,9 @@ namespace SearchDataSPM
             "1 - Customer"});
             this.custvendcombobox.Location = new System.Drawing.Point(6, 594);
             this.custvendcombobox.Name = "custvendcombobox";
-            this.custvendcombobox.Size = new System.Drawing.Size(157, 21);
+            this.custvendcombobox.Size = new System.Drawing.Size(165, 21);
             this.custvendcombobox.TabIndex = 128;
-            this.TreeViewToolTip.SetToolTip(this.custvendcombobox, "Filter by current cad block number");
+            this.TreeViewToolTip.SetToolTip(this.custvendcombobox, "Filter by customer or vendor");
             this.custvendcombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ActiveCadblockcombobox_KeyDown);
             // 
             // Createdbycombobox
@@ -335,9 +335,9 @@ namespace SearchDataSPM
             "Joel Goldsmith"});
             this.Createdbycombobox.Location = new System.Drawing.Point(6, 153);
             this.Createdbycombobox.Name = "Createdbycombobox";
-            this.Createdbycombobox.Size = new System.Drawing.Size(157, 21);
+            this.Createdbycombobox.Size = new System.Drawing.Size(165, 21);
             this.Createdbycombobox.TabIndex = 122;
-            this.TreeViewToolTip.SetToolTip(this.Createdbycombobox, "Filter Designed by");
+            this.TreeViewToolTip.SetToolTip(this.Createdbycombobox, "Filter Created by");
             this.Createdbycombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.designedbycombobox_KeyDown);
             // 
             // CarrierscomboBox
@@ -351,9 +351,9 @@ namespace SearchDataSPM
             this.CarrierscomboBox.FormattingEnabled = true;
             this.CarrierscomboBox.Location = new System.Drawing.Point(6, 450);
             this.CarrierscomboBox.Name = "CarrierscomboBox";
-            this.CarrierscomboBox.Size = new System.Drawing.Size(157, 21);
+            this.CarrierscomboBox.Size = new System.Drawing.Size(165, 21);
             this.CarrierscomboBox.TabIndex = 126;
-            this.TreeViewToolTip.SetToolTip(this.CarrierscomboBox, "Filter by Material");
+            this.TreeViewToolTip.SetToolTip(this.CarrierscomboBox, "Filter by carrier");
             this.CarrierscomboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MaterialcomboBox_KeyDown);
             // 
             // addnewbttn
@@ -372,7 +372,7 @@ namespace SearchDataSPM
             this.addnewbttn.TabIndex = 122;
             this.addnewbttn.Text = "Add New";
             this.addnewbttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.TreeViewToolTip.SetToolTip(this.addnewbttn, "Create New Quote");
+            this.TreeViewToolTip.SetToolTip(this.addnewbttn, "Create New Invoice");
             this.addnewbttn.UseVisualStyleBackColor = false;
             this.addnewbttn.Click += new System.EventHandler(this.addnewbttn_Click);
             // 
@@ -439,7 +439,7 @@ namespace SearchDataSPM
             this.InvoiceItemsgrp.Size = new System.Drawing.Size(867, 201);
             this.InvoiceItemsgrp.TabIndex = 123;
             this.InvoiceItemsgrp.TabStop = false;
-            this.InvoiceItemsgrp.Text = "Invoice Items";
+            this.InvoiceItemsgrp.Text = "Showing items for InvoiceNo: ";
             // 
             // invoiceitemsdataGridView2
             // 
@@ -482,6 +482,14 @@ namespace SearchDataSPM
             this.dataGridView.BackgroundColor = System.Drawing.Color.LightPink;
             this.dataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.InvoiceNo,
@@ -662,7 +670,7 @@ namespace SearchDataSPM
             this.MinimumSize = new System.Drawing.Size(800, 650);
             this.Name = "ShippingHome";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "SPM Connect - Eng.";
+            this.Text = "SPM Connect - Shipping Manager";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SPM_Connect_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SPM_Connect_FormClosed);
             this.Load += new System.EventHandler(this.SPM_Connect_Load);

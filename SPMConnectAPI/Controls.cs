@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SPMConnectAPI
@@ -15,7 +9,6 @@ namespace SPMConnectAPI
         SqlConnection _connection;
         SqlConnection cn;
         SqlCommand _command;
-
 
         public void SPM_Connect(string connection)
         {
@@ -173,9 +166,7 @@ namespace SPMConnectAPI
                 _connection.Close();
             }
 
-        }
-
-     
+        }     
 
         public int CheckAutoCadforassy(string ItemNo, string description, string Manufacturer, string oem)
         {
