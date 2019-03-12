@@ -1,6 +1,5 @@
 ﻿using SPMConnectAPI;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -32,13 +31,15 @@ namespace SearchDataSPM
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "SPM Connect - SQL Connection Error Invoice Add items", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             connectapi.SPM_Connect(connection);
 
 
             _command = new SqlCommand();
         }
+
+        #region Setting Parameters
 
         public string invoicenumber(string number)
         {
@@ -60,12 +61,15 @@ namespace SearchDataSPM
                 return _operation = operation;
             return null;
         }
+
         public string itemnumber(string item)
         {
             if (item.Length > 0)
                 return _itemnumber = item;
             return null;
         }
+
+        #endregion
 
         private void QuoteDetails_Load(object sender, EventArgs e)
         {
@@ -78,10 +82,10 @@ namespace SearchDataSPM
                 {
                     Addnewbttn.Text = "Update";
                     Addnewbttn.Enabled = true;
-                    btnDelete.Enabled = true;
                     ItemsCombobox.Visible = false;
                     fillselectediteminfo(_itemnumber);
                     FillShippingItemInfo(_itemnumber, Invoice_Number, true);
+                    FillOriginTarriff(_itemnumber);
                 }
                 else
                 {
@@ -99,8 +103,8 @@ namespace SearchDataSPM
                     oemitemnotxt.ReadOnly = false;
                     Addnewbttn.Text = "Update";
                     Addnewbttn.Enabled = true;
-                    btnDelete.Enabled = true;
                     FillShippingItemInfo(_itemnumber, Invoice_Number, false);
+                    
                 }
                 else
                 {
@@ -124,31 +128,86 @@ namespace SearchDataSPM
             ItemsCombobox.DataSource = MyCollection;
         }
 
-        private void fillitemsourceonupdate(string item)
+        private void fillselectediteminfo(string item)
         {
-            DataTable dtsoldto = new DataTable();
-            dtsoldto.Clear();
-            dtsoldto = connectapi.GetCustomerSoldShipToInfo(item);
-            DataRow r = dtsoldto.Rows[0];
-            ItemTxtBox.Text = r["Nom"].ToString();
-            Descriptiontxtbox.Text = r["Nom"].ToString();
-            oemtxt.Text = r["Adresse"].ToString();
-            oemitemnotxt.Text = r["Ville"].ToString();
+            DataTable iteminfo = new DataTable();
+            iteminfo.Clear();
+            iteminfo = connectapi.GetIteminfo(item);
+            DataRow r = iteminfo.Rows[0];
+            ItemTxtBox.Text = r["ItemNumber"].ToString();
+            Descriptiontxtbox.Text = r["Description"].ToString();
+            oemtxt.Text = r["Manufacturer"].ToString();
+            oemitemnotxt.Text = r["ManufacturerItemNumber"].ToString();
+        }
 
+        private void FillShippingItemInfo(string item, string invoicenumber, bool vendor)
+        {
+            DataTable iteminfo = new DataTable();
+            iteminfo.Clear();
+            iteminfo = connectapi.GetShippingIteminfo(item, invoicenumber);
+            DataRow r = iteminfo.Rows[0];
+            if (!vendor)
+            {
+                ItemTxtBox.Text = r["Item"].ToString();
+                extractdescription(r["Description"].ToString());
+            }
+            qtytxt.Text = r["Qty"].ToString();
+            pricetxt.Text = string.Format("{0:c2}", Convert.ToDecimal(r["Cost"].ToString()));
+            origintxt.Text = r["Origin"].ToString();
+            tarifftxt.Text = r["TarriffCode"].ToString();
+            totaltxt.Text = string.Format("{0:c2}", Convert.ToDecimal(r["Total"].ToString()));
+
+
+        }
+
+        private void FillOriginTarriff(string item)
+        {
+            if(!(origintxt.Text.Length>0 || tarifftxt.Text.Length > 0))
+            {
+                DataTable iteminfo = new DataTable();
+                iteminfo.Clear();
+                iteminfo = connectapi.GetOriginTarriffFound(item);
+                DataRow r = iteminfo.Rows[0];
+                string price = string.Format("{0:c2}", Convert.ToDecimal(r["Cost"].ToString()));
+                string origin = r["Origin"].ToString();
+                string tariff = r["TarriffCode"].ToString();
+                if (price.Length > 0 || origin.Length > 0 || tariff.Length > 0)
+                {
+                    DialogResult result = MetroFramework.MetroMessageBox.Show(this, "System has found below values for the selected item. Would you like to use these values?" + Environment.NewLine +" Price = " + price +Environment.NewLine +
+                                            "Origin = " + origin + Environment.NewLine +
+                                            "Tarriff Code = " + tariff + Environment.NewLine + "", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (result == DialogResult.Yes)
+                    {
+                        pricetxt.Text = price;
+                        origintxt.Text = origin;
+                        tarifftxt.Text = tariff;
+                    }
+                    else
+                    {
+                        
+                    }
+                }
+
+                
+            }
+            
         }
 
         #endregion
 
         private void QuoteDetails_FormClosing(object sender, FormClosingEventArgs e)
         {
-            DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to close without saving changes?", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (result == DialogResult.Yes)
+            if (Descriptiontxtbox.Text.Length > 0 || origintxt.Text.Length > 0 || tarifftxt.Text.Length > 0)
             {
-                this.Dispose();
-            }
-            else
-            {
-                e.Cancel = (result == DialogResult.No);
+                DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to close without saving changes?", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    this.Dispose();
+                }
+                else
+                {
+                    e.Cancel = (result == DialogResult.No);
+                }
             }
 
         }
@@ -194,41 +253,8 @@ namespace SearchDataSPM
             {
                 string item = ItemsCombobox.Text.Trim().Substring(0, 6);
                 fillselectediteminfo(item);
+                FillOriginTarriff(item);
             }
-        }
-
-        private void fillselectediteminfo(string item)
-        {
-
-            DataTable iteminfo = new DataTable();
-            iteminfo.Clear();
-            iteminfo = connectapi.GetIteminfo(item);
-            DataRow r = iteminfo.Rows[0];
-            ItemTxtBox.Text = r["ItemNumber"].ToString();
-            Descriptiontxtbox.Text = r["Description"].ToString();
-            oemtxt.Text = r["Manufacturer"].ToString();
-            oemitemnotxt.Text = r["ManufacturerItemNumber"].ToString();
-
-        }
-
-        private void FillShippingItemInfo(string item, string invoicenumber, bool vendor)
-        {
-            DataTable iteminfo = new DataTable();
-            iteminfo.Clear();
-            iteminfo = connectapi.GetShippingIteminfo(item, invoicenumber);
-            DataRow r = iteminfo.Rows[0];
-            if (!vendor)
-            {
-                ItemTxtBox.Text = r["Item"].ToString();
-                extractdescription(r["Description"].ToString());
-            }
-
-            qtytxt.Text = r["Qty"].ToString();
-            pricetxt.Text = string.Format("{0:c2}", Convert.ToDecimal(r["Cost"].ToString()));
-            origintxt.Text = r["Origin"].ToString();
-            tarifftxt.Text = r["Tariff"].ToString();
-            totaltxt.Text = string.Format("{0:c2}", Convert.ToDecimal(r["Total"].ToString()));
-
         }
 
         void clearaddnewtextboxes()
@@ -246,8 +272,11 @@ namespace SearchDataSPM
             tarifftxt.Clear();
             Addnewbttn.Text = "Add";
             Addnewbttn.Enabled = false;
-            btnDelete.Enabled = false;
-            
+            if (_operation != "Update" && custvendor == "1")
+            {
+                ItemTxtBox.Text = "New item id will be generated on save";
+            }
+
         }
 
         private void pricetxt_TextChanged(object sender, EventArgs e)
@@ -333,9 +362,10 @@ namespace SearchDataSPM
                     }
                     else
                     {
-                        if (connectapi.InsertShippingItems(Invoice_Number, ItemTxtBox.Text.Trim(), Descriptiontxtbox.Text.Trim(), oemtxt.Text.Trim(), oemitemnotxt.Text.Trim(), origintxt.Text.Trim(), tarifftxt.Text.Trim(), qtytxt.Text.Trim(), result12, result11,Invoice_Number))
+                        if (connectapi.InsertShippingItems(Invoice_Number, ItemTxtBox.Text.Trim(), Descriptiontxtbox.Text.Trim(), oemtxt.Text.Trim(), oemitemnotxt.Text.Trim(), origintxt.Text.Trim(), tarifftxt.Text.Trim(), qtytxt.Text.Trim(), result12, result11, Invoice_Number))
                         {
                             clearaddnewtextboxes();
+                            ItemsCombobox.Text = null;
                         }
                     }
 
@@ -358,13 +388,6 @@ namespace SearchDataSPM
             }
         }
 
-        private void btnDelete_Click(object sender, EventArgs e)
-        {
-            connectapi.DeleteItemFromInvoice(Invoice_Number, _itemnumber);
-            clearaddnewtextboxes();
-            ItemsCombobox.Text = null;
-        }
-
         private void btnCancel_Click(object sender, EventArgs e)
         {
             formloading = true;
@@ -384,11 +407,66 @@ namespace SearchDataSPM
             }
         }
 
+        private void Descriptiontxtbox_TextChanged(object sender, EventArgs e)
+        {
+            if (Descriptiontxtbox.Text.Length > 0) Addnewbttn.Enabled = true;
+        }
+
         private void Descriptiontxtbox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
-                Addnewbttn.Enabled = true;
+                oemtxt.Focus();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private void oemtxt_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                oemitemnotxt.Focus();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private void oemitemnotxt_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                qtytxt.Focus();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private void qtytxt_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                pricetxt.Focus();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private void pricetxt_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                origintxt.Focus();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private void origintxt_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                tarifftxt.Focus();
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }

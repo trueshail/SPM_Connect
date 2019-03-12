@@ -258,6 +258,14 @@ namespace SearchDataSPM
                     {
                         priceno.Checked = true;
                     }
+                    if (dr["Shipping"].ToString().Equals("1"))
+                    {
+                        shipyes.Checked = true;
+                    }
+                    else
+                    {
+                        shipno.Checked = true;
+                    }
 
 
                 }
@@ -351,6 +359,9 @@ namespace SearchDataSPM
             priceyes.Enabled = true;
             priceno.Enabled = true;
 
+            shipyes.Enabled = true;
+            shipno.Enabled = true;
+
             supervisorcombox.Enabled = true;
             nametextbox.Text = "";
             cnclbttn.Visible = true;
@@ -390,6 +401,7 @@ namespace SearchDataSPM
                 "QuoteAccess = " + (quoteyes.Checked ? "Yes" : "No") + Environment.NewLine +
                 "PurchaseReq Access = " + (preqyes.Checked ? "Yes" : "No") + Environment.NewLine +
                 "Price Access = " + (priceyes.Checked ? "Yes" : "No") + Environment.NewLine +
+                 "Shipping Access = " + (shipyes.Checked ? "Yes" : "No") + Environment.NewLine +
                 "PurchaseReqAdmin = " + (papprovalchk.Checked ? "Yes" : "No") + Environment.NewLine +
                 "PurchaseReqHigher Approval = " + (papproval2chk.Checked ? "Yes" : "No") + Environment.NewLine +
                 "PurchaseReqBuyer = " + (pbuyerchk.Checked ? "Yes" : "No") + Environment.NewLine +
@@ -438,6 +450,8 @@ namespace SearchDataSPM
                     preqno.Checked = false;
                     priceyes.Checked = false;
                     priceno.Checked = false;
+                    shipyes.Checked = false;
+                    shipno.Checked = false;
 
                 }
                 catch (Exception ex)
@@ -480,6 +494,8 @@ namespace SearchDataSPM
             preqno.Enabled = true;
             priceyes.Enabled = true;
             priceno.Enabled = true;
+            shipyes.Enabled = true;
+            shipno.Enabled = true;
 
             supervisorcombox.Enabled = true;
             delbttn.Visible = false;
@@ -520,7 +536,8 @@ namespace SearchDataSPM
                "Developer = " + (DevradioButtonYes.Checked ? "Yes" : "No") + Environment.NewLine +
                "QuoteAccess = " + (quoteyes.Checked ? "Yes" : "No") + Environment.NewLine +
                "PurchaseReq Access = " + (preqyes.Checked ? "Yes" : "No") + Environment.NewLine +
-                "Price Access = " + (priceyes.Checked ? "Yes" : "No") + Environment.NewLine +
+               "Price Access = " + (priceyes.Checked ? "Yes" : "No") + Environment.NewLine +
+                "Shipping Access = " + (shipyes.Checked ? "Yes" : "No") + Environment.NewLine +
                "PurchaseReqAdmin = " + (papprovalchk.Checked ? "Yes" : "No") + Environment.NewLine +
                "PurchaseReqHigher Approval = " + (papproval2chk.Checked ? "Yes" : "No") + Environment.NewLine +
                "PurchaseReqBuyer = " + (pbuyerchk.Checked ? "Yes" : "No") + Environment.NewLine +
@@ -542,7 +559,7 @@ namespace SearchDataSPM
                 {
                     SqlCommand cmd = cn.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[Users] SET Department = '" + (engradio.Checked ? "Eng" : radioButton4.Checked ? "Controls" : "Production") + "',Admin = '" + (radioButton1.Checked ? "1" : "0") + "',Name = '" + nametextbox.Text + "',ActiveBlockNumber = '" + activeblocknumber + "',Developer = '" + (DevradioButtonYes.Checked ? "1" : "0") + "',Management = '" + (manageradioButtonyes.Checked ? "1" : "0") + "',Quote = '" + (quoteyes.Checked ? "1" : "0") + "',PurchaseReq = '" + (preqyes.Checked ? "1" : "0") + "',PurchaseReqApproval = '" + (papprovalchk.Checked ? "1" : "0") + "',PurchaseReqApproval2 = '" + (papproval2chk.Checked ? "1" : "0") + "',PurchaseReqBuyer = '" + (pbuyerchk.Checked ? "1" : "0") + "',Supervisor = '" + supervisorcombox.SelectedItem.ToString().Substring(0, 2) + "',Email = '" + useremailtxt.Text + "',PriceRight = '" + (priceyes.Checked ? "1" : "0") + "',SharesFolder = '" + sharepathtxt.Text + "' WHERE UserName = '" + domaintxtbox.Text + "' ";
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[Users] SET Department = '" + (engradio.Checked ? "Eng" : radioButton4.Checked ? "Controls" : "Production") + "',Admin = '" + (radioButton1.Checked ? "1" : "0") + "',Name = '" + nametextbox.Text + "',ActiveBlockNumber = '" + activeblocknumber + "',Developer = '" + (DevradioButtonYes.Checked ? "1" : "0") + "',Management = '" + (manageradioButtonyes.Checked ? "1" : "0") + "',Quote = '" + (quoteyes.Checked ? "1" : "0") + "',PurchaseReq = '" + (preqyes.Checked ? "1" : "0") + "',PurchaseReqApproval = '" + (papprovalchk.Checked ? "1" : "0") + "',PurchaseReqApproval2 = '" + (papproval2chk.Checked ? "1" : "0") + "',PurchaseReqBuyer = '" + (pbuyerchk.Checked ? "1" : "0") + "',Supervisor = '" + supervisorcombox.SelectedItem.ToString().Substring(0, 2) + "',Email = '" + useremailtxt.Text + "',PriceRight = '" + (priceyes.Checked ? "1" : "0") + "',Shipping = '" + (shipyes.Checked ? "1" : "0") + "',SharesFolder = '" + sharepathtxt.Text + "' WHERE UserName = '" + domaintxtbox.Text + "' ";
 
                     cmd.ExecuteNonQuery();
                     cn.Close();
@@ -573,6 +590,8 @@ namespace SearchDataSPM
                     preqno.Enabled = false;
                     priceyes.Enabled = false;
                     priceno.Enabled = false;
+                    shipyes.Enabled = false;
+                    shipno.Enabled = false;
 
                     supervisorcombox.Enabled = false;
                     nametextbox.ReadOnly = true;
@@ -623,6 +642,8 @@ namespace SearchDataSPM
                 preqno.Enabled = false;
                 priceyes.Enabled = false;
                 priceno.Enabled = false;
+                shipyes.Enabled = false;
+                shipno.Enabled = false;
 
 
                 supervisorcombox.Enabled = false;
@@ -652,7 +673,8 @@ namespace SearchDataSPM
                "Developer = " + (DevradioButtonYes.Checked ? "Yes" : "No") + Environment.NewLine +
                "QuoteAccess = " + (quoteyes.Checked ? "Yes" : "No") + Environment.NewLine +
                "PurchaseReq Access = " + (preqyes.Checked ? "Yes" : "No") + Environment.NewLine +
-                "Price Access = " + (priceyes.Checked ? "Yes" : "No") + Environment.NewLine +
+               "Price Access = " + (priceyes.Checked ? "Yes" : "No") + Environment.NewLine +
+                "Shipping Access = " + (shipyes.Checked ? "Yes" : "No") + Environment.NewLine +
                "PurchaseReqAdmin = " + (papprovalchk.Checked ? "Yes" : "No") + Environment.NewLine +
                "PurchaseReqHigher Approval = " + (papproval2chk.Checked ? "Yes" : "No") + Environment.NewLine +
                "PurchaseReqBuyer = " + (pbuyerchk.Checked ? "Yes" : "No") + Environment.NewLine +
@@ -674,7 +696,7 @@ namespace SearchDataSPM
                 {
                     SqlCommand cmd = cn.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Users] VALUES('" + domaintxtbox.Text + "','" + (engradio.Checked ? "Eng" : radioButton4.Checked ? "Controls" : "Production") + "','" + nametextbox.Text + "','" + activeblocknumber + "','" + (radioButton1.Checked ? "1" : "0") + "','" + (DevradioButtonYes.Checked ? "1" : "0") + "','" + (manageradioButtonyes.Checked ? "1" : "0") + "','" + (quoteyes.Checked ? "1" : "0") + "','" + (preqyes.Checked ? "1" : "0") + "','" + (papprovalchk.Checked ? "1" : "0") + "','" + (papproval2chk.Checked ? "1" : "0") + "','" + (pbuyerchk.Checked ? "1" : "0") + "','" + supervisorcombox.SelectedItem.ToString().Substring(0, 2).TrimEnd() + "','" + useremailtxt.Text + "','" + (priceyes.Checked ? "1" : "0") + "','" + sharepathtxt.Text + "')";
+                    cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Users] VALUES('" + domaintxtbox.Text + "','" + (engradio.Checked ? "Eng" : radioButton4.Checked ? "Controls" : "Production") + "','" + nametextbox.Text + "','" + activeblocknumber + "','" + (radioButton1.Checked ? "1" : "0") + "','" + (DevradioButtonYes.Checked ? "1" : "0") + "','" + (manageradioButtonyes.Checked ? "1" : "0") + "','" + (quoteyes.Checked ? "1" : "0") + "','" + (preqyes.Checked ? "1" : "0") + "','" + (papprovalchk.Checked ? "1" : "0") + "','" + (papproval2chk.Checked ? "1" : "0") + "','" + (pbuyerchk.Checked ? "1" : "0") + "','" + supervisorcombox.SelectedItem.ToString().Substring(0, 2).TrimEnd() + "','" + useremailtxt.Text + "','" + (priceyes.Checked ? "1" : "0") + "','" + (shipyes.Checked ? "1" : "0") + "','" + sharepathtxt.Text + "')";
                     cmd.ExecuteNonQuery();
                     cn.Close();
                     MessageBox.Show("New user added successfully", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -704,6 +726,8 @@ namespace SearchDataSPM
                     preqno.Enabled = false;
                     priceyes.Enabled = false;
                     priceno.Enabled = false;
+                    shipyes.Enabled = false;
+                    shipno.Enabled = false;
 
 
                     supervisorcombox.Enabled = false;
@@ -751,6 +775,8 @@ namespace SearchDataSPM
 
                 priceyes.Enabled = false;
                 priceno.Enabled = false;
+                shipyes.Enabled = false;
+                shipno.Enabled = false;
 
                 supervisorcombox.Enabled = false;
                 nametextbox.Text = "";
@@ -794,6 +820,8 @@ namespace SearchDataSPM
 
             priceyes.Enabled = false;
             priceno.Enabled = false;
+            shipyes.Enabled = false;
+            shipno.Enabled = false;
 
             supervisorcombox.Enabled = false;
             // nametextbox.Text = "";

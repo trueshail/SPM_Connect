@@ -68,13 +68,15 @@ namespace SearchDataSPM
 
             if (connectapi.CheckManagement())
             {
-                CreateFolderButton.Visible = true;
+                CreateFolderBttn.Visible = true;
+                CreateFolderBttn.Enabled = true;
                 contextMenuStrip1.Items[3].Enabled = true;
                 contextMenuStrip1.Items[3].Visible = true;
             }
             else
             {
-                CreateFolderButton.Visible = false;
+                CreateFolderBttn.Visible = false;
+                CreateFolderBttn.Enabled = true;
                 contextMenuStrip1.Items[3].Enabled = false;
                 contextMenuStrip1.Items[3].Visible = false;
             }
@@ -97,6 +99,17 @@ namespace SearchDataSPM
             {
                 quotebttn.Enabled = false;
                 quotebttn.Visible = false;
+            }
+
+            if (connectapi.checkShippingrights())
+            {
+                shippingbttn.Enabled = true;
+                shippingbttn.Visible = true;
+            }
+            else
+            {
+                shippingbttn.Enabled = false;
+                shippingbttn.Visible = false;
             }
 
         }
@@ -987,42 +1000,54 @@ namespace SearchDataSPM
             {
                 ValueIWantFromProptForm = jobtype.ValueIWant;
             }
-            new Thread(() => new Engineering.WaitFormCreatingFolders().ShowDialog()).Start();
-            Thread.Sleep(2000);
-            string destpatheng = "";
-            string destpaths300 = "";
-            string sourcepathseng = "";
-            string sourcepaths300 = "";
+           
+            if (ValueIWantFromProptForm.Length > 0)
+            {
+                new Thread(() => new Engineering.WaitFormCreatingFolders().ShowDialog()).Start();
+                Thread.Sleep(2000);
+                string destpatheng = "";
+                string destpaths300 = "";
+                string sourcepathseng = "";
+                string sourcepaths300 = "";
+                if (ValueIWantFromProptForm == "project")
+                {
+                    sourcepathseng = connectapi.GetProjectEngSp();
+                    destpatheng = connectapi.GetProjectEngDp() + jobnumber + "_" + customer + "_" + jobdescription;
+                    createnewentry(getjob(), getbomitem(), destpatheng, false);
+                    sourcepaths300 = connectapi.GetProjectSalesSp();
+                    destpaths300 = connectapi.GetProjectSalesDp() + jobnumber + "_" + customer + "_" + jobdescription;
+                }
+                else if (ValueIWantFromProptForm == "spare")
+                {
+                    sourcepathseng = connectapi.GetSpareEngSp();
+                    destpatheng = connectapi.GetSpareEngDp() + jobnumber + "_" + customer + "_Spare Parts" + "_" + jobdescription;
+                    sourcepaths300 = connectapi.GetSpareSalesSp();
+                    destpaths300 = connectapi.GetSpareSalesDp() + salesorder + "_" + customer + "_Spare Parts" + "_" + jobdescription;
+                }
+                else if (ValueIWantFromProptForm == "service")
+                {
+                    sourcepathseng = connectapi.GetServiceEngSp();
+                    destpatheng = connectapi.GetServiceEngDp() + jobnumber + "_" + customer + "_Service" + "_" + jobdescription;
+                    sourcepaths300 = connectapi.GetServiceSalesSp();
+                    destpaths300 = connectapi.GetServiceSalesDp() + salesorder + "_" + customer + "_Service" + "_" + jobdescription;
+                }
+                if(ValueIWantFromProptForm == "project" || ValueIWantFromProptForm == "spare" || ValueIWantFromProptForm == "service")
+                {
+                    DirectoryCopy(sourcepathseng, destpatheng, true);
+                    DirectoryCopy(sourcepaths300, destpaths300, true);
+                }
+                Engineering.WaitFormCreatingFolders f = new Engineering.WaitFormCreatingFolders();
+                f = (Engineering.WaitFormCreatingFolders)Application.OpenForms["WaitFormCreatingFolders"];
+                f.Invoke(new ThreadStart(delegate { f.Close(); }));
+                MessageBox.Show("Job folders created sucessfully!.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MetroFramework.MetroMessageBox.Show(this, "Job type selection was not made. System cannot create folders for the selected job.", "SPM Connect - Create New Folders", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+          
 
-            if (ValueIWantFromProptForm == "project")
-            {
-                sourcepathseng = connectapi.GetProjectEngSp();
-                destpatheng = connectapi.GetProjectEngDp() + jobnumber + "_" + customer + "_" + jobdescription;
-                createnewentry(getjob(), getbomitem(), destpatheng, false);
-                sourcepaths300 = connectapi.GetProjectSalesSp();
-                destpaths300 = connectapi.GetProjectSalesDp() + jobnumber + "_" + customer + "_" + jobdescription;
-            }
-            else if (ValueIWantFromProptForm == "spare")
-            {
-                sourcepathseng = connectapi.GetSpareEngSp();
-                destpatheng = connectapi.GetSpareEngDp() + jobnumber + "_" + customer + "_Spare Parts" + "_" + jobdescription;
-                sourcepaths300 = connectapi.GetSpareSalesSp();
-                destpaths300 = connectapi.GetSpareSalesDp() + salesorder + "_" + customer + "_Spare Parts" + "_" + jobdescription;
-            }
-            else if (ValueIWantFromProptForm == "service")
-            {
-                sourcepathseng = connectapi.GetServiceEngSp();
-                destpatheng = connectapi.GetServiceEngDp() + jobnumber + "_" + customer + "_Service" + "_" + jobdescription;
-                sourcepaths300 = connectapi.GetServiceSalesSp();
-                destpaths300 = connectapi.GetServiceSalesDp() + salesorder + "_" + customer + "_Service" + "_" + jobdescription;
-            }
-            DirectoryCopy(sourcepathseng, destpatheng, true);
-            DirectoryCopy(sourcepaths300, destpaths300, true);
-
-            Engineering.WaitFormCreatingFolders f = new Engineering.WaitFormCreatingFolders();
-            f = (Engineering.WaitFormCreatingFolders)Application.OpenForms["WaitFormCreatingFolders"];
-            f.Invoke(new ThreadStart(delegate { f.Close(); }));
-            MessageBox.Show("Job folders created sucessfully!.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+           
             Cursor.Current = Cursors.Default;
             this.Enabled = true;
         }
@@ -1191,11 +1216,6 @@ namespace SearchDataSPM
 
         #region Quotes
 
-        private void quotebttn_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void quotebttn_Click_1(object sender, EventArgs e)
         {
             General.SPM_ConnectQuoteManagement quoteTracking = new General.SPM_ConnectQuoteManagement();
@@ -1203,6 +1223,12 @@ namespace SearchDataSPM
         }
 
         #endregion
+
+        private void shippingbttn_Click(object sender, EventArgs e)
+        {
+            ShippingHome shipping = new ShippingHome();
+            shipping.Show();
+        }
     }
 }
 

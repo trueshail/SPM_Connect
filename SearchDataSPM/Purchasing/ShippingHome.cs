@@ -1131,13 +1131,14 @@ namespace SearchDataSPM
                 invoiceDetails.ShowDialog();
                 invoiceDetails.Dispose();
                 Showallitems();
+                FillInvoiceItems();
                 this.Show();
                 this.Activate();
                 this.Focus();
             }
         }        
 
-        private String getselectedinvoicenumber()
+        private string getselectedinvoicenumber()
         {
             string item;
             if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)

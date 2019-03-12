@@ -196,7 +196,7 @@ namespace SPMConnectAPI
         {
             DataTable dt = new DataTable();
 
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[CustomersShipTo] WHERE [Nom] = '" + name + "'", cn))
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[CustomersShipTo] WHERE [Nom] = '" + name.Replace("'", "''") + "'", cn))
             {
                 try
                 {
@@ -224,7 +224,7 @@ namespace SPMConnectAPI
         {
             DataTable dt = new DataTable();
 
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[VendorsShipTo] WHERE [Name] = '" + name + "'", cn))
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[VendorsShipTo] WHERE [Name] = '" + name.Replace("'", "''") + "'", cn))
             {
                 try
                 {
@@ -280,7 +280,7 @@ namespace SPMConnectAPI
         {
             DataTable dt = new DataTable();
 
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[ShippingItems] WHERE [Item] = '" + itemnumber + "' and [InvoiceNo] = '"+invoicenumber+"'", cn))
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[ShippingItems] WHERE [Item] = '" + itemnumber + "' and [InvoiceNo] = '" + invoicenumber + "'", cn))
             {
                 try
                 {
@@ -294,6 +294,34 @@ namespace SPMConnectAPI
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "SPM Connect - Get Item Information from shippingbase", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+            return dt;
+        }
+
+        public DataTable GetOriginTarriffFound(string itemnumber)
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT TOP (1) * FROM [SPM_Database].[dbo].[ShippingItems] WHERE [Item] = '" + itemnumber + "'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Item Tarriff and origin from shippingbase", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -398,7 +426,7 @@ namespace SPMConnectAPI
             }
         }
 
-        public bool DeleteItemFromInvoice(string invoicenumber,string itemnumber)
+        public bool DeleteItemFromInvoice(string invoicenumber, string itemnumber)
         {
             bool done = false;
 
@@ -410,12 +438,12 @@ namespace SPMConnectAPI
                 SqlCommand sda = new SqlCommand(query, cn);
                 sda.ExecuteNonQuery();
                 cn.Close();
-                
+
                 done = true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show( ex.Message, "SPM Connect - Remove Item from Invoice", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "SPM Connect - Remove Item from Invoice", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -724,6 +752,37 @@ namespace SPMConnectAPI
 
         }
 
+        public AutoCompleteStringCollection FillRequistioner()
+        {
+            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT [Requistioner] from [dbo].[ShippingBaseWithNames] where [Requistioner] is not null order by [Requistioner]", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        MyCollection.Add(reader.GetString(0));
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Fill FOB Point To Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+
+            return MyCollection;
+
+        }
+
         public AutoCompleteStringCollection FillitemsShip()
         {
             AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
@@ -754,7 +813,7 @@ namespace SPMConnectAPI
 
         }
 
-        public bool  UpdateInvoiceDetsToSql(string inovicenumber, string jobnumber, string salesperson, string requestedby, string carrier, string collectprepaid, string fobpoint, string terms, string currency, string total, string soldto, string shipto, string notes)
+        public bool UpdateInvoiceDetsToSql(string inovicenumber, string jobnumber, string salesperson, string requestedby, string carrier, string collectprepaid, string fobpoint, string terms, string currency, string total, string soldto, string shipto, string notes)
         {
             bool success = false;
             string username = getuserfullname();
@@ -768,14 +827,14 @@ namespace SPMConnectAPI
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "UPDATE [SPM_Database].[dbo].[ShippingBase] SET [DateLastSaved] = '" + sqlFormattedDate + "',[LastSavedBy] = '" + username + "',[JobNumber] = '" + jobnumber + "',[SalesPerson] = '" + salesperson + "',[Requistioner] = '" + requestedby + "',[Carrier] = '" + carrier + "',[Collect_Prepaid] = '" + collectprepaid + "',[FobPoint] = '" + fobpoint + "',[Terms] = '" + terms + "',[Currency] = '" + currency + "',[Total] =  '" + total + "',[SoldTo] = '" + soldto + "',[ShipTo] = '" + shipto + "',[Notes] = '" + notes + "' WHERE [InvoiceNo] = '" + inovicenumber + "' ";
 
-               
+
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 success = true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show( ex.Message, "SPM Connect Invoice Details - Update", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "SPM Connect Invoice Details - Update", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -787,14 +846,14 @@ namespace SPMConnectAPI
         public bool UpdateShippingItems(string inovicenumber, string itemnumber, string Description1, string Description2, string Description3, string origin, string tariff, string qty, decimal cost, decimal total)
         {
             bool success = false;
-            
+
             if (cn.State == ConnectionState.Closed)
                 cn.Open();
             try
             {
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "UPDATE [SPM_Database].[dbo].[ShippingItems] SET [Description] = '" + Description1 + ",'+ CHAR(10) + '"+Description2+ ",'+ CHAR(10) +'"+Description3+",',[Origin] = '" + origin + "',[Tariff] = '" + tariff + "',[Qty] = '" + qty + "',[Cost] = '" + cost + "',[Total] = '" + total + "' WHERE [InvoiceNo] = '" + inovicenumber + "' AND Item = '"+itemnumber+"' ";
+                cmd.CommandText = "UPDATE [SPM_Database].[dbo].[ShippingItems] SET [Description] = '" + Description1 + ",'+ CHAR(10) + '" + Description2 + ",'+ CHAR(10) +'" + Description3 + ",',[Origin] = '" + origin + "',[TarriffCode] = '" + tariff + "',[Qty] = '" + qty + "',[Cost] = '" + cost + "',[Total] = '" + total + "' WHERE [InvoiceNo] = '" + inovicenumber + "' AND Item = '" + itemnumber + "' ";
 
 
                 cmd.ExecuteNonQuery();
@@ -812,12 +871,12 @@ namespace SPMConnectAPI
             return success;
         }
 
-        public bool InsertShippingItems(string inovicenumber, string itemnumber, string Description1, string Description2, string Description3, string origin, string tariff, string qty, decimal cost, decimal total,string invoice)
+        public bool InsertShippingItems(string inovicenumber, string itemnumber, string Description1, string Description2, string Description3, string origin, string tariff, string qty, decimal cost, decimal total, string invoice)
         {
             bool success = false;
             if (itemnumber.Length > 0)
             {
-               
+
             }
             else
             {
@@ -830,7 +889,7 @@ namespace SPMConnectAPI
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[ShippingItems] (Item, Description, Origin, Tariff, Qty, Cost,Total, InvoiceNo, OrderId) VALUES('" + itemnumber + "','" + Description1 + ",'+ CHAR(10) + '" + Description2 + ",'+ CHAR(10) +'" + Description3 + ",','" + origin + "','" + tariff + "','" + qty + "','" + cost + "','" + total + "','" + invoice + "','1')";
+                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[ShippingItems] (Item, Description, Origin, TarriffCode, Qty, Cost,Total, InvoiceNo, OrderId) VALUES('" + itemnumber + "','" + Description1 + ",'+ CHAR(10) + '" + Description2 + ",'+ CHAR(10) +'" + Description3 + ",','" + origin + "','" + tariff + "','" + qty + "','" + cost + "','" + total + "','" + invoice + "','1')";
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 success = true;
@@ -857,7 +916,7 @@ namespace SPMConnectAPI
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT MAX([Item]) + 1 as NextQuoteNo FROM [SPM_Database].[dbo].[ShippingItems] where substring(Item, 1, 3)  =  'CST'";
+                cmd.CommandText = "SELECT MAX(substring(Item, 3, 10)) + 1 as NextQuoteNo FROM [SPM_Database].[dbo].[ShippingItems] where substring(Item, 1, 2)  =  'CT'";
                 cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -879,9 +938,13 @@ namespace SPMConnectAPI
             {
                 cn.Close();
             }
-            if(newcustitemid == "")
+            if (newcustitemid == "")
             {
-                newcustitemid = "CST00001";
+                newcustitemid = "CT1001";
+            }
+            else
+            {
+                newcustitemid = "CT" + newcustitemid;
             }
 
             return newcustitemid;

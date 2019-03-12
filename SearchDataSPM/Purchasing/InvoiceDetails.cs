@@ -5,7 +5,6 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
@@ -23,7 +22,7 @@ namespace SearchDataSPM
         string soldtoid = "";
         bool formloading = false;
         SPMConnectAPI.Shipping connectapi = new Shipping();
-       
+
         public InvoiceDetails()
         {
             InitializeComponent();
@@ -58,20 +57,21 @@ namespace SearchDataSPM
 
         private void QuoteDetails_Load(object sender, EventArgs e)
         {
-            formloading = true;          
+            formloading = true;
 
             this.Text = "Invoice Details - " + Invoice_Number;
             FillFobPoint();
             FillSalesPerson();
             FillCarriers();
             FillTerms();
+            FillRequistioners();
 
             if (GetShippingBaseInfo(Invoice_Number))
             {
                 FillShippingBaseInfo();
                 processeditbutton();
                 PopulateDataGridView(Invoice_Number);
-               
+
             }
 
             formloading = false;
@@ -122,7 +122,7 @@ namespace SearchDataSPM
 
             LastSavedBy.Text = "Last Saved On : " + r["DateLastSaved"].ToString();
 
-           
+
 
             string vendorcust = r["Vendor_Cust"].ToString();
             if (r["Vendor_Cust"].ToString() == "1")
@@ -346,6 +346,13 @@ namespace SearchDataSPM
             Carriercombox.DataSource = MyCollection;
         }
 
+        private void FillRequistioners()
+        {
+            AutoCompleteStringCollection MyCollection = connectapi.FillRequistioner();
+            requestcomboBox.AutoCompleteCustomSource = MyCollection;
+            requestcomboBox.DataSource = MyCollection;
+        }
+
         #endregion
 
         private bool PopulateDataGridView(string invoicenumber)
@@ -437,25 +444,20 @@ namespace SearchDataSPM
         private void graballinfor()
         {
             list.Clear();
-           
+
             list.Add(invoicetxtbox.Text);
-            list.Add(jobtxt.Text);
-            list.Add(Salespersoncombobox.Text);
-            list.Add(requestcomboBox.Text);
-            list.Add(Carriercombox.Text);
-            list.Add(collectchkbox.Checked?"0":"1");
-            list.Add(FOBPointcombox.Text);
-            list.Add(Termscombobox.Text);
-            list.Add(currencycombox.Text);
-            list.Add("500");
+            list.Add(jobtxt.Text.Replace("'", "''"));
+            list.Add(Salespersoncombobox.Text.Replace("'", "''"));
+            list.Add(requestcomboBox.Text.Replace("'", "''"));
+            list.Add(Carriercombox.Text.Replace("'", "''"));
+            list.Add(collectchkbox.Checked ? "0" : "1");
+            list.Add(FOBPointcombox.Text.Replace("'", "''"));
+            list.Add(Termscombobox.Text.Replace("'", "''"));
+            list.Add(currencycombox.Text.Replace("'", "''"));
+            list.Add(totalvalue);
             list.Add(soldtoid);
             list.Add(shiptoid);
-            list.Add(notestxt.Text);
-
-            for (int i = 0; i < list.Count; i++)
-            {
-                list[i] = list[i].Replace("'", "''");
-            }
+            list.Add(notestxt.Text.Replace("'", "''"));
 
         }
 
@@ -470,17 +472,17 @@ namespace SearchDataSPM
             this.Enabled = false;
             perfromlockdown();
             graballinfor();
-            if(connectapi.UpdateInvoiceDetsToSql(list[0].ToString(), list[1].ToString(), list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(), list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(), list[10].ToString(), list[11].ToString(), list[12].ToString()))
+            if (connectapi.UpdateInvoiceDetsToSql(list[0].ToString(), list[1].ToString(), list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(), list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(), list[10].ToString(), list[11].ToString(), list[12].ToString()))
             {
                 if (GetShippingBaseInfo(list[0].ToString()))
                 {
                     FillShippingBaseInfo();
                 }
             }
-          
+
             this.Enabled = true;
             Cursor.Current = Cursors.Default;
-            
+
         }
 
         #endregion
@@ -509,9 +511,11 @@ namespace SearchDataSPM
 
         #region Calculate Total
 
+        string totalvalue = "";
+
         void calculatetotal()
         {
-            
+            totalvalue = "";
             if (dataGridView1.Rows.Count > 0)
             {
                 decimal total = 0.00m;
@@ -530,6 +534,7 @@ namespace SearchDataSPM
                         }
                         total += price;
                         totalcostlbl.Text = "Total Cost : $" + string.Format("{0:n}", Convert.ToDecimal(total.ToString()));
+                        totalvalue = string.Format("{0:#.00}", total.ToString());
                     }
 
                     catch (Exception ex)
@@ -713,12 +718,12 @@ namespace SearchDataSPM
                 this.Enabled = true;
                 this.Show();
                 this.Activate();
-                this.Focus();                
+                this.Focus();
             }
 
         }
 
-        private String getselecteditemnumber()
+        private string getselecteditemnumber()
         {
             string item;
             if (dataGridView1.SelectedRows.Count == 1 || dataGridView1.SelectedCells.Count == 1)
@@ -726,7 +731,6 @@ namespace SearchDataSPM
                 int selectedrowindex = dataGridView1.SelectedCells[0].RowIndex;
                 DataGridViewRow slectedrow = dataGridView1.Rows[selectedrowindex];
                 item = Convert.ToString(slectedrow.Cells[2].Value);
-                //MessageBox.Show(item);
                 return item;
             }
             else
@@ -737,7 +741,7 @@ namespace SearchDataSPM
         }
 
         private void addItemToolStripMenuItem_Click(object sender, EventArgs e)
-        {          
+        {
             using (InvoiceAddItem invoiceAddItem = new InvoiceAddItem())
             {
                 this.Enabled = false;
@@ -752,7 +756,7 @@ namespace SearchDataSPM
                 this.Enabled = true;
                 this.Show();
                 this.Activate();
-                this.Focus();               
+                this.Focus();
             }
         }
 
@@ -762,8 +766,14 @@ namespace SearchDataSPM
             {
                 connectapi.UpdateShippingItemsOrderId(Invoice_Number);
                 PopulateDataGridView(Invoice_Number);
-                
+
             }
+        }
+
+        private void dataGridView1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            if(dataGridView1.Rows.Count>0)
+            PrintToolStrip.Enabled = true;
         }
     }
 }

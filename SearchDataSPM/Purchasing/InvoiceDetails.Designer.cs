@@ -32,7 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InvoiceDetails));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.Costlbl = new System.Windows.Forms.Label();
+            this.commentslbl = new System.Windows.Forms.Label();
             this.notestxt = new System.Windows.Forms.TextBox();
             this.invoicelbl = new System.Windows.Forms.Label();
             this.invoicetxtbox = new System.Windows.Forms.TextBox();
@@ -99,6 +99,9 @@
             this.LastSavedOn = new System.Windows.Forms.ToolStripStatusLabel();
             this.LastSavedBy = new System.Windows.Forms.ToolStripStatusLabel();
             this.VendorCust = new System.Windows.Forms.ToolStripStatusLabel();
+            this.PrintToolStrip = new System.Windows.Forms.ToolStripSplitButton();
+            this.print2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.print1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.FormSelector = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -113,33 +116,33 @@
             this.FormSelector.SuspendLayout();
             this.SuspendLayout();
             // 
-            // Costlbl
+            // commentslbl
             // 
-            this.Costlbl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.Costlbl.AutoSize = true;
-            this.Costlbl.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.Costlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Costlbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.Costlbl.Location = new System.Drawing.Point(6, 624);
-            this.Costlbl.Name = "Costlbl";
-            this.Costlbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.Costlbl.Size = new System.Drawing.Size(111, 13);
-            this.Costlbl.TabIndex = 100;
-            this.Costlbl.Text = "Comments/Notes :";
+            this.commentslbl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.commentslbl.AutoSize = true;
+            this.commentslbl.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.commentslbl.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.commentslbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.commentslbl.Location = new System.Drawing.Point(6, 623);
+            this.commentslbl.Name = "commentslbl";
+            this.commentslbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.commentslbl.Size = new System.Drawing.Size(92, 15);
+            this.commentslbl.TabIndex = 100;
+            this.commentslbl.Text = "Comments/Notes :";
             // 
             // notestxt
             // 
             this.notestxt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.notestxt.BackColor = System.Drawing.Color.White;
             this.notestxt.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.notestxt.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.notestxt.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.notestxt.Location = new System.Drawing.Point(3, 638);
             this.notestxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.notestxt.Multiline = true;
             this.notestxt.Name = "notestxt";
             this.notestxt.ReadOnly = true;
             this.notestxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.notestxt.Size = new System.Drawing.Size(568, 49);
+            this.notestxt.Size = new System.Drawing.Size(593, 48);
             this.notestxt.TabIndex = 12;
             this.TreeViewToolTip.SetToolTip(this.notestxt, "Notes or comments for invoice");
             // 
@@ -219,7 +222,7 @@
             this.prepaidchkbox.Location = new System.Drawing.Point(86, 46);
             this.prepaidchkbox.Name = "prepaidchkbox";
             this.prepaidchkbox.Size = new System.Drawing.Size(75, 20);
-            this.prepaidchkbox.TabIndex = 6;
+            this.prepaidchkbox.TabIndex = 10;
             this.prepaidchkbox.Text = "Prepaid";
             this.prepaidchkbox.UseVisualStyleBackColor = true;
             this.prepaidchkbox.CheckedChanged += new System.EventHandler(this.prepaidchkbox_CheckedChanged);
@@ -230,7 +233,7 @@
             this.collectchkbox.Location = new System.Drawing.Point(12, 46);
             this.collectchkbox.Name = "collectchkbox";
             this.collectchkbox.Size = new System.Drawing.Size(68, 20);
-            this.collectchkbox.TabIndex = 5;
+            this.collectchkbox.TabIndex = 11;
             this.collectchkbox.Text = "Collect";
             this.collectchkbox.UseVisualStyleBackColor = true;
             this.collectchkbox.CheckedChanged += new System.EventHandler(this.collectchkbox_CheckedChanged);
@@ -248,7 +251,7 @@
             this.FOBPointcombox.Location = new System.Drawing.Point(440, 45);
             this.FOBPointcombox.Name = "FOBPointcombox";
             this.FOBPointcombox.Size = new System.Drawing.Size(226, 21);
-            this.FOBPointcombox.TabIndex = 6;
+            this.FOBPointcombox.TabIndex = 8;
             this.TreeViewToolTip.SetToolTip(this.FOBPointcombox, "FOB Point");
             // 
             // currencycombox
@@ -265,7 +268,7 @@
             this.currencycombox.Location = new System.Drawing.Point(262, 46);
             this.currencycombox.Name = "currencycombox";
             this.currencycombox.Size = new System.Drawing.Size(76, 21);
-            this.currencycombox.TabIndex = 7;
+            this.currencycombox.TabIndex = 9;
             this.TreeViewToolTip.SetToolTip(this.currencycombox, "Currency");
             // 
             // Termscombobox
@@ -281,7 +284,7 @@
             this.Termscombobox.Location = new System.Drawing.Point(440, 13);
             this.Termscombobox.Name = "Termscombobox";
             this.Termscombobox.Size = new System.Drawing.Size(226, 21);
-            this.Termscombobox.TabIndex = 4;
+            this.Termscombobox.TabIndex = 5;
             this.TreeViewToolTip.SetToolTip(this.Termscombobox, "Terms or conditions");
             // 
             // requestcomboBox
@@ -297,7 +300,7 @@
             this.requestcomboBox.Location = new System.Drawing.Point(783, 44);
             this.requestcomboBox.Name = "requestcomboBox";
             this.requestcomboBox.Size = new System.Drawing.Size(202, 21);
-            this.requestcomboBox.TabIndex = 11;
+            this.requestcomboBox.TabIndex = 7;
             this.TreeViewToolTip.SetToolTip(this.requestcomboBox, "Requested by");
             // 
             // Salespersoncombobox
@@ -313,7 +316,7 @@
             this.Salespersoncombobox.Location = new System.Drawing.Point(783, 12);
             this.Salespersoncombobox.Name = "Salespersoncombobox";
             this.Salespersoncombobox.Size = new System.Drawing.Size(202, 21);
-            this.Salespersoncombobox.TabIndex = 4;
+            this.Salespersoncombobox.TabIndex = 6;
             this.TreeViewToolTip.SetToolTip(this.Salespersoncombobox, "Sales Person");
             // 
             // Carriercombox
@@ -457,6 +460,7 @@
             this.sld2fax.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.sld2fax.Size = new System.Drawing.Size(308, 20);
             this.sld2fax.TabIndex = 77;
+            this.sld2fax.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.sld2fax, "Sold to Fax");
             // 
             // sld2zip
@@ -474,6 +478,7 @@
             this.sld2zip.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.sld2zip.Size = new System.Drawing.Size(308, 20);
             this.sld2zip.TabIndex = 75;
+            this.sld2zip.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.sld2zip, "Sold to Postal Code");
             // 
             // sld2phone
@@ -491,6 +496,7 @@
             this.sld2phone.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.sld2phone.Size = new System.Drawing.Size(308, 20);
             this.sld2phone.TabIndex = 76;
+            this.sld2phone.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.sld2phone, "Sold to Contact");
             // 
             // sld2country
@@ -508,6 +514,7 @@
             this.sld2country.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.sld2country.Size = new System.Drawing.Size(308, 20);
             this.sld2country.TabIndex = 74;
+            this.sld2country.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.sld2country, "Sold to Country");
             // 
             // sld2city
@@ -525,6 +532,7 @@
             this.sld2city.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.sld2city.Size = new System.Drawing.Size(308, 20);
             this.sld2city.TabIndex = 72;
+            this.sld2city.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.sld2city, "Sold to City");
             // 
             // sld2province
@@ -542,6 +550,7 @@
             this.sld2province.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.sld2province.Size = new System.Drawing.Size(308, 20);
             this.sld2province.TabIndex = 73;
+            this.sld2province.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.sld2province, "Sold to Province");
             // 
             // sld2add
@@ -559,6 +568,7 @@
             this.sld2add.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.sld2add.Size = new System.Drawing.Size(308, 20);
             this.sld2add.TabIndex = 71;
+            this.sld2add.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.sld2add, "Sold to Address");
             // 
             // sld2name
@@ -576,6 +586,7 @@
             this.sld2name.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.sld2name.Size = new System.Drawing.Size(308, 20);
             this.sld2name.TabIndex = 70;
+            this.sld2name.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.sld2name, "Sold to Name");
             // 
             // shiptocombobox
@@ -608,6 +619,7 @@
             this.ship2fax.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.ship2fax.Size = new System.Drawing.Size(308, 20);
             this.ship2fax.TabIndex = 87;
+            this.ship2fax.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.ship2fax, "Ship to Fax");
             // 
             // ship2zip
@@ -625,6 +637,7 @@
             this.ship2zip.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.ship2zip.Size = new System.Drawing.Size(308, 20);
             this.ship2zip.TabIndex = 85;
+            this.ship2zip.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.ship2zip, "Ship to Postal Code");
             // 
             // ship2phone
@@ -642,6 +655,7 @@
             this.ship2phone.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.ship2phone.Size = new System.Drawing.Size(308, 20);
             this.ship2phone.TabIndex = 86;
+            this.ship2phone.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.ship2phone, "Ship to Contact");
             // 
             // ship2country
@@ -659,6 +673,7 @@
             this.ship2country.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.ship2country.Size = new System.Drawing.Size(308, 20);
             this.ship2country.TabIndex = 84;
+            this.ship2country.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.ship2country, "Ship to Country");
             // 
             // ship2city
@@ -676,6 +691,7 @@
             this.ship2city.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.ship2city.Size = new System.Drawing.Size(308, 20);
             this.ship2city.TabIndex = 82;
+            this.ship2city.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.ship2city, "Ship to City");
             // 
             // ship2province
@@ -693,6 +709,7 @@
             this.ship2province.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.ship2province.Size = new System.Drawing.Size(308, 20);
             this.ship2province.TabIndex = 83;
+            this.ship2province.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.ship2province, "Ship to Province");
             // 
             // ship2add
@@ -710,6 +727,7 @@
             this.ship2add.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.ship2add.Size = new System.Drawing.Size(308, 20);
             this.ship2add.TabIndex = 81;
+            this.ship2add.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.ship2add, "Ship to Address");
             // 
             // ship2name
@@ -727,6 +745,7 @@
             this.ship2name.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.ship2name.Size = new System.Drawing.Size(308, 20);
             this.ship2name.TabIndex = 80;
+            this.ship2name.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.ship2name, "Ship to Name");
             // 
             // jobtxt
@@ -756,7 +775,7 @@
             this.savbttn.ForeColor = System.Drawing.Color.White;
             this.savbttn.Image = ((System.Drawing.Image)(resources.GetObject("savbttn.Image")));
             this.savbttn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.savbttn.Location = new System.Drawing.Point(683, 651);
+            this.savbttn.Location = new System.Drawing.Point(706, 651);
             this.savbttn.Name = "savbttn";
             this.savbttn.Size = new System.Drawing.Size(78, 27);
             this.savbttn.TabIndex = 14;
@@ -777,7 +796,7 @@
             this.editbttn.ForeColor = System.Drawing.Color.White;
             this.editbttn.Image = ((System.Drawing.Image)(resources.GetObject("editbttn.Image")));
             this.editbttn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.editbttn.Location = new System.Drawing.Point(586, 651);
+            this.editbttn.Location = new System.Drawing.Point(609, 651);
             this.editbttn.Name = "editbttn";
             this.editbttn.Size = new System.Drawing.Size(78, 27);
             this.editbttn.TabIndex = 13;
@@ -1101,12 +1120,13 @@
             this.CreatedBy,
             this.LastSavedOn,
             this.LastSavedBy,
-            this.VendorCust});
+            this.VendorCust,
+            this.PrintToolStrip});
             this.statusStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
-            this.statusStrip1.Location = new System.Drawing.Point(0, 691);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 689);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.statusStrip1.Size = new System.Drawing.Size(1009, 20);
+            this.statusStrip1.Size = new System.Drawing.Size(1009, 22);
             this.statusStrip1.TabIndex = 50;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -1145,6 +1165,35 @@
             this.VendorCust.Text = "Vendor/Cust";
             this.VendorCust.ToolTipText = "Invoice Prepared for";
             // 
+            // PrintToolStrip
+            // 
+            this.PrintToolStrip.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.print2ToolStripMenuItem,
+            this.print1ToolStripMenuItem});
+            this.PrintToolStrip.Enabled = false;
+            this.PrintToolStrip.Image = ((System.Drawing.Image)(resources.GetObject("PrintToolStrip.Image")));
+            this.PrintToolStrip.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.PrintToolStrip.Name = "PrintToolStrip";
+            this.PrintToolStrip.Size = new System.Drawing.Size(64, 20);
+            this.PrintToolStrip.Text = "Print";
+            this.PrintToolStrip.ToolTipText = "Print Invoice";
+            // 
+            // print2ToolStripMenuItem
+            // 
+            this.print2ToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("print2ToolStripMenuItem.Image")));
+            this.print2ToolStripMenuItem.Name = "print2ToolStripMenuItem";
+            this.print2ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.print2ToolStripMenuItem.Text = "Commercial Invoice";
+            this.print2ToolStripMenuItem.ToolTipText = "Print Commercial Invoice";
+            // 
+            // print1ToolStripMenuItem
+            // 
+            this.print1ToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("print1ToolStripMenuItem.Image")));
+            this.print1ToolStripMenuItem.Name = "print1ToolStripMenuItem";
+            this.print1ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.print1ToolStripMenuItem.Text = "Packing List";
+            this.print1ToolStripMenuItem.ToolTipText = "Print Packing List";
+            // 
             // dataGridView1
             // 
             this.dataGridView1.AllowUserToAddRows = false;
@@ -1180,6 +1229,7 @@
             this.dataGridView1.Size = new System.Drawing.Size(998, 290);
             this.dataGridView1.TabIndex = 15;
             this.dataGridView1.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDown);
+            this.dataGridView1.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridView1_RowsAdded);
             // 
             // FormSelector
             // 
@@ -1254,7 +1304,7 @@
             this.Controls.Add(this.jobtxt);
             this.Controls.Add(this.invoicetxtbox);
             this.Controls.Add(this.notestxt);
-            this.Controls.Add(this.Costlbl);
+            this.Controls.Add(this.commentslbl);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximumSize = new System.Drawing.Size(1025, 2000);
             this.MinimumSize = new System.Drawing.Size(1025, 750);
@@ -1279,7 +1329,7 @@
         }
 
         #endregion
-        private System.Windows.Forms.Label Costlbl;
+        private System.Windows.Forms.Label commentslbl;
         private System.Windows.Forms.TextBox notestxt;
         private System.Windows.Forms.Label SPM;
         private System.Windows.Forms.Label invoicelbl;
@@ -1352,5 +1402,8 @@
         private System.Windows.Forms.ToolStripMenuItem editItemToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteItemToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addItemToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSplitButton PrintToolStrip;
+        private System.Windows.Forms.ToolStripMenuItem print2ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem print1ToolStripMenuItem;
     }
 }

@@ -101,6 +101,10 @@
             this.sharepathtxt = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.label12 = new System.Windows.Forms.Label();
+            this.panel7 = new System.Windows.Forms.Panel();
+            this.shipno = new System.Windows.Forms.RadioButton();
+            this.shipyes = new System.Windows.Forms.RadioButton();
             this.contextMenuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -109,6 +113,7 @@
             this.panel5.SuspendLayout();
             this.panel9.SuspendLayout();
             this.panel6.SuspendLayout();
+            this.panel7.SuspendLayout();
             this.SuspendLayout();
             // 
             // contextMenuStrip1
@@ -207,7 +212,7 @@
             // 
             // addnewbttn
             // 
-            this.addnewbttn.Location = new System.Drawing.Point(284, 469);
+            this.addnewbttn.Location = new System.Drawing.Point(284, 505);
             this.addnewbttn.Name = "addnewbttn";
             this.addnewbttn.Size = new System.Drawing.Size(87, 23);
             this.addnewbttn.TabIndex = 57;
@@ -218,7 +223,7 @@
             // 
             // updatebttn
             // 
-            this.updatebttn.Location = new System.Drawing.Point(391, 469);
+            this.updatebttn.Location = new System.Drawing.Point(391, 505);
             this.updatebttn.Name = "updatebttn";
             this.updatebttn.Size = new System.Drawing.Size(79, 23);
             this.updatebttn.TabIndex = 58;
@@ -229,7 +234,7 @@
             // 
             // delbttn
             // 
-            this.delbttn.Location = new System.Drawing.Point(489, 469);
+            this.delbttn.Location = new System.Drawing.Point(489, 505);
             this.delbttn.Name = "delbttn";
             this.delbttn.Size = new System.Drawing.Size(75, 23);
             this.delbttn.TabIndex = 59;
@@ -240,7 +245,7 @@
             // 
             // updatesavebttn
             // 
-            this.updatesavebttn.Location = new System.Drawing.Point(335, 523);
+            this.updatesavebttn.Location = new System.Drawing.Point(335, 545);
             this.updatesavebttn.Name = "updatesavebttn";
             this.updatesavebttn.Size = new System.Drawing.Size(79, 23);
             this.updatesavebttn.TabIndex = 64;
@@ -252,7 +257,7 @@
             // 
             // cnclbttn
             // 
-            this.cnclbttn.Location = new System.Drawing.Point(428, 523);
+            this.cnclbttn.Location = new System.Drawing.Point(428, 545);
             this.cnclbttn.Name = "cnclbttn";
             this.cnclbttn.Size = new System.Drawing.Size(72, 23);
             this.cnclbttn.TabIndex = 65;
@@ -264,7 +269,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(239, 586);
+            this.button1.Location = new System.Drawing.Point(239, 594);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(115, 30);
             this.button1.TabIndex = 66;
@@ -297,7 +302,7 @@
             // 
             // custbttn
             // 
-            this.custbttn.Location = new System.Drawing.Point(369, 586);
+            this.custbttn.Location = new System.Drawing.Point(369, 594);
             this.custbttn.Name = "custbttn";
             this.custbttn.Size = new System.Drawing.Size(115, 30);
             this.custbttn.TabIndex = 66;
@@ -308,7 +313,7 @@
             // 
             // matbttn
             // 
-            this.matbttn.Location = new System.Drawing.Point(499, 586);
+            this.matbttn.Location = new System.Drawing.Point(499, 594);
             this.matbttn.Name = "matbttn";
             this.matbttn.Size = new System.Drawing.Size(115, 30);
             this.matbttn.TabIndex = 66;
@@ -646,7 +651,7 @@
             // 
             this.papproval2chk.AutoSize = true;
             this.papproval2chk.Enabled = false;
-            this.papproval2chk.Location = new System.Drawing.Point(508, 345);
+            this.papproval2chk.Location = new System.Drawing.Point(517, 395);
             this.papproval2chk.Name = "papproval2chk";
             this.papproval2chk.Size = new System.Drawing.Size(15, 14);
             this.papproval2chk.TabIndex = 1;
@@ -657,7 +662,7 @@
             // 
             this.pbuyerchk.AutoSize = true;
             this.pbuyerchk.Enabled = false;
-            this.pbuyerchk.Location = new System.Drawing.Point(333, 395);
+            this.pbuyerchk.Location = new System.Drawing.Point(342, 445);
             this.pbuyerchk.Name = "pbuyerchk";
             this.pbuyerchk.Size = new System.Drawing.Size(15, 14);
             this.pbuyerchk.TabIndex = 1;
@@ -669,7 +674,7 @@
             this.papprovalchk.AutoSize = true;
             this.papprovalchk.Enabled = false;
             this.papprovalchk.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.papprovalchk.Location = new System.Drawing.Point(334, 345);
+            this.papprovalchk.Location = new System.Drawing.Point(343, 395);
             this.papprovalchk.Name = "papprovalchk";
             this.papprovalchk.Size = new System.Drawing.Size(15, 14);
             this.papprovalchk.TabIndex = 0;
@@ -683,7 +688,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label4.Location = new System.Drawing.Point(225, 337);
+            this.label4.Location = new System.Drawing.Point(234, 387);
             this.label4.MaximumSize = new System.Drawing.Size(150, 30);
             this.label4.Name = "label4";
             this.label4.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -727,7 +732,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label6.Location = new System.Drawing.Point(225, 387);
+            this.label6.Location = new System.Drawing.Point(234, 437);
             this.label6.MaximumSize = new System.Drawing.Size(150, 30);
             this.label6.Name = "label6";
             this.label6.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -772,8 +777,8 @@
             this.lineShape4.SelectionColor = System.Drawing.Color.White;
             this.lineShape4.X1 = 223;
             this.lineShape4.X2 = 622;
-            this.lineShape4.Y1 = 563;
-            this.lineShape4.Y2 = 563;
+            this.lineShape4.Y1 = 581;
+            this.lineShape4.Y2 = 581;
             // 
             // lineShape3
             // 
@@ -784,8 +789,8 @@
             this.lineShape3.SelectionColor = System.Drawing.Color.White;
             this.lineShape3.X1 = 222;
             this.lineShape3.X2 = 621;
-            this.lineShape3.Y1 = 444;
-            this.lineShape3.Y2 = 444;
+            this.lineShape3.Y1 = 490;
+            this.lineShape3.Y2 = 490;
             // 
             // lineShape2
             // 
@@ -796,8 +801,8 @@
             this.lineShape2.SelectionColor = System.Drawing.Color.White;
             this.lineShape2.X1 = 223;
             this.lineShape2.X2 = 622;
-            this.lineShape2.Y1 = 326;
-            this.lineShape2.Y2 = 326;
+            this.lineShape2.Y1 = 365;
+            this.lineShape2.Y2 = 365;
             // 
             // lineShape1
             // 
@@ -817,7 +822,7 @@
             this.supervisorcombox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.supervisorcombox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.supervisorcombox.FormattingEnabled = true;
-            this.supervisorcombox.Location = new System.Drawing.Point(389, 400);
+            this.supervisorcombox.Location = new System.Drawing.Point(398, 450);
             this.supervisorcombox.Name = "supervisorcombox";
             this.supervisorcombox.Size = new System.Drawing.Size(165, 23);
             this.supervisorcombox.TabIndex = 83;
@@ -829,7 +834,7 @@
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label7.Location = new System.Drawing.Point(436, 377);
+            this.label7.Location = new System.Drawing.Point(445, 427);
             this.label7.MaximumSize = new System.Drawing.Size(90, 15);
             this.label7.Name = "label7";
             this.label7.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -844,7 +849,7 @@
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label9.Location = new System.Drawing.Point(395, 333);
+            this.label9.Location = new System.Drawing.Point(404, 383);
             this.label9.MaximumSize = new System.Drawing.Size(150, 30);
             this.label9.Name = "label9";
             this.label9.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -985,32 +990,82 @@
             this.openFileDialog1.Title = "Assign Folder Path";
             this.openFileDialog1.ValidateNames = false;
             // 
+            // label12
+            // 
+            this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label12.Location = new System.Drawing.Point(310, 337);
+            this.label12.MaximumSize = new System.Drawing.Size(90, 15);
+            this.label12.Name = "label12";
+            this.label12.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label12.Size = new System.Drawing.Size(72, 15);
+            this.label12.TabIndex = 73;
+            this.label12.Text = "Shipping :";
+            // 
+            // panel7
+            // 
+            this.panel7.Controls.Add(this.shipno);
+            this.panel7.Controls.Add(this.shipyes);
+            this.panel7.Location = new System.Drawing.Point(397, 331);
+            this.panel7.Name = "panel7";
+            this.panel7.Size = new System.Drawing.Size(107, 27);
+            this.panel7.TabIndex = 78;
+            // 
+            // shipno
+            // 
+            this.shipno.AutoSize = true;
+            this.shipno.Enabled = false;
+            this.shipno.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.shipno.Location = new System.Drawing.Point(56, 5);
+            this.shipno.Name = "shipno";
+            this.shipno.Size = new System.Drawing.Size(39, 17);
+            this.shipno.TabIndex = 75;
+            this.shipno.Text = "No";
+            this.shipno.UseVisualStyleBackColor = true;
+            // 
+            // shipyes
+            // 
+            this.shipyes.AutoSize = true;
+            this.shipyes.Enabled = false;
+            this.shipyes.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.shipyes.Location = new System.Drawing.Point(6, 5);
+            this.shipyes.Name = "shipyes";
+            this.shipyes.Size = new System.Drawing.Size(43, 17);
+            this.shipyes.TabIndex = 74;
+            this.shipyes.Text = "Yes";
+            this.shipyes.UseVisualStyleBackColor = true;
+            // 
             // spmadmin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(69)))), ((int)(((byte)(76)))));
             this.ClientSize = new System.Drawing.Size(625, 674);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.panel7);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.supervisorcombox);
+            this.Controls.Add(this.papprovalchk);
+            this.Controls.Add(this.papproval2chk);
+            this.Controls.Add(this.pbuyerchk);
             this.Controls.Add(this.selectfolder);
             this.Controls.Add(this.sharepathtxt);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.panel6);
             this.Controls.Add(this.label10);
-            this.Controls.Add(this.papproval2chk);
-            this.Controls.Add(this.pbuyerchk);
-            this.Controls.Add(this.papprovalchk);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.panel9);
-            this.Controls.Add(this.label9);
-            this.Controls.Add(this.supervisorcombox);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.label4);
             this.Controls.Add(this.panel5);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.label7);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label5);
@@ -1062,6 +1117,8 @@
             this.panel9.PerformLayout();
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
+            this.panel7.ResumeLayout(false);
+            this.panel7.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1139,5 +1196,9 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Button selectfolder;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Panel panel7;
+        private System.Windows.Forms.RadioButton shipno;
+        private System.Windows.Forms.RadioButton shipyes;
     }
 }

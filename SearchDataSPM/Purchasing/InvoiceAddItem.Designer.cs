@@ -32,7 +32,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InvoiceAddItem));
             this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.btnCancel = new System.Windows.Forms.Button();
-            this.btnDelete = new System.Windows.Forms.Button();
             this.Addnewbttn = new System.Windows.Forms.Button();
             this.oemitemnotxt = new System.Windows.Forms.TextBox();
             this.qtytxt = new System.Windows.Forms.TextBox();
@@ -73,7 +72,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.Font = new System.Drawing.Font("Palatino Linotype", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancel.ForeColor = System.Drawing.Color.Black;
-            this.btnCancel.Location = new System.Drawing.Point(335, 386);
+            this.btnCancel.Location = new System.Drawing.Point(301, 386);
             this.btnCancel.MaximumSize = new System.Drawing.Size(80, 25);
             this.btnCancel.MinimumSize = new System.Drawing.Size(80, 25);
             this.btnCancel.Name = "btnCancel";
@@ -84,25 +83,6 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
-            // btnDelete
-            // 
-            this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDelete.Enabled = false;
-            this.btnDelete.Font = new System.Drawing.Font("Palatino Linotype", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDelete.ForeColor = System.Drawing.Color.Black;
-            this.btnDelete.Location = new System.Drawing.Point(233, 386);
-            this.btnDelete.MaximumSize = new System.Drawing.Size(80, 25);
-            this.btnDelete.MinimumSize = new System.Drawing.Size(80, 25);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(80, 25);
-            this.btnDelete.TabIndex = 11;
-            this.btnDelete.Text = "&Delete";
-            this.TreeViewToolTip.SetToolTip(this.btnDelete, "Double Click item from grid \r\nand press Delete to remove");
-            this.btnDelete.UseVisualStyleBackColor = true;
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
-            // 
             // Addnewbttn
             // 
             this.Addnewbttn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -111,7 +91,7 @@
             this.Addnewbttn.Enabled = false;
             this.Addnewbttn.Font = new System.Drawing.Font("Palatino Linotype", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Addnewbttn.ForeColor = System.Drawing.Color.Black;
-            this.Addnewbttn.Location = new System.Drawing.Point(128, 386);
+            this.Addnewbttn.Location = new System.Drawing.Point(190, 386);
             this.Addnewbttn.MaximumSize = new System.Drawing.Size(80, 25);
             this.Addnewbttn.MinimumSize = new System.Drawing.Size(80, 25);
             this.Addnewbttn.Name = "Addnewbttn";
@@ -128,6 +108,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.oemitemnotxt.BackColor = System.Drawing.Color.White;
+            this.oemitemnotxt.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.oemitemnotxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.oemitemnotxt.Location = new System.Drawing.Point(117, 164);
             this.oemitemnotxt.MinimumSize = new System.Drawing.Size(180, 20);
@@ -137,6 +118,7 @@
             this.oemitemnotxt.Size = new System.Drawing.Size(420, 20);
             this.oemitemnotxt.TabIndex = 4;
             this.TreeViewToolTip.SetToolTip(this.oemitemnotxt, "Manufacturer Item No");
+            this.oemitemnotxt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.oemitemnotxt_KeyDown);
             // 
             // qtytxt
             // 
@@ -153,6 +135,7 @@
             this.qtytxt.TabIndex = 5;
             this.TreeViewToolTip.SetToolTip(this.qtytxt, "Quantity required");
             this.qtytxt.TextChanged += new System.EventHandler(this.qtytxt_TextChanged);
+            this.qtytxt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.qtytxt_KeyDown);
             this.qtytxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.qtytxt_KeyPress);
             // 
             // pricetxt
@@ -171,6 +154,7 @@
             this.pricetxt.Text = "$0.00";
             this.TreeViewToolTip.SetToolTip(this.pricetxt, "Unit price for the item");
             this.pricetxt.TextChanged += new System.EventHandler(this.pricetxt_TextChanged);
+            this.pricetxt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.pricetxt_KeyDown);
             // 
             // oemtxt
             // 
@@ -178,6 +162,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.oemtxt.BackColor = System.Drawing.Color.White;
+            this.oemtxt.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.oemtxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.oemtxt.Location = new System.Drawing.Point(117, 135);
             this.oemtxt.MinimumSize = new System.Drawing.Size(180, 20);
@@ -187,6 +172,7 @@
             this.oemtxt.Size = new System.Drawing.Size(420, 20);
             this.oemtxt.TabIndex = 3;
             this.TreeViewToolTip.SetToolTip(this.oemtxt, "Item Manufacturer");
+            this.oemtxt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.oemtxt_KeyDown);
             // 
             // ItemTxtBox
             // 
@@ -225,7 +211,6 @@
             this.ItemsGrpBox.BackColor = System.Drawing.Color.Transparent;
             this.ItemsGrpBox.Controls.Add(this.ItemsCombobox);
             this.ItemsGrpBox.Controls.Add(this.btnCancel);
-            this.ItemsGrpBox.Controls.Add(this.btnDelete);
             this.ItemsGrpBox.Controls.Add(this.Addnewbttn);
             this.ItemsGrpBox.Controls.Add(this.label5);
             this.ItemsGrpBox.Controls.Add(this.oemitemnotxt);
@@ -281,12 +266,12 @@
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.Color.White;
-            this.label7.Location = new System.Drawing.Point(56, 297);
+            this.label7.Location = new System.Drawing.Point(14, 300);
             this.label7.Name = "label7";
             this.label7.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label7.Size = new System.Drawing.Size(48, 15);
+            this.label7.Size = new System.Drawing.Size(90, 15);
             this.label7.TabIndex = 63;
-            this.label7.Text = "Tariff :";
+            this.label7.Text = "Tarriff Code :";
             // 
             // label1
             // 
@@ -324,6 +309,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tarifftxt.BackColor = System.Drawing.Color.White;
+            this.tarifftxt.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.tarifftxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tarifftxt.Location = new System.Drawing.Point(117, 297);
             this.tarifftxt.MinimumSize = new System.Drawing.Size(180, 20);
@@ -338,6 +324,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.origintxt.BackColor = System.Drawing.Color.White;
+            this.origintxt.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.origintxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.origintxt.Location = new System.Drawing.Point(117, 260);
             this.origintxt.MinimumSize = new System.Drawing.Size(180, 20);
@@ -345,6 +332,7 @@
             this.origintxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.origintxt.Size = new System.Drawing.Size(420, 22);
             this.origintxt.TabIndex = 7;
+            this.origintxt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.origintxt_KeyDown);
             // 
             // label8
             // 
@@ -413,6 +401,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Descriptiontxtbox.BackColor = System.Drawing.Color.White;
+            this.Descriptiontxtbox.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.Descriptiontxtbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Descriptiontxtbox.Location = new System.Drawing.Point(117, 103);
             this.Descriptiontxtbox.MinimumSize = new System.Drawing.Size(180, 20);
@@ -421,6 +410,7 @@
             this.Descriptiontxtbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.Descriptiontxtbox.Size = new System.Drawing.Size(420, 20);
             this.Descriptiontxtbox.TabIndex = 2;
+            this.Descriptiontxtbox.TextChanged += new System.EventHandler(this.Descriptiontxtbox_TextChanged);
             this.Descriptiontxtbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Descriptiontxtbox_KeyDown);
             // 
             // label6
@@ -472,8 +462,9 @@
             this.MaximumSize = new System.Drawing.Size(1025, 2000);
             this.MinimizeBox = false;
             this.Name = "InvoiceAddItem";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Invoice Details";
+            this.Text = "Invoice Details  - Add Item";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.QuoteDetails_FormClosing);
             this.Load += new System.EventHandler(this.QuoteDetails_Load);
             this.ItemsGrpBox.ResumeLayout(false);
@@ -487,7 +478,6 @@
         private System.Windows.Forms.ToolTip TreeViewToolTip;
         private System.Windows.Forms.GroupBox ItemsGrpBox;
         private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button Addnewbttn;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox oemitemnotxt;

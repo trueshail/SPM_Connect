@@ -319,6 +319,39 @@ namespace SPMConnectAPI
             return quoterights;
         }
 
+        public bool checkShippingrights()
+        {
+            bool quoterights = false;
+
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND Shipping = '1'", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    sqlCommand.Parameters.AddWithValue("@username", UserName());
+
+                    int userCount = (int)sqlCommand.ExecuteScalar();
+                    if (userCount == 1)
+                    {
+                        quoterights = true;
+
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Check Shipping rights", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+            return quoterights;
+        }
+
         #endregion
 
         public void chekin(string applicationname)
@@ -2534,8 +2567,7 @@ namespace SPMConnectAPI
             return removedusername.Trim();
         }
 
-        #endregion
-        
+        #endregion       
 
     }
 }

@@ -33,6 +33,8 @@ namespace SearchDataSPM
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ShippingHome));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.SPM = new System.Windows.Forms.Label();
             this.versionlabel = new System.Windows.Forms.Label();
@@ -242,7 +244,7 @@ namespace SearchDataSPM
             this.Shiptocomboxbox.FormattingEnabled = true;
             this.Shiptocomboxbox.Location = new System.Drawing.Point(6, 379);
             this.Shiptocomboxbox.Name = "Shiptocomboxbox";
-            this.Shiptocomboxbox.Size = new System.Drawing.Size(165, 21);
+            this.Shiptocomboxbox.Size = new System.Drawing.Size(157, 21);
             this.Shiptocomboxbox.TabIndex = 125;
             this.TreeViewToolTip.SetToolTip(this.Shiptocomboxbox, "Filter by ship to");
             this.Shiptocomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Manufactureritemcomboxbox_KeyDown);
@@ -258,7 +260,7 @@ namespace SearchDataSPM
             this.Salespersoncomboxbox.FormattingEnabled = true;
             this.Salespersoncomboxbox.Location = new System.Drawing.Point(6, 230);
             this.Salespersoncomboxbox.Name = "Salespersoncomboxbox";
-            this.Salespersoncomboxbox.Size = new System.Drawing.Size(165, 21);
+            this.Salespersoncomboxbox.Size = new System.Drawing.Size(157, 21);
             this.Salespersoncomboxbox.TabIndex = 123;
             this.TreeViewToolTip.SetToolTip(this.Salespersoncomboxbox, "Filter by sales person");
             this.Salespersoncomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.familycomboxbox_KeyDown);
@@ -274,7 +276,7 @@ namespace SearchDataSPM
             this.lastsavedbycombo.FormattingEnabled = true;
             this.lastsavedbycombo.Location = new System.Drawing.Point(6, 520);
             this.lastsavedbycombo.Name = "lastsavedbycombo";
-            this.lastsavedbycombo.Size = new System.Drawing.Size(165, 21);
+            this.lastsavedbycombo.Size = new System.Drawing.Size(157, 21);
             this.lastsavedbycombo.TabIndex = 127;
             this.TreeViewToolTip.SetToolTip(this.lastsavedbycombo, "Filter by last saved");
             this.lastsavedbycombo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lastsavedbycombo_KeyDown);
@@ -293,7 +295,7 @@ namespace SearchDataSPM
             "SPM AUTOMATION (Canada) INC."});
             this.Soldtocombobox.Location = new System.Drawing.Point(6, 304);
             this.Soldtocombobox.Name = "Soldtocombobox";
-            this.Soldtocombobox.Size = new System.Drawing.Size(165, 21);
+            this.Soldtocombobox.Size = new System.Drawing.Size(157, 21);
             this.Soldtocombobox.TabIndex = 124;
             this.TreeViewToolTip.SetToolTip(this.Soldtocombobox, "Filter by sold to");
             this.Soldtocombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.oemitemcombobox_KeyDown);
@@ -315,7 +317,7 @@ namespace SearchDataSPM
             "1 - Customer"});
             this.custvendcombobox.Location = new System.Drawing.Point(6, 594);
             this.custvendcombobox.Name = "custvendcombobox";
-            this.custvendcombobox.Size = new System.Drawing.Size(165, 21);
+            this.custvendcombobox.Size = new System.Drawing.Size(157, 21);
             this.custvendcombobox.TabIndex = 128;
             this.TreeViewToolTip.SetToolTip(this.custvendcombobox, "Filter by customer or vendor");
             this.custvendcombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ActiveCadblockcombobox_KeyDown);
@@ -335,7 +337,7 @@ namespace SearchDataSPM
             "Joel Goldsmith"});
             this.Createdbycombobox.Location = new System.Drawing.Point(6, 153);
             this.Createdbycombobox.Name = "Createdbycombobox";
-            this.Createdbycombobox.Size = new System.Drawing.Size(165, 21);
+            this.Createdbycombobox.Size = new System.Drawing.Size(157, 21);
             this.Createdbycombobox.TabIndex = 122;
             this.TreeViewToolTip.SetToolTip(this.Createdbycombobox, "Filter Created by");
             this.Createdbycombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.designedbycombobox_KeyDown);
@@ -351,7 +353,7 @@ namespace SearchDataSPM
             this.CarrierscomboBox.FormattingEnabled = true;
             this.CarrierscomboBox.Location = new System.Drawing.Point(6, 450);
             this.CarrierscomboBox.Name = "CarrierscomboBox";
-            this.CarrierscomboBox.Size = new System.Drawing.Size(165, 21);
+            this.CarrierscomboBox.Size = new System.Drawing.Size(157, 21);
             this.CarrierscomboBox.TabIndex = 126;
             this.TreeViewToolTip.SetToolTip(this.CarrierscomboBox, "Filter by carrier");
             this.CarrierscomboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MaterialcomboBox_KeyDown);
@@ -445,11 +447,27 @@ namespace SearchDataSPM
             // 
             this.invoiceitemsdataGridView2.AllowUserToAddRows = false;
             this.invoiceitemsdataGridView2.AllowUserToDeleteRows = false;
-            this.invoiceitemsdataGridView2.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
+            this.invoiceitemsdataGridView2.BackgroundColor = System.Drawing.Color.White;
             this.invoiceitemsdataGridView2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.invoiceitemsdataGridView2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.invoiceitemsdataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Lucida Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.invoiceitemsdataGridView2.DefaultCellStyle = dataGridViewCellStyle2;
             this.invoiceitemsdataGridView2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.invoiceitemsdataGridView2.GridColor = System.Drawing.SystemColors.Control;
+            this.invoiceitemsdataGridView2.GridColor = System.Drawing.SystemColors.AppWorkspace;
             this.invoiceitemsdataGridView2.Location = new System.Drawing.Point(3, 16);
             this.invoiceitemsdataGridView2.Name = "invoiceitemsdataGridView2";
             this.invoiceitemsdataGridView2.ReadOnly = true;
@@ -482,14 +500,14 @@ namespace SearchDataSPM
             this.dataGridView.BackgroundColor = System.Drawing.Color.LightPink;
             this.dataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.InvoiceNo,
