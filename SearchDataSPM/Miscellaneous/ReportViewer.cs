@@ -45,6 +45,20 @@ namespace SearchDataSPM
                 this.reportViewer1.RefreshReport();
                 fillpurchasereq();
             }
+            else if (reportname == "ShippingInvCom")
+            {
+                this.Text = "Shipping Invoice - " + itemnumber;
+                reportViewer1.ServerReport.ReportPath = connectapi.GetReportShippingInvCom();
+                this.reportViewer1.RefreshReport();
+                fillshippingcom();
+            }
+            else if (reportname == "ShippingInvPack")
+            {
+                this.Text = "Shipping Invoice - " + itemnumber;
+                reportViewer1.ServerReport.ReportPath = connectapi.GetReportShippingInvPack();
+                this.reportViewer1.RefreshReport();
+                fillshippingpack();
+            }
         }
 
         string itemnumber = "";
@@ -95,6 +109,23 @@ namespace SearchDataSPM
             
             this.reportViewer1.ServerReport.SetParameters(reportParameters);
             this.reportViewer1.RefreshReport();           
+        }
+
+        void fillshippingcom()
+        {
+            Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection();
+            reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("pInvno", itemnumber));
+
+            this.reportViewer1.ServerReport.SetParameters(reportParameters);
+            this.reportViewer1.RefreshReport();
+        }
+
+        void fillshippingpack()
+        {
+            Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection();
+            reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("pInvno", itemnumber));
+            this.reportViewer1.ServerReport.SetParameters(reportParameters);
+            this.reportViewer1.RefreshReport();
         }
 
         private void ReportViewer_FormClosed(object sender, FormClosedEventArgs e)

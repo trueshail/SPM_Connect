@@ -2252,7 +2252,7 @@ namespace SPMConnectAPI
 
         #region ReportViewer Paths
 
-        public String GetReportBOM()
+        public string GetReportBOM()
         {
             string report = "";
             using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'ReportBOM'", cn))
@@ -2278,7 +2278,7 @@ namespace SPMConnectAPI
             return report;
         }
 
-        public String GetReportSpareParts()
+        public string GetReportSpareParts()
         {
             string report = "";
             using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'ReportSpareParts'", cn))
@@ -2304,7 +2304,7 @@ namespace SPMConnectAPI
             return report;
         }
 
-        public String GetReportWorkOrder()
+        public string GetReportWorkOrder()
         {
             string report = "";
             using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'ReportWorkOrder'", cn))
@@ -2330,7 +2330,7 @@ namespace SPMConnectAPI
             return report;
         }
 
-        public String GetReportPurchaseReq()
+        public string GetReportPurchaseReq()
         {
             string report = "";
             using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'ReportPurchaseReq'", cn))
@@ -2356,6 +2356,57 @@ namespace SPMConnectAPI
             return report;
         }
 
+        public string GetReportShippingInvCom()
+        {
+            string report = "";
+            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'ReportShippingCommercial'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    report = (string)cmd.ExecuteScalar();
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Report Shipping Invoice Commercial", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+
+            return report;
+        }
+
+        public string GetReportShippingInvPack()
+        {
+            string report = "";
+            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'ReportShippingPacking'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    report = (string)cmd.ExecuteScalar();
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Report Shipping Invoice Packing List", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+
+            return report;
+        }
 
         #endregion
 

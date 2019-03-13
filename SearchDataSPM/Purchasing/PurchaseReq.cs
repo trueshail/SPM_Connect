@@ -12,7 +12,6 @@ using System.Linq;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 
@@ -3501,110 +3500,6 @@ namespace SearchDataSPM
 
         #endregion
 
-        //void Splashsaving()
-        //{
-        //    try
-        //    {
-        //        if (!formloading)
-        //        {
-        //            Engineering.WaitFormSaving waitFormOpening = new Engineering.WaitFormSaving();
-        //            waitFormOpening.Location = new Point(this.Location.X + (this.Width - waitFormOpening.Width) / 2, this.Location.Y + (this.Height - waitFormOpening.Height) / 2);
-        //            loading = Thread.CurrentThread;
-
-        //            if (loading.ThreadState == System.Threading.ThreadState.AbortRequested)
-        //            {
-        //                Thread.ResetAbort();
-        //            }
-        //            try
-        //            {
-        //                waitFormOpening.Show();
-        //                Thread.Sleep(3000);
-        //                // Application.Run(waitFormOpening);
-        //            }
-        //            catch (ThreadAbortException)
-        //            {
-
-        //            }
-
-        //        }
-        //    }
-        //    catch (ThreadAbortException)
-        //    {
-
-        //    }
-
-        //}
-
-        //void Splashopening()
-        //{
-        //    //try
-        //    //{
-        //    //    if (!formloading)
-        //    //    {
-        //    //        Engineering.WaitFormLoading waitFormOpening = new Engineering.WaitFormLoading();
-        //    //        waitFormOpening.Location = new Point(this.Location.X + (this.Width - waitFormOpening.Width) / 2, this.Location.Y + (this.Height - waitFormOpening.Height) / 2);
-        //    //        loading = Thread.CurrentThread;
-
-        //    //        if (loading.ThreadState == ThreadState.AbortRequested)
-        //    //        {
-        //    //            Thread.ResetAbort();
-        //    //        }
-        //    //        try
-        //    //        {
-        //    //            Application.Run(waitFormOpening);
-        //    //            Thread.Sleep(3000);
-        //    //        }
-        //    //        catch (ThreadAbortException)
-        //    //        {
-
-        //    //        }
-
-
-        //    //    }
-
-        //    //}
-        //    //catch (ThreadAbortException)
-        //    //{
-
-        //    //}
-
-        //}
-
-        //void Splashemail()
-        //{
-        //    try
-        //    {
-        //        if (!formloading)
-        //        {
-        //            Engineering.WaitFormEmail waitFormOpening = new Engineering.WaitFormEmail();
-        //            waitFormOpening.Location = new Point(this.Location.X + (this.Width - waitFormOpening.Width) / 2, this.Location.Y + (this.Height - waitFormOpening.Height) / 2);
-
-        //            loading = Thread.CurrentThread;
-
-        //            if (loading.ThreadState == System.Threading.ThreadState.Aborted)
-        //            {
-        //                Thread.ResetAbort();
-        //            }
-        //            try
-        //            {
-
-        //                Application.Run(waitFormOpening);
-        //                Thread.Sleep(3000);
-        //            }
-        //            catch (ThreadAbortException)
-        //            {
-
-        //            }
-
-        //        }
-        //    }
-        //    catch (ThreadAbortException)
-        //    {
-
-        //    }
-
-        //}
-
         #region export to excel
 
         private void exporttoexcel()
@@ -3745,7 +3640,6 @@ namespace SearchDataSPM
         }
 
         #endregion
-
     
     }
 }

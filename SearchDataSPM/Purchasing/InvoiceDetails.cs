@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
@@ -58,7 +59,6 @@ namespace SearchDataSPM
         private void QuoteDetails_Load(object sender, EventArgs e)
         {
             formloading = true;
-
             this.Text = "Invoice Details - " + Invoice_Number;
             FillFobPoint();
             FillSalesPerson();
@@ -406,13 +406,14 @@ namespace SearchDataSPM
             dataGridView1.DefaultCellStyle.BackColor = Color.Azure;
             dataGridView1.DefaultCellStyle.SelectionForeColor = Color.Yellow;
             dataGridView1.DefaultCellStyle.SelectionBackColor = Color.Black;
+            dataGridView1.Columns[3].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
         }
 
         private void QuoteDetails_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (savbttn.Visible == true)
             {
-                DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to close without saving changes?", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to close without saving changes?", "SPM Connect - Save Invoice Details", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {
                     this.Dispose();
@@ -477,6 +478,7 @@ namespace SearchDataSPM
                 if (GetShippingBaseInfo(list[0].ToString()))
                 {
                     FillShippingBaseInfo();
+                    SaveReport(invoicetxtbox.Text);
                 }
             }
 
@@ -703,6 +705,11 @@ namespace SearchDataSPM
 
         private void editItemToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            updateitem();
+        }
+
+        void updateitem()
+        {
             using (InvoiceAddItem invoiceAddItem = new InvoiceAddItem())
             {
                 this.Enabled = false;
@@ -772,8 +779,120 @@ namespace SearchDataSPM
 
         private void dataGridView1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
-            if(dataGridView1.Rows.Count>0)
-            PrintToolStrip.Enabled = true;
+            if (dataGridView1.Rows.Count > 0)
+                PrintToolStrip.Enabled = true;
+        }
+
+        private void print1ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ReportViewer form1 = new ReportViewer();
+            form1.item(invoicetxtbox.Text);
+            form1.getreport("ShippingInvPack");
+            form1.Show();
+        }
+
+        private void print2ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ReportViewer form1 = new ReportViewer();
+            form1.item(invoicetxtbox.Text);
+            form1.getreport("ShippingInvCom");
+            form1.Show();
+        }
+
+        private void SaveReport(string reqno)
+        {
+            string fileName = "";
+            string filepath = connectapi.getsharesfolder() + @"\SPM_Connect\ShippingInvoices\";
+            System.IO.Directory.CreateDirectory(filepath);
+            fileName = filepath + reqno + " - CI.pdf";
+            filepath += reqno + " - PL.pdf";
+            SaveReport(reqno, fileName);
+            SaveReport(reqno, filepath);
+          
+        }
+
+        public void SaveReport(string invoiceno, string fileName)
+        {
+
+            RS2005.ReportingService2005 rs;
+            RE2005.ReportExecutionService rsExec;
+
+            // Create a new proxy to the web service
+            rs = new RS2005.ReportingService2005();
+            rsExec = new RE2005.ReportExecutionService();
+
+            // Authenticate to the Web service using Windows credentials
+            rs.Credentials = System.Net.CredentialCache.DefaultCredentials;
+            rsExec.Credentials = System.Net.CredentialCache.DefaultCredentials;
+
+            rs.Url = "http://spm-sql/reportserver/reportservice2005.asmx";
+            rsExec.Url = "http://spm-sql/reportserver/reportexecution2005.asmx";
+
+            string historyID = null;
+            string deviceInfo = null;
+            string format = "PDF";
+            Byte[] results;
+            string encoding = String.Empty;
+            string mimeType = String.Empty;
+            string extension = String.Empty;
+            RE2005.Warning[] warnings = null;
+            string[] streamIDs = null;
+            string _reportName = "";
+            if(fileName.Substring(fileName.Length - 6) == "CI.pdf")
+            {
+                _reportName = @"/GeniusReports/PurchaseOrder/SPM_ShippingInvoice";
+            }
+            else
+            {
+                _reportName = @"/GeniusReports/PurchaseOrder/SPM_ShippingInvoicePacking";
+            }
+            string _historyID = null;
+            bool _forRendering = false;
+            RS2005.ParameterValue[] _values = null;
+            RS2005.DataSourceCredentials[] _credentials = null;
+            RS2005.ReportParameter[] _parameters = null;
+
+            try
+            {
+                _parameters = rs.GetReportParameters(_reportName, _historyID, _forRendering, _values, _credentials);
+                RE2005.ExecutionInfo ei = rsExec.LoadReport(_reportName, historyID);
+                RE2005.ParameterValue[] parameters = new RE2005.ParameterValue[1];
+
+                if (_parameters.Length > 0)
+                {
+                    parameters[0] = new RE2005.ParameterValue();
+                    //parameters[0].Label = "";
+                    parameters[0].Name = "pInvno";
+                    parameters[0].Value = invoiceno;
+                }
+                rsExec.SetExecutionParameters(parameters, "en-us");
+
+                results = rsExec.Render(format, deviceInfo,
+                          out extension, out encoding,
+                          out mimeType, out warnings, out streamIDs);
+
+                try
+                {
+
+                    File.WriteAllBytes(fileName, results);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "SPM Connect - Save Report", MessageBoxButtons.OK);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+            }
+        }
+
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            updateitem();
         }
     }
 }

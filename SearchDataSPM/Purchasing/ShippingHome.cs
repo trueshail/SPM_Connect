@@ -39,7 +39,7 @@ namespace SearchDataSPM
                 MetroFramework.MetroMessageBox.Show(this, "Error Connecting to SQL Server.....", "SPM Connect - Shipping Home Initialize", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
             }
-            
+
             connectapi.SPM_Connect(connection);
 
         }
@@ -51,11 +51,13 @@ namespace SearchDataSPM
             dt = new DataTable();
             checkdeptsandrights();
             userfullname = connectapi.getuserfullname();
+
+            invoiceitemsdataGridView2.DataSource = temptable;
             FillInvoiceItems();
-            Showallitems();           
+            Showallitems();
             txtSearch.Focus();
             formloading = false;
-            
+
         }
 
         private void checkdeptsandrights()
@@ -137,7 +139,7 @@ namespace SearchDataSPM
         private void FillInvoiceItems()
         {
             invoiceitems.Clear();
-            invoiceitems = connectapi.ShowShippingInvoiceItems();            
+            invoiceitems = connectapi.ShowShippingInvoiceItems();
         }
 
         private void Reload_Click(object sender, EventArgs e)
@@ -571,7 +573,7 @@ namespace SearchDataSPM
             {
                 if (dataGridView.Rows.Count > 0 && dataGridView.SelectedCells.Count == 1)
                 {
-                   
+
                     int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                     DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
                     string item = Convert.ToString(slectedrow.Cells[0].Value);
@@ -583,8 +585,18 @@ namespace SearchDataSPM
                     invoiceitemsdataGridView2.DataSource = temptable;
                     invoiceitemsdataGridView2.Columns[0].Visible = false;
                     invoiceitemsdataGridView2.Columns[9].Visible = false;
-                    //invoiceitemsdataGridView2.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    invoiceitemsdataGridView2.Columns[1].Width = 65;
+                    invoiceitemsdataGridView2.Columns[2].Width = 80;
+                    invoiceitemsdataGridView2.Columns[4].Width = 70;
+                    invoiceitemsdataGridView2.Columns[5].Width = 100;
+                    invoiceitemsdataGridView2.Columns[6].Width = 50;
+                    invoiceitemsdataGridView2.Columns[7].Width = 80;
+                    invoiceitemsdataGridView2.Columns[8].Width = 80;
                     invoiceitemsdataGridView2.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    invoiceitemsdataGridView2.Columns[7].DefaultCellStyle.Format = "0.00##";
+                    invoiceitemsdataGridView2.Columns[8].DefaultCellStyle.Format = "0.00##";
+                    invoiceitemsdataGridView2.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    invoiceitemsdataGridView2.Columns[3].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
                 }
             }
         }
@@ -593,7 +605,7 @@ namespace SearchDataSPM
         {
             if (dataGridView.SelectedCells.Count == 1)
             {
-                showshippinginvoice(getselectedinvoicenumber(),"1");
+                showshippinginvoice(getselectedinvoicenumber(), "1");
             }
         }
 
@@ -1087,6 +1099,8 @@ namespace SearchDataSPM
 
         #endregion
 
+        #region Invoice
+
         private void addnewbttn_Click(object sender, EventArgs e)
         {
             DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to create a new shipping invoice?", "SPM Connect - Create New Invoice?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -1110,33 +1124,31 @@ namespace SearchDataSPM
                     string status = connectapi.Createnewshippinginvoice(vendorcust);
                     if (status.Length > 1)
                     {
-                        showshippinginvoice(status,vendorcust);
+                        showshippinginvoice(status, vendorcust);
                     }
                 }
                 else
                 {
                     MetroFramework.MetroMessageBox.Show(this, "Inovice for not selected. System cannot create new shipping invoice.", "SPM Connect - Create New Invoice?", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                this.Enabled = true;
-
+               
             }
         }
 
-        void showshippinginvoice(string invoice,string vendorcust)
+        void showshippinginvoice(string invoice, string vendorcust)
         {
             using (InvoiceDetails invoiceDetails = new InvoiceDetails())
             {
                 invoiceDetails.invoicenumber(invoice);
                 invoiceDetails.setcustvendor(vendorcust);
                 invoiceDetails.ShowDialog();
-                invoiceDetails.Dispose();
-                Showallitems();
-                FillInvoiceItems();
+                this.Enabled = true;
+                performreload();
                 this.Show();
                 this.Activate();
                 this.Focus();
             }
-        }        
+        }
 
         private string getselectedinvoicenumber()
         {
@@ -1156,6 +1168,41 @@ namespace SearchDataSPM
             }
         }
 
+        private void copyshippinginvoice()
+        {
+            DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to copy this invoice to a new shipping invoice?", "SPM Connect - Copy Invoice?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                this.Enabled = false;
+                string status = connectapi.CopyShippingInvoice(getselectedinvoicenumber());
+                
+                if (status.Length > 1)
+                {
+                    showshippinginvoice(status, "1");
+                }
+               
+
+            }
+
+        }
+
+        private void invoiceinfostripmenu_Click(object sender, EventArgs e)
+        {
+            showshippinginvoice(getselectedinvoicenumber(), "1");
+        }
+
+        private void copyinvoicestrip_Click(object sender, EventArgs e)
+        {
+            copyshippinginvoice();
+        }
+
+        private void ContextMenuStripShipping_Opening(object sender, CancelEventArgs e)
+        {
+            if (!(dataGridView.Rows.Count > 0 && dataGridView.SelectedRows.Count == 1)) e.Cancel = true;
+        }
+
+        #endregion
     }
 
 }
