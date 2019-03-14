@@ -22,7 +22,7 @@ namespace SearchDataSPM
         #region Setting up Various Variables to Store information
 
         PurchaseReq model = new PurchaseReq();
-        String connection;
+        string connection;
         SqlConnection cn;
         SqlDataAdapter _adapter;
         DataTable itemstable = new DataTable();

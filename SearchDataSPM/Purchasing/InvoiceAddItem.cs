@@ -197,6 +197,24 @@ namespace SearchDataSPM
 
         #endregion
 
+        #region shortcuts
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+           
+            if (keyData == (Keys.Control | Keys.W))
+            {
+                this.Close();
+
+                return true;
+            }
+         
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+
+        #endregion        
+
         private void QuoteDetails_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (Descriptiontxtbox.Text.Length > 0 || origintxt.Text.Length > 0 || tarifftxt.Text.Length > 0)
@@ -544,5 +562,6 @@ namespace SearchDataSPM
                 e.SuppressKeyPress = true;
             }
         }
+
     }
 }

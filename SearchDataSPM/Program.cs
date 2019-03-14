@@ -17,7 +17,6 @@ namespace SearchDataSPM
 		/// </summary>
 		[STAThread]
 
-
 		static void Main()
 		{
             Application.EnableVisualStyles();

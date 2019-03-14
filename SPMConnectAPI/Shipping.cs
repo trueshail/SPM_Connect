@@ -9,6 +9,8 @@ namespace SPMConnectAPI
 {
     public class Shipping
     {
+        #region Settting up Connetion and Get User
+
         SqlConnection cn;
 
         public void SPM_Connect(string connection)
@@ -80,6 +82,40 @@ namespace SPMConnectAPI
             string version = "V" + assembly.GetName().Version.ToString(3);
             return version;
         }
+
+        public string getsharesfolder()
+        {
+            string path = "";
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + UserName() + "' ";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    path = dr["SharesFolder"].ToString();
+
+                }
+                dt.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Error Getting share folder path", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return path;
+        }
+
+        #endregion
 
         #region Datatables to pull out values or records
 
@@ -972,40 +1008,10 @@ namespace SPMConnectAPI
             }
             return success;
         }
-        
-        #endregion
-        
-        public string getsharesfolder()
-        {
-            string path = "";
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + UserName() + "' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    path = dr["SharesFolder"].ToString();
 
-                }
-                dt.Clear();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Error Getting share folder path", MessageBoxButtons.OK, MessageBoxIcon.Error);                
-            }
-            finally
-            {
-                cn.Close();
-            }
-            return path;
-        }
+        #endregion
+
+        #region Perform Copy and CRUD
 
         public string CopyShippingInvoice(string oldinvoiceno)
         {
@@ -1186,5 +1192,99 @@ namespace SPMConnectAPI
             return qty;
 
         }
+
+        #endregion
+
+        #region Checkin Checkout Check Invoice
+
+        public string InvoiceOpen(string invoicenumber)
+        {
+            string username = "";
+
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM [SPM_Database].[dbo].[UserHolding] WHERE [ItemId]='" + invoicenumber + "' AND UserName = '"+ UserName()+ "'AND App = 'ShipInv'", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        username = reader["UserName"].ToString();
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Check Right Access", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+
+            return username;
+        }
+
+        public bool CheckinInvoice(string invoicenumber)
+        {
+            bool success = false;
+           
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[UserHolding] (App, UserName, ItemId) VALUES('ShipInv','" + UserName() + "','" + invoicenumber + "')";
+                cmd.ExecuteNonQuery();
+                cn.Close();
+                success = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Check in invoice", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+
+            }
+            return success;
+
+        }
+
+        public bool CheckoutInvoice(string invoicenumber)
+        {
+            bool success = false;
+
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "DELETE FROM [SPM_Database].[dbo].[UserHolding] where App = 'ShipInv' AND UserName = '" + UserName() + "' AND ItemId = '" + invoicenumber + "'";
+                cmd.ExecuteNonQuery();
+                cn.Close();
+                success = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Check out invoice", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+
+            }
+            return success;
+
+        }
+
+        #endregion
+
     }
 }

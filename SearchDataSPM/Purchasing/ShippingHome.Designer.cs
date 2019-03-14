@@ -62,6 +62,9 @@ namespace SearchDataSPM
             this.ShipTo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.JobNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DateCreated = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ContextMenuStripShipping = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.invoiceinfostripmenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyinvoicestrip = new System.Windows.Forms.ToolStripMenuItem();
             this.matlbl = new System.Windows.Forms.Label();
             this.clrfiltersbttn = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
@@ -70,9 +73,6 @@ namespace SearchDataSPM
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.actcadblk = new System.Windows.Forms.Label();
-            this.ContextMenuStripShipping = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.invoiceinfostripmenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyinvoicestrip = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -109,7 +109,7 @@ namespace SearchDataSPM
             | System.Windows.Forms.AnchorStyles.Right)));
             this.versionlabel.AutoSize = true;
             this.versionlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.versionlabel.ForeColor = System.Drawing.Color.Black;
+            this.versionlabel.ForeColor = System.Drawing.Color.White;
             this.versionlabel.Location = new System.Drawing.Point(837, 3);
             this.versionlabel.MaximumSize = new System.Drawing.Size(26, 8);
             this.versionlabel.MinimumSize = new System.Drawing.Size(26, 8);
@@ -247,7 +247,7 @@ namespace SearchDataSPM
             this.Shiptocomboxbox.FormattingEnabled = true;
             this.Shiptocomboxbox.Location = new System.Drawing.Point(6, 379);
             this.Shiptocomboxbox.Name = "Shiptocomboxbox";
-            this.Shiptocomboxbox.Size = new System.Drawing.Size(159, 21);
+            this.Shiptocomboxbox.Size = new System.Drawing.Size(161, 21);
             this.Shiptocomboxbox.TabIndex = 125;
             this.TreeViewToolTip.SetToolTip(this.Shiptocomboxbox, "Filter by ship to");
             this.Shiptocomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Manufactureritemcomboxbox_KeyDown);
@@ -263,7 +263,7 @@ namespace SearchDataSPM
             this.Salespersoncomboxbox.FormattingEnabled = true;
             this.Salespersoncomboxbox.Location = new System.Drawing.Point(6, 230);
             this.Salespersoncomboxbox.Name = "Salespersoncomboxbox";
-            this.Salespersoncomboxbox.Size = new System.Drawing.Size(159, 21);
+            this.Salespersoncomboxbox.Size = new System.Drawing.Size(161, 21);
             this.Salespersoncomboxbox.TabIndex = 123;
             this.TreeViewToolTip.SetToolTip(this.Salespersoncomboxbox, "Filter by sales person");
             this.Salespersoncomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.familycomboxbox_KeyDown);
@@ -279,7 +279,7 @@ namespace SearchDataSPM
             this.lastsavedbycombo.FormattingEnabled = true;
             this.lastsavedbycombo.Location = new System.Drawing.Point(6, 520);
             this.lastsavedbycombo.Name = "lastsavedbycombo";
-            this.lastsavedbycombo.Size = new System.Drawing.Size(159, 21);
+            this.lastsavedbycombo.Size = new System.Drawing.Size(161, 21);
             this.lastsavedbycombo.TabIndex = 127;
             this.TreeViewToolTip.SetToolTip(this.lastsavedbycombo, "Filter by last saved");
             this.lastsavedbycombo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lastsavedbycombo_KeyDown);
@@ -298,7 +298,7 @@ namespace SearchDataSPM
             "SPM AUTOMATION (Canada) INC."});
             this.Soldtocombobox.Location = new System.Drawing.Point(6, 304);
             this.Soldtocombobox.Name = "Soldtocombobox";
-            this.Soldtocombobox.Size = new System.Drawing.Size(159, 21);
+            this.Soldtocombobox.Size = new System.Drawing.Size(161, 21);
             this.Soldtocombobox.TabIndex = 124;
             this.TreeViewToolTip.SetToolTip(this.Soldtocombobox, "Filter by sold to");
             this.Soldtocombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.oemitemcombobox_KeyDown);
@@ -320,7 +320,7 @@ namespace SearchDataSPM
             "1 - Customer"});
             this.custvendcombobox.Location = new System.Drawing.Point(6, 594);
             this.custvendcombobox.Name = "custvendcombobox";
-            this.custvendcombobox.Size = new System.Drawing.Size(159, 21);
+            this.custvendcombobox.Size = new System.Drawing.Size(161, 21);
             this.custvendcombobox.TabIndex = 128;
             this.TreeViewToolTip.SetToolTip(this.custvendcombobox, "Filter by customer or vendor");
             this.custvendcombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ActiveCadblockcombobox_KeyDown);
@@ -340,7 +340,7 @@ namespace SearchDataSPM
             "Joel Goldsmith"});
             this.Createdbycombobox.Location = new System.Drawing.Point(6, 153);
             this.Createdbycombobox.Name = "Createdbycombobox";
-            this.Createdbycombobox.Size = new System.Drawing.Size(159, 21);
+            this.Createdbycombobox.Size = new System.Drawing.Size(161, 21);
             this.Createdbycombobox.TabIndex = 122;
             this.TreeViewToolTip.SetToolTip(this.Createdbycombobox, "Filter Created by");
             this.Createdbycombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.designedbycombobox_KeyDown);
@@ -356,7 +356,7 @@ namespace SearchDataSPM
             this.CarrierscomboBox.FormattingEnabled = true;
             this.CarrierscomboBox.Location = new System.Drawing.Point(6, 450);
             this.CarrierscomboBox.Name = "CarrierscomboBox";
-            this.CarrierscomboBox.Size = new System.Drawing.Size(159, 21);
+            this.CarrierscomboBox.Size = new System.Drawing.Size(161, 21);
             this.CarrierscomboBox.TabIndex = 126;
             this.TreeViewToolTip.SetToolTip(this.CarrierscomboBox, "Filter by carrier");
             this.CarrierscomboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MaterialcomboBox_KeyDown);
@@ -367,7 +367,7 @@ namespace SearchDataSPM
             | System.Windows.Forms.AnchorStyles.Right)));
             this.addnewbttn.BackColor = System.Drawing.Color.Transparent;
             this.addnewbttn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.addnewbttn.ForeColor = System.Drawing.Color.Black;
+            this.addnewbttn.ForeColor = System.Drawing.Color.White;
             this.addnewbttn.Image = ((System.Drawing.Image)(resources.GetObject("addnewbttn.Image")));
             this.addnewbttn.Location = new System.Drawing.Point(768, 3);
             this.addnewbttn.MaximumSize = new System.Drawing.Size(65, 56);
@@ -391,7 +391,7 @@ namespace SearchDataSPM
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.BackColor = System.Drawing.Color.LightPink;
+            this.splitContainer1.Panel1.BackColor = System.Drawing.Color.SkyBlue;
             this.splitContainer1.Panel1.Controls.Add(this.InvoiceItemsgrp);
             this.splitContainer1.Panel1.Controls.Add(this.addnewbttn);
             this.splitContainer1.Panel1.Controls.Add(this.advsearchbttn);
@@ -410,7 +410,7 @@ namespace SearchDataSPM
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.BackColor = System.Drawing.Color.Pink;
+            this.splitContainer1.Panel2.BackColor = System.Drawing.Color.LightSkyBlue;
             this.splitContainer1.Panel2.Controls.Add(this.matlbl);
             this.splitContainer1.Panel2.Controls.Add(this.CarrierscomboBox);
             this.splitContainer1.Panel2.Controls.Add(this.clrfiltersbttn);
@@ -493,7 +493,7 @@ namespace SearchDataSPM
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView.BackgroundColor = System.Drawing.Color.LightPink;
+            this.dataGridView.BackgroundColor = System.Drawing.Color.SkyBlue;
             this.dataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
@@ -569,110 +569,6 @@ namespace SearchDataSPM
             this.DateCreated.Name = "DateCreated";
             this.DateCreated.ReadOnly = true;
             // 
-            // matlbl
-            // 
-            this.matlbl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.matlbl.AutoSize = true;
-            this.matlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.matlbl.Location = new System.Drawing.Point(9, 428);
-            this.matlbl.Name = "matlbl";
-            this.matlbl.Size = new System.Drawing.Size(61, 18);
-            this.matlbl.TabIndex = 147;
-            this.matlbl.Text = "Carriers";
-            // 
-            // clrfiltersbttn
-            // 
-            this.clrfiltersbttn.Dock = System.Windows.Forms.DockStyle.Top;
-            this.clrfiltersbttn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.clrfiltersbttn.Location = new System.Drawing.Point(0, 0);
-            this.clrfiltersbttn.MinimumSize = new System.Drawing.Size(0, 40);
-            this.clrfiltersbttn.Name = "clrfiltersbttn";
-            this.clrfiltersbttn.Size = new System.Drawing.Size(175, 40);
-            this.clrfiltersbttn.TabIndex = 129;
-            this.clrfiltersbttn.Text = "Clear Filters";
-            this.clrfiltersbttn.UseVisualStyleBackColor = true;
-            this.clrfiltersbttn.Click += new System.EventHandler(this.clrfiltersbttn_Click);
-            // 
-            // label6
-            // 
-            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(9, 132);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(79, 18);
-            this.label6.TabIndex = 145;
-            this.label6.Text = "Created by";
-            // 
-            // label5
-            // 
-            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(9, 499);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(102, 18);
-            this.label5.TabIndex = 144;
-            this.label5.Text = "Last Saved By";
-            // 
-            // label4
-            // 
-            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(9, 358);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(59, 18);
-            this.label4.TabIndex = 143;
-            this.label4.Text = "Ship To";
-            // 
-            // label3
-            // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(9, 283);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(60, 18);
-            this.label3.TabIndex = 142;
-            this.label3.Text = "Sold To";
-            // 
-            // label2
-            // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(9, 209);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(97, 18);
-            this.label2.TabIndex = 141;
-            this.label2.Text = "Sales Person";
-            // 
-            // actcadblk
-            // 
-            this.actcadblk.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.actcadblk.AutoSize = true;
-            this.actcadblk.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.actcadblk.Location = new System.Drawing.Point(12, 573);
-            this.actcadblk.Name = "actcadblk";
-            this.actcadblk.Size = new System.Drawing.Size(125, 18);
-            this.actcadblk.TabIndex = 140;
-            this.actcadblk.Text = "Customer/Vendor";
-            // 
             // ContextMenuStripShipping
             // 
             this.ContextMenuStripShipping.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -701,11 +597,122 @@ namespace SearchDataSPM
             this.copyinvoicestrip.ToolTipText = "Copy selected invoice to new invoice number";
             this.copyinvoicestrip.Click += new System.EventHandler(this.copyinvoicestrip_Click);
             // 
+            // matlbl
+            // 
+            this.matlbl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.matlbl.AutoSize = true;
+            this.matlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.matlbl.ForeColor = System.Drawing.Color.Black;
+            this.matlbl.Location = new System.Drawing.Point(9, 428);
+            this.matlbl.Name = "matlbl";
+            this.matlbl.Size = new System.Drawing.Size(61, 18);
+            this.matlbl.TabIndex = 147;
+            this.matlbl.Text = "Carriers";
+            // 
+            // clrfiltersbttn
+            // 
+            this.clrfiltersbttn.Dock = System.Windows.Forms.DockStyle.Top;
+            this.clrfiltersbttn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.clrfiltersbttn.Location = new System.Drawing.Point(0, 0);
+            this.clrfiltersbttn.MinimumSize = new System.Drawing.Size(0, 40);
+            this.clrfiltersbttn.Name = "clrfiltersbttn";
+            this.clrfiltersbttn.Size = new System.Drawing.Size(175, 40);
+            this.clrfiltersbttn.TabIndex = 129;
+            this.clrfiltersbttn.Text = "Clear Filters";
+            this.clrfiltersbttn.UseVisualStyleBackColor = true;
+            this.clrfiltersbttn.Click += new System.EventHandler(this.clrfiltersbttn_Click);
+            // 
+            // label6
+            // 
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.Color.Black;
+            this.label6.Location = new System.Drawing.Point(9, 132);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(79, 18);
+            this.label6.TabIndex = 145;
+            this.label6.Text = "Created by";
+            // 
+            // label5
+            // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.Black;
+            this.label5.Location = new System.Drawing.Point(9, 499);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(102, 18);
+            this.label5.TabIndex = 144;
+            this.label5.Text = "Last Saved By";
+            // 
+            // label4
+            // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.Black;
+            this.label4.Location = new System.Drawing.Point(9, 358);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(59, 18);
+            this.label4.TabIndex = 143;
+            this.label4.Text = "Ship To";
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.Black;
+            this.label3.Location = new System.Drawing.Point(9, 283);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(60, 18);
+            this.label3.TabIndex = 142;
+            this.label3.Text = "Sold To";
+            // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.Black;
+            this.label2.Location = new System.Drawing.Point(9, 209);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(97, 18);
+            this.label2.TabIndex = 141;
+            this.label2.Text = "Sales Person";
+            // 
+            // actcadblk
+            // 
+            this.actcadblk.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.actcadblk.AutoSize = true;
+            this.actcadblk.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.actcadblk.ForeColor = System.Drawing.Color.Black;
+            this.actcadblk.Location = new System.Drawing.Point(12, 573);
+            this.actcadblk.Name = "actcadblk";
+            this.actcadblk.Size = new System.Drawing.Size(125, 18);
+            this.actcadblk.TabIndex = 140;
+            this.actcadblk.Text = "Customer/Vendor";
+            // 
             // ShippingHome
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.ClientSize = new System.Drawing.Size(1044, 711);
             this.Controls.Add(this.splitContainer1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

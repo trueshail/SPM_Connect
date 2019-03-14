@@ -721,16 +721,7 @@ namespace SearchDataSPM
 
                 return true;
             }
-
-
-            if (keyData == (Keys.Control | Keys.Alt | Keys.A))
-            {
-                LoginForm loginForm = new LoginForm();
-                loginForm.Show();
-
-                return true;
-            }
-
+            
             if (keyData == (Keys.Shift | Keys.OemPeriod))
             {
                 if (splitContainer1.Panel2Collapsed == true)
@@ -1137,17 +1128,30 @@ namespace SearchDataSPM
 
         void showshippinginvoice(string invoice, string vendorcust)
         {
-            using (InvoiceDetails invoiceDetails = new InvoiceDetails())
+            string invoiceopen = connectapi.InvoiceOpen(invoice);
+            if (invoiceopen.Length>0)
             {
-                invoiceDetails.invoicenumber(invoice);
-                invoiceDetails.setcustvendor(vendorcust);
-                invoiceDetails.ShowDialog();
-                this.Enabled = true;
-                performreload();
-                this.Show();
-                this.Activate();
-                this.Focus();
+                MetroFramework.MetroMessageBox.Show(this, "Inovice is opened for edit by "+invoiceopen+". ", "SPM Connect - Open Invoice Failed", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
+            else
+            {
+                if (connectapi.CheckinInvoice(invoice))
+                {
+                    using (InvoiceDetails invoiceDetails = new InvoiceDetails())
+                    {
+                        invoiceDetails.invoicenumber(invoice);
+                        invoiceDetails.setcustvendor(vendorcust);
+                        invoiceDetails.ShowDialog();
+                        this.Enabled = true;
+                        performreload();
+                        this.Show();
+                        this.Activate();
+                        this.Focus();
+                    }
+                }
+               
+            }
+           
         }
 
         private string getselectedinvoicenumber()

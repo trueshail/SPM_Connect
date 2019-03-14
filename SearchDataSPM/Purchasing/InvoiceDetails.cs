@@ -12,6 +12,8 @@ namespace SearchDataSPM
 {
     public partial class InvoiceDetails : Form
     {
+        #region Load Invoice Details and setting Parameters
+
         String connection;
         DataTable dt = new DataTable();
         SqlConnection cn;
@@ -102,6 +104,8 @@ namespace SearchDataSPM
             }
             return fillled;
         }
+
+        #endregion
 
         #region Fill information on controls
 
@@ -355,6 +359,30 @@ namespace SearchDataSPM
 
         #endregion
 
+        #region shortcuts
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+
+            if (keyData == (Keys.Control | Keys.W))
+            {
+                this.Close();
+
+                return true;
+            }
+            if (keyData == (Keys.Control | Keys.S))
+            {
+                perfromsavebttn();
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+
+        #endregion
+
+        #region DataGridView
+
         private bool PopulateDataGridView(string invoicenumber)
         {
             DataTable shippingitems = new DataTable();
@@ -409,6 +437,36 @@ namespace SearchDataSPM
             dataGridView1.Columns[3].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
         }
 
+        private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex == -1) return;
+
+            DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
+
+            if (e.Button == MouseButtons.Right)
+            {
+                int columnindex = e.RowIndex;
+                dataGridView1.ClearSelection();
+                dataGridView1.Rows[columnindex].Selected = true;
+            }
+        }
+
+        private void dataGridView1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            if (dataGridView1.Rows.Count > 0)
+                PrintToolStrip.Enabled = true;
+        }
+
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (!editbttn.Visible)
+                updateitem();
+        }
+
+        #endregion
+
+        #region FormClosing
+
         private void QuoteDetails_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (savbttn.Visible == true)
@@ -416,6 +474,7 @@ namespace SearchDataSPM
                 DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to close without saving changes?", "SPM Connect - Save Invoice Details", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {
+                    connectapi.CheckoutInvoice(invoicetxtbox.Text.Trim());
                     this.Dispose();
                 }
                 else
@@ -423,7 +482,13 @@ namespace SearchDataSPM
                     e.Cancel = (result == DialogResult.No);
                 }
             }
+            else
+            {
+                connectapi.CheckoutInvoice(invoicetxtbox.Text.Trim());
+            }
         }
+
+        #endregion
 
         #region Process Save
 
@@ -464,10 +529,10 @@ namespace SearchDataSPM
 
         private void savbttn_Click(object sender, EventArgs e)
         {
-            perfromsavebttn(true);
+            perfromsavebttn();
         }
 
-        void perfromsavebttn(bool createfolder)
+        void perfromsavebttn()
         {
             Cursor.Current = Cursors.WaitCursor;
             this.Enabled = false;
@@ -481,7 +546,6 @@ namespace SearchDataSPM
                     SaveReport(invoicetxtbox.Text);
                 }
             }
-
             this.Enabled = true;
             Cursor.Current = Cursors.Default;
 
@@ -555,6 +619,8 @@ namespace SearchDataSPM
         }
 
         #endregion
+
+        #region Events
 
         private void collectchkbox_CheckedChanged(object sender, EventArgs e)
         {
@@ -670,19 +736,9 @@ namespace SearchDataSPM
 
         }
 
-        private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (e.RowIndex == -1) return;
+        #endregion
 
-            DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
-
-            if (e.Button == MouseButtons.Right)
-            {
-                int columnindex = e.RowIndex;
-                dataGridView1.ClearSelection();
-                dataGridView1.Rows[columnindex].Selected = true;
-            }
-        }
+        #region ContextMenuStrip
 
         private void FormSelector_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -706,45 +762,6 @@ namespace SearchDataSPM
         private void editItemToolStripMenuItem_Click(object sender, EventArgs e)
         {
             updateitem();
-        }
-
-        void updateitem()
-        {
-            using (InvoiceAddItem invoiceAddItem = new InvoiceAddItem())
-            {
-                this.Enabled = false;
-                Cursor.Current = Cursors.WaitCursor;
-                invoiceAddItem.invoicenumber(invoicetxtbox.Text);
-                invoiceAddItem.itemnumber(getselecteditemnumber());
-                invoiceAddItem.command("Update");
-                invoiceAddItem.setcustvendor(custvendor);
-                invoiceAddItem.ShowDialog();
-                invoiceAddItem.Dispose();
-                connectapi.UpdateShippingItemsOrderId(Invoice_Number);
-                PopulateDataGridView(Invoice_Number);
-                this.Enabled = true;
-                this.Show();
-                this.Activate();
-                this.Focus();
-            }
-
-        }
-
-        private string getselecteditemnumber()
-        {
-            string item;
-            if (dataGridView1.SelectedRows.Count == 1 || dataGridView1.SelectedCells.Count == 1)
-            {
-                int selectedrowindex = dataGridView1.SelectedCells[0].RowIndex;
-                DataGridViewRow slectedrow = dataGridView1.Rows[selectedrowindex];
-                item = Convert.ToString(slectedrow.Cells[2].Value);
-                return item;
-            }
-            else
-            {
-                item = "";
-                return item;
-            }
         }
 
         private void addItemToolStripMenuItem_Click(object sender, EventArgs e)
@@ -772,16 +789,61 @@ namespace SearchDataSPM
             if (connectapi.DeleteItemFromInvoice(invoicetxtbox.Text, getselecteditemnumber()))
             {
                 connectapi.UpdateShippingItemsOrderId(Invoice_Number);
+                if (custvendor == "1")
+                {
+                    connectapi.UpdateShippingItemIdCopy(Invoice_Number);
+                }
                 PopulateDataGridView(Invoice_Number);
 
             }
         }
 
-        private void dataGridView1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        #endregion
+
+        #region Perform Update
+
+        void updateitem()
         {
-            if (dataGridView1.Rows.Count > 0)
-                PrintToolStrip.Enabled = true;
+            using (InvoiceAddItem invoiceAddItem = new InvoiceAddItem())
+            {
+                this.Enabled = false;
+                Cursor.Current = Cursors.WaitCursor;
+                invoiceAddItem.invoicenumber(invoicetxtbox.Text);
+                invoiceAddItem.itemnumber(getselecteditemnumber());
+                invoiceAddItem.command("Update");
+                invoiceAddItem.setcustvendor(custvendor);
+                invoiceAddItem.ShowDialog();
+                invoiceAddItem.Dispose();
+                connectapi.UpdateShippingItemsOrderId(Invoice_Number);
+                PopulateDataGridView(Invoice_Number);
+                this.Enabled = true;
+                this.Show();
+                this.Activate();
+                this.Focus();
+            }
+
         }
+
+        #endregion
+
+        private string getselecteditemnumber()
+        {
+            string item;
+            if (dataGridView1.SelectedRows.Count == 1 || dataGridView1.SelectedCells.Count == 1)
+            {
+                int selectedrowindex = dataGridView1.SelectedCells[0].RowIndex;
+                DataGridViewRow slectedrow = dataGridView1.Rows[selectedrowindex];
+                item = Convert.ToString(slectedrow.Cells[2].Value);
+                return item;
+            }
+            else
+            {
+                item = "";
+                return item;
+            }
+        }
+
+        #region Print Reports
 
         private void print1ToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -798,6 +860,10 @@ namespace SearchDataSPM
             form1.getreport("ShippingInvCom");
             form1.Show();
         }
+
+        #endregion
+
+        #region Save Report
 
         private void SaveReport(string reqno)
         {
@@ -890,9 +956,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            updateitem();
-        }
+        #endregion
+
     }
 }
