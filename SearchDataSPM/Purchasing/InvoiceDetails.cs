@@ -206,6 +206,7 @@ namespace SearchDataSPM
             else
             {
                 collectchkbox.Checked = true;
+                carrriercodetxt.Text = r["CarrierCode"].ToString();
             }
 
         }
@@ -498,6 +499,7 @@ namespace SearchDataSPM
             savbttn.Enabled = false;
             savbttn.Visible = false;
             jobtxt.ReadOnly = true;
+            carrriercodetxt.ReadOnly = true;
             notestxt.ReadOnly = true;
             FormSelector.Enabled = false;
             soldtogroupBox.Enabled = false;
@@ -524,6 +526,7 @@ namespace SearchDataSPM
             list.Add(soldtoid);
             list.Add(shiptoid);
             list.Add(notestxt.Text.Replace("'", "''"));
+            list.Add(carrriercodetxt.Text.Replace("'", "''"));
 
         }
 
@@ -538,7 +541,7 @@ namespace SearchDataSPM
             this.Enabled = false;
             perfromlockdown();
             graballinfor();
-            if (connectapi.UpdateInvoiceDetsToSql(list[0].ToString(), list[1].ToString(), list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(), list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(), list[10].ToString(), list[11].ToString(), list[12].ToString()))
+            if (connectapi.UpdateInvoiceDetsToSql(list[0].ToString(), list[1].ToString(), list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(), list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(), list[10].ToString(), list[11].ToString(), list[12].ToString(), list[13].ToString()))
             {
                 if (GetShippingBaseInfo(list[0].ToString()))
                 {
@@ -567,6 +570,7 @@ namespace SearchDataSPM
             savbttn.Visible = true;
             jobtxt.ReadOnly = false;
             notestxt.ReadOnly = false;
+            carrriercodetxt.ReadOnly = false;
             FormSelector.Enabled = true;
             soldtogroupBox.Enabled = true;
             ShiptogroupBox.Enabled = true;
@@ -627,10 +631,17 @@ namespace SearchDataSPM
             if (collectchkbox.Checked)
             {
                 prepaidchkbox.Checked = false;
+                carriercodelbl.Visible = true;
+                carrriercodetxt.Visible = true;
+                carrriercodetxt.ReadOnly = false;
             }
             else
             {
                 prepaidchkbox.Checked = true;
+                carriercodelbl.Visible = false;
+                carrriercodetxt.Visible = false;
+                carrriercodetxt.ReadOnly = true;
+                carrriercodetxt.Text = "";
             }
         }
 

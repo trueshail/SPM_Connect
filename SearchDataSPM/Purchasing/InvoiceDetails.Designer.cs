@@ -108,6 +108,8 @@
             this.editItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SPM = new System.Windows.Forms.Label();
+            this.carriercodelbl = new System.Windows.Forms.Label();
+            this.carrriercodetxt = new System.Windows.Forms.TextBox();
             this.shippinggroupBox.SuspendLayout();
             this.soldtogroupBox.SuspendLayout();
             this.ShiptogroupBox.SuspendLayout();
@@ -153,7 +155,7 @@
             this.invoicelbl.AutoSize = true;
             this.invoicelbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.invoicelbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.invoicelbl.Location = new System.Drawing.Point(6, 115);
+            this.invoicelbl.Location = new System.Drawing.Point(6, 100);
             this.invoicelbl.Name = "invoicelbl";
             this.invoicelbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.invoicelbl.Size = new System.Drawing.Size(77, 13);
@@ -166,7 +168,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.invoicetxtbox.BackColor = System.Drawing.Color.White;
             this.invoicetxtbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.invoicetxtbox.Location = new System.Drawing.Point(9, 131);
+            this.invoicetxtbox.Location = new System.Drawing.Point(9, 116);
             this.invoicetxtbox.MaximumSize = new System.Drawing.Size(200, 30);
             this.invoicetxtbox.Name = "invoicetxtbox";
             this.invoicetxtbox.ReadOnly = true;
@@ -756,14 +758,14 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.jobtxt.BackColor = System.Drawing.Color.White;
             this.jobtxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.jobtxt.Location = new System.Drawing.Point(9, 184);
-            this.jobtxt.MaximumSize = new System.Drawing.Size(200, 60);
-            this.jobtxt.MinimumSize = new System.Drawing.Size(200, 60);
+            this.jobtxt.Location = new System.Drawing.Point(9, 158);
+            this.jobtxt.MaximumSize = new System.Drawing.Size(200, 3);
+            this.jobtxt.MinimumSize = new System.Drawing.Size(200, 30);
             this.jobtxt.Multiline = true;
             this.jobtxt.Name = "jobtxt";
             this.jobtxt.ReadOnly = true;
             this.jobtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.jobtxt.Size = new System.Drawing.Size(200, 60);
+            this.jobtxt.Size = new System.Drawing.Size(200, 30);
             this.jobtxt.TabIndex = 1;
             this.TreeViewToolTip.SetToolTip(this.jobtxt, "Job Number");
             // 
@@ -1108,7 +1110,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label2.Location = new System.Drawing.Point(11, 168);
+            this.label2.Location = new System.Drawing.Point(11, 142);
             this.label2.Name = "label2";
             this.label2.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label2.Size = new System.Drawing.Size(55, 13);
@@ -1281,7 +1283,7 @@
             this.SPM.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SPM.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.SPM.Image = ((System.Drawing.Image)(resources.GetObject("SPM.Image")));
-            this.SPM.Location = new System.Drawing.Point(8, 5);
+            this.SPM.Location = new System.Drawing.Point(8, 2);
             this.SPM.MaximumSize = new System.Drawing.Size(288, 100);
             this.SPM.MinimumSize = new System.Drawing.Size(100, 100);
             this.SPM.Name = "SPM";
@@ -1289,12 +1291,45 @@
             this.SPM.TabIndex = 90;
             this.SPM.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // carriercodelbl
+            // 
+            this.carriercodelbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.carriercodelbl.AutoSize = true;
+            this.carriercodelbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.carriercodelbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.carriercodelbl.Location = new System.Drawing.Point(6, 202);
+            this.carriercodelbl.Name = "carriercodelbl";
+            this.carriercodelbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.carriercodelbl.Size = new System.Drawing.Size(85, 13);
+            this.carriercodelbl.TabIndex = 103;
+            this.carriercodelbl.Text = "Carrier Code :";
+            this.carriercodelbl.Visible = false;
+            // 
+            // carrriercodetxt
+            // 
+            this.carrriercodetxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.carrriercodetxt.BackColor = System.Drawing.Color.White;
+            this.carrriercodetxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.carrriercodetxt.Location = new System.Drawing.Point(9, 218);
+            this.carrriercodetxt.MaximumSize = new System.Drawing.Size(200, 30);
+            this.carrriercodetxt.Name = "carrriercodetxt";
+            this.carrriercodetxt.ReadOnly = true;
+            this.carrriercodetxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.carrriercodetxt.Size = new System.Drawing.Size(200, 22);
+            this.carrriercodetxt.TabIndex = 102;
+            this.TreeViewToolTip.SetToolTip(this.carrriercodetxt, "Invoice Number");
+            this.carrriercodetxt.Visible = false;
+            // 
             // InvoiceDetails
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(69)))), ((int)(((byte)(76)))));
             this.ClientSize = new System.Drawing.Size(1009, 711);
+            this.Controls.Add(this.carriercodelbl);
+            this.Controls.Add(this.carrriercodetxt);
             this.Controls.Add(this.totalcostlbl);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.statusStrip1);
@@ -1410,5 +1445,7 @@
         private System.Windows.Forms.ToolStripSplitButton PrintToolStrip;
         private System.Windows.Forms.ToolStripMenuItem print2ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem print1ToolStripMenuItem;
+        private System.Windows.Forms.Label carriercodelbl;
+        private System.Windows.Forms.TextBox carrriercodetxt;
     }
 }

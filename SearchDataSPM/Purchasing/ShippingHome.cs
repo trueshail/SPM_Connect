@@ -124,14 +124,15 @@ namespace SearchDataSPM
             dataGridView.Columns[15].Visible = false;
             dataGridView.Columns[16].Visible = false;
             dataGridView.Columns[17].Visible = false;
-            dataGridView.Columns[20].Visible = false;
+            dataGridView.Columns[18].Visible = false;
+            dataGridView.Columns[21].Visible = false;
             dataGridView.Columns[0].Width = 80;
             dataGridView.Columns[1].Width = 250;
             dataGridView.Columns[5].Width = 120;
-            dataGridView.Columns[18].Width = 280;
             dataGridView.Columns[19].Width = 280;
-            dataGridView.Columns[18].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridView.Columns[20].Width = 280;
             dataGridView.Columns[19].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridView.Columns[20].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             UpdateFont();
 
         }

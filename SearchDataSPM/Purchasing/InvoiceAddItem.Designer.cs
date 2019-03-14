@@ -54,6 +54,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.Itemlbl = new System.Windows.Forms.Label();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.showspmchk = new System.Windows.Forms.CheckBox();
             this.ItemsGrpBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
@@ -72,7 +73,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.Font = new System.Drawing.Font("Palatino Linotype", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancel.ForeColor = System.Drawing.Color.Black;
-            this.btnCancel.Location = new System.Drawing.Point(301, 386);
+            this.btnCancel.Location = new System.Drawing.Point(301, 370);
             this.btnCancel.MaximumSize = new System.Drawing.Size(80, 25);
             this.btnCancel.MinimumSize = new System.Drawing.Size(80, 25);
             this.btnCancel.Name = "btnCancel";
@@ -91,7 +92,7 @@
             this.Addnewbttn.Enabled = false;
             this.Addnewbttn.Font = new System.Drawing.Font("Palatino Linotype", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Addnewbttn.ForeColor = System.Drawing.Color.Black;
-            this.Addnewbttn.Location = new System.Drawing.Point(190, 386);
+            this.Addnewbttn.Location = new System.Drawing.Point(190, 370);
             this.Addnewbttn.MaximumSize = new System.Drawing.Size(80, 25);
             this.Addnewbttn.MinimumSize = new System.Drawing.Size(80, 25);
             this.Addnewbttn.Name = "Addnewbttn";
@@ -115,7 +116,7 @@
             this.oemitemnotxt.Name = "oemitemnotxt";
             this.oemitemnotxt.ReadOnly = true;
             this.oemitemnotxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.oemitemnotxt.Size = new System.Drawing.Size(420, 20);
+            this.oemitemnotxt.Size = new System.Drawing.Size(368, 20);
             this.oemitemnotxt.TabIndex = 4;
             this.TreeViewToolTip.SetToolTip(this.oemitemnotxt, "Manufacturer Item No");
             this.oemitemnotxt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.oemitemnotxt_KeyDown);
@@ -131,7 +132,7 @@
             this.qtytxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.qtytxt.Name = "qtytxt";
             this.qtytxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.qtytxt.Size = new System.Drawing.Size(420, 22);
+            this.qtytxt.Size = new System.Drawing.Size(368, 22);
             this.qtytxt.TabIndex = 5;
             this.TreeViewToolTip.SetToolTip(this.qtytxt, "Quantity required");
             this.qtytxt.TextChanged += new System.EventHandler(this.qtytxt_TextChanged);
@@ -149,7 +150,7 @@
             this.pricetxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.pricetxt.Name = "pricetxt";
             this.pricetxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.pricetxt.Size = new System.Drawing.Size(420, 22);
+            this.pricetxt.Size = new System.Drawing.Size(368, 22);
             this.pricetxt.TabIndex = 6;
             this.pricetxt.Text = "$0.00";
             this.TreeViewToolTip.SetToolTip(this.pricetxt, "Unit price for the item");
@@ -169,7 +170,7 @@
             this.oemtxt.Name = "oemtxt";
             this.oemtxt.ReadOnly = true;
             this.oemtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.oemtxt.Size = new System.Drawing.Size(420, 20);
+            this.oemtxt.Size = new System.Drawing.Size(368, 20);
             this.oemtxt.TabIndex = 3;
             this.TreeViewToolTip.SetToolTip(this.oemtxt, "Item Manufacturer");
             this.oemtxt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.oemtxt_KeyDown);
@@ -186,29 +187,31 @@
             this.ItemTxtBox.Name = "ItemTxtBox";
             this.ItemTxtBox.ReadOnly = true;
             this.ItemTxtBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.ItemTxtBox.Size = new System.Drawing.Size(420, 20);
+            this.ItemTxtBox.Size = new System.Drawing.Size(368, 20);
             this.ItemTxtBox.TabIndex = 1;
             this.TreeViewToolTip.SetToolTip(this.ItemTxtBox, "Item Number");
             // 
             // ItemsCombobox
             // 
+            this.ItemsCombobox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.ItemsCombobox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.ItemsCombobox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.ItemsCombobox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.ItemsCombobox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ItemsCombobox.FormattingEnabled = true;
             this.ItemsCombobox.ItemHeight = 13;
-            this.ItemsCombobox.Location = new System.Drawing.Point(12, 28);
+            this.ItemsCombobox.Location = new System.Drawing.Point(12, 39);
             this.ItemsCombobox.Name = "ItemsCombobox";
-            this.ItemsCombobox.Size = new System.Drawing.Size(524, 21);
+            this.ItemsCombobox.Size = new System.Drawing.Size(474, 21);
             this.ItemsCombobox.TabIndex = 0;
             this.TreeViewToolTip.SetToolTip(this.ItemsCombobox, "Select Sold to Customer/Vendor");
-            this.ItemsCombobox.SelectedIndexChanged += new System.EventHandler(this.ItemsCombobox_SelectedIndexChanged);
             this.ItemsCombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ItemsCombobox_KeyDown);
             // 
             // ItemsGrpBox
             // 
             this.ItemsGrpBox.BackColor = System.Drawing.Color.Transparent;
+            this.ItemsGrpBox.Controls.Add(this.showspmchk);
             this.ItemsGrpBox.Controls.Add(this.ItemsCombobox);
             this.ItemsGrpBox.Controls.Add(this.btnCancel);
             this.ItemsGrpBox.Controls.Add(this.Addnewbttn);
@@ -237,7 +240,7 @@
             this.ItemsGrpBox.Location = new System.Drawing.Point(0, 0);
             this.ItemsGrpBox.Margin = new System.Windows.Forms.Padding(1);
             this.ItemsGrpBox.Name = "ItemsGrpBox";
-            this.ItemsGrpBox.Size = new System.Drawing.Size(543, 423);
+            this.ItemsGrpBox.Size = new System.Drawing.Size(491, 401);
             this.ItemsGrpBox.TabIndex = 15;
             this.ItemsGrpBox.TabStop = false;
             this.ItemsGrpBox.Text = "Add Item to order";
@@ -315,7 +318,7 @@
             this.tarifftxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.tarifftxt.Name = "tarifftxt";
             this.tarifftxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.tarifftxt.Size = new System.Drawing.Size(420, 22);
+            this.tarifftxt.Size = new System.Drawing.Size(368, 22);
             this.tarifftxt.TabIndex = 8;
             // 
             // origintxt
@@ -330,7 +333,7 @@
             this.origintxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.origintxt.Name = "origintxt";
             this.origintxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.origintxt.Size = new System.Drawing.Size(420, 22);
+            this.origintxt.Size = new System.Drawing.Size(368, 22);
             this.origintxt.TabIndex = 7;
             this.origintxt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.origintxt_KeyDown);
             // 
@@ -376,7 +379,7 @@
             this.totaltxt.Name = "totaltxt";
             this.totaltxt.ReadOnly = true;
             this.totaltxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.totaltxt.Size = new System.Drawing.Size(420, 22);
+            this.totaltxt.Size = new System.Drawing.Size(368, 22);
             this.totaltxt.TabIndex = 9;
             this.totaltxt.Text = "$0.00";
             // 
@@ -408,7 +411,7 @@
             this.Descriptiontxtbox.Name = "Descriptiontxtbox";
             this.Descriptiontxtbox.ReadOnly = true;
             this.Descriptiontxtbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.Descriptiontxtbox.Size = new System.Drawing.Size(420, 20);
+            this.Descriptiontxtbox.Size = new System.Drawing.Size(368, 20);
             this.Descriptiontxtbox.TabIndex = 2;
             this.Descriptiontxtbox.TextChanged += new System.EventHandler(this.Descriptiontxtbox_TextChanged);
             this.Descriptiontxtbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Descriptiontxtbox_KeyDown);
@@ -449,12 +452,26 @@
             this.errorProvider1.ContainerControl = this;
             this.errorProvider1.RightToLeft = true;
             // 
+            // showspmchk
+            // 
+            this.showspmchk.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.showspmchk.AutoSize = true;
+            this.showspmchk.Location = new System.Drawing.Point(353, 13);
+            this.showspmchk.Name = "showspmchk";
+            this.showspmchk.Size = new System.Drawing.Size(141, 20);
+            this.showspmchk.TabIndex = 66;
+            this.showspmchk.Text = "Show SPM Items";
+            this.showspmchk.UseVisualStyleBackColor = true;
+            this.showspmchk.Visible = false;
+            this.showspmchk.CheckedChanged += new System.EventHandler(this.showspmchk_CheckedChanged);
+            // 
             // InvoiceAddItem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Peru;
-            this.ClientSize = new System.Drawing.Size(543, 423);
+            this.ClientSize = new System.Drawing.Size(491, 401);
             this.Controls.Add(this.ItemsGrpBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -499,5 +516,6 @@
         private System.Windows.Forms.TextBox totaltxt;
         private System.Windows.Forms.TextBox Descriptiontxtbox;
         private System.Windows.Forms.ErrorProvider errorProvider1;
+        private System.Windows.Forms.CheckBox showspmchk;
     }
 }

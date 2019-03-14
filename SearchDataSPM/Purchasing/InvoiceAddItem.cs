@@ -18,7 +18,6 @@ namespace SearchDataSPM
         string custvendor = "";
         string _operation = "";
         string _itemnumber = "";
-        bool formloading = false;
         SPMConnectAPI.Shipping connectapi = new Shipping();
 
         public InvoiceAddItem()
@@ -73,7 +72,7 @@ namespace SearchDataSPM
 
         private void QuoteDetails_Load(object sender, EventArgs e)
         {
-            formloading = true;
+
             this.Text = _operation + " Item - " + Invoice_Number;
             //clearaddnewtextboxes();
             if (custvendor == "0")
@@ -96,26 +95,22 @@ namespace SearchDataSPM
             else
             {
                 ItemsCombobox.Visible = false;
+                Descriptiontxtbox.ReadOnly = false;
+                oemtxt.ReadOnly = false;
+                oemitemnotxt.ReadOnly = false;
                 if (_operation == "Update")
                 {
-                    Descriptiontxtbox.ReadOnly = false;
-                    oemtxt.ReadOnly = false;
-                    oemitemnotxt.ReadOnly = false;
                     Addnewbttn.Text = "Update";
                     Addnewbttn.Enabled = true;
                     FillShippingItemInfo(_itemnumber, Invoice_Number, false);
-
                 }
                 else
                 {
+                    showspmchk.Visible = true;
                     ItemTxtBox.Text = "New item id will be generated on save";
-                    Descriptiontxtbox.ReadOnly = false;
-                    oemtxt.ReadOnly = false;
-                    oemitemnotxt.ReadOnly = false;
 
                 }
             }
-            formloading = false;
             Cursor.Current = Cursors.Default;
         }
 
@@ -201,14 +196,14 @@ namespace SearchDataSPM
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-           
+
             if (keyData == (Keys.Control | Keys.W))
             {
                 this.Close();
 
                 return true;
             }
-         
+
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
@@ -291,16 +286,6 @@ namespace SearchDataSPM
         }
 
         #endregion
-
-        private void ItemsCombobox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (!formloading)
-            {
-                string item = ItemsCombobox.Text.Trim().Substring(0, 6);
-                fillselectediteminfo(item);
-                FillOriginTarriff(item);
-            }
-        }
 
         void clearaddnewtextboxes()
         {
@@ -472,10 +457,8 @@ namespace SearchDataSPM
 
         void perfromcancel()
         {
-            formloading = true;
             clearaddnewtextboxes();
             ItemsCombobox.Text = null;
-            formloading = false;
         }
 
         private void ItemsCombobox_KeyDown(object sender, KeyEventArgs e)
@@ -495,7 +478,7 @@ namespace SearchDataSPM
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
-      
+
         }
 
         private void Descriptiontxtbox_TextChanged(object sender, EventArgs e)
@@ -563,5 +546,38 @@ namespace SearchDataSPM
             }
         }
 
+        private void showspmchk_CheckedChanged(object sender, EventArgs e)
+        {
+            if (showspmchk.Checked)
+            {
+                this.Enabled = false;
+                Cursor.Current = Cursors.WaitCursor;
+                perfromcancel();
+                fillitemscombobox();
+                ItemsCombobox.Text = null;
+                ItemsCombobox.Visible = true;
+                ItemTxtBox.Text = "";
+                custvendor = "0";
+                Descriptiontxtbox.ReadOnly = true;
+                oemtxt.ReadOnly = true;
+                oemitemnotxt.ReadOnly = true;
+                Cursor.Current = Cursors.Default;
+                this.Enabled = true;
+            }
+            else
+            {
+                this.Enabled = false;
+                Cursor.Current = Cursors.WaitCursor;
+                perfromcancel();
+                ItemsCombobox.Visible = false;
+                ItemTxtBox.Text = "New item id will be generated on save";
+                custvendor = "1";
+                Descriptiontxtbox.ReadOnly = false;
+                oemtxt.ReadOnly = false;
+                oemitemnotxt.ReadOnly = false;
+                Cursor.Current = Cursors.Default;
+                this.Enabled = true;
+            }
+        }
     }
 }
