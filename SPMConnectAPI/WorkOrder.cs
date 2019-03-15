@@ -9,6 +9,8 @@ namespace SPMConnectAPI
 {
     public class WorkOrder
     {
+        #region User Details and connections
+
         SqlConnection cn;
 
         public void SPM_Connect()
@@ -109,5 +111,71 @@ namespace SPMConnectAPI
             }
             return Department;
         }
+
+        #endregion
+
+
+        public bool WoExistsOnWotrack(string wo)
+        {
+            bool wopresent = false;
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[WO_Tracking] WHERE [WO]='" + wo + "'", cn))
+            {
+                try
+                {
+                    cn.Open();
+
+                    int userCount = (int)sqlCommand.ExecuteScalar();
+                    if (userCount == 1)
+                    {
+                        wopresent = true;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Check WO Present on Tracking", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+
+                }
+            }
+            return wopresent;
+        }
+
+        public void scanworkorder(string wo)
+        {
+            if (WoExistsOnWotrack(wo))
+            {
+                string department = getdepartment();
+
+                switch (department)
+                {
+                    case "Eng":
+
+                        break;
+                    case "Prodcution":
+
+                        break;
+                    case "Purchasing":
+
+                        break;
+                    case "Crib":
+
+                        break;
+                    default:
+
+                        break;
+                }
+            }
+        }
+
+        private void performengscanwo(string wo)
+        {
+
+        }
+
+
     }
 }

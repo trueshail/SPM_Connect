@@ -40,6 +40,7 @@
             this.ItemTxtBox = new System.Windows.Forms.TextBox();
             this.ItemsCombobox = new System.Windows.Forms.ComboBox();
             this.ItemsGrpBox = new System.Windows.Forms.GroupBox();
+            this.showspmchk = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -54,7 +55,6 @@
             this.label6 = new System.Windows.Forms.Label();
             this.Itemlbl = new System.Windows.Forms.Label();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-            this.showspmchk = new System.Windows.Forms.CheckBox();
             this.ItemsGrpBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
@@ -207,6 +207,7 @@
             this.ItemsCombobox.TabIndex = 0;
             this.TreeViewToolTip.SetToolTip(this.ItemsCombobox, "Select Sold to Customer/Vendor");
             this.ItemsCombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ItemsCombobox_KeyDown);
+            this.ItemsCombobox.Leave += new System.EventHandler(this.ItemsCombobox_Leave);
             // 
             // ItemsGrpBox
             // 
@@ -245,6 +246,20 @@
             this.ItemsGrpBox.TabStop = false;
             this.ItemsGrpBox.Text = "Add Item to order";
             this.ItemsGrpBox.UseCompatibleTextRendering = true;
+            // 
+            // showspmchk
+            // 
+            this.showspmchk.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.showspmchk.AutoSize = true;
+            this.showspmchk.Location = new System.Drawing.Point(353, 13);
+            this.showspmchk.Name = "showspmchk";
+            this.showspmchk.Size = new System.Drawing.Size(141, 20);
+            this.showspmchk.TabIndex = 66;
+            this.showspmchk.Text = "Show SPM Items";
+            this.showspmchk.UseVisualStyleBackColor = true;
+            this.showspmchk.Visible = false;
+            this.showspmchk.CheckedChanged += new System.EventHandler(this.showspmchk_CheckedChanged);
             // 
             // label5
             // 
@@ -451,20 +466,6 @@
             // 
             this.errorProvider1.ContainerControl = this;
             this.errorProvider1.RightToLeft = true;
-            // 
-            // showspmchk
-            // 
-            this.showspmchk.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.showspmchk.AutoSize = true;
-            this.showspmchk.Location = new System.Drawing.Point(353, 13);
-            this.showspmchk.Name = "showspmchk";
-            this.showspmchk.Size = new System.Drawing.Size(141, 20);
-            this.showspmchk.TabIndex = 66;
-            this.showspmchk.Text = "Show SPM Items";
-            this.showspmchk.UseVisualStyleBackColor = true;
-            this.showspmchk.Visible = false;
-            this.showspmchk.CheckedChanged += new System.EventHandler(this.showspmchk_CheckedChanged);
             // 
             // InvoiceAddItem
             // 

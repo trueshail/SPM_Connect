@@ -77,19 +77,29 @@ namespace SearchDataSPM
             //clearaddnewtextboxes();
             if (custvendor == "0")
             {
+                ItemsCombobox.Visible = false;
+                Descriptiontxtbox.ReadOnly = false;
+                oemtxt.ReadOnly = false;
+                oemitemnotxt.ReadOnly = false;
+
                 if (_operation == "Update")
                 {
                     Addnewbttn.Text = "Update";
                     Addnewbttn.Enabled = true;
                     ItemsCombobox.Visible = false;
-                    fillselectediteminfo(_itemnumber);
+                    //fillselectediteminfo(_itemnumber);
                     FillShippingItemInfo(_itemnumber, Invoice_Number, true);
                     FillOriginTarriff(_itemnumber);
                 }
                 else
                 {
-                    fillitemscombobox();
-                    ItemsCombobox.Text = null;
+                    //fillitemscombobox();
+                    //ItemsCombobox.Text = null;
+                    //showspmchk.Visible = true;
+                   
+                    showspmchk.Visible = true;
+                    ItemTxtBox.Text = "New item id will be generated on save";
+
                 }
             }
             else
@@ -141,11 +151,11 @@ namespace SearchDataSPM
             iteminfo.Clear();
             iteminfo = connectapi.GetShippingIteminfo(item, invoicenumber);
             DataRow r = iteminfo.Rows[0];
-            if (!vendor)
-            {
+            //if (!vendor)
+            //{
                 ItemTxtBox.Text = r["Item"].ToString();
                 extractdescription(r["Description"].ToString());
-            }
+            //}
             qtytxt.Text = r["Qty"].ToString();
             pricetxt.Text = string.Format("{0:c2}", Convert.ToDecimal(r["Cost"].ToString()));
             origintxt.Text = r["Origin"].ToString();
@@ -385,6 +395,7 @@ namespace SearchDataSPM
             {
                 decimal.TryParse(pricetxt.Text.Replace(",", "").Replace("$", ""), out decimal result12);
                 decimal.TryParse(totaltxt.Text.Replace(",", "").Replace("$", ""), out decimal result11);
+                cleantextboxesdata();
                 if (_operation == "Update")
                 {
                     if (connectapi.UpdateShippingItems(Invoice_Number, ItemTxtBox.Text.Trim(), Descriptiontxtbox.Text.Trim(), oemtxt.Text.Trim(), oemitemnotxt.Text.Trim(), origintxt.Text.Trim(), tarifftxt.Text.Trim(), qtytxt.Text.Trim(), result12, result11))
@@ -421,11 +432,23 @@ namespace SearchDataSPM
                         }
                         else
                         {
-                            if (connectapi.InsertShippingItems(Invoice_Number, ItemTxtBox.Text.Trim(), Descriptiontxtbox.Text.Trim(), oemtxt.Text.Trim(), oemitemnotxt.Text.Trim(), origintxt.Text.Trim(), tarifftxt.Text.Trim(), qtytxt.Text.Trim(), result12, result11))
+                            if (ItemsCombobox.Visible)
                             {
-                                perfromcancel();
+                                if (connectapi.InsertShippingItems(Invoice_Number, ItemTxtBox.Text.Trim(), Descriptiontxtbox.Text.Trim(), oemtxt.Text.Trim(), oemitemnotxt.Text.Trim(), origintxt.Text.Trim(), tarifftxt.Text.Trim(), qtytxt.Text.Trim(), result12, result11))
+                                {
+                                    perfromcancel();
 
+                                }
                             }
+                            else
+                            {
+                                if (connectapi.InsertShippingItems(Invoice_Number, "", Descriptiontxtbox.Text.Trim(), oemtxt.Text.Trim(), oemitemnotxt.Text.Trim(), origintxt.Text.Trim(), tarifftxt.Text.Trim(), qtytxt.Text.Trim(), result12, result11))
+                                {
+                                    perfromcancel();
+                                    ItemTxtBox.Text = "New item id will be generated on save";
+                                }
+                            }
+                          
                         }
 
                     }
@@ -449,6 +472,17 @@ namespace SearchDataSPM
             }
         }
 
+        void cleantextboxesdata()
+        {
+            Regex reg = new Regex("[*'\",_&#^@]");
+            ItemTxtBox.Text = reg.Replace(ItemTxtBox.Text, "''");
+            Descriptiontxtbox.Text = reg.Replace(Descriptiontxtbox.Text, "''");
+            oemitemnotxt.Text = reg.Replace(oemitemnotxt.Text, "''");
+            oemtxt.Text = reg.Replace(oemtxt.Text, "''");
+            origintxt.Text = reg.Replace(origintxt.Text, "''");
+            tarifftxt.Text = reg.Replace(tarifftxt.Text, "''");
+        }
+
         private void btnCancel_Click(object sender, EventArgs e)
         {
             if (_operation == "Update") this.Close();
@@ -459,6 +493,11 @@ namespace SearchDataSPM
         {
             clearaddnewtextboxes();
             ItemsCombobox.Text = null;
+            if (!showspmchk.Checked)
+            {
+                ItemTxtBox.Text = "New item id will be generated on save";
+            }
+            
         }
 
         private void ItemsCombobox_KeyDown(object sender, KeyEventArgs e)
@@ -478,7 +517,7 @@ namespace SearchDataSPM
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
-
+          
         }
 
         private void Descriptiontxtbox_TextChanged(object sender, EventArgs e)
@@ -577,6 +616,20 @@ namespace SearchDataSPM
                 oemitemnotxt.ReadOnly = false;
                 Cursor.Current = Cursors.Default;
                 this.Enabled = true;
+            }
+        }
+
+        private void ItemsCombobox_Leave(object sender, EventArgs e)
+        {
+            if (ItemsCombobox.Text.Length >= 6)
+            {
+                clearaddnewtextboxes();
+                string item = ItemsCombobox.Text.Trim().Substring(0, 6);
+                fillselectediteminfo(item);
+                FillOriginTarriff(item);
+                Addnewbttn.Enabled = true;
+                this.Focus();
+                this.Activate();
             }
         }
     }

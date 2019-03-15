@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
@@ -512,21 +513,21 @@ namespace SearchDataSPM
         private void graballinfor()
         {
             list.Clear();
-
+            Regex reg = new Regex("[*'\",_&#^@]");
             list.Add(invoicetxtbox.Text);
-            list.Add(jobtxt.Text.Replace("'", "''"));
-            list.Add(Salespersoncombobox.Text.Replace("'", "''"));
-            list.Add(requestcomboBox.Text.Replace("'", "''"));
-            list.Add(Carriercombox.Text.Replace("'", "''"));
+            list.Add(reg.Replace(jobtxt.Text, "''"));
+            list.Add(reg.Replace(Salespersoncombobox.Text, "''"));
+            list.Add(reg.Replace(requestcomboBox.Text, "''"));
+            list.Add(reg.Replace(Carriercombox.Text, "''"));
             list.Add(collectchkbox.Checked ? "0" : "1");
-            list.Add(FOBPointcombox.Text.Replace("'", "''"));
-            list.Add(Termscombobox.Text.Replace("'", "''"));
-            list.Add(currencycombox.Text.Replace("'", "''"));
+            list.Add(reg.Replace(FOBPointcombox.Text, "''"));
+            list.Add(reg.Replace(Termscombobox.Text, "''"));
+            list.Add(reg.Replace(currencycombox.Text, "''"));
             list.Add(totalvalue);
             list.Add(soldtoid);
             list.Add(shiptoid);
-            list.Add(notestxt.Text.Replace("'", "''"));
-            list.Add(carrriercodetxt.Text.Replace("'", "''"));
+            list.Add(reg.Replace(notestxt.Text, "''"));
+            list.Add(reg.Replace(carrriercodetxt.Text, "''"));
 
         }
 
