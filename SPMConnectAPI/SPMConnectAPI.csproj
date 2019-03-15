@@ -72,6 +72,7 @@
     <Compile Include="Shipping.cs" />
     <Compile Include="SPMSQLCommands.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WorkOrder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

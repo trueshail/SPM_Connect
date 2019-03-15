@@ -61,7 +61,7 @@ namespace SearchDataSPM
                 Application.Exit();
             }
 
-            connectapi.SPM_Connect(connection);
+            connectapi.SPM_Connect();
 
         }
 
@@ -107,8 +107,8 @@ namespace SearchDataSPM
                 this.Text = "SPM Connect Controls - " + userName.ToString().Substring(4);
                 connectapi.chekin("SPM Connect Controls");
 
-                connectapicntrls.SPM_Connect(cntrlconnection);
-                connectapicntrls.SPM_Connectconnectsql(connection);
+                connectapicntrls.SPM_Connect();
+                connectapicntrls.SPM_Connectconnectsql();
 
             }
             else if (department == "Eng")

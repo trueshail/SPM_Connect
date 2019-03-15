@@ -40,7 +40,7 @@ namespace SearchDataSPM
                 Application.Exit();
             }
 
-            connectapi.SPM_Connect(connection);
+            connectapi.SPM_Connect();
 
         }
 

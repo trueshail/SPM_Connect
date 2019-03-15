@@ -1,16 +1,12 @@
 ﻿using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SPMConnectAPI
@@ -19,10 +15,9 @@ namespace SPMConnectAPI
     {
         SqlConnection cn;
 
-        public void SPM_Connect(string connection)
+        public void SPM_Connect()
         {
-
-            // connection = System.Configuration.ConfigurationManager.ConnectionStrings[connection].ConnectionString;
+            string connection = "Data Source=spm-sql;Initial Catalog=SPM_Database;User ID=SPM_Agent;password=spm5445";
             try
             {
                 cn = new SqlConnection(connection);
@@ -30,10 +25,9 @@ namespace SPMConnectAPI
             }
             catch (Exception)
             {
-                MessageBox.Show("Error Connecting to SQL Server.....", "SPM Connect Initialize", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error Connecting to SQL Server.....", "SPM Connect Sql Commands", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             }
-
         }
 
         public string UserName()

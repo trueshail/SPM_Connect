@@ -12,7 +12,7 @@ namespace SearchDataSPM
         {
             InitializeComponent();
             string connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
-            connectapi.SPM_Connect(connection);
+            connectapi.SPM_Connect();
         }
 
         private void Form1_Load(object sender, EventArgs e)

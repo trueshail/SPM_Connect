@@ -55,7 +55,7 @@ namespace SearchDataSPM
                 cn.Close();
             }
             dt = new DataTable();
-            connectapi.SPM_Connect(connection);
+            connectapi.SPM_Connect();
         }
 
         private void SPM_Connect_Load(object sender, EventArgs e)

@@ -621,6 +621,14 @@ namespace SearchDataSPM
         {
             this.Dispose();
         }
+
+        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        {
+            if (!(dataGridView.SelectedRows.Count == 1))
+            {
+                e.Cancel = true;
+            }
+        }
     }
 }
 

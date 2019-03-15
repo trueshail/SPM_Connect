@@ -10,10 +10,10 @@ namespace SPMConnectAPI
         SqlConnection cn;
         SqlCommand _command;
 
-        public void SPM_Connect(string connection)
+        public void SPM_Connect()
         {
 
-            // connection = System.Configuration.ConfigurationManager.ConnectionStrings[connection].ConnectionString;
+            string connection = "Data Source=spm-sql;Initial Catalog=SPMControlCatalog;User ID=SPM_Controls;password=eyBzJehFP*uO";
             try
             {
                 _connection = new SqlConnection(connection);
@@ -23,16 +23,16 @@ namespace SPMConnectAPI
             }
             catch (Exception)
             {
-                MessageBox.Show("Error Connecting to SQL Server.....", "SPM Connect Initialize", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error Connecting to SQL Server.....", "SPM Connect autocad catalog sql", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             }
 
         }
 
-        public void SPM_Connectconnectsql(string connection)
+        public void SPM_Connectconnectsql()
         {
 
-            // connection = System.Configuration.ConfigurationManager.ConnectionStrings[connection].ConnectionString;
+            string connection = "Data Source=spm-sql;Initial Catalog=SPM_Database;User ID=SPM_Agent;password=spm5445";
             try
             {
                 cn = new SqlConnection(connection);
@@ -40,7 +40,7 @@ namespace SPMConnectAPI
             }
             catch (Exception)
             {
-                MessageBox.Show("Error Connecting to SQL Server.....", "SPM Connect Initialize", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error Connecting to SQL Server.....", "SPM Connect sql controls", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             }
 
