@@ -42,6 +42,7 @@
             this.versionlabel = new System.Windows.Forms.Label();
             this.filter4 = new System.Windows.Forms.TextBox();
             this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.scanWorkOrderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -94,9 +95,10 @@
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.getBOMToolStripMenuItem});
+            this.getBOMToolStripMenuItem,
+            this.scanWorkOrderToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 70);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // getBOMToolStripMenuItem
@@ -230,6 +232,13 @@
             this.TreeViewToolTip.InitialDelay = 500;
             this.TreeViewToolTip.ReshowDelay = 100;
             // 
+            // scanWorkOrderToolStripMenuItem
+            // 
+            this.scanWorkOrderToolStripMenuItem.Name = "scanWorkOrderToolStripMenuItem";
+            this.scanWorkOrderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.scanWorkOrderToolStripMenuItem.Text = "Scan WorkOrder";
+            this.scanWorkOrderToolStripMenuItem.Click += new System.EventHandler(this.scanWorkOrderToolStripMenuItem_Click);
+            // 
             // SPM_ConnectWM
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -273,6 +282,7 @@
         private System.Windows.Forms.ToolTip TreeViewToolTip;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem getBOMToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem scanWorkOrderToolStripMenuItem;
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member 'SPM_Connect.txtSearch'
     }
 }

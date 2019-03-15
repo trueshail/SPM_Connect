@@ -583,7 +583,7 @@ namespace SearchDataSPM
 
         private void getBOMToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            prorcessreportbom(getitemnumberselected(), "WorkOrder");
+            prorcessreportbom(getselectedworkorder(), "WorkOrder");
         }
 
         private void prorcessreportbom(string itemvalue, string Reportname)
@@ -595,26 +595,16 @@ namespace SearchDataSPM
 
         }
 
-        private String getitemnumberselected()
+        private string getselectedworkorder()
         {
-            int selectedclmindex = dataGridView.SelectedCells[0].ColumnIndex;
-            DataGridViewColumn columnchk = dataGridView.Columns[selectedclmindex];
-            string c = Convert.ToString(columnchk.Index);
-            //MessageBox.Show(c);
-            string item;
+            string wo = "";
             if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
             {
                 int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                 DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-                item = Convert.ToString(slectedrow.Cells[1].Value);
-                //MessageBox.Show(ItemNo);
-                return item;
+                wo = Convert.ToString(slectedrow.Cells[1].Value);               
             }
-            else
-            {
-                item = "";
-                return item;
-            }
+            return wo;
         }
 
         private void SPM_ConnectWM_FormClosed(object sender, FormClosedEventArgs e)
@@ -628,6 +618,13 @@ namespace SearchDataSPM
             {
                 e.Cancel = true;
             }
+        }
+
+        private void scanWorkOrderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SPMConnectAPI.WorkOrder connectapi = new SPMConnectAPI.WorkOrder();
+            connectapi.SPM_Connect();
+            connectapi.scanworkorder(getselectedworkorder());
         }
     }
 }
