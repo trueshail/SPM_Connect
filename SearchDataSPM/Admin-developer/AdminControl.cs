@@ -9,6 +9,7 @@ namespace SearchDataSPM
     public partial class spmadmin : Form
     {
         #region steupvariables
+
         String connection;
         SqlConnection cn;
         string controluseraction;
@@ -144,7 +145,7 @@ namespace SearchDataSPM
                 DataTable dt = new DataTable();
                 SqlDataAdapter sda = new SqlDataAdapter(cmd);
                 sda.Fill(dt);
-                string controls = "Controls";
+
                 foreach (DataRow dr in dt.Rows)
                 {
                     nametextbox.Text = dr["Name"].ToString();
@@ -165,19 +166,16 @@ namespace SearchDataSPM
                     {
 
                     }
-                    if (dr["Department"].ToString().Equals("Eng"))
-                    {
-                        engradio.Checked = true;
 
-                    }
-
-                    else if (dr["Department"].ToString().Equals(controls.ToString()))
+                    if (dr["Department"].ToString().Length > 0)
                     {
-                        radioButton4.Checked = true;
+                        string department = dr["Department"].ToString();
+
+                        deptcombobox.SelectedItem = department;
                     }
                     else
                     {
-                        radioButton3.Checked = true;
+
                     }
 
                     if (dr["Admin"].ToString().Equals("1"))
@@ -275,7 +273,6 @@ namespace SearchDataSPM
             {
 
                 MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
 
             }
             finally
@@ -339,11 +336,8 @@ namespace SearchDataSPM
             useremailtxt.Text = "";
             sharepathtxt.Text = @"\\SPM-ADFS\Shares\";
             idlabel.Text = "";
-            engradio.Enabled = true;
             radioButton1.Enabled = true;
             radioButton2.Enabled = true;
-            radioButton4.Enabled = true;
-            radioButton3.Enabled = true;
             manageradioButtonyes.Enabled = true;
             manageradioButtonNo.Enabled = true;
             DevradioButtonYes.Enabled = true;
@@ -363,6 +357,7 @@ namespace SearchDataSPM
             shipno.Enabled = true;
 
             supervisorcombox.Enabled = true;
+            deptcombobox.Enabled = true;
             nametextbox.Text = "";
             cnclbttn.Visible = true;
             addnewbttn.Visible = false;
@@ -395,7 +390,7 @@ namespace SearchDataSPM
                 "Name = " + nametextbox.Text + Environment.NewLine +
                 @"Domain\Username = " + domaintxtbox.Text + Environment.NewLine +
                 @"Email = " + useremailtxt.Text + Environment.NewLine +
-                "Department = " + (engradio.Checked ? "Engineering" : "Controls") + Environment.NewLine +
+                "Department = " + deptcombobox.SelectedItem.ToString() + Environment.NewLine +
                 "Admin = " + (radioButton1.Checked ? "Yes" : "No") + Environment.NewLine +
                 "Developer = " + (DevradioButtonYes.Checked ? "Yes" : "No") + Environment.NewLine +
                 "QuoteAccess = " + (quoteyes.Checked ? "Yes" : "No") + Environment.NewLine +
@@ -433,8 +428,6 @@ namespace SearchDataSPM
 
                     radioButton1.Checked = false;
                     radioButton2.Checked = false;
-                    radioButton4.Checked = false;
-                    engradio.Checked = false;
 
                     manageradioButtonyes.Checked = false;
                     manageradioButtonNo.Checked = false;
@@ -475,11 +468,9 @@ namespace SearchDataSPM
             useremailtxt.ReadOnly = false;
             //sharepathtxt.ReadOnly = false;
             selectfolder.Enabled = true;
-            engradio.Enabled = true;
+
             radioButton1.Enabled = true;
             radioButton2.Enabled = true;
-            radioButton4.Enabled = true;
-            radioButton3.Enabled = true;
             manageradioButtonyes.Enabled = true;
             manageradioButtonNo.Enabled = true;
             DevradioButtonYes.Enabled = true;
@@ -498,6 +489,7 @@ namespace SearchDataSPM
             shipno.Enabled = true;
 
             supervisorcombox.Enabled = true;
+            deptcombobox.Enabled = true;
             delbttn.Visible = false;
             addnewbttn.Visible = false;
             updatesavebttn.Visible = true;
@@ -531,7 +523,7 @@ namespace SearchDataSPM
                "Name = " + nametextbox.Text + Environment.NewLine +
                @"Domain\Username = " + domaintxtbox.Text + Environment.NewLine +
                @"Email = " + useremailtxt.Text + Environment.NewLine +
-               "Department = " + (engradio.Checked ? "Engineering" : "Controls") + Environment.NewLine +
+               "Department = " + deptcombobox.SelectedItem.ToString() + Environment.NewLine +
                "Admin = " + (radioButton1.Checked ? "Yes" : "No") + Environment.NewLine +
                "Developer = " + (DevradioButtonYes.Checked ? "Yes" : "No") + Environment.NewLine +
                "QuoteAccess = " + (quoteyes.Checked ? "Yes" : "No") + Environment.NewLine +
@@ -559,53 +551,13 @@ namespace SearchDataSPM
                 {
                     SqlCommand cmd = cn.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[Users] SET Department = '" + (engradio.Checked ? "Eng" : radioButton4.Checked ? "Controls" : "Production") + "',Admin = '" + (radioButton1.Checked ? "1" : "0") + "',Name = '" + nametextbox.Text + "',ActiveBlockNumber = '" + activeblocknumber + "',Developer = '" + (DevradioButtonYes.Checked ? "1" : "0") + "',Management = '" + (manageradioButtonyes.Checked ? "1" : "0") + "',Quote = '" + (quoteyes.Checked ? "1" : "0") + "',PurchaseReq = '" + (preqyes.Checked ? "1" : "0") + "',PurchaseReqApproval = '" + (papprovalchk.Checked ? "1" : "0") + "',PurchaseReqApproval2 = '" + (papproval2chk.Checked ? "1" : "0") + "',PurchaseReqBuyer = '" + (pbuyerchk.Checked ? "1" : "0") + "',Supervisor = '" + supervisorcombox.SelectedItem.ToString().Substring(0, 2) + "',Email = '" + useremailtxt.Text + "',PriceRight = '" + (priceyes.Checked ? "1" : "0") + "',Shipping = '" + (shipyes.Checked ? "1" : "0") + "',SharesFolder = '" + sharepathtxt.Text + "' WHERE UserName = '" + domaintxtbox.Text + "' ";
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[Users] SET Department = '" + deptcombobox.SelectedItem.ToString() + "',Admin = '" + (radioButton1.Checked ? "1" : "0") + "',Name = '" + nametextbox.Text + "',ActiveBlockNumber = '" + activeblocknumber + "',Developer = '" + (DevradioButtonYes.Checked ? "1" : "0") + "',Management = '" + (manageradioButtonyes.Checked ? "1" : "0") + "',Quote = '" + (quoteyes.Checked ? "1" : "0") + "',PurchaseReq = '" + (preqyes.Checked ? "1" : "0") + "',PurchaseReqApproval = '" + (papprovalchk.Checked ? "1" : "0") + "',PurchaseReqApproval2 = '" + (papproval2chk.Checked ? "1" : "0") + "',PurchaseReqBuyer = '" + (pbuyerchk.Checked ? "1" : "0") + "',Supervisor = '" + supervisorcombox.SelectedItem.ToString().Substring(0, 2) + "',Email = '" + useremailtxt.Text + "',PriceRight = '" + (priceyes.Checked ? "1" : "0") + "',Shipping = '" + (shipyes.Checked ? "1" : "0") + "',SharesFolder = '" + sharepathtxt.Text + "' WHERE UserName = '" + domaintxtbox.Text + "' ";
 
                     cmd.ExecuteNonQuery();
                     cn.Close();
                     MessageBox.Show("User credentials updated successfully", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    Connect_SPMSQL(selectedindex);
-                    updatesavebttn.Visible = false;
-                    delbttn.Visible = true;
-                    updatebttn.Visible = true;
-                    addnewbttn.Visible = true;
-                    cnclbttn.Visible = false;
-                    selectfolder.Enabled = false;
-                    radioButton1.Enabled = false;
-                    radioButton2.Enabled = false;
-                    radioButton4.Enabled = false;
-                    radioButton3.Enabled = false;
-                    engradio.Enabled = false;
-                    manageradioButtonyes.Enabled = false;
-                    manageradioButtonNo.Enabled = false;
-                    DevradioButtonYes.Enabled = false;
-                    DevradioButtonNo.Enabled = false;
-                    quoteyes.Enabled = false;
-                    quoteno.Enabled = false;
-                    papprovalchk.Enabled = false;
-                    papproval2chk.Enabled = false;
-                    pbuyerchk.Enabled = false;
 
-                    preqyes.Enabled = false;
-                    preqno.Enabled = false;
-                    priceyes.Enabled = false;
-                    priceno.Enabled = false;
-                    shipyes.Enabled = false;
-                    shipno.Enabled = false;
 
-                    supervisorcombox.Enabled = false;
-                    nametextbox.ReadOnly = true;
-                    activecadblocktxt.ReadOnly = true;
-                    domaintxtbox.ReadOnly = true;
-                    Userlistbox.Enabled = true;
-                    useremailtxt.ReadOnly = true;
-                    //sharepathtxt.ReadOnly = true;
-                    button1.Enabled = true;
-                    reluanchbttn.Enabled = true;
-                    custbttn.Enabled = true;
-                    matbttn.Enabled = true;
-                    UserStats.Enabled = true;
-                    //Userlistbox_SelectedIndexChanged(sender,e);
                 }
                 catch (Exception ex)
                 {
@@ -614,50 +566,13 @@ namespace SearchDataSPM
                 finally
                 {
                     cn.Close();
+                    performcancelbutton();
                 }
 
             }
             else if (result == DialogResult.No)
             {
-                domaintxtbox.Text = "";
-                useremailtxt.Text = "";
-                sharepathtxt.Text = "";
-                selectfolder.Enabled = false;
-                idlabel.Text = "";
-                radioButton1.Enabled = false;
-                radioButton2.Enabled = false;
-                radioButton4.Enabled = false;
-                engradio.Enabled = false;
-                manageradioButtonyes.Enabled = false;
-                manageradioButtonNo.Enabled = false;
-                DevradioButtonYes.Enabled = false;
-                DevradioButtonNo.Enabled = false;
-                quoteyes.Enabled = false;
-                quoteno.Enabled = false;
-                papprovalchk.Enabled = false;
-                papproval2chk.Enabled = false;
-                pbuyerchk.Enabled = false;
-
-                preqyes.Enabled = false;
-                preqno.Enabled = false;
-                priceyes.Enabled = false;
-                priceno.Enabled = false;
-                shipyes.Enabled = false;
-                shipno.Enabled = false;
-
-
-                supervisorcombox.Enabled = false;
-                nametextbox.Text = "";
-                nametextbox.ReadOnly = true;
-                activecadblocktxt.Text = "";
-                activecadblocktxt.ReadOnly = true;
-                useremailtxt.ReadOnly = true;
-                sharepathtxt.ReadOnly = true;
-                domaintxtbox.ReadOnly = true;
-                updatesavebttn.Visible = false;
                 performcancelbutton();
-
-
             }
 
         }
@@ -668,7 +583,7 @@ namespace SearchDataSPM
                "Name = " + nametextbox.Text + Environment.NewLine +
                @"Domain\Username = " + domaintxtbox.Text + Environment.NewLine +
                @"Email = " + useremailtxt.Text + Environment.NewLine +
-               "Department = " + (engradio.Checked ? "Engineering" : "Controls") + Environment.NewLine +
+               "Department = " + deptcombobox.SelectedItem.ToString() + Environment.NewLine +
                "Admin = " + (radioButton1.Checked ? "Yes" : "No") + Environment.NewLine +
                "Developer = " + (DevradioButtonYes.Checked ? "Yes" : "No") + Environment.NewLine +
                "QuoteAccess = " + (quoteyes.Checked ? "Yes" : "No") + Environment.NewLine +
@@ -696,52 +611,11 @@ namespace SearchDataSPM
                 {
                     SqlCommand cmd = cn.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Users] VALUES('" + domaintxtbox.Text + "','" + (engradio.Checked ? "Eng" : radioButton4.Checked ? "Controls" : "Production") + "','" + nametextbox.Text + "','" + activeblocknumber + "','" + (radioButton1.Checked ? "1" : "0") + "','" + (DevradioButtonYes.Checked ? "1" : "0") + "','" + (manageradioButtonyes.Checked ? "1" : "0") + "','" + (quoteyes.Checked ? "1" : "0") + "','" + (preqyes.Checked ? "1" : "0") + "','" + (papprovalchk.Checked ? "1" : "0") + "','" + (papproval2chk.Checked ? "1" : "0") + "','" + (pbuyerchk.Checked ? "1" : "0") + "','" + supervisorcombox.SelectedItem.ToString().Substring(0, 2).TrimEnd() + "','" + useremailtxt.Text + "','" + (priceyes.Checked ? "1" : "0") + "','" + (shipyes.Checked ? "1" : "0") + "','" + sharepathtxt.Text + "')";
+                    cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Users] VALUES('" + domaintxtbox.Text + "','" + deptcombobox.SelectedItem.ToString() + "','" + nametextbox.Text + "','" + activeblocknumber + "','" + (radioButton1.Checked ? "1" : "0") + "','" + (DevradioButtonYes.Checked ? "1" : "0") + "','" + (manageradioButtonyes.Checked ? "1" : "0") + "','" + (quoteyes.Checked ? "1" : "0") + "','" + (preqyes.Checked ? "1" : "0") + "','" + (papprovalchk.Checked ? "1" : "0") + "','" + (papproval2chk.Checked ? "1" : "0") + "','" + (pbuyerchk.Checked ? "1" : "0") + "','" + supervisorcombox.SelectedItem.ToString().Substring(0, 2).TrimEnd() + "','" + useremailtxt.Text + "','" + (priceyes.Checked ? "1" : "0") + "','" + (shipyes.Checked ? "1" : "0") + "','" + sharepathtxt.Text + "')";
                     cmd.ExecuteNonQuery();
                     cn.Close();
                     MessageBox.Show("New user added successfully", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    Connect_SPMSQL(selectedindex);
-                    delbttn.Visible = true;
-                    updatebttn.Visible = true;
-                    addnewbttn.Visible = true;
-                    cnclbttn.Visible = false;
-                    updatesavebttn.Visible = false;
-                    selectfolder.Enabled = false;
-                    radioButton1.Enabled = false;
-                    radioButton2.Enabled = false;
-                    radioButton4.Enabled = false;
-                    radioButton3.Enabled = false;
-                    engradio.Enabled = false;
-                    manageradioButtonyes.Enabled = false;
-                    manageradioButtonNo.Enabled = false;
-                    DevradioButtonYes.Enabled = false;
-                    DevradioButtonNo.Enabled = false;
-                    quoteyes.Enabled = false;
-                    quoteno.Enabled = false;
-                    papprovalchk.Enabled = false;
-                    papproval2chk.Enabled = false;
-                    pbuyerchk.Enabled = false;
 
-                    preqyes.Enabled = false;
-                    preqno.Enabled = false;
-                    priceyes.Enabled = false;
-                    priceno.Enabled = false;
-                    shipyes.Enabled = false;
-                    shipno.Enabled = false;
-
-
-                    supervisorcombox.Enabled = false;
-                    nametextbox.ReadOnly = true;
-                    useremailtxt.ReadOnly = true;
-                    //sharepathtxt.ReadOnly = true;
-                    activecadblocktxt.ReadOnly = true;
-                    domaintxtbox.ReadOnly = true;
-                    Userlistbox.Enabled = true;
-                    button1.Enabled = true;
-                    reluanchbttn.Enabled = true;
-                    custbttn.Enabled = true;
-                    matbttn.Enabled = true;
-                    UserStats.Enabled = true;
                 }
                 catch (Exception ex)
                 {
@@ -750,42 +624,12 @@ namespace SearchDataSPM
                 finally
                 {
                     cn.Close();
+                    performcancelbutton();                    
                 }
 
             }
             else if (result == DialogResult.No)
             {
-                domaintxtbox.Text = "";
-                radioButton1.Enabled = false;
-                radioButton2.Enabled = false;
-                radioButton4.Enabled = false;
-                engradio.Enabled = false;
-                manageradioButtonyes.Enabled = false;
-                manageradioButtonNo.Enabled = false;
-                DevradioButtonYes.Enabled = false;
-                DevradioButtonNo.Enabled = false;
-                quoteyes.Enabled = false;
-                quoteno.Enabled = false;
-                papprovalchk.Enabled = false;
-                papproval2chk.Enabled = false;
-                pbuyerchk.Enabled = false;
-                selectfolder.Enabled = false;
-                preqyes.Enabled = false;
-                preqno.Enabled = false;
-
-                priceyes.Enabled = false;
-                priceno.Enabled = false;
-                shipyes.Enabled = false;
-                shipno.Enabled = false;
-
-                supervisorcombox.Enabled = false;
-                nametextbox.Text = "";
-                nametextbox.ReadOnly = true;
-                useremailtxt.ReadOnly = true;
-                sharepathtxt.ReadOnly = true;
-                activecadblocktxt.ReadOnly = true;
-                domaintxtbox.ReadOnly = true;
-                updatesavebttn.Visible = false;
                 performcancelbutton();
 
             }
@@ -793,18 +637,19 @@ namespace SearchDataSPM
 
         private void cnclbttn_Click(object sender, EventArgs e)
         {
-            performcancelbutton();
+            performcancelbutton();          
         }
 
         private void performcancelbutton()
         {
-
-            //domaintxtbox.Text = "";
             radioButton1.Enabled = false;
             radioButton2.Enabled = false;
-            radioButton4.Enabled = false;
-            radioButton3.Enabled = false;
-            engradio.Enabled = false;
+            selectfolder.Enabled = false;
+            domaintxtbox.Text = "";
+            useremailtxt.Text = "";
+            sharepathtxt.Text = "";
+            nametextbox.Text = "";
+            activecadblocktxt.Text = "";
             manageradioButtonyes.Enabled = false;
             manageradioButtonNo.Enabled = false;
             DevradioButtonYes.Enabled = false;
@@ -814,25 +659,20 @@ namespace SearchDataSPM
             papprovalchk.Enabled = false;
             papproval2chk.Enabled = false;
             pbuyerchk.Enabled = false;
-
             preqyes.Enabled = false;
             preqno.Enabled = false;
-
             priceyes.Enabled = false;
             priceno.Enabled = false;
             shipyes.Enabled = false;
             shipno.Enabled = false;
-
             supervisorcombox.Enabled = false;
-            // nametextbox.Text = "";
+            deptcombobox.Enabled = false;
             nametextbox.ReadOnly = true;
             activecadblocktxt.ReadOnly = true;
             useremailtxt.ReadOnly = true;
-            //sharepathtxt.ReadOnly = true;
             selectfolder.Enabled = false;
             domaintxtbox.ReadOnly = true;
             updatesavebttn.Visible = false;
-
             cnclbttn.Visible = false;
             addnewbttn.Visible = true;
             delbttn.Visible = true;
@@ -843,7 +683,7 @@ namespace SearchDataSPM
             custbttn.Enabled = true;
             matbttn.Enabled = true;
             UserStats.Enabled = true;
-            Userlistbox.SelectedIndex = 0;
+            Connect_SPMSQL(selectedindex);
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)

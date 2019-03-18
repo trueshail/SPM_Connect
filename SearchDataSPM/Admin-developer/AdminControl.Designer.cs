@@ -56,10 +56,6 @@
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.UserFirstname = new System.Windows.Forms.Label();
-            this.engradio = new System.Windows.Forms.RadioButton();
-            this.radioButton4 = new System.Windows.Forms.RadioButton();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
             this.Cadblock = new System.Windows.Forms.Label();
             this.manageradioButtonNo = new System.Windows.Forms.RadioButton();
             this.manageradioButtonyes = new System.Windows.Forms.RadioButton();
@@ -105,8 +101,8 @@
             this.panel7 = new System.Windows.Forms.Panel();
             this.shipno = new System.Windows.Forms.RadioButton();
             this.shipyes = new System.Windows.Forms.RadioButton();
+            this.deptcombobox = new System.Windows.Forms.ComboBox();
             this.contextMenuStrip1.SuspendLayout();
-            this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -430,56 +426,6 @@
             this.UserFirstname.Size = new System.Drawing.Size(53, 15);
             this.UserFirstname.TabIndex = 56;
             this.UserFirstname.Text = "Name :";
-            // 
-            // engradio
-            // 
-            this.engradio.AutoSize = true;
-            this.engradio.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(69)))), ((int)(((byte)(76)))));
-            this.engradio.Enabled = false;
-            this.engradio.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.engradio.Location = new System.Drawing.Point(3, 9);
-            this.engradio.Name = "engradio";
-            this.engradio.Size = new System.Drawing.Size(47, 17);
-            this.engradio.TabIndex = 50;
-            this.engradio.Text = "Eng.";
-            this.engradio.UseVisualStyleBackColor = false;
-            // 
-            // radioButton4
-            // 
-            this.radioButton4.AutoSize = true;
-            this.radioButton4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(69)))), ((int)(((byte)(76)))));
-            this.radioButton4.Enabled = false;
-            this.radioButton4.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.radioButton4.Location = new System.Drawing.Point(62, 9);
-            this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Size = new System.Drawing.Size(63, 17);
-            this.radioButton4.TabIndex = 51;
-            this.radioButton4.Text = "Controls";
-            this.radioButton4.UseVisualStyleBackColor = false;
-            // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(69)))), ((int)(((byte)(76)))));
-            this.panel1.Controls.Add(this.radioButton3);
-            this.panel1.Controls.Add(this.engradio);
-            this.panel1.Controls.Add(this.radioButton4);
-            this.panel1.Location = new System.Drawing.Point(336, 164);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(230, 33);
-            this.panel1.TabIndex = 49;
-            // 
-            // radioButton3
-            // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(69)))), ((int)(((byte)(76)))));
-            this.radioButton3.Enabled = false;
-            this.radioButton3.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.radioButton3.Location = new System.Drawing.Point(139, 9);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(76, 17);
-            this.radioButton3.TabIndex = 52;
-            this.radioButton3.Text = "Production";
-            this.radioButton3.UseVisualStyleBackColor = false;
             // 
             // Cadblock
             // 
@@ -1038,12 +984,32 @@
             this.shipyes.Text = "Yes";
             this.shipyes.UseVisualStyleBackColor = true;
             // 
+            // deptcombobox
+            // 
+            this.deptcombobox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.deptcombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.deptcombobox.Enabled = false;
+            this.deptcombobox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.deptcombobox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.deptcombobox.FormattingEnabled = true;
+            this.deptcombobox.Items.AddRange(new object[] {
+            "Eng",
+            "Controls",
+            "Production",
+            "Purchasing",
+            "Crib"});
+            this.deptcombobox.Location = new System.Drawing.Point(330, 168);
+            this.deptcombobox.Name = "deptcombobox";
+            this.deptcombobox.Size = new System.Drawing.Size(165, 23);
+            this.deptcombobox.TabIndex = 83;
+            // 
             // spmadmin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(69)))), ((int)(((byte)(76)))));
             this.ClientSize = new System.Drawing.Size(625, 674);
+            this.Controls.Add(this.deptcombobox);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.panel7);
             this.Controls.Add(this.label9);
@@ -1079,7 +1045,6 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.cnclbttn);
             this.Controls.Add(this.updatesavebttn);
-            this.Controls.Add(this.panel1);
             this.Controls.Add(this.delbttn);
             this.Controls.Add(this.updatebttn);
             this.Controls.Add(this.addnewbttn);
@@ -1103,8 +1068,6 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.spmadmin_FormClosed);
             this.Load += new System.EventHandler(this.ParentView_Load);
             this.contextMenuStrip1.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
@@ -1142,14 +1105,10 @@
         private System.Windows.Forms.Button addnewbttn;
         private System.Windows.Forms.Button updatebttn;
         private System.Windows.Forms.Button delbttn;
-        private System.Windows.Forms.RadioButton engradio;
-        private System.Windows.Forms.RadioButton radioButton4;
-        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button updatesavebttn;
         private System.Windows.Forms.Button cnclbttn;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button reluanchbttn;
-        private System.Windows.Forms.RadioButton radioButton3;
         private System.Windows.Forms.Button UserStats;
         private System.Windows.Forms.Label Cadblock;
         private System.Windows.Forms.TextBox activecadblocktxt;
@@ -1200,5 +1159,6 @@
         private System.Windows.Forms.Panel panel7;
         private System.Windows.Forms.RadioButton shipno;
         private System.Windows.Forms.RadioButton shipyes;
+        private System.Windows.Forms.ComboBox deptcombobox;
     }
 }

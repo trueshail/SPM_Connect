@@ -120,7 +120,7 @@ namespace SearchDataSPM
                 connectapi.chekin("SPM Connect Eng");
                 eng = true;
             }
-            else if (department == "Production")
+            else
             {
                 listView.ContextMenuStrip = Listviewcontextmenu;
                 Listviewcontextmenu.Items[3].Enabled = false;
@@ -134,8 +134,8 @@ namespace SearchDataSPM
                 FormSelectorEng.Items[4].Visible = false;
                 FormSelectorEng.Items[5].Enabled = false;
                 FormSelectorEng.Items[5].Visible = false;
-                this.Text = "SPM Connect Production - " + userName.ToString().Substring(4);
-                connectapi.chekin("SPM Connect Production");
+                this.Text = "SPM Connect "+department+" - " + userName.ToString().Substring(4);
+                connectapi.chekin("SPM Connect " + department);
                 production = true;
             }
 
