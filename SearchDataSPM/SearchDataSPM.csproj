@@ -372,10 +372,16 @@
     <Compile Include="General\SPM_ConnectQuoteManagement.Designer.cs">
       <DependentUpon>SPM_ConnectQuoteManagement.cs</DependentUpon>
     </Compile>
-    <Compile Include="General\SPM_ConnectWM.cs">
+    <Compile Include="WorkOrder\ScanWO.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="General\SPM_ConnectWM.Designer.cs">
+    <Compile Include="WorkOrder\ScanWO.designer.cs">
+      <DependentUpon>ScanWO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WorkOrder\SPM_ConnectWM.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WorkOrder\SPM_ConnectWM.Designer.cs">
       <DependentUpon>SPM_ConnectWM.cs</DependentUpon>
     </Compile>
     <Compile Include="General\Compare.cs">
@@ -667,7 +673,10 @@
     <EmbeddedResource Include="General\SPM_ConnectQuoteManagement.resx">
       <DependentUpon>SPM_ConnectQuoteManagement.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="General\SPM_ConnectWM.resx">
+    <EmbeddedResource Include="WorkOrder\ScanWO.resx">
+      <DependentUpon>ScanWO.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WorkOrder\SPM_ConnectWM.resx">
       <DependentUpon>SPM_ConnectWM.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="General\Compare.resx">

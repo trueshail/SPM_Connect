@@ -1,22 +1,10 @@
-﻿
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Drawing;
-using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Microsoft.VisualBasic;
-
-
 
 namespace SearchDataSPM
 {
@@ -622,9 +610,13 @@ namespace SearchDataSPM
 
         private void scanWorkOrderToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SPMConnectAPI.WorkOrder connectapi = new SPMConnectAPI.WorkOrder();
-            connectapi.SPM_Connect();
-            connectapi.scanworkorder(getselectedworkorder());
+            //SPMConnectAPI.WorkOrder connectapi = new SPMConnectAPI.WorkOrder();
+            //connectapi.SPM_Connect();
+            //connectapi.scanworkorder(getselectedworkorder());
+
+            ScanWO scanWO = new ScanWO();
+            scanWO.ShowDialog();
+
         }
     }
 }

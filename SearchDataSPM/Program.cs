@@ -21,7 +21,7 @@ namespace SearchDataSPM
 		{
             Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new SPM_ConnectHome());
+            Application.Run(new ScanWO());
         }
 
     }

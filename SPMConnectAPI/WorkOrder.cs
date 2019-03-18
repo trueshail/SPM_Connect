@@ -112,7 +112,35 @@ namespace SPMConnectAPI
             return Department;
         }
 
-        #endregion        
+        #endregion
+
+        public DataTable GetWoStatus(string wo)
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT WO,Status FROM [SPM_Database].[dbo].[WO_Tracking] WHERE [WO] = '" + wo + "'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Work Order Status", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+            return dt;
+        }
 
         public void scanworkorder(string wo)
         {
@@ -170,7 +198,7 @@ namespace SPMConnectAPI
             return wopresent;
         }
 
-        private bool WOReleased(string wo)
+        public bool WOReleased(string wo)
         {
             bool wopresent = false;
             using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[WorkOrderManagement] WHERE [WorkOrder]='" + wo + "'", cn))
