@@ -33,29 +33,20 @@ namespace SearchDataSPM
         {
             if (e.KeyCode == Keys.Return)
             {
-                if (woid_txtbox.Text.Length >= 5)
+                if (connectapi.WOReleased(woid_txtbox.Text.Trim()))
                 {
-                    if (connectapi.WOReleased(woid_txtbox.Text.Trim()))
-                    {
-                        connectapi.scanworkorder(woid_txtbox.Text.Trim());
-                        showaddedtodg();
-                        woid_txtbox.Clear();
-                        ScanWO.ActiveForm.Refresh();
-                    }
-                    else
-                    {
-                        woid_txtbox.Clear();
-                        woid_txtbox.Focus();
-                    }
-
+                    connectapi.scanworkorder(woid_txtbox.Text.Trim());
+                    showaddedtodg();
+                    woid_txtbox.Clear();
+                    ScanWO.ActiveForm.Refresh();
                 }
                 else
                 {
+                    MessageBox.Show("Please check the work order number.", "SPM Connet - Work Order Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     woid_txtbox.Clear();
                     woid_txtbox.Focus();
                 }
             }
-
         }
 
         private void showaddedtodg()

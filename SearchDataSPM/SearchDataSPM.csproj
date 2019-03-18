@@ -220,7 +220,9 @@
     <Reference Include="TableDependency.SqlClient, Version=8.5.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SqlTableDependency.8.5.3\lib\net451\TableDependency.SqlClient.dll</HintPath>
     </Reference>
-    <Reference Include="WindowsBase" />
+    <Reference Include="ToggleSlider">
+      <HintPath>C:\Users\spatel.SPM\Downloads\ToggleSlider.dll</HintPath>
+    </Reference>
     <Reference Include="wpfPreviewFlowControl, Version=26.5.0.66, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\SOLIDWORKS Corp\SOLIDWORKS Explorer\SOLIDWORKS Explorer 2018\wpfPreviewFlowControl.dll</HintPath>
@@ -371,6 +373,12 @@
     </Compile>
     <Compile Include="General\SPM_ConnectQuoteManagement.Designer.cs">
       <DependentUpon>SPM_ConnectQuoteManagement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WorkOrder\InvInOut.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WorkOrder\InvInOut.Designer.cs">
+      <DependentUpon>InvInOut.cs</DependentUpon>
     </Compile>
     <Compile Include="WorkOrder\ScanWO.cs">
       <SubType>Form</SubType>
@@ -672,6 +680,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="General\SPM_ConnectQuoteManagement.resx">
       <DependentUpon>SPM_ConnectQuoteManagement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WorkOrder\InvInOut.resx">
+      <DependentUpon>InvInOut.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WorkOrder\ScanWO.resx">
       <DependentUpon>ScanWO.cs</DependentUpon>
@@ -1015,15 +1026,6 @@
       <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
       <VersionMajor>1</VersionMajor>
       <VersionMinor>9</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="VBIDE">
-      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
-      <VersionMajor>5</VersionMajor>
-      <VersionMinor>3</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>primary</WrapperTool>
       <Isolated>False</Isolated>

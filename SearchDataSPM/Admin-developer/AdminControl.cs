@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Drawing;
 using System.IO;
+using System.Windows.Controls.Primitives;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
@@ -10,10 +12,11 @@ namespace SearchDataSPM
     {
         #region steupvariables
 
-        String connection;
+        string connection;
         SqlConnection cn;
         string controluseraction;
         int selectedindex = 0;
+        DataTable dt;
 
         #endregion
 
@@ -40,14 +43,13 @@ namespace SearchDataSPM
             {
                 cn.Close();
             }
-
-
+          dt = new DataTable();
         }
 
         private void ParentView_Load(object sender, EventArgs e)
         {
             fillsupervisor();
-
+           
             Connect_SPMSQL(0);
         }
 
@@ -61,10 +63,11 @@ namespace SearchDataSPM
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT Name FROM [SPM_Database].[dbo].[Users]";
+                cmd.CommandText = "SELECT Name FROM [SPM_Database].[dbo].[Users] order by Name";
                 cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
+              
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
+                dt.Clear();
                 da.Fill(dt);
                 foreach (DataRow dr in dt.Rows)
                 {
@@ -72,17 +75,13 @@ namespace SearchDataSPM
                 }
                 if (Userlistbox.Items.Count > 0)
                 {
-
                     Userlistbox.SelectedItem = Userlistbox.Items[index];
                 }
 
             }
             catch (Exception ex)
             {
-
-                MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
-
+                MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);              
             }
             finally
             {
@@ -154,6 +153,7 @@ namespace SearchDataSPM
                     useremailtxt.Text = dr["Email"].ToString();
                     sharepathtxt.Text = dr["SharesFolder"].ToString();
                     idlabel.Text = "Id : " + dr["id"].ToString();
+                    empidtxt.Text =  dr["Emp_Id"].ToString();
 
                     if (dr["Supervisor"].ToString().Length > 0)
                     {
@@ -180,35 +180,36 @@ namespace SearchDataSPM
 
                     if (dr["Admin"].ToString().Equals("1"))
                     {
-                        radioButton1.Checked = true;
+                        admintoggle.Checked = true;
                     }
                     else
                     {
-                        radioButton2.Checked = true;
+                        admintoggle.Checked = false;
+
                     }
                     if (dr["Developer"].ToString().Equals("1"))
                     {
-                        DevradioButtonYes.Checked = true;
+                        developertoggle.Checked = true;
                     }
                     else
                     {
-                        DevradioButtonNo.Checked = true;
+                        developertoggle.Checked = false;
                     }
                     if (dr["Management"].ToString().Equals("1"))
                     {
-                        manageradioButtonyes.Checked = true;
+                        managementtoggle.Checked = true;
                     }
                     else
                     {
-                        manageradioButtonNo.Checked = true;
+                        managementtoggle.Checked = false;
                     }
                     if (dr["Quote"].ToString().Equals("1"))
                     {
-                        quoteyes.Checked = true;
+                        quotetoggle.Checked = true;
                     }
                     else
                     {
-                        quoteno.Checked = true;
+                        quotetoggle.Checked = false;
                     }
                     if (dr["PurchaseReqApproval"].ToString().Equals("1"))
                     {
@@ -242,28 +243,38 @@ namespace SearchDataSPM
                     }
                     if (dr["PurchaseReq"].ToString().Equals("1"))
                     {
-                        preqyes.Checked = true;
+                        purchasereqtoggle.Checked = true;
                     }
                     else
                     {
-                        preqno.Checked = true;
+                        purchasereqtoggle.Checked = false;
                     }
                     if (dr["PriceRight"].ToString().Equals("1"))
                     {
-                        priceyes.Checked = true;
+                        pricetoggle.Checked = true;
                     }
                     else
                     {
-                        priceno.Checked = true;
+                        pricetoggle.Checked = false;
                     }
                     if (dr["Shipping"].ToString().Equals("1"))
                     {
-                        shipyes.Checked = true;
+                        shiptoggle.Checked = true;
                     }
                     else
                     {
-                        shipno.Checked = true;
+                        shiptoggle.Checked = false;
                     }
+
+                    if (dr["CribCheckout"].ToString().Equals("1"))
+                    {
+                        cribouttoggle.Checked = true;
+                    }
+                    else
+                    {
+                        cribouttoggle.Checked = false;
+                    }
+                    runalltoggle();
 
 
                 }
@@ -323,6 +334,7 @@ namespace SearchDataSPM
         {
             selectedindex = Userlistbox.SelectedIndex;
             nametextbox.ReadOnly = false;
+            empidtxt.ReadOnly = false;
             activecadblocktxt.ReadOnly = false;
             useremailtxt.ReadOnly = false;
             //sharepathtxt.ReadOnly = false;
@@ -336,25 +348,11 @@ namespace SearchDataSPM
             useremailtxt.Text = "";
             sharepathtxt.Text = @"\\SPM-ADFS\Shares\";
             idlabel.Text = "";
-            radioButton1.Enabled = true;
-            radioButton2.Enabled = true;
-            manageradioButtonyes.Enabled = true;
-            manageradioButtonNo.Enabled = true;
-            DevradioButtonYes.Enabled = true;
-            DevradioButtonNo.Enabled = true;
-            quoteyes.Enabled = true;
-            quoteno.Enabled = true;
+            empidtxt.Text = "";
+
             papprovalchk.Enabled = true;
             papproval2chk.Enabled = true;
-            pbuyerchk.Enabled = true;
-
-            preqyes.Enabled = true;
-            preqno.Enabled = true;
-            priceyes.Enabled = true;
-            priceno.Enabled = true;
-
-            shipyes.Enabled = true;
-            shipno.Enabled = true;
+            pbuyerchk.Enabled = true;           
 
             supervisorcombox.Enabled = true;
             deptcombobox.Enabled = true;
@@ -371,38 +369,57 @@ namespace SearchDataSPM
             custbttn.Enabled = false;
             matbttn.Enabled = false;
             UserStats.Enabled = false;
-
-            radioButton2.Checked = true;
-            manageradioButtonNo.Checked = true;
-            preqno.Checked = true;
-            DevradioButtonNo.Checked = true;
-            priceno.Checked = true;
-            quoteno.Checked = true;
+            
             papproval2chk.Checked = false;
             papprovalchk.Checked = false;
             pbuyerchk.Checked = false;
+            enablealltoggles();
+        }
+
+        private void enablealltoggles()
+        {
+            admintoggle.Enabled = true;
+            quotetoggle.Enabled = true;
+            pricetoggle.Enabled = true;
+            shiptoggle.Enabled = true;
+            managementtoggle.Enabled = true;
+            developertoggle.Enabled = true;
+            cribouttoggle.Enabled = true;
+            purchasereqtoggle.Enabled = true;
+        }
+
+        private void disablealltoggles()
+        {
+            admintoggle.Enabled = false;
+            quotetoggle.Enabled = false;
+            pricetoggle.Enabled = false;
+            shiptoggle.Enabled = false;
+            managementtoggle.Enabled = false;
+            developertoggle.Enabled = false;
+            cribouttoggle.Enabled = false;
+            purchasereqtoggle.Enabled = false;
         }
 
         private void delbttn_Click(object sender, EventArgs e)
         {
-
             DialogResult result = MessageBox.Show(
-                "Name = " + nametextbox.Text + Environment.NewLine +
-                @"Domain\Username = " + domaintxtbox.Text + Environment.NewLine +
-                @"Email = " + useremailtxt.Text + Environment.NewLine +
-                "Department = " + deptcombobox.SelectedItem.ToString() + Environment.NewLine +
-                "Admin = " + (radioButton1.Checked ? "Yes" : "No") + Environment.NewLine +
-                "Developer = " + (DevradioButtonYes.Checked ? "Yes" : "No") + Environment.NewLine +
-                "QuoteAccess = " + (quoteyes.Checked ? "Yes" : "No") + Environment.NewLine +
-                "PurchaseReq Access = " + (preqyes.Checked ? "Yes" : "No") + Environment.NewLine +
-                "Price Access = " + (priceyes.Checked ? "Yes" : "No") + Environment.NewLine +
-                 "Shipping Access = " + (shipyes.Checked ? "Yes" : "No") + Environment.NewLine +
-                "PurchaseReqAdmin = " + (papprovalchk.Checked ? "Yes" : "No") + Environment.NewLine +
-                "PurchaseReqHigher Approval = " + (papproval2chk.Checked ? "Yes" : "No") + Environment.NewLine +
-                "PurchaseReqBuyer = " + (pbuyerchk.Checked ? "Yes" : "No") + Environment.NewLine +
-                "Supervisor = " + supervisorcombox.SelectedItem.ToString().Substring(2) + Environment.NewLine +
-                "Management = " + (manageradioButtonyes.Checked ? "Yes" : "No"), "Update User Information?",
-                                                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                  "Name = " + nametextbox.Text + Environment.NewLine +
+                  @"Domain\Username = " + domaintxtbox.Text + Environment.NewLine +
+                  @"Email = " + useremailtxt.Text + Environment.NewLine +
+                  "Department = " + deptcombobox.SelectedItem.ToString() + Environment.NewLine +
+                  "Admin = " + (admintoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+                  "Developer = " + (developertoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+                  "QuoteAccess = " + (quotetoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+                  "PurchaseReq Access = " + (purchasereqtoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+                  "Price Access = " + (pricetoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+                  "Shipping Access = " + (shiptoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+                  "PurchaseReqAdmin = " + (papprovalchk.Checked ? "Yes" : "No") + Environment.NewLine +
+                  "PurchaseReqHigher Approval = " + (papproval2chk.Checked ? "Yes" : "No") + Environment.NewLine +
+                  "PurchaseReqBuyer = " + (pbuyerchk.Checked ? "Yes" : "No") + Environment.NewLine +
+                  "Supervisor = " + supervisorcombox.SelectedItem.ToString().Substring(2) + Environment.NewLine +
+                  "CribCheckOut = " + (cribouttoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+                  "Management = " + (managementtoggle.Checked ? "Yes" : "No"), "Update User Information?",
+                                                  MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
                 selectedindex = Userlistbox.SelectedIndex;
@@ -416,7 +433,7 @@ namespace SearchDataSPM
                     cmd.ExecuteNonQuery();
                     cn.Close();
                     MessageBox.Show("User deleted successfully", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    Connect_SPMSQL(selectedindex);
+                    
                     domaintxtbox.Text = "";
                     nametextbox.Text = "";
 
@@ -425,26 +442,12 @@ namespace SearchDataSPM
                     useremailtxt.Text = "";
                     sharepathtxt.Text = "";
                     idlabel.Text = "";
+                    empidtxt.Text = "";
 
-                    radioButton1.Checked = false;
-                    radioButton2.Checked = false;
-
-                    manageradioButtonyes.Checked = false;
-                    manageradioButtonNo.Checked = false;
-                    DevradioButtonYes.Checked = false;
-                    DevradioButtonNo.Checked = false;
-                    quoteyes.Checked = false;
-                    quoteno.Checked = false;
                     papprovalchk.Checked = false;
                     papproval2chk.Checked = false;
                     pbuyerchk.Checked = false;
-
-                    preqyes.Checked = false;
-                    preqno.Checked = false;
-                    priceyes.Checked = false;
-                    priceno.Checked = false;
-                    shipyes.Checked = false;
-                    shipno.Checked = false;
+                 
 
                 }
                 catch (Exception ex)
@@ -454,6 +457,7 @@ namespace SearchDataSPM
                 finally
                 {
                     cn.Close();
+                    Connect_SPMSQL(0);
                 }
 
             }
@@ -464,29 +468,15 @@ namespace SearchDataSPM
         {
             selectedindex = Userlistbox.SelectedIndex;
             nametextbox.ReadOnly = false;
+            empidtxt.ReadOnly = false;
             activecadblocktxt.ReadOnly = false;
             useremailtxt.ReadOnly = false;
-            //sharepathtxt.ReadOnly = false;
             selectfolder.Enabled = true;
-
-            radioButton1.Enabled = true;
-            radioButton2.Enabled = true;
-            manageradioButtonyes.Enabled = true;
-            manageradioButtonNo.Enabled = true;
-            DevradioButtonYes.Enabled = true;
-            DevradioButtonNo.Enabled = true;
-            quoteyes.Enabled = true;
-            quoteno.Enabled = true;
             papprovalchk.Enabled = true;
             papproval2chk.Enabled = true;
             pbuyerchk.Enabled = true;
 
-            preqyes.Enabled = true;
-            preqno.Enabled = true;
-            priceyes.Enabled = true;
-            priceno.Enabled = true;
-            shipyes.Enabled = true;
-            shipno.Enabled = true;
+            enablealltoggles();
 
             supervisorcombox.Enabled = true;
             deptcombobox.Enabled = true;
@@ -524,17 +514,18 @@ namespace SearchDataSPM
                @"Domain\Username = " + domaintxtbox.Text + Environment.NewLine +
                @"Email = " + useremailtxt.Text + Environment.NewLine +
                "Department = " + deptcombobox.SelectedItem.ToString() + Environment.NewLine +
-               "Admin = " + (radioButton1.Checked ? "Yes" : "No") + Environment.NewLine +
-               "Developer = " + (DevradioButtonYes.Checked ? "Yes" : "No") + Environment.NewLine +
-               "QuoteAccess = " + (quoteyes.Checked ? "Yes" : "No") + Environment.NewLine +
-               "PurchaseReq Access = " + (preqyes.Checked ? "Yes" : "No") + Environment.NewLine +
-               "Price Access = " + (priceyes.Checked ? "Yes" : "No") + Environment.NewLine +
-                "Shipping Access = " + (shipyes.Checked ? "Yes" : "No") + Environment.NewLine +
+               "Admin = " + (admintoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+               "Developer = " + (developertoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+               "QuoteAccess = " + (quotetoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+               "PurchaseReq Access = " + (purchasereqtoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+               "Price Access = " + (pricetoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+               "Shipping Access = " + (shiptoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                "PurchaseReqAdmin = " + (papprovalchk.Checked ? "Yes" : "No") + Environment.NewLine +
                "PurchaseReqHigher Approval = " + (papproval2chk.Checked ? "Yes" : "No") + Environment.NewLine +
                "PurchaseReqBuyer = " + (pbuyerchk.Checked ? "Yes" : "No") + Environment.NewLine +
                "Supervisor = " + supervisorcombox.SelectedItem.ToString().Substring(2) + Environment.NewLine +
-               "Management = " + (manageradioButtonyes.Checked ? "Yes" : "No"), "Update User Information?",
+               "CribCheckOut = " + (cribouttoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+               "Management = " + (managementtoggle.Checked ? "Yes" : "No"), "Update User Information?",
                                                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
@@ -551,7 +542,7 @@ namespace SearchDataSPM
                 {
                     SqlCommand cmd = cn.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[Users] SET Department = '" + deptcombobox.SelectedItem.ToString() + "',Admin = '" + (radioButton1.Checked ? "1" : "0") + "',Name = '" + nametextbox.Text + "',ActiveBlockNumber = '" + activeblocknumber + "',Developer = '" + (DevradioButtonYes.Checked ? "1" : "0") + "',Management = '" + (manageradioButtonyes.Checked ? "1" : "0") + "',Quote = '" + (quoteyes.Checked ? "1" : "0") + "',PurchaseReq = '" + (preqyes.Checked ? "1" : "0") + "',PurchaseReqApproval = '" + (papprovalchk.Checked ? "1" : "0") + "',PurchaseReqApproval2 = '" + (papproval2chk.Checked ? "1" : "0") + "',PurchaseReqBuyer = '" + (pbuyerchk.Checked ? "1" : "0") + "',Supervisor = '" + supervisorcombox.SelectedItem.ToString().Substring(0, 2) + "',Email = '" + useremailtxt.Text + "',PriceRight = '" + (priceyes.Checked ? "1" : "0") + "',Shipping = '" + (shipyes.Checked ? "1" : "0") + "',SharesFolder = '" + sharepathtxt.Text + "' WHERE UserName = '" + domaintxtbox.Text + "' ";
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[Users] SET Department = '" + deptcombobox.SelectedItem.ToString() + "',Admin = '" + (admintoggle.Checked ? "1" : "0") + "',Name = '" + nametextbox.Text.Trim() + "',ActiveBlockNumber = '" + activeblocknumber + "',Developer = '" + (developertoggle.Checked ? "1" : "0") + "',Management = '" + (managementtoggle.Checked ? "1" : "0") + "',Quote = '" + (quotetoggle.Checked ? "1" : "0") + "',PurchaseReq = '" + (purchasereqtoggle.Checked ? "1" : "0") + "',PurchaseReqApproval = '" + (papprovalchk.Checked ? "1" : "0") + "',PurchaseReqApproval2 = '" + (papproval2chk.Checked ? "1" : "0") + "',PurchaseReqBuyer = '" + (pbuyerchk.Checked ? "1" : "0") + "',Supervisor = '" + supervisorcombox.SelectedItem.ToString().Substring(0, 2) + "',Email = '" + useremailtxt.Text + "',PriceRight = '" + (pricetoggle.Checked ? "1" : "0") + "',Shipping = '" + (shiptoggle.Checked ? "1" : "0") + "',CribCheckout = '" + (cribouttoggle.Checked ? "1" : "0") + "',SharesFolder = '" + sharepathtxt.Text.Trim() + "',Emp_Id = '" + empidtxt.Text.Trim() + "' WHERE UserName = '" + domaintxtbox.Text + "' ";
 
                     cmd.ExecuteNonQuery();
                     cn.Close();
@@ -584,17 +575,18 @@ namespace SearchDataSPM
                @"Domain\Username = " + domaintxtbox.Text + Environment.NewLine +
                @"Email = " + useremailtxt.Text + Environment.NewLine +
                "Department = " + deptcombobox.SelectedItem.ToString() + Environment.NewLine +
-               "Admin = " + (radioButton1.Checked ? "Yes" : "No") + Environment.NewLine +
-               "Developer = " + (DevradioButtonYes.Checked ? "Yes" : "No") + Environment.NewLine +
-               "QuoteAccess = " + (quoteyes.Checked ? "Yes" : "No") + Environment.NewLine +
-               "PurchaseReq Access = " + (preqyes.Checked ? "Yes" : "No") + Environment.NewLine +
-               "Price Access = " + (priceyes.Checked ? "Yes" : "No") + Environment.NewLine +
-                "Shipping Access = " + (shipyes.Checked ? "Yes" : "No") + Environment.NewLine +
+               "Admin = " + (admintoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+               "Developer = " + (developertoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+               "QuoteAccess = " + (quotetoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+               "PurchaseReq Access = " + (purchasereqtoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+               "Price Access = " + (pricetoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+               "Shipping Access = " + (shiptoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                "PurchaseReqAdmin = " + (papprovalchk.Checked ? "Yes" : "No") + Environment.NewLine +
                "PurchaseReqHigher Approval = " + (papproval2chk.Checked ? "Yes" : "No") + Environment.NewLine +
                "PurchaseReqBuyer = " + (pbuyerchk.Checked ? "Yes" : "No") + Environment.NewLine +
                "Supervisor = " + supervisorcombox.SelectedItem.ToString().Substring(2) + Environment.NewLine +
-               "Management = " + (manageradioButtonyes.Checked ? "Yes" : "No"), "Update User Information?",
+               "CribCheckOut = " + (cribouttoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+               "Management = " + (managementtoggle.Checked ? "Yes" : "No"), "Update User Information?",
                                                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
@@ -611,7 +603,7 @@ namespace SearchDataSPM
                 {
                     SqlCommand cmd = cn.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Users] VALUES('" + domaintxtbox.Text + "','" + deptcombobox.SelectedItem.ToString() + "','" + nametextbox.Text + "','" + activeblocknumber + "','" + (radioButton1.Checked ? "1" : "0") + "','" + (DevradioButtonYes.Checked ? "1" : "0") + "','" + (manageradioButtonyes.Checked ? "1" : "0") + "','" + (quoteyes.Checked ? "1" : "0") + "','" + (preqyes.Checked ? "1" : "0") + "','" + (papprovalchk.Checked ? "1" : "0") + "','" + (papproval2chk.Checked ? "1" : "0") + "','" + (pbuyerchk.Checked ? "1" : "0") + "','" + supervisorcombox.SelectedItem.ToString().Substring(0, 2).TrimEnd() + "','" + useremailtxt.Text + "','" + (priceyes.Checked ? "1" : "0") + "','" + (shipyes.Checked ? "1" : "0") + "','" + sharepathtxt.Text + "')";
+                    cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Users]([Emp_Id], [UserName], [Department], [Name],[ActiveBlockNumber],[Admin],[Developer],[Management],[Quote],[PurchaseReq],[PurchaseReqApproval],[PurchaseReqApproval2],[PurchaseReqBuyer],[PriceRight],[CribCheckout],[Shipping],[Supervisor],[Email],[SharesFolder]) VALUES('" + empidtxt.Text.Trim() + "','" + domaintxtbox.Text.Trim() + "','" + deptcombobox.SelectedItem.ToString() + "','" + nametextbox.Text.Trim() + "','" + activeblocknumber + "','" + (admintoggle.Checked ? "1" : "0") + "','" + (developertoggle.Checked ? "1" : "0") + "','" + (managementtoggle.Checked ? "1" : "0") + "','" + (quotetoggle.Checked ? "1" : "0") + "','" + (purchasereqtoggle.Checked ? "1" : "0") + "','" + (papprovalchk.Checked ? "1" : "0") + "','" + (papproval2chk.Checked ? "1" : "0") + "','" + (pbuyerchk.Checked ? "1" : "0") + "','" + (pricetoggle.Checked ? "1" : "0") + "','" + (cribouttoggle.Checked ? "1" : "0") + "','" + (shiptoggle.Checked ? "1" : "0") + "','" + supervisorcombox.SelectedItem.ToString().Substring(0, 2).TrimEnd() + "','" + useremailtxt.Text + "','" + sharepathtxt.Text + "')";
                     cmd.ExecuteNonQuery();
                     cn.Close();
                     MessageBox.Show("New user added successfully", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -642,32 +634,21 @@ namespace SearchDataSPM
 
         private void performcancelbutton()
         {
-            radioButton1.Enabled = false;
-            radioButton2.Enabled = false;
+            disablealltoggles();
             selectfolder.Enabled = false;
             domaintxtbox.Text = "";
             useremailtxt.Text = "";
             sharepathtxt.Text = "";
             nametextbox.Text = "";
+            empidtxt.Text = "";
             activecadblocktxt.Text = "";
-            manageradioButtonyes.Enabled = false;
-            manageradioButtonNo.Enabled = false;
-            DevradioButtonYes.Enabled = false;
-            DevradioButtonNo.Enabled = false;
-            quoteyes.Enabled = false;
-            quoteno.Enabled = false;
             papprovalchk.Enabled = false;
             papproval2chk.Enabled = false;
             pbuyerchk.Enabled = false;
-            preqyes.Enabled = false;
-            preqno.Enabled = false;
-            priceyes.Enabled = false;
-            priceno.Enabled = false;
-            shipyes.Enabled = false;
-            shipno.Enabled = false;
             supervisorcombox.Enabled = false;
             deptcombobox.Enabled = false;
             nametextbox.ReadOnly = true;
+            empidtxt.ReadOnly = true;
             activecadblocktxt.ReadOnly = true;
             useremailtxt.ReadOnly = true;
             selectfolder.Enabled = false;
@@ -804,6 +785,190 @@ namespace SearchDataSPM
         private void spmadmin_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.Dispose();
+        }
+
+        #endregion
+
+        #region Toggle Events
+
+        private void toggleSliderComponent1_CheckChanged(object sender, EventArgs e)
+        {
+            toggleadmin();
+        }
+
+        private void runalltoggle()
+        {
+            toggleadmin();
+            togglecribout();
+            togglequote();
+            toggleprice();
+            toggleship();
+            togglemangement();
+            toggledeveloper();
+            togglepurchasereq();
+        }
+
+        private void toggleadmin()
+        {
+            if (admintoggle.Checked)
+            {
+                admintoggle.ToggleBarText = "Yes";
+                admintoggle.ToggleCircleColor = Color.Green;
+                admintoggle.ToggleColorBar = Color.White;
+            }
+            else
+            {
+                admintoggle.ToggleBarText = "No";
+                admintoggle.ToggleCircleColor = Color.Red;
+                admintoggle.ToggleColorBar = Color.LightGray;
+            }
+        }
+
+        private void togglequote()
+        {
+            if (quotetoggle.Checked)
+            {
+                quotetoggle.ToggleBarText = "Yes";
+                quotetoggle.ToggleCircleColor = Color.Green;
+                quotetoggle.ToggleColorBar = Color.White;
+            }
+            else
+            {
+                quotetoggle.ToggleBarText = "No";
+                quotetoggle.ToggleCircleColor = Color.Red;
+                quotetoggle.ToggleColorBar = Color.LightGray;
+            }
+        }
+
+        private void toggleprice()
+        {
+            if (pricetoggle.Checked)
+            {
+                pricetoggle.ToggleBarText = "Yes";
+                pricetoggle.ToggleCircleColor = Color.Green;
+                pricetoggle.ToggleColorBar = Color.White;
+            }
+            else
+            {
+                pricetoggle.ToggleBarText = "No";
+                pricetoggle.ToggleCircleColor = Color.Red;
+                pricetoggle.ToggleColorBar = Color.LightGray;
+            }
+        }
+
+        private void toggleship()
+        {
+            if (shiptoggle.Checked)
+            {
+                shiptoggle.ToggleBarText = "Yes";
+                shiptoggle.ToggleCircleColor = Color.Green;
+                shiptoggle.ToggleColorBar = Color.White;
+            }
+            else
+            {
+                shiptoggle.ToggleBarText = "No";
+                shiptoggle.ToggleCircleColor = Color.Red;
+                shiptoggle.ToggleColorBar = Color.LightGray;
+            }
+        }
+
+        private void togglemangement()
+        {
+            if (managementtoggle.Checked)
+            {
+                managementtoggle.ToggleBarText = "Yes";
+                managementtoggle.ToggleCircleColor = Color.Green;
+                managementtoggle.ToggleColorBar = Color.White;
+            }
+            else
+            {
+                managementtoggle.ToggleBarText = "No";
+                managementtoggle.ToggleCircleColor = Color.Red;
+                managementtoggle.ToggleColorBar = Color.LightGray;
+            }
+        }
+
+        private void toggledeveloper()
+        {
+            if (developertoggle.Checked)
+            {
+                developertoggle.ToggleBarText = "Yes";
+                developertoggle.ToggleCircleColor = Color.Green;
+                developertoggle.ToggleColorBar = Color.White;
+            }
+            else
+            {
+                developertoggle.ToggleBarText = "No";
+                developertoggle.ToggleCircleColor = Color.Red;
+                developertoggle.ToggleColorBar = Color.LightGray;
+            }
+        }
+
+        private void togglepurchasereq()
+        {
+            if (purchasereqtoggle.Checked)
+            {
+                purchasereqtoggle.ToggleBarText = "Yes";
+                purchasereqtoggle.ToggleCircleColor = Color.Green;
+                purchasereqtoggle.ToggleColorBar = Color.White;
+            }
+            else
+            {
+                purchasereqtoggle.ToggleBarText = "No";
+                purchasereqtoggle.ToggleCircleColor = Color.Red;
+                purchasereqtoggle.ToggleColorBar = Color.LightGray;
+            }
+        }
+
+        private void togglecribout()
+        {
+            if (cribouttoggle.Checked)
+            {
+                cribouttoggle.ToggleBarText = "Yes";
+                cribouttoggle.ToggleCircleColor = Color.Green;
+                cribouttoggle.ToggleColorBar = Color.White;
+            }
+            else
+            {
+                cribouttoggle.ToggleBarText = "No";
+                cribouttoggle.ToggleCircleColor = Color.Red;
+                cribouttoggle.ToggleColorBar = Color.LightGray;
+            }
+        }
+
+        private void quotetoggle_CheckChanged(object sender, EventArgs e)
+        {
+            togglequote();
+        }
+
+        private void pricetoggle_CheckChanged(object sender, EventArgs e)
+        {
+            toggleprice();
+        }
+
+        private void shiptoggle_CheckChanged(object sender, EventArgs e)
+        {
+            toggleship();
+        }
+
+        private void cribouttoggle_CheckChanged(object sender, EventArgs e)
+        {
+            togglecribout();
+        }
+
+        private void developertoggle_CheckChanged(object sender, EventArgs e)
+        {
+            toggledeveloper();
+        }
+
+        private void purchasereqtoggle_CheckChanged(object sender, EventArgs e)
+        {
+            togglepurchasereq();
+        }
+
+        private void managementtoggle_CheckChanged(object sender, EventArgs e)
+        {
+            togglemangement();
         }
 
         #endregion

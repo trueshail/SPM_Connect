@@ -118,7 +118,7 @@ namespace SPMConnectAPI
         {
             DataTable dt = new DataTable();
 
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT WO,Status FROM [SPM_Database].[dbo].[WO_Tracking] WHERE [WO] = '" + wo + "'", cn))
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[WO_Tracking] WHERE [WO] = '" + wo + "'", cn))
             {
                 try
                 {
@@ -142,13 +142,35 @@ namespace SPMConnectAPI
             return dt;
         }
 
+        private string WOStatustostring(string wo)
+        {
+            string status = "";
+            try
+            {
+                DataTable dt = new DataTable();
+                dt = GetWoStatus(wo);
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    if (dr["Purin"].ToString() == "1" || dr["Cribin"].ToString() == "1")
+                        status = dr["Status"].ToString();
+
+                }
+                dt.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve WO Status", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            return status;
+        }
+
         public void scanworkorder(string wo)
         {
+            string department = getdepartment();
             if (WoExistsOnWotrack(wo))
             {
-                string department = getdepartment();
-
-                if(department == "Eng")
+                if (department == "Eng")
                 {
                     MessageBox.Show("Work order has already been entered into the system", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -160,11 +182,19 @@ namespace SPMConnectAPI
             else
             {
                 // workorder not started into the system
-                if (WOReleased(wo))
+                if (WOReleased(wo) && department == "Eng")
                     enterwototrack(wo);
                 else
                 {
-                    MessageBox.Show("Please check the work order number.", "Work Order not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    if(department == "Eng")
+                    {
+                        MessageBox.Show("Please check the work order number.", "Work Order not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Work order has not been initialized in the system by Engineering", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    }                
                 }
             }
         }
@@ -354,8 +384,13 @@ namespace SPMConnectAPI
                     if (prodout == "0")
                     {
                         // insert into production checkout
-                        UpdateWOTracking(wo, "Prodout", "ProdoutWho", "ProdoutWhen", "1", getuserfullname(), "OutProduction");
-                        MessageBox.Show("Work Order Checked out of Production.", "SPM Connect  - Work Order out Production", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        DialogResult result = MessageBox.Show("Check out this work order from production?", "Check Out WO?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (result == DialogResult.Yes)
+                        {
+                            UpdateWOTracking(wo, "Prodout", "ProdoutWho", "ProdoutWhen", "1", getuserfullname(), "OutProduction");
+                            MessageBox.Show("Work Order Checked out of Production.", "SPM Connect  - Work Order out Production", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+
                     }
                     else
                     {
@@ -373,12 +408,15 @@ namespace SPMConnectAPI
 
         private void checkpurtrack(string prodout, string purin, string purout, string wo)
         {
+            string status = "";
+            status = WOStatustostring(wo);
             if (prodout == "1")
             {
                 if (purin == "0")
                 {
                     // insert into purchasing
-                    UpdateWOTracking(wo, "Purin", "PurinWho", "PurinWhen", "1", getuserfullname(), "InPurchase");
+
+                    UpdateWOTracking(wo, "Purin", "PurinWho", "PurinWhen", "1", getuserfullname(), status == "" ? "In Purchasing" : status + " & In Purchasing");
                     MessageBox.Show("Work Order Checked into Purchasing.", "SPM Connect  - Work Order In Purchasing", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
@@ -386,8 +424,14 @@ namespace SPMConnectAPI
                     if (purout == "0")
                     {
                         // insert into pruchase checkout
-                        UpdateWOTracking(wo, "Purout", "PuroutWho", "PuroutWhen", "1", getuserfullname(), "OutPurchase");
-                        MessageBox.Show("Work Order Checked out of Purchasing.", "SPM Connect  - Work Order out Purchasing", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        DialogResult result = MessageBox.Show("Check out this work order from Purchasing?", "Check Out WO?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (result == DialogResult.Yes)
+                        {
+                            status = RemoveStatus(status, "In Purchasing");
+                            UpdateWOTracking(wo, "Purout", "PuroutWho", "PuroutWhen", "1", getuserfullname(), status == "" || status == "In Purchasing" ? "Out Purchasing" : status + " & Out Purchasing");
+                            MessageBox.Show("Work Order Checked out of Purchasing.", "SPM Connect  - Work Order out Purchasing", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+
                     }
                     else
                     {
@@ -405,12 +449,14 @@ namespace SPMConnectAPI
 
         private void checkCribtrack(string prodout, string cribin, string cribout, string wo)
         {
+            string status = "";
+            status = WOStatustostring(wo);
             if (prodout == "1")
             {
                 if (cribin == "0")
                 {
                     // insert into crib
-                    UpdateWOTracking(wo, "Cribin", "CribinWho", "CribinWhen", "1", getuserfullname(), "InCrib");
+                    UpdateWOTracking(wo, "Cribin", "CribinWho", "CribinWhen", "1", getuserfullname(), status == "" ? "In Crib" : status + " & In Crib");
                     MessageBox.Show("Work Order Checked into Crib.", "SPM Connect  - Work Order In Crib", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
@@ -418,8 +464,14 @@ namespace SPMConnectAPI
                     if (cribout == "0")
                     {
                         // insert into crib checkout
-                        UpdateWOTracking(wo, "Cribout", "CriboutWho", "CriboutWhen", "1", getuserfullname(), "Completed");
-                        MessageBox.Show("Work Order Checked out of Crib.", "SPM Connect  - Work Order out Crib", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        DialogResult result = MessageBox.Show("Check out this work order from Crib?", "Check Out WO?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                        if (result == DialogResult.Yes)
+                        {
+                            status = RemoveStatus(status, "In Crib");
+                            UpdateWOTracking(wo, "Cribout", "CriboutWho", "CriboutWhen", "1", getuserfullname(), status == "" ? "Out Crib" : status + " & Out Crib");
+                            MessageBox.Show("Work Order Checked out of Crib.", "SPM Connect  - Work Order out Crib", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
                     }
                     else
                     {
@@ -434,6 +486,28 @@ namespace SPMConnectAPI
                 MessageBox.Show("Work order has not been checkout from production", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-                
+
+        private string RemoveStatus(string status, string requestby)
+        {
+            string setstatus = "";
+            string incrib = requestby;
+            // Split string on spaces (this will separate all the words).
+            string[] words = status.Split('&');
+            foreach (string word in words)
+            {
+                if (word.Trim() == incrib)
+                {
+
+                }
+                else
+                {
+                    setstatus += word.Trim();
+                    if (word.Trim() != "")
+                        setstatus += "";
+                }
+            }
+            return setstatus.Trim();
+        }
+
     }
 }

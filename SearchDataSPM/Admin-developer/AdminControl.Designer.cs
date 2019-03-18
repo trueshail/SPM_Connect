@@ -1,4 +1,5 @@
-﻿namespace SearchDataSPM
+﻿
+namespace SearchDataSPM
 {
     partial class spmadmin
     {
@@ -34,7 +35,6 @@
             this.openModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openDrawingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.LabelTooltips = new System.Windows.Forms.ToolTip(this.components);
-            this.SPM = new System.Windows.Forms.Label();
             this.nametextbox = new System.Windows.Forms.TextBox();
             this.domaintxtbox = new System.Windows.Forms.TextBox();
             this.activecadblocktxt = new System.Windows.Forms.TextBox();
@@ -49,26 +49,15 @@
             this.custbttn = new System.Windows.Forms.Button();
             this.matbttn = new System.Windows.Forms.Button();
             this.selectfolder = new System.Windows.Forms.Button();
+            this.SPM = new System.Windows.Forms.Label();
             this.Userlistbox = new System.Windows.Forms.ListBox();
             this.department = new System.Windows.Forms.Label();
             this.username = new System.Windows.Forms.Label();
             this.admin = new System.Windows.Forms.Label();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.UserFirstname = new System.Windows.Forms.Label();
             this.Cadblock = new System.Windows.Forms.Label();
-            this.manageradioButtonNo = new System.Windows.Forms.RadioButton();
-            this.manageradioButtonyes = new System.Windows.Forms.RadioButton();
             this.label1 = new System.Windows.Forms.Label();
-            this.DevradioButtonNo = new System.Windows.Forms.RadioButton();
-            this.DevradioButtonYes = new System.Windows.Forms.RadioButton();
             this.label2 = new System.Windows.Forms.Label();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.quoteno = new System.Windows.Forms.RadioButton();
-            this.quoteyes = new System.Windows.Forms.RadioButton();
             this.label3 = new System.Windows.Forms.Label();
             this.papproval2chk = new System.Windows.Forms.CheckBox();
             this.pbuyerchk = new System.Windows.Forms.CheckBox();
@@ -86,30 +75,25 @@
             this.supervisorcombox = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.panel9 = new System.Windows.Forms.Panel();
-            this.preqno = new System.Windows.Forms.RadioButton();
-            this.preqyes = new System.Windows.Forms.RadioButton();
             this.label8 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.panel6 = new System.Windows.Forms.Panel();
-            this.priceno = new System.Windows.Forms.RadioButton();
-            this.priceyes = new System.Windows.Forms.RadioButton();
             this.sharepathtxt = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.label12 = new System.Windows.Forms.Label();
-            this.panel7 = new System.Windows.Forms.Panel();
-            this.shipno = new System.Windows.Forms.RadioButton();
-            this.shipyes = new System.Windows.Forms.RadioButton();
             this.deptcombobox = new System.Windows.Forms.ComboBox();
+            this.empidtxt = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.admintoggle = new ToggleSlider.ToggleSliderComponent();
+            this.quotetoggle = new ToggleSlider.ToggleSliderComponent();
+            this.pricetoggle = new ToggleSlider.ToggleSliderComponent();
+            this.shiptoggle = new ToggleSlider.ToggleSliderComponent();
+            this.managementtoggle = new ToggleSlider.ToggleSliderComponent();
+            this.purchasereqtoggle = new ToggleSlider.ToggleSliderComponent();
+            this.developertoggle = new ToggleSlider.ToggleSliderComponent();
+            this.label14 = new System.Windows.Forms.Label();
+            this.cribouttoggle = new ToggleSlider.ToggleSliderComponent();
             this.contextMenuStrip1.SuspendLayout();
-            this.panel2.SuspendLayout();
-            this.panel3.SuspendLayout();
-            this.panel4.SuspendLayout();
-            this.panel5.SuspendLayout();
-            this.panel9.SuspendLayout();
-            this.panel6.SuspendLayout();
-            this.panel7.SuspendLayout();
             this.SuspendLayout();
             // 
             // contextMenuStrip1
@@ -142,22 +126,6 @@
             this.LabelTooltips.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.LabelTooltips.InitialDelay = 500;
             this.LabelTooltips.ReshowDelay = 100;
-            // 
-            // SPM
-            // 
-            this.SPM.BackColor = System.Drawing.Color.Transparent;
-            this.SPM.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SPM.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.SPM.Image = ((System.Drawing.Image)(resources.GetObject("SPM.Image")));
-            this.SPM.Location = new System.Drawing.Point(2, 2);
-            this.SPM.MaximumSize = new System.Drawing.Size(300, 100);
-            this.SPM.MinimumSize = new System.Drawing.Size(100, 100);
-            this.SPM.Name = "SPM";
-            this.SPM.Size = new System.Drawing.Size(232, 100);
-            this.SPM.TabIndex = 32;
-            this.SPM.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.LabelTooltips.SetToolTip(this.SPM, "SPM Automation Inc.");
-            this.SPM.DoubleClick += new System.EventHandler(this.SPM_DoubleClick);
             // 
             // nametextbox
             // 
@@ -332,6 +300,22 @@
             this.selectfolder.UseVisualStyleBackColor = true;
             this.selectfolder.Click += new System.EventHandler(this.selectfolder_Click);
             // 
+            // SPM
+            // 
+            this.SPM.BackColor = System.Drawing.Color.Transparent;
+            this.SPM.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SPM.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.SPM.Image = ((System.Drawing.Image)(resources.GetObject("SPM.Image")));
+            this.SPM.Location = new System.Drawing.Point(2, 2);
+            this.SPM.MaximumSize = new System.Drawing.Size(300, 100);
+            this.SPM.MinimumSize = new System.Drawing.Size(100, 100);
+            this.SPM.Name = "SPM";
+            this.SPM.Size = new System.Drawing.Size(232, 100);
+            this.SPM.TabIndex = 32;
+            this.SPM.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LabelTooltips.SetToolTip(this.SPM, "SPM Automation Inc.");
+            this.SPM.DoubleClick += new System.EventHandler(this.SPM_DoubleClick);
+            // 
             // Userlistbox
             // 
             this.Userlistbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -352,7 +336,7 @@
             this.department.AutoSize = true;
             this.department.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.department.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.department.Location = new System.Drawing.Point(234, 171);
+            this.department.Location = new System.Drawing.Point(224, 171);
             this.department.MaximumSize = new System.Drawing.Size(90, 15);
             this.department.Name = "department";
             this.department.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -381,37 +365,13 @@
             this.admin.AutoSize = true;
             this.admin.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.admin.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.admin.Location = new System.Drawing.Point(222, 217);
+            this.admin.Location = new System.Drawing.Point(234, 217);
             this.admin.MaximumSize = new System.Drawing.Size(90, 15);
             this.admin.Name = "admin";
             this.admin.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.admin.Size = new System.Drawing.Size(59, 15);
             this.admin.TabIndex = 53;
             this.admin.Text = "Admin : ";
-            // 
-            // radioButton1
-            // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Enabled = false;
-            this.radioButton1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.radioButton1.Location = new System.Drawing.Point(6, 4);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(43, 17);
-            this.radioButton1.TabIndex = 54;
-            this.radioButton1.Text = "Yes";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            // 
-            // radioButton2
-            // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Enabled = false;
-            this.radioButton2.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.radioButton2.Location = new System.Drawing.Point(55, 3);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(39, 17);
-            this.radioButton2.TabIndex = 55;
-            this.radioButton2.Text = "No";
-            this.radioButton2.UseVisualStyleBackColor = true;
             // 
             // UserFirstname
             // 
@@ -441,30 +401,6 @@
             this.Cadblock.TabIndex = 69;
             this.Cadblock.Text = "Active CAD Block :";
             // 
-            // manageradioButtonNo
-            // 
-            this.manageradioButtonNo.AutoSize = true;
-            this.manageradioButtonNo.Enabled = false;
-            this.manageradioButtonNo.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.manageradioButtonNo.Location = new System.Drawing.Point(56, 6);
-            this.manageradioButtonNo.Name = "manageradioButtonNo";
-            this.manageradioButtonNo.Size = new System.Drawing.Size(39, 17);
-            this.manageradioButtonNo.TabIndex = 58;
-            this.manageradioButtonNo.Text = "No";
-            this.manageradioButtonNo.UseVisualStyleBackColor = true;
-            // 
-            // manageradioButtonyes
-            // 
-            this.manageradioButtonyes.AutoSize = true;
-            this.manageradioButtonyes.Enabled = false;
-            this.manageradioButtonyes.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.manageradioButtonyes.Location = new System.Drawing.Point(6, 6);
-            this.manageradioButtonyes.Name = "manageradioButtonyes";
-            this.manageradioButtonyes.Size = new System.Drawing.Size(43, 17);
-            this.manageradioButtonyes.TabIndex = 57;
-            this.manageradioButtonyes.Text = "Yes";
-            this.manageradioButtonyes.UseVisualStyleBackColor = true;
-            // 
             // label1
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -479,30 +415,6 @@
             this.label1.Size = new System.Drawing.Size(99, 15);
             this.label1.TabIndex = 70;
             this.label1.Text = "Management : ";
-            // 
-            // DevradioButtonNo
-            // 
-            this.DevradioButtonNo.AutoSize = true;
-            this.DevradioButtonNo.Enabled = false;
-            this.DevradioButtonNo.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.DevradioButtonNo.Location = new System.Drawing.Point(56, 5);
-            this.DevradioButtonNo.Name = "DevradioButtonNo";
-            this.DevradioButtonNo.Size = new System.Drawing.Size(39, 17);
-            this.DevradioButtonNo.TabIndex = 75;
-            this.DevradioButtonNo.Text = "No";
-            this.DevradioButtonNo.UseVisualStyleBackColor = true;
-            // 
-            // DevradioButtonYes
-            // 
-            this.DevradioButtonYes.AutoSize = true;
-            this.DevradioButtonYes.Enabled = false;
-            this.DevradioButtonYes.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.DevradioButtonYes.Location = new System.Drawing.Point(6, 5);
-            this.DevradioButtonYes.Name = "DevradioButtonYes";
-            this.DevradioButtonYes.Size = new System.Drawing.Size(43, 17);
-            this.DevradioButtonYes.TabIndex = 74;
-            this.DevradioButtonYes.Text = "Yes";
-            this.DevradioButtonYes.UseVisualStyleBackColor = true;
             // 
             // label2
             // 
@@ -519,66 +431,6 @@
             this.label2.TabIndex = 73;
             this.label2.Text = "Developer :";
             // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.radioButton2);
-            this.panel2.Controls.Add(this.radioButton1);
-            this.panel2.Location = new System.Drawing.Point(287, 214);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(103, 24);
-            this.panel2.TabIndex = 53;
-            // 
-            // panel3
-            // 
-            this.panel3.Controls.Add(this.manageradioButtonNo);
-            this.panel3.Controls.Add(this.manageradioButtonyes);
-            this.panel3.Location = new System.Drawing.Point(506, 212);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(107, 26);
-            this.panel3.TabIndex = 56;
-            // 
-            // panel4
-            // 
-            this.panel4.Controls.Add(this.DevradioButtonNo);
-            this.panel4.Controls.Add(this.DevradioButtonYes);
-            this.panel4.Location = new System.Drawing.Point(508, 291);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(107, 27);
-            this.panel4.TabIndex = 78;
-            // 
-            // panel5
-            // 
-            this.panel5.Controls.Add(this.quoteno);
-            this.panel5.Controls.Add(this.quoteyes);
-            this.panel5.Location = new System.Drawing.Point(285, 252);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(107, 26);
-            this.panel5.TabIndex = 80;
-            // 
-            // quoteno
-            // 
-            this.quoteno.AutoSize = true;
-            this.quoteno.Enabled = false;
-            this.quoteno.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.quoteno.Location = new System.Drawing.Point(56, 6);
-            this.quoteno.Name = "quoteno";
-            this.quoteno.Size = new System.Drawing.Size(39, 17);
-            this.quoteno.TabIndex = 72;
-            this.quoteno.Text = "No";
-            this.quoteno.UseVisualStyleBackColor = true;
-            // 
-            // quoteyes
-            // 
-            this.quoteyes.AutoSize = true;
-            this.quoteyes.Enabled = false;
-            this.quoteyes.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.quoteyes.Location = new System.Drawing.Point(6, 6);
-            this.quoteyes.Name = "quoteyes";
-            this.quoteyes.Size = new System.Drawing.Size(43, 17);
-            this.quoteyes.TabIndex = 71;
-            this.quoteyes.Text = "Yes";
-            this.quoteyes.UseVisualStyleBackColor = true;
-            // 
             // label3
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -586,7 +438,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label3.Location = new System.Drawing.Point(226, 247);
+            this.label3.Location = new System.Drawing.Point(234, 249);
             this.label3.Name = "label3";
             this.label3.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label3.Size = new System.Drawing.Size(59, 30);
@@ -693,7 +545,7 @@
             this.idlabel.AutoSize = true;
             this.idlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.idlabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.idlabel.Location = new System.Drawing.Point(550, 17);
+            this.idlabel.Location = new System.Drawing.Point(550, 10);
             this.idlabel.Name = "idlabel";
             this.idlabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.idlabel.Size = new System.Drawing.Size(27, 15);
@@ -803,39 +655,6 @@
             this.label9.TabIndex = 85;
             this.label9.Text = "Purchase Req\r\n2nd Approval :";
             // 
-            // panel9
-            // 
-            this.panel9.Controls.Add(this.preqno);
-            this.panel9.Controls.Add(this.preqyes);
-            this.panel9.Location = new System.Drawing.Point(506, 253);
-            this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(107, 26);
-            this.panel9.TabIndex = 87;
-            // 
-            // preqno
-            // 
-            this.preqno.AutoSize = true;
-            this.preqno.Enabled = false;
-            this.preqno.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.preqno.Location = new System.Drawing.Point(56, 6);
-            this.preqno.Name = "preqno";
-            this.preqno.Size = new System.Drawing.Size(39, 17);
-            this.preqno.TabIndex = 58;
-            this.preqno.Text = "No";
-            this.preqno.UseVisualStyleBackColor = true;
-            // 
-            // preqyes
-            // 
-            this.preqyes.AutoSize = true;
-            this.preqyes.Enabled = false;
-            this.preqyes.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.preqyes.Location = new System.Drawing.Point(6, 6);
-            this.preqyes.Name = "preqyes";
-            this.preqyes.Size = new System.Drawing.Size(43, 17);
-            this.preqyes.TabIndex = 57;
-            this.preqyes.Text = "Yes";
-            this.preqyes.UseVisualStyleBackColor = true;
-            // 
             // label8
             // 
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -857,46 +676,13 @@
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label10.Location = new System.Drawing.Point(225, 286);
+            this.label10.Location = new System.Drawing.Point(235, 288);
             this.label10.MaximumSize = new System.Drawing.Size(90, 30);
             this.label10.Name = "label10";
             this.label10.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label10.Size = new System.Drawing.Size(59, 30);
             this.label10.TabIndex = 88;
             this.label10.Text = "Price\r\nAccess :";
-            // 
-            // panel6
-            // 
-            this.panel6.Controls.Add(this.priceno);
-            this.panel6.Controls.Add(this.priceyes);
-            this.panel6.Location = new System.Drawing.Point(286, 291);
-            this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(107, 27);
-            this.panel6.TabIndex = 89;
-            // 
-            // priceno
-            // 
-            this.priceno.AutoSize = true;
-            this.priceno.Enabled = false;
-            this.priceno.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.priceno.Location = new System.Drawing.Point(56, 5);
-            this.priceno.Name = "priceno";
-            this.priceno.Size = new System.Drawing.Size(39, 17);
-            this.priceno.TabIndex = 75;
-            this.priceno.Text = "No";
-            this.priceno.UseVisualStyleBackColor = true;
-            // 
-            // priceyes
-            // 
-            this.priceyes.AutoSize = true;
-            this.priceyes.Enabled = false;
-            this.priceyes.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.priceyes.Location = new System.Drawing.Point(6, 5);
-            this.priceyes.Name = "priceyes";
-            this.priceyes.Size = new System.Drawing.Size(43, 17);
-            this.priceyes.TabIndex = 74;
-            this.priceyes.Text = "Yes";
-            this.priceyes.UseVisualStyleBackColor = true;
             // 
             // sharepathtxt
             // 
@@ -943,46 +729,13 @@
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label12.Location = new System.Drawing.Point(310, 337);
+            this.label12.Location = new System.Drawing.Point(222, 332);
             this.label12.MaximumSize = new System.Drawing.Size(90, 15);
             this.label12.Name = "label12";
             this.label12.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label12.Size = new System.Drawing.Size(72, 15);
             this.label12.TabIndex = 73;
             this.label12.Text = "Shipping :";
-            // 
-            // panel7
-            // 
-            this.panel7.Controls.Add(this.shipno);
-            this.panel7.Controls.Add(this.shipyes);
-            this.panel7.Location = new System.Drawing.Point(397, 331);
-            this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(107, 27);
-            this.panel7.TabIndex = 78;
-            // 
-            // shipno
-            // 
-            this.shipno.AutoSize = true;
-            this.shipno.Enabled = false;
-            this.shipno.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.shipno.Location = new System.Drawing.Point(56, 5);
-            this.shipno.Name = "shipno";
-            this.shipno.Size = new System.Drawing.Size(39, 17);
-            this.shipno.TabIndex = 75;
-            this.shipno.Text = "No";
-            this.shipno.UseVisualStyleBackColor = true;
-            // 
-            // shipyes
-            // 
-            this.shipyes.AutoSize = true;
-            this.shipyes.Enabled = false;
-            this.shipyes.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.shipyes.Location = new System.Drawing.Point(6, 5);
-            this.shipyes.Name = "shipyes";
-            this.shipyes.Size = new System.Drawing.Size(43, 17);
-            this.shipyes.TabIndex = 74;
-            this.shipyes.Text = "Yes";
-            this.shipyes.UseVisualStyleBackColor = true;
             // 
             // deptcombobox
             // 
@@ -998,10 +751,188 @@
             "Production",
             "Purchasing",
             "Crib"});
-            this.deptcombobox.Location = new System.Drawing.Point(330, 168);
+            this.deptcombobox.Location = new System.Drawing.Point(318, 168);
             this.deptcombobox.Name = "deptcombobox";
-            this.deptcombobox.Size = new System.Drawing.Size(165, 23);
+            this.deptcombobox.Size = new System.Drawing.Size(128, 23);
             this.deptcombobox.TabIndex = 83;
+            // 
+            // empidtxt
+            // 
+            this.empidtxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.empidtxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.empidtxt.Location = new System.Drawing.Point(524, 169);
+            this.empidtxt.MaximumSize = new System.Drawing.Size(180, 20);
+            this.empidtxt.Name = "empidtxt";
+            this.empidtxt.ReadOnly = true;
+            this.empidtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.empidtxt.Size = new System.Drawing.Size(93, 22);
+            this.empidtxt.TabIndex = 45;
+            // 
+            // label13
+            // 
+            this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label13.Location = new System.Drawing.Point(458, 172);
+            this.label13.Name = "label13";
+            this.label13.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label13.Size = new System.Drawing.Size(60, 15);
+            this.label13.TabIndex = 53;
+            this.label13.Text = "Emp Id :";
+            // 
+            // admintoggle
+            // 
+            this.admintoggle.AutoSize = true;
+            this.admintoggle.Checked = false;
+            this.admintoggle.Enabled = false;
+            this.admintoggle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.admintoggle.Location = new System.Drawing.Point(296, 217);
+            this.admintoggle.MaximumSize = new System.Drawing.Size(70, 25);
+            this.admintoggle.MinimumSize = new System.Drawing.Size(70, 25);
+            this.admintoggle.Name = "admintoggle";
+            this.admintoggle.Size = new System.Drawing.Size(70, 25);
+            this.admintoggle.TabIndex = 95;
+            this.admintoggle.ToggleBarText = "No";
+            this.admintoggle.ToggleCircleColor = System.Drawing.Color.Red;
+            this.admintoggle.ToggleColorBar = System.Drawing.Color.LightGray;
+            this.admintoggle.CheckChanged += new System.EventHandler(this.toggleSliderComponent1_CheckChanged);
+            // 
+            // quotetoggle
+            // 
+            this.quotetoggle.AutoSize = true;
+            this.quotetoggle.Checked = false;
+            this.quotetoggle.Enabled = false;
+            this.quotetoggle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.quotetoggle.Location = new System.Drawing.Point(296, 258);
+            this.quotetoggle.MaximumSize = new System.Drawing.Size(70, 25);
+            this.quotetoggle.MinimumSize = new System.Drawing.Size(70, 25);
+            this.quotetoggle.Name = "quotetoggle";
+            this.quotetoggle.Size = new System.Drawing.Size(70, 25);
+            this.quotetoggle.TabIndex = 95;
+            this.quotetoggle.ToggleBarText = "No";
+            this.quotetoggle.ToggleCircleColor = System.Drawing.Color.Red;
+            this.quotetoggle.ToggleColorBar = System.Drawing.Color.LightGray;
+            this.quotetoggle.CheckChanged += new System.EventHandler(this.quotetoggle_CheckChanged);
+            // 
+            // pricetoggle
+            // 
+            this.pricetoggle.AutoSize = true;
+            this.pricetoggle.Checked = false;
+            this.pricetoggle.Enabled = false;
+            this.pricetoggle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.pricetoggle.Location = new System.Drawing.Point(296, 297);
+            this.pricetoggle.MaximumSize = new System.Drawing.Size(70, 25);
+            this.pricetoggle.MinimumSize = new System.Drawing.Size(70, 25);
+            this.pricetoggle.Name = "pricetoggle";
+            this.pricetoggle.Size = new System.Drawing.Size(70, 25);
+            this.pricetoggle.TabIndex = 95;
+            this.pricetoggle.ToggleBarText = "No";
+            this.pricetoggle.ToggleCircleColor = System.Drawing.Color.Red;
+            this.pricetoggle.ToggleColorBar = System.Drawing.Color.LightGray;
+            this.pricetoggle.CheckChanged += new System.EventHandler(this.pricetoggle_CheckChanged);
+            // 
+            // shiptoggle
+            // 
+            this.shiptoggle.AutoSize = true;
+            this.shiptoggle.Checked = false;
+            this.shiptoggle.Enabled = false;
+            this.shiptoggle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.shiptoggle.Location = new System.Drawing.Point(296, 332);
+            this.shiptoggle.MaximumSize = new System.Drawing.Size(70, 25);
+            this.shiptoggle.MinimumSize = new System.Drawing.Size(70, 25);
+            this.shiptoggle.Name = "shiptoggle";
+            this.shiptoggle.Size = new System.Drawing.Size(70, 25);
+            this.shiptoggle.TabIndex = 95;
+            this.shiptoggle.ToggleBarText = "No";
+            this.shiptoggle.ToggleCircleColor = System.Drawing.Color.Red;
+            this.shiptoggle.ToggleColorBar = System.Drawing.Color.LightGray;
+            this.shiptoggle.CheckChanged += new System.EventHandler(this.shiptoggle_CheckChanged);
+            // 
+            // managementtoggle
+            // 
+            this.managementtoggle.AutoSize = true;
+            this.managementtoggle.Checked = false;
+            this.managementtoggle.Enabled = false;
+            this.managementtoggle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.managementtoggle.Location = new System.Drawing.Point(507, 217);
+            this.managementtoggle.MaximumSize = new System.Drawing.Size(70, 25);
+            this.managementtoggle.MinimumSize = new System.Drawing.Size(70, 25);
+            this.managementtoggle.Name = "managementtoggle";
+            this.managementtoggle.Size = new System.Drawing.Size(70, 25);
+            this.managementtoggle.TabIndex = 96;
+            this.managementtoggle.ToggleBarText = "No";
+            this.managementtoggle.ToggleCircleColor = System.Drawing.Color.Red;
+            this.managementtoggle.ToggleColorBar = System.Drawing.Color.LightGray;
+            this.managementtoggle.CheckChanged += new System.EventHandler(this.managementtoggle_CheckChanged);
+            // 
+            // purchasereqtoggle
+            // 
+            this.purchasereqtoggle.AutoSize = true;
+            this.purchasereqtoggle.Checked = false;
+            this.purchasereqtoggle.Enabled = false;
+            this.purchasereqtoggle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.purchasereqtoggle.Location = new System.Drawing.Point(507, 254);
+            this.purchasereqtoggle.MaximumSize = new System.Drawing.Size(70, 25);
+            this.purchasereqtoggle.MinimumSize = new System.Drawing.Size(70, 25);
+            this.purchasereqtoggle.Name = "purchasereqtoggle";
+            this.purchasereqtoggle.Size = new System.Drawing.Size(70, 25);
+            this.purchasereqtoggle.TabIndex = 96;
+            this.purchasereqtoggle.ToggleBarText = "No";
+            this.purchasereqtoggle.ToggleCircleColor = System.Drawing.Color.Red;
+            this.purchasereqtoggle.ToggleColorBar = System.Drawing.Color.LightGray;
+            this.purchasereqtoggle.CheckChanged += new System.EventHandler(this.purchasereqtoggle_CheckChanged);
+            // 
+            // developertoggle
+            // 
+            this.developertoggle.AutoSize = true;
+            this.developertoggle.Checked = false;
+            this.developertoggle.Enabled = false;
+            this.developertoggle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.developertoggle.Location = new System.Drawing.Point(507, 293);
+            this.developertoggle.MaximumSize = new System.Drawing.Size(70, 25);
+            this.developertoggle.MinimumSize = new System.Drawing.Size(70, 25);
+            this.developertoggle.Name = "developertoggle";
+            this.developertoggle.Size = new System.Drawing.Size(70, 25);
+            this.developertoggle.TabIndex = 96;
+            this.developertoggle.ToggleBarText = "No";
+            this.developertoggle.ToggleCircleColor = System.Drawing.Color.Red;
+            this.developertoggle.ToggleColorBar = System.Drawing.Color.LightGray;
+            this.developertoggle.CheckChanged += new System.EventHandler(this.developertoggle_CheckChanged);
+            // 
+            // label14
+            // 
+            this.label14.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label14.Location = new System.Drawing.Point(415, 332);
+            this.label14.MaximumSize = new System.Drawing.Size(90, 15);
+            this.label14.Name = "label14";
+            this.label14.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label14.Size = new System.Drawing.Size(87, 15);
+            this.label14.TabIndex = 73;
+            this.label14.Text = "Crib ChkOut:";
+            // 
+            // cribouttoggle
+            // 
+            this.cribouttoggle.AutoSize = true;
+            this.cribouttoggle.Checked = false;
+            this.cribouttoggle.Enabled = false;
+            this.cribouttoggle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.cribouttoggle.Location = new System.Drawing.Point(507, 332);
+            this.cribouttoggle.MaximumSize = new System.Drawing.Size(70, 25);
+            this.cribouttoggle.MinimumSize = new System.Drawing.Size(70, 25);
+            this.cribouttoggle.Name = "cribouttoggle";
+            this.cribouttoggle.Size = new System.Drawing.Size(70, 25);
+            this.cribouttoggle.TabIndex = 96;
+            this.cribouttoggle.ToggleBarText = "No";
+            this.cribouttoggle.ToggleCircleColor = System.Drawing.Color.Red;
+            this.cribouttoggle.ToggleColorBar = System.Drawing.Color.LightGray;
+            this.cribouttoggle.CheckChanged += new System.EventHandler(this.cribouttoggle_CheckChanged);
             // 
             // spmadmin
             // 
@@ -1009,9 +940,22 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(69)))), ((int)(((byte)(76)))));
             this.ClientSize = new System.Drawing.Size(625, 674);
+            this.Controls.Add(this.label14);
+            this.Controls.Add(this.cribouttoggle);
+            this.Controls.Add(this.developertoggle);
+            this.Controls.Add(this.purchasereqtoggle);
+            this.Controls.Add(this.managementtoggle);
+            this.Controls.Add(this.admin);
+            this.Controls.Add(this.admintoggle);
+            this.Controls.Add(this.quotetoggle);
+            this.Controls.Add(this.pricetoggle);
+            this.Controls.Add(this.shiptoggle);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.empidtxt);
             this.Controls.Add(this.deptcombobox);
             this.Controls.Add(this.label12);
-            this.Controls.Add(this.panel7);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label4);
@@ -1023,15 +967,7 @@
             this.Controls.Add(this.selectfolder);
             this.Controls.Add(this.sharepathtxt);
             this.Controls.Add(this.label11);
-            this.Controls.Add(this.panel6);
-            this.Controls.Add(this.label10);
             this.Controls.Add(this.label8);
-            this.Controls.Add(this.panel9);
-            this.Controls.Add(this.panel5);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.panel4);
-            this.Controls.Add(this.panel3);
-            this.Controls.Add(this.panel2);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label5);
@@ -1050,7 +986,6 @@
             this.Controls.Add(this.addnewbttn);
             this.Controls.Add(this.UserFirstname);
             this.Controls.Add(this.idlabel);
-            this.Controls.Add(this.admin);
             this.Controls.Add(this.department);
             this.Controls.Add(this.nametextbox);
             this.Controls.Add(this.username);
@@ -1064,24 +999,10 @@
             this.MinimumSize = new System.Drawing.Size(600, 600);
             this.Name = "spmadmin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Admin Control - SPM Connect";
+            this.Text = "Amin Control";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.spmadmin_FormClosed);
             this.Load += new System.EventHandler(this.ParentView_Load);
             this.contextMenuStrip1.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
-            this.panel4.ResumeLayout(false);
-            this.panel4.PerformLayout();
-            this.panel5.ResumeLayout(false);
-            this.panel5.PerformLayout();
-            this.panel9.ResumeLayout(false);
-            this.panel9.PerformLayout();
-            this.panel6.ResumeLayout(false);
-            this.panel6.PerformLayout();
-            this.panel7.ResumeLayout(false);
-            this.panel7.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1099,8 +1020,6 @@
         private System.Windows.Forms.Label username;
         private System.Windows.Forms.TextBox domaintxtbox;
         private System.Windows.Forms.Label admin;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.Label UserFirstname;
         private System.Windows.Forms.Button addnewbttn;
         private System.Windows.Forms.Button updatebttn;
@@ -1112,20 +1031,10 @@
         private System.Windows.Forms.Button UserStats;
         private System.Windows.Forms.Label Cadblock;
         private System.Windows.Forms.TextBox activecadblocktxt;
-        private System.Windows.Forms.RadioButton manageradioButtonNo;
-        private System.Windows.Forms.RadioButton manageradioButtonyes;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.RadioButton DevradioButtonNo;
-        private System.Windows.Forms.RadioButton DevradioButtonYes;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Button custbttn;
         private System.Windows.Forms.Button matbttn;
-        private System.Windows.Forms.Panel panel5;
-        private System.Windows.Forms.RadioButton quoteno;
-        private System.Windows.Forms.RadioButton quoteyes;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
@@ -1140,25 +1049,27 @@
         private System.Windows.Forms.ComboBox supervisorcombox;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Panel panel9;
-        private System.Windows.Forms.RadioButton preqno;
-        private System.Windows.Forms.RadioButton preqyes;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.CheckBox papproval2chk;
         private System.Windows.Forms.CheckBox pbuyerchk;
         private System.Windows.Forms.CheckBox papprovalchk;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Panel panel6;
-        private System.Windows.Forms.RadioButton priceno;
-        private System.Windows.Forms.RadioButton priceyes;
         private System.Windows.Forms.TextBox sharepathtxt;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Button selectfolder;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Panel panel7;
-        private System.Windows.Forms.RadioButton shipno;
-        private System.Windows.Forms.RadioButton shipyes;
         private System.Windows.Forms.ComboBox deptcombobox;
+        private System.Windows.Forms.TextBox empidtxt;
+        private System.Windows.Forms.Label label13;
+        private ToggleSlider.ToggleSliderComponent admintoggle;
+        private ToggleSlider.ToggleSliderComponent quotetoggle;
+        private ToggleSlider.ToggleSliderComponent pricetoggle;
+        private ToggleSlider.ToggleSliderComponent shiptoggle;
+        private ToggleSlider.ToggleSliderComponent managementtoggle;
+        private ToggleSlider.ToggleSliderComponent purchasereqtoggle;
+        private ToggleSlider.ToggleSliderComponent developertoggle;
+        private System.Windows.Forms.Label label14;
+        private ToggleSlider.ToggleSliderComponent cribouttoggle;
     }
 }
