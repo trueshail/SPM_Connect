@@ -9,8 +9,7 @@ namespace SearchDataSPM
     {
         public SPM_ConnectHome()
         {
-            InitializeComponent();      
-            
+            InitializeComponent();
         }
 
         int time = 0;
@@ -20,36 +19,31 @@ namespace SearchDataSPM
             time = time + 10;
             rectangleShape2.Width += 11;
 
-            if(time == 240)
+            if (time == 240)
             {
-               
                 Connect_SPMSQL();
             }
-           
+
             if (time >= 250)
             {
                 timer1.Stop();
                 this.Hide();
-                
-
             }
         }
 
         private void SPM_ConnectHome_Load(object sender, EventArgs e)
         {
-            
+
             timer1.Start();
         }
 
-        String connection;
+        string connection;
         SqlConnection cn;
-        string userName;
 
         public void Connect_SPMSQL()
         {
-            
             connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
-            userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
             try
             {
                 cn = new SqlConnection(connection);
@@ -59,152 +53,38 @@ namespace SearchDataSPM
             catch (Exception)
             {
 
-                MessageBox.Show("Cannot connect through the server. Please check the network connection.", "SPM Connect Home - SQL Server Connection Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetroFramework.MetroMessageBox.Show(this, "Cannot connect through the server. Please check the network connection.", "SPM Connect Home - SQL Server Connection Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.ExitThread();
                 System.Environment.Exit(0);
-
-
-
             }
             finally
             {
                 cn.Close();
-                if (!checkmaintenance())
+                if (userexists(userName))
                 {
-                    //checkforuser();
-                    var form2 = new SPM_Connect();
-                    form2.Closed += (s, args) => this.Close();
-                    form2.Show();
+                    if (!checkmaintenance())
+                    {
+                        var loadspmconnect = new SPM_Connect();
+                        loadspmconnect.Closed += (s, args) => this.Close();
+                        loadspmconnect.Show();
+                    }
+                    else
+                    {
+                        MetroFramework.MetroMessageBox.Show(this, "SPM Connect is under maintenance. Cannot start the application. Please check back soon. Sorry for the inconvenience.", "System Under Maintenance", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Application.ExitThread();
+                        System.Environment.Exit(0);
+                    }
                 }
                 else
                 {
-                    MetroFramework.MetroMessageBox.Show(this, "SPM Connect is under maintenance. Cannot start the application. Please check back soon. Sorry for the inconvenience.", "System Under Maintenance", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MetroFramework.MetroMessageBox.Show(this, "User name " + userName + " does not exists. Please contact the admin.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Application.ExitThread();
                     System.Environment.Exit(0);
                 }
-               
-            }
-
-            
-        }
-
-        public void checkforuser()
-        {
-           
-            if (chekusercredentialscontrols())
-            {
-
-                // this.Hide();
-                var form2 = new SPM_ConnectControls();
-                form2.Closed += (s, args) => this.Close();
-                form2.Show();
-                //Application.Run(new SPM_ConnectControls());
-            }
-           
-            else if (chekusercredentialseng())
-            {
-
-                var form2 = new SPM_Connect();
-                form2.Closed += (s, args) => this.Close();
-                form2.Show();
-                //Application.Run(new SPM_Connect());
-            }
-            else if (chekusercredentialsproduction())
-            {
-                // this.Hide();
-                var form2 = new SPM_ConnectProduction();
-                form2.Closed += (s, args) => this.Close();
-                form2.Show();
-                //Application.Run(new SPM_ConnectProduction());
-            }
-            else
-            {
-               
-                MessageBox.Show("UserName " + userName + " is not a licensed user. Please contact the admin.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.ExitThread();
-                System.Environment.Exit(0);
             }
         }
 
-        public bool chekusercredentialscontrols()
-        {
-          
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[USers] WHERE UserName = @username AND Department = 'Controls'", cn))
-            {
-                cn.Open();
-                sqlCommand.Parameters.AddWithValue("@username", userName);
-
-                int userCount = (int)sqlCommand.ExecuteScalar();
-                if (userCount == 1)
-                {
-                    cn.Close();
-
-                    return true;
-                }
-                else
-                {
-                    cn.Close();
-
-
-                }
-            }
-            return false;
-        }
-
-        public bool chekusercredentialseng()
-        {
-          
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[USers] WHERE UserName = @username AND Department = 'Eng'", cn))
-            {
-                cn.Open();
-
-                sqlCommand.Parameters.AddWithValue("@username", userName);
-
-                int userCount = (int)sqlCommand.ExecuteScalar();
-                if (userCount == 1)
-                {
-                    cn.Close();
-
-                    return true;
-                }
-                else
-                {
-                    cn.Close();
-
-
-                }
-            }
-            return false;
-        }
-
-        public bool chekusercredentialsproduction()
-        {
-            
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[USers] WHERE UserName = @username AND Department = 'Production'", cn))
-            {
-                cn.Open();
-                sqlCommand.Parameters.AddWithValue("@username", userName);
-
-                int userCount = (int)sqlCommand.ExecuteScalar();
-                if (userCount == 1)
-                {
-                    cn.Close();
-                    return true;
-
-
-
-                }
-                else
-                {
-                    cn.Close();
-
-                }
-
-            }
-            return false;
-        }
-
-        public bool checkmaintenance()
+        private bool checkmaintenance()
         {
             bool maintenance = false;
             string limit = "";
@@ -235,14 +115,33 @@ namespace SearchDataSPM
 
         }
 
-        private void metroProgressSpinner1_Click(object sender, EventArgs e)
+        private bool userexists(string username)
         {
+            bool userpresent = false;
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + username + "'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    int userCount = (int)sqlCommand.ExecuteScalar();
+                    if (userCount == 1)
+                    {
+                        userpresent = true;
+                    }
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Check User Exists", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
 
-        }
-
-        private void SPM_Click(object sender, EventArgs e)
-        {
-
+                }
+            }
+            return userpresent;
         }
     }
 }

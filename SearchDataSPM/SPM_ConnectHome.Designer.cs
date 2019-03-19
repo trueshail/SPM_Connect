@@ -54,7 +54,6 @@ namespace SearchDataSPM
             this.metroProgressSpinner1.UseCustomForeColor = true;
             this.metroProgressSpinner1.UseSelectable = true;
             this.metroProgressSpinner1.UseWaitCursor = true;
-            this.metroProgressSpinner1.Click += new System.EventHandler(this.metroProgressSpinner1_Click);
             // 
             // timer1
             // 
@@ -74,7 +73,6 @@ namespace SearchDataSPM
             this.SPM.TabIndex = 11;
             this.SPM.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.SPM.UseWaitCursor = true;
-            this.SPM.Click += new System.EventHandler(this.SPM_Click);
             // 
             // shapeContainer1
             // 
