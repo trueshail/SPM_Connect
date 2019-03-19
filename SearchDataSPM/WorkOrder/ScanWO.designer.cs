@@ -175,9 +175,12 @@
             this.MaximumSize = new System.Drawing.Size(800, 500);
             this.Name = "ScanWO";
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SPM Connect - Work Order Scanning";
+            this.Activated += new System.EventHandler(this.ScanWO_Activated);
             this.Load += new System.EventHandler(this.Home_Load);
+            this.Move += new System.EventHandler(this.ScanWO_Move);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

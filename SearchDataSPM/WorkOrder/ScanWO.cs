@@ -8,7 +8,7 @@ namespace SearchDataSPM
 {
     public partial class ScanWO : Form
     {
-        SPMConnectAPI.WorkOrder connectapi = new WorkOrder();
+        WorkOrder connectapi = new WorkOrder();
 
         public ScanWO()
         {
@@ -20,7 +20,6 @@ namespace SearchDataSPM
         {
             timer1.Start();
             woid_txtbox.Focus();
-
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -46,6 +45,8 @@ namespace SearchDataSPM
                     woid_txtbox.Clear();
                     woid_txtbox.Focus();
                 }
+                e.Handled = true;
+                e.SuppressKeyPress = true;
             }
         }
 
@@ -57,7 +58,7 @@ namespace SearchDataSPM
             timer3.Interval = 5000;
             timer3.Start();
             DataTable dtb1 = new DataTable();
-            dtb1 = connectapi.GetWoStatus(woid_txtbox.Text.Trim());
+            dtb1 = connectapi.ShowWOTrackingStatus(woid_txtbox.Text.Trim());
             dataGridView1.DataSource = dtb1;
             dataGridView1.Update();
 
@@ -68,6 +69,25 @@ namespace SearchDataSPM
             dataGridView1.Visible = false;
         }
 
+        Point myOriginalLocation;
+        bool positionLocked = false;
+
+        private void ScanWO_Move(object sender, EventArgs e)
+        {
+            if (positionLocked)
+            {
+                this.Location = myOriginalLocation;
+            }
+        }
+
+        private void ScanWO_Activated(object sender, EventArgs e)
+        {
+            if (!positionLocked)
+            {
+                myOriginalLocation = this.Location;
+                positionLocked = true;
+            }
+        }
     }
 }
 

@@ -1,17 +1,11 @@
-﻿using Microsoft.VisualBasic;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SearchDataSPM.General
@@ -108,6 +102,7 @@ namespace SearchDataSPM.General
             string lastsaved = r["Lastsaved"].ToString();
             if (quoteddate.Length > 0)
             {
+                quotedatelbl.Text = "Quote Date : " + quoteddate.Substring(0, 10);
                 quotedatelbl.Text = "Quote Date : " + quoteddate.Substring(0, 10);
             }
            

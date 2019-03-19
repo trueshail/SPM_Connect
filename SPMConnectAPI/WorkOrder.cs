@@ -42,14 +42,14 @@ namespace SPMConnectAPI
 
         }
 
-        private string getassyversionnumber()
+        public string getassyversionnumber()
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
             string version = "V" + assembly.GetName().Version.ToString(3);
             return version;
         }
 
-        private string getuserfullname()
+        public string getuserfullname()
         {
             string fullname = "";
             try
@@ -81,7 +81,39 @@ namespace SPMConnectAPI
             return fullname;
         }
 
-        private string getdepartment()
+        public string getempid()
+        {
+            string empid = "";
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + UserName().ToString() + "' ";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    empid = dr["Emp_Id"].ToString();
+
+                }
+                dt.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve employee id", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return empid;
+        }
+
+        public string getdepartment()
         {
             string Department = "";
             try
@@ -112,13 +144,45 @@ namespace SPMConnectAPI
             return Department;
         }
 
+        public bool CheckScanRights()
+        {
+            bool yeswoscan = false;
+            string useradmin = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND WOScan = '1'", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    sqlCommand.Parameters.AddWithValue("@username", useradmin);
+
+                    int userCount = (int)sqlCommand.ExecuteScalar();
+                    if (userCount == 1)
+                    {
+                        yeswoscan = true;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve Wo Scan rights", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+            return yeswoscan;
+        }
+
         #endregion
 
-        public DataTable GetWoStatus(string wo)
+        public DataTable ShowAllWorkOrders()
         {
             DataTable dt = new DataTable();
 
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[WO_Tracking] WHERE [WO] = '" + wo + "'", cn))
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[WorkOrderManagement] ORDER BY Job DESC", cn))
             {
                 try
                 {
@@ -131,7 +195,35 @@ namespace SPMConnectAPI
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "SPM Connect - Get Work Order Status", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "SPM Connect - Show All Work Orders", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+            return dt;
+        }
+
+        public DataTable ShowWOTrackingStatus(string wo)
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT WO, Status FROM [SPM_Database].[dbo].[WO_Tracking] WHERE [WO] = '" + wo + "'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Work Order Tracking Status", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -148,7 +240,7 @@ namespace SPMConnectAPI
             try
             {
                 DataTable dt = new DataTable();
-                dt = GetWoStatus(wo);
+                dt = GetWOInfo(wo);
 
                 foreach (DataRow dr in dt.Rows)
                 {
@@ -174,6 +266,10 @@ namespace SPMConnectAPI
                 {
                     MessageBox.Show("Work order has already been entered into the system", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
+                else if (department == "Controls")
+                {
+                    MessageBox.Show("Your Department does not belong to the work order tracking module.", "SPM Connect - Department Not Found", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                }
                 else
                 {
                     DoWorkOrderTacking(wo, department);
@@ -186,7 +282,7 @@ namespace SPMConnectAPI
                     enterwototrack(wo);
                 else
                 {
-                    if(department == "Eng")
+                    if (department == "Eng")
                     {
                         MessageBox.Show("Please check the work order number.", "Work Order not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
@@ -194,7 +290,7 @@ namespace SPMConnectAPI
                     {
                         MessageBox.Show("Work order has not been initialized in the system by Engineering", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    }                
+                    }
                 }
             }
         }
@@ -364,7 +460,7 @@ namespace SPMConnectAPI
                     break;
 
                 case "Crib":
-                    checkCribtrack(prodout, cribin, cribout, wo);
+                    checkCribtrack(prodout, cribin, cribout, purout, wo);
                     break;
             }
         }
@@ -376,8 +472,9 @@ namespace SPMConnectAPI
                 if (prodin == "0")
                 {
                     // insert into production
-                    UpdateWOTracking(wo, "Prodin", "ProdinWho", "ProdinWhen", "1", getuserfullname(), "InProduction");
-                    MessageBox.Show("Work Order Checked into Production.", "SPM Connect  - Work Order In Production", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (UpdateWOTracking(wo, "Prodin", "ProdinWho", "ProdinWhen", "1", getuserfullname(), "InProduction"))
+                        MessageBox.Show("Work Order Checked into Production.", "SPM Connect  - Work Order In Production", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    else MessageBox.Show("Error Updating WO Tracking. Please contact the admin for line 385", "SPM Connect - Error Work Order In Production", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
                 {
@@ -387,8 +484,17 @@ namespace SPMConnectAPI
                         DialogResult result = MessageBox.Show("Check out this work order from production?", "Check Out WO?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                         if (result == DialogResult.Yes)
                         {
-                            UpdateWOTracking(wo, "Prodout", "ProdoutWho", "ProdoutWhen", "1", getuserfullname(), "OutProduction");
-                            MessageBox.Show("Work Order Checked out of Production.", "SPM Connect  - Work Order out Production", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                            if (UpdateWOTracking(wo, "Prodout", "ProdoutWho", "ProdoutWhen", "1", getuserfullname(), "OutProduction"))
+                            {
+                                string timespan = calculatetimedifference(fetchdatetime("ProdoutWhen", wo), fetchdatetime("ProdinWhen", wo));
+                                UpdateWOTrackingTimeSpan(wo, "TimeInProd", timespan);
+                                MessageBox.Show("Work Order Checked out of Production.", "SPM Connect  - Work Order out Production", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Error Updating WO Tracking. Please contact the admin for line 404", "SPM Connect - Error Work Order Out Production", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
                         }
 
                     }
@@ -402,7 +508,7 @@ namespace SPMConnectAPI
             else
             {
                 //Work order not has been initialized by eng 
-                MessageBox.Show("Work order has not been initialized in the system by Engineering", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Work order has not been initialized in the system by Engineering", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
 
@@ -416,8 +522,14 @@ namespace SPMConnectAPI
                 {
                     // insert into purchasing
 
-                    UpdateWOTracking(wo, "Purin", "PurinWho", "PurinWhen", "1", getuserfullname(), status == "" ? "In Purchasing" : status + " & In Purchasing");
-                    MessageBox.Show("Work Order Checked into Purchasing.", "SPM Connect  - Work Order In Purchasing", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (UpdateWOTracking(wo, "Purin", "PurinWho", "PurinWhen", "1", getuserfullname(), status == "" ? "In Purchasing" : status + " & In Purchasing"))
+                    {
+                        MessageBox.Show("Work Order Checked into Purchasing.", "SPM Connect  - Work Order In Purchasing", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error Updating WO Tracking. Please contact the admin for line 439", "SPM Connect - Error Work Order In Purchasing", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
                 else
                 {
@@ -428,8 +540,16 @@ namespace SPMConnectAPI
                         if (result == DialogResult.Yes)
                         {
                             status = RemoveStatus(status, "In Purchasing");
-                            UpdateWOTracking(wo, "Purout", "PuroutWho", "PuroutWhen", "1", getuserfullname(), status == "" || status == "In Purchasing" ? "Out Purchasing" : status + " & Out Purchasing");
-                            MessageBox.Show("Work Order Checked out of Purchasing.", "SPM Connect  - Work Order out Purchasing", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            if (UpdateWOTracking(wo, "Purout", "PuroutWho", "PuroutWhen", "1", getuserfullname(), status == "" || status == "In Purchasing" ? "Out Purchasing" : status + " & Out Purchasing"))
+                            {
+                                string timespan = calculatetimedifference(fetchdatetime("PuroutWhen", wo), fetchdatetime("PurinWhen", wo));
+                                UpdateWOTrackingTimeSpan(wo, "TimeInPur", timespan);
+                                MessageBox.Show("Work Order Checked out of Purchasing.", "SPM Connect  - Work Order out Purchasing", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Error Updating WO Tracking. Please contact the admin for line 459", "SPM Connect - Error Work Order Out Purchasing", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
                         }
 
                     }
@@ -443,11 +563,11 @@ namespace SPMConnectAPI
             else
             {
                 //Work order not has been initialized by production 
-                MessageBox.Show("Work order has not been checkout from production", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Work order has not been checked out from production", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
 
-        private void checkCribtrack(string prodout, string cribin, string cribout, string wo)
+        private void checkCribtrack(string prodout, string cribin, string cribout, string purout, string wo)
         {
             string status = "";
             status = WOStatustostring(wo);
@@ -456,8 +576,14 @@ namespace SPMConnectAPI
                 if (cribin == "0")
                 {
                     // insert into crib
-                    UpdateWOTracking(wo, "Cribin", "CribinWho", "CribinWhen", "1", getuserfullname(), status == "" ? "In Crib" : status + " & In Crib");
-                    MessageBox.Show("Work Order Checked into Crib.", "SPM Connect  - Work Order In Crib", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (UpdateWOTracking(wo, "Cribin", "CribinWho", "CribinWhen", "1", getuserfullname(), status == "" ? "In Crib" : status + " & In Crib"))
+                    {
+                        MessageBox.Show("Work Order Checked into Crib.", "SPM Connect  - Work Order In Crib", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error Updating WO Tracking. Please contact the admin for line 493", "SPM Connect - Error Work Order In Crib", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
                 else
                 {
@@ -468,9 +594,42 @@ namespace SPMConnectAPI
 
                         if (result == DialogResult.Yes)
                         {
-                            status = RemoveStatus(status, "In Crib");
-                            UpdateWOTracking(wo, "Cribout", "CriboutWho", "CriboutWhen", "1", getuserfullname(), status == "" ? "Out Crib" : status + " & Out Crib");
-                            MessageBox.Show("Work Order Checked out of Crib.", "SPM Connect  - Work Order out Crib", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                            if (purout == "1")
+                            {
+                                if (CheckWoExistsOnInvInOut(wo))
+                                {
+                                    if (IsCompletedInvInOut(wo))
+                                    {
+                                        if (UpdateWOTracking(wo, "Cribout", "CriboutWho", "CriboutWhen", "1", getuserfullname(), "Completed"))
+                                        {
+                                            //status = RemoveStatus(status, "In Crib");
+                                            // UpdateWOTracking(wo, "Cribout", "CriboutWho", "CriboutWhen", "1", getuserfullname(), status == "" ? "Out Crib" : status + " & Out Crib");      
+                                            string timespan = calculatetimedifference(fetchdatetime("CriboutWhen", wo), fetchdatetime("CribinWhen", wo));
+                                            UpdateWOTrackingTimeSpan(wo, "TimeInCrib", timespan);
+                                            timespan = calculatetimedifference(fetchdatetime("CriboutWhen", wo), fetchdatetime("EngWhen", wo));
+                                            UpdateWOTrackingTimeSpan(wo, "TotalTimeSpent", timespan);
+                                            MessageBox.Show("Work Order Checked out of Crib.", "SPM Connect  - Work Order out Crib", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show("Error Updating WO Tracking. Please contact the admin for line 459", "SPM Connect - Error Work Order Out Purchasing", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("Work order built is not completed. Make sure the work order build is completed in order to close the workorder", "SPM Connect - Error Work Order Build Not Completed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    }
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Work order never got built. Add to build to close the workorder", "SPM Connect - Error Work Order Build Not Started", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("System cannot check out work order from crib as it has not been scanned out of purchasing.", "SPM Connect  - Work Order Not Scanned Out Of Purchasing", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                            }
                         }
                     }
                     else
@@ -483,7 +642,7 @@ namespace SPMConnectAPI
             else
             {
                 //Work order not has been initialized by production 
-                MessageBox.Show("Work order has not been checkout from production", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Work order has not been checked out from production", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
 
@@ -508,6 +667,293 @@ namespace SPMConnectAPI
             }
             return setstatus.Trim();
         }
+
+        private DateTime fetchdatetime(string columname, string wo)
+        {
+            DateTime dateTime;
+
+            dateTime = DateTime.Now;
+            try
+            {
+                DataTable dt = new DataTable();
+                dt = GetWOInfo(wo);
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    dateTime = Convert.ToDateTime(dr[columname].ToString());
+                }
+                dt.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Unable to extract DateTime", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return dateTime;
+        }
+
+        private string calculatetimedifference(DateTime A, DateTime B)
+        {
+            string timediff;
+            TimeSpan span = (A - B);
+
+            timediff = string.Format("{0} days, {1} hours, {2} minutes, {3} seconds",
+               span.Days, span.Hours, span.Minutes, span.Seconds);
+
+            return timediff;
+        }
+
+        private bool UpdateWOTrackingTimeSpan(string wo, string parameter1, string para1value1)
+        {
+            bool success = false;
+
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "UPDATE [SPM_Database].[dbo].[WO_Tracking] SET " + parameter1 + " = '" + para1value1 + "'  WHERE WO = '" + wo + "'";
+                cmd.ExecuteNonQuery();
+                cn.Close();
+                success = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Update WO Tracking Timespent", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return success;
+        }
+
+        #region Wo In out
+
+        public bool CheckWoExistsOnInvInOut(string wo)
+        {
+            bool wopresent = false;
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[WOInOut] WHERE [WO]='" + wo + "'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    int userCount = (int)sqlCommand.ExecuteScalar();
+                    if (userCount > 0)
+                    {
+                        wopresent = true;
+                    }
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Check WO Present on Inv CheckInOut", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+
+                }
+            }
+            return wopresent;
+        }
+
+        public bool IsCompletedInvInOut(string wo)
+        {
+            bool completed = false;
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[WOInOut] WHERE [WO]='" + wo + "' and [Completed] = '1'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    int userCount = (int)sqlCommand.ExecuteScalar();
+                    if (userCount > 0)
+                    {
+                        completed = true;
+                    }
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Check WO Completed Build", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return completed;
+        }
+
+        public bool EmployeeExits(string empid)
+        {
+            bool empexists = false;
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE [Emp_Id]='" + empid + "'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    int userCount = (int)sqlCommand.ExecuteScalar();
+                    if (userCount == 1)
+                    {
+                        empexists = true;
+                    }
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Check EmployeeExists", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return empexists;
+        }
+
+        public bool EmployeeExitsWithCribRights(string empid)
+        {
+            bool empexists = false;
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE [Emp_Id]='" + empid + "' and [CribCheckout] = '1' ", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    int userCount = (int)sqlCommand.ExecuteScalar();
+                    if (userCount == 1)
+                    {
+                        empexists = true;
+                    }
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Check Employee With Crib Rights", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return empexists;
+        }
+
+        public bool CheckWOIntoCrib(string wo)
+        {
+            bool wopresent = false;
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[WO_Tracking] WHERE [WO]='" + wo + "' and [Cribin] = '1'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    int userCount = (int)sqlCommand.ExecuteScalar();
+                    if (userCount == 1)
+                    {
+                        wopresent = true;
+                    }
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Check WO Present on Tracking", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+
+                }
+            }
+            return wopresent;
+        }
+
+        public void ChekOutWOOutForBuilt(string wo, string empid, string approvalid)
+        {
+            DateTime datecreated = DateTime.Now;
+            string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
+            string username = getuserfullname();
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[WOInOut] (WO, Emp_idCheckOut, PunchIn, CheckOutApprovedBy,InBuilt) VALUES('" + wo + "','" + empid + "','" + sqlFormattedDatetime + "','" + approvalid + "','1')";
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("Work Order Checked out for built.", "SPM Connect  - Work Order Checked Out", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                cn.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Check out wo for built", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+        }
+
+        public void CheckWOInFromBuilt(string wo, string empid, string approvalid, string completed)
+        {
+            DateTime datecreated = DateTime.Now;
+            string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
+            string username = getuserfullname();
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "UPDATE [SPM_Database].[dbo].[WOInOut] SET [Emp_idCheckIn] = '" + empid + "', [PunchOut] = '" + sqlFormattedDatetime + "',[CheckInApprovedBy] = '" + approvalid + "',[InBuilt] = '0', [Completed] = '" + completed + "'  WHERE WO = '" + wo + "'";
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("Work Order Checked into Crib.", "SPM Connect  - Work Order Checked In", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                cn.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Check in WO into Crib", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+        }
+
+        public bool InBuiltInvInOut(string wo)
+        {
+            bool completed = false;
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[WOInOut] WHERE [WO]='" + wo + "' and [InBuilt] = '1'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    int userCount = (int)sqlCommand.ExecuteScalar();
+                    if (userCount == 1)
+                    {
+                        completed = true;
+                    }
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Check WO Completed Build", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return completed;
+        }
+
+        #endregion
 
     }
 }

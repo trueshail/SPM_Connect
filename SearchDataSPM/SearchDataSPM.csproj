@@ -28,11 +28,11 @@
     <ErrorReportUrl>http://www.spm-automation.com/contact.php</ErrorReportUrl>
     <ProductName>SPM Connect</ProductName>
     <PublisherName>SPM Automation</PublisherName>
-    <MinimumRequiredVersion>7.6.10.0</MinimumRequiredVersion>
+    <MinimumRequiredVersion>7.6.10.1</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationRevision>2</ApplicationRevision>
     <ApplicationVersion>7.6.10.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -502,18 +502,6 @@
     <Compile Include="Admin-developer\SPM_ConnectDuplicates.Designer.cs">
       <DependentUpon>SPM_ConnectDuplicates.cs</DependentUpon>
     </Compile>
-    <Compile Include="Admin-developer\SPM_ConnectLoad.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Admin-developer\SPM_ConnectLoad.Designer.cs">
-      <DependentUpon>SPM_ConnectLoad.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\SPM_ConnectControls.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Controls\SPM_ConnectControls.Designer.cs">
-      <DependentUpon>SPM_ConnectControls.cs</DependentUpon>
-    </Compile>
     <Compile Include="Engineering\SPM_ConnectEng.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -560,18 +548,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="Production\SPM_ConnectProduction.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Production\SPM_ConnectProduction.Designer.cs">
-      <DependentUpon>SPM_ConnectProduction.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Splash.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Splash.Designer.cs">
-      <DependentUpon>Splash.cs</DependentUpon>
-    </Compile>
     <Compile Include="SPM_ConnectHome.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -611,12 +587,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Admin-developer\SPM_ConnectDuplicates.resx">
       <DependentUpon>SPM_ConnectDuplicates.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Admin-developer\SPM_ConnectLoad.resx">
-      <DependentUpon>SPM_ConnectLoad.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\SPM_ConnectControls.resx">
-      <DependentUpon>SPM_ConnectControls.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Admin-developer\Customers.resx">
       <DependentUpon>Customers.cs</DependentUpon>
@@ -728,17 +698,11 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Production\SPM_ConnectProduction.resx">
-      <DependentUpon>SPM_ConnectProduction.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Purchasing\InvoiceDetails.resx">
       <DependentUpon>InvoiceDetails.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Purchasing\ShippingHome.resx">
       <DependentUpon>ShippingHome.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Splash.resx">
-      <DependentUpon>Splash.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SPM_ConnectHome.resx">
       <DependentUpon>SPM_ConnectHome.cs</DependentUpon>

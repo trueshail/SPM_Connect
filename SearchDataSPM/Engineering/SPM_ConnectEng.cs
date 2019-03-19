@@ -25,8 +25,8 @@ namespace SearchDataSPM
     {
         #region SPM Connect Load
 
-        String connection;
-        String cntrlconnection;
+        string connection;
+        string cntrlconnection;
         SqlConnection cn;
         DataTable dt;
         bool formloading = false;
@@ -156,6 +156,8 @@ namespace SearchDataSPM
 
         private void loadusersettings()
         {
+            this.Size = new Size(900, 750);
+            this.CenterToScreen();
             if (Properties.Settings.Default.F1Size.Width == 0) Properties.Settings.Default.Upgrade();
 
             if (Properties.Settings.Default.F1Size.Width == 0 || Properties.Settings.Default.F1Size.Height == 0)
@@ -3048,7 +3050,6 @@ namespace SearchDataSPM
         {
             this.Size = new Size(900, 750);
             this.CenterToScreen();
-
         }
 
         #region AddtoFavorites

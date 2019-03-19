@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SPMConnectAPI;
+using System;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
@@ -10,40 +11,16 @@ namespace SearchDataSPM
 {
 
     public partial class SPM_ConnectWM : Form
-
     {
         #region SPM Connect Load
 
-        String connection;
-        SqlConnection cn;
+        WorkOrder connectapi = new WorkOrder();
         DataTable dt;
-        // SqlDataAdapter _adapter;
-
 
         public SPM_ConnectWM()
-
         {
             InitializeComponent();
-            connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
-            try
-            {
-                cn = new SqlConnection(connection);
-                cn.Open();
-
-            }
-            catch (Exception)
-            {
-
-                // MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                MessageBox.Show("Error Connecting to SQL Server.....", "SPM Connect - ENG", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
-                Environment.Exit(0);
-
-            }
-            finally
-            {
-                cn.Close();
-            }
+            connectapi.SPM_Connect();
             dt = new DataTable();
         }
 
@@ -52,9 +29,23 @@ namespace SearchDataSPM
             Showallitems();
             txtSearch.Text = jobnumber;
             SendKeys.Send("~");
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            string version = "V" + assembly.GetName().Version.ToString(3);
-            versionlabel.Text = version;
+            checkdeptsandrights();
+        }
+
+        private void checkdeptsandrights()
+        {
+            if (connectapi.EmployeeExitsWithCribRights(connectapi.getempid()))
+            {
+                cribbttn.Visible = true;
+                cribbttn.Enabled = true;
+            }
+
+            if (connectapi.CheckScanRights())
+            {
+                scanwobttn.Visible = true;
+                scanwobttn.Enabled = true;
+            }
+            versionlabel.Text = connectapi.getassyversionnumber();
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
         }
 
@@ -62,48 +53,33 @@ namespace SearchDataSPM
         {
             try
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[WorkOrderManagement] ORDER BY Job DESC", cn);
-
                 dt.Clear();
-                sda.Fill(dt);
+                dt = connectapi.ShowAllWorkOrders();
                 dataGridView.DataSource = dt;
                 dataGridView.Sort(dataGridView.Columns[0], ListSortDirection.Descending);
                 dataGridView.Columns[0].Width = 60;
                 dataGridView.Columns[1].Width = 60;
-                dataGridView.Columns[2].Width =60;
+                dataGridView.Columns[2].Width = 60;
                 dataGridView.Columns[3].Width = 60;
-                dataGridView.Columns[4].Width =180;
+                dataGridView.Columns[4].Width = 180;
                 dataGridView.Columns[5].Width = 60;
                 dataGridView.Columns[6].Visible = false;
                 UpdateFont();
             }
             catch (Exception)
             {
-                //MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                MessageBox.Show("Data cannot be retrieved from server. Please contact the admin.", "SPM Connect - SQL SERVER ENG", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
+                MessageBox.Show("Data cannot be retrieved from server. Please contact the admin.", "SPM Connect - SQL SERVER WM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
             }
-            finally
-            {
-                cn.Close();
-            }
-
-            //dataGridView.Location = new Point(0, 40);
-
         }
 
         private void Reload_Click(object sender, EventArgs e)
         {
-
             clearandhide();
             txtSearch.Clear();
             txtSearch.Focus();
             SendKeys.Send("~");
             dataGridView.Refresh();
-
         }
 
         private void UpdateFont()
@@ -115,7 +91,6 @@ namespace SearchDataSPM
             dataGridView.DefaultCellStyle.SelectionForeColor = Color.Yellow;
             dataGridView.DefaultCellStyle.SelectionBackColor = Color.Black;
         }
-
 
         #endregion
 
@@ -197,7 +172,7 @@ namespace SearchDataSPM
         {
 
             DataView dv = dt.DefaultView;
-             
+
             try
             {
                 jobnumber = jobnumber.Replace("'", "''");
@@ -422,7 +397,7 @@ namespace SearchDataSPM
                 {
                     item = "";
                 }
-                
+
 
                 return true;
             }
@@ -529,12 +504,12 @@ namespace SearchDataSPM
         {
             System.Diagnostics.Process.Start("http://www.spm-automation.com/");
         }
-        
+
         #endregion
 
         #region datagridview events
 
-            private void dataGridView_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
+        private void dataGridView_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex > -1)
             {
@@ -590,7 +565,7 @@ namespace SearchDataSPM
             {
                 int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                 DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-                wo = Convert.ToString(slectedrow.Cells[1].Value);               
+                wo = Convert.ToString(slectedrow.Cells[1].Value);
             }
             return wo;
         }
@@ -608,15 +583,17 @@ namespace SearchDataSPM
             }
         }
 
-        private void scanWorkOrderToolStripMenuItem_Click(object sender, EventArgs e)
+        private void cribbttn_Click(object sender, EventArgs e)
         {
-            //SPMConnectAPI.WorkOrder connectapi = new SPMConnectAPI.WorkOrder();
-            //connectapi.SPM_Connect();
-            //connectapi.scanworkorder(getselectedworkorder());
+            InvInOut invInOut = new InvInOut();
+            invInOut.Show();
 
+        }
+
+        private void scanwobttn_Click(object sender, EventArgs e)
+        {
             ScanWO scanWO = new ScanWO();
-            scanWO.ShowDialog();
-
+            scanWO.Show();
         }
     }
 }

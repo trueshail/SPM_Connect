@@ -1,20 +1,8 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Configuration;
+﻿using System;
 using System.Data;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Microsoft.VisualBasic;
-
-
 
 namespace SearchDataSPM
 {
@@ -30,8 +18,6 @@ namespace SearchDataSPM
         DataTable _controlsTb = null;
         SqlConnection _connection;
         SqlCommand _command;
-       // SqlDataAdapter _adapter;
-
 
         public SPM_ConnectItems()
 

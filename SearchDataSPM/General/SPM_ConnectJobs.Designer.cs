@@ -48,9 +48,9 @@
             this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.purchasereq = new System.Windows.Forms.Button();
             this.quotebttn = new System.Windows.Forms.Button();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.CreateFolderBttn = new System.Windows.Forms.Button();
             this.shippingbttn = new System.Windows.Forms.Button();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -67,7 +67,7 @@
             this.txtSearch.MaximumSize = new System.Drawing.Size(32767, 25);
             this.txtSearch.MinimumSize = new System.Drawing.Size(4, 23);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(430, 25);
+            this.txtSearch.Size = new System.Drawing.Size(430, 26);
             this.txtSearch.TabIndex = 1;
             this.TreeViewToolTip.SetToolTip(this.txtSearch, "Enter Search Keyword.\r\n(Double click to reset)");
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
@@ -245,8 +245,8 @@
             this.versionlabel.AutoSize = true;
             this.versionlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.versionlabel.ForeColor = System.Drawing.Color.White;
-            this.versionlabel.Location = new System.Drawing.Point(958, 2);
-            this.versionlabel.MaximumSize = new System.Drawing.Size(26, 8);
+            this.versionlabel.Location = new System.Drawing.Point(954, 3);
+            this.versionlabel.MaximumSize = new System.Drawing.Size(35, 8);
             this.versionlabel.MinimumSize = new System.Drawing.Size(26, 8);
             this.versionlabel.Name = "versionlabel";
             this.versionlabel.Size = new System.Drawing.Size(26, 8);
@@ -323,15 +323,6 @@
             this.quotebttn.Visible = false;
             this.quotebttn.Click += new System.EventHandler(this.quotebttn_Click_1);
             // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.CheckFileExists = false;
-            this.openFileDialog1.CheckPathExists = false;
-            this.openFileDialog1.FileName = "Select Folder";
-            this.openFileDialog1.InitialDirectory = "\\\\spm-adfs\\SPM\\G500 Engineering\\Project Engineering Info";
-            this.openFileDialog1.Title = "Assign Folder Path";
-            this.openFileDialog1.ValidateNames = false;
-            // 
             // CreateFolderBttn
             // 
             this.CreateFolderBttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -381,6 +372,15 @@
             this.shippingbttn.UseVisualStyleBackColor = false;
             this.shippingbttn.Visible = false;
             this.shippingbttn.Click += new System.EventHandler(this.shippingbttn_Click);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.CheckFileExists = false;
+            this.openFileDialog1.CheckPathExists = false;
+            this.openFileDialog1.FileName = "Select Folder";
+            this.openFileDialog1.InitialDirectory = "\\\\spm-adfs\\SPM\\G500 Engineering\\Project Engineering Info";
+            this.openFileDialog1.Title = "Assign Folder Path";
+            this.openFileDialog1.ValidateNames = false;
             // 
             // SPM_ConnectJobs
             // 

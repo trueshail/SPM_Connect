@@ -42,7 +42,8 @@
             this.versionlabel = new System.Windows.Forms.Label();
             this.filter4 = new System.Windows.Forms.TextBox();
             this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.scanWorkOrderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cribbttn = new System.Windows.Forms.Button();
+            this.scanwobttn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -55,11 +56,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSearch.BackColor = System.Drawing.SystemColors.MenuBar;
             this.txtSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSearch.Location = new System.Drawing.Point(210, 10);
+            this.txtSearch.Location = new System.Drawing.Point(210, 18);
             this.txtSearch.MaximumSize = new System.Drawing.Size(32767, 25);
             this.txtSearch.MinimumSize = new System.Drawing.Size(4, 23);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(540, 26);
+            this.txtSearch.Size = new System.Drawing.Size(516, 25);
             this.txtSearch.TabIndex = 1;
             this.TreeViewToolTip.SetToolTip(this.txtSearch, "Enter Search Keyword.\r\n(Double click to reset)");
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
@@ -95,17 +96,16 @@
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.getBOMToolStripMenuItem,
-            this.scanWorkOrderToolStripMenuItem});
+            this.getBOMToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 70);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(161, 26);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // getBOMToolStripMenuItem
             // 
             this.getBOMToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("getBOMToolStripMenuItem.Image")));
             this.getBOMToolStripMenuItem.Name = "getBOMToolStripMenuItem";
-            this.getBOMToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.getBOMToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.getBOMToolStripMenuItem.Text = "View WorkOrder";
             this.getBOMToolStripMenuItem.ToolTipText = "Preview Work Order Details";
             this.getBOMToolStripMenuItem.Click += new System.EventHandler(this.getBOMToolStripMenuItem_Click);
@@ -116,7 +116,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Reload.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.Reload.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Reload.Location = new System.Drawing.Point(750, 8);
+            this.Reload.Location = new System.Drawing.Point(735, 16);
             this.Reload.MaximumSize = new System.Drawing.Size(140, 30);
             this.Reload.MinimumSize = new System.Drawing.Size(140, 30);
             this.Reload.Name = "Reload";
@@ -134,7 +134,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Descrip_txtbox.BackColor = System.Drawing.SystemColors.MenuBar;
             this.Descrip_txtbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Descrip_txtbox.Location = new System.Drawing.Point(210, 58);
+            this.Descrip_txtbox.Location = new System.Drawing.Point(210, 63);
             this.Descrip_txtbox.MaximumSize = new System.Drawing.Size(180, 26);
             this.Descrip_txtbox.MinimumSize = new System.Drawing.Size(180, 26);
             this.Descrip_txtbox.Name = "Descrip_txtbox";
@@ -151,7 +151,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.filteroem_txtbox.BackColor = System.Drawing.SystemColors.MenuBar;
             this.filteroem_txtbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.filteroem_txtbox.Location = new System.Drawing.Point(396, 58);
+            this.filteroem_txtbox.Location = new System.Drawing.Point(396, 63);
             this.filteroem_txtbox.MaximumSize = new System.Drawing.Size(180, 26);
             this.filteroem_txtbox.MinimumSize = new System.Drawing.Size(180, 26);
             this.filteroem_txtbox.Name = "filteroem_txtbox";
@@ -168,7 +168,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.filteroemitem_txtbox.BackColor = System.Drawing.SystemColors.MenuBar;
             this.filteroemitem_txtbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.filteroemitem_txtbox.Location = new System.Drawing.Point(582, 58);
+            this.filteroemitem_txtbox.Location = new System.Drawing.Point(582, 63);
             this.filteroemitem_txtbox.MaximumSize = new System.Drawing.Size(180, 26);
             this.filteroemitem_txtbox.MinimumSize = new System.Drawing.Size(120, 25);
             this.filteroemitem_txtbox.Name = "filteroemitem_txtbox";
@@ -215,7 +215,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.filter4.BackColor = System.Drawing.SystemColors.MenuBar;
             this.filter4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.filter4.Location = new System.Drawing.Point(768, 58);
+            this.filter4.Location = new System.Drawing.Point(768, 63);
             this.filter4.MaximumSize = new System.Drawing.Size(180, 26);
             this.filter4.MinimumSize = new System.Drawing.Size(120, 25);
             this.filter4.Name = "filter4";
@@ -232,12 +232,55 @@
             this.TreeViewToolTip.InitialDelay = 500;
             this.TreeViewToolTip.ReshowDelay = 100;
             // 
-            // scanWorkOrderToolStripMenuItem
+            // cribbttn
             // 
-            this.scanWorkOrderToolStripMenuItem.Name = "scanWorkOrderToolStripMenuItem";
-            this.scanWorkOrderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.scanWorkOrderToolStripMenuItem.Text = "Scan WorkOrder";
-            this.scanWorkOrderToolStripMenuItem.Click += new System.EventHandler(this.scanWorkOrderToolStripMenuItem_Click);
+            this.cribbttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cribbttn.BackColor = System.Drawing.Color.Transparent;
+            this.cribbttn.Enabled = false;
+            this.cribbttn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
+            this.cribbttn.FlatAppearance.BorderSize = 0;
+            this.cribbttn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.cribbttn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.cribbttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cribbttn.ForeColor = System.Drawing.Color.Transparent;
+            this.cribbttn.Image = ((System.Drawing.Image)(resources.GetObject("cribbttn.Image")));
+            this.cribbttn.Location = new System.Drawing.Point(886, 15);
+            this.cribbttn.MaximumSize = new System.Drawing.Size(35, 35);
+            this.cribbttn.MinimumSize = new System.Drawing.Size(35, 35);
+            this.cribbttn.Name = "cribbttn";
+            this.cribbttn.Size = new System.Drawing.Size(35, 35);
+            this.cribbttn.TabIndex = 15;
+            this.cribbttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.TreeViewToolTip.SetToolTip(this.cribbttn, "Crib Management");
+            this.cribbttn.UseVisualStyleBackColor = false;
+            this.cribbttn.Visible = false;
+            this.cribbttn.Click += new System.EventHandler(this.cribbttn_Click);
+            // 
+            // scanwobttn
+            // 
+            this.scanwobttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.scanwobttn.BackColor = System.Drawing.Color.Transparent;
+            this.scanwobttn.Enabled = false;
+            this.scanwobttn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
+            this.scanwobttn.FlatAppearance.BorderSize = 0;
+            this.scanwobttn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.scanwobttn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.scanwobttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.scanwobttn.ForeColor = System.Drawing.Color.Transparent;
+            this.scanwobttn.Image = ((System.Drawing.Image)(resources.GetObject("scanwobttn.Image")));
+            this.scanwobttn.Location = new System.Drawing.Point(937, 15);
+            this.scanwobttn.MaximumSize = new System.Drawing.Size(35, 35);
+            this.scanwobttn.MinimumSize = new System.Drawing.Size(35, 35);
+            this.scanwobttn.Name = "scanwobttn";
+            this.scanwobttn.Size = new System.Drawing.Size(35, 35);
+            this.scanwobttn.TabIndex = 15;
+            this.scanwobttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.TreeViewToolTip.SetToolTip(this.scanwobttn, "Scan Work Order");
+            this.scanwobttn.UseVisualStyleBackColor = false;
+            this.scanwobttn.Visible = false;
+            this.scanwobttn.Click += new System.EventHandler(this.scanwobttn_Click);
             // 
             // SPM_ConnectWM
             // 
@@ -245,6 +288,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Tan;
             this.ClientSize = new System.Drawing.Size(984, 661);
+            this.Controls.Add(this.scanwobttn);
+            this.Controls.Add(this.cribbttn);
             this.Controls.Add(this.versionlabel);
             this.Controls.Add(this.SPM);
             this.Controls.Add(this.dataGridView);
@@ -282,7 +327,8 @@
         private System.Windows.Forms.ToolTip TreeViewToolTip;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem getBOMToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem scanWorkOrderToolStripMenuItem;
+        private System.Windows.Forms.Button cribbttn;
+        private System.Windows.Forms.Button scanwobttn;
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member 'SPM_Connect.txtSearch'
     }
 }
