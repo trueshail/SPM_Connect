@@ -74,6 +74,7 @@
             this.jobtxt = new System.Windows.Forms.TextBox();
             this.savbttn = new System.Windows.Forms.Button();
             this.editbttn = new System.Windows.Forms.Button();
+            this.carrriercodetxt = new System.Windows.Forms.TextBox();
             this.soldtogroupBox = new System.Windows.Forms.GroupBox();
             this.label14 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
@@ -109,7 +110,6 @@
             this.deleteItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SPM = new System.Windows.Forms.Label();
             this.carriercodelbl = new System.Windows.Forms.Label();
-            this.carrriercodetxt = new System.Windows.Forms.TextBox();
             this.shippinggroupBox.SuspendLayout();
             this.soldtogroupBox.SuspendLayout();
             this.ShiptogroupBox.SuspendLayout();
@@ -179,7 +179,7 @@
             // 
             // soldtocombobox
             // 
-            this.soldtocombobox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.soldtocombobox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.soldtocombobox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.soldtocombobox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.soldtocombobox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -595,7 +595,7 @@
             // 
             // shiptocombobox
             // 
-            this.shiptocombobox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.shiptocombobox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.shiptocombobox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.shiptocombobox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.shiptocombobox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -759,7 +759,7 @@
             this.jobtxt.BackColor = System.Drawing.Color.White;
             this.jobtxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.jobtxt.Location = new System.Drawing.Point(9, 158);
-            this.jobtxt.MaximumSize = new System.Drawing.Size(200, 3);
+            this.jobtxt.MaximumSize = new System.Drawing.Size(200, 4);
             this.jobtxt.MinimumSize = new System.Drawing.Size(200, 30);
             this.jobtxt.Multiline = true;
             this.jobtxt.Name = "jobtxt";
@@ -810,6 +810,22 @@
             this.TreeViewToolTip.SetToolTip(this.editbttn, "Edit Invoice Details");
             this.editbttn.UseVisualStyleBackColor = false;
             this.editbttn.Click += new System.EventHandler(this.editbttn_Click);
+            // 
+            // carrriercodetxt
+            // 
+            this.carrriercodetxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.carrriercodetxt.BackColor = System.Drawing.Color.White;
+            this.carrriercodetxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.carrriercodetxt.Location = new System.Drawing.Point(9, 218);
+            this.carrriercodetxt.MaximumSize = new System.Drawing.Size(200, 30);
+            this.carrriercodetxt.Name = "carrriercodetxt";
+            this.carrriercodetxt.ReadOnly = true;
+            this.carrriercodetxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.carrriercodetxt.Size = new System.Drawing.Size(200, 22);
+            this.carrriercodetxt.TabIndex = 102;
+            this.TreeViewToolTip.SetToolTip(this.carrriercodetxt, "Invoice Number");
+            this.carrriercodetxt.Visible = false;
             // 
             // soldtogroupBox
             // 
@@ -1305,22 +1321,6 @@
             this.carriercodelbl.TabIndex = 103;
             this.carriercodelbl.Text = "Carrier Code :";
             this.carriercodelbl.Visible = false;
-            // 
-            // carrriercodetxt
-            // 
-            this.carrriercodetxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.carrriercodetxt.BackColor = System.Drawing.Color.White;
-            this.carrriercodetxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.carrriercodetxt.Location = new System.Drawing.Point(9, 218);
-            this.carrriercodetxt.MaximumSize = new System.Drawing.Size(200, 30);
-            this.carrriercodetxt.Name = "carrriercodetxt";
-            this.carrriercodetxt.ReadOnly = true;
-            this.carrriercodetxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.carrriercodetxt.Size = new System.Drawing.Size(200, 22);
-            this.carrriercodetxt.TabIndex = 102;
-            this.TreeViewToolTip.SetToolTip(this.carrriercodetxt, "Invoice Number");
-            this.carrriercodetxt.Visible = false;
             // 
             // InvoiceDetails
             // 

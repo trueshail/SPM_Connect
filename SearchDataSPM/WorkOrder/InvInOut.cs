@@ -1,9 +1,6 @@
 ﻿using SPMConnectAPI;
 using System;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
@@ -37,7 +34,7 @@ namespace SearchDataSPM
             if (e.KeyCode == Keys.Return)
             {
                 if (connectapi.WOReleased(woid_txtbox.Text.Trim()))
-                {                   
+                {
                     apprvlidtxt.Enabled = true;
                     apprvlidtxt.Focus();
                     woid_txtbox.Enabled = false;
@@ -101,11 +98,13 @@ namespace SearchDataSPM
 
         private void showaddedtodg()
         {
+            timer3.Stop();
             dataGridView1.Visible = true;
             timer3.Enabled = true;
             timer3.Interval = 10000;
-            timer3.Start();            
-            DataTable dtb1 = new DataTable();           
+            timer3.Start();
+            DataTable dtb1 = new DataTable();
+            dtb1 = connectapi.ShowWOInOutStatus(woid_txtbox.Text.Trim());
             dataGridView1.DataSource = dtb1;
             dataGridView1.Update();
 
@@ -114,6 +113,7 @@ namespace SearchDataSPM
         private void timer3_Tick(object sender, EventArgs e)
         {
             dataGridView1.Visible = false;
+           
         }
 
         private void apprvlidtxt_Click(object sender, EventArgs e)
@@ -140,7 +140,9 @@ namespace SearchDataSPM
                     {
                         if (empid_txtbox.Text.Trim() == apprvlidtxt.Text.Trim())
                         {
-                            connectapi.scanworkorder(woid_txtbox.Text.Trim());
+                            if (connectapi.getdepartment() == "Crib")
+                                connectapi.scanworkorder(woid_txtbox.Text.Trim());
+                            else MessageBox.Show("Please ask the admin to set you up on Department == Crib", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                         else
                         {
@@ -156,15 +158,17 @@ namespace SearchDataSPM
                                         //updates
                                         if (connectapi.InBuiltInvInOut(woid_txtbox.Text.Trim()))
                                         {
-                                            DialogResult result = MessageBox.Show("Is this work order completed build?", "WO Complete?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                                            DialogResult result = MessageBox.Show("Is this work order has completed build?", "WO Complete?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                                             if (result == DialogResult.Yes)
                                             {
-                                                connectapi.CheckWOInFromBuilt(woid_txtbox.Text.Trim(), empid_txtbox.Text.Trim(), apprvlidtxt.Text.Trim(),"1");
+                                                connectapi.CheckWOInFromBuilt(woid_txtbox.Text.Trim(), empid_txtbox.Text.Trim(), apprvlidtxt.Text.Trim(), "1");
                                                 connectapi.scanworkorder(woid_txtbox.Text.Trim());
+                                                showaddedtodg();
                                             }
-                                            else if(result == DialogResult.No)
+                                            else if (result == DialogResult.No)
                                             {
                                                 connectapi.CheckWOInFromBuilt(woid_txtbox.Text.Trim(), empid_txtbox.Text.Trim(), apprvlidtxt.Text.Trim(), "0");
+                                                showaddedtodg();
                                             }
                                         }
                                         else
@@ -173,6 +177,7 @@ namespace SearchDataSPM
                                             if (result == DialogResult.Yes)
                                             {
                                                 connectapi.ChekOutWOOutForBuilt(woid_txtbox.Text.Trim(), empid_txtbox.Text.Trim(), apprvlidtxt.Text.Trim());
+                                                showaddedtodg();
                                             }
                                         }
                                     }
@@ -183,6 +188,7 @@ namespace SearchDataSPM
                                     if (result == DialogResult.Yes)
                                     {
                                         connectapi.ChekOutWOOutForBuilt(woid_txtbox.Text.Trim(), empid_txtbox.Text.Trim(), apprvlidtxt.Text.Trim());
+                                        showaddedtodg();
                                     }
                                 }
                             }
@@ -210,7 +216,7 @@ namespace SearchDataSPM
                 e.SuppressKeyPress = true;
             }
         }
-        
+
         private void clearresettxtboxes()
         {
             empid_txtbox.Clear();
@@ -230,22 +236,84 @@ namespace SearchDataSPM
 
         private void toolStripDropDownButton1_Click(object sender, EventArgs e)
         {
-            if (credentialsverified)
-            {
+            verifysecurity();
+        }
 
-            }
-            else
+        private void createNewRequestToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to create a new material reallocation invoice?", "SPM Connect - Create New Invoice?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
             {
-                LoginForm loginForm = new LoginForm();
-                loginForm.ShowDialog();
-                if (connectapi.EmployeeExitsWithCribRights("73"))
+                this.Enabled = false;
+
+                string status = connectapi.CreateNewMatReallocation();
+                if (status.Length > 1)
                 {
-                    credentialsverified = true;
+                    showshippinginvoice(status);
                 }
+
             }
 
         }
 
+        private void showshippinginvoice(string invoice)
+        {
+            using (MatReAlloc matReAlloc = new MatReAlloc())
+            {
+                matReAlloc.invoicenumber(invoice);
+                matReAlloc.ShowDialog();
+                this.Enabled = true;
+                this.Show();
+                this.Activate();
+                this.Focus();
+            }
+        }
+
+        private void showAllRequestsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MatReAllocHome matReAllocHome = new MatReAllocHome();
+            matReAllocHome.Show();
+        }
+
+        private void toolStripDropDownButton1_DropDownOpening(object sender, EventArgs e)
+        {
+            verifysecurity();
+        }
+
+        private void verifysecurity()
+        {
+            if (!credentialsverified)
+            {
+                string ValueIWantFromProptForm = "";
+                this.Enabled = false;
+                ScanEmpId invoiceFor = new ScanEmpId();
+                if (invoiceFor.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    ValueIWantFromProptForm = invoiceFor.ValueIWant;
+                }
+                if (ValueIWantFromProptForm.Length > 0)
+                {
+                    if (connectapi.EmployeeExitsWithCribRights(ValueIWantFromProptForm))
+                    {
+                        credentialsverified = true;
+                        toolStripDropDownButton1.DropDownItems[0].Enabled = true;
+                        toolStripDropDownButton1.DropDownItems[1].Enabled = true;
+                        toolStripDropDownButton1.DropDownItems[2].Enabled = true;
+                        toolStripDropDownButton1.DropDownItems[3].Enabled = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Your request for gaining access to inventory options can't be completed based on your security settings.", "SPM Connect - Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+                }
+                else
+                {
+                    MetroFramework.MetroMessageBox.Show(this, "Please try again.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                this.Enabled = true;
+            }
+        }
     }
 }
 

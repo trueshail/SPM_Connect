@@ -1,21 +1,14 @@
-﻿
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Microsoft.VisualBasic;
 using SPMConnectAPI;
 
 namespace SearchDataSPM
@@ -1052,7 +1045,7 @@ namespace SearchDataSPM
             this.Enabled = true;
         }
 
-        private String getjobnumber()
+        private string getjobnumber()
         {
 
             string jobnumber;
@@ -1071,7 +1064,7 @@ namespace SearchDataSPM
             }
         }
 
-        private String getsalesorder()
+        private string getsalesorder()
         {
 
             string jobnumber;
@@ -1090,7 +1083,7 @@ namespace SearchDataSPM
             }
         }
 
-        private String getjobdescription()
+        private string getjobdescription()
         {
 
             string jobdescription;
@@ -1113,7 +1106,7 @@ namespace SearchDataSPM
             }
         }
 
-        private String getcutomerid()
+        private string getcutomerid()
         {
             
             string customer;

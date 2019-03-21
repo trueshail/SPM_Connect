@@ -2721,9 +2721,11 @@ namespace SearchDataSPM
             {
                 if (itemsearchtxtbox.Text.Length >= 6)
                 {
+                    string item = itemsearchtxtbox.Text.Trim().Substring(0, 6).ToString();
                     clearaddnewtextboxes();
-                    filldatatable(itemsearchtxtbox.Text.Trim().Substring(0, 6).ToString());
+                    filldatatable(item);
                     Addnewbttn.Enabled = true;
+                    FillPrice(item);
                 }
 
                 e.Handled = true;
@@ -2733,18 +2735,21 @@ namespace SearchDataSPM
 
         private void pricetxt_TextChanged(object sender, EventArgs e)
         {
-            string value = pricetxt.Text.Replace(",", "").Replace("$", "").Replace(".", "").TrimStart('0');
-            decimal ul;
-            //Check we are indeed handling a number
-            if (decimal.TryParse(value, out ul))
+            if (dontstop)
             {
-                ul /= 100;
-                //Unsub the event so we don't enter a loop
-                pricetxt.TextChanged -= pricetxt_TextChanged;
-                //Format the text as currency
-                pricetxt.Text = string.Format(CultureInfo.CreateSpecificCulture("en-US"), "{0:C2}", ul);
-                pricetxt.TextChanged += pricetxt_TextChanged;
-                pricetxt.Select(pricetxt.Text.Length, 0);
+                string value = pricetxt.Text.Replace(",", "").Replace("$", "").Replace(".", "").TrimStart('0');
+                decimal ul;
+                //Check we are indeed handling a number
+                if (decimal.TryParse(value, out ul))
+                {
+                    ul /= 100;
+                    //Unsub the event so we don't enter a loop
+                    pricetxt.TextChanged -= pricetxt_TextChanged;
+                    //Format the text as currency
+                    pricetxt.Text = string.Format(CultureInfo.CreateSpecificCulture("en-US"), "{0:C2}", ul);
+                    pricetxt.TextChanged += pricetxt_TextChanged;
+                    pricetxt.Select(pricetxt.Text.Length, 0);
+                } 
             }
             bool goodToGo = TextisValid(pricetxt.Text);
 
@@ -2753,6 +2758,72 @@ namespace SearchDataSPM
                 pricetxt.Text = "$0.00";
                 pricetxt.Select(pricetxt.Text.Length, 0);
             }
+        }
+
+        bool dontstop = true;
+
+        private DataTable getpriceforitem(string itemnumber)
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT TOP (1) * FROM [SPM_Database].[dbo].[PriceItemsFromPO] WHERE [Item] = '" + itemnumber + "' order by LastUpdate Desc", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Item Price From PriceItemsPo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+            return dt;
+        }
+
+        private void FillPrice(string item)
+        {
+            if (pricetxt.Text == "$0.00")
+            {
+                DataTable iteminfo = new DataTable();
+                iteminfo.Clear();
+                iteminfo = getpriceforitem(item);
+                if (iteminfo.Rows.Count > 0)
+                {
+                    DataRow r = iteminfo.Rows[0];
+                    string price = string.Format("{0:c2}", Convert.ToDecimal(r["PriceItem"].ToString()));
+                   
+                    string Currency = r["Currency"].ToString();
+                    string PurchaseOrder = r["PurchaseOrder"].ToString();
+                    if (price != "$0.00")
+                    {
+                        DialogResult result = MetroFramework.MetroMessageBox.Show(this, "System has found below values for the selected item. Would you like to use these values?" + Environment.NewLine + " Price = " + price + Environment.NewLine +
+                                                "Currency = " + Currency + Environment.NewLine +
+                                                "PO No. = " + PurchaseOrder + Environment.NewLine + "", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (result == DialogResult.Yes)
+                        {
+                            dontstop = false;
+                            pricetxt.Text = price;                           
+                            notestxt.Text += Environment.NewLine + string.Format("Price for item {0} is referred from PO# {1}."+ Environment.NewLine + "{2}", item,PurchaseOrder,Currency.Length>0? "Currency is in " + Currency+ "." : "");
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                }
+                else iteminfo.Clear();
+            }
+            dontstop = true;
         }
 
         private bool TextisValid(string text)

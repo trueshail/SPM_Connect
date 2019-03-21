@@ -9,7 +9,7 @@ using SPMConnectAPI;
 namespace SearchDataSPM
 {
 
-    public partial class ShippingHome : Form
+    public partial class MatReAllocHome : Form
     {
         #region Shipping Home Load
 
@@ -17,13 +17,12 @@ namespace SearchDataSPM
         SqlConnection cn;
         DataTable dt;
         DataTable invoiceitems = new DataTable();
-        DataTable temptable = new DataTable();
         bool formloading = false;
         string userfullname = "";
         int _advcollapse = 0;
-        SPMConnectAPI.Shipping connectapi = new Shipping();
+        WorkOrder connectapi = new WorkOrder();
 
-        public ShippingHome()
+        public MatReAllocHome()
         {
             InitializeComponent();
             formloading = true;
@@ -52,8 +51,6 @@ namespace SearchDataSPM
             checkdeptsandrights();
             userfullname = connectapi.getuserfullname();
 
-            invoiceitemsdataGridView2.DataSource = temptable;
-            FillInvoiceItems();
             Showallitems();
             txtSearch.Focus();
             formloading = false;
@@ -71,12 +68,13 @@ namespace SearchDataSPM
         {
             Cursor.Current = Cursors.WaitCursor;
             formloading = true;
-            fillsalespersonship();
-            fillsoldtoship();
-            fillshiptoship();
-            fillcreatedbyship();
-            filllastsavedbyship();
-            fillcarriersship();
+            fillrequestby();
+            fillitems();
+            fillworeq();
+            fillapprovedby();
+            filljobreq();
+            fillworkorder();
+            filljobtakenfrom();
             clearfilercombos();
             formloading = false;
             Cursor.Current = Cursors.Default;
@@ -84,38 +82,36 @@ namespace SearchDataSPM
 
         void clearfilercombos()
         {
-            Createdbycombobox.SelectedItem = null;
-            Soldtocombobox.SelectedItem = null;
-            Shiptocomboxbox.SelectedItem = null;
-            lastsavedbycombo.SelectedItem = null;
-            Salespersoncomboxbox.SelectedItem = null;
-            Createdbycombobox.SelectedItem = null;
-            custvendcombobox.SelectedItem = null;
-            Createdbycombobox.Text = null;
-            Soldtocombobox.Text = null;
-            Shiptocomboxbox.Text = null;
-            lastsavedbycombo.Text = null;
-            Salespersoncomboxbox.Text = null;
-            Createdbycombobox.Text = null;
-            custvendcombobox.Text = null;
-            CarrierscomboBox.Text = null;
+            apprvdbycomboxbox.SelectedItem = null;
+            itemcombobox.SelectedItem = null;
+            woreqcombox.SelectedItem = null;
+            Jobreqcombo.SelectedItem = null;
+            reqstbycomboxbox.SelectedItem = null;
+            apprvdbycomboxbox.SelectedItem = null;
+            jobtakencombobox.SelectedItem = null;
+            apprvdbycomboxbox.Text = null;
+            itemcombobox.Text = null;
+            woreqcombox.Text = null;
+            Jobreqcombo.Text = null;
+            reqstbycomboxbox.Text = null;
+            apprvdbycomboxbox.Text = null;
+            jobtakencombobox.Text = null;
+            wotakenfromcomboBox.Text = null;
 
         }
 
         private void Showallitems()
         {
             dt.Clear();
-            dt = connectapi.ShowshippingHomeData();
+            dt = connectapi.ShowAllAlocations();
             dataGridView.DataSource = dt;
             DataView dv = dt.DefaultView;
-            dataGridView.Sort(dataGridView.Columns[0], ListSortDirection.Descending);
+            dataGridView.Sort(dataGridView.Columns[1], ListSortDirection.Descending);
+            dataGridView.Columns[0].Visible = false;
             dataGridView.Columns[2].Visible = false;
             dataGridView.Columns[3].Visible = false;
             dataGridView.Columns[4].Visible = false;
-            dataGridView.Columns[6].Visible = false;
-            dataGridView.Columns[7].Visible = false;
-            dataGridView.Columns[8].Visible = false;
-            dataGridView.Columns[9].Visible = false;
+            dataGridView.Columns[5].Visible = false;
             dataGridView.Columns[10].Visible = false;
             dataGridView.Columns[11].Visible = false;
             dataGridView.Columns[12].Visible = false;
@@ -125,23 +121,17 @@ namespace SearchDataSPM
             dataGridView.Columns[16].Visible = false;
             dataGridView.Columns[17].Visible = false;
             dataGridView.Columns[18].Visible = false;
-            dataGridView.Columns[21].Visible = false;
-            dataGridView.Columns[0].Width = 80;
-            dataGridView.Columns[1].Width = 250;
-            dataGridView.Columns[5].Width = 120;
-            dataGridView.Columns[19].Width = 280;
-            dataGridView.Columns[20].Width = 280;
-            dataGridView.Columns[19].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridView.Columns[20].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridView.Columns[19].Visible = false;
+            dataGridView.Columns[1].Width = 80;
+            dataGridView.Columns[6].Width = 80;
+            dataGridView.Columns[9].Width = 150;
+            dataGridView.Columns[7].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridView.Columns[8].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             UpdateFont();
 
         }
 
-        private void FillInvoiceItems()
-        {
-            invoiceitems.Clear();
-            invoiceitems = connectapi.ShowShippingInvoiceItems();
-        }
+
 
         private void Reload_Click(object sender, EventArgs e)
         {
@@ -173,8 +163,8 @@ namespace SearchDataSPM
         #region Public Table & variables
 
         // variables required outside the functions to perfrom
-        // string fullsearch = ("Description LIKE '%{0}%' OR Manufacturer LIKE '%{0}%' OR ManufacturerItemNumber LIKE '%{0}%' OR ItemNumber LIKE '%{0}%'");
-        string fullsearch = ("FullSearch LIKE '%{0}%'");
+        string fullsearch = ("InvoiceNo LIKE '%{0}%' OR ItemId LIKE '%{0}%' OR Description LIKE '%{0}%' OR OEM LIKE '%{0}%' OR OEMItem LIKE '%{0}%'");
+        // string fullsearch = ("FullSearch LIKE '%{0}%'");
         //string ItemNo;
         //string str;
         DataTable table0 = new DataTable();
@@ -199,10 +189,10 @@ namespace SearchDataSPM
                     clearandhide();
                 }
 
-                if (Createdbycombobox.Text == "" && lastsavedbycombo.Text == "" && Salespersoncomboxbox.Text == "" && Shiptocomboxbox.Text == "" && Soldtocombobox.Text == "" && custvendcombobox.Text == "" && CarrierscomboBox.Text == "")
+                if (apprvdbycomboxbox.Text == "" && Jobreqcombo.Text == "" && reqstbycomboxbox.Text == "" && woreqcombox.Text == "" && itemcombobox.Text == "" && jobtakencombobox.Text == "" && wotakenfromcomboBox.Text == "")
                 {
                     Showallitems();
-                    FillInvoiceItems();
+
                 }
                 if (txtSearch.Text.Length > 0)
                 {
@@ -564,49 +554,17 @@ namespace SearchDataSPM
 
         private void dataGridView_SelectionChanged(object sender, EventArgs e)
         {
-            showfilterdata();
+
 
         }
 
-        void showfilterdata()
-        {
-            if (!formloading)
-            {
-                if (dataGridView.Rows.Count > 0 && dataGridView.SelectedCells.Count == 1)
-                {
-
-                    int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
-                    DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-                    string item = Convert.ToString(slectedrow.Cells[0].Value);
-                    InvoiceItemsgrp.Text = "Showing items for InvoiceNo: " + item;
-                    temptable.Clear();
-                    DataView dv = new DataView(invoiceitems);
-                    dv.RowFilter = string.Format("InvoiceNo = {0}", item);
-                    temptable = dv.ToTable();
-                    invoiceitemsdataGridView2.DataSource = temptable;
-                    invoiceitemsdataGridView2.Columns[0].Visible = false;
-                    invoiceitemsdataGridView2.Columns[9].Visible = false;
-                    invoiceitemsdataGridView2.Columns[1].Width = 65;
-                    invoiceitemsdataGridView2.Columns[2].Width = 80;
-                    invoiceitemsdataGridView2.Columns[4].Width = 70;
-                    invoiceitemsdataGridView2.Columns[5].Width = 100;
-                    invoiceitemsdataGridView2.Columns[6].Width = 50;
-                    invoiceitemsdataGridView2.Columns[7].Width = 80;
-                    invoiceitemsdataGridView2.Columns[8].Width = 80;
-                    invoiceitemsdataGridView2.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                    invoiceitemsdataGridView2.Columns[7].DefaultCellStyle.Format = "0.00##";
-                    invoiceitemsdataGridView2.Columns[8].DefaultCellStyle.Format = "0.00##";
-                    invoiceitemsdataGridView2.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                    invoiceitemsdataGridView2.Columns[3].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-                }
-            }
-        }
 
         private void dataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (dataGridView.SelectedCells.Count == 1)
             {
-                showshippinginvoice(getselectedinvoicenumber(), "1");
+                this.Enabled = false;
+                showshippinginvoice(getselectedinvoicenumber());
             }
         }
 
@@ -722,7 +680,7 @@ namespace SearchDataSPM
 
                 return true;
             }
-            
+
             if (keyData == (Keys.Shift | Keys.OemPeriod))
             {
                 if (splitContainer1.Panel2Collapsed == true)
@@ -795,99 +753,99 @@ namespace SearchDataSPM
             else
             {
                 string filter = "";
-                if (Createdbycombobox.Text.Length > 0)
+                if (apprvdbycomboxbox.Text.Length > 0)
                 {
                     if (filter.Length > 0)
                     {
                         //filter += "AND";
-                        filter += string.Format("AND CreatedBy = '{0}'", Createdbycombobox.Text.ToString());
+                        filter += string.Format("AND ApprovedName = '{0}'", apprvdbycomboxbox.Text.ToString());
                     }
                     else
                     {
-                        filter += string.Format("CreatedBy = '{0}'", Createdbycombobox.Text.ToString());
+                        filter += string.Format("ApprovedName = '{0}'", apprvdbycomboxbox.Text.ToString());
                     }
 
                 }
-                if (Soldtocombobox.Text.Length > 0)
+                if (itemcombobox.Text.Length > 0)
                 {
                     if (filter.Length > 0)
                     {
                         //filter += "AND";
-                        filter += string.Format(" AND SoldToName = '{0}'", Soldtocombobox.Text.ToString());
+                        filter += string.Format(" AND ItemId = '{0}'", itemcombobox.Text.ToString());
                     }
                     else
                     {
-                        filter += string.Format("SoldToName = '{0}'", Soldtocombobox.Text.ToString());
+                        filter += string.Format("ItemId = '{0}'", itemcombobox.Text.ToString());
                     }
 
                 }
-                if (lastsavedbycombo.Text.Length > 0)
+                if (Jobreqcombo.Text.Length > 0)
                 {
                     if (filter.Length > 0)
                     {
                         //filter += "AND";
-                        filter += string.Format(" AND LastSavedBy = '{0}'", lastsavedbycombo.Text.ToString());
+                        filter += string.Format(" AND JobReq = '{0}'", Jobreqcombo.Text.ToString());
                     }
                     else
                     {
-                        filter += string.Format("LastSavedBy = '{0}'", lastsavedbycombo.Text.ToString());
+                        filter += string.Format("JobReq = '{0}'", Jobreqcombo.Text.ToString());
                     }
 
                 }
-                if (Salespersoncomboxbox.Text.Length > 0)
+                if (reqstbycomboxbox.Text.Length > 0)
                 {
                     if (filter.Length > 0)
                     {
                         //filter += "AND";
-                        filter += string.Format(" AND SalesPerson = '{0}'", Salespersoncomboxbox.Text.ToString());
+                        filter += string.Format(" AND EmployeeName = '{0}'", reqstbycomboxbox.Text.ToString());
                     }
                     else
                     {
-                        filter += string.Format("SalesPerson = '{0}'", Salespersoncomboxbox.Text.ToString());
+                        filter += string.Format("EmployeeName = '{0}'", reqstbycomboxbox.Text.ToString());
                     }
 
                 }
-                if (Shiptocomboxbox.Text.Length > 0)
+                if (woreqcombox.Text.Length > 0)
                 {
                     if (filter.Length > 0)
                     {
                         //filter += "AND";
-                        filter += string.Format(" AND ShipToName LIKE '%{0}%'", Shiptocomboxbox.Text.ToString());
+                        filter += string.Format(" AND WOReq LIKE '%{0}%'", woreqcombox.Text.ToString());
                     }
                     else
                     {
-                        filter += string.Format("ShipToName LIKE '%{0}%'", Shiptocomboxbox.Text.ToString());
+                        filter += string.Format("WOReq LIKE '%{0}%'", woreqcombox.Text.ToString());
                     }
 
                 }
-                if (custvendcombobox.Text.Length > 0)
+                if (jobtakencombobox.Text.Length > 0)
                 {
                     if (filter.Length > 0)
                     {
                         //filter += "AND";
-                        filter += string.Format(" AND Vendor_Cust = {0}", custvendcombobox.Text.ToString().Substring(0, 1));
+                        filter += string.Format(" AND JobTaken LIKE '%{0}%'", jobtakencombobox.Text.ToString().Substring(0, 1));
                     }
                     else
                     {
-                        filter += string.Format("Vendor_Cust = {0}", custvendcombobox.Text.ToString().Substring(0, 1));
+                        filter += string.Format("JobTaken LIKE '%{0}%'", jobtakencombobox.Text.ToString().Substring(0, 1));
                     }
 
                 }
-                if (CarrierscomboBox.Text.Length > 0)
+                if (wotakenfromcomboBox.Text.Length > 0)
                 {
                     if (filter.Length > 0)
                     {
                         //filter += "AND";
-                        filter += string.Format(" AND Carrier LIKE '%{0}%'", CarrierscomboBox.Text.ToString());
+                        filter += string.Format(" AND WOTaken LIKE '%{0}%'", wotakenfromcomboBox.Text.ToString());
                     }
                     else
                     {
-                        filter += string.Format("Carrier LIKE '%{0}%'", CarrierscomboBox.Text.ToString());
+                        filter += string.Format("WOTaken LIKE '%{0}%'", wotakenfromcomboBox.Text.ToString());
                     }
 
                 }
 
-                if (Createdbycombobox.SelectedItem == null && lastsavedbycombo.SelectedItem == null && Salespersoncomboxbox.SelectedItem == null && Shiptocomboxbox.SelectedItem == null && Soldtocombobox.SelectedItem == null && custvendcombobox.SelectedItem == null && CarrierscomboBox.SelectedItem == null)
+                if (apprvdbycomboxbox.SelectedItem == null && Jobreqcombo.SelectedItem == null && reqstbycomboxbox.SelectedItem == null && woreqcombox.SelectedItem == null && itemcombobox.SelectedItem == null && jobtakencombobox.SelectedItem == null && wotakenfromcomboBox.SelectedItem == null)
                 {
 
                 }
@@ -964,48 +922,55 @@ namespace SearchDataSPM
 
         #region fillcomboboxes
 
-        private void fillcreatedbyship()
+        private void fillapprovedby()
         {
-            AutoCompleteStringCollection MyCollection = connectapi.FillCreatedbyShip();
-            Createdbycombobox.AutoCompleteCustomSource = MyCollection;
-            Createdbycombobox.DataSource = MyCollection;
+            AutoCompleteStringCollection MyCollection = connectapi.FillApprovedBy();
+            apprvdbycomboxbox.AutoCompleteCustomSource = MyCollection;
+            apprvdbycomboxbox.DataSource = MyCollection;
         }
 
-        private void filllastsavedbyship()
+        private void filljobreq()
         {
-            AutoCompleteStringCollection MyCollection = connectapi.FillLastSavedByShip();
-            lastsavedbycombo.AutoCompleteCustomSource = MyCollection;
-            lastsavedbycombo.DataSource = MyCollection;
+            AutoCompleteStringCollection MyCollection = connectapi.Filljobreq();
+            Jobreqcombo.AutoCompleteCustomSource = MyCollection;
+            Jobreqcombo.DataSource = MyCollection;
         }
 
-        private void fillsoldtoship()
+        private void fillitems()
         {
-            AutoCompleteStringCollection MyCollection = connectapi.FillSoldToShip();
-            Soldtocombobox.AutoCompleteCustomSource = MyCollection;
-            Soldtocombobox.DataSource = MyCollection;
-
-        }
-
-        private void fillshiptoship()
-        {
-            AutoCompleteStringCollection MyCollection = connectapi.FillShipToShip();
-            Shiptocomboxbox.AutoCompleteCustomSource = MyCollection;
-            Shiptocomboxbox.DataSource = MyCollection;
+            AutoCompleteStringCollection MyCollection = connectapi.FillItems();
+            itemcombobox.AutoCompleteCustomSource = MyCollection;
+            itemcombobox.DataSource = MyCollection;
 
         }
 
-        private void fillsalespersonship()
+        private void fillworeq()
         {
-            AutoCompleteStringCollection MyCollection = connectapi.FillSalesPersonShip();
-            Salespersoncomboxbox.AutoCompleteCustomSource = MyCollection;
-            Salespersoncomboxbox.DataSource = MyCollection;
+            AutoCompleteStringCollection MyCollection = connectapi.FillWorkOrderReq();
+            woreqcombox.AutoCompleteCustomSource = MyCollection;
+            woreqcombox.DataSource = MyCollection;
+
         }
 
-        private void fillcarriersship()
+        private void fillrequestby()
         {
-            AutoCompleteStringCollection MyCollection = connectapi.FillCarrierShip();
-            CarrierscomboBox.AutoCompleteCustomSource = MyCollection;
-            CarrierscomboBox.DataSource = MyCollection;
+            AutoCompleteStringCollection MyCollection = connectapi.FillRequestedBy();
+            reqstbycomboxbox.AutoCompleteCustomSource = MyCollection;
+            reqstbycomboxbox.DataSource = MyCollection;
+        }
+
+        private void fillworkorder()
+        {
+            AutoCompleteStringCollection MyCollection = connectapi.FillWorkOrderTaken();
+            wotakenfromcomboBox.AutoCompleteCustomSource = MyCollection;
+            wotakenfromcomboBox.DataSource = MyCollection;
+        }
+
+        private void filljobtakenfrom()
+        {
+            AutoCompleteStringCollection MyCollection = connectapi.FillJobTakenFrom();
+            jobtakencombobox.AutoCompleteCustomSource = MyCollection;
+            jobtakencombobox.DataSource = MyCollection;
         }
 
         #endregion
@@ -1099,60 +1064,29 @@ namespace SearchDataSPM
 
             if (result == DialogResult.Yes)
             {
-                string ValueIWantFromProptForm = "";
                 this.Enabled = false;
-                InvoiceFor invoiceFor = new InvoiceFor();
-                if (invoiceFor.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                string status = connectapi.CreateNewMatReallocation();
+                if (status.Length > 1)
                 {
-                    ValueIWantFromProptForm = invoiceFor.ValueIWant;
+                    showshippinginvoice(status);
                 }
-                if (ValueIWantFromProptForm.Length > 0)
-                {
-                    string vendorcust = "0";
-                    if (ValueIWantFromProptForm == "Customer")
-                    {
-                        vendorcust = "1";
-                    }
-                    string status = connectapi.Createnewshippinginvoice(vendorcust);
-                    if (status.Length > 1)
-                    {
-                        showshippinginvoice(status, vendorcust);
-                    }
-                }
-                else
-                {
-                    MetroFramework.MetroMessageBox.Show(this, "Inovice for not selected. System cannot create new shipping invoice.", "SPM Connect - Create New Invoice?", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-               
+
+
             }
         }
 
-        private void showshippinginvoice(string invoice, string vendorcust)
+        private void showshippinginvoice(string invoice)
         {
-            string invoiceopen = connectapi.InvoiceOpen(invoice);
-            if (invoiceopen.Length>0)
+            using (MatReAlloc matReAlloc = new MatReAlloc())
             {
-                MetroFramework.MetroMessageBox.Show(this, "Inovice is opened for edit by "+invoiceopen+". ", "SPM Connect - Open Invoice Failed", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                matReAlloc.invoicenumber(invoice);
+                matReAlloc.ShowDialog();                
+                this.Enabled = true;
+                performreload();
+                this.Show();
+                this.Activate();
+                this.Focus();
             }
-            else
-            {
-                if (connectapi.CheckinInvoice(invoice))
-                {
-                    using (InvoiceDetails invoiceDetails = new InvoiceDetails())
-                    {
-                        invoiceDetails.invoicenumber(invoice);
-                        invoiceDetails.setcustvendor(vendorcust);
-                        invoiceDetails.ShowDialog();
-                        this.Enabled = true;
-                        performreload();
-                        this.Show();
-                        this.Activate();
-                        this.Focus();
-                    }
-                }
-               
-            }
-           
         }
 
         private string getselectedinvoicenumber()
@@ -1162,7 +1096,7 @@ namespace SearchDataSPM
             {
                 int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                 DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-                item = Convert.ToString(slectedrow.Cells[0].Value);
+                item = Convert.ToString(slectedrow.Cells[1].Value);
                 //MessageBox.Show(item);
                 return item;
             }
@@ -1173,33 +1107,9 @@ namespace SearchDataSPM
             }
         }
 
-        private void copyshippinginvoice()
-        {
-            DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to copy this invoice to a new shipping invoice?", "SPM Connect - Copy Invoice?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (result == DialogResult.Yes)
-            {
-                this.Enabled = false;
-                string status = connectapi.CopyShippingInvoice(getselectedinvoicenumber());
-                
-                if (status.Length > 1)
-                {
-                    showshippinginvoice(status, "1");
-                }
-               
-
-            }
-
-        }
-
         private void invoiceinfostripmenu_Click(object sender, EventArgs e)
         {
-            showshippinginvoice(getselectedinvoicenumber(), "1");
-        }
-
-        private void copyinvoicestrip_Click(object sender, EventArgs e)
-        {
-            copyshippinginvoice();
+            showshippinginvoice(getselectedinvoicenumber());
         }
 
         private void ContextMenuStripShipping_Opening(object sender, CancelEventArgs e)

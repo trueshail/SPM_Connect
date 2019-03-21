@@ -380,11 +380,29 @@
     <Compile Include="WorkOrder\InvInOut.Designer.cs">
       <DependentUpon>InvInOut.cs</DependentUpon>
     </Compile>
+    <Compile Include="WorkOrder\ScanEmpId.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WorkOrder\ScanEmpId.Designer.cs">
+      <DependentUpon>ScanEmpId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WorkOrder\MatReAlloc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WorkOrder\MatReAlloc.Designer.cs">
+      <DependentUpon>MatReAlloc.cs</DependentUpon>
+    </Compile>
     <Compile Include="WorkOrder\ScanWO.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="WorkOrder\ScanWO.designer.cs">
       <DependentUpon>ScanWO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WorkOrder\MatReAllocHome.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WorkOrder\MatReAllocHome.Designer.cs">
+      <DependentUpon>MatReAllocHome.cs</DependentUpon>
     </Compile>
     <Compile Include="WorkOrder\SPM_ConnectWM.cs">
       <SubType>Form</SubType>
@@ -654,8 +672,17 @@
     <EmbeddedResource Include="WorkOrder\InvInOut.resx">
       <DependentUpon>InvInOut.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="WorkOrder\ScanEmpId.resx">
+      <DependentUpon>ScanEmpId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WorkOrder\MatReAlloc.resx">
+      <DependentUpon>MatReAlloc.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="WorkOrder\ScanWO.resx">
       <DependentUpon>ScanWO.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WorkOrder\MatReAllocHome.resx">
+      <DependentUpon>MatReAllocHome.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WorkOrder\SPM_ConnectWM.resx">
       <DependentUpon>SPM_ConnectWM.cs</DependentUpon>

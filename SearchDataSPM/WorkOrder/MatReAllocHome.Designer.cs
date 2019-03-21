@@ -2,8 +2,8 @@
 
 namespace SearchDataSPM
 {
-	partial class ShippingHome
-	{
+	partial class MatReAllocHome
+    {
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -31,9 +31,8 @@ namespace SearchDataSPM
 		private void InitializeComponent()
 		{
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ShippingHome));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MatReAllocHome));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.SPM = new System.Windows.Forms.Label();
             this.versionlabel = new System.Windows.Forms.Label();
@@ -44,27 +43,19 @@ namespace SearchDataSPM
             this.filteroem_txtbox = new System.Windows.Forms.TextBox();
             this.Descrip_txtbox = new System.Windows.Forms.TextBox();
             this.advsearchbttn = new System.Windows.Forms.Button();
-            this.Shiptocomboxbox = new System.Windows.Forms.ComboBox();
-            this.Salespersoncomboxbox = new System.Windows.Forms.ComboBox();
-            this.lastsavedbycombo = new System.Windows.Forms.ComboBox();
-            this.Soldtocombobox = new System.Windows.Forms.ComboBox();
-            this.custvendcombobox = new System.Windows.Forms.ComboBox();
-            this.Createdbycombobox = new System.Windows.Forms.ComboBox();
-            this.CarrierscomboBox = new System.Windows.Forms.ComboBox();
+            this.woreqcombox = new System.Windows.Forms.ComboBox();
+            this.reqstbycomboxbox = new System.Windows.Forms.ComboBox();
+            this.Jobreqcombo = new System.Windows.Forms.ComboBox();
+            this.itemcombobox = new System.Windows.Forms.ComboBox();
+            this.jobtakencombobox = new System.Windows.Forms.ComboBox();
+            this.apprvdbycomboxbox = new System.Windows.Forms.ComboBox();
+            this.wotakenfromcomboBox = new System.Windows.Forms.ComboBox();
             this.addnewbttn = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.InvoiceItemsgrp = new System.Windows.Forms.GroupBox();
-            this.invoiceitemsdataGridView2 = new System.Windows.Forms.DataGridView();
             this.recordlabel = new System.Windows.Forms.Label();
             this.dataGridView = new System.Windows.Forms.DataGridView();
-            this.InvoiceNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SoldTo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ShipTo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.JobNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DateCreated = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ContextMenuStripShipping = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.invoiceinfostripmenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyinvoicestrip = new System.Windows.Forms.ToolStripMenuItem();
             this.matlbl = new System.Windows.Forms.Label();
             this.clrfiltersbttn = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
@@ -77,8 +68,6 @@ namespace SearchDataSPM
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.InvoiceItemsgrp.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.invoiceitemsdataGridView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.ContextMenuStripShipping.SuspendLayout();
             this.SuspendLayout();
@@ -236,130 +225,127 @@ namespace SearchDataSPM
             this.advsearchbttn.UseVisualStyleBackColor = true;
             this.advsearchbttn.Click += new System.EventHandler(this.advsearchbttn_Click);
             // 
-            // Shiptocomboxbox
+            // woreqcombox
             // 
-            this.Shiptocomboxbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.woreqcombox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.Shiptocomboxbox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.Shiptocomboxbox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.Shiptocomboxbox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.Shiptocomboxbox.FormattingEnabled = true;
-            this.Shiptocomboxbox.Location = new System.Drawing.Point(6, 379);
-            this.Shiptocomboxbox.Name = "Shiptocomboxbox";
-            this.Shiptocomboxbox.Size = new System.Drawing.Size(165, 21);
-            this.Shiptocomboxbox.TabIndex = 125;
-            this.TreeViewToolTip.SetToolTip(this.Shiptocomboxbox, "Filter by ship to");
-            this.Shiptocomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Manufactureritemcomboxbox_KeyDown);
+            this.woreqcombox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.woreqcombox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.woreqcombox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.woreqcombox.FormattingEnabled = true;
+            this.woreqcombox.Location = new System.Drawing.Point(6, 379);
+            this.woreqcombox.Name = "woreqcombox";
+            this.woreqcombox.Size = new System.Drawing.Size(159, 21);
+            this.woreqcombox.TabIndex = 125;
+            this.TreeViewToolTip.SetToolTip(this.woreqcombox, "Filter by ship to");
+            this.woreqcombox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Manufactureritemcomboxbox_KeyDown);
             // 
-            // Salespersoncomboxbox
+            // reqstbycomboxbox
             // 
-            this.Salespersoncomboxbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.reqstbycomboxbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.Salespersoncomboxbox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.Salespersoncomboxbox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.Salespersoncomboxbox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.Salespersoncomboxbox.FormattingEnabled = true;
-            this.Salespersoncomboxbox.Location = new System.Drawing.Point(6, 230);
-            this.Salespersoncomboxbox.Name = "Salespersoncomboxbox";
-            this.Salespersoncomboxbox.Size = new System.Drawing.Size(165, 21);
-            this.Salespersoncomboxbox.TabIndex = 123;
-            this.TreeViewToolTip.SetToolTip(this.Salespersoncomboxbox, "Filter by sales person");
-            this.Salespersoncomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.familycomboxbox_KeyDown);
+            this.reqstbycomboxbox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.reqstbycomboxbox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.reqstbycomboxbox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.reqstbycomboxbox.FormattingEnabled = true;
+            this.reqstbycomboxbox.Location = new System.Drawing.Point(6, 230);
+            this.reqstbycomboxbox.Name = "reqstbycomboxbox";
+            this.reqstbycomboxbox.Size = new System.Drawing.Size(159, 21);
+            this.reqstbycomboxbox.TabIndex = 123;
+            this.TreeViewToolTip.SetToolTip(this.reqstbycomboxbox, "Filter Requested By");
+            this.reqstbycomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.familycomboxbox_KeyDown);
             // 
-            // lastsavedbycombo
+            // Jobreqcombo
             // 
-            this.lastsavedbycombo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.Jobreqcombo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lastsavedbycombo.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.lastsavedbycombo.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.lastsavedbycombo.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.lastsavedbycombo.FormattingEnabled = true;
-            this.lastsavedbycombo.Location = new System.Drawing.Point(6, 520);
-            this.lastsavedbycombo.Name = "lastsavedbycombo";
-            this.lastsavedbycombo.Size = new System.Drawing.Size(165, 21);
-            this.lastsavedbycombo.TabIndex = 127;
-            this.TreeViewToolTip.SetToolTip(this.lastsavedbycombo, "Filter by last saved");
-            this.lastsavedbycombo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lastsavedbycombo_KeyDown);
+            this.Jobreqcombo.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.Jobreqcombo.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.Jobreqcombo.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.Jobreqcombo.FormattingEnabled = true;
+            this.Jobreqcombo.Location = new System.Drawing.Point(6, 520);
+            this.Jobreqcombo.Name = "Jobreqcombo";
+            this.Jobreqcombo.Size = new System.Drawing.Size(159, 21);
+            this.Jobreqcombo.TabIndex = 127;
+            this.TreeViewToolTip.SetToolTip(this.Jobreqcombo, "Filter by last saved");
+            this.Jobreqcombo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lastsavedbycombo_KeyDown);
             // 
-            // Soldtocombobox
+            // itemcombobox
             // 
-            this.Soldtocombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.itemcombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.Soldtocombobox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.Soldtocombobox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.Soldtocombobox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.Soldtocombobox.FormattingEnabled = true;
-            this.Soldtocombobox.Items.AddRange(new object[] {
+            this.itemcombobox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.itemcombobox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.itemcombobox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.itemcombobox.FormattingEnabled = true;
+            this.itemcombobox.Items.AddRange(new object[] {
             "Festo",
             "SPM AUTOMATION (Canada) INC."});
-            this.Soldtocombobox.Location = new System.Drawing.Point(6, 304);
-            this.Soldtocombobox.Name = "Soldtocombobox";
-            this.Soldtocombobox.Size = new System.Drawing.Size(165, 21);
-            this.Soldtocombobox.TabIndex = 124;
-            this.TreeViewToolTip.SetToolTip(this.Soldtocombobox, "Filter by sold to");
-            this.Soldtocombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.oemitemcombobox_KeyDown);
+            this.itemcombobox.Location = new System.Drawing.Point(6, 304);
+            this.itemcombobox.Name = "itemcombobox";
+            this.itemcombobox.Size = new System.Drawing.Size(159, 21);
+            this.itemcombobox.TabIndex = 124;
+            this.TreeViewToolTip.SetToolTip(this.itemcombobox, "Filter by sold to");
+            this.itemcombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.oemitemcombobox_KeyDown);
             // 
-            // custvendcombobox
+            // jobtakencombobox
             // 
-            this.custvendcombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.jobtakencombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.custvendcombobox.AutoCompleteCustomSource.AddRange(new string[] {
+            this.jobtakencombobox.AutoCompleteCustomSource.AddRange(new string[] {
             "0 - Vendor",
             "1 - Customer"});
-            this.custvendcombobox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.custvendcombobox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.custvendcombobox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.custvendcombobox.FormattingEnabled = true;
-            this.custvendcombobox.Items.AddRange(new object[] {
-            "0 - Vendor",
-            "1 - Customer"});
-            this.custvendcombobox.Location = new System.Drawing.Point(6, 594);
-            this.custvendcombobox.Name = "custvendcombobox";
-            this.custvendcombobox.Size = new System.Drawing.Size(165, 21);
-            this.custvendcombobox.TabIndex = 128;
-            this.TreeViewToolTip.SetToolTip(this.custvendcombobox, "Filter by customer or vendor");
-            this.custvendcombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ActiveCadblockcombobox_KeyDown);
+            this.jobtakencombobox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.jobtakencombobox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.jobtakencombobox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.jobtakencombobox.FormattingEnabled = true;
+            this.jobtakencombobox.Location = new System.Drawing.Point(6, 594);
+            this.jobtakencombobox.Name = "jobtakencombobox";
+            this.jobtakencombobox.Size = new System.Drawing.Size(159, 21);
+            this.jobtakencombobox.TabIndex = 128;
+            this.TreeViewToolTip.SetToolTip(this.jobtakencombobox, "Filter by customer or vendor");
+            this.jobtakencombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ActiveCadblockcombobox_KeyDown);
             // 
-            // Createdbycombobox
+            // apprvdbycomboxbox
             // 
-            this.Createdbycombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.apprvdbycomboxbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.Createdbycombobox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.Createdbycombobox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.Createdbycombobox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.Createdbycombobox.FormattingEnabled = true;
-            this.Createdbycombobox.Items.AddRange(new object[] {
+            this.apprvdbycomboxbox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.apprvdbycomboxbox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.apprvdbycomboxbox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.apprvdbycomboxbox.FormattingEnabled = true;
+            this.apprvdbycomboxbox.Items.AddRange(new object[] {
             "Shailkumar Patel",
             "Scott Reid",
             "Joel Goldsmith"});
-            this.Createdbycombobox.Location = new System.Drawing.Point(6, 153);
-            this.Createdbycombobox.Name = "Createdbycombobox";
-            this.Createdbycombobox.Size = new System.Drawing.Size(165, 21);
-            this.Createdbycombobox.TabIndex = 122;
-            this.TreeViewToolTip.SetToolTip(this.Createdbycombobox, "Filter Created by");
-            this.Createdbycombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.designedbycombobox_KeyDown);
+            this.apprvdbycomboxbox.Location = new System.Drawing.Point(6, 153);
+            this.apprvdbycomboxbox.Name = "apprvdbycomboxbox";
+            this.apprvdbycomboxbox.Size = new System.Drawing.Size(159, 21);
+            this.apprvdbycomboxbox.TabIndex = 122;
+            this.TreeViewToolTip.SetToolTip(this.apprvdbycomboxbox, "Filter Approved By");
+            this.apprvdbycomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.designedbycombobox_KeyDown);
             // 
-            // CarrierscomboBox
+            // wotakenfromcomboBox
             // 
-            this.CarrierscomboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.wotakenfromcomboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.CarrierscomboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.CarrierscomboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.CarrierscomboBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.CarrierscomboBox.FormattingEnabled = true;
-            this.CarrierscomboBox.Location = new System.Drawing.Point(6, 450);
-            this.CarrierscomboBox.Name = "CarrierscomboBox";
-            this.CarrierscomboBox.Size = new System.Drawing.Size(165, 21);
-            this.CarrierscomboBox.TabIndex = 126;
-            this.TreeViewToolTip.SetToolTip(this.CarrierscomboBox, "Filter by carrier");
-            this.CarrierscomboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MaterialcomboBox_KeyDown);
+            this.wotakenfromcomboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.wotakenfromcomboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.wotakenfromcomboBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.wotakenfromcomboBox.FormattingEnabled = true;
+            this.wotakenfromcomboBox.Location = new System.Drawing.Point(6, 450);
+            this.wotakenfromcomboBox.Name = "wotakenfromcomboBox";
+            this.wotakenfromcomboBox.Size = new System.Drawing.Size(159, 21);
+            this.wotakenfromcomboBox.TabIndex = 126;
+            this.TreeViewToolTip.SetToolTip(this.wotakenfromcomboBox, "Filter by carrier");
+            this.wotakenfromcomboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MaterialcomboBox_KeyDown);
             // 
             // addnewbttn
             // 
@@ -391,8 +377,7 @@ namespace SearchDataSPM
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.BackColor = System.Drawing.Color.SkyBlue;
-            this.splitContainer1.Panel1.Controls.Add(this.InvoiceItemsgrp);
+            this.splitContainer1.Panel1.BackColor = System.Drawing.Color.PaleVioletRed;
             this.splitContainer1.Panel1.Controls.Add(this.addnewbttn);
             this.splitContainer1.Panel1.Controls.Add(this.advsearchbttn);
             this.splitContainer1.Panel1.Controls.Add(this.SPM);
@@ -410,9 +395,9 @@ namespace SearchDataSPM
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.splitContainer1.Panel2.BackColor = System.Drawing.Color.DarkOrange;
             this.splitContainer1.Panel2.Controls.Add(this.matlbl);
-            this.splitContainer1.Panel2.Controls.Add(this.CarrierscomboBox);
+            this.splitContainer1.Panel2.Controls.Add(this.wotakenfromcomboBox);
             this.splitContainer1.Panel2.Controls.Add(this.clrfiltersbttn);
             this.splitContainer1.Panel2.Controls.Add(this.label6);
             this.splitContainer1.Panel2.Controls.Add(this.label5);
@@ -420,12 +405,12 @@ namespace SearchDataSPM
             this.splitContainer1.Panel2.Controls.Add(this.label3);
             this.splitContainer1.Panel2.Controls.Add(this.label2);
             this.splitContainer1.Panel2.Controls.Add(this.actcadblk);
-            this.splitContainer1.Panel2.Controls.Add(this.Shiptocomboxbox);
-            this.splitContainer1.Panel2.Controls.Add(this.Salespersoncomboxbox);
-            this.splitContainer1.Panel2.Controls.Add(this.lastsavedbycombo);
-            this.splitContainer1.Panel2.Controls.Add(this.Soldtocombobox);
-            this.splitContainer1.Panel2.Controls.Add(this.custvendcombobox);
-            this.splitContainer1.Panel2.Controls.Add(this.Createdbycombobox);
+            this.splitContainer1.Panel2.Controls.Add(this.woreqcombox);
+            this.splitContainer1.Panel2.Controls.Add(this.reqstbycomboxbox);
+            this.splitContainer1.Panel2.Controls.Add(this.Jobreqcombo);
+            this.splitContainer1.Panel2.Controls.Add(this.itemcombobox);
+            this.splitContainer1.Panel2.Controls.Add(this.jobtakencombobox);
+            this.splitContainer1.Panel2.Controls.Add(this.apprvdbycomboxbox);
             this.splitContainer1.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.splitContainer1.Panel2MinSize = 175;
             this.splitContainer1.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -433,43 +418,6 @@ namespace SearchDataSPM
             this.splitContainer1.SplitterDistance = 867;
             this.splitContainer1.SplitterWidth = 2;
             this.splitContainer1.TabIndex = 105;
-            // 
-            // InvoiceItemsgrp
-            // 
-            this.InvoiceItemsgrp.Controls.Add(this.invoiceitemsdataGridView2);
-            this.InvoiceItemsgrp.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.InvoiceItemsgrp.Font = new System.Drawing.Font("Lucida Console", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.InvoiceItemsgrp.Location = new System.Drawing.Point(0, 510);
-            this.InvoiceItemsgrp.Name = "InvoiceItemsgrp";
-            this.InvoiceItemsgrp.Size = new System.Drawing.Size(867, 201);
-            this.InvoiceItemsgrp.TabIndex = 123;
-            this.InvoiceItemsgrp.TabStop = false;
-            this.InvoiceItemsgrp.Text = "Showing items for InvoiceNo: ";
-            // 
-            // invoiceitemsdataGridView2
-            // 
-            this.invoiceitemsdataGridView2.AllowUserToAddRows = false;
-            this.invoiceitemsdataGridView2.AllowUserToDeleteRows = false;
-            this.invoiceitemsdataGridView2.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.invoiceitemsdataGridView2.BackgroundColor = System.Drawing.Color.White;
-            this.invoiceitemsdataGridView2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Lucida Console", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.invoiceitemsdataGridView2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.invoiceitemsdataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.invoiceitemsdataGridView2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.invoiceitemsdataGridView2.GridColor = System.Drawing.SystemColors.AppWorkspace;
-            this.invoiceitemsdataGridView2.Location = new System.Drawing.Point(3, 16);
-            this.invoiceitemsdataGridView2.Name = "invoiceitemsdataGridView2";
-            this.invoiceitemsdataGridView2.ReadOnly = true;
-            this.invoiceitemsdataGridView2.RowHeadersVisible = false;
-            this.invoiceitemsdataGridView2.Size = new System.Drawing.Size(861, 182);
-            this.invoiceitemsdataGridView2.TabIndex = 0;
             // 
             // recordlabel
             // 
@@ -493,24 +441,18 @@ namespace SearchDataSPM
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView.BackgroundColor = System.Drawing.Color.SkyBlue;
+            this.dataGridView.BackgroundColor = System.Drawing.Color.PaleVioletRed;
             this.dataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.InvoiceNo,
-            this.SoldTo,
-            this.ShipTo,
-            this.JobNumber,
-            this.DateCreated});
             this.dataGridView.ContextMenuStrip = this.ContextMenuStripShipping;
             this.dataGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dataGridView.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(237)))), ((int)(((byte)(237)))));
@@ -518,7 +460,7 @@ namespace SearchDataSPM
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.ReadOnly = true;
             this.dataGridView.RowHeadersVisible = false;
-            this.dataGridView.Size = new System.Drawing.Size(863, 406);
+            this.dataGridView.Size = new System.Drawing.Size(863, 610);
             this.dataGridView.StandardTab = true;
             this.dataGridView.TabIndex = 111;
             this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellDoubleClick);
@@ -529,73 +471,23 @@ namespace SearchDataSPM
             this.dataGridView.SelectionChanged += new System.EventHandler(this.dataGridView_SelectionChanged);
             this.dataGridView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView_KeyDown);
             // 
-            // InvoiceNo
-            // 
-            this.InvoiceNo.DataPropertyName = "InvoiceNo";
-            this.InvoiceNo.FillWeight = 126.9036F;
-            this.InvoiceNo.HeaderText = "Invoice No";
-            this.InvoiceNo.Name = "InvoiceNo";
-            this.InvoiceNo.ReadOnly = true;
-            // 
-            // SoldTo
-            // 
-            this.SoldTo.DataPropertyName = "SoldToName";
-            this.SoldTo.FillWeight = 116.1212F;
-            this.SoldTo.HeaderText = "Sold To";
-            this.SoldTo.Name = "SoldTo";
-            this.SoldTo.ReadOnly = true;
-            // 
-            // ShipTo
-            // 
-            this.ShipTo.DataPropertyName = "ShipToName";
-            this.ShipTo.FillWeight = 77.8091F;
-            this.ShipTo.HeaderText = "Ship To";
-            this.ShipTo.Name = "ShipTo";
-            this.ShipTo.ReadOnly = true;
-            // 
-            // JobNumber
-            // 
-            this.JobNumber.DataPropertyName = "JobNumber";
-            this.JobNumber.FillWeight = 73.30341F;
-            this.JobNumber.HeaderText = "Job No";
-            this.JobNumber.Name = "JobNumber";
-            this.JobNumber.ReadOnly = true;
-            // 
-            // DateCreated
-            // 
-            this.DateCreated.DataPropertyName = "DateCreated";
-            this.DateCreated.FillWeight = 105.8627F;
-            this.DateCreated.HeaderText = "Created On";
-            this.DateCreated.Name = "DateCreated";
-            this.DateCreated.ReadOnly = true;
-            // 
             // ContextMenuStripShipping
             // 
             this.ContextMenuStripShipping.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.invoiceinfostripmenu,
-            this.copyinvoicestrip});
+            this.invoiceinfostripmenu});
             this.ContextMenuStripShipping.Name = "contextMenuStrip1";
             this.ContextMenuStripShipping.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.ContextMenuStripShipping.Size = new System.Drawing.Size(191, 48);
+            this.ContextMenuStripShipping.Size = new System.Drawing.Size(158, 26);
             this.ContextMenuStripShipping.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStripShipping_Opening);
             // 
             // invoiceinfostripmenu
             // 
             this.invoiceinfostripmenu.Image = ((System.Drawing.Image)(resources.GetObject("invoiceinfostripmenu.Image")));
             this.invoiceinfostripmenu.Name = "invoiceinfostripmenu";
-            this.invoiceinfostripmenu.Size = new System.Drawing.Size(190, 22);
+            this.invoiceinfostripmenu.Size = new System.Drawing.Size(157, 22);
             this.invoiceinfostripmenu.Text = "Get Invoice Info";
             this.invoiceinfostripmenu.ToolTipText = "Get Selected Invoice Info.";
             this.invoiceinfostripmenu.Click += new System.EventHandler(this.invoiceinfostripmenu_Click);
-            // 
-            // copyinvoicestrip
-            // 
-            this.copyinvoicestrip.Image = ((System.Drawing.Image)(resources.GetObject("copyinvoicestrip.Image")));
-            this.copyinvoicestrip.Name = "copyinvoicestrip";
-            this.copyinvoicestrip.Size = new System.Drawing.Size(190, 22);
-            this.copyinvoicestrip.Text = "Copy Selected Invoice";
-            this.copyinvoicestrip.ToolTipText = "Copy selected invoice to new invoice number";
-            this.copyinvoicestrip.Click += new System.EventHandler(this.copyinvoicestrip_Click);
             // 
             // matlbl
             // 
@@ -607,9 +499,9 @@ namespace SearchDataSPM
             this.matlbl.ForeColor = System.Drawing.Color.Black;
             this.matlbl.Location = new System.Drawing.Point(9, 428);
             this.matlbl.Name = "matlbl";
-            this.matlbl.Size = new System.Drawing.Size(61, 18);
+            this.matlbl.Size = new System.Drawing.Size(120, 18);
             this.matlbl.TabIndex = 147;
-            this.matlbl.Text = "Carriers";
+            this.matlbl.Text = "WO Taken From";
             // 
             // clrfiltersbttn
             // 
@@ -634,9 +526,9 @@ namespace SearchDataSPM
             this.label6.ForeColor = System.Drawing.Color.Black;
             this.label6.Location = new System.Drawing.Point(9, 132);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(79, 18);
+            this.label6.Size = new System.Drawing.Size(91, 18);
             this.label6.TabIndex = 145;
-            this.label6.Text = "Created by";
+            this.label6.Text = "Approved By";
             // 
             // label5
             // 
@@ -648,9 +540,9 @@ namespace SearchDataSPM
             this.label5.ForeColor = System.Drawing.Color.Black;
             this.label5.Location = new System.Drawing.Point(9, 499);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(102, 18);
+            this.label5.Size = new System.Drawing.Size(94, 18);
             this.label5.TabIndex = 144;
-            this.label5.Text = "Last Saved By";
+            this.label5.Text = "Job Req\' For";
             // 
             // label4
             // 
@@ -662,9 +554,9 @@ namespace SearchDataSPM
             this.label4.ForeColor = System.Drawing.Color.Black;
             this.label4.Location = new System.Drawing.Point(9, 358);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(59, 18);
+            this.label4.Size = new System.Drawing.Size(96, 18);
             this.label4.TabIndex = 143;
-            this.label4.Text = "Ship To";
+            this.label4.Text = "WO Req\' For";
             // 
             // label3
             // 
@@ -678,7 +570,7 @@ namespace SearchDataSPM
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(60, 18);
             this.label3.TabIndex = 142;
-            this.label3.Text = "Sold To";
+            this.label3.Text = "Item No";
             // 
             // label2
             // 
@@ -690,9 +582,9 @@ namespace SearchDataSPM
             this.label2.ForeColor = System.Drawing.Color.Black;
             this.label2.Location = new System.Drawing.Point(9, 209);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(97, 18);
+            this.label2.Size = new System.Drawing.Size(100, 18);
             this.label2.TabIndex = 141;
-            this.label2.Text = "Sales Person";
+            this.label2.Text = "Requested By";
             // 
             // actcadblk
             // 
@@ -704,11 +596,11 @@ namespace SearchDataSPM
             this.actcadblk.ForeColor = System.Drawing.Color.Black;
             this.actcadblk.Location = new System.Drawing.Point(12, 573);
             this.actcadblk.Name = "actcadblk";
-            this.actcadblk.Size = new System.Drawing.Size(125, 18);
+            this.actcadblk.Size = new System.Drawing.Size(118, 18);
             this.actcadblk.TabIndex = 140;
-            this.actcadblk.Text = "Customer/Vendor";
+            this.actcadblk.Text = "Job Taken From";
             // 
-            // ShippingHome
+            // MatReAllocHome
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -718,9 +610,9 @@ namespace SearchDataSPM
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MinimumSize = new System.Drawing.Size(800, 650);
-            this.Name = "ShippingHome";
+            this.Name = "MatReAllocHome";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "SPM Connect - Shipping Manager";
+            this.Text = "SPM Connect - Material Re-Allocation Manager";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SPM_Connect_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SPM_Connect_FormClosed);
             this.Load += new System.EventHandler(this.SPM_Connect_Load);
@@ -730,8 +622,6 @@ namespace SearchDataSPM
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.InvoiceItemsgrp.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.invoiceitemsdataGridView2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.ContextMenuStripShipping.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -753,12 +643,12 @@ namespace SearchDataSPM
         private System.Windows.Forms.TextBox filteroemitem_txtbox;
         private System.Windows.Forms.TextBox filteroem_txtbox;
         private System.Windows.Forms.TextBox Descrip_txtbox;
-        private System.Windows.Forms.ComboBox Createdbycombobox;
-        private System.Windows.Forms.ComboBox Shiptocomboxbox;
-        private System.Windows.Forms.ComboBox Salespersoncomboxbox;
-        private System.Windows.Forms.ComboBox lastsavedbycombo;
-        private System.Windows.Forms.ComboBox Soldtocombobox;
-        private System.Windows.Forms.ComboBox custvendcombobox;
+        private System.Windows.Forms.ComboBox apprvdbycomboxbox;
+        private System.Windows.Forms.ComboBox woreqcombox;
+        private System.Windows.Forms.ComboBox reqstbycomboxbox;
+        private System.Windows.Forms.ComboBox Jobreqcombo;
+        private System.Windows.Forms.ComboBox itemcombobox;
+        private System.Windows.Forms.ComboBox jobtakencombobox;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
@@ -769,18 +659,10 @@ namespace SearchDataSPM
         public System.Windows.Forms.DataGridView dataGridView;
         public System.Windows.Forms.Label recordlabel;
         private System.Windows.Forms.Label matlbl;
-        private System.Windows.Forms.ComboBox CarrierscomboBox;
+        private System.Windows.Forms.ComboBox wotakenfromcomboBox;
         private System.Windows.Forms.Button addnewbttn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn InvoiceNo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn SoldTo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ShipTo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn JobNumber;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DateCreated;
-        private System.Windows.Forms.GroupBox InvoiceItemsgrp;
-        private System.Windows.Forms.DataGridView invoiceitemsdataGridView2;
         private System.Windows.Forms.ContextMenuStrip ContextMenuStripShipping;
         private System.Windows.Forms.ToolStripMenuItem invoiceinfostripmenu;
-        private System.Windows.Forms.ToolStripMenuItem copyinvoicestrip;
 
 
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member 'SPM_Connect.txtSearch'
