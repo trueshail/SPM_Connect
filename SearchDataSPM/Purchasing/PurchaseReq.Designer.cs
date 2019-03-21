@@ -476,7 +476,7 @@
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label13.Location = new System.Drawing.Point(8, 136);
+            this.label13.Location = new System.Drawing.Point(8, 118);
             this.label13.Name = "label13";
             this.label13.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label13.Size = new System.Drawing.Size(107, 15);
@@ -504,7 +504,7 @@
             // 
             this.dateTimePicker1.CustomFormat = "yyyy/MM/dd";
             this.dateTimePicker1.Enabled = false;
-            this.dateTimePicker1.Location = new System.Drawing.Point(120, 221);
+            this.dateTimePicker1.Location = new System.Drawing.Point(120, 193);
             this.dateTimePicker1.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(200, 22);
@@ -547,7 +547,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lastsavedtxt.BackColor = System.Drawing.Color.White;
             this.lastsavedtxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lastsavedtxt.Location = new System.Drawing.Point(121, 134);
+            this.lastsavedtxt.Location = new System.Drawing.Point(121, 116);
             this.lastsavedtxt.Name = "lastsavedtxt";
             this.lastsavedtxt.ReadOnly = true;
             this.lastsavedtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -564,7 +564,7 @@
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label9.Location = new System.Drawing.Point(9, 197);
+            this.label9.Location = new System.Drawing.Point(17, 171);
             this.label9.Name = "label9";
             this.label9.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label9.Size = new System.Drawing.Size(98, 15);
@@ -579,7 +579,7 @@
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label8.Location = new System.Drawing.Point(8, 167);
+            this.label8.Location = new System.Drawing.Point(22, 145);
             this.label8.Name = "label8";
             this.label8.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label8.Size = new System.Drawing.Size(93, 15);
@@ -594,7 +594,7 @@
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label14.Location = new System.Drawing.Point(32, 226);
+            this.label14.Location = new System.Drawing.Point(32, 198);
             this.label14.Name = "label14";
             this.label14.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label14.Size = new System.Drawing.Size(75, 15);
@@ -609,7 +609,7 @@
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label10.Location = new System.Drawing.Point(9, 108);
+            this.label10.Location = new System.Drawing.Point(9, 92);
             this.label10.Name = "label10";
             this.label10.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label10.Size = new System.Drawing.Size(104, 15);
@@ -624,7 +624,7 @@
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label7.Location = new System.Drawing.Point(7, 79);
+            this.label7.Location = new System.Drawing.Point(13, 68);
             this.label7.Name = "label7";
             this.label7.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label7.Size = new System.Drawing.Size(103, 15);
@@ -639,7 +639,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label6.Location = new System.Drawing.Point(7, 50);
+            this.label6.Location = new System.Drawing.Point(9, 44);
             this.label6.Name = "label6";
             this.label6.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label6.Size = new System.Drawing.Size(103, 15);
@@ -668,7 +668,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lastsavedby.BackColor = System.Drawing.Color.White;
             this.lastsavedby.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lastsavedby.Location = new System.Drawing.Point(121, 107);
+            this.lastsavedby.Location = new System.Drawing.Point(121, 91);
             this.lastsavedby.Name = "lastsavedby";
             this.lastsavedby.ReadOnly = true;
             this.lastsavedby.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -684,7 +684,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.datecreatedtxt.BackColor = System.Drawing.Color.White;
             this.datecreatedtxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.datecreatedtxt.Location = new System.Drawing.Point(121, 78);
+            this.datecreatedtxt.Location = new System.Drawing.Point(121, 67);
             this.datecreatedtxt.Name = "datecreatedtxt";
             this.datecreatedtxt.ReadOnly = true;
             this.datecreatedtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -700,7 +700,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.requestbytxt.BackColor = System.Drawing.Color.White;
             this.requestbytxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.requestbytxt.Location = new System.Drawing.Point(121, 49);
+            this.requestbytxt.Location = new System.Drawing.Point(121, 43);
             this.requestbytxt.Name = "requestbytxt";
             this.requestbytxt.ReadOnly = true;
             this.requestbytxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -717,7 +717,7 @@
             this.subassytxt.BackColor = System.Drawing.Color.White;
             this.subassytxt.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.subassytxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.subassytxt.Location = new System.Drawing.Point(121, 194);
+            this.subassytxt.Location = new System.Drawing.Point(121, 168);
             this.subassytxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.subassytxt.Name = "subassytxt";
             this.subassytxt.ReadOnly = true;
@@ -734,7 +734,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.jobnumbertxt.BackColor = System.Drawing.Color.White;
             this.jobnumbertxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.jobnumbertxt.Location = new System.Drawing.Point(121, 164);
+            this.jobnumbertxt.Location = new System.Drawing.Point(121, 142);
             this.jobnumbertxt.MaxLength = 5;
             this.jobnumbertxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.jobnumbertxt.Name = "jobnumbertxt";
@@ -769,7 +769,7 @@
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label12.Location = new System.Drawing.Point(9, 256);
+            this.label12.Location = new System.Drawing.Point(9, 222);
             this.label12.Name = "label12";
             this.label12.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label12.Size = new System.Drawing.Size(52, 15);
@@ -785,12 +785,12 @@
             this.notestxt.BackColor = System.Drawing.Color.White;
             this.notestxt.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.notestxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.notestxt.Location = new System.Drawing.Point(66, 253);
+            this.notestxt.Location = new System.Drawing.Point(66, 219);
             this.notestxt.MinimumSize = new System.Drawing.Size(200, 40);
             this.notestxt.Multiline = true;
             this.notestxt.Name = "notestxt";
             this.notestxt.ReadOnly = true;
-            this.notestxt.Size = new System.Drawing.Size(285, 43);
+            this.notestxt.Size = new System.Drawing.Size(285, 76);
             this.notestxt.TabIndex = 9;
             this.TreeViewToolTip.SetToolTip(this.notestxt, "Notes - Additonal notes to purchase req");
             // 
@@ -820,7 +820,7 @@
             this.itemspanel.Controls.Add(this.groupBox3);
             this.itemspanel.Location = new System.Drawing.Point(0, 0);
             this.itemspanel.Name = "itemspanel";
-            this.itemspanel.Size = new System.Drawing.Size(361, 296);
+            this.itemspanel.Size = new System.Drawing.Size(372, 298);
             this.itemspanel.TabIndex = 0;
             // 
             // groupBox3
@@ -849,7 +849,7 @@
             this.groupBox3.Location = new System.Drawing.Point(0, 0);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(1);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(361, 296);
+            this.groupBox3.Size = new System.Drawing.Size(372, 298);
             this.groupBox3.TabIndex = 9;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Add Item to order";
@@ -950,7 +950,7 @@
             this.oemitemnotxt.Name = "oemitemnotxt";
             this.oemitemnotxt.ReadOnly = true;
             this.oemitemnotxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.oemitemnotxt.Size = new System.Drawing.Size(238, 20);
+            this.oemitemnotxt.Size = new System.Drawing.Size(249, 20);
             this.oemitemnotxt.TabIndex = 64;
             this.oemitemnotxt.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.oemitemnotxt, "Manufacturer Item No");
@@ -981,7 +981,7 @@
             this.qtytxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.qtytxt.Name = "qtytxt";
             this.qtytxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.qtytxt.Size = new System.Drawing.Size(238, 22);
+            this.qtytxt.Size = new System.Drawing.Size(249, 22);
             this.qtytxt.TabIndex = 3;
             this.TreeViewToolTip.SetToolTip(this.qtytxt, "Quantity required");
             this.qtytxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.qtytxt_KeyPress);
@@ -1012,7 +1012,7 @@
             this.pricetxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.pricetxt.Name = "pricetxt";
             this.pricetxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.pricetxt.Size = new System.Drawing.Size(238, 22);
+            this.pricetxt.Size = new System.Drawing.Size(249, 22);
             this.pricetxt.TabIndex = 4;
             this.pricetxt.Text = "$0.00";
             this.TreeViewToolTip.SetToolTip(this.pricetxt, "Unit price for the item");
@@ -1047,7 +1047,7 @@
             this.oemtxt.Name = "oemtxt";
             this.oemtxt.ReadOnly = true;
             this.oemtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.oemtxt.Size = new System.Drawing.Size(238, 20);
+            this.oemtxt.Size = new System.Drawing.Size(249, 20);
             this.oemtxt.TabIndex = 58;
             this.oemtxt.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.oemtxt, "Item Manufacturer");
@@ -1082,7 +1082,7 @@
             this.Descriptiontxtbox.Name = "Descriptiontxtbox";
             this.Descriptiontxtbox.ReadOnly = true;
             this.Descriptiontxtbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.Descriptiontxtbox.Size = new System.Drawing.Size(238, 44);
+            this.Descriptiontxtbox.Size = new System.Drawing.Size(249, 46);
             this.Descriptiontxtbox.TabIndex = 55;
             this.Descriptiontxtbox.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.Descriptiontxtbox, "Item Description");
@@ -1114,7 +1114,7 @@
             this.ItemTxtBox.Name = "ItemTxtBox";
             this.ItemTxtBox.ReadOnly = true;
             this.ItemTxtBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.ItemTxtBox.Size = new System.Drawing.Size(238, 20);
+            this.ItemTxtBox.Size = new System.Drawing.Size(249, 20);
             this.ItemTxtBox.TabIndex = 54;
             this.ItemTxtBox.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.ItemTxtBox, "Item Number");
@@ -1132,7 +1132,7 @@
             this.itemsearchtxtbox.MinimumSize = new System.Drawing.Size(200, 20);
             this.itemsearchtxtbox.Name = "itemsearchtxtbox";
             this.itemsearchtxtbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.itemsearchtxtbox.Size = new System.Drawing.Size(293, 22);
+            this.itemsearchtxtbox.Size = new System.Drawing.Size(304, 22);
             this.itemsearchtxtbox.TabIndex = 2;
             this.TreeViewToolTip.SetToolTip(this.itemsearchtxtbox, "Search for item to order \r\nStarting with Letter \'A\' or \'B\' or \'C\'");
             this.itemsearchtxtbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.itemsearchtxtbox_KeyDown);
