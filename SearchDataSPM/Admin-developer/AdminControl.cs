@@ -3,7 +3,6 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
-using System.Windows.Controls.Primitives;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
@@ -140,7 +139,7 @@ namespace SearchDataSPM
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] where Name ='" + Userlistbox.SelectedItem.ToString() + "'";
-                cmd.ExecuteNonQuery();
+                //cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter sda = new SqlDataAdapter(cmd);
                 sda.Fill(dt);

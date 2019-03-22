@@ -252,9 +252,7 @@ namespace SearchDataSPM
                 {
                     showshippinginvoice(status);
                 }
-
             }
-
         }
 
         private void showshippinginvoice(string invoice)
@@ -313,6 +311,12 @@ namespace SearchDataSPM
                 }
                 this.Enabled = true;
             }
+        }
+
+        private void inventoryBinStatusToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            BinLog binLog = new BinLog();
+            binLog.Show();
         }
     }
 }

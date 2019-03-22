@@ -283,6 +283,7 @@
             this.inventoryBinStatusToolStripMenuItem.Name = "inventoryBinStatusToolStripMenuItem";
             this.inventoryBinStatusToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
             this.inventoryBinStatusToolStripMenuItem.Text = "Inventory Bin Status";
+            this.inventoryBinStatusToolStripMenuItem.Click += new System.EventHandler(this.inventoryBinStatusToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 

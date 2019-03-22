@@ -1235,7 +1235,6 @@ namespace SPMConnectAPI
             return dt;
         }
 
-
         #region Fill Comboboxes
 
         public AutoCompleteStringCollection FillItems()
@@ -1449,6 +1448,93 @@ namespace SPMConnectAPI
 
 
         #endregion
+
+        #endregion
+
+        #region BinStatusLog
+
+        public DataTable ShowWoOnInOut()
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT DISTINCT WO FROM [SPM_Database].[dbo].[WOInOut] ORDER BY WO DESC", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    dt.Clear();
+                    sda.Fill(dt);
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Show All Work Orders On InvInOut", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+            return dt;
+        }
+
+        public DataTable ShowWOStatusBinWithEMPName()
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlDataAdapter sda = new SqlDataAdapter(" SELECT * FROM [SPM_Database].[dbo].[WO_BinStatus] ORDER BY WO DESC, Id DESC", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Show All Work Order Status With Emp Names", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+            return dt;
+        }
+
+        public DataTable ShowWODetails(string wo)
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[WorkOrderManagement] WHERE WorkOrder = '"+wo+"'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Show Work Order Details", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+            return dt;
+        }
 
         #endregion
 

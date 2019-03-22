@@ -7,20 +7,35 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchDataSPM", "SearchData
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SPMConnectAPI", "SPMConnectAPI\SPMConnectAPI.csproj", "{FD0F6E6E-B1CD-498B-B634-19B23053C5D1}"
 EndProject
+Project("{F14B399A-7131-4C87-9E4B-1186C45EF12D}") = "SPM_ConnectReport Project", "SPM_ConnectReport Project\SPM_ConnectReport Project.rptproj", "{537030B4-C31A-4182-ABA5-8D8179A3C68F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		DebugLocal|Any CPU = DebugLocal|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{6806070E-7EE9-4088-BABF-90817B32738F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6806070E-7EE9-4088-BABF-90817B32738F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6806070E-7EE9-4088-BABF-90817B32738F}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
+		{6806070E-7EE9-4088-BABF-90817B32738F}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
 		{6806070E-7EE9-4088-BABF-90817B32738F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6806070E-7EE9-4088-BABF-90817B32738F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FD0F6E6E-B1CD-498B-B634-19B23053C5D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FD0F6E6E-B1CD-498B-B634-19B23053C5D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD0F6E6E-B1CD-498B-B634-19B23053C5D1}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD0F6E6E-B1CD-498B-B634-19B23053C5D1}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
 		{FD0F6E6E-B1CD-498B-B634-19B23053C5D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD0F6E6E-B1CD-498B-B634-19B23053C5D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{537030B4-C31A-4182-ABA5-8D8179A3C68F}.Debug|Any CPU.ActiveCfg = Debug
+		{537030B4-C31A-4182-ABA5-8D8179A3C68F}.Debug|Any CPU.Build.0 = Debug
+		{537030B4-C31A-4182-ABA5-8D8179A3C68F}.Debug|Any CPU.Deploy.0 = Debug
+		{537030B4-C31A-4182-ABA5-8D8179A3C68F}.DebugLocal|Any CPU.ActiveCfg = DebugLocal
+		{537030B4-C31A-4182-ABA5-8D8179A3C68F}.DebugLocal|Any CPU.Build.0 = DebugLocal
+		{537030B4-C31A-4182-ABA5-8D8179A3C68F}.Release|Any CPU.ActiveCfg = Release
+		{537030B4-C31A-4182-ABA5-8D8179A3C68F}.Release|Any CPU.Build.0 = Release
+		{537030B4-C31A-4182-ABA5-8D8179A3C68F}.Release|Any CPU.Deploy.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
