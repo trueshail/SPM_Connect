@@ -82,7 +82,6 @@
             this.empid_txtbox.WaterMark = "Scan Emp Id";
             this.empid_txtbox.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.empid_txtbox.WaterMarkFont = new System.Drawing.Font("Segoe UI Semibold", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.empid_txtbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.empid_txtbox_KeyDown);
             this.empid_txtbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.empid_txtbox_KeyPress);
             // 
             // ScanEmpId

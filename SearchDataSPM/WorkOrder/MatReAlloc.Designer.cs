@@ -223,6 +223,8 @@
             this.qtytxt.Size = new System.Drawing.Size(285, 22);
             this.qtytxt.TabIndex = 9;
             this.TreeViewToolTip.SetToolTip(this.qtytxt, "Quantity required");
+            this.qtytxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.qtytxt_KeyPress);
+            this.qtytxt.Leave += new System.EventHandler(this.qtytxt_Leave);
             // 
             // jobtakenfrom
             // 
@@ -239,6 +241,7 @@
             this.jobtakenfrom.Size = new System.Drawing.Size(285, 22);
             this.jobtakenfrom.TabIndex = 7;
             this.TreeViewToolTip.SetToolTip(this.jobtakenfrom, "Item Manufacturer");
+            this.jobtakenfrom.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.empidtxt_KeyPress);
             // 
             // jobreqtxt
             // 
@@ -254,6 +257,7 @@
             this.jobreqtxt.Size = new System.Drawing.Size(285, 22);
             this.jobreqtxt.TabIndex = 5;
             this.TreeViewToolTip.SetToolTip(this.jobreqtxt, "Item Number");
+            this.jobreqtxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.jobreqtxt_KeyPress);
             // 
             // appnametxt
             // 
@@ -271,6 +275,7 @@
             this.appnametxt.TabIndex = 3;
             this.appnametxt.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.appnametxt, "Manufacturer Item No");
+            this.appnametxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.empidtxt_KeyPress);
             // 
             // statusStrip1
             // 
@@ -507,6 +512,7 @@
             this.wotakentxt.WaterMark = "Scan Work Order";
             this.wotakentxt.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.wotakentxt.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.wotakentxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.wotakentxt_KeyPress);
             // 
             // woreqtxt
             // 
@@ -542,6 +548,7 @@
             this.woreqtxt.WaterMark = "Scan Work Order";
             this.woreqtxt.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.woreqtxt.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.woreqtxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.woreqtxt_KeyPress);
             // 
             // label1
             // 
@@ -692,7 +699,7 @@
             this.appidtxt.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.appidtxt.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.appidtxt.TextChanged += new System.EventHandler(this.appidtxt_TextChanged);
-            this.appidtxt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.appidtxt_KeyDown);
+            this.appidtxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.appidtxt_KeyPress);
             // 
             // empidtxt
             // 
@@ -729,7 +736,7 @@
             this.empidtxt.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.empidtxt.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.empidtxt.TextChanged += new System.EventHandler(this.empidtxt_TextChanged);
-            this.empidtxt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.empidtxt_KeyDown);
+            this.empidtxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.empidtxt_KeyPress);
             // 
             // label2
             // 
@@ -776,6 +783,7 @@
             this.empname.Size = new System.Drawing.Size(285, 22);
             this.empname.TabIndex = 1;
             this.empname.TabStop = false;
+            this.empname.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.empname_KeyPress);
             // 
             // label9
             // 

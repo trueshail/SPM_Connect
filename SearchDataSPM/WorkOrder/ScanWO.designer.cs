@@ -154,7 +154,6 @@
             this.woid_txtbox.WaterMark = "Scan Work Order";
             this.woid_txtbox.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.woid_txtbox.WaterMarkFont = new System.Drawing.Font("Segoe UI Semibold", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.woid_txtbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.woid_txtbox_KeyDown);
             this.woid_txtbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.woid_txtbox_KeyPress);
             // 
             // ScanWO

@@ -16,6 +16,10 @@ namespace SearchDataSPM
         DataTable dt = new DataTable();
         string Invoice_Number = "";
         WorkOrder connectapi = new WorkOrder();
+        DateTime _lastKeystroke = new DateTime(0);
+        List<char> _barcode = new List<char>(10);
+        int userinputtime = 100;
+        bool developer = false;
 
         public MatReAlloc()
         {
@@ -38,6 +42,12 @@ namespace SearchDataSPM
             {
                 FillInfo();
                 processeditbutton();
+                developer = connectapi.Checkdeveloper();
+                userinputtime = connectapi.getuserinputtime();
+            }
+            else
+            {
+                this.Close();
             }
 
         }
@@ -356,53 +366,6 @@ namespace SearchDataSPM
 
         #endregion
 
-        private void empidtxt_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Return)
-            {
-                if (connectapi.EmployeeExits(empidtxt.Text.Trim()))
-                {
-                    empname.Text = connectapi.getuserfullname(empidtxt.Text.Trim());
-                    empname.Text = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(empname.Text.ToLower());
-                    appidtxt.Focus();                    
-                }
-                else
-                {
-                    empidtxt.Clear();
-                    empname.Clear();
-                    empidtxt.Focus();
-                    MessageBox.Show("Employee not found. Please contact the admin", "SPM Connect - Employee Not Found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                }
-                e.Handled = true;
-                e.SuppressKeyPress = true;
-            }
-          
-        }
-
-        private void appidtxt_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Return)
-            {
-                if (connectapi.EmployeeExitsWithCribRights(appidtxt.Text.Trim()))
-                {
-                    appnametxt.Text = connectapi.getuserfullname(appidtxt.Text.Trim());
-                    appnametxt.Text = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(appnametxt.Text.ToLower());
-                    jobreqtxt.Focus();
-                }
-                else
-                {
-                    appidtxt.Clear();
-                    appnametxt.Clear();
-                    appidtxt.Focus();
-                    MessageBox.Show("Your request for approving material reallocation can't be completed based on your security settings."+ Environment.NewLine+ "Please scan in ID with correct privileges.", "SPM Connect - Warning", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-
-                }
-                e.Handled = true;
-                e.SuppressKeyPress = true;
-            }
-
-        }
-
         private void ItemTxtBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
@@ -411,6 +374,7 @@ namespace SearchDataSPM
                 {                   
                     string item = ItemTxtBox.Text.Trim().Substring(0, 6);
                     fillselectediteminfo(item);
+                    notestxt.Focus();
                 }
                 e.Handled = true;
                 e.SuppressKeyPress = true;
@@ -436,6 +400,166 @@ namespace SearchDataSPM
         private void appidtxt_TextChanged(object sender, EventArgs e)
         {
             if (appidtxt.Text.Length == 0) appnametxt.Text = "";
+        }
+
+        private void empidtxt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // check timing (keystrokes within 100 ms)
+            TimeSpan elapsed = (DateTime.Now - _lastKeystroke);
+            if (elapsed.TotalMilliseconds > userinputtime)
+                _barcode.Clear();
+
+            // record keystroke & timestamp
+            _barcode.Add(e.KeyChar);
+            _lastKeystroke = DateTime.Now;
+
+            // process barcode
+            if (e.KeyChar == 13 && _barcode.Count > 0)
+            {
+                string msg = new string(_barcode.ToArray());
+
+                _barcode.Clear();
+                if (msg != "\r" || developer)
+                {
+
+                    if (e.KeyChar == 13)
+                    {
+                        if (connectapi.EmployeeExits(empidtxt.Text.Trim()))
+                        {
+                            empname.Text = connectapi.getuserfullname(empidtxt.Text.Trim());
+                            empname.Text = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(empname.Text.ToLower());
+                            appidtxt.Focus();
+                        }
+                        else
+                        {
+                            empidtxt.Clear();
+                            empname.Clear();
+                            empidtxt.Focus();
+                            MessageBox.Show("Employee not found. Please contact the admin", "SPM Connect - Employee Not Found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        }
+                        e.Handled = true;
+                    }
+                }
+                else
+                {
+
+                    MessageBox.Show("System cannot accept keyboard inputs. Scan with barcode reader", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    empidtxt.Clear();
+                    empidtxt.Focus();
+                }
+            }
+        }
+
+        private void empname_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 13)
+            {
+                appidtxt.Focus();
+                e.Handled = true;
+            }
+        }
+
+        private void appidtxt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // check timing (keystrokes within 100 ms)
+            TimeSpan elapsed = (DateTime.Now - _lastKeystroke);
+            if (elapsed.TotalMilliseconds > userinputtime)
+                _barcode.Clear();
+
+            // record keystroke & timestamp
+            _barcode.Add(e.KeyChar);
+            _lastKeystroke = DateTime.Now;
+
+            // process barcode
+            if (e.KeyChar == 13 && _barcode.Count > 0)
+            {
+                string msg = new string(_barcode.ToArray());
+
+                _barcode.Clear();
+                if (msg != "\r" || developer)
+                {
+
+                    if (e.KeyChar == 13)
+                    {
+                        if (connectapi.EmployeeExitsWithCribRights(appidtxt.Text.Trim()))
+                        {
+                            appnametxt.Text = connectapi.getuserfullname(appidtxt.Text.Trim());
+                            appnametxt.Text = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(appnametxt.Text.ToLower());
+                            jobreqtxt.Focus();
+                        }
+                        else
+                        {
+                            appidtxt.Clear();
+                            appnametxt.Clear();
+                            appidtxt.Focus();
+                            MessageBox.Show("Your request for approving material reallocation can't be completed based on your security settings." + Environment.NewLine + "Please scan in ID with correct privileges.", "SPM Connect - Warning", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+
+                        }
+                        e.Handled = true;
+                    }
+                }
+                else
+                {
+
+                    MessageBox.Show("System cannot accept keyboard inputs. Scan with barcode reader", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    appidtxt.Clear();
+                    appidtxt.Focus();
+                }
+            }
+        }
+
+        private void jobreqtxt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 13)
+            {
+                woreqtxt.Focus();
+                e.Handled = true;
+            }
+        }
+
+        private void woreqtxt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 13)
+            {
+                jobtakenfrom.Focus();
+                e.Handled = true;
+            }
+        }
+
+        private void wotakentxt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 13)
+            {
+                qtytxt.Focus();
+                e.Handled = true;
+            }
+        }
+
+        private void qtytxt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 13)
+            {
+                if(qtytxt.Text == "" || qtytxt.Text == "0")
+                {
+                    qtytxt.Clear();
+                    qtytxt.Focus();
+                }
+                else
+                {
+                    ItemTxtBox.Focus();
+                }
+                
+                e.Handled = true;
+            }
+        }
+
+        private void qtytxt_Leave(object sender, EventArgs e)
+        {
+            if (qtytxt.Text == "" || qtytxt.Text == "0")
+            {
+                qtytxt.Clear();
+                qtytxt.Focus();
+            }
         }
     }
 }

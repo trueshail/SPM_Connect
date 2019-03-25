@@ -126,13 +126,15 @@ namespace SearchDataSPM
             itemlabel.Text = "SPM Item No : " + r["Item"].ToString();
             descriptionlabel.Text = "Description : " + r["Description"].ToString();
             qtylabel.Text = "Qty :" + r["Qty"].ToString();
+
             DataRow[] dr = workorderstatus.Select("WO = '" + wo + "'");
 
             inbuiltlabel.Text ="In-Built : " + dr[0]["Inbuilt"].ToString();
-            if (dr[0]["Inbuilt"].ToString() == "Yes")
+
+            if (dr[0]["Inbuilt"].ToString().Trim() == "Yes")
             {
                 inbuiltlabel.BackColor = Color.Yellow;
-                inbuiltlabel.ForeColor = Color.White;
+                inbuiltlabel.ForeColor = Color.Black;
             }
             else
             {
@@ -141,7 +143,7 @@ namespace SearchDataSPM
             }
 
             completelabel.Text ="Completed : " + dr[0]["Completed"].ToString();
-            if (dr[0]["Completed"].ToString() == "Yes")
+            if (dr[0]["Completed"].ToString().Trim() == "Yes")
             {
                 completelabel.BackColor = Color.Green;
                 completelabel.ForeColor = Color.White;
@@ -149,7 +151,7 @@ namespace SearchDataSPM
             else
             {
                 completelabel.BackColor = Color.Yellow;
-                completelabel.ForeColor = Color.White;
+                completelabel.ForeColor = Color.Black;
             }
         }
 

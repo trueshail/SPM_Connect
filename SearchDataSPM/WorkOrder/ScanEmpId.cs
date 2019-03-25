@@ -11,6 +11,7 @@ namespace SearchDataSPM
         List<char> _barcode = new List<char>(10);
         WorkOrder connectapi = new WorkOrder();
         int userinputtime = 100;
+        bool developer = false;
 
         public ScanEmpId()
         {
@@ -24,16 +25,9 @@ namespace SearchDataSPM
         {
             empid_txtbox.Focus();
             userinputtime = connectapi.getuserinputtime();
+            developer = connectapi.Checkdeveloper();
         }
 
-        private void empid_txtbox_KeyDown(object sender, KeyEventArgs e)
-        {
-          if(e.KeyCode == Keys.Enter)
-            {
-                e.Handled = true;
-                e.SuppressKeyPress = true;
-            }
-        }
 
         private void empid_txtbox_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -52,12 +46,11 @@ namespace SearchDataSPM
                 string msg = new string(_barcode.ToArray());
 
                 _barcode.Clear();
-                if (msg != "\r")
+                if (msg != "\r" || developer)
                 {
 
                     if (e.KeyChar == 13)
                     {
-
                         ValueIWant = empid_txtbox.Text.Trim();
                         this.DialogResult = System.Windows.Forms.DialogResult.OK;
                         Close();

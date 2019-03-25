@@ -13,6 +13,7 @@ namespace SearchDataSPM
         DateTime _lastKeystroke = new DateTime(0);
         List<char> _barcode = new List<char>(10);
         int userinputtime = 100;
+        bool developer = false;
 
         public InvInOut()
         {
@@ -26,6 +27,7 @@ namespace SearchDataSPM
         {
             empid_txtbox.Focus();
             versionlabel.Text = connectapi.getassyversionnumber();
+            developer = connectapi.Checkdeveloper();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -210,7 +212,7 @@ namespace SearchDataSPM
                 string msg = new string(_barcode.ToArray());
 
                 _barcode.Clear();
-                if (msg != "\r")
+                if (msg != "\r" || developer)
                 {
 
                     if (e.KeyChar == 13)
@@ -261,7 +263,7 @@ namespace SearchDataSPM
                 string msg = new string(_barcode.ToArray());
 
                 _barcode.Clear();
-                if (msg != "\r")
+                if (msg != "\r" || developer)
                 {
 
                     if (e.KeyChar == 13)
@@ -311,7 +313,7 @@ namespace SearchDataSPM
                 string msg = new string(_barcode.ToArray());
 
                 _barcode.Clear();
-                if (msg != "\r")
+                if (msg != "\r" || developer)
                 {
 
                     if (e.KeyChar == 13)
@@ -414,33 +416,6 @@ namespace SearchDataSPM
             }
         }
 
-        private void empid_txtbox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Return)
-            {
-                e.Handled = true;
-                e.SuppressKeyPress = true;
-            }
-        }
-
-        private void woid_txtbox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Return)
-            {
-                e.Handled = true;
-                e.SuppressKeyPress = true;
-            }
-        }
-
-        private void apprvlidtxt_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Return)
-            {
-
-                e.Handled = true;
-                e.SuppressKeyPress = true;
-            }
-        }
     }
 }
 

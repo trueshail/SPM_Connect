@@ -143,7 +143,7 @@
             this.woid_txtbox.MaxLength = 32767;
             this.woid_txtbox.Name = "woid_txtbox";
             this.woid_txtbox.PasswordChar = '*';
-            this.woid_txtbox.PromptText = "Scan Work Order";
+            this.woid_txtbox.WaterMark = "Scan Work Order";
             this.woid_txtbox.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.woid_txtbox.SelectedText = "";
             this.woid_txtbox.SelectionLength = 0;
@@ -159,7 +159,6 @@
             this.woid_txtbox.WaterMarkFont = new System.Drawing.Font("Segoe UI Semibold", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.woid_txtbox.TextChanged += new System.EventHandler(this.woid_txtbox_TextChanged);
             this.woid_txtbox.Click += new System.EventHandler(this.woid_txtbox_Click);
-            this.woid_txtbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.woid_txtbox_KeyDown);
             this.woid_txtbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.woid_txtbox_KeyPress);
             // 
             // empid_txtbox
@@ -184,7 +183,7 @@
             this.empid_txtbox.MaxLength = 32767;
             this.empid_txtbox.Name = "empid_txtbox";
             this.empid_txtbox.PasswordChar = '*';
-            this.empid_txtbox.PromptText = "Scan Emp Id";
+            this.empid_txtbox.WaterMark = "Scan Emp Id";
             this.empid_txtbox.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.empid_txtbox.SelectedText = "";
             this.empid_txtbox.SelectionLength = 0;
@@ -200,7 +199,6 @@
             this.empid_txtbox.WaterMarkFont = new System.Drawing.Font("Segoe UI Semibold", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.empid_txtbox.TextChanged += new System.EventHandler(this.empid_txtbox_TextChanged);
             this.empid_txtbox.Click += new System.EventHandler(this.empid_txtbox_Click);
-            this.empid_txtbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.empid_txtbox_KeyDown);
             this.empid_txtbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.empid_txtbox_KeyPress);
             // 
             // toolStrip1
@@ -344,7 +342,7 @@
             this.apprvlidtxt.MaxLength = 32767;
             this.apprvlidtxt.Name = "apprvlidtxt";
             this.apprvlidtxt.PasswordChar = '*';
-            this.apprvlidtxt.PromptText = "Scan Emp Id";
+            this.apprvlidtxt.WaterMark = "Scan Emp Id";
             this.apprvlidtxt.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.apprvlidtxt.SelectedText = "";
             this.apprvlidtxt.SelectionLength = 0;
@@ -359,7 +357,6 @@
             this.apprvlidtxt.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.apprvlidtxt.WaterMarkFont = new System.Drawing.Font("Segoe UI Semibold", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.apprvlidtxt.Click += new System.EventHandler(this.apprvlidtxt_Click);
-            this.apprvlidtxt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.apprvlidtxt_KeyDown);
             this.apprvlidtxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.apprvlidtxt_KeyPress);
             // 
             // TreeViewToolTip
