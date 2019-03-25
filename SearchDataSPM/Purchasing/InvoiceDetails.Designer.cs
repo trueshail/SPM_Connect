@@ -758,14 +758,14 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.jobtxt.BackColor = System.Drawing.Color.White;
             this.jobtxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.jobtxt.Location = new System.Drawing.Point(9, 158);
-            this.jobtxt.MaximumSize = new System.Drawing.Size(200, 4);
-            this.jobtxt.MinimumSize = new System.Drawing.Size(200, 30);
+            this.jobtxt.Location = new System.Drawing.Point(9, 154);
+            this.jobtxt.MaximumSize = new System.Drawing.Size(200, 55);
+            this.jobtxt.MinimumSize = new System.Drawing.Size(200, 55);
             this.jobtxt.Multiline = true;
             this.jobtxt.Name = "jobtxt";
             this.jobtxt.ReadOnly = true;
             this.jobtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.jobtxt.Size = new System.Drawing.Size(200, 30);
+            this.jobtxt.Size = new System.Drawing.Size(200, 55);
             this.jobtxt.TabIndex = 1;
             this.TreeViewToolTip.SetToolTip(this.jobtxt, "Job Number");
             // 
@@ -817,7 +817,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.carrriercodetxt.BackColor = System.Drawing.Color.White;
             this.carrriercodetxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.carrriercodetxt.Location = new System.Drawing.Point(9, 218);
+            this.carrriercodetxt.Location = new System.Drawing.Point(9, 228);
             this.carrriercodetxt.MaximumSize = new System.Drawing.Size(200, 30);
             this.carrriercodetxt.Name = "carrriercodetxt";
             this.carrriercodetxt.ReadOnly = true;
@@ -1126,7 +1126,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label2.Location = new System.Drawing.Point(11, 142);
+            this.label2.Location = new System.Drawing.Point(11, 140);
             this.label2.Name = "label2";
             this.label2.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label2.Size = new System.Drawing.Size(55, 13);
@@ -1314,7 +1314,7 @@
             this.carriercodelbl.AutoSize = true;
             this.carriercodelbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.carriercodelbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.carriercodelbl.Location = new System.Drawing.Point(6, 202);
+            this.carriercodelbl.Location = new System.Drawing.Point(6, 212);
             this.carriercodelbl.Name = "carriercodelbl";
             this.carriercodelbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.carriercodelbl.Size = new System.Drawing.Size(85, 13);

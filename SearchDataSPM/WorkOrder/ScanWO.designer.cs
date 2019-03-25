@@ -139,13 +139,13 @@
             this.woid_txtbox.Location = new System.Drawing.Point(183, 128);
             this.woid_txtbox.MaxLength = 32767;
             this.woid_txtbox.Name = "woid_txtbox";
-            this.woid_txtbox.PasswordChar = '\0';
+            this.woid_txtbox.PasswordChar = '*';
             this.woid_txtbox.PromptText = "Scan Work Order";
             this.woid_txtbox.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.woid_txtbox.SelectedText = "";
             this.woid_txtbox.SelectionLength = 0;
             this.woid_txtbox.SelectionStart = 0;
-            this.woid_txtbox.ShortcutsEnabled = true;
+            this.woid_txtbox.ShortcutsEnabled = false;
             this.woid_txtbox.ShowClearButton = true;
             this.woid_txtbox.Size = new System.Drawing.Size(204, 35);
             this.woid_txtbox.TabIndex = 0;
@@ -155,6 +155,7 @@
             this.woid_txtbox.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.woid_txtbox.WaterMarkFont = new System.Drawing.Font("Segoe UI Semibold", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.woid_txtbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.woid_txtbox_KeyDown);
+            this.woid_txtbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.woid_txtbox_KeyPress);
             // 
             // ScanWO
             // 

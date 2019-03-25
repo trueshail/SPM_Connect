@@ -1,5 +1,6 @@
 ﻿using SPMConnectAPI;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
@@ -9,6 +10,9 @@ namespace SearchDataSPM
     public partial class ScanWO : Form
     {
         WorkOrder connectapi = new WorkOrder();
+        DateTime _lastKeystroke = new DateTime(0);
+        List<char> _barcode = new List<char>(10);
+        int userinputtime = 100;
 
         public ScanWO()
         {
@@ -20,6 +24,7 @@ namespace SearchDataSPM
         {
             timer1.Start();
             woid_txtbox.Focus();
+            userinputtime = connectapi.getuserinputtime();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -32,19 +37,7 @@ namespace SearchDataSPM
         {
             if (e.KeyCode == Keys.Return)
             {
-                if (connectapi.WOReleased(woid_txtbox.Text.Trim()))
-                {
-                    connectapi.scanworkorder(woid_txtbox.Text.Trim());
-                    showaddedtodg();
-                    woid_txtbox.Clear();
-                    ScanWO.ActiveForm.Refresh();
-                }
-                else
-                {
-                    MessageBox.Show("Please check the work order number.", "SPM Connet - Work Order Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    woid_txtbox.Clear();
-                    woid_txtbox.Focus();
-                }
+                
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
@@ -86,6 +79,55 @@ namespace SearchDataSPM
             {
                 myOriginalLocation = this.Location;
                 positionLocked = true;
+            }
+        }
+
+        private void woid_txtbox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // check timing (keystrokes within 100 ms)
+            TimeSpan elapsed = (DateTime.Now - _lastKeystroke);
+            if (elapsed.TotalMilliseconds > userinputtime)
+                _barcode.Clear();
+
+            // record keystroke & timestamp
+            _barcode.Add(e.KeyChar);
+            _lastKeystroke = DateTime.Now;
+
+            // process barcode
+            if (e.KeyChar == 13 && _barcode.Count > 0)
+            {
+                string msg = new string(_barcode.ToArray());
+
+                _barcode.Clear();
+                if (msg != "\r")
+                {
+
+                    if (e.KeyChar == 13)
+                    {
+                        if (connectapi.WOReleased(woid_txtbox.Text.Trim()))
+                        {
+                            connectapi.scanworkorder(woid_txtbox.Text.Trim());
+                            showaddedtodg();
+                            woid_txtbox.Clear();
+                            ScanWO.ActiveForm.Refresh();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Please check the work order number.", "SPM Connet - Work Order Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            woid_txtbox.Clear();
+                            woid_txtbox.Focus();
+                        }
+
+                        e.Handled = true;
+                    }
+                }
+                else
+                {
+
+                    MessageBox.Show("System cannot accept keyboard inputs. Scan with barcode reader", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    woid_txtbox.Clear();
+                    woid_txtbox.Focus();
+                }
             }
         }
     }

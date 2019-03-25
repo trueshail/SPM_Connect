@@ -101,7 +101,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="eDrawingHostControl">
-      <HintPath>C:\Users\spatel.SPM\Desktop\New folder\HostControl\bin\Debug\eDrawingHostControl.dll</HintPath>
+      <HintPath>Resources\eDrawingHostControl.dll</HintPath>
     </Reference>
     <Reference Include="EModelView">
       <HintPath>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\x64\EModelView.dll</HintPath>
@@ -223,6 +223,7 @@
     <Reference Include="ToggleSlider">
       <HintPath>Resources\ToggleSlider.dll</HintPath>
     </Reference>
+    <Reference Include="WindowsBase" />
     <Reference Include="wpfPreviewFlowControl, Version=26.5.0.66, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\SOLIDWORKS Corp\SOLIDWORKS Explorer\SOLIDWORKS Explorer 2018\wpfPreviewFlowControl.dll</HintPath>

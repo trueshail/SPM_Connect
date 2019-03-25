@@ -1,5 +1,6 @@
 ﻿using SPMConnectAPI;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Windows.Forms;
 
@@ -9,12 +10,16 @@ namespace SearchDataSPM
     {
         WorkOrder connectapi = new WorkOrder();
         bool credentialsverified = false;
+        DateTime _lastKeystroke = new DateTime(0);
+        List<char> _barcode = new List<char>(10);
+        int userinputtime = 100;
 
         public InvInOut()
         {
             InitializeComponent();
             timer1.Start();
             connectapi.SPM_Connect();
+            userinputtime = connectapi.getuserinputtime();
         }
 
         private void Home_Load(object sender, EventArgs e)
@@ -28,51 +33,7 @@ namespace SearchDataSPM
             DateTime datetime = DateTime.Now;
             DateTimeLbl.Text = datetime.ToString();
         }
-
-        private void woid_txtbox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Return)
-            {
-                if (connectapi.WOReleased(woid_txtbox.Text.Trim()))
-                {
-                    apprvlidtxt.Enabled = true;
-                    apprvlidtxt.Focus();
-                    woid_txtbox.Enabled = false;
-                }
-                else
-                {
-                    MessageBox.Show("Please check the work order number.", "SPM Connect - Work Order Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    woid_txtbox.Clear();
-                    woid_txtbox.Focus();
-                    apprvlidtxt.Enabled = false;
-                }
-                e.Handled = true;
-                e.SuppressKeyPress = true;
-            }
-        }
-
-        private void empid_txtbox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Return)
-            {
-                if (connectapi.EmployeeExits(empid_txtbox.Text.Trim()))
-                {
-                    woid_txtbox.Enabled = true;
-                    woid_txtbox.Focus();
-                    empid_txtbox.Enabled = false;
-                }
-                else
-                {
-                    MessageBox.Show("Employee not found. Please contact the admin", "SPM Connect - Employee Not Found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    empid_txtbox.Clear();
-                    empid_txtbox.Focus();
-                    woid_txtbox.Enabled = false;
-                }
-                e.Handled = true;
-                e.SuppressKeyPress = true;
-            }
-        }
-
+        
         private void empid_txtbox_Click(object sender, EventArgs e)
         {
             if (!empid_txtbox.Focused)
@@ -113,7 +74,7 @@ namespace SearchDataSPM
         private void timer3_Tick(object sender, EventArgs e)
         {
             dataGridView1.Visible = false;
-           
+
         }
 
         private void apprvlidtxt_Click(object sender, EventArgs e)
@@ -128,94 +89,7 @@ namespace SearchDataSPM
         {
             if (empid_txtbox.Text.Length == 0)
                 apprvlidtxt.Enabled = false;
-        }
-
-        private void apprvlidtxt_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Return)
-            {
-                if (connectapi.EmployeeExits(apprvlidtxt.Text.Trim()))
-                {
-                    if (connectapi.EmployeeExitsWithCribRights(apprvlidtxt.Text.Trim()))
-                    {
-                        if (empid_txtbox.Text.Trim() == apprvlidtxt.Text.Trim())
-                        {
-                            if (connectapi.getdepartment() == "Crib")
-                                connectapi.scanworkorder(woid_txtbox.Text.Trim());
-                            else MessageBox.Show("Please ask the admin to set you up on Department == Crib", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                        else
-                        {
-                            if (connectapi.CheckWOIntoCrib(woid_txtbox.Text.Trim()))
-                            {
-                                if (connectapi.CheckWoExistsOnInvInOut(woid_txtbox.Text.Trim()))
-                                {
-                                    //work order is already built
-                                    if (connectapi.IsCompletedInvInOut(woid_txtbox.Text.Trim()))
-                                        MessageBox.Show("Work order has been already closed.", "SPM Connect - WO Closed", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                    else
-                                    {
-                                        //updates
-                                        if (connectapi.InBuiltInvInOut(woid_txtbox.Text.Trim()))
-                                        {
-                                            DialogResult result = MessageBox.Show("Is this work order has completed build?", "WO Complete?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                                            if (result == DialogResult.Yes)
-                                            {
-                                                connectapi.CheckWOInFromBuilt(woid_txtbox.Text.Trim(), empid_txtbox.Text.Trim(), apprvlidtxt.Text.Trim(), "1");
-                                                connectapi.scanworkorder(woid_txtbox.Text.Trim());
-                                                showaddedtodg();
-                                            }
-                                            else if (result == DialogResult.No)
-                                            {
-                                                connectapi.CheckWOInFromBuilt(woid_txtbox.Text.Trim(), empid_txtbox.Text.Trim(), apprvlidtxt.Text.Trim(), "0");
-                                                showaddedtodg();
-                                            }
-                                        }
-                                        else
-                                        {
-                                            DialogResult result = MessageBox.Show("Check out this work order from crib to built?", "Check Out WO?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                                            if (result == DialogResult.Yes)
-                                            {
-                                                connectapi.ChekOutWOOutForBuilt(woid_txtbox.Text.Trim(), empid_txtbox.Text.Trim(), apprvlidtxt.Text.Trim());
-                                                showaddedtodg();
-                                            }
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    DialogResult result = MessageBox.Show("Check out this work order from crib to built?", "Check Out WO?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                                    if (result == DialogResult.Yes)
-                                    {
-                                        connectapi.ChekOutWOOutForBuilt(woid_txtbox.Text.Trim(), empid_txtbox.Text.Trim(), apprvlidtxt.Text.Trim());
-                                        showaddedtodg();
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                //work order not checked into crib
-                                MessageBox.Show("Please check in the work order into crib, before assigning out for built.", "SPM Connect - Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            }
-                        }
-                        clearresettxtboxes();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Your request for checking in work order can't be completed based on your security settings", "SPM Connect - Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                        apprvlidtxt.Clear();
-                        apprvlidtxt.Focus();
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Employee not found. Please contact the admin", "SPM Connect - Employee Not Found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    clearresettxtboxes();
-                }
-                e.Handled = true;
-                e.SuppressKeyPress = true;
-            }
-        }
+        }        
 
         private void clearresettxtboxes()
         {
@@ -318,6 +192,256 @@ namespace SearchDataSPM
             BinLog binLog = new BinLog();
             binLog.Show();
         }
+
+        private void empid_txtbox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // check timing (keystrokes within 100 ms)
+            TimeSpan elapsed = (DateTime.Now - _lastKeystroke);
+            if (elapsed.TotalMilliseconds > userinputtime)
+                _barcode.Clear();
+
+            // record keystroke & timestamp
+            _barcode.Add(e.KeyChar);
+            _lastKeystroke = DateTime.Now;
+
+            // process barcode
+            if (e.KeyChar == 13 && _barcode.Count > 0)
+            {
+                string msg = new string(_barcode.ToArray());
+
+                _barcode.Clear();
+                if (msg != "\r")
+                {
+
+                    if (e.KeyChar == 13)
+                    {
+
+                        //empid_txtbox.Text = empid_txtbox.Text.Substring(empid_txtbox.Text.Length - 2);
+                        if (connectapi.EmployeeExits(empid_txtbox.Text.Trim()))
+                        {
+                            woid_txtbox.Enabled = true;
+                            woid_txtbox.Focus();
+                            empid_txtbox.Enabled = false;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Employee not found. Please contact the admin", "SPM Connect - Employee Not Found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            empid_txtbox.Clear();
+                            empid_txtbox.Focus();
+                            woid_txtbox.Enabled = false;
+                           
+                        }
+                        e.Handled = true;
+                    }
+                }
+                else
+                {
+
+                    MessageBox.Show("System cannot accept keyboard inputs. Scan with barcode reader", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    empid_txtbox.Clear();
+                    empid_txtbox.Focus();
+                    woid_txtbox.Enabled = false;
+                }
+            }
+        }
+
+        private void woid_txtbox_KeyPress(object sender, KeyPressEventArgs e)
+        {  // check timing (keystrokes within 100 ms)
+            TimeSpan elapsed = (DateTime.Now - _lastKeystroke);
+            if (elapsed.TotalMilliseconds > userinputtime)
+                _barcode.Clear();
+
+            // record keystroke & timestamp
+            _barcode.Add(e.KeyChar);
+            _lastKeystroke = DateTime.Now;
+
+            // process barcode
+            if (e.KeyChar == 13 && _barcode.Count > 0)
+            {
+                string msg = new string(_barcode.ToArray());
+
+                _barcode.Clear();
+                if (msg != "\r")
+                {
+
+                    if (e.KeyChar == 13)
+                    {
+                        if (connectapi.WOReleased(woid_txtbox.Text.Trim()))
+                        {
+                            apprvlidtxt.Enabled = true;
+                            apprvlidtxt.Focus();
+                            woid_txtbox.Enabled = false;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Please check the work order number.", "SPM Connect - Work Order Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            woid_txtbox.Clear();
+                            woid_txtbox.Focus();
+                            apprvlidtxt.Enabled = false;
+                        }
+
+                        e.Handled = true;
+                    }
+                }
+                else
+                {
+
+                    MessageBox.Show("System cannot accept keyboard inputs. Scan with barcode reader", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    empid_txtbox.Clear();
+                    empid_txtbox.Focus();
+                    woid_txtbox.Enabled = false;
+                }
+            }
+        }
+
+        private void apprvlidtxt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // check timing (keystrokes within 100 ms)
+            TimeSpan elapsed = (DateTime.Now - _lastKeystroke);
+            if (elapsed.TotalMilliseconds > userinputtime)
+                _barcode.Clear();
+
+            // record keystroke & timestamp
+            _barcode.Add(e.KeyChar);
+            _lastKeystroke = DateTime.Now;
+
+            // process barcode
+            if (e.KeyChar == 13 && _barcode.Count > 0)
+            {
+                string msg = new string(_barcode.ToArray());
+
+                _barcode.Clear();
+                if (msg != "\r")
+                {
+
+                    if (e.KeyChar == 13)
+                    {
+
+                        performapprovedbutton();
+                        e.Handled = true;
+                    }
+                }
+                else
+                {
+
+                    MessageBox.Show("System cannot accept keyboard inputs. Scan with barcode reader", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    empid_txtbox.Clear();
+                    empid_txtbox.Focus();
+                    woid_txtbox.Enabled = false;
+                }
+            }
+        }
+
+        private void performapprovedbutton()
+        {
+            if (connectapi.EmployeeExits(apprvlidtxt.Text.Trim()))
+            {
+                if (connectapi.EmployeeExitsWithCribRights(apprvlidtxt.Text.Trim()))
+                {
+                    if (empid_txtbox.Text.Trim() == apprvlidtxt.Text.Trim())
+                    {
+                        if (connectapi.getdepartment() == "Crib")
+                            connectapi.scanworkorder(woid_txtbox.Text.Trim());
+                        else MessageBox.Show("Please ask the admin to set you up on Department == Crib", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        if (connectapi.CheckWOIntoCrib(woid_txtbox.Text.Trim()))
+                        {
+                            if (connectapi.CheckWoExistsOnInvInOut(woid_txtbox.Text.Trim()))
+                            {
+                                //work order is already built
+                                if (connectapi.IsCompletedInvInOut(woid_txtbox.Text.Trim()))
+                                    MessageBox.Show("Work order has been already closed.", "SPM Connect - WO Closed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                else
+                                {
+                                    //updates
+                                    if (connectapi.InBuiltInvInOut(woid_txtbox.Text.Trim()))
+                                    {
+                                        DialogResult result = MessageBox.Show("Is this work order has completed build?", "WO Complete?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                                        if (result == DialogResult.Yes)
+                                        {
+                                            connectapi.CheckWOInFromBuilt(woid_txtbox.Text.Trim(), empid_txtbox.Text.Trim(), apprvlidtxt.Text.Trim(), "1");
+                                            connectapi.scanworkorder(woid_txtbox.Text.Trim());
+                                            showaddedtodg();
+                                        }
+                                        else if (result == DialogResult.No)
+                                        {
+                                            connectapi.CheckWOInFromBuilt(woid_txtbox.Text.Trim(), empid_txtbox.Text.Trim(), apprvlidtxt.Text.Trim(), "0");
+                                            showaddedtodg();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        DialogResult result = MessageBox.Show("Check out this work order from crib to built?", "Check Out WO?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                                        if (result == DialogResult.Yes)
+                                        {
+                                            connectapi.ChekOutWOOutForBuilt(woid_txtbox.Text.Trim(), empid_txtbox.Text.Trim(), apprvlidtxt.Text.Trim());
+                                            showaddedtodg();
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                DialogResult result = MessageBox.Show("Check out this work order from crib to built?", "Check Out WO?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                                if (result == DialogResult.Yes)
+                                {
+                                    connectapi.ChekOutWOOutForBuilt(woid_txtbox.Text.Trim(), empid_txtbox.Text.Trim(), apprvlidtxt.Text.Trim());
+                                    showaddedtodg();
+                                }
+                            }
+                        }
+                        else
+                        {
+                            //work order not checked into crib
+                            MessageBox.Show("Please check in the work order into crib, before assigning out for built.", "SPM Connect - Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    clearresettxtboxes();
+                }
+                else
+                {
+                    MessageBox.Show("Your request for checking in work order can't be completed based on your security settings", "SPM Connect - Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    apprvlidtxt.Clear();
+                    apprvlidtxt.Focus();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Employee not found. Please contact the admin", "SPM Connect - Employee Not Found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                clearresettxtboxes();
+            }
+        }
+
+        private void empid_txtbox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private void woid_txtbox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private void apprvlidtxt_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
     }
 }
+
 

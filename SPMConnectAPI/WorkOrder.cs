@@ -239,6 +239,37 @@ namespace SPMConnectAPI
             return fullname;
         }
 
+        public int getuserinputtime()
+        {
+            int timer = 0;
+            string limit = "";
+            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'InputTime'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    limit = (string)cmd.ExecuteScalar();
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get User Input Time", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+            if (limit.Length>0)
+            {
+                timer = Convert.ToInt32(limit);
+            }
+            return timer;
+
+        }
+
         #endregion
 
         public DataTable ShowAllWorkOrders()
