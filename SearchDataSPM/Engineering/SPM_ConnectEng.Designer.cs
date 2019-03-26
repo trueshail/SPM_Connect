@@ -32,9 +32,9 @@ namespace SearchDataSPM
 		{
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SPM_Connect));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.FormSelectorEng = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.bOMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.whereUsedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -530,7 +530,7 @@ namespace SearchDataSPM
             this.Manufactureritemcomboxbox.FormattingEnabled = true;
             this.Manufactureritemcomboxbox.Location = new System.Drawing.Point(5, 376);
             this.Manufactureritemcomboxbox.Name = "Manufactureritemcomboxbox";
-            this.Manufactureritemcomboxbox.Size = new System.Drawing.Size(159, 21);
+            this.Manufactureritemcomboxbox.Size = new System.Drawing.Size(161, 21);
             this.Manufactureritemcomboxbox.TabIndex = 125;
             this.TreeViewToolTip.SetToolTip(this.Manufactureritemcomboxbox, "Filter by OEM item number");
             this.Manufactureritemcomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Manufactureritemcomboxbox_KeyDown);
@@ -546,7 +546,7 @@ namespace SearchDataSPM
             this.familycomboxbox.FormattingEnabled = true;
             this.familycomboxbox.Location = new System.Drawing.Point(5, 227);
             this.familycomboxbox.Name = "familycomboxbox";
-            this.familycomboxbox.Size = new System.Drawing.Size(159, 21);
+            this.familycomboxbox.Size = new System.Drawing.Size(161, 21);
             this.familycomboxbox.TabIndex = 123;
             this.TreeViewToolTip.SetToolTip(this.familycomboxbox, "Filter by family type");
             this.familycomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.familycomboxbox_KeyDown);
@@ -562,7 +562,7 @@ namespace SearchDataSPM
             this.lastsavedbycombo.FormattingEnabled = true;
             this.lastsavedbycombo.Location = new System.Drawing.Point(5, 520);
             this.lastsavedbycombo.Name = "lastsavedbycombo";
-            this.lastsavedbycombo.Size = new System.Drawing.Size(159, 21);
+            this.lastsavedbycombo.Size = new System.Drawing.Size(161, 21);
             this.lastsavedbycombo.TabIndex = 127;
             this.TreeViewToolTip.SetToolTip(this.lastsavedbycombo, "Filter by last saved");
             this.lastsavedbycombo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lastsavedbycombo_KeyDown);
@@ -581,7 +581,7 @@ namespace SearchDataSPM
             "SPM AUTOMATION (Canada) INC."});
             this.oemitemcombobox.Location = new System.Drawing.Point(5, 301);
             this.oemitemcombobox.Name = "oemitemcombobox";
-            this.oemitemcombobox.Size = new System.Drawing.Size(159, 21);
+            this.oemitemcombobox.Size = new System.Drawing.Size(161, 21);
             this.oemitemcombobox.TabIndex = 124;
             this.TreeViewToolTip.SetToolTip(this.oemitemcombobox, "Filter by manufacture");
             this.oemitemcombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.oemitemcombobox_KeyDown);
@@ -597,7 +597,7 @@ namespace SearchDataSPM
             this.ActiveCadblockcombobox.FormattingEnabled = true;
             this.ActiveCadblockcombobox.Location = new System.Drawing.Point(5, 601);
             this.ActiveCadblockcombobox.Name = "ActiveCadblockcombobox";
-            this.ActiveCadblockcombobox.Size = new System.Drawing.Size(159, 21);
+            this.ActiveCadblockcombobox.Size = new System.Drawing.Size(161, 21);
             this.ActiveCadblockcombobox.TabIndex = 128;
             this.TreeViewToolTip.SetToolTip(this.ActiveCadblockcombobox, "Filter by current cad block number");
             this.ActiveCadblockcombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ActiveCadblockcombobox_KeyDown);
@@ -617,7 +617,7 @@ namespace SearchDataSPM
             "Joel Goldsmith"});
             this.designedbycombobox.Location = new System.Drawing.Point(5, 150);
             this.designedbycombobox.Name = "designedbycombobox";
-            this.designedbycombobox.Size = new System.Drawing.Size(159, 21);
+            this.designedbycombobox.Size = new System.Drawing.Size(161, 21);
             this.designedbycombobox.TabIndex = 122;
             this.TreeViewToolTip.SetToolTip(this.designedbycombobox, "Filter Designed by");
             this.designedbycombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.designedbycombobox_KeyDown);
@@ -633,7 +633,7 @@ namespace SearchDataSPM
             this.MaterialcomboBox.FormattingEnabled = true;
             this.MaterialcomboBox.Location = new System.Drawing.Point(5, 447);
             this.MaterialcomboBox.Name = "MaterialcomboBox";
-            this.MaterialcomboBox.Size = new System.Drawing.Size(159, 21);
+            this.MaterialcomboBox.Size = new System.Drawing.Size(161, 21);
             this.MaterialcomboBox.TabIndex = 126;
             this.TreeViewToolTip.SetToolTip(this.MaterialcomboBox, "Filter by Material");
             this.MaterialcomboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MaterialcomboBox_KeyDown);
@@ -881,8 +881,8 @@ namespace SearchDataSPM
             // descriptionDataGridViewTextBoxColumn
             // 
             this.descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
-            dataGridViewCellStyle4.NullValue = null;
-            this.descriptionDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.NullValue = null;
+            this.descriptionDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle1;
             this.descriptionDataGridViewTextBoxColumn.FillWeight = 86.92893F;
             this.descriptionDataGridViewTextBoxColumn.HeaderText = "Description";
             this.descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
@@ -903,8 +903,8 @@ namespace SearchDataSPM
             // manufacturerDataGridViewTextBoxColumn
             // 
             this.manufacturerDataGridViewTextBoxColumn.DataPropertyName = "Manufacturer";
-            dataGridViewCellStyle5.NullValue = null;
-            this.manufacturerDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.NullValue = null;
+            this.manufacturerDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle2;
             this.manufacturerDataGridViewTextBoxColumn.FillWeight = 86.92893F;
             this.manufacturerDataGridViewTextBoxColumn.HeaderText = "Manufacturer";
             this.manufacturerDataGridViewTextBoxColumn.Name = "manufacturerDataGridViewTextBoxColumn";
@@ -913,8 +913,8 @@ namespace SearchDataSPM
             // manufacturerItemNumberDataGridViewTextBoxColumn
             // 
             this.manufacturerItemNumberDataGridViewTextBoxColumn.DataPropertyName = "ManufacturerItemNumber";
-            dataGridViewCellStyle6.NullValue = null;
-            this.manufacturerItemNumberDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.NullValue = null;
+            this.manufacturerItemNumberDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle3;
             this.manufacturerItemNumberDataGridViewTextBoxColumn.FillWeight = 86.92893F;
             this.manufacturerItemNumberDataGridViewTextBoxColumn.HeaderText = "Manufacturer Item Number";
             this.manufacturerItemNumberDataGridViewTextBoxColumn.Name = "manufacturerItemNumberDataGridViewTextBoxColumn";

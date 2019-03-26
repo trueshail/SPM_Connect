@@ -1517,11 +1517,11 @@ namespace SPMConnectAPI
 
         #region BinStatusLog
 
-        public DataTable ShowWoOnInOut()
+        public DataTable ShowDistinctWO()
         {
             DataTable dt = new DataTable();
 
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT DISTINCT WO FROM [SPM_Database].[dbo].[WOInOut] ORDER BY WO DESC", cn))
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT DISTINCT WO FROM [SPM_Database].[dbo].[WO_Tracking] ORDER BY WO DESC", cn))
             {
                 try
                 {
@@ -1576,7 +1576,35 @@ namespace SPMConnectAPI
         {
             DataTable dt = new DataTable();
 
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[WorkOrderManagement] WHERE WorkOrder = '"+wo+"'", cn))
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[WOInOutStatus] WHERE WO = '" + wo+"'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Show Work Order Details", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+            return dt;
+        }
+
+        public DataTable ShowWOtrackingProg(string wo)
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[WO_Tracking] WHERE WO = '" + wo + "'", cn))
             {
                 try
                 {

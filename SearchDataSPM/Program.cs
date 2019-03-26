@@ -13,7 +13,7 @@ namespace SearchDataSPM
 		{
             Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new InvInOut());
+            Application.Run(new SPM_ConnectWM());
         }
 
     }

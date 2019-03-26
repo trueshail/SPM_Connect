@@ -2,9 +2,7 @@
 using System;
 using System.ComponentModel;
 using System.Data;
-using System.Data.SqlClient;
 using System.Drawing;
-using System.Reflection;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
@@ -28,23 +26,12 @@ namespace SearchDataSPM
         {
             Showallitems();
             txtSearch.Text = jobnumber;
-            SendKeys.Send("~");
+           // SendKeys.Send("~");
             checkdeptsandrights();
         }
 
         private void checkdeptsandrights()
         {
-            if (connectapi.EmployeeExitsWithCribRights(connectapi.getempid()))
-            {
-                cribbttn.Visible = true;
-                cribbttn.Enabled = true;
-            }
-
-            if (connectapi.CheckScanRights())
-            {
-                scanwobttn.Visible = true;
-                scanwobttn.Enabled = true;
-            }
             versionlabel.Text = connectapi.getassyversionnumber();
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
         }
@@ -585,15 +572,30 @@ namespace SearchDataSPM
 
         private void cribbttn_Click(object sender, EventArgs e)
         {
-            InvInOut invInOut = new InvInOut();
-            invInOut.Show();
+            if (connectapi.EmployeeExitsWithCribRights(connectapi.getempid()))
+            {
+                InvInOut invInOut = new InvInOut();
+                invInOut.Show();
+            }
+            else
+            {
+                MetroFramework.MetroMessageBox.Show(this,"Your request can't be completed based on your security settings.", "SPM Connect - Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
 
         }
 
         private void scanwobttn_Click(object sender, EventArgs e)
         {
-            ScanWO scanWO = new ScanWO();
-            scanWO.Show();
+            if (connectapi.CheckScanRights())
+            {
+                ScanWO scanWO = new ScanWO();
+                scanWO.Show();
+            }
+            else
+            {
+                MetroFramework.MetroMessageBox.Show(this, "Your request can't be completed based on your security settings.", "SPM Connect - Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
         }
     }
 }

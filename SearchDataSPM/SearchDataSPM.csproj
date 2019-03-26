@@ -375,6 +375,12 @@
     <Compile Include="General\SPM_ConnectQuoteManagement.Designer.cs">
       <DependentUpon>SPM_ConnectQuoteManagement.cs</DependentUpon>
     </Compile>
+    <Compile Include="WorkOrder\WO_TrackStats.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WorkOrder\WO_TrackStats.Designer.cs">
+      <DependentUpon>WO_TrackStats.cs</DependentUpon>
+    </Compile>
     <Compile Include="WorkOrder\BinLog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -675,6 +681,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="General\SPM_ConnectQuoteManagement.resx">
       <DependentUpon>SPM_ConnectQuoteManagement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WorkOrder\WO_TrackStats.resx">
+      <DependentUpon>WO_TrackStats.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WorkOrder\BinLog.resx">
       <DependentUpon>BinLog.cs</DependentUpon>

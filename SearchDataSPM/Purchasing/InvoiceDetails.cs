@@ -513,7 +513,7 @@ namespace SearchDataSPM
         private void graballinfor()
         {
             list.Clear();
-            Regex reg = new Regex("[*'\",_&#^@]");
+            Regex reg = new Regex("['\",_^]");
             list.Add(invoicetxtbox.Text);
             list.Add(reg.Replace(jobtxt.Text, "''"));
             list.Add(reg.Replace(Salespersoncombobox.Text, "''"));

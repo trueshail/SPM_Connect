@@ -60,7 +60,7 @@
             this.txtSearch.MaximumSize = new System.Drawing.Size(32767, 25);
             this.txtSearch.MinimumSize = new System.Drawing.Size(4, 23);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(516, 25);
+            this.txtSearch.Size = new System.Drawing.Size(516, 26);
             this.txtSearch.TabIndex = 1;
             this.TreeViewToolTip.SetToolTip(this.txtSearch, "Enter Search Keyword.\r\n(Double click to reset)");
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
@@ -237,7 +237,6 @@
             this.cribbttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cribbttn.BackColor = System.Drawing.Color.Transparent;
-            this.cribbttn.Enabled = false;
             this.cribbttn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
             this.cribbttn.FlatAppearance.BorderSize = 0;
             this.cribbttn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
@@ -254,7 +253,6 @@
             this.cribbttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TreeViewToolTip.SetToolTip(this.cribbttn, "Crib Management");
             this.cribbttn.UseVisualStyleBackColor = false;
-            this.cribbttn.Visible = false;
             this.cribbttn.Click += new System.EventHandler(this.cribbttn_Click);
             // 
             // scanwobttn
@@ -262,7 +260,6 @@
             this.scanwobttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.scanwobttn.BackColor = System.Drawing.Color.Transparent;
-            this.scanwobttn.Enabled = false;
             this.scanwobttn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
             this.scanwobttn.FlatAppearance.BorderSize = 0;
             this.scanwobttn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
@@ -279,7 +276,6 @@
             this.scanwobttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TreeViewToolTip.SetToolTip(this.scanwobttn, "Scan Work Order");
             this.scanwobttn.UseVisualStyleBackColor = false;
-            this.scanwobttn.Visible = false;
             this.scanwobttn.Click += new System.EventHandler(this.scanwobttn_Click);
             // 
             // SPM_ConnectWM

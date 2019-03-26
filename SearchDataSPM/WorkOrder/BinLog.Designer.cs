@@ -34,20 +34,52 @@
             this.woid_txtbox = new MetroFramework.Controls.MetroTextBox();
             this.wodetgroupbox = new System.Windows.Forms.GroupBox();
             this.descriptionlabel = new System.Windows.Forms.Label();
+            this.wostatuslbl = new System.Windows.Forms.Label();
             this.completelabel = new System.Windows.Forms.Label();
             this.inbuiltlabel = new System.Windows.Forms.Label();
+            this.joblbl = new System.Windows.Forms.Label();
             this.qtylabel = new System.Windows.Forms.Label();
             this.itemlabel = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.wolistbox = new System.Windows.Forms.ListBox();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
             this.dataGridView = new System.Windows.Forms.DataGridView();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.wogrpdesign = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cribchkbox = new System.Windows.Forms.CheckedListBox();
+            this.purchkbox = new System.Windows.Forms.CheckedListBox();
+            this.prodchkbox = new System.Windows.Forms.CheckedListBox();
+            this.engchkbox = new System.Windows.Forms.CheckedListBox();
+            this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
+            this.purwait = new Microsoft.VisualBasic.PowerPacks.OvalShape();
+            this.cribwait = new Microsoft.VisualBasic.PowerPacks.OvalShape();
+            this.prodout = new Microsoft.VisualBasic.PowerPacks.OvalShape();
+            this.prodwaiting = new Microsoft.VisualBasic.PowerPacks.OvalShape();
+            this.lineShape1 = new Microsoft.VisualBasic.PowerPacks.LineShape();
+            this.lineShape2 = new Microsoft.VisualBasic.PowerPacks.LineShape();
+            this.lineShape4 = new Microsoft.VisualBasic.PowerPacks.LineShape();
+            this.lineShape3 = new Microsoft.VisualBasic.PowerPacks.LineShape();
+            this.lineShape5 = new Microsoft.VisualBasic.PowerPacks.LineShape();
+            this.timespentprodlbl = new System.Windows.Forms.Label();
+            this.timespentpurlbl = new System.Windows.Forms.Label();
+            this.timespentcriblbl = new System.Windows.Forms.Label();
+            this.overalltimelbl = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.wodetgroupbox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
+            this.tabPage2.SuspendLayout();
+            this.wogrpdesign.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -60,7 +92,7 @@
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.MaximumSize = new System.Drawing.Size(0, 80);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(884, 80);
+            this.panel1.Size = new System.Drawing.Size(944, 80);
             this.panel1.TabIndex = 0;
             // 
             // reloadbttn
@@ -124,13 +156,15 @@
             // 
             this.wodetgroupbox.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.wodetgroupbox.Controls.Add(this.descriptionlabel);
+            this.wodetgroupbox.Controls.Add(this.wostatuslbl);
             this.wodetgroupbox.Controls.Add(this.completelabel);
             this.wodetgroupbox.Controls.Add(this.inbuiltlabel);
+            this.wodetgroupbox.Controls.Add(this.joblbl);
             this.wodetgroupbox.Controls.Add(this.qtylabel);
             this.wodetgroupbox.Controls.Add(this.itemlabel);
             this.wodetgroupbox.Location = new System.Drawing.Point(204, 3);
             this.wodetgroupbox.Name = "wodetgroupbox";
-            this.wodetgroupbox.Size = new System.Drawing.Size(677, 71);
+            this.wodetgroupbox.Size = new System.Drawing.Size(736, 71);
             this.wodetgroupbox.TabIndex = 0;
             this.wodetgroupbox.TabStop = false;
             this.wodetgroupbox.Text = "WO Details";
@@ -138,38 +172,58 @@
             // descriptionlabel
             // 
             this.descriptionlabel.AutoSize = true;
-            this.descriptionlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.descriptionlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.descriptionlabel.Location = new System.Drawing.Point(6, 47);
             this.descriptionlabel.Name = "descriptionlabel";
-            this.descriptionlabel.Size = new System.Drawing.Size(82, 16);
+            this.descriptionlabel.Size = new System.Drawing.Size(75, 15);
             this.descriptionlabel.TabIndex = 0;
             this.descriptionlabel.Text = "Description :";
+            // 
+            // wostatuslbl
+            // 
+            this.wostatuslbl.AutoSize = true;
+            this.wostatuslbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.wostatuslbl.Location = new System.Drawing.Point(448, 47);
+            this.wostatuslbl.Name = "wostatuslbl";
+            this.wostatuslbl.Size = new System.Drawing.Size(97, 16);
+            this.wostatuslbl.TabIndex = 0;
+            this.wostatuslbl.Text = "Overall Status :";
             // 
             // completelabel
             // 
             this.completelabel.AutoSize = true;
             this.completelabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.completelabel.Location = new System.Drawing.Point(488, 21);
+            this.completelabel.Location = new System.Drawing.Point(568, 21);
             this.completelabel.Name = "completelabel";
-            this.completelabel.Size = new System.Drawing.Size(80, 16);
+            this.completelabel.Size = new System.Drawing.Size(113, 16);
             this.completelabel.TabIndex = 0;
-            this.completelabel.Text = "Completed :";
+            this.completelabel.Text = "Build Completed :";
             // 
             // inbuiltlabel
             // 
             this.inbuiltlabel.AutoSize = true;
             this.inbuiltlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.inbuiltlabel.Location = new System.Drawing.Point(352, 21);
+            this.inbuiltlabel.Location = new System.Drawing.Point(426, 21);
             this.inbuiltlabel.Name = "inbuiltlabel";
-            this.inbuiltlabel.Size = new System.Drawing.Size(53, 16);
+            this.inbuiltlabel.Size = new System.Drawing.Size(95, 16);
             this.inbuiltlabel.TabIndex = 0;
-            this.inbuiltlabel.Text = "In-Built :";
+            this.inbuiltlabel.Text = "In-Mech-Build :";
+            // 
+            // joblbl
+            // 
+            this.joblbl.AutoSize = true;
+            this.joblbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.joblbl.Location = new System.Drawing.Point(300, 21);
+            this.joblbl.Name = "joblbl";
+            this.joblbl.Size = new System.Drawing.Size(37, 16);
+            this.joblbl.TabIndex = 0;
+            this.joblbl.Text = "Job :";
             // 
             // qtylabel
             // 
             this.qtylabel.AutoSize = true;
             this.qtylabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.qtylabel.Location = new System.Drawing.Point(210, 21);
+            this.qtylabel.Location = new System.Drawing.Point(186, 21);
             this.qtylabel.Name = "qtylabel";
             this.qtylabel.Size = new System.Drawing.Size(34, 16);
             this.qtylabel.TabIndex = 0;
@@ -198,10 +252,10 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.dataGridView);
+            this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
             this.splitContainer1.Panel2MinSize = 680;
-            this.splitContainer1.Size = new System.Drawing.Size(884, 581);
-            this.splitContainer1.SplitterDistance = 200;
+            this.splitContainer1.Size = new System.Drawing.Size(944, 611);
+            this.splitContainer1.SplitterDistance = 213;
             this.splitContainer1.TabIndex = 1;
             // 
             // wolistbox
@@ -212,10 +266,32 @@
             this.wolistbox.ItemHeight = 18;
             this.wolistbox.Location = new System.Drawing.Point(0, 0);
             this.wolistbox.Name = "wolistbox";
-            this.wolistbox.Size = new System.Drawing.Size(200, 581);
+            this.wolistbox.Size = new System.Drawing.Size(213, 611);
             this.wolistbox.TabIndex = 0;
             this.wolistbox.Click += new System.EventHandler(this.wolistbox_Click);
             this.wolistbox.SelectedIndexChanged += new System.EventHandler(this.wolistbox_SelectedIndexChanged);
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(727, 611);
+            this.tabControl1.TabIndex = 1;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.dataGridView);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(719, 585);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Bin Build Status";
+            this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // dataGridView
             // 
@@ -226,23 +302,320 @@
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView.GridColor = System.Drawing.SystemColors.AppWorkspace;
-            this.dataGridView.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView.Location = new System.Drawing.Point(3, 3);
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.ReadOnly = true;
             this.dataGridView.RowHeadersVisible = false;
-            this.dataGridView.Size = new System.Drawing.Size(680, 581);
+            this.dataGridView.Size = new System.Drawing.Size(713, 579);
             this.dataGridView.TabIndex = 0;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
+            this.tabPage2.Controls.Add(this.wogrpdesign);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(719, 585);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "WO Overall";
+            // 
+            // wogrpdesign
+            // 
+            this.wogrpdesign.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.wogrpdesign.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
+            this.wogrpdesign.Controls.Add(this.overalltimelbl);
+            this.wogrpdesign.Controls.Add(this.timespentcriblbl);
+            this.wogrpdesign.Controls.Add(this.timespentpurlbl);
+            this.wogrpdesign.Controls.Add(this.timespentprodlbl);
+            this.wogrpdesign.Controls.Add(this.label4);
+            this.wogrpdesign.Controls.Add(this.label3);
+            this.wogrpdesign.Controls.Add(this.label2);
+            this.wogrpdesign.Controls.Add(this.label1);
+            this.wogrpdesign.Controls.Add(this.cribchkbox);
+            this.wogrpdesign.Controls.Add(this.purchkbox);
+            this.wogrpdesign.Controls.Add(this.prodchkbox);
+            this.wogrpdesign.Controls.Add(this.engchkbox);
+            this.wogrpdesign.Controls.Add(this.shapeContainer1);
+            this.wogrpdesign.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.wogrpdesign.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.wogrpdesign.Location = new System.Drawing.Point(6, 7);
+            this.wogrpdesign.MaximumSize = new System.Drawing.Size(708, 568);
+            this.wogrpdesign.MinimumSize = new System.Drawing.Size(708, 568);
+            this.wogrpdesign.Name = "wogrpdesign";
+            this.wogrpdesign.Size = new System.Drawing.Size(708, 568);
+            this.wogrpdesign.TabIndex = 0;
+            this.wogrpdesign.TabStop = false;
+            this.wogrpdesign.Text = "WO Tracking Progress : ";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(6, 348);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(44, 16);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "Crib :";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(455, 348);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(93, 16);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "Purchasing :";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(229, 185);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(90, 16);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "Production :";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(226, 30);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(99, 16);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Engineering :";
+            // 
+            // cribchkbox
+            // 
+            this.cribchkbox.BackColor = System.Drawing.Color.Silver;
+            this.cribchkbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cribchkbox.FormattingEnabled = true;
+            this.cribchkbox.Items.AddRange(new object[] {
+            "Crib Checked In",
+            "Check In By :",
+            "Check In On :",
+            "Crib Checked Out",
+            "Check Out By :",
+            "Check Out On :"});
+            this.cribchkbox.Location = new System.Drawing.Point(6, 367);
+            this.cribchkbox.Name = "cribchkbox";
+            this.cribchkbox.Size = new System.Drawing.Size(238, 148);
+            this.cribchkbox.TabIndex = 1;
+            this.cribchkbox.ThreeDCheckBoxes = true;
+            // 
+            // purchkbox
+            // 
+            this.purchkbox.BackColor = System.Drawing.Color.Silver;
+            this.purchkbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.purchkbox.FormattingEnabled = true;
+            this.purchkbox.Items.AddRange(new object[] {
+            "Pur. Checked In",
+            "Check In By :",
+            "Check In On :",
+            "Pur. Checked Out",
+            "Check Out By :",
+            "Check Out On :"});
+            this.purchkbox.Location = new System.Drawing.Point(458, 367);
+            this.purchkbox.Name = "purchkbox";
+            this.purchkbox.Size = new System.Drawing.Size(238, 148);
+            this.purchkbox.TabIndex = 1;
+            this.purchkbox.ThreeDCheckBoxes = true;
+            // 
+            // prodchkbox
+            // 
+            this.prodchkbox.BackColor = System.Drawing.Color.Silver;
+            this.prodchkbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.prodchkbox.FormattingEnabled = true;
+            this.prodchkbox.Items.AddRange(new object[] {
+            "Prod. Checked In",
+            "Check In By :",
+            "Check In On :",
+            "Prod. Checked Out",
+            "Check Out By :",
+            "Check Out On :"});
+            this.prodchkbox.Location = new System.Drawing.Point(229, 204);
+            this.prodchkbox.Name = "prodchkbox";
+            this.prodchkbox.Size = new System.Drawing.Size(239, 116);
+            this.prodchkbox.TabIndex = 1;
+            this.prodchkbox.ThreeDCheckBoxes = true;
+            // 
+            // engchkbox
+            // 
+            this.engchkbox.BackColor = System.Drawing.Color.Silver;
+            this.engchkbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.engchkbox.FormattingEnabled = true;
+            this.engchkbox.Items.AddRange(new object[] {
+            "Eng. Checked In",
+            "Check In By :",
+            "Check In On :"});
+            this.engchkbox.Location = new System.Drawing.Point(229, 48);
+            this.engchkbox.Name = "engchkbox";
+            this.engchkbox.Size = new System.Drawing.Size(239, 68);
+            this.engchkbox.TabIndex = 1;
+            this.engchkbox.ThreeDCheckBoxes = true;
+            // 
+            // shapeContainer1
+            // 
+            this.shapeContainer1.Location = new System.Drawing.Point(3, 18);
+            this.shapeContainer1.Margin = new System.Windows.Forms.Padding(0);
+            this.shapeContainer1.Name = "shapeContainer1";
+            this.shapeContainer1.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
+            this.purwait,
+            this.cribwait,
+            this.prodout,
+            this.prodwaiting,
+            this.lineShape1,
+            this.lineShape2,
+            this.lineShape4,
+            this.lineShape3,
+            this.lineShape5});
+            this.shapeContainer1.Size = new System.Drawing.Size(702, 547);
+            this.shapeContainer1.TabIndex = 0;
+            this.shapeContainer1.TabStop = false;
+            // 
+            // purwait
+            // 
+            this.purwait.BackColor = System.Drawing.Color.Red;
+            this.purwait.BackStyle = Microsoft.VisualBasic.PowerPacks.BackStyle.Opaque;
+            this.purwait.Cursor = System.Windows.Forms.Cursors.Default;
+            this.purwait.FillColor = System.Drawing.SystemColors.AppWorkspace;
+            this.purwait.Location = new System.Drawing.Point(388, 412);
+            this.purwait.Name = "purwait";
+            this.purwait.Size = new System.Drawing.Size(22, 22);
+            // 
+            // cribwait
+            // 
+            this.cribwait.BackColor = System.Drawing.Color.Red;
+            this.cribwait.BackStyle = Microsoft.VisualBasic.PowerPacks.BackStyle.Opaque;
+            this.cribwait.Cursor = System.Windows.Forms.Cursors.Default;
+            this.cribwait.FillColor = System.Drawing.SystemColors.AppWorkspace;
+            this.cribwait.Location = new System.Drawing.Point(269, 414);
+            this.cribwait.Name = "cribwait";
+            this.cribwait.Size = new System.Drawing.Size(22, 22);
+            // 
+            // prodout
+            // 
+            this.prodout.BackColor = System.Drawing.Color.Red;
+            this.prodout.BackStyle = Microsoft.VisualBasic.PowerPacks.BackStyle.Opaque;
+            this.prodout.Cursor = System.Windows.Forms.Cursors.Default;
+            this.prodout.FillColor = System.Drawing.SystemColors.AppWorkspace;
+            this.prodout.Location = new System.Drawing.Point(333, 344);
+            this.prodout.Name = "prodout";
+            this.prodout.Size = new System.Drawing.Size(22, 22);
+            // 
+            // prodwaiting
+            // 
+            this.prodwaiting.BackColor = System.Drawing.Color.Red;
+            this.prodwaiting.BackStyle = Microsoft.VisualBasic.PowerPacks.BackStyle.Opaque;
+            this.prodwaiting.FillColor = System.Drawing.SystemColors.AppWorkspace;
+            this.prodwaiting.Location = new System.Drawing.Point(333, 127);
+            this.prodwaiting.Name = "prodwaiting";
+            this.prodwaiting.Size = new System.Drawing.Size(22, 22);
+            // 
+            // lineShape1
+            // 
+            this.lineShape1.BorderWidth = 2;
+            this.lineShape1.Name = "lineShape1";
+            this.lineShape1.X1 = 344;
+            this.lineShape1.X2 = 344;
+            this.lineShape1.Y1 = 126;
+            this.lineShape1.Y2 = 86;
+            // 
+            // lineShape2
+            // 
+            this.lineShape2.BorderWidth = 2;
+            this.lineShape2.Cursor = System.Windows.Forms.Cursors.Default;
+            this.lineShape2.Name = "lineShape2";
+            this.lineShape2.X1 = 344;
+            this.lineShape2.X2 = 344;
+            this.lineShape2.Y1 = 188;
+            this.lineShape2.Y2 = 148;
+            // 
+            // lineShape4
+            // 
+            this.lineShape4.BorderWidth = 2;
+            this.lineShape4.Name = "lineShape4";
+            this.lineShape4.X1 = 344;
+            this.lineShape4.X2 = 344;
+            this.lineShape4.Y1 = 423;
+            this.lineShape4.Y2 = 301;
+            // 
+            // lineShape3
+            // 
+            this.lineShape3.BorderWidth = 2;
+            this.lineShape3.Name = "lineShape3";
+            this.lineShape3.X1 = 344;
+            this.lineShape3.X2 = 234;
+            this.lineShape3.Y1 = 425;
+            this.lineShape3.Y2 = 425;
+            // 
+            // lineShape5
+            // 
+            this.lineShape5.BorderWidth = 2;
+            this.lineShape5.Cursor = System.Windows.Forms.Cursors.Default;
+            this.lineShape5.Name = "lineShape5";
+            this.lineShape5.X1 = 457;
+            this.lineShape5.X2 = 345;
+            this.lineShape5.Y1 = 425;
+            this.lineShape5.Y2 = 425;
+            // 
+            // timespentprodlbl
+            // 
+            this.timespentprodlbl.AutoSize = true;
+            this.timespentprodlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.timespentprodlbl.Location = new System.Drawing.Point(458, 170);
+            this.timespentprodlbl.Name = "timespentprodlbl";
+            this.timespentprodlbl.Size = new System.Drawing.Size(151, 30);
+            this.timespentprodlbl.TabIndex = 2;
+            this.timespentprodlbl.Text = "Time Spent In Production :\r\n2";
+            this.timespentprodlbl.Visible = false;
+            // 
+            // timespentpurlbl
+            // 
+            this.timespentpurlbl.AutoSize = true;
+            this.timespentpurlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.timespentpurlbl.Location = new System.Drawing.Point(449, 518);
+            this.timespentpurlbl.Name = "timespentpurlbl";
+            this.timespentpurlbl.Size = new System.Drawing.Size(154, 30);
+            this.timespentpurlbl.TabIndex = 2;
+            this.timespentpurlbl.Text = "Time Spent In Purchasing :\r\n2";
+            this.timespentpurlbl.Visible = false;
+            // 
+            // timespentcriblbl
+            // 
+            this.timespentcriblbl.AutoSize = true;
+            this.timespentcriblbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.timespentcriblbl.Location = new System.Drawing.Point(8, 518);
+            this.timespentcriblbl.Name = "timespentcriblbl";
+            this.timespentcriblbl.Size = new System.Drawing.Size(114, 30);
+            this.timespentcriblbl.TabIndex = 2;
+            this.timespentcriblbl.Text = "Time Spent In Crib :\r\n2";
+            this.timespentcriblbl.Visible = false;
+            // 
+            // overalltimelbl
+            // 
+            this.overalltimelbl.AutoSize = true;
+            this.overalltimelbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.overalltimelbl.Location = new System.Drawing.Point(476, 14);
+            this.overalltimelbl.Name = "overalltimelbl";
+            this.overalltimelbl.Size = new System.Drawing.Size(136, 30);
+            this.overalltimelbl.TabIndex = 2;
+            this.overalltimelbl.Text = "Overall Time Required :\r\n2";
+            this.overalltimelbl.Visible = false;
             // 
             // BinLog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
-            this.ClientSize = new System.Drawing.Size(884, 661);
+            this.ClientSize = new System.Drawing.Size(944, 691);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(600, 600);
+            this.MinimumSize = new System.Drawing.Size(932, 715);
             this.Name = "BinLog";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -256,7 +629,12 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
+            this.tabPage2.ResumeLayout(false);
+            this.wogrpdesign.ResumeLayout(false);
+            this.wogrpdesign.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -275,5 +653,33 @@
         private System.Windows.Forms.Label completelabel;
         private System.Windows.Forms.Label inbuiltlabel;
         private System.Windows.Forms.Button reloadbttn;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.GroupBox wogrpdesign;
+        private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer1;
+        private Microsoft.VisualBasic.PowerPacks.OvalShape prodwaiting;
+        private Microsoft.VisualBasic.PowerPacks.LineShape lineShape1;
+        private Microsoft.VisualBasic.PowerPacks.LineShape lineShape2;
+        private Microsoft.VisualBasic.PowerPacks.LineShape lineShape4;
+        private Microsoft.VisualBasic.PowerPacks.LineShape lineShape3;
+        private Microsoft.VisualBasic.PowerPacks.LineShape lineShape5;
+        private Microsoft.VisualBasic.PowerPacks.OvalShape purwait;
+        private Microsoft.VisualBasic.PowerPacks.OvalShape cribwait;
+        private Microsoft.VisualBasic.PowerPacks.OvalShape prodout;
+        private System.Windows.Forms.CheckedListBox engchkbox;
+        private System.Windows.Forms.Label joblbl;
+        private System.Windows.Forms.Label wostatuslbl;
+        private System.Windows.Forms.CheckedListBox cribchkbox;
+        private System.Windows.Forms.CheckedListBox purchkbox;
+        private System.Windows.Forms.CheckedListBox prodchkbox;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label timespentprodlbl;
+        private System.Windows.Forms.Label timespentcriblbl;
+        private System.Windows.Forms.Label timespentpurlbl;
+        private System.Windows.Forms.Label overalltimelbl;
     }
 }
