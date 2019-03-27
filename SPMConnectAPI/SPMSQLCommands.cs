@@ -456,6 +456,34 @@ namespace SPMConnectAPI
             return dt;
         }
 
+        public DataTable ShowAllParameters()
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[ConnectParamaters] ORDER BY Id ", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Show all Parameters", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+            return dt;
+        }
+
         public string getfilename()
         {
             ModelDoc2 swModel;

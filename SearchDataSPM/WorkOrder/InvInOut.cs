@@ -289,9 +289,9 @@ namespace SearchDataSPM
                 {
 
                     MessageBox.Show("System cannot accept keyboard inputs. Scan with barcode reader", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    empid_txtbox.Clear();
-                    empid_txtbox.Focus();
-                    woid_txtbox.Enabled = false;
+                    woid_txtbox.Clear();
+                    woid_txtbox.Focus();
+                    apprvlidtxt.Enabled = false;
                 }
             }
         }
@@ -327,9 +327,8 @@ namespace SearchDataSPM
                 {
 
                     MessageBox.Show("System cannot accept keyboard inputs. Scan with barcode reader", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    empid_txtbox.Clear();
-                    empid_txtbox.Focus();
-                    woid_txtbox.Enabled = false;
+                    apprvlidtxt.Clear();
+                    apprvlidtxt.Focus();
                 }
             }
         }

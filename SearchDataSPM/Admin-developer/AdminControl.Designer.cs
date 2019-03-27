@@ -141,7 +141,7 @@ namespace SearchDataSPM
             this.nametextbox.ReadOnly = true;
             this.nametextbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.nametextbox.Size = new System.Drawing.Size(180, 22);
-            this.nametextbox.TabIndex = 45;
+            this.nametextbox.TabIndex = 1;
             this.LabelTooltips.SetToolTip(this.nametextbox, "Item Family Group");
             // 
             // domaintxtbox
@@ -156,7 +156,7 @@ namespace SearchDataSPM
             this.domaintxtbox.ReadOnly = true;
             this.domaintxtbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.domaintxtbox.Size = new System.Drawing.Size(180, 22);
-            this.domaintxtbox.TabIndex = 46;
+            this.domaintxtbox.TabIndex = 2;
             this.LabelTooltips.SetToolTip(this.domaintxtbox, "Item Quantities Per Assembly");
             // 
             // activecadblocktxt
@@ -171,7 +171,7 @@ namespace SearchDataSPM
             this.activecadblocktxt.ReadOnly = true;
             this.activecadblocktxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.activecadblocktxt.Size = new System.Drawing.Size(180, 22);
-            this.activecadblocktxt.TabIndex = 47;
+            this.activecadblocktxt.TabIndex = 3;
             this.LabelTooltips.SetToolTip(this.activecadblocktxt, "Item Family Group");
             this.activecadblocktxt.TextChanged += new System.EventHandler(this.activecadblocktxt_TextChanged);
             this.activecadblocktxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.activecadblocktxt_KeyPress);
@@ -181,7 +181,7 @@ namespace SearchDataSPM
             this.addnewbttn.Location = new System.Drawing.Point(284, 505);
             this.addnewbttn.Name = "addnewbttn";
             this.addnewbttn.Size = new System.Drawing.Size(87, 23);
-            this.addnewbttn.TabIndex = 57;
+            this.addnewbttn.TabIndex = 23;
             this.addnewbttn.Text = "Add New User";
             this.LabelTooltips.SetToolTip(this.addnewbttn, "Add new user access");
             this.addnewbttn.UseVisualStyleBackColor = true;
@@ -192,7 +192,7 @@ namespace SearchDataSPM
             this.updatebttn.Location = new System.Drawing.Point(391, 505);
             this.updatebttn.Name = "updatebttn";
             this.updatebttn.Size = new System.Drawing.Size(79, 23);
-            this.updatebttn.TabIndex = 58;
+            this.updatebttn.TabIndex = 24;
             this.updatebttn.Text = "Update User";
             this.LabelTooltips.SetToolTip(this.updatebttn, "Update Existing User");
             this.updatebttn.UseVisualStyleBackColor = true;
@@ -203,7 +203,7 @@ namespace SearchDataSPM
             this.delbttn.Location = new System.Drawing.Point(489, 505);
             this.delbttn.Name = "delbttn";
             this.delbttn.Size = new System.Drawing.Size(75, 23);
-            this.delbttn.TabIndex = 59;
+            this.delbttn.TabIndex = 25;
             this.delbttn.Text = "Delete User";
             this.LabelTooltips.SetToolTip(this.delbttn, "Delete User from System");
             this.delbttn.UseVisualStyleBackColor = true;
@@ -214,7 +214,7 @@ namespace SearchDataSPM
             this.updatesavebttn.Location = new System.Drawing.Point(335, 545);
             this.updatesavebttn.Name = "updatesavebttn";
             this.updatesavebttn.Size = new System.Drawing.Size(79, 23);
-            this.updatesavebttn.TabIndex = 64;
+            this.updatesavebttn.TabIndex = 21;
             this.updatesavebttn.Text = "Save";
             this.LabelTooltips.SetToolTip(this.updatesavebttn, "Save Data ");
             this.updatesavebttn.UseVisualStyleBackColor = true;
@@ -226,7 +226,7 @@ namespace SearchDataSPM
             this.cnclbttn.Location = new System.Drawing.Point(428, 545);
             this.cnclbttn.Name = "cnclbttn";
             this.cnclbttn.Size = new System.Drawing.Size(72, 23);
-            this.cnclbttn.TabIndex = 65;
+            this.cnclbttn.TabIndex = 22;
             this.cnclbttn.Text = "Exit";
             this.LabelTooltips.SetToolTip(this.cnclbttn, "Clear and Exit");
             this.cnclbttn.UseVisualStyleBackColor = true;
@@ -238,7 +238,7 @@ namespace SearchDataSPM
             this.button1.Location = new System.Drawing.Point(239, 594);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(115, 30);
-            this.button1.TabIndex = 66;
+            this.button1.TabIndex = 26;
             this.button1.Text = "Show Duplicates";
             this.LabelTooltips.SetToolTip(this.button1, "Show Duplicate Items");
             this.button1.UseVisualStyleBackColor = true;
@@ -249,7 +249,7 @@ namespace SearchDataSPM
             this.reluanchbttn.Location = new System.Drawing.Point(455, 637);
             this.reluanchbttn.Name = "reluanchbttn";
             this.reluanchbttn.Size = new System.Drawing.Size(117, 30);
-            this.reluanchbttn.TabIndex = 67;
+            this.reluanchbttn.TabIndex = 30;
             this.reluanchbttn.Text = "Relaunch Application";
             this.LabelTooltips.SetToolTip(this.reluanchbttn, "Relaunch SPM Connect");
             this.reluanchbttn.UseVisualStyleBackColor = true;
@@ -260,7 +260,7 @@ namespace SearchDataSPM
             this.UserStats.Location = new System.Drawing.Point(290, 637);
             this.UserStats.Name = "UserStats";
             this.UserStats.Size = new System.Drawing.Size(115, 30);
-            this.UserStats.TabIndex = 66;
+            this.UserStats.TabIndex = 29;
             this.UserStats.Text = "Licences In Use";
             this.LabelTooltips.SetToolTip(this.UserStats, "Manage Licences in Use");
             this.UserStats.UseVisualStyleBackColor = true;
@@ -271,7 +271,7 @@ namespace SearchDataSPM
             this.custbttn.Location = new System.Drawing.Point(369, 594);
             this.custbttn.Name = "custbttn";
             this.custbttn.Size = new System.Drawing.Size(115, 30);
-            this.custbttn.TabIndex = 66;
+            this.custbttn.TabIndex = 27;
             this.custbttn.Text = "Manage Customers";
             this.LabelTooltips.SetToolTip(this.custbttn, "Manage Customers Data");
             this.custbttn.UseVisualStyleBackColor = true;
@@ -282,7 +282,7 @@ namespace SearchDataSPM
             this.matbttn.Location = new System.Drawing.Point(499, 594);
             this.matbttn.Name = "matbttn";
             this.matbttn.Size = new System.Drawing.Size(115, 30);
-            this.matbttn.TabIndex = 66;
+            this.matbttn.TabIndex = 28;
             this.matbttn.Text = "Manage Materials";
             this.LabelTooltips.SetToolTip(this.matbttn, "Manage Material Data");
             this.matbttn.UseVisualStyleBackColor = true;
@@ -328,7 +328,7 @@ namespace SearchDataSPM
             this.Userlistbox.Location = new System.Drawing.Point(0, 105);
             this.Userlistbox.Name = "Userlistbox";
             this.Userlistbox.Size = new System.Drawing.Size(220, 564);
-            this.Userlistbox.TabIndex = 33;
+            this.Userlistbox.TabIndex = 0;
             this.Userlistbox.SelectedIndexChanged += new System.EventHandler(this.Userlistbox_SelectedIndexChanged);
             // 
             // department
@@ -493,7 +493,7 @@ namespace SearchDataSPM
             this.label4.Name = "label4";
             this.label4.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label4.Size = new System.Drawing.Size(97, 30);
-            this.label4.TabIndex = 81;
+            this.label4.TabIndex = 17;
             this.label4.Text = "Purchase Req\r\n      Approval :";
             // 
             // label5
@@ -521,7 +521,7 @@ namespace SearchDataSPM
             this.useremailtxt.ReadOnly = true;
             this.useremailtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.useremailtxt.Size = new System.Drawing.Size(287, 22);
-            this.useremailtxt.TabIndex = 48;
+            this.useremailtxt.TabIndex = 4;
             this.useremailtxt.TextChanged += new System.EventHandler(this.activecadblocktxt_TextChanged);
             this.useremailtxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.activecadblocktxt_KeyPress);
             // 
@@ -537,7 +537,7 @@ namespace SearchDataSPM
             this.label6.Name = "label6";
             this.label6.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label6.Size = new System.Drawing.Size(99, 30);
-            this.label6.TabIndex = 81;
+            this.label6.TabIndex = 19;
             this.label6.Text = "Purchase Req\r\n            Buyer :";
             // 
             // idlabel
@@ -625,7 +625,7 @@ namespace SearchDataSPM
             this.supervisorcombox.Location = new System.Drawing.Point(398, 461);
             this.supervisorcombox.Name = "supervisorcombox";
             this.supervisorcombox.Size = new System.Drawing.Size(165, 23);
-            this.supervisorcombox.TabIndex = 83;
+            this.supervisorcombox.TabIndex = 20;
             // 
             // label7
             // 
@@ -654,7 +654,7 @@ namespace SearchDataSPM
             this.label9.Name = "label9";
             this.label9.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label9.Size = new System.Drawing.Size(98, 30);
-            this.label9.TabIndex = 85;
+            this.label9.TabIndex = 18;
             this.label9.Text = "Purchase Req\r\n2nd Approval :";
             // 
             // label8
@@ -697,7 +697,7 @@ namespace SearchDataSPM
             this.sharepathtxt.ReadOnly = true;
             this.sharepathtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.sharepathtxt.Size = new System.Drawing.Size(262, 22);
-            this.sharepathtxt.TabIndex = 48;
+            this.sharepathtxt.TabIndex = 5;
             this.sharepathtxt.TextChanged += new System.EventHandler(this.activecadblocktxt_TextChanged);
             this.sharepathtxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.activecadblocktxt_KeyPress);
             // 
@@ -756,7 +756,7 @@ namespace SearchDataSPM
             this.deptcombobox.Location = new System.Drawing.Point(318, 168);
             this.deptcombobox.Name = "deptcombobox";
             this.deptcombobox.Size = new System.Drawing.Size(128, 23);
-            this.deptcombobox.TabIndex = 83;
+            this.deptcombobox.TabIndex = 6;
             // 
             // empidtxt
             // 
@@ -769,7 +769,7 @@ namespace SearchDataSPM
             this.empidtxt.ReadOnly = true;
             this.empidtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.empidtxt.Size = new System.Drawing.Size(93, 22);
-            this.empidtxt.TabIndex = 45;
+            this.empidtxt.TabIndex = 7;
             // 
             // label13
             // 
@@ -796,7 +796,7 @@ namespace SearchDataSPM
             this.admintoggle.MinimumSize = new System.Drawing.Size(70, 25);
             this.admintoggle.Name = "admintoggle";
             this.admintoggle.Size = new System.Drawing.Size(70, 25);
-            this.admintoggle.TabIndex = 95;
+            this.admintoggle.TabIndex = 8;
             this.admintoggle.ToggleBarText = "No";
             this.admintoggle.ToggleCircleColor = System.Drawing.Color.Red;
             this.admintoggle.ToggleColorBar = System.Drawing.Color.LightGray;
@@ -813,7 +813,7 @@ namespace SearchDataSPM
             this.quotetoggle.MinimumSize = new System.Drawing.Size(70, 25);
             this.quotetoggle.Name = "quotetoggle";
             this.quotetoggle.Size = new System.Drawing.Size(70, 25);
-            this.quotetoggle.TabIndex = 95;
+            this.quotetoggle.TabIndex = 10;
             this.quotetoggle.ToggleBarText = "No";
             this.quotetoggle.ToggleCircleColor = System.Drawing.Color.Red;
             this.quotetoggle.ToggleColorBar = System.Drawing.Color.LightGray;
@@ -830,7 +830,7 @@ namespace SearchDataSPM
             this.pricetoggle.MinimumSize = new System.Drawing.Size(70, 25);
             this.pricetoggle.Name = "pricetoggle";
             this.pricetoggle.Size = new System.Drawing.Size(70, 25);
-            this.pricetoggle.TabIndex = 95;
+            this.pricetoggle.TabIndex = 12;
             this.pricetoggle.ToggleBarText = "No";
             this.pricetoggle.ToggleCircleColor = System.Drawing.Color.Red;
             this.pricetoggle.ToggleColorBar = System.Drawing.Color.LightGray;
@@ -847,7 +847,7 @@ namespace SearchDataSPM
             this.shiptoggle.MinimumSize = new System.Drawing.Size(70, 25);
             this.shiptoggle.Name = "shiptoggle";
             this.shiptoggle.Size = new System.Drawing.Size(70, 25);
-            this.shiptoggle.TabIndex = 95;
+            this.shiptoggle.TabIndex = 14;
             this.shiptoggle.ToggleBarText = "No";
             this.shiptoggle.ToggleCircleColor = System.Drawing.Color.Red;
             this.shiptoggle.ToggleColorBar = System.Drawing.Color.LightGray;
@@ -864,7 +864,7 @@ namespace SearchDataSPM
             this.managementtoggle.MinimumSize = new System.Drawing.Size(70, 25);
             this.managementtoggle.Name = "managementtoggle";
             this.managementtoggle.Size = new System.Drawing.Size(70, 25);
-            this.managementtoggle.TabIndex = 96;
+            this.managementtoggle.TabIndex = 9;
             this.managementtoggle.ToggleBarText = "No";
             this.managementtoggle.ToggleCircleColor = System.Drawing.Color.Red;
             this.managementtoggle.ToggleColorBar = System.Drawing.Color.LightGray;
@@ -881,7 +881,7 @@ namespace SearchDataSPM
             this.purchasereqtoggle.MinimumSize = new System.Drawing.Size(70, 25);
             this.purchasereqtoggle.Name = "purchasereqtoggle";
             this.purchasereqtoggle.Size = new System.Drawing.Size(70, 25);
-            this.purchasereqtoggle.TabIndex = 96;
+            this.purchasereqtoggle.TabIndex = 11;
             this.purchasereqtoggle.ToggleBarText = "No";
             this.purchasereqtoggle.ToggleCircleColor = System.Drawing.Color.Red;
             this.purchasereqtoggle.ToggleColorBar = System.Drawing.Color.LightGray;
@@ -898,7 +898,7 @@ namespace SearchDataSPM
             this.developertoggle.MinimumSize = new System.Drawing.Size(70, 25);
             this.developertoggle.Name = "developertoggle";
             this.developertoggle.Size = new System.Drawing.Size(70, 25);
-            this.developertoggle.TabIndex = 96;
+            this.developertoggle.TabIndex = 13;
             this.developertoggle.ToggleBarText = "No";
             this.developertoggle.ToggleCircleColor = System.Drawing.Color.Red;
             this.developertoggle.ToggleColorBar = System.Drawing.Color.LightGray;
@@ -930,7 +930,7 @@ namespace SearchDataSPM
             this.cribouttoggle.MinimumSize = new System.Drawing.Size(70, 25);
             this.cribouttoggle.Name = "cribouttoggle";
             this.cribouttoggle.Size = new System.Drawing.Size(70, 25);
-            this.cribouttoggle.TabIndex = 96;
+            this.cribouttoggle.TabIndex = 15;
             this.cribouttoggle.ToggleBarText = "No";
             this.cribouttoggle.ToggleCircleColor = System.Drawing.Color.Red;
             this.cribouttoggle.ToggleColorBar = System.Drawing.Color.LightGray;
@@ -962,7 +962,7 @@ namespace SearchDataSPM
             this.scanwotoggle.MinimumSize = new System.Drawing.Size(70, 25);
             this.scanwotoggle.Name = "scanwotoggle";
             this.scanwotoggle.Size = new System.Drawing.Size(70, 25);
-            this.scanwotoggle.TabIndex = 98;
+            this.scanwotoggle.TabIndex = 16;
             this.scanwotoggle.ToggleBarText = "No";
             this.scanwotoggle.ToggleCircleColor = System.Drawing.Color.Red;
             this.scanwotoggle.ToggleColorBar = System.Drawing.Color.LightGray;
