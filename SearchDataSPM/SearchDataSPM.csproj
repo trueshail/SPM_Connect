@@ -363,10 +363,10 @@
     <Compile Include="Engineering\WaitFormImport.Designer.cs">
       <DependentUpon>WaitFormImport.cs</DependentUpon>
     </Compile>
-    <Compile Include="General\PODetails.cs">
+    <Compile Include="Purchasing\PODetails.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="General\PODetails.Designer.cs">
+    <Compile Include="Purchasing\PODetails.Designer.cs">
       <DependentUpon>PODetails.cs</DependentUpon>
     </Compile>
     <Compile Include="General\QuoteDetails.cs">
@@ -682,7 +682,7 @@
     <EmbeddedResource Include="Engineering\TreeView.resx">
       <DependentUpon>TreeView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="General\PODetails.resx">
+    <EmbeddedResource Include="Purchasing\PODetails.resx">
       <DependentUpon>PODetails.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="General\QuoteDetails.resx">
@@ -1048,7 +1048,8 @@
       <Lcid>0</Lcid>
       <WrapperTool>primary</WrapperTool>
       <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <Private>True</Private>
     </COMReference>
   </ItemGroup>
   <ItemGroup>

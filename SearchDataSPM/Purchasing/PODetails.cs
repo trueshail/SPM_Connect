@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SearchDataSPM.General
@@ -24,11 +17,8 @@ namespace SearchDataSPM.General
 
         }
 
-      
-
         private void savebttn_Click(object sender, EventArgs e)
         {
-
             ValueIWant = ponumbertxt.Text.Trim();
             podate = dateTimePicker1.Value.ToString("yyyy-MM-dd");
             this.DialogResult = System.Windows.Forms.DialogResult.OK;
@@ -45,7 +35,12 @@ namespace SearchDataSPM.General
 
         private void dateTimePicker1_KeyDown(object sender, KeyEventArgs e)
         {
-           
+
+        }
+
+        private void PODetails_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!(ponumbertxt.Text.Length > 0)) e.Cancel = true;
         }
     }
 }

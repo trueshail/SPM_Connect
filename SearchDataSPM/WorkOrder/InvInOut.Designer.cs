@@ -143,7 +143,7 @@
             this.woid_txtbox.MaxLength = 32767;
             this.woid_txtbox.Name = "woid_txtbox";
             this.woid_txtbox.PasswordChar = '*';
-            this.woid_txtbox.WaterMark = "Scan Work Order";
+            this.woid_txtbox.PromptText = "Scan Work Order";
             this.woid_txtbox.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.woid_txtbox.SelectedText = "";
             this.woid_txtbox.SelectionLength = 0;
@@ -183,7 +183,7 @@
             this.empid_txtbox.MaxLength = 32767;
             this.empid_txtbox.Name = "empid_txtbox";
             this.empid_txtbox.PasswordChar = '*';
-            this.empid_txtbox.WaterMark = "Scan Emp Id";
+            this.empid_txtbox.PromptText = "Scan Emp Id";
             this.empid_txtbox.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.empid_txtbox.SelectedText = "";
             this.empid_txtbox.SelectionLength = 0;
@@ -229,6 +229,7 @@
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
             this.toolStripDropDownButton1.Size = new System.Drawing.Size(86, 22);
             this.toolStripDropDownButton1.Text = "Inventory";
+            this.toolStripDropDownButton1.DropDownClosed += new System.EventHandler(this.toolStripDropDownButton1_DropDownClosed);
             this.toolStripDropDownButton1.DropDownOpening += new System.EventHandler(this.toolStripDropDownButton1_DropDownOpening);
             this.toolStripDropDownButton1.Click += new System.EventHandler(this.toolStripDropDownButton1_Click);
             // 
@@ -342,7 +343,7 @@
             this.apprvlidtxt.MaxLength = 32767;
             this.apprvlidtxt.Name = "apprvlidtxt";
             this.apprvlidtxt.PasswordChar = '*';
-            this.apprvlidtxt.WaterMark = "Scan Emp Id";
+            this.apprvlidtxt.PromptText = "Scan Emp Id";
             this.apprvlidtxt.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.apprvlidtxt.SelectedText = "";
             this.apprvlidtxt.SelectionLength = 0;

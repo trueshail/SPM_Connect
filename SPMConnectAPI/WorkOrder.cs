@@ -1576,7 +1576,7 @@ namespace SPMConnectAPI
         {
             DataTable dt = new DataTable();
 
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[WOInOutStatus] WHERE WO = '" + wo+"'", cn))
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[WOInOutStatus] WHERE WO = '" + wo+ "'ORDER BY WO DESC, Id DESC", cn))
             {
                 try
                 {

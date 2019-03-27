@@ -218,7 +218,7 @@ namespace SearchDataSPM
 
             if (r["Engin"].ToString() == "1" && r["Prodin"].ToString() == "0")
             {
-                prodwaiting.BackColor = Color.Orange;
+                prodwaiting.BackColor = Color.Yellow;
             }
             else if (r["Engin"].ToString() == "1" && r["Prodin"].ToString() == "1")
             {
@@ -236,7 +236,7 @@ namespace SearchDataSPM
                 prodchkbox.SetItemCheckState(2, CheckState.Checked);
                 prodchkbox.Items[1] = "Check In By : " + r["ProdinWho"].ToString();
                 prodchkbox.Items[2] = "Check In On : " + r["ProdinWhen"].ToString();
-                prodout.BackColor = Color.Orange;
+                prodout.BackColor = Color.Red;
                 prodchkbox.BackColor = Color.Orange;
             }
             else
@@ -296,7 +296,7 @@ namespace SearchDataSPM
                 purchkbox.Items[2] = "Check In On : ";
                 if (r["Prodout"].ToString() == "1")
                 {
-                    purwait.BackColor = Color.OrangeRed;
+                    purwait.BackColor = Color.Yellow;
                 }
                 else
                 {
@@ -349,7 +349,7 @@ namespace SearchDataSPM
                 cribchkbox.Items[2] = "Check In On : ";
                 if(r["Prodout"].ToString() == "1")
                 {
-                    cribwait.BackColor = Color.OrangeRed;
+                    cribwait.BackColor = Color.Yellow;
                 }
                 else
                 {

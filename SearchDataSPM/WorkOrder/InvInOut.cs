@@ -175,6 +175,7 @@ namespace SearchDataSPM
                         toolStripDropDownButton1.DropDownItems[1].Enabled = true;
                         toolStripDropDownButton1.DropDownItems[2].Enabled = true;
                         toolStripDropDownButton1.DropDownItems[3].Enabled = true;
+                        
                     }
                     else
                     {
@@ -183,16 +184,27 @@ namespace SearchDataSPM
                 }
                 else
                 {
-                    MetroFramework.MetroMessageBox.Show(this, "Please try again.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MetroFramework.MetroMessageBox.Show(this, "Please try again. Employee not found.", "SPM Connect - Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 this.Enabled = true;
+               
             }
+        }
+
+        private void performlockdown()
+        {
+            credentialsverified = false;
+            toolStripDropDownButton1.DropDownItems[0].Enabled = false;
+            toolStripDropDownButton1.DropDownItems[1].Enabled = false;
+            toolStripDropDownButton1.DropDownItems[2].Enabled = false;
+            toolStripDropDownButton1.DropDownItems[3].Enabled = false;
         }
 
         private void inventoryBinStatusToolStripMenuItem_Click(object sender, EventArgs e)
         {
             BinLog binLog = new BinLog();
             binLog.Show();
+            
         }
 
         private void empid_txtbox_KeyPress(object sender, KeyPressEventArgs e)
@@ -415,6 +427,10 @@ namespace SearchDataSPM
             }
         }
 
+        private void toolStripDropDownButton1_DropDownClosed(object sender, EventArgs e)
+        {
+            performlockdown();
+        }
     }
 }
 

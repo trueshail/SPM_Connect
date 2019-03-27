@@ -498,7 +498,7 @@
             this.wotakentxt.Location = new System.Drawing.Point(129, 113);
             this.wotakentxt.MaxLength = 32767;
             this.wotakentxt.Name = "wotakentxt";
-            this.wotakentxt.PasswordChar = '\0';
+            this.wotakentxt.PasswordChar = '*';
             this.wotakentxt.PromptText = "Scan Work Order";
             this.wotakentxt.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.wotakentxt.SelectedText = "";
@@ -534,7 +534,7 @@
             this.woreqtxt.Location = new System.Drawing.Point(129, 52);
             this.woreqtxt.MaxLength = 32767;
             this.woreqtxt.Name = "woreqtxt";
-            this.woreqtxt.PasswordChar = '\0';
+            this.woreqtxt.PasswordChar = '*';
             this.woreqtxt.PromptText = "Scan Work Order";
             this.woreqtxt.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.woreqtxt.SelectedText = "";
@@ -684,7 +684,7 @@
             this.appidtxt.Location = new System.Drawing.Point(130, 85);
             this.appidtxt.MaxLength = 32767;
             this.appidtxt.Name = "appidtxt";
-            this.appidtxt.PasswordChar = '\0';
+            this.appidtxt.PasswordChar = '*';
             this.appidtxt.PromptText = "Scan Approved By Id";
             this.appidtxt.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.appidtxt.SelectedText = "";
@@ -721,7 +721,7 @@
             this.empidtxt.Location = new System.Drawing.Point(130, 20);
             this.empidtxt.MaxLength = 32767;
             this.empidtxt.Name = "empidtxt";
-            this.empidtxt.PasswordChar = '\0';
+            this.empidtxt.PasswordChar = '*';
             this.empidtxt.PromptText = "Scan Employee Id";
             this.empidtxt.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.empidtxt.SelectedText = "";

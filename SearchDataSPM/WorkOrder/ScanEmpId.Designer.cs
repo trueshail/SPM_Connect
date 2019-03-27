@@ -103,6 +103,7 @@
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Style = MetroFramework.MetroColorStyle.Green;
             this.TopMost = true;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ScanEmpId_FormClosing);
             this.Load += new System.EventHandler(this.JobType_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

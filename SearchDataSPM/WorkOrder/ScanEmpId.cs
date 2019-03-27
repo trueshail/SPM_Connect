@@ -66,5 +66,13 @@ namespace SearchDataSPM
                 }
             }
         }
+
+        private void ScanEmpId_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!(empid_txtbox.Text.Length > 0))
+            {
+               // e.Cancel = true;
+            }
+        }
     }
 }
