@@ -149,11 +149,13 @@
             // 
             // createFoldersToolStripMenuItem
             // 
+            this.createFoldersToolStripMenuItem.Enabled = false;
             this.createFoldersToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("createFoldersToolStripMenuItem.Image")));
             this.createFoldersToolStripMenuItem.Name = "createFoldersToolStripMenuItem";
             this.createFoldersToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.createFoldersToolStripMenuItem.Text = "Create Folders";
             this.createFoldersToolStripMenuItem.ToolTipText = "Create Folders For Selected Job";
+            this.createFoldersToolStripMenuItem.Visible = false;
             this.createFoldersToolStripMenuItem.Click += new System.EventHandler(this.createFoldersToolStripMenuItem_Click);
             // 
             // Reload
@@ -291,16 +293,15 @@
             this.purchasereq.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.purchasereq.ForeColor = System.Drawing.Color.Transparent;
             this.purchasereq.Image = ((System.Drawing.Image)(resources.GetObject("purchasereq.Image")));
-            this.purchasereq.Location = new System.Drawing.Point(901, 9);
-            this.purchasereq.MaximumSize = new System.Drawing.Size(32, 32);
-            this.purchasereq.MinimumSize = new System.Drawing.Size(32, 32);
+            this.purchasereq.Location = new System.Drawing.Point(895, 9);
+            this.purchasereq.MaximumSize = new System.Drawing.Size(40, 40);
+            this.purchasereq.MinimumSize = new System.Drawing.Size(40, 40);
             this.purchasereq.Name = "purchasereq";
-            this.purchasereq.Size = new System.Drawing.Size(32, 32);
+            this.purchasereq.Size = new System.Drawing.Size(40, 40);
             this.purchasereq.TabIndex = 14;
             this.purchasereq.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TreeViewToolTip.SetToolTip(this.purchasereq, "Purchase Requsition");
             this.purchasereq.UseVisualStyleBackColor = false;
-            this.purchasereq.Visible = false;
             this.purchasereq.Click += new System.EventHandler(this.purchasereq_Click);
             // 
             // quotebttn
@@ -308,11 +309,12 @@
             this.quotebttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.quotebttn.BackColor = System.Drawing.Color.Transparent;
-            this.quotebttn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.quotebttn.ForeColor = System.Drawing.Color.Black;
+            this.quotebttn.Enabled = false;
+            this.quotebttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.quotebttn.ForeColor = System.Drawing.Color.Gray;
             this.quotebttn.Image = ((System.Drawing.Image)(resources.GetObject("quotebttn.Image")));
-            this.quotebttn.Location = new System.Drawing.Point(846, 8);
-            this.quotebttn.MaximumSize = new System.Drawing.Size(32, 32);
+            this.quotebttn.Location = new System.Drawing.Point(846, 9);
+            this.quotebttn.MaximumSize = new System.Drawing.Size(40, 40);
             this.quotebttn.MinimumSize = new System.Drawing.Size(40, 40);
             this.quotebttn.Name = "quotebttn";
             this.quotebttn.Size = new System.Drawing.Size(40, 40);
@@ -320,7 +322,6 @@
             this.quotebttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TreeViewToolTip.SetToolTip(this.quotebttn, "Quote Tracking");
             this.quotebttn.UseVisualStyleBackColor = false;
-            this.quotebttn.Visible = false;
             this.quotebttn.Click += new System.EventHandler(this.quotebttn_Click_1);
             // 
             // CreateFolderBttn
@@ -336,7 +337,7 @@
             this.CreateFolderBttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.CreateFolderBttn.ForeColor = System.Drawing.Color.Transparent;
             this.CreateFolderBttn.Image = ((System.Drawing.Image)(resources.GetObject("CreateFolderBttn.Image")));
-            this.CreateFolderBttn.Location = new System.Drawing.Point(800, 10);
+            this.CreateFolderBttn.Location = new System.Drawing.Point(800, 12);
             this.CreateFolderBttn.MaximumSize = new System.Drawing.Size(35, 35);
             this.CreateFolderBttn.MinimumSize = new System.Drawing.Size(35, 35);
             this.CreateFolderBttn.Name = "CreateFolderBttn";
@@ -345,7 +346,6 @@
             this.CreateFolderBttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TreeViewToolTip.SetToolTip(this.CreateFolderBttn, "Create folders for selected job");
             this.CreateFolderBttn.UseVisualStyleBackColor = false;
-            this.CreateFolderBttn.Visible = false;
             this.CreateFolderBttn.Click += new System.EventHandler(this.CreateFolderButton_Click);
             // 
             // shippingbttn
@@ -361,7 +361,7 @@
             this.shippingbttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.shippingbttn.ForeColor = System.Drawing.Color.Transparent;
             this.shippingbttn.Image = ((System.Drawing.Image)(resources.GetObject("shippingbttn.Image")));
-            this.shippingbttn.Location = new System.Drawing.Point(949, 13);
+            this.shippingbttn.Location = new System.Drawing.Point(944, 13);
             this.shippingbttn.MaximumSize = new System.Drawing.Size(35, 35);
             this.shippingbttn.MinimumSize = new System.Drawing.Size(35, 35);
             this.shippingbttn.Name = "shippingbttn";
@@ -370,7 +370,6 @@
             this.shippingbttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TreeViewToolTip.SetToolTip(this.shippingbttn, "Shipping Module");
             this.shippingbttn.UseVisualStyleBackColor = false;
-            this.shippingbttn.Visible = false;
             this.shippingbttn.Click += new System.EventHandler(this.shippingbttn_Click);
             // 
             // openFileDialog1

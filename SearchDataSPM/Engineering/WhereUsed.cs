@@ -17,12 +17,11 @@ using wpfPreviewFlowControl;
 
 namespace SearchDataSPM
 {
-
     public partial class WhereUsed : Form
-
     {
         #region steupvariables
-        String connection;
+
+        string connection;
         DataTable _acountsTb = null;
         DataTable _productTB;
         SqlConnection _connection;
@@ -101,14 +100,31 @@ namespace SearchDataSPM
                 this.Close();
                 return true;
             }
+
             if (keyData == (Keys.Control | Keys.F))
             {
                 Assy_txtbox.Focus();
                 Assy_txtbox.SelectAll();
-
                 return true;
             }
 
+            if (keyData == (Keys.Control | Keys.S))
+            {
+                txtSearch.Focus();
+                txtSearch.SelectAll();
+                return true;
+            }
+
+            if (keyData == Keys.Home)
+            {
+                if (Assy_txtbox.Text.Length > 0)
+                {
+                    Assy_txtbox.Focus();
+                    Assy_txtbox.SelectAll();
+                    SendKeys.Send("~");
+                }
+                return true;
+            }
 
             return base.ProcessCmdKey(ref msg, keyData);
         }

@@ -99,8 +99,8 @@ namespace SearchDataSPM
                 Listviewcontextmenu.Items[4].Enabled = false;
                 Listviewcontextmenu.Items[4].Visible = false;
 
-                AddNewBttn.Visible = false;
-                getnewitembttn.Visible = true;
+                AddNewBttn.Enabled = false;
+                getnewitembttn.Enabled = true;
 
                 dataGridView.ContextMenuStrip = FormSelectorControls;
                 this.Text = "SPM Connect Controls - " + userName.ToString().Substring(4);
@@ -114,8 +114,8 @@ namespace SearchDataSPM
             {
                 listView.ContextMenuStrip = Listviewcontextmenu;
                 dataGridView.ContextMenuStrip = FormSelectorEng;
-                AddNewBttn.Visible = true;
-                getnewitembttn.Visible = true;
+                AddNewBttn.Enabled = true;
+                getnewitembttn.Enabled = true;
                 this.Text = "SPM Connect Engineering - " + userName.ToString().Substring(4);
                 connectapi.chekin("SPM Connect Eng");
                 eng = true;
@@ -127,8 +127,8 @@ namespace SearchDataSPM
                 Listviewcontextmenu.Items[3].Visible = false;
                 Listviewcontextmenu.Items[4].Enabled = false;
                 Listviewcontextmenu.Items[4].Visible = false;
-                AddNewBttn.Visible = false;
-                getnewitembttn.Visible = true;
+                AddNewBttn.Enabled = false;
+                getnewitembttn.Enabled = true;
                 dataGridView.ContextMenuStrip = FormSelectorEng;
                 FormSelectorEng.Items[4].Enabled = false;
                 FormSelectorEng.Items[4].Visible = false;
@@ -141,7 +141,7 @@ namespace SearchDataSPM
 
             if (connectapi.CheckAdmin())
             {
-                admin_bttn.Visible = true;
+                admin_bttn.Enabled = true;
             }
 
             if (connectapi.Checkdeveloper())
@@ -1319,18 +1319,12 @@ namespace SearchDataSPM
             }
             if (keyData == (Keys.Control | Keys.B))
             {
-                int selectedclmindex = dataGridView.SelectedCells[0].ColumnIndex;
-                DataGridViewColumn columnchk = dataGridView.Columns[selectedclmindex];
-                string c = Convert.ToString(columnchk.Index);
-                //MessageBox.Show(c);
                 string item;
                 if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
                 {
                     int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                     DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
                     item = Convert.ToString(slectedrow.Cells[0].Value);
-                    //MessageBox.Show(ItemNo);
-
                 }
                 else
                 {
@@ -1342,18 +1336,12 @@ namespace SearchDataSPM
             }
             if (keyData == (Keys.Control | Keys.W))
             {
-                int selectedclmindex = dataGridView.SelectedCells[0].ColumnIndex;
-                DataGridViewColumn columnchk = dataGridView.Columns[selectedclmindex];
-                string c = Convert.ToString(columnchk.Index);
-                //MessageBox.Show(c);
                 string item;
                 if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
                 {
                     int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                     DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
                     item = Convert.ToString(slectedrow.Cells[0].Value);
-                    //MessageBox.Show(ItemNo);
-
                 }
                 else
                 {
@@ -1415,6 +1403,7 @@ namespace SearchDataSPM
                 }
                 return true;
             }
+
             if (keyData == (Keys.Control | Keys.Q))
             {
                 Compare sPM_ConnectJobs = new Compare();

@@ -363,7 +363,6 @@ namespace SearchDataSPM
             }
         }
 
-
         #endregion
 
         private void ItemTxtBox_KeyDown(object sender, KeyEventArgs e)

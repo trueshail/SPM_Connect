@@ -7,7 +7,6 @@ using System.Windows.Forms;
 
 namespace SearchDataSPM
 {
-
     public partial class SPM_ConnectWM : Form
     {
         #region SPM Connect Load
@@ -26,7 +25,8 @@ namespace SearchDataSPM
         {
             Showallitems();
             txtSearch.Text = jobnumber;
-           // SendKeys.Send("~");
+            if (txtSearch.Text.Trim().Length > 0)
+                SendKeys.Send("~");
             checkdeptsandrights();
         }
 
@@ -356,55 +356,7 @@ namespace SearchDataSPM
             }
         }
 
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            if (keyData == (Keys.Home))
-            {
 
-                Reload.PerformClick();
-
-                return true;
-            }
-            if (keyData == (Keys.Control | Keys.B))
-            {
-                int selectedclmindex = dataGridView.SelectedCells[0].ColumnIndex;
-                DataGridViewColumn columnchk = dataGridView.Columns[selectedclmindex];
-                string c = Convert.ToString(columnchk.Index);
-                //MessageBox.Show(c);
-                string item;
-                if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
-                {
-                    int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
-                    DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-                    item = Convert.ToString(slectedrow.Cells[2].Value);
-                    //MessageBox.Show(ItemNo);
-
-                }
-                else
-                {
-                    item = "";
-                }
-
-
-                return true;
-            }
-            if (keyData == (Keys.Control | Keys.W))
-            {
-                this.Close();
-                return true;
-            }
-
-            if (keyData == (Keys.Control | Keys.F))
-            {
-                txtSearch.Focus();
-                txtSearch.SelectAll();
-
-                return true;
-            }
-
-
-            return base.ProcessCmdKey(ref msg, keyData);
-        }
 
 
         #endregion
@@ -579,7 +531,7 @@ namespace SearchDataSPM
             }
             else
             {
-                MetroFramework.MetroMessageBox.Show(this,"Your request can't be completed based on your security settings.", "SPM Connect - Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MetroFramework.MetroMessageBox.Show(this, "Your request can't be completed based on your security settings.", "SPM Connect - Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
         }
@@ -596,6 +548,67 @@ namespace SearchDataSPM
                 MetroFramework.MetroMessageBox.Show(this, "Your request can't be completed based on your security settings.", "SPM Connect - Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
+        }
+
+        #region Get BOM
+
+        // public static string jobtree;
+
+        private void processbom(string itemvalue)
+        {
+            TreeView treeView = new TreeView();
+            treeView.item(itemvalue);
+            treeView.Show();
+        }
+
+        #endregion
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Home))
+            {
+                Reload.PerformClick();
+                return true;
+            }
+
+            if (keyData == (Keys.Control | Keys.B))
+            {
+                string item;
+                if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
+                {
+                    int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
+                    DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
+                    item = Convert.ToString(slectedrow.Cells[2].Value);
+                }
+                else
+                {
+                    item = "";
+                }
+                processbom(item);
+
+                return true;
+            }
+
+            if (keyData == (Keys.Control | Keys.W))
+            {
+                this.Close();
+                return true;
+            }
+
+            if (keyData == (Keys.Control | Keys.V))
+            {
+                prorcessreportbom(getselectedworkorder(), "WorkOrder");
+                return true;
+            }
+
+            if (keyData == (Keys.Control | Keys.F))
+            {
+                txtSearch.Focus();
+                txtSearch.SelectAll();
+                return true;
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
         }
     }
 }

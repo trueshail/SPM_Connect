@@ -50,6 +50,7 @@ namespace SearchDataSPM
             this.matbttn = new System.Windows.Forms.Button();
             this.selectfolder = new System.Windows.Forms.Button();
             this.SPM = new System.Windows.Forms.Label();
+            this.parametersbttn = new System.Windows.Forms.Button();
             this.Userlistbox = new System.Windows.Forms.ListBox();
             this.department = new System.Windows.Forms.Label();
             this.username = new System.Windows.Forms.Label();
@@ -95,6 +96,8 @@ namespace SearchDataSPM
             this.cribouttoggle = new ToggleSlider.ToggleSliderComponent();
             this.label15 = new System.Windows.Forms.Label();
             this.scanwotoggle = new ToggleSlider.ToggleSliderComponent();
+            this.cribshorttoggle = new ToggleSlider.ToggleSliderComponent();
+            this.label16 = new System.Windows.Forms.Label();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -246,7 +249,7 @@ namespace SearchDataSPM
             // 
             // reluanchbttn
             // 
-            this.reluanchbttn.Location = new System.Drawing.Point(455, 637);
+            this.reluanchbttn.Location = new System.Drawing.Point(369, 639);
             this.reluanchbttn.Name = "reluanchbttn";
             this.reluanchbttn.Size = new System.Drawing.Size(117, 30);
             this.reluanchbttn.TabIndex = 30;
@@ -257,7 +260,7 @@ namespace SearchDataSPM
             // 
             // UserStats
             // 
-            this.UserStats.Location = new System.Drawing.Point(290, 637);
+            this.UserStats.Location = new System.Drawing.Point(237, 639);
             this.UserStats.Name = "UserStats";
             this.UserStats.Size = new System.Drawing.Size(115, 30);
             this.UserStats.TabIndex = 29;
@@ -317,6 +320,17 @@ namespace SearchDataSPM
             this.SPM.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.LabelTooltips.SetToolTip(this.SPM, "SPM Automation Inc.");
             this.SPM.DoubleClick += new System.EventHandler(this.SPM_DoubleClick);
+            // 
+            // parametersbttn
+            // 
+            this.parametersbttn.Location = new System.Drawing.Point(497, 639);
+            this.parametersbttn.Name = "parametersbttn";
+            this.parametersbttn.Size = new System.Drawing.Size(117, 30);
+            this.parametersbttn.TabIndex = 30;
+            this.parametersbttn.Text = "Set Parameters";
+            this.LabelTooltips.SetToolTip(this.parametersbttn, "Manage SPM Connect Parameters");
+            this.parametersbttn.UseVisualStyleBackColor = true;
+            this.parametersbttn.Click += new System.EventHandler(this.parametersbttn_Click);
             // 
             // Userlistbox
             // 
@@ -791,7 +805,7 @@ namespace SearchDataSPM
             this.admintoggle.Checked = false;
             this.admintoggle.Enabled = false;
             this.admintoggle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.admintoggle.Location = new System.Drawing.Point(296, 217);
+            this.admintoggle.Location = new System.Drawing.Point(304, 217);
             this.admintoggle.MaximumSize = new System.Drawing.Size(70, 25);
             this.admintoggle.MinimumSize = new System.Drawing.Size(70, 25);
             this.admintoggle.Name = "admintoggle";
@@ -808,7 +822,7 @@ namespace SearchDataSPM
             this.quotetoggle.Checked = false;
             this.quotetoggle.Enabled = false;
             this.quotetoggle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.quotetoggle.Location = new System.Drawing.Point(296, 258);
+            this.quotetoggle.Location = new System.Drawing.Point(304, 258);
             this.quotetoggle.MaximumSize = new System.Drawing.Size(70, 25);
             this.quotetoggle.MinimumSize = new System.Drawing.Size(70, 25);
             this.quotetoggle.Name = "quotetoggle";
@@ -825,7 +839,7 @@ namespace SearchDataSPM
             this.pricetoggle.Checked = false;
             this.pricetoggle.Enabled = false;
             this.pricetoggle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.pricetoggle.Location = new System.Drawing.Point(296, 297);
+            this.pricetoggle.Location = new System.Drawing.Point(304, 297);
             this.pricetoggle.MaximumSize = new System.Drawing.Size(70, 25);
             this.pricetoggle.MinimumSize = new System.Drawing.Size(70, 25);
             this.pricetoggle.Name = "pricetoggle";
@@ -842,7 +856,7 @@ namespace SearchDataSPM
             this.shiptoggle.Checked = false;
             this.shiptoggle.Enabled = false;
             this.shiptoggle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.shiptoggle.Location = new System.Drawing.Point(296, 332);
+            this.shiptoggle.Location = new System.Drawing.Point(304, 332);
             this.shiptoggle.MaximumSize = new System.Drawing.Size(70, 25);
             this.shiptoggle.MinimumSize = new System.Drawing.Size(70, 25);
             this.shiptoggle.Name = "shiptoggle";
@@ -911,7 +925,7 @@ namespace SearchDataSPM
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label14.Location = new System.Drawing.Point(415, 332);
+            this.label14.Location = new System.Drawing.Point(415, 369);
             this.label14.MaximumSize = new System.Drawing.Size(90, 15);
             this.label14.Name = "label14";
             this.label14.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -925,7 +939,7 @@ namespace SearchDataSPM
             this.cribouttoggle.Checked = false;
             this.cribouttoggle.Enabled = false;
             this.cribouttoggle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.cribouttoggle.Location = new System.Drawing.Point(507, 332);
+            this.cribouttoggle.Location = new System.Drawing.Point(507, 369);
             this.cribouttoggle.MaximumSize = new System.Drawing.Size(70, 25);
             this.cribouttoggle.MinimumSize = new System.Drawing.Size(70, 25);
             this.cribouttoggle.Name = "cribouttoggle";
@@ -943,7 +957,7 @@ namespace SearchDataSPM
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label15.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label15.Location = new System.Drawing.Point(415, 367);
+            this.label15.Location = new System.Drawing.Point(433, 332);
             this.label15.MaximumSize = new System.Drawing.Size(90, 15);
             this.label15.Name = "label15";
             this.label15.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -957,7 +971,7 @@ namespace SearchDataSPM
             this.scanwotoggle.Checked = false;
             this.scanwotoggle.Enabled = false;
             this.scanwotoggle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.scanwotoggle.Location = new System.Drawing.Point(507, 367);
+            this.scanwotoggle.Location = new System.Drawing.Point(507, 332);
             this.scanwotoggle.MaximumSize = new System.Drawing.Size(70, 25);
             this.scanwotoggle.MinimumSize = new System.Drawing.Size(70, 25);
             this.scanwotoggle.Name = "scanwotoggle";
@@ -968,13 +982,50 @@ namespace SearchDataSPM
             this.scanwotoggle.ToggleColorBar = System.Drawing.Color.LightGray;
             this.scanwotoggle.CheckChanged += new System.EventHandler(this.scanwotoggle_CheckChanged);
             // 
+            // cribshorttoggle
+            // 
+            this.cribshorttoggle.AutoSize = true;
+            this.cribshorttoggle.Checked = false;
+            this.cribshorttoggle.Enabled = false;
+            this.cribshorttoggle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.cribshorttoggle.Location = new System.Drawing.Point(305, 367);
+            this.cribshorttoggle.MaximumSize = new System.Drawing.Size(70, 25);
+            this.cribshorttoggle.MinimumSize = new System.Drawing.Size(70, 25);
+            this.cribshorttoggle.Name = "cribshorttoggle";
+            this.cribshorttoggle.Size = new System.Drawing.Size(70, 25);
+            this.cribshorttoggle.TabIndex = 98;
+            this.cribshorttoggle.ToggleBarText = "No";
+            this.cribshorttoggle.ToggleCircleColor = System.Drawing.Color.Red;
+            this.cribshorttoggle.ToggleColorBar = System.Drawing.Color.LightGray;
+            this.cribshorttoggle.CheckChanged += new System.EventHandler(this.cribshorttoggle_CheckChanged);
+            // 
+            // label16
+            // 
+            this.label16.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label16.Location = new System.Drawing.Point(223, 370);
+            this.label16.MaximumSize = new System.Drawing.Size(90, 30);
+            this.label16.Name = "label16";
+            this.label16.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label16.Size = new System.Drawing.Size(79, 15);
+            this.label16.TabIndex = 88;
+            this.label16.Text = "Crib Short :";
+            // 
             // spmadmin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(69)))), ((int)(((byte)(76)))));
             this.ClientSize = new System.Drawing.Size(625, 674);
+            this.Controls.Add(this.label16);
             this.Controls.Add(this.label15);
+            this.Controls.Add(this.cribshorttoggle);
+            this.Controls.Add(this.parametersbttn);
+            this.Controls.Add(this.reluanchbttn);
+            this.Controls.Add(this.UserStats);
             this.Controls.Add(this.scanwotoggle);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.cribouttoggle);
@@ -1010,10 +1061,8 @@ namespace SearchDataSPM
             this.Controls.Add(this.Cadblock);
             this.Controls.Add(this.useremailtxt);
             this.Controls.Add(this.activecadblocktxt);
-            this.Controls.Add(this.reluanchbttn);
             this.Controls.Add(this.matbttn);
             this.Controls.Add(this.custbttn);
-            this.Controls.Add(this.UserStats);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.cnclbttn);
             this.Controls.Add(this.updatesavebttn);
@@ -1109,5 +1158,8 @@ namespace SearchDataSPM
         private ToggleSlider.ToggleSliderComponent cribouttoggle;
         private System.Windows.Forms.Label label15;
         private ToggleSlider.ToggleSliderComponent scanwotoggle;
+        private System.Windows.Forms.Button parametersbttn;
+        private ToggleSlider.ToggleSliderComponent cribshorttoggle;
+        private System.Windows.Forms.Label label16;
     }
 }

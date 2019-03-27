@@ -75,17 +75,20 @@ namespace SearchDataSPM
 
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (dataGridView1.Rows[e.RowIndex].IsNewRow)
+            if (e.RowIndex != -1)
             {
-                dataGridView1.Columns[1].ReadOnly = false;
-                dataGridView1.BeginEdit(true);
-            }
-            else
-            {
-                dataGridView1.Columns[1].ReadOnly = true;
-                dataGridView1.BeginEdit(true);                
-                if (dataGridView1.CurrentCell.ColumnIndex.Equals(1) && e.RowIndex != -1)
-                    MessageBox.Show("Not allowed to edit parameters name as they are being used by the program.", "SPM Connect - Allow Edit", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                if (dataGridView1.Rows[e.RowIndex].IsNewRow)
+                {
+                    dataGridView1.Columns[1].ReadOnly = false;
+                    dataGridView1.BeginEdit(true);
+                }
+                else
+                {
+                    dataGridView1.Columns[1].ReadOnly = true;
+                    dataGridView1.BeginEdit(true);
+                    if (dataGridView1.CurrentCell.ColumnIndex.Equals(1) && e.RowIndex != -1)
+                        MessageBox.Show("Not allowed to edit parameters name as they are being used by the program.", "SPM Connect - Allow Edit", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                } 
             }
         }
     }

@@ -13,17 +13,15 @@ using SPMConnectAPI;
 
 namespace SearchDataSPM
 {
-
     public partial class SPM_ConnectJobs : Form
-
     {
         #region SPM Connect Load
 
-        String connection;
+        string connection;
         SqlConnection cn;
         DataTable dt;
         SqlCommand _command;
-        SPMConnectAPI.SPMSQLCommands connectapi = new SPMSQLCommands();
+        SPMSQLCommands connectapi = new SPMSQLCommands();
 
         public SPM_ConnectJobs()
 
@@ -61,48 +59,22 @@ namespace SearchDataSPM
 
             if (connectapi.CheckManagement())
             {
-                CreateFolderBttn.Visible = true;
                 CreateFolderBttn.Enabled = true;
                 contextMenuStrip1.Items[3].Enabled = true;
                 contextMenuStrip1.Items[3].Visible = true;
             }
-            else
-            {
-                CreateFolderBttn.Visible = false;
-                CreateFolderBttn.Enabled = true;
-                contextMenuStrip1.Items[3].Enabled = false;
-                contextMenuStrip1.Items[3].Visible = false;
-            }
             if (connectapi.checkpruchasereqrights())
             {
                 purchasereq.Enabled = true;
-                purchasereq.Visible = true;
-            }
-            else
-            {
-                purchasereq.Enabled = false;
-                purchasereq.Visible = false;
             }
             if (connectapi.checkquoterights())
             {
                 quotebttn.Enabled = true;
-                quotebttn.Visible = true;
-            }
-            else
-            {
-                quotebttn.Enabled = false;
-                quotebttn.Visible = false;
             }
 
             if (connectapi.checkShippingrights())
             {
                 shippingbttn.Enabled = true;
-                shippingbttn.Visible = true;
-            }
-            else
-            {
-                shippingbttn.Enabled = false;
-                shippingbttn.Visible = false;
             }
 
         }
@@ -436,57 +408,6 @@ namespace SearchDataSPM
                 e.SuppressKeyPress = true;
             }
         }
-
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            if (keyData == (Keys.Home))
-            {
-
-                Reload.PerformClick();
-
-                return true;
-            }
-            if (keyData == (Keys.Control | Keys.B))
-            {
-                int selectedclmindex = dataGridView.SelectedCells[0].ColumnIndex;
-                DataGridViewColumn columnchk = dataGridView.Columns[selectedclmindex];
-                string c = Convert.ToString(columnchk.Index);
-                //MessageBox.Show(c);
-                string item;
-                if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
-                {
-                    int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
-                    DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-                    item = Convert.ToString(slectedrow.Cells[3].Value);
-                    //MessageBox.Show(ItemNo);
-
-                }
-                else
-                {
-                    item = "";
-                }
-                processbom(item);
-
-                return true;
-            }
-            if (keyData == (Keys.Control | Keys.W))
-            {
-                this.Close();
-                return true;
-            }
-
-            if (keyData == (Keys.Control | Keys.F))
-            {
-                txtSearch.Focus();
-                txtSearch.SelectAll();
-
-                return true;
-            }
-
-
-            return base.ProcessCmdKey(ref msg, keyData);
-        }
-
 
         #endregion
 
@@ -993,7 +914,7 @@ namespace SearchDataSPM
             {
                 ValueIWantFromProptForm = jobtype.ValueIWant;
             }
-           
+
             if (ValueIWantFromProptForm.Length > 0)
             {
                 new Thread(() => new Engineering.WaitFormCreatingFolders().ShowDialog()).Start();
@@ -1024,7 +945,7 @@ namespace SearchDataSPM
                     sourcepaths300 = connectapi.GetServiceSalesSp();
                     destpaths300 = connectapi.GetServiceSalesDp() + salesorder + "_" + customer + "_Service" + "_" + jobdescription;
                 }
-                if(ValueIWantFromProptForm == "project" || ValueIWantFromProptForm == "spare" || ValueIWantFromProptForm == "service")
+                if (ValueIWantFromProptForm == "project" || ValueIWantFromProptForm == "spare" || ValueIWantFromProptForm == "service")
                 {
                     DirectoryCopy(sourcepathseng, destpatheng, true);
                     DirectoryCopy(sourcepaths300, destpaths300, true);
@@ -1038,9 +959,9 @@ namespace SearchDataSPM
             {
                 MetroFramework.MetroMessageBox.Show(this, "Job type selection was not made. System cannot create folders for the selected job.", "SPM Connect - Create New Folders", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-          
 
-           
+
+
             Cursor.Current = Cursors.Default;
             this.Enabled = true;
         }
@@ -1108,7 +1029,7 @@ namespace SearchDataSPM
 
         private string getcutomerid()
         {
-            
+
             string customer;
             if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
             {
@@ -1167,29 +1088,24 @@ namespace SearchDataSPM
 
         #region GetWorkorder
 
-        private String getselectedjobnumber()
+        private string getselectedjobnumber()
         {
-            int selectedclmindex = dataGridView.SelectedCells[0].ColumnIndex;
-            DataGridViewColumn columnchk = dataGridView.Columns[selectedclmindex];
-            string c = Convert.ToString(columnchk.Index);
-            //MessageBox.Show(c);
-            string item;
+            string item = "";
             if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
             {
                 int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                 DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
                 item = Convert.ToString(slectedrow.Cells[0].Value);
-                //MessageBox.Show(item);
-                return item;
             }
-            else
-            {
-                item = "";
-                return item;
-            }
+            return item;
         }
 
         private void getWorkOrderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            showworkorder();
+        }
+
+        private void showworkorder()
         {
             SPM_ConnectWM sPM_ConnectWM = new SPM_ConnectWM();
             sPM_ConnectWM.getjobnumber(getselectedjobnumber());
@@ -1216,6 +1132,61 @@ namespace SearchDataSPM
         }
 
         #endregion
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Home))
+            {
+                Reload.PerformClick();
+                return true;
+            }
+            if (keyData == (Keys.Control | Keys.B))
+            {
+                string item;
+                if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
+                {
+                    int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
+                    DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
+                    item = Convert.ToString(slectedrow.Cells[3].Value);
+                }
+                else
+                {
+                    item = "";
+                }
+                processbom(item);
+
+                return true;
+            }
+
+            if (keyData == (Keys.Control | Keys.W))
+            {
+                this.Close();
+                return true;
+            }
+
+            if (keyData == (Keys.Control | Keys.V))
+            {
+                showworkorder();
+                return true;
+            }
+
+            if (keyData == (Keys.Control | Keys.F))
+            {
+                txtSearch.Focus();
+                txtSearch.SelectAll();
+                return true;
+            }
+
+            if (keyData == (Keys.Control | Keys.Shift | Keys.C))
+            {
+                if (CreateFolderBttn.Enabled)
+                    createfolders();
+                return true;
+            }
+
+
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
 
         private void shippingbttn_Click(object sender, EventArgs e)
         {

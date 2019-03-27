@@ -283,6 +283,15 @@ namespace SearchDataSPM
                         scanwotoggle.Checked = false;
                     }
 
+                    if (dr["CribShort"].ToString().Equals("1"))
+                    {
+                        cribshorttoggle.Checked = true;
+                    }
+                    else
+                    {
+                        cribshorttoggle.Checked = false;
+                    }
+
                     runalltoggle();
 
 
@@ -341,6 +350,11 @@ namespace SearchDataSPM
 
         private void addnewbttn_Click(object sender, EventArgs e)
         {
+            performaddnewbutton();
+        }
+
+        private void performaddnewbutton()
+        {
             selectedindex = Userlistbox.SelectedIndex;
             nametextbox.ReadOnly = false;
             empidtxt.ReadOnly = false;
@@ -361,7 +375,7 @@ namespace SearchDataSPM
 
             papprovalchk.Enabled = true;
             papproval2chk.Enabled = true;
-            pbuyerchk.Enabled = true;           
+            pbuyerchk.Enabled = true;
 
             supervisorcombox.Enabled = true;
             deptcombobox.Enabled = true;
@@ -375,10 +389,11 @@ namespace SearchDataSPM
             Userlistbox.Enabled = false;
             button1.Enabled = false;
             reluanchbttn.Enabled = false;
+            parametersbttn.Enabled = false;
             custbttn.Enabled = false;
             matbttn.Enabled = false;
             UserStats.Enabled = false;
-            
+
             papproval2chk.Checked = false;
             papprovalchk.Checked = false;
             pbuyerchk.Checked = false;
@@ -396,6 +411,7 @@ namespace SearchDataSPM
             cribouttoggle.Enabled = true;
             purchasereqtoggle.Enabled = true;
             scanwotoggle.Enabled = true;
+            cribshorttoggle.Enabled = true;
         }
 
         private void disablealltoggles()
@@ -409,29 +425,38 @@ namespace SearchDataSPM
             cribouttoggle.Enabled = false;
             purchasereqtoggle.Enabled = false;
             scanwotoggle.Enabled = false;
+            cribshorttoggle.Enabled = false;
+
         }
 
         private void delbttn_Click(object sender, EventArgs e)
         {
+            performdeletebttn();
+
+        }
+
+        private void performdeletebttn()
+        {
             DialogResult result = MessageBox.Show(
-                  "Name = " + nametextbox.Text + Environment.NewLine +
-                  @"Domain\Username = " + domaintxtbox.Text + Environment.NewLine +
-                  @"Email = " + useremailtxt.Text + Environment.NewLine +
-                  "Department = " + deptcombobox.SelectedItem.ToString() + Environment.NewLine +
-                  "Admin = " + (admintoggle.Checked ? "Yes" : "No") + Environment.NewLine +
-                  "Developer = " + (developertoggle.Checked ? "Yes" : "No") + Environment.NewLine +
-                  "QuoteAccess = " + (quotetoggle.Checked ? "Yes" : "No") + Environment.NewLine +
-                  "PurchaseReq Access = " + (purchasereqtoggle.Checked ? "Yes" : "No") + Environment.NewLine +
-                  "Price Access = " + (pricetoggle.Checked ? "Yes" : "No") + Environment.NewLine +
-                  "Shipping Access = " + (shiptoggle.Checked ? "Yes" : "No") + Environment.NewLine +
-                  "PurchaseReqAdmin = " + (papprovalchk.Checked ? "Yes" : "No") + Environment.NewLine +
-                  "PurchaseReqHigher Approval = " + (papproval2chk.Checked ? "Yes" : "No") + Environment.NewLine +
-                  "PurchaseReqBuyer = " + (pbuyerchk.Checked ? "Yes" : "No") + Environment.NewLine +
-                  "Supervisor = " + supervisorcombox.SelectedItem.ToString().Substring(2) + Environment.NewLine +
-                  "CribCheckOut = " + (cribouttoggle.Checked ? "Yes" : "No") + Environment.NewLine +
-                  "Scan WorkOrder = " + (scanwotoggle.Checked ? "Yes" : "No") + Environment.NewLine +
-                  "Management = " + (managementtoggle.Checked ? "Yes" : "No"), "Update User Information?",
-                                                  MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                 "Name = " + nametextbox.Text + Environment.NewLine +
+                 @"Domain\Username = " + domaintxtbox.Text + Environment.NewLine +
+                 @"Email = " + useremailtxt.Text + Environment.NewLine +
+                 "Department = " + deptcombobox.SelectedItem.ToString() + Environment.NewLine +
+                 "Admin = " + (admintoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+                 "Developer = " + (developertoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+                 "QuoteAccess = " + (quotetoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+                 "PurchaseReq Access = " + (purchasereqtoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+                 "Price Access = " + (pricetoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+                 "Shipping Access = " + (shiptoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+                 "PurchaseReqAdmin = " + (papprovalchk.Checked ? "Yes" : "No") + Environment.NewLine +
+                 "PurchaseReqHigher Approval = " + (papproval2chk.Checked ? "Yes" : "No") + Environment.NewLine +
+                 "PurchaseReqBuyer = " + (pbuyerchk.Checked ? "Yes" : "No") + Environment.NewLine +
+                 "Supervisor = " + supervisorcombox.SelectedItem.ToString().Substring(2) + Environment.NewLine +
+                 "CribCheckOut = " + (cribouttoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+                 "CribShortNotfi = " + (cribshorttoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+                 "Scan WorkOrder = " + (scanwotoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+                 "Management = " + (managementtoggle.Checked ? "Yes" : "No"), "Update User Information?",
+                                                 MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
                 selectedindex = Userlistbox.SelectedIndex;
@@ -445,7 +470,7 @@ namespace SearchDataSPM
                     cmd.ExecuteNonQuery();
                     cn.Close();
                     MessageBox.Show("User deleted successfully", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    
+
                     domaintxtbox.Text = "";
                     nametextbox.Text = "";
 
@@ -459,7 +484,7 @@ namespace SearchDataSPM
                     papprovalchk.Checked = false;
                     papproval2chk.Checked = false;
                     pbuyerchk.Checked = false;
-                 
+
 
                 }
                 catch (Exception ex)
@@ -473,11 +498,16 @@ namespace SearchDataSPM
                 }
 
             }
-
         }
 
         private void updatebttn_Click(object sender, EventArgs e)
         {
+            performupdateuserdet();
+        }
+
+        private void performupdateuserdet()
+        {
+
             selectedindex = Userlistbox.SelectedIndex;
             nametextbox.ReadOnly = false;
             empidtxt.ReadOnly = false;
@@ -502,12 +532,18 @@ namespace SearchDataSPM
             Userlistbox.Enabled = false;
             button1.Enabled = false;
             reluanchbttn.Enabled = false;
+            parametersbttn.Enabled = false;
             custbttn.Enabled = false;
             matbttn.Enabled = false;
             UserStats.Enabled = false;
         }
 
         private void updatesavebttn_Click(object sender, EventArgs e)
+        {
+            saveuserdetails();
+        }
+
+        private void saveuserdetails()
         {
             if (controluseraction == "update")
             {
@@ -537,6 +573,7 @@ namespace SearchDataSPM
                "PurchaseReqBuyer = " + (pbuyerchk.Checked ? "Yes" : "No") + Environment.NewLine +
                "Supervisor = " + supervisorcombox.SelectedItem.ToString().Substring(2) + Environment.NewLine +
                "CribCheckOut = " + (cribouttoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+               "CribShortNotif = " + (cribshorttoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                "Sacn WorkOrder = " + (scanwotoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                "Management = " + (managementtoggle.Checked ? "Yes" : "No"), "Update User Information?",
                                                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -562,7 +599,7 @@ namespace SearchDataSPM
                         "PurchaseReqApproval = '" + (papprovalchk.Checked ? "1" : "0") + "',PurchaseReqApproval2 = '" + (papproval2chk.Checked ? "1" : "0") + "'," +
                         "PurchaseReqBuyer = '" + (pbuyerchk.Checked ? "1" : "0") + "',Supervisor = '" + supervisorcombox.SelectedItem.ToString().Substring(0, 2) + "'," +
                         "Email = '" + useremailtxt.Text + "',PriceRight = '" + (pricetoggle.Checked ? "1" : "0") + "',Shipping = '" + (shiptoggle.Checked ? "1" : "0") + "'," +
-                        "CribCheckout = '" + (cribouttoggle.Checked ? "1" : "0") + "',WOScan = '" + (scanwotoggle.Checked ? "1" : "0") + "',SharesFolder = '" + sharepathtxt.Text.Trim() + "'," +
+                        "CribCheckout = '" + (cribouttoggle.Checked ? "1" : "0") + "',CribShort = '" + (cribshorttoggle.Checked ? "1" : "0") + "',WOScan = '" + (scanwotoggle.Checked ? "1" : "0") + "',SharesFolder = '" + sharepathtxt.Text.Trim() + "'," +
                         "Emp_Id = '" + empidtxt.Text.Trim() + "' WHERE UserName = '" + domaintxtbox.Text + "' ";
 
                     cmd.ExecuteNonQuery();
@@ -607,6 +644,7 @@ namespace SearchDataSPM
                "PurchaseReqBuyer = " + (pbuyerchk.Checked ? "Yes" : "No") + Environment.NewLine +
                "Supervisor = " + supervisorcombox.SelectedItem.ToString().Substring(2) + Environment.NewLine +
                "CribCheckOut = " + (cribouttoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+               "CribShortNotif = " + (cribshorttoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                "Scan WorkOrder = " + (scanwotoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                "Management = " + (managementtoggle.Checked ? "Yes" : "No"), "Update User Information?",
                                                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -626,12 +664,12 @@ namespace SearchDataSPM
                     SqlCommand cmd = cn.CreateCommand();
                     cmd.CommandType = CommandType.Text;
                     cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Users]([Emp_Id], [UserName], [Department], [Name],[ActiveBlockNumber],[Admin],[Developer],[Management]," +
-                        "[Quote],[PurchaseReq],[PurchaseReqApproval],[PurchaseReqApproval2],[PurchaseReqBuyer],[PriceRight],[CribCheckout],[WOScan],[Shipping],[Supervisor],[Email],[SharesFolder]) " +
+                        "[Quote],[PurchaseReq],[PurchaseReqApproval],[PurchaseReqApproval2],[PurchaseReqBuyer],[PriceRight],[CribCheckout],[CribShort],[WOScan],[Shipping],[Supervisor],[Email],[SharesFolder]) " +
                         "VALUES('" + empidtxt.Text.Trim() + "','" + domaintxtbox.Text.Trim() + "','" + deptcombobox.SelectedItem.ToString() + "'," +
                         "'" + nametextbox.Text.Trim() + "','" + activeblocknumber + "','" + (admintoggle.Checked ? "1" : "0") + "','" + (developertoggle.Checked ? "1" : "0") + "'," +
                         "'" + (managementtoggle.Checked ? "1" : "0") + "','" + (quotetoggle.Checked ? "1" : "0") + "','" + (purchasereqtoggle.Checked ? "1" : "0") + "'," +
                         "'" + (papprovalchk.Checked ? "1" : "0") + "','" + (papproval2chk.Checked ? "1" : "0") + "','" + (pbuyerchk.Checked ? "1" : "0") + "'," +
-                        "'" + (pricetoggle.Checked ? "1" : "0") + "','" + (cribouttoggle.Checked ? "1" : "0") + "','" + (scanwotoggle.Checked ? "1" : "0") + "','" + (shiptoggle.Checked ? "1" : "0") + "'," +
+                        "'" + (pricetoggle.Checked ? "1" : "0") + "','" + (cribouttoggle.Checked ? "1" : "0") + "','" + (cribshorttoggle.Checked ? "1" : "0") + "','" + (scanwotoggle.Checked ? "1" : "0") + "','" + (shiptoggle.Checked ? "1" : "0") + "'," +
                         "'" + supervisorcombox.SelectedItem.ToString().Substring(0, 2).TrimEnd() + "','" + useremailtxt.Text + "','" + sharepathtxt.Text + "')";
                     cmd.ExecuteNonQuery();
                     cn.Close();
@@ -690,6 +728,7 @@ namespace SearchDataSPM
             Userlistbox.Enabled = true;
             button1.Enabled = true;
             reluanchbttn.Enabled = true;
+            parametersbttn.Enabled = true;
             custbttn.Enabled = true;
             matbttn.Enabled = true;
             UserStats.Enabled = true;
@@ -816,6 +855,12 @@ namespace SearchDataSPM
             this.Dispose();
         }
 
+        private void parametersbttn_Click(object sender, EventArgs e)
+        {
+            ConnectParameters parameters = new ConnectParameters();
+            parameters.ShowDialog();
+        }
+
         #endregion
 
         #region Toggle Events
@@ -836,6 +881,7 @@ namespace SearchDataSPM
             toggledeveloper();
             togglepurchasereq();
             toggleScanwo();
+            toggleCribShort();
         }
 
         private void toggleadmin()
@@ -982,6 +1028,22 @@ namespace SearchDataSPM
             }
         }
 
+        private void toggleCribShort()
+        {
+            if (cribshorttoggle.Checked)
+            {
+                cribshorttoggle.ToggleBarText = "Yes";
+                cribshorttoggle.ToggleCircleColor = Color.Green;
+                cribshorttoggle.ToggleColorBar = Color.White;
+            }
+            else
+            {
+                cribshorttoggle.ToggleBarText = "No";
+                cribshorttoggle.ToggleCircleColor = Color.Red;
+                cribshorttoggle.ToggleColorBar = Color.LightGray;
+            }
+        }
+
         private void quotetoggle_CheckChanged(object sender, EventArgs e)
         {
             togglequote();
@@ -1022,8 +1084,59 @@ namespace SearchDataSPM
             toggleScanwo();
         }
 
+        private void cribshorttoggle_CheckChanged(object sender, EventArgs e)
+        {
+            toggleCribShort();
+        }
+
+
         #endregion
 
+        #region shortcuts
 
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Control | Keys.S))
+            {
+                saveuserdetails();
+                return true;
+            }
+
+            if (keyData == (Keys.Control | Keys.X))
+            {
+                performcancelbutton();
+                return true;
+            }
+
+            if (keyData == (Keys.Control | Keys.W))
+            {
+                this.Close();
+                return true;
+            }
+
+            if (keyData == (Keys.Control | Keys.A))
+            {
+                performaddnewbutton();
+                return true;
+            }
+
+            if (keyData == (Keys.Control | Keys.E))
+            {
+                performupdateuserdet();
+                return true;
+            }
+
+            if (keyData == Keys.Delete)
+            {
+                performdeletebttn();
+                return true;
+            }
+
+
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        #endregion
+               
     }
 }
