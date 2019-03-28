@@ -3075,6 +3075,12 @@ namespace SearchDataSPM
         }
 
         #endregion
+
+        private void aboutbtn_Click(object sender, EventArgs e)
+        {
+            HelpForm helpForm = new HelpForm();
+            helpForm.ShowDialog();
+        }
     }
 
 }

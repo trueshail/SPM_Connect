@@ -32,9 +32,9 @@ namespace SearchDataSPM
 		{
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SPM_Connect));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.FormSelectorEng = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.bOMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.whereUsedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -73,6 +73,7 @@ namespace SearchDataSPM
             this.designedbycombobox = new System.Windows.Forms.ComboBox();
             this.MaterialcomboBox = new System.Windows.Forms.ComboBox();
             this.getnewitembttn = new System.Windows.Forms.Button();
+            this.aboutbtn = new System.Windows.Forms.Button();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.Listviewcontextmenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.bomlistviewmenustrpc = new System.Windows.Forms.ToolStripMenuItem();
@@ -327,7 +328,7 @@ namespace SearchDataSPM
             this.AddNewBttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.AddNewBttn.ForeColor = System.Drawing.Color.Transparent;
             this.AddNewBttn.Image = ((System.Drawing.Image)(resources.GetObject("AddNewBttn.Image")));
-            this.AddNewBttn.Location = new System.Drawing.Point(768, 19);
+            this.AddNewBttn.Location = new System.Drawing.Point(740, 20);
             this.AddNewBttn.MaximumSize = new System.Drawing.Size(25, 25);
             this.AddNewBttn.MinimumSize = new System.Drawing.Size(25, 25);
             this.AddNewBttn.Name = "AddNewBttn";
@@ -350,7 +351,7 @@ namespace SearchDataSPM
             this.jobsbttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.jobsbttn.ForeColor = System.Drawing.Color.Transparent;
             this.jobsbttn.Image = ((System.Drawing.Image)(resources.GetObject("jobsbttn.Image")));
-            this.jobsbttn.Location = new System.Drawing.Point(811, 19);
+            this.jobsbttn.Location = new System.Drawing.Point(783, 20);
             this.jobsbttn.MaximumSize = new System.Drawing.Size(25, 25);
             this.jobsbttn.MinimumSize = new System.Drawing.Size(25, 25);
             this.jobsbttn.Name = "jobsbttn";
@@ -408,7 +409,7 @@ namespace SearchDataSPM
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Reload.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.Reload.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Reload.Location = new System.Drawing.Point(630, 17);
+            this.Reload.Location = new System.Drawing.Point(595, 17);
             this.Reload.MaximumSize = new System.Drawing.Size(140, 30);
             this.Reload.MinimumSize = new System.Drawing.Size(140, 30);
             this.Reload.Name = "Reload";
@@ -431,7 +432,7 @@ namespace SearchDataSPM
             this.txtSearch.MaximumSize = new System.Drawing.Size(32767, 25);
             this.txtSearch.MinimumSize = new System.Drawing.Size(4, 25);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(415, 25);
+            this.txtSearch.Size = new System.Drawing.Size(380, 25);
             this.txtSearch.TabIndex = 106;
             this.TreeViewToolTip.SetToolTip(this.txtSearch, "Enter Search Keyword.\r\n");
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
@@ -530,7 +531,7 @@ namespace SearchDataSPM
             this.Manufactureritemcomboxbox.FormattingEnabled = true;
             this.Manufactureritemcomboxbox.Location = new System.Drawing.Point(8, 376);
             this.Manufactureritemcomboxbox.Name = "Manufactureritemcomboxbox";
-            this.Manufactureritemcomboxbox.Size = new System.Drawing.Size(155, 21);
+            this.Manufactureritemcomboxbox.Size = new System.Drawing.Size(159, 21);
             this.Manufactureritemcomboxbox.TabIndex = 125;
             this.TreeViewToolTip.SetToolTip(this.Manufactureritemcomboxbox, "Filter by OEM item number");
             this.Manufactureritemcomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Manufactureritemcomboxbox_KeyDown);
@@ -546,7 +547,7 @@ namespace SearchDataSPM
             this.familycomboxbox.FormattingEnabled = true;
             this.familycomboxbox.Location = new System.Drawing.Point(8, 227);
             this.familycomboxbox.Name = "familycomboxbox";
-            this.familycomboxbox.Size = new System.Drawing.Size(155, 21);
+            this.familycomboxbox.Size = new System.Drawing.Size(159, 21);
             this.familycomboxbox.TabIndex = 123;
             this.TreeViewToolTip.SetToolTip(this.familycomboxbox, "Filter by family type");
             this.familycomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.familycomboxbox_KeyDown);
@@ -562,7 +563,7 @@ namespace SearchDataSPM
             this.lastsavedbycombo.FormattingEnabled = true;
             this.lastsavedbycombo.Location = new System.Drawing.Point(8, 520);
             this.lastsavedbycombo.Name = "lastsavedbycombo";
-            this.lastsavedbycombo.Size = new System.Drawing.Size(155, 21);
+            this.lastsavedbycombo.Size = new System.Drawing.Size(159, 21);
             this.lastsavedbycombo.TabIndex = 127;
             this.TreeViewToolTip.SetToolTip(this.lastsavedbycombo, "Filter by last saved");
             this.lastsavedbycombo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lastsavedbycombo_KeyDown);
@@ -581,7 +582,7 @@ namespace SearchDataSPM
             "SPM AUTOMATION (Canada) INC."});
             this.oemitemcombobox.Location = new System.Drawing.Point(8, 301);
             this.oemitemcombobox.Name = "oemitemcombobox";
-            this.oemitemcombobox.Size = new System.Drawing.Size(155, 21);
+            this.oemitemcombobox.Size = new System.Drawing.Size(159, 21);
             this.oemitemcombobox.TabIndex = 124;
             this.TreeViewToolTip.SetToolTip(this.oemitemcombobox, "Filter by manufacture");
             this.oemitemcombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.oemitemcombobox_KeyDown);
@@ -597,7 +598,7 @@ namespace SearchDataSPM
             this.ActiveCadblockcombobox.FormattingEnabled = true;
             this.ActiveCadblockcombobox.Location = new System.Drawing.Point(8, 601);
             this.ActiveCadblockcombobox.Name = "ActiveCadblockcombobox";
-            this.ActiveCadblockcombobox.Size = new System.Drawing.Size(155, 21);
+            this.ActiveCadblockcombobox.Size = new System.Drawing.Size(159, 21);
             this.ActiveCadblockcombobox.TabIndex = 128;
             this.TreeViewToolTip.SetToolTip(this.ActiveCadblockcombobox, "Filter by current cad block number");
             this.ActiveCadblockcombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ActiveCadblockcombobox_KeyDown);
@@ -617,7 +618,7 @@ namespace SearchDataSPM
             "Joel Goldsmith"});
             this.designedbycombobox.Location = new System.Drawing.Point(8, 150);
             this.designedbycombobox.Name = "designedbycombobox";
-            this.designedbycombobox.Size = new System.Drawing.Size(155, 21);
+            this.designedbycombobox.Size = new System.Drawing.Size(159, 21);
             this.designedbycombobox.TabIndex = 122;
             this.TreeViewToolTip.SetToolTip(this.designedbycombobox, "Filter Designed by");
             this.designedbycombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.designedbycombobox_KeyDown);
@@ -633,7 +634,7 @@ namespace SearchDataSPM
             this.MaterialcomboBox.FormattingEnabled = true;
             this.MaterialcomboBox.Location = new System.Drawing.Point(8, 447);
             this.MaterialcomboBox.Name = "MaterialcomboBox";
-            this.MaterialcomboBox.Size = new System.Drawing.Size(155, 21);
+            this.MaterialcomboBox.Size = new System.Drawing.Size(159, 21);
             this.MaterialcomboBox.TabIndex = 126;
             this.TreeViewToolTip.SetToolTip(this.MaterialcomboBox, "Filter by Material");
             this.MaterialcomboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MaterialcomboBox_KeyDown);
@@ -651,7 +652,7 @@ namespace SearchDataSPM
             this.getnewitembttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.getnewitembttn.ForeColor = System.Drawing.Color.Transparent;
             this.getnewitembttn.Image = ((System.Drawing.Image)(resources.GetObject("getnewitembttn.Image")));
-            this.getnewitembttn.Location = new System.Drawing.Point(788, 19);
+            this.getnewitembttn.Location = new System.Drawing.Point(760, 20);
             this.getnewitembttn.MaximumSize = new System.Drawing.Size(25, 25);
             this.getnewitembttn.MinimumSize = new System.Drawing.Size(25, 25);
             this.getnewitembttn.Name = "getnewitembttn";
@@ -661,6 +662,29 @@ namespace SearchDataSPM
             this.TreeViewToolTip.SetToolTip(this.getnewitembttn, "What\'s My Next Item No.");
             this.getnewitembttn.UseVisualStyleBackColor = false;
             this.getnewitembttn.Click += new System.EventHandler(this.getnewitembttn_Click);
+            // 
+            // aboutbtn
+            // 
+            this.aboutbtn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.aboutbtn.BackColor = System.Drawing.Color.Transparent;
+            this.aboutbtn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
+            this.aboutbtn.FlatAppearance.BorderSize = 0;
+            this.aboutbtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.aboutbtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.aboutbtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.aboutbtn.ForeColor = System.Drawing.Color.Transparent;
+            this.aboutbtn.Image = ((System.Drawing.Image)(resources.GetObject("aboutbtn.Image")));
+            this.aboutbtn.Location = new System.Drawing.Point(810, 18);
+            this.aboutbtn.MaximumSize = new System.Drawing.Size(25, 25);
+            this.aboutbtn.MinimumSize = new System.Drawing.Size(25, 25);
+            this.aboutbtn.Name = "aboutbtn";
+            this.aboutbtn.Size = new System.Drawing.Size(25, 25);
+            this.aboutbtn.TabIndex = 117;
+            this.aboutbtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.TreeViewToolTip.SetToolTip(this.aboutbtn, "About SPM Connect");
+            this.aboutbtn.UseVisualStyleBackColor = false;
+            this.aboutbtn.Click += new System.EventHandler(this.aboutbtn_Click);
             // 
             // imageList
             // 
@@ -750,6 +774,7 @@ namespace SearchDataSPM
             this.splitContainer1.Panel1.Controls.Add(this.advsearchbttn);
             this.splitContainer1.Panel1.Controls.Add(this.SPM);
             this.splitContainer1.Panel1.Controls.Add(this.recordlabel);
+            this.splitContainer1.Panel1.Controls.Add(this.aboutbtn);
             this.splitContainer1.Panel1.Controls.Add(this.AddNewBttn);
             this.splitContainer1.Panel1.Controls.Add(this.jobsbttn);
             this.splitContainer1.Panel1.Controls.Add(this.listView);
@@ -881,8 +906,8 @@ namespace SearchDataSPM
             // descriptionDataGridViewTextBoxColumn
             // 
             this.descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
-            dataGridViewCellStyle1.NullValue = null;
-            this.descriptionDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.NullValue = null;
+            this.descriptionDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle4;
             this.descriptionDataGridViewTextBoxColumn.FillWeight = 86.92893F;
             this.descriptionDataGridViewTextBoxColumn.HeaderText = "Description";
             this.descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
@@ -903,8 +928,8 @@ namespace SearchDataSPM
             // manufacturerDataGridViewTextBoxColumn
             // 
             this.manufacturerDataGridViewTextBoxColumn.DataPropertyName = "Manufacturer";
-            dataGridViewCellStyle2.NullValue = null;
-            this.manufacturerDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.NullValue = null;
+            this.manufacturerDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle5;
             this.manufacturerDataGridViewTextBoxColumn.FillWeight = 86.92893F;
             this.manufacturerDataGridViewTextBoxColumn.HeaderText = "Manufacturer";
             this.manufacturerDataGridViewTextBoxColumn.Name = "manufacturerDataGridViewTextBoxColumn";
@@ -913,8 +938,8 @@ namespace SearchDataSPM
             // manufacturerItemNumberDataGridViewTextBoxColumn
             // 
             this.manufacturerItemNumberDataGridViewTextBoxColumn.DataPropertyName = "ManufacturerItemNumber";
-            dataGridViewCellStyle3.NullValue = null;
-            this.manufacturerItemNumberDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.NullValue = null;
+            this.manufacturerItemNumberDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle6;
             this.manufacturerItemNumberDataGridViewTextBoxColumn.FillWeight = 86.92893F;
             this.manufacturerItemNumberDataGridViewTextBoxColumn.HeaderText = "Manufacturer Item Number";
             this.manufacturerItemNumberDataGridViewTextBoxColumn.Name = "manufacturerItemNumberDataGridViewTextBoxColumn";
@@ -1340,6 +1365,7 @@ namespace SearchDataSPM
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem9;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem10;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem11;
+        private System.Windows.Forms.Button aboutbtn;
 
 
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member 'SPM_Connect.txtSearch'

@@ -1,10 +1,12 @@
 ﻿using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
+using System.Net.Mail;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -2466,7 +2468,7 @@ namespace SPMConnectAPI
             bool completed = false;
 
             string usernamesfromitem = Getusernamesfromfavorites(itemid);
-           
+
             updateusernametoitemonfavorites(itemid, removeusername(usernamesfromitem));
 
             MessageBox.Show("Item removed from your favorite list", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -2555,7 +2557,7 @@ namespace SPMConnectAPI
                 {
                     cmd.CommandText = "DELETE FROM [SPM_Database].[dbo].[favourite] WHERE Item = '" + itemid + "'";
                 }
-                
+
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -2633,14 +2635,97 @@ namespace SPMConnectAPI
                 else
                 {
                     removedusername += word.Trim();
-                    if(word.Trim() != "")
-                    removedusername += ",";                
+                    if (word.Trim() != "")
+                        removedusername += ",";
                 }
             }
             return removedusername.Trim();
         }
 
-        #endregion       
+        #endregion
+
+        public void sendemail(string emailtosend, string subject, string body, string filetoattach, string cc)
+        {
+
+            try
+            {
+                MailMessage message = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient("spmautomation-com0i.mail.protection.outlook.com");
+                message.From = new MailAddress("connect@spm-automation.com", "SPM Connect");
+                System.Net.Mail.Attachment attachment;
+                message.To.Add(emailtosend);
+                if (cc == "")
+                {
+
+                }
+                else
+                {
+                    message.CC.Add(cc);
+                }
+                message.Subject = subject;
+                message.Body = body;
+
+
+                if (filetoattach == "")
+                {
+
+                }
+                else
+                {
+
+                    attachment = new System.Net.Mail.Attachment(filetoattach);
+                    message.Attachments.Add(attachment);
+                }
+                SmtpServer.Port = 25;
+                SmtpServer.UseDefaultCredentials = true;
+                SmtpServer.EnableSsl = true;
+                SmtpServer.Send(message);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Send Email", MessageBoxButtons.OK);
+            }
+
+
+        }
+
+        public List<string> getdevelopersnamesandemail()
+        {
+
+            List<string> Happrovalnames = new List<string>();
+
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [Developer] = '1' ";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    Happrovalnames.Add(dr["Email"].ToString() + "][" + dr["Name"].ToString());
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message, "SPM Connect - Get User Name and Email", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return Happrovalnames;
+        }
 
     }
 }

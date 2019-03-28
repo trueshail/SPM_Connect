@@ -118,19 +118,25 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Login-Manager" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Login-Manager.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="spm_smal3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\spm_smal3.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="spmchristmas" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\spmchristmas.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="spm_white_icon_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\spm_white_icon_21.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="spm_white_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\spm_white_icon1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Login-Manager" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Login-Manager.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="spm_white_icon_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\spm_white_icon_21.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spmchristmas1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\spmchristmas.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SPMConnect" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SPMConnect.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

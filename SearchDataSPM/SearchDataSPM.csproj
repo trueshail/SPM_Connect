@@ -236,6 +236,12 @@
     <Compile Include="Admin-developer\ConnectParameters.Designer.cs">
       <DependentUpon>ConnectParameters.cs</DependentUpon>
     </Compile>
+    <Compile Include="Admin-developer\HelpForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Admin-developer\HelpForm.Designer.cs">
+      <DependentUpon>HelpForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Admin-developer\Materials.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -616,6 +622,9 @@
     <EmbeddedResource Include="Admin-developer\ConnectParameters.resx">
       <DependentUpon>ConnectParameters.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Admin-developer\HelpForm.resx">
+      <DependentUpon>HelpForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Admin-developer\Materials.resx">
       <DependentUpon>Materials.cs</DependentUpon>
     </EmbeddedResource>
@@ -969,6 +978,7 @@
     <None Include="Resources\spmchristmas.gif" />
     <None Include="Resources\spm_smal3.bmp" />
     <None Include="Resources\Login-Manager.png" />
+    <Content Include="Resources\SPMConnect.png" />
     <Content Include="Resources\spm_white_icon.png" />
     <None Include="Resources\spm_white_icon_21.gif" />
     <None Include="Resources\spm_white_icon1.png" />
@@ -1058,6 +1068,7 @@
       <Name>SPMConnectAPI</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
