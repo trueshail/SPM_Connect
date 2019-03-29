@@ -75,11 +75,13 @@
             this.notesgroupbox = new System.Windows.Forms.GroupBox();
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.statusStrip1.SuspendLayout();
             this.ItemsGrpBox.SuspendLayout();
             this.wogroupbox.SuspendLayout();
             this.empgrpbox.SuspendLayout();
             this.notesgroupbox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // notestxt
@@ -329,7 +331,6 @@
             // 
             // PrintToolStrip
             // 
-            this.PrintToolStrip.Enabled = false;
             this.PrintToolStrip.Image = ((System.Drawing.Image)(resources.GetObject("PrintToolStrip.Image")));
             this.PrintToolStrip.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.PrintToolStrip.Name = "PrintToolStrip";
@@ -851,6 +852,11 @@
             this.printPreviewDialog1.Name = "printPreviewDialog1";
             this.printPreviewDialog1.Visible = false;
             // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
+            this.errorProvider1.RightToLeft = true;
+            // 
             // MatReAlloc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -886,6 +892,7 @@
             this.empgrpbox.PerformLayout();
             this.notesgroupbox.ResumeLayout(false);
             this.notesgroupbox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -937,5 +944,6 @@
         private MetroFramework.Controls.MetroTextBox wotakentxt;
         private System.Drawing.Printing.PrintDocument printDocument1;
         private System.Windows.Forms.PrintPreviewDialog printPreviewDialog1;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }

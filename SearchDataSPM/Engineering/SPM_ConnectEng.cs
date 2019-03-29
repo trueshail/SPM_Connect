@@ -1418,8 +1418,7 @@ namespace SearchDataSPM
 
             return base.ProcessCmdKey(ref msg, keyData);
         }
-
-
+        
         #endregion
 
         #region ItemListView events

@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -153,14 +152,16 @@ namespace SearchDataSPM
         {
             if (savbttn.Visible == true)
             {
-                DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to close without saving changes?", "SPM Connect - Save Invoice Details", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (result == DialogResult.Yes)
+                errorProvider1.Clear();
+                e.Cancel = true;
+                if (!(appnametxt.Text.Trim().Length > 0 && qtytxt.Text.Trim().Length > 0))
                 {
-                    this.Dispose();
+                    errorProvider1.SetError(qtytxt, "Qty cannot be null");
+                    errorProvider1.SetError(appidtxt, "Scan Emp Id");
                 }
                 else
                 {
-                    e.Cancel = (result == DialogResult.No);
+                    errorProvider1.SetError(savbttn, "Save before closing");
                 }
             }
             else
@@ -221,21 +222,30 @@ namespace SearchDataSPM
 
         void perfromsavebttn()
         {
-            Cursor.Current = Cursors.WaitCursor;
-            this.Enabled = false;
-            perfromlockdown();
-            graballinfor();
-            if (connectapi.UpdateInvoiceDetsToSql(list[0].ToString(), list[1].ToString(), list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(), list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(), list[10].ToString(), list[11].ToString(), list[12].ToString(), list[13].ToString(), list[14].ToString()))
+            errorProvider1.Clear();
+            if (!(appnametxt.Text.Trim().Length>0 && qtytxt.Text.Trim().Length > 0 ))
             {
-                if (GetMatReInfo(list[0].ToString()))
-                {
-                    FillInfo();
-                    //SaveReport(invoicetxtbox.Text);
-                }
+                errorProvider1.SetError(qtytxt, "Qty cannot be null");
+                errorProvider1.SetError(appidtxt, "It has to be approved");
             }
-            PrintToolStrip.Enabled = true;
-            this.Enabled = true;
-            Cursor.Current = Cursors.Default;
+            else
+            {
+                Cursor.Current = Cursors.WaitCursor;
+                this.Enabled = false;
+                perfromlockdown();
+                graballinfor();
+                if (connectapi.UpdateInvoiceDetsToSql(list[0].ToString(), list[1].ToString(), list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(), list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(), list[10].ToString(), list[11].ToString(), list[12].ToString(), list[13].ToString(), list[14].ToString()))
+                {
+                    if (GetMatReInfo(list[0].ToString()))
+                    {
+                        FillInfo();
+                        SaveReport(invoicetxtbox.Text);
+                    }
+                }
+                this.Enabled = true;
+                Cursor.Current = Cursors.Default;
+            }
+           
 
         }
 
@@ -286,7 +296,7 @@ namespace SearchDataSPM
 
         private void SaveReport(string Invoiceno)
         {
-            string filepath = connectapi.getsharesfolder() + @"\SPM_Connect\MaterialReallocations\";
+            string filepath = @"\\spm-adfs\SDBASE\Reports\MaterialReallocations\";
             System.IO.Directory.CreateDirectory(filepath);
             filepath += Invoiceno + ".pdf";
             savereporttodir(Invoiceno, filepath);
@@ -320,7 +330,7 @@ namespace SearchDataSPM
             string[] streamIDs = null;
             string _reportName = "";
 
-            _reportName = @"/GeniusReports/PurchaseOrder/SPM_ShippingInvoicePacking";
+            _reportName = @"/GeniusReports/WorkOrder/SPM_Connect_MatReAloc";
             string _historyID = null;
             bool _forRendering = false;
             RS2005.ParameterValue[] _values = null;
@@ -361,7 +371,37 @@ namespace SearchDataSPM
             }
             finally
             {
+                sendemailtomanagers(invoiceno, fileName);
+                MessageBox.Show("Email successfully sent to managers.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+        }
+
+        void sendemailtomanagers(string reqno, string fileName)
+        {
+            connectapi.SPM_Connect();
+            string[] nameemail = connectapi.getcribshortemails().ToArray();
+            for (int i = 0; i < nameemail.Length; i++)
+            {
+                string[] values = nameemail[i].Replace("][", "~").Split('~');
+
+                for (int a = 0; a < values.Length; a++)
+                {
+                    values[a] = values[a].Trim();
+
+                }
+                string email = values[0];
+                string name = values[1];
+
+                string[] names = name.Replace(" ", "~").Split('~');
+                for (int b = 0; b < names.Length; b++)
+                {
+                    names[b] = names[b].Trim();
+
+                }
+                name = names[0];
+                connectapi.sendemail(email, reqno + " Material Re-Allocation", "Hello " + name + "," + Environment.NewLine + " Please see attached invoice regarding crib shortage", fileName, "");
+            }
+
         }
 
         #endregion
@@ -551,15 +591,20 @@ namespace SearchDataSPM
                 
                 e.Handled = true;
             }
+            if (System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"[0-9+\b]"))
+            {
+                // Stop the character from being entered into the control since it is illegal.
+
+            }
+            else
+            {
+                e.Handled = true;
+            }
         }
 
         private void qtytxt_Leave(object sender, EventArgs e)
         {
-            if (qtytxt.Text == "" || qtytxt.Text == "0")
-            {
-                qtytxt.Clear();
-                qtytxt.Focus();
-            }
+           
         }
 
         private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
@@ -569,7 +614,16 @@ namespace SearchDataSPM
 
         private void PrintToolStrip_Click(object sender, EventArgs e)
         {
-           
+            reportpurchaereq(Invoice_Number, "MatReAloc");
+        }
+
+        private void reportpurchaereq(string itemvalue, string Reportname)
+        {
+            ReportViewer form1 = new ReportViewer();
+            form1.item(itemvalue);
+            form1.getreport(Reportname);
+            form1.Show();
+
         }
     }
 }

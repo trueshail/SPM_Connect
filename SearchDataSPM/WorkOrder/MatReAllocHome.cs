@@ -672,7 +672,6 @@ namespace SearchDataSPM
 
                 return true;
             }
-
             if (keyData == (Keys.Control | Keys.F))
             {
                 txtSearch.Focus();
@@ -698,10 +697,10 @@ namespace SearchDataSPM
                 }
                 return true;
             }
+            
 
             return base.ProcessCmdKey(ref msg, keyData);
         }
-
 
         #endregion        
 

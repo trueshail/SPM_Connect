@@ -20,6 +20,7 @@ namespace SearchDataSPM
         {
             bindingSource1.EndEdit();
             dataAdapter.Update((DataTable)bindingSource1.DataSource);
+            GetData();
             MessageBox.Show("You have successfully saved changes.","SPM Connect",MessageBoxButtons.OK,MessageBoxIcon.Information);
         }
 
@@ -91,5 +92,6 @@ namespace SearchDataSPM
                 } 
             }
         }
+
     }
 }
