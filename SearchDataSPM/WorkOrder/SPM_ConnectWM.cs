@@ -595,7 +595,7 @@ namespace SearchDataSPM
                 return true;
             }
 
-            if (keyData == (Keys.Control | Keys.V))
+            if (keyData == (Keys.Control | Keys.D))
             {
                 prorcessreportbom(getselectedworkorder(), "WorkOrder");
                 return true;

@@ -1137,6 +1137,22 @@ namespace SearchDataSPM
         }
 
         #endregion
-               
+
+        private void spmadmin_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (updatesavebttn.Visible == true)
+            {
+                DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to close without saving changes?", "SPM Connect - Save User Details", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    
+                    this.Dispose();
+                }
+                else
+                {
+                    e.Cancel = (result == DialogResult.No);
+                }
+            }
+        }
     }
 }

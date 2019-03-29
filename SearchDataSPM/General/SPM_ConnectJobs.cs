@@ -1164,7 +1164,7 @@ namespace SearchDataSPM
                 return true;
             }
 
-            if (keyData == (Keys.Control | Keys.V))
+            if (keyData == (Keys.Control | Keys.D))
             {
                 showworkorder();
                 return true;

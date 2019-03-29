@@ -34,7 +34,6 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.time_lbl = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.adminbttn = new System.Windows.Forms.Button();
             this.timer3 = new System.Windows.Forms.Timer(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.woid_txtbox = new MetroFramework.Controls.MetroTextBox();
@@ -89,18 +88,6 @@
             this.dataGridView1.TabIndex = 14;
             this.dataGridView1.TabStop = false;
             this.dataGridView1.Visible = false;
-            // 
-            // adminbttn
-            // 
-            this.adminbttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.adminbttn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
-            this.adminbttn.Image = ((System.Drawing.Image)(resources.GetObject("adminbttn.Image")));
-            this.adminbttn.Location = new System.Drawing.Point(457, -1);
-            this.adminbttn.Name = "adminbttn";
-            this.adminbttn.Size = new System.Drawing.Size(37, 37);
-            this.adminbttn.TabIndex = 15;
-            this.adminbttn.TabStop = false;
-            this.adminbttn.UseVisualStyleBackColor = true;
             // 
             // timer3
             // 
@@ -166,7 +153,6 @@
             this.Controls.Add(this.woid_txtbox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.time_lbl);
-            this.Controls.Add(this.adminbttn);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.wo_label);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
@@ -192,7 +178,6 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label time_lbl;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Button adminbttn;
         private System.Windows.Forms.Timer timer3;
         private System.Windows.Forms.Label label1;
         private MetroFramework.Controls.MetroTextBox woid_txtbox;

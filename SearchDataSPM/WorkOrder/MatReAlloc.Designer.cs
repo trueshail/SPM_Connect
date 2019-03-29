@@ -73,6 +73,8 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.notesgroupbox = new System.Windows.Forms.GroupBox();
+            this.printDocument1 = new System.Drawing.Printing.PrintDocument();
+            this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
             this.statusStrip1.SuspendLayout();
             this.ItemsGrpBox.SuspendLayout();
             this.wogroupbox.SuspendLayout();
@@ -334,6 +336,7 @@
             this.PrintToolStrip.Size = new System.Drawing.Size(64, 20);
             this.PrintToolStrip.Text = "Print";
             this.PrintToolStrip.ToolTipText = "Print Invoice";
+            this.PrintToolStrip.Click += new System.EventHandler(this.PrintToolStrip_Click);
             // 
             // SPM
             // 
@@ -833,6 +836,21 @@
             this.notesgroupbox.Text = "Comments / Notes";
             this.notesgroupbox.UseCompatibleTextRendering = true;
             // 
+            // printDocument1
+            // 
+            this.printDocument1.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printDocument1_PrintPage);
+            // 
+            // printPreviewDialog1
+            // 
+            this.printPreviewDialog1.AutoScrollMargin = new System.Drawing.Size(0, 0);
+            this.printPreviewDialog1.AutoScrollMinSize = new System.Drawing.Size(0, 0);
+            this.printPreviewDialog1.ClientSize = new System.Drawing.Size(400, 300);
+            this.printPreviewDialog1.Document = this.printDocument1;
+            this.printPreviewDialog1.Enabled = true;
+            this.printPreviewDialog1.Icon = ((System.Drawing.Icon)(resources.GetObject("printPreviewDialog1.Icon")));
+            this.printPreviewDialog1.Name = "printPreviewDialog1";
+            this.printPreviewDialog1.Visible = false;
+            // 
             // MatReAlloc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -917,5 +935,7 @@
         private MetroFramework.Controls.MetroTextBox empidtxt;
         private MetroFramework.Controls.MetroTextBox woreqtxt;
         private MetroFramework.Controls.MetroTextBox wotakentxt;
+        private System.Drawing.Printing.PrintDocument printDocument1;
+        private System.Windows.Forms.PrintPreviewDialog printPreviewDialog1;
     }
 }

@@ -23,7 +23,15 @@ namespace SearchDataSPM
 
         private void shrtcutbttn_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(@"\\spm-adfs\SDBASE\SPM Connect SQL\Keyshorts.pdf");           
+            try
+            {
+                System.Diagnostics.Process.Start(@"\\spm-adfs\SDBASE\SPM Connect SQL\ConnectHotKeys.pdf");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+                  
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -101,9 +109,33 @@ namespace SearchDataSPM
 
                 }
                 name = names[0];
-                connectapi.sendemail(email,"Connect Error Occured - " + subject, "Hello " + name + "," + Environment.NewLine + requser + " sent this error report." + Environment.NewLine + notes, fileName,"");
+                connectapi.sendemail(email,"Connect Error Occured - " + subject, "Hello " + name + "," + Environment.NewLine + requser + " sent this error report." + Environment.NewLine + notes + Environment.NewLine + "Triggered by "+connectapi.UserName(), fileName,"");
             }
 
+        }
+
+        private void nametxt_TextChanged(object sender, EventArgs e)
+        {
+            if (nametxt.Text.Length > 0 && notestxt.Text.Length>0)
+            {
+                sendemailbttn.Enabled = true;
+            }
+            else
+            {
+                sendemailbttn.Enabled = false;
+            }
+        }
+
+        private void notestxt_TextChanged(object sender, EventArgs e)
+        {
+            if (notestxt.Text.Length > 0 && nametxt.Text.Length>0)
+            {
+                sendemailbttn.Enabled = true;
+            }
+            else
+            {
+                sendemailbttn.Enabled = false;
+            }
         }
     }
 }

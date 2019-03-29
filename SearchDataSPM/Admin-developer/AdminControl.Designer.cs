@@ -1085,6 +1085,7 @@ namespace SearchDataSPM
             this.Name = "spmadmin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Amin Control";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.spmadmin_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.spmadmin_FormClosed);
             this.Load += new System.EventHandler(this.ParentView_Load);
             this.contextMenuStrip1.ResumeLayout(false);

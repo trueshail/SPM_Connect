@@ -266,13 +266,13 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.Notestextbox.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.Notestextbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Notestextbox.Location = new System.Drawing.Point(100, 333);
-            this.Notestextbox.MaximumSize = new System.Drawing.Size(500, 100);
+            this.Notestextbox.Location = new System.Drawing.Point(100, 321);
             this.Notestextbox.MinimumSize = new System.Drawing.Size(180, 100);
             this.Notestextbox.Multiline = true;
             this.Notestextbox.Name = "Notestextbox";
             this.Notestextbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.Notestextbox.Size = new System.Drawing.Size(325, 100);
+            this.Notestextbox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.Notestextbox.Size = new System.Drawing.Size(325, 136);
             this.Notestextbox.TabIndex = 8;
             this.LabelTooltips.SetToolTip(this.Notestextbox, "Item material property");
             // 
@@ -504,9 +504,9 @@
             this.label9.MaximumSize = new System.Drawing.Size(57, 15);
             this.label9.Name = "label9";
             this.label9.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label9.Size = new System.Drawing.Size(49, 15);
+            this.label9.Size = new System.Drawing.Size(56, 15);
             this.label9.TabIndex = 67;
-            this.label9.Text = "Note : ";
+            this.label9.Text = "Notes : ";
             // 
             // listView
             // 

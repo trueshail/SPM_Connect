@@ -107,6 +107,7 @@
             this.notestxt.Multiline = true;
             this.notestxt.Name = "notestxt";
             this.notestxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.notestxt.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.notestxt.Size = new System.Drawing.Size(412, 173);
             this.notestxt.TabIndex = 8;
             // 

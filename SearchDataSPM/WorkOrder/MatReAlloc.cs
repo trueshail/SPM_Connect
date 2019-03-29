@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Drawing;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -288,10 +289,10 @@ namespace SearchDataSPM
             string filepath = connectapi.getsharesfolder() + @"\SPM_Connect\MaterialReallocations\";
             System.IO.Directory.CreateDirectory(filepath);
             filepath += Invoiceno + ".pdf";
-            SaveReport(Invoiceno, filepath);
+            savereporttodir(Invoiceno, filepath);
         }
 
-        private void SaveReport(string invoiceno, string fileName)
+        private void savereporttodir(string invoiceno, string fileName)
         {
 
             RS2005.ReportingService2005 rs;
@@ -312,9 +313,9 @@ namespace SearchDataSPM
             string deviceInfo = null;
             string format = "PDF";
             Byte[] results;
-            string encoding = String.Empty;
-            string mimeType = String.Empty;
-            string extension = String.Empty;
+            string encoding = string.Empty;
+            string mimeType = string.Empty;
+            string extension = string.Empty;
             RE2005.Warning[] warnings = null;
             string[] streamIDs = null;
             string _reportName = "";
@@ -559,6 +560,16 @@ namespace SearchDataSPM
                 qtytxt.Clear();
                 qtytxt.Focus();
             }
+        }
+
+        private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        {
+          
+        }
+
+        private void PrintToolStrip_Click(object sender, EventArgs e)
+        {
+           
         }
     }
 }

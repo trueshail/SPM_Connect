@@ -125,7 +125,7 @@
             this.commentslbl.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.commentslbl.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.commentslbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.commentslbl.Location = new System.Drawing.Point(6, 623);
+            this.commentslbl.Location = new System.Drawing.Point(6, 608);
             this.commentslbl.Name = "commentslbl";
             this.commentslbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.commentslbl.Size = new System.Drawing.Size(92, 15);
@@ -138,13 +138,14 @@
             this.notestxt.BackColor = System.Drawing.Color.White;
             this.notestxt.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.notestxt.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.notestxt.Location = new System.Drawing.Point(3, 638);
+            this.notestxt.Location = new System.Drawing.Point(3, 623);
             this.notestxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.notestxt.Multiline = true;
             this.notestxt.Name = "notestxt";
             this.notestxt.ReadOnly = true;
             this.notestxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.notestxt.Size = new System.Drawing.Size(593, 48);
+            this.notestxt.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.notestxt.Size = new System.Drawing.Size(593, 63);
             this.notestxt.TabIndex = 12;
             this.TreeViewToolTip.SetToolTip(this.notestxt, "Notes or comments for invoice");
             // 
@@ -1248,7 +1249,7 @@
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.Size = new System.Drawing.Size(998, 290);
+            this.dataGridView1.Size = new System.Drawing.Size(998, 274);
             this.dataGridView1.TabIndex = 15;
             this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
             this.dataGridView1.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDown);

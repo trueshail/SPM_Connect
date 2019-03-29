@@ -1073,14 +1073,12 @@ namespace SearchDataSPM
 
         private void admin_bttn_Click(object sender, EventArgs e)
         {
-            BeginInvoke(new Action(() =>
+            using (spmadmin spmadmin = new spmadmin())
             {
-
-                spmadmin spmadmin = new spmadmin();
-                spmadmin.Owner = this;
-                spmadmin.ShowDialog(this);
-            }));
-
+                spmadmin.ShowDialog();
+                this.Activate();
+            }
+               
         }
 
         #endregion
@@ -1409,6 +1407,12 @@ namespace SearchDataSPM
                 Compare sPM_ConnectJobs = new Compare();
                 sPM_ConnectJobs.item(getitemnumberselected());
                 sPM_ConnectJobs.Show();
+                return true;
+            }
+
+            if (keyData == Keys.F1)
+            {
+                showhelp();
                 return true;
             }
 
@@ -3077,6 +3081,11 @@ namespace SearchDataSPM
         #endregion
 
         private void aboutbtn_Click(object sender, EventArgs e)
+        {
+            showhelp();
+        }
+
+        private void showhelp()
         {
             HelpForm helpForm = new HelpForm();
             helpForm.ShowDialog();
