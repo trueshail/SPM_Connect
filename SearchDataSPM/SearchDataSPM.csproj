@@ -979,6 +979,7 @@
     <None Include="Resources\spm_smal3.bmp" />
     <None Include="Resources\Login-Manager.png" />
     <Content Include="Resources\SPMConnect.png" />
+    <None Include="Resources\spmconnecthelp1.png" />
     <Content Include="Resources\spm_white_icon.png" />
     <None Include="Resources\spm_white_icon_21.gif" />
     <None Include="Resources\spm_white_icon1.png" />

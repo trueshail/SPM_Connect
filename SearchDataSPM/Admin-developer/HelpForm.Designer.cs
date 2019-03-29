@@ -45,8 +45,8 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.nametxt = new System.Windows.Forms.TextBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -71,7 +71,7 @@
             this.versionlbl.AutoSize = true;
             this.versionlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.versionlbl.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
-            this.versionlbl.Location = new System.Drawing.Point(111, 311);
+            this.versionlbl.Location = new System.Drawing.Point(111, 292);
             this.versionlbl.Name = "versionlbl";
             this.versionlbl.Size = new System.Drawing.Size(401, 31);
             this.versionlbl.TabIndex = 0;
@@ -116,9 +116,9 @@
             // 
             this.panel2.Controls.Add(this.groupBox1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 345);
+            this.panel2.Location = new System.Drawing.Point(0, 331);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(673, 272);
+            this.panel2.Size = new System.Drawing.Size(673, 286);
             this.panel2.TabIndex = 5;
             // 
             // groupBox1
@@ -136,7 +136,7 @@
             this.groupBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(673, 272);
+            this.groupBox1.Size = new System.Drawing.Size(673, 286);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Submit Error Report";
@@ -146,7 +146,7 @@
             this.notestxt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.notestxt.BackColor = System.Drawing.Color.AntiqueWhite;
             this.notestxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.notestxt.Location = new System.Drawing.Point(82, 66);
+            this.notestxt.Location = new System.Drawing.Point(82, 80);
             this.notestxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.notestxt.Multiline = true;
             this.notestxt.Name = "notestxt";
@@ -162,7 +162,7 @@
             this.sendemailbttn.Enabled = false;
             this.sendemailbttn.Font = new System.Drawing.Font("Modern No. 20", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.sendemailbttn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
-            this.sendemailbttn.Location = new System.Drawing.Point(263, 229);
+            this.sendemailbttn.Location = new System.Drawing.Point(263, 244);
             this.sendemailbttn.Name = "sendemailbttn";
             this.sendemailbttn.Size = new System.Drawing.Size(158, 33);
             this.sendemailbttn.TabIndex = 4;
@@ -175,7 +175,7 @@
             this.browsebttn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.browsebttn.Font = new System.Drawing.Font("Modern No. 20", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.browsebttn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
-            this.browsebttn.Location = new System.Drawing.Point(87, 203);
+            this.browsebttn.Location = new System.Drawing.Point(87, 216);
             this.browsebttn.Name = "browsebttn";
             this.browsebttn.Size = new System.Drawing.Size(68, 29);
             this.browsebttn.TabIndex = 3;
@@ -211,7 +211,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
-            this.label5.Location = new System.Drawing.Point(12, 208);
+            this.label5.Location = new System.Drawing.Point(12, 221);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(69, 15);
             this.label5.TabIndex = 15;
@@ -252,20 +252,20 @@
             this.nametxt.TabIndex = 0;
             this.nametxt.TextChanged += new System.EventHandler(this.nametxt_TextChanged);
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pictureBox1.Image = global::SearchDataSPM.Properties.Resources.SPMConnect;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(673, 308);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
-            // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pictureBox1.Image = global::SearchDataSPM.Properties.Resources.spmconnecthelp;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(673, 282);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
             // 
             // HelpForm
             // 
