@@ -39,7 +39,7 @@ namespace SearchDataSPM
             {
                 MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            connectapi.SPM_Connect();
+            //connectapi.SPM_Connect();
 
             dt = new DataTable();
             _command = new SqlCommand();

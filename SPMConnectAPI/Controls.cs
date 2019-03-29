@@ -10,7 +10,13 @@ namespace SPMConnectAPI
         SqlConnection cn;
         SqlCommand _command;
 
-        public void SPM_Connect()
+        public Controls()
+        {
+            SPM_Connect();
+            SPM_Connectconnectsql();
+        }
+
+        private void SPM_Connect()
         {
 
             string connection = "Data Source=spm-sql;Initial Catalog=SPMControlCatalog;User ID=SPM_Controls;password=eyBzJehFP*uO";
@@ -29,7 +35,7 @@ namespace SPMConnectAPI
 
         }
 
-        public void SPM_Connectconnectsql()
+        private void SPM_Connectconnectsql()
         {
 
             string connection = "Data Source=spm-sql;Initial Catalog=SPM_Database;User ID=SPM_Agent;password=spm5445";

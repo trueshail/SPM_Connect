@@ -15,7 +15,7 @@ namespace SearchDataSPM
         public BinLog()
         {
             InitializeComponent();
-            connectapi.SPM_Connect();
+            //connectapi.SPM_Connect();
         }
 
         private void PopulateWorkOrders()

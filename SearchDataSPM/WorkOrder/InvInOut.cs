@@ -19,7 +19,7 @@ namespace SearchDataSPM
         {
             InitializeComponent();
             timer1.Start();
-            connectapi.SPM_Connect();
+            //connectapi.SPM_Connect();
             userinputtime = connectapi.getuserinputtime();
         }
 

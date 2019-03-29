@@ -16,7 +16,7 @@ namespace SearchDataSPM
         public ScanEmpId()
         {
             InitializeComponent();
-            connectapi.SPM_Connect();
+            //connectapi.SPM_Connect();
         }
 
         public string ValueIWant { get; set; }

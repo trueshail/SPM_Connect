@@ -15,7 +15,7 @@ namespace SearchDataSPM
         public WO_TrackStats()
         {
             InitializeComponent();
-            connectapi.SPM_Connect();
+            //connectapi.SPM_Connect();
         }
 
         private void PopulateWorkOrders()

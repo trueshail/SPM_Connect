@@ -88,7 +88,7 @@ namespace SearchDataSPM
                 itemnumber = null;
                 startprocessofbom();
                 CallRecursive();
-                connectapi.SPM_Connect();
+                //connectapi.SPM_Connect();
                 if (connectapi.getdepartment() == "Eng") eng = true;
                 Assy_txtbox.Select();
             }

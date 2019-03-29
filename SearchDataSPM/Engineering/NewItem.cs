@@ -62,7 +62,7 @@ namespace SearchDataSPM
             _command.Connection = _connection;
 
 
-            connectapi.SPM_Connect();
+            //connectapi.SPM_Connect();
 
         }
 

@@ -17,7 +17,7 @@ namespace SearchDataSPM
         public SPM_ConnectWM()
         {
             InitializeComponent();
-            connectapi.SPM_Connect();
+            //connectapi.SPM_Connect();
             dt = new DataTable();
         }
 

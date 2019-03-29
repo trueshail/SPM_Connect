@@ -32,7 +32,7 @@ namespace SearchDataSPM
             {
                 MessageBox.Show(ex.Message, "SPM Connect - SQL Connection Error Invoice Add items", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            connectapi.SPM_Connect();
+           // connectapi.SPM_Connect();
 
 
             _command = new SqlCommand();

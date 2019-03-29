@@ -18,7 +18,7 @@ namespace SearchDataSPM
         public ScanWO()
         {
             InitializeComponent();
-            connectapi.SPM_Connect();
+            //connectapi.SPM_Connect();
         }
 
         private void Home_Load(object sender, EventArgs e)

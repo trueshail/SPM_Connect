@@ -25,7 +25,7 @@ namespace SearchDataSPM
         {
             InitializeComponent();
 
-            connectapi.SPM_Connect();
+            //connectapi.SPM_Connect();
             dt = new DataTable();
         }
 
@@ -378,7 +378,7 @@ namespace SearchDataSPM
 
         void sendemailtomanagers(string reqno, string fileName)
         {
-            connectapi.SPM_Connect();
+            //connectapi.SPM_Connect();
             string[] nameemail = connectapi.getcribshortemails().ToArray();
             for (int i = 0; i < nameemail.Length; i++)
             {

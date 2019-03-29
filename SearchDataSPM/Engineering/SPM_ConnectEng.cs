@@ -60,7 +60,7 @@ namespace SearchDataSPM
                 MetroFramework.MetroMessageBox.Show(this, "Error Connecting to SQL Server.....", "SPM Connect - Engineering Initialize", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
             }
-            connectapi.SPM_Connect();
+            //connectapi.SPM_Connect();
 
         }
 
@@ -106,8 +106,8 @@ namespace SearchDataSPM
                 this.Text = "SPM Connect Controls - " + userName.ToString().Substring(4);
                 connectapi.chekin("SPM Connect Controls");
 
-                connectapicntrls.SPM_Connect();
-                connectapicntrls.SPM_Connectconnectsql();
+                //connectapicntrls.SPM_Connect();
+                //connectapicntrls.SPM_Connectconnectsql();
 
             }
             else if (department == "Eng")

@@ -17,7 +17,12 @@ namespace SPMConnectAPI
     {
         SqlConnection cn;
 
-        public void SPM_Connect()
+        public SPMSQLCommands()
+        {
+            SPM_Connect();
+        }
+
+        private void SPM_Connect()
         {
             string connection = "Data Source=spm-sql;Initial Catalog=SPM_Database;User ID=SPM_Agent;password=spm5445";
             try

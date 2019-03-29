@@ -88,7 +88,7 @@ namespace SearchDataSPM
 
         void sendemailtodevelopers(string requser, string fileName , string subject, string notes)
         {
-            connectapi.SPM_Connect();
+            //connectapi.SPM_Connect();
             string[] nameemail = connectapi.getdevelopersnamesandemail().ToArray();
             for (int i = 0; i < nameemail.Length; i++)
             {
