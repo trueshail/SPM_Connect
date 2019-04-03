@@ -134,7 +134,7 @@ namespace SearchDataSPM
                 FormSelectorEng.Items[4].Visible = false;
                 FormSelectorEng.Items[5].Enabled = false;
                 FormSelectorEng.Items[5].Visible = false;
-                this.Text = "SPM Connect "+department+" - " + userName.ToString().Substring(4);
+                this.Text = "SPM Connect " + department + " - " + userName.ToString().Substring(4);
                 connectapi.chekin("SPM Connect " + department);
                 production = true;
             }
@@ -448,7 +448,7 @@ namespace SearchDataSPM
                 else
                 {
                     showfavorites();
-                    txtSearch.Text = searchtexttxt ;
+                    txtSearch.Text = searchtexttxt;
                 }
 
 
@@ -1073,12 +1073,9 @@ namespace SearchDataSPM
 
         private void admin_bttn_Click(object sender, EventArgs e)
         {
-            using (spmadmin spmadmin = new spmadmin())
-            {
-                spmadmin.ShowDialog();
-                this.Activate();
-            }
-               
+            spmadmin spmadmin = new spmadmin();
+            spmadmin.Show();
+
         }
 
         #endregion
@@ -1418,7 +1415,7 @@ namespace SearchDataSPM
 
             return base.ProcessCmdKey(ref msg, keyData);
         }
-        
+
         #endregion
 
         #region ItemListView events
@@ -3017,7 +3014,20 @@ namespace SearchDataSPM
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-
+                if (showingfavorites)
+                {
+                    FormSelectorControls.Items[9].Enabled = true;
+                    FormSelectorControls.Items[9].Visible = true;
+                    FormSelectorControls.Items[7].Enabled = false;
+                    FormSelectorControls.Items[7].Visible = false;
+                }
+                else
+                {
+                    FormSelectorControls.Items[9].Enabled = false;
+                    FormSelectorControls.Items[9].Visible = false;
+                    FormSelectorControls.Items[7].Enabled = true;
+                    FormSelectorControls.Items[7].Visible = true;
+                }
             }
             else
             {
@@ -3088,6 +3098,12 @@ namespace SearchDataSPM
         {
             HelpForm helpForm = new HelpForm();
             helpForm.ShowDialog();
+        }
+
+        private void toolStripMenuupdateitem_Click(object sender, EventArgs e)
+        {
+            connectapicntrls.updateitempropertiesfromgenius(getitemnumberselected());
+
         }
     }
 

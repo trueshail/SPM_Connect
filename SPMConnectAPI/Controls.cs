@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 
@@ -66,7 +67,7 @@ namespace SPMConnectAPI
                     //MessageBox.Show("Item already exists on the catalog." + Environment.NewLine + "Item properties updated!","SPM Connect",MessageBoxButtons.OK,MessageBoxIcon.Information);
                     _connection.Close();
                     //call for update
-                    UpdateToAutocad(ItemNo,description,Manufacturer,oem);
+                    UpdateToAutocad(ItemNo, description, Manufacturer, oem);
                 }
                 else
                 {
@@ -172,7 +173,7 @@ namespace SPMConnectAPI
                 _connection.Close();
             }
 
-        }     
+        }
 
         public int CheckAutoCadforassy(string ItemNo, string description, string Manufacturer, string oem)
         {
@@ -190,7 +191,7 @@ namespace SPMConnectAPI
                     //call for update
                     MessageBox.Show("Assembly already exists on the catalog.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     openassycatalog = 1;
-                  
+
                 }
                 else if (userCount > 1)
                 {
@@ -203,7 +204,7 @@ namespace SPMConnectAPI
                     openassycatalog = 3;
                     //call Genius check item                    
                     _connection.Close();
-                    
+
                 }
             }
             return openassycatalog;
@@ -226,7 +227,7 @@ namespace SPMConnectAPI
                     //insert to autocad catalog
                     // InsertToAutocad();
                     createasy = true;
-                  
+
                     // show the new form
                 }
                 else
@@ -242,6 +243,120 @@ namespace SPMConnectAPI
             }
 
             return createasy;
+        }
+
+        private DataTable GetGeniusInfoOnItem(string itemno)
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT [Des],[Famille],[Des4],[Des2] FROM [SPMDB].[dbo].[Edb] where Item ='" + itemno + "'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - get item info from genius", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+            return dt;
+        }
+
+        private bool UpdateItemOnConnect(string item, string Description, string Family, string Manufacturer, string ManufacturerItemNumber)
+        {
+            bool status = false;
+            if (cn.State == ConnectionState.Closed)
+                cn.Open();
+            try
+            {
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "UPDATE [SPM_Database].[dbo].[Inventory] SET Description = '" + Description + "',FamilyCode = '" + Family + "',Manufacturer = '" + Manufacturer + "',ManufacturerItemNumber = '" + ManufacturerItemNumber + "' WHERE ItemNumber = '" + item + "' ";
+                cmd.ExecuteNonQuery();
+                cn.Close();
+                status = true;
+                //MessageBox.Show("Item sucessfully saved SPM Connect Server.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Update item to connect db", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return status;
+        }
+
+        public void updateitempropertiesfromgenius(string item)
+        {
+            DataTable dtb1 = new DataTable();
+            dtb1 = GetGeniusInfoOnItem(item);
+            DataRow r = dtb1.Rows[0];
+
+            string description = r["Des"].ToString();
+            string family = r["Famille"].ToString();
+            string manufacturer = r["Des4"].ToString();
+            string oem = r["Des2"].ToString();
+
+            if (checkitemexists(item))
+            {
+                if (UpdateItemOnConnect(item, description, family, manufacturer, oem))
+                {
+                    MessageBox.Show("Item Details Updated successfully. Please refresh in order to see the changes", "SPM Connect - Items Properties Updated", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Error occured while updating item properties. Please contact the admin", "SPM Connect - Update Item Properties", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                } 
+            }
+            else
+            {
+                MessageBox.Show("Item already up to date with genius ", "SPM Connect - Items Properties", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+        }
+
+        private bool checkitemexists(string itemnumber)
+        {
+            bool exists = false;
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Inventory] WHERE [ItemNumber]='" + itemnumber.ToString() + "'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    int userCount = (int)sqlCommand.ExecuteScalar();
+                    if (userCount > 0)
+                    {
+                        exists = true;
+                    }
+                    cn.Close();
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+            return exists;
+
         }
 
     }

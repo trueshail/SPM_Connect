@@ -202,12 +202,49 @@ namespace SearchDataSPM
 
             if (r["Engin"].ToString() == "1")
             {
+                label1.Text = "Engineering :";
                 engchkbox.SetItemCheckState(0, CheckState.Checked);
                 engchkbox.SetItemCheckState(1, CheckState.Checked);
                 engchkbox.SetItemCheckState(2, CheckState.Checked);
                 engchkbox.Items[1] = "Check In By : " + r["EngWho"].ToString();
                 engchkbox.Items[2] = "Check In On : " + r["EngWhen"].ToString();
                 engchkbox.BackColor = Color.Green;
+
+                if (r["Engin"].ToString() == "1" && r["Prodin"].ToString() == "0")
+                {
+                    prodwaiting.BackColor = Color.Yellow;
+                }
+                else if (r["Engin"].ToString() == "1" && r["Prodin"].ToString() == "1")
+                {
+                    prodwaiting.BackColor = Color.Green;
+                }
+                else
+                {
+                    prodwaiting.BackColor = Color.Red;
+                }
+
+            }
+            else if (r["Ctrlin"].ToString() == "1")
+            {
+                label1.Text = "Controls :";
+                engchkbox.SetItemCheckState(0, CheckState.Checked);
+                engchkbox.SetItemCheckState(1, CheckState.Checked);
+                engchkbox.SetItemCheckState(2, CheckState.Checked);
+                engchkbox.Items[1] = "Check In By : " + r["CtrlWho"].ToString();
+                engchkbox.Items[2] = "Check In On : " + r["CtrlWhen"].ToString();
+                engchkbox.BackColor = Color.Green;
+                if (r["Ctrlin"].ToString() == "1" && r["Prodin"].ToString() == "0")
+                {
+                    prodwaiting.BackColor = Color.Yellow;
+                }
+                else if (r["Ctrlin"].ToString() == "1" && r["Prodin"].ToString() == "1")
+                {
+                    prodwaiting.BackColor = Color.Green;
+                }
+                else
+                {
+                    prodwaiting.BackColor = Color.Red;
+                }
             }
             else
             {
@@ -216,18 +253,8 @@ namespace SearchDataSPM
                 engchkbox.SetItemCheckState(2, CheckState.Unchecked);
             }
 
-            if (r["Engin"].ToString() == "1" && r["Prodin"].ToString() == "0")
-            {
-                prodwaiting.BackColor = Color.Yellow;
-            }
-            else if (r["Engin"].ToString() == "1" && r["Prodin"].ToString() == "1")
-            {
-                prodwaiting.BackColor = Color.Green;
-            }
-            else
-            {
-                prodwaiting.BackColor = Color.Red;
-            }
+
+          
 
             if (r["Prodin"].ToString() == "1")
             {

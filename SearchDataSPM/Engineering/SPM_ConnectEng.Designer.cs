@@ -32,9 +32,9 @@ namespace SearchDataSPM
 		{
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SPM_Connect));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.FormSelectorEng = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.bOMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.whereUsedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -119,6 +119,7 @@ namespace SearchDataSPM
             this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem11 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuupdateitem = new System.Windows.Forms.ToolStripMenuItem();
             this.FormSelectorEng.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.inventoryBindingSource3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sPM_DatabaseDataSet)).BeginInit();
@@ -531,7 +532,7 @@ namespace SearchDataSPM
             this.Manufactureritemcomboxbox.FormattingEnabled = true;
             this.Manufactureritemcomboxbox.Location = new System.Drawing.Point(6, 376);
             this.Manufactureritemcomboxbox.Name = "Manufactureritemcomboxbox";
-            this.Manufactureritemcomboxbox.Size = new System.Drawing.Size(159, 21);
+            this.Manufactureritemcomboxbox.Size = new System.Drawing.Size(161, 21);
             this.Manufactureritemcomboxbox.TabIndex = 125;
             this.TreeViewToolTip.SetToolTip(this.Manufactureritemcomboxbox, "Filter by OEM item number");
             this.Manufactureritemcomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Manufactureritemcomboxbox_KeyDown);
@@ -547,7 +548,7 @@ namespace SearchDataSPM
             this.familycomboxbox.FormattingEnabled = true;
             this.familycomboxbox.Location = new System.Drawing.Point(6, 227);
             this.familycomboxbox.Name = "familycomboxbox";
-            this.familycomboxbox.Size = new System.Drawing.Size(159, 21);
+            this.familycomboxbox.Size = new System.Drawing.Size(161, 21);
             this.familycomboxbox.TabIndex = 123;
             this.TreeViewToolTip.SetToolTip(this.familycomboxbox, "Filter by family type");
             this.familycomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.familycomboxbox_KeyDown);
@@ -563,7 +564,7 @@ namespace SearchDataSPM
             this.lastsavedbycombo.FormattingEnabled = true;
             this.lastsavedbycombo.Location = new System.Drawing.Point(6, 520);
             this.lastsavedbycombo.Name = "lastsavedbycombo";
-            this.lastsavedbycombo.Size = new System.Drawing.Size(159, 21);
+            this.lastsavedbycombo.Size = new System.Drawing.Size(161, 21);
             this.lastsavedbycombo.TabIndex = 127;
             this.TreeViewToolTip.SetToolTip(this.lastsavedbycombo, "Filter by last saved");
             this.lastsavedbycombo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lastsavedbycombo_KeyDown);
@@ -582,7 +583,7 @@ namespace SearchDataSPM
             "SPM AUTOMATION (Canada) INC."});
             this.oemitemcombobox.Location = new System.Drawing.Point(6, 301);
             this.oemitemcombobox.Name = "oemitemcombobox";
-            this.oemitemcombobox.Size = new System.Drawing.Size(159, 21);
+            this.oemitemcombobox.Size = new System.Drawing.Size(161, 21);
             this.oemitemcombobox.TabIndex = 124;
             this.TreeViewToolTip.SetToolTip(this.oemitemcombobox, "Filter by manufacture");
             this.oemitemcombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.oemitemcombobox_KeyDown);
@@ -598,7 +599,7 @@ namespace SearchDataSPM
             this.ActiveCadblockcombobox.FormattingEnabled = true;
             this.ActiveCadblockcombobox.Location = new System.Drawing.Point(6, 601);
             this.ActiveCadblockcombobox.Name = "ActiveCadblockcombobox";
-            this.ActiveCadblockcombobox.Size = new System.Drawing.Size(159, 21);
+            this.ActiveCadblockcombobox.Size = new System.Drawing.Size(161, 21);
             this.ActiveCadblockcombobox.TabIndex = 128;
             this.TreeViewToolTip.SetToolTip(this.ActiveCadblockcombobox, "Filter by current cad block number");
             this.ActiveCadblockcombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ActiveCadblockcombobox_KeyDown);
@@ -618,7 +619,7 @@ namespace SearchDataSPM
             "Joel Goldsmith"});
             this.designedbycombobox.Location = new System.Drawing.Point(6, 150);
             this.designedbycombobox.Name = "designedbycombobox";
-            this.designedbycombobox.Size = new System.Drawing.Size(159, 21);
+            this.designedbycombobox.Size = new System.Drawing.Size(161, 21);
             this.designedbycombobox.TabIndex = 122;
             this.TreeViewToolTip.SetToolTip(this.designedbycombobox, "Filter Designed by");
             this.designedbycombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.designedbycombobox_KeyDown);
@@ -634,7 +635,7 @@ namespace SearchDataSPM
             this.MaterialcomboBox.FormattingEnabled = true;
             this.MaterialcomboBox.Location = new System.Drawing.Point(6, 447);
             this.MaterialcomboBox.Name = "MaterialcomboBox";
-            this.MaterialcomboBox.Size = new System.Drawing.Size(159, 21);
+            this.MaterialcomboBox.Size = new System.Drawing.Size(161, 21);
             this.MaterialcomboBox.TabIndex = 126;
             this.TreeViewToolTip.SetToolTip(this.MaterialcomboBox, "Filter by Material");
             this.MaterialcomboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MaterialcomboBox_KeyDown);
@@ -906,8 +907,8 @@ namespace SearchDataSPM
             // descriptionDataGridViewTextBoxColumn
             // 
             this.descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
-            dataGridViewCellStyle7.NullValue = null;
-            this.descriptionDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.NullValue = null;
+            this.descriptionDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle1;
             this.descriptionDataGridViewTextBoxColumn.FillWeight = 86.92893F;
             this.descriptionDataGridViewTextBoxColumn.HeaderText = "Description";
             this.descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
@@ -928,8 +929,8 @@ namespace SearchDataSPM
             // manufacturerDataGridViewTextBoxColumn
             // 
             this.manufacturerDataGridViewTextBoxColumn.DataPropertyName = "Manufacturer";
-            dataGridViewCellStyle8.NullValue = null;
-            this.manufacturerDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle2.NullValue = null;
+            this.manufacturerDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle2;
             this.manufacturerDataGridViewTextBoxColumn.FillWeight = 86.92893F;
             this.manufacturerDataGridViewTextBoxColumn.HeaderText = "Manufacturer";
             this.manufacturerDataGridViewTextBoxColumn.Name = "manufacturerDataGridViewTextBoxColumn";
@@ -938,8 +939,8 @@ namespace SearchDataSPM
             // manufacturerItemNumberDataGridViewTextBoxColumn
             // 
             this.manufacturerItemNumberDataGridViewTextBoxColumn.DataPropertyName = "ManufacturerItemNumber";
-            dataGridViewCellStyle9.NullValue = null;
-            this.manufacturerItemNumberDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle3.NullValue = null;
+            this.manufacturerItemNumberDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle3;
             this.manufacturerItemNumberDataGridViewTextBoxColumn.FillWeight = 86.92893F;
             this.manufacturerItemNumberDataGridViewTextBoxColumn.HeaderText = "Manufacturer Item Number";
             this.manufacturerItemNumberDataGridViewTextBoxColumn.Name = "manufacturerItemNumberDataGridViewTextBoxColumn";
@@ -1092,6 +1093,7 @@ namespace SearchDataSPM
             this.FormSelectorControls.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addToCatalogToolStripMenuItem,
             this.createAssemblyToolStripMenuItem,
+            this.toolStripMenuupdateitem,
             this.toolStripMenuItem4,
             this.toolStripMenuItem5,
             this.toolStripMenuItem6,
@@ -1101,7 +1103,7 @@ namespace SearchDataSPM
             this.toolStripMenuItem11});
             this.FormSelectorControls.Name = "contextMenuStrip1";
             this.FormSelectorControls.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.FormSelectorControls.Size = new System.Drawing.Size(199, 202);
+            this.FormSelectorControls.Size = new System.Drawing.Size(199, 246);
             this.FormSelectorControls.Opening += new System.ComponentModel.CancelEventHandler(this.FormSelectorControls_Opening);
             // 
             // addToCatalogToolStripMenuItem
@@ -1135,7 +1137,7 @@ namespace SearchDataSPM
             // 
             this.autoCadCatalogToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("autoCadCatalogToolStripMenuItem.Image")));
             this.autoCadCatalogToolStripMenuItem.Name = "autoCadCatalogToolStripMenuItem";
-            this.autoCadCatalogToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.autoCadCatalogToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.autoCadCatalogToolStripMenuItem.Text = "AutoCad Catalog";
             this.autoCadCatalogToolStripMenuItem.ToolTipText = "Displays assy from AutoCad Catalog";
             this.autoCadCatalogToolStripMenuItem.Click += new System.EventHandler(this.autoCadCatalogToolStripMenuItem_Click);
@@ -1144,7 +1146,7 @@ namespace SearchDataSPM
             // 
             this.geniusToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("geniusToolStripMenuItem.Image")));
             this.geniusToolStripMenuItem.Name = "geniusToolStripMenuItem";
-            this.geniusToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.geniusToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.geniusToolStripMenuItem.Text = "SPM Jobs";
             this.geniusToolStripMenuItem.ToolTipText = "Display BOM from Genius";
             this.geniusToolStripMenuItem.Click += new System.EventHandler(this.geniusToolStripMenuItem_Click);
@@ -1244,6 +1246,15 @@ namespace SearchDataSPM
             this.toolStripMenuItem11.ToolTipText = "Remove selected item from favorites";
             this.toolStripMenuItem11.Visible = false;
             this.toolStripMenuItem11.Click += new System.EventHandler(this.removeFromFavoritesToolStripMenuItem_Click);
+            // 
+            // toolStripMenuupdateitem
+            // 
+            this.toolStripMenuupdateitem.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuupdateitem.Image")));
+            this.toolStripMenuupdateitem.Name = "toolStripMenuupdateitem";
+            this.toolStripMenuupdateitem.Size = new System.Drawing.Size(198, 22);
+            this.toolStripMenuupdateitem.Text = "Update Item Properties";
+            this.toolStripMenuupdateitem.ToolTipText = "Update Item Properties from Genius";
+            this.toolStripMenuupdateitem.Click += new System.EventHandler(this.toolStripMenuupdateitem_Click);
             // 
             // SPM_Connect
             // 
@@ -1366,6 +1377,7 @@ namespace SearchDataSPM
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem10;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem11;
         private System.Windows.Forms.Button aboutbtn;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuupdateitem;
 
 
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member 'SPM_Connect.txtSearch'

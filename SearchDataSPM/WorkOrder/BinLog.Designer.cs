@@ -398,7 +398,7 @@
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(6, 348);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(48, 16);
+            this.label4.Size = new System.Drawing.Size(44, 16);
             this.label4.TabIndex = 2;
             this.label4.Text = "Crib :";
             // 
@@ -408,7 +408,7 @@
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(455, 348);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(96, 16);
+            this.label3.Size = new System.Drawing.Size(93, 16);
             this.label3.TabIndex = 2;
             this.label3.Text = "Purchasing :";
             // 
@@ -418,7 +418,7 @@
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(229, 185);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(93, 16);
+            this.label2.Size = new System.Drawing.Size(90, 16);
             this.label2.TabIndex = 2;
             this.label2.Text = "Production :";
             // 
@@ -428,9 +428,9 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(226, 30);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(102, 16);
+            this.label1.Size = new System.Drawing.Size(161, 16);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Engineering :";
+            this.label1.Text = "Engineering/Controls :";
             // 
             // cribchkbox
             // 
@@ -492,7 +492,7 @@
             this.engchkbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.engchkbox.FormattingEnabled = true;
             this.engchkbox.Items.AddRange(new object[] {
-            "Eng. Checked In",
+            "Eng./Controls Checked In",
             "Check In By :",
             "Check In On :"});
             this.engchkbox.Location = new System.Drawing.Point(229, 48);

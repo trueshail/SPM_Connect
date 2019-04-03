@@ -28,12 +28,12 @@
     <ErrorReportUrl>http://www.spm-automation.com/contact.php</ErrorReportUrl>
     <ProductName>SPM Connect</ProductName>
     <PublisherName>SPM Automation</PublisherName>
-    <MinimumRequiredVersion>7.6.11.3</MinimumRequiredVersion>
+    <MinimumRequiredVersion>7.6.12.0</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>4</ApplicationRevision>
-    <ApplicationVersion>7.6.11.%2a</ApplicationVersion>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>7.6.12.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -387,12 +387,6 @@
     <Compile Include="General\SPM_ConnectQuoteManagement.Designer.cs">
       <DependentUpon>SPM_ConnectQuoteManagement.cs</DependentUpon>
     </Compile>
-    <Compile Include="WorkOrder\WO_TrackStats.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="WorkOrder\WO_TrackStats.Designer.cs">
-      <DependentUpon>WO_TrackStats.cs</DependentUpon>
-    </Compile>
     <Compile Include="WorkOrder\BinLog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -699,9 +693,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="General\SPM_ConnectQuoteManagement.resx">
       <DependentUpon>SPM_ConnectQuoteManagement.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WorkOrder\WO_TrackStats.resx">
-      <DependentUpon>WO_TrackStats.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WorkOrder\BinLog.resx">
       <DependentUpon>BinLog.cs</DependentUpon>

@@ -269,7 +269,7 @@ namespace SPMConnectAPI
                 }
 
             }
-            if (limit.Length>0)
+            if (limit.Length > 0)
             {
                 timer = Convert.ToInt32(limit);
             }
@@ -396,13 +396,9 @@ namespace SPMConnectAPI
             string department = getdepartment();
             if (WoExistsOnWotrack(wo))
             {
-                if (department == "Eng")
+                if (department == "Eng" || department == "Controls")
                 {
                     MessageBox.Show("Work order has already been entered into the system", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else if (department == "Controls")
-                {
-                    MessageBox.Show("Your Department does not belong to the work order tracking module.", "SPM Connect - Department Not Found", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 }
                 else
                 {
@@ -412,17 +408,26 @@ namespace SPMConnectAPI
             else
             {
                 // workorder not started into the system
-                if (WOReleased(wo) && department == "Eng")
-                    enterwototrack(wo);
-                else
+                if (WOReleased(wo))
                 {
                     if (department == "Eng")
+                    {
+                        enterwototrackeng(wo,"Eng. Released");
+                    }
+                    else if (department == "Controls")
+                    {
+                        enterwototrackcontrols(wo, "Controls Released");
+                    }                       
+                }
+                else
+                {
+                    if (department == "Eng" || department == "Controls")
                     {
                         MessageBox.Show("Please check the work order number.", "Work Order not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     else
                     {
-                        MessageBox.Show("Work order has not been initialized in the system by Engineering", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Work order has not been initialized in the system by Engineering/Controls", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     }
                 }
@@ -487,7 +492,7 @@ namespace SPMConnectAPI
             return wopresent;
         }
 
-        private void enterwototrack(string wo)
+        private void enterwototrackeng(string wo, string dept)
         {
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
@@ -498,9 +503,35 @@ namespace SPMConnectAPI
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[WO_Tracking] (WO, Engin, EngWho, EngWhen, Status) VALUES('" + wo + "','1','" + username + "','" + sqlFormattedDatetime + "','OutEngineering')";
+                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[WO_Tracking] (WO, Engin, EngWho, EngWhen, Status) VALUES('" + wo + "','1','" + username + "','" + sqlFormattedDatetime + "','" + dept + "')";
                 cmd.ExecuteNonQuery();
-                MessageBox.Show("Work Order Checked in.", "SPM Connect  - Work Order In", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Work Order Checked in.", "SPM Connect  - Work Order In Eng", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                cn.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Create New WO to track", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+        }
+
+        private void enterwototrackcontrols(string wo, string dept)
+        {
+            DateTime datecreated = DateTime.Now;
+            string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
+            string username = getuserfullname();
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[WO_Tracking] (WO, Ctrlin, CtrlWho, CtrlWhen, Status) VALUES('" + wo + "','1','" + username + "','" + sqlFormattedDatetime + "','" + dept + "')";
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("Work Order Checked in.", "SPM Connect  - Work Order In Controls", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 cn.Close();
             }
             catch (Exception ex)
@@ -642,7 +673,7 @@ namespace SPMConnectAPI
             else
             {
                 //Work order not has been initialized by eng 
-                MessageBox.Show("Work order has not been initialized in the system by Engineering", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Work order has not been initialized in the system by Engineering or Controls department.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
 
@@ -869,7 +900,7 @@ namespace SPMConnectAPI
         {
             DataTable dt = new DataTable();
 
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[WOInOutStatus] WHERE WO = '"+wo+"'", cn))
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[WOInOutStatus] WHERE WO = '" + wo + "'", cn))
             {
                 try
                 {
@@ -1217,7 +1248,7 @@ namespace SPMConnectAPI
             }
             return dt;
         }
-        
+
         public bool UpdateInvoiceDetsToSql(string inovicenumber, string notes, string itemid, string description, string oem, string oemitem, string empid, string empname, string appid, string appname, string jobreq, string woreq, string jobtaken, string wotaken, string qty)
         {
             bool success = false;
@@ -1583,7 +1614,7 @@ namespace SPMConnectAPI
         {
             DataTable dt = new DataTable();
 
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[WOInOutStatus] WHERE WO = '" + wo+ "'ORDER BY WO DESC, Id DESC", cn))
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[WOInOutStatus] WHERE WO = '" + wo + "'ORDER BY WO DESC, Id DESC", cn))
             {
                 try
                 {
