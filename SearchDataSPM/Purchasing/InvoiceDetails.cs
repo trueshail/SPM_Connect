@@ -224,6 +224,7 @@ namespace SearchDataSPM
                 sld2name.Text = r["Nom"].ToString();
                 soldtocombobox.SelectedItem = r["Nom"].ToString();
                 sld2add.Text = r["Adresse"].ToString();
+                sld2add2.Text = r["CTR_Address2"].ToString();
                 sld2city.Text = r["Ville"].ToString();
                 sld2province.Text = r["Province"].ToString();
                 sld2country.Text = r["Pays"].ToString();
@@ -241,6 +242,7 @@ namespace SearchDataSPM
                 sld2name.Text = r["Name"].ToString();
                 soldtocombobox.SelectedItem = r["Name"].ToString();
                 sld2add.Text = r["Address1"].ToString();
+                sld2add2.Text = r["Address2"].ToString();
                 sld2city.Text = r["City"].ToString();
                 sld2province.Text = r["Province"].ToString();
                 sld2country.Text = r["Country"].ToString();
@@ -264,6 +266,7 @@ namespace SearchDataSPM
                 ship2name.Text = r["Nom"].ToString();
                 shiptocombobox.SelectedItem = r["Nom"].ToString();
                 ship2add.Text = r["Adresse"].ToString();
+                ship2add2.Text = r["CTR_Address2"].ToString();
                 ship2city.Text = r["Ville"].ToString();
                 ship2province.Text = r["Province"].ToString();
                 ship2country.Text = r["Pays"].ToString();
@@ -281,6 +284,7 @@ namespace SearchDataSPM
                 ship2name.Text = r["Name"].ToString();
                 shiptocombobox.SelectedItem = r["Name"].ToString();
                 ship2add.Text = r["Address1"].ToString();
+                ship2add2.Text = r["Address2"].ToString();
                 ship2city.Text = r["City"].ToString();
                 ship2province.Text = r["Province"].ToString();
                 ship2country.Text = r["Country"].ToString();
