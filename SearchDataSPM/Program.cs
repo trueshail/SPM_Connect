@@ -9,7 +9,7 @@ namespace SearchDataSPM
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
-
+        // this is me testing the new github transfered ownsership
 		static void Main()
 		{
             Application.EnableVisualStyles();
