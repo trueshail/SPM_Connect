@@ -148,6 +148,9 @@ namespace SearchDataSPM
             {
                 FormSelectorEng.Items[7].Enabled = true;
                 FormSelectorEng.Items[7].Visible = true;
+
+                Listviewcontextmenu.Items[7].Enabled = true;
+                Listviewcontextmenu.Items[7].Visible = true;
             }
 
             versionlabel.Text = connectapi.getassyversionnumber();
@@ -1602,7 +1605,7 @@ namespace SearchDataSPM
             // //MessageBox.Show(first3char);
             string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
             string Pathpart = (spmcadpath + first3char + txt);
-            // //MessageBox.Show(Pathpart);   
+            //MessageBox.Show(Pathpart);   
             return Pathpart;
         }
 
@@ -3103,6 +3106,43 @@ namespace SearchDataSPM
         private void toolStripMenuupdateitem_Click(object sender, EventArgs e)
         {
             connectapicntrls.updateitempropertiesfromgenius(getitemnumberselected());
+
+        }
+
+        private void revelInExplorerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string filePath = makepathfordrag();
+            if (!File.Exists(filePath))
+            {
+                return;
+            }
+            string argument = "/select, \"" + filePath + "\"";
+            System.Diagnostics.Process.Start("explorer.exe", argument);
+        }
+
+        private void dELETEToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Are you sure want to delete this file?", "SPM Connect - Delete File?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                string filePath = makepathfordrag();
+                if (!File.Exists(filePath))
+                {
+                    return;
+                }
+                try
+                {
+                    File.Delete(filePath);
+                    showfilesonlistview();
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }                
+
+            }
+            
 
         }
     }

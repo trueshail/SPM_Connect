@@ -82,6 +82,8 @@ namespace SearchDataSPM
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.revelInExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dELETEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.recordlabel = new System.Windows.Forms.Label();
             this.listView = new System.Windows.Forms.ListView();
@@ -106,6 +108,7 @@ namespace SearchDataSPM
             this.FormSelectorControls = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addToCatalogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createAssemblyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuupdateitem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.autoCadCatalogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.geniusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -119,7 +122,6 @@ namespace SearchDataSPM
             this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem11 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuupdateitem = new System.Windows.Forms.ToolStripMenuItem();
             this.FormSelectorEng.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.inventoryBindingSource3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sPM_DatabaseDataSet)).BeginInit();
@@ -532,7 +534,7 @@ namespace SearchDataSPM
             this.Manufactureritemcomboxbox.FormattingEnabled = true;
             this.Manufactureritemcomboxbox.Location = new System.Drawing.Point(6, 376);
             this.Manufactureritemcomboxbox.Name = "Manufactureritemcomboxbox";
-            this.Manufactureritemcomboxbox.Size = new System.Drawing.Size(161, 21);
+            this.Manufactureritemcomboxbox.Size = new System.Drawing.Size(151, 21);
             this.Manufactureritemcomboxbox.TabIndex = 125;
             this.TreeViewToolTip.SetToolTip(this.Manufactureritemcomboxbox, "Filter by OEM item number");
             this.Manufactureritemcomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Manufactureritemcomboxbox_KeyDown);
@@ -548,7 +550,7 @@ namespace SearchDataSPM
             this.familycomboxbox.FormattingEnabled = true;
             this.familycomboxbox.Location = new System.Drawing.Point(6, 227);
             this.familycomboxbox.Name = "familycomboxbox";
-            this.familycomboxbox.Size = new System.Drawing.Size(161, 21);
+            this.familycomboxbox.Size = new System.Drawing.Size(151, 21);
             this.familycomboxbox.TabIndex = 123;
             this.TreeViewToolTip.SetToolTip(this.familycomboxbox, "Filter by family type");
             this.familycomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.familycomboxbox_KeyDown);
@@ -564,7 +566,7 @@ namespace SearchDataSPM
             this.lastsavedbycombo.FormattingEnabled = true;
             this.lastsavedbycombo.Location = new System.Drawing.Point(6, 520);
             this.lastsavedbycombo.Name = "lastsavedbycombo";
-            this.lastsavedbycombo.Size = new System.Drawing.Size(161, 21);
+            this.lastsavedbycombo.Size = new System.Drawing.Size(151, 21);
             this.lastsavedbycombo.TabIndex = 127;
             this.TreeViewToolTip.SetToolTip(this.lastsavedbycombo, "Filter by last saved");
             this.lastsavedbycombo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lastsavedbycombo_KeyDown);
@@ -583,7 +585,7 @@ namespace SearchDataSPM
             "SPM AUTOMATION (Canada) INC."});
             this.oemitemcombobox.Location = new System.Drawing.Point(6, 301);
             this.oemitemcombobox.Name = "oemitemcombobox";
-            this.oemitemcombobox.Size = new System.Drawing.Size(161, 21);
+            this.oemitemcombobox.Size = new System.Drawing.Size(151, 21);
             this.oemitemcombobox.TabIndex = 124;
             this.TreeViewToolTip.SetToolTip(this.oemitemcombobox, "Filter by manufacture");
             this.oemitemcombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.oemitemcombobox_KeyDown);
@@ -599,7 +601,7 @@ namespace SearchDataSPM
             this.ActiveCadblockcombobox.FormattingEnabled = true;
             this.ActiveCadblockcombobox.Location = new System.Drawing.Point(6, 601);
             this.ActiveCadblockcombobox.Name = "ActiveCadblockcombobox";
-            this.ActiveCadblockcombobox.Size = new System.Drawing.Size(161, 21);
+            this.ActiveCadblockcombobox.Size = new System.Drawing.Size(151, 21);
             this.ActiveCadblockcombobox.TabIndex = 128;
             this.TreeViewToolTip.SetToolTip(this.ActiveCadblockcombobox, "Filter by current cad block number");
             this.ActiveCadblockcombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ActiveCadblockcombobox_KeyDown);
@@ -619,7 +621,7 @@ namespace SearchDataSPM
             "Joel Goldsmith"});
             this.designedbycombobox.Location = new System.Drawing.Point(6, 150);
             this.designedbycombobox.Name = "designedbycombobox";
-            this.designedbycombobox.Size = new System.Drawing.Size(161, 21);
+            this.designedbycombobox.Size = new System.Drawing.Size(151, 21);
             this.designedbycombobox.TabIndex = 122;
             this.TreeViewToolTip.SetToolTip(this.designedbycombobox, "Filter Designed by");
             this.designedbycombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.designedbycombobox_KeyDown);
@@ -635,7 +637,7 @@ namespace SearchDataSPM
             this.MaterialcomboBox.FormattingEnabled = true;
             this.MaterialcomboBox.Location = new System.Drawing.Point(6, 447);
             this.MaterialcomboBox.Name = "MaterialcomboBox";
-            this.MaterialcomboBox.Size = new System.Drawing.Size(161, 21);
+            this.MaterialcomboBox.Size = new System.Drawing.Size(151, 21);
             this.MaterialcomboBox.TabIndex = 126;
             this.TreeViewToolTip.SetToolTip(this.MaterialcomboBox, "Filter by Material");
             this.MaterialcomboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MaterialcomboBox_KeyDown);
@@ -701,10 +703,12 @@ namespace SearchDataSPM
             this.iteminfolistviewStripMenu,
             this.toolStripMenuItem1,
             this.toolStripMenuItem2,
-            this.toolStripMenuItem3});
+            this.toolStripMenuItem3,
+            this.revelInExplorerToolStripMenuItem,
+            this.dELETEToolStripMenuItem});
             this.Listviewcontextmenu.Name = "contextMenuStrip1";
             this.Listviewcontextmenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.Listviewcontextmenu.Size = new System.Drawing.Size(177, 136);
+            this.Listviewcontextmenu.Size = new System.Drawing.Size(177, 180);
             this.Listviewcontextmenu.Opening += new System.ComponentModel.CancelEventHandler(this.Listviewcontextmenu_Opening);
             // 
             // bomlistviewmenustrpc
@@ -760,6 +764,24 @@ namespace SearchDataSPM
             this.toolStripMenuItem3.Text = "E Model Viewer";
             this.toolStripMenuItem3.ToolTipText = "Open Selected Item in Emodel Viewer";
             this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
+            // 
+            // revelInExplorerToolStripMenuItem
+            // 
+            this.revelInExplorerToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("revelInExplorerToolStripMenuItem.Image")));
+            this.revelInExplorerToolStripMenuItem.Name = "revelInExplorerToolStripMenuItem";
+            this.revelInExplorerToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.revelInExplorerToolStripMenuItem.Text = "Reveal in Explorer";
+            this.revelInExplorerToolStripMenuItem.Click += new System.EventHandler(this.revelInExplorerToolStripMenuItem_Click);
+            // 
+            // dELETEToolStripMenuItem
+            // 
+            this.dELETEToolStripMenuItem.Enabled = false;
+            this.dELETEToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("dELETEToolStripMenuItem.Image")));
+            this.dELETEToolStripMenuItem.Name = "dELETEToolStripMenuItem";
+            this.dELETEToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.dELETEToolStripMenuItem.Text = "Delete File";
+            this.dELETEToolStripMenuItem.Visible = false;
+            this.dELETEToolStripMenuItem.Click += new System.EventHandler(this.dELETEToolStripMenuItem_Click);
             // 
             // splitContainer1
             // 
@@ -1103,7 +1125,7 @@ namespace SearchDataSPM
             this.toolStripMenuItem11});
             this.FormSelectorControls.Name = "contextMenuStrip1";
             this.FormSelectorControls.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.FormSelectorControls.Size = new System.Drawing.Size(199, 246);
+            this.FormSelectorControls.Size = new System.Drawing.Size(199, 224);
             this.FormSelectorControls.Opening += new System.ComponentModel.CancelEventHandler(this.FormSelectorControls_Opening);
             // 
             // addToCatalogToolStripMenuItem
@@ -1122,6 +1144,15 @@ namespace SearchDataSPM
             this.createAssemblyToolStripMenuItem.Text = "Create Assembly";
             this.createAssemblyToolStripMenuItem.Click += new System.EventHandler(this.createAssemblyToolStripMenuItem_Click);
             // 
+            // toolStripMenuupdateitem
+            // 
+            this.toolStripMenuupdateitem.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuupdateitem.Image")));
+            this.toolStripMenuupdateitem.Name = "toolStripMenuupdateitem";
+            this.toolStripMenuupdateitem.Size = new System.Drawing.Size(198, 22);
+            this.toolStripMenuupdateitem.Text = "Update Item Properties";
+            this.toolStripMenuupdateitem.ToolTipText = "Update Item Properties from Genius";
+            this.toolStripMenuupdateitem.Click += new System.EventHandler(this.toolStripMenuupdateitem_Click);
+            // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1137,7 +1168,7 @@ namespace SearchDataSPM
             // 
             this.autoCadCatalogToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("autoCadCatalogToolStripMenuItem.Image")));
             this.autoCadCatalogToolStripMenuItem.Name = "autoCadCatalogToolStripMenuItem";
-            this.autoCadCatalogToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.autoCadCatalogToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.autoCadCatalogToolStripMenuItem.Text = "AutoCad Catalog";
             this.autoCadCatalogToolStripMenuItem.ToolTipText = "Displays assy from AutoCad Catalog";
             this.autoCadCatalogToolStripMenuItem.Click += new System.EventHandler(this.autoCadCatalogToolStripMenuItem_Click);
@@ -1146,7 +1177,7 @@ namespace SearchDataSPM
             // 
             this.geniusToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("geniusToolStripMenuItem.Image")));
             this.geniusToolStripMenuItem.Name = "geniusToolStripMenuItem";
-            this.geniusToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.geniusToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.geniusToolStripMenuItem.Text = "SPM Jobs";
             this.geniusToolStripMenuItem.ToolTipText = "Display BOM from Genius";
             this.geniusToolStripMenuItem.Click += new System.EventHandler(this.geniusToolStripMenuItem_Click);
@@ -1246,15 +1277,6 @@ namespace SearchDataSPM
             this.toolStripMenuItem11.ToolTipText = "Remove selected item from favorites";
             this.toolStripMenuItem11.Visible = false;
             this.toolStripMenuItem11.Click += new System.EventHandler(this.removeFromFavoritesToolStripMenuItem_Click);
-            // 
-            // toolStripMenuupdateitem
-            // 
-            this.toolStripMenuupdateitem.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuupdateitem.Image")));
-            this.toolStripMenuupdateitem.Name = "toolStripMenuupdateitem";
-            this.toolStripMenuupdateitem.Size = new System.Drawing.Size(198, 22);
-            this.toolStripMenuupdateitem.Text = "Update Item Properties";
-            this.toolStripMenuupdateitem.ToolTipText = "Update Item Properties from Genius";
-            this.toolStripMenuupdateitem.Click += new System.EventHandler(this.toolStripMenuupdateitem_Click);
             // 
             // SPM_Connect
             // 
@@ -1378,6 +1400,8 @@ namespace SearchDataSPM
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem11;
         private System.Windows.Forms.Button aboutbtn;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuupdateitem;
+        private System.Windows.Forms.ToolStripMenuItem revelInExplorerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem dELETEToolStripMenuItem;
 
 
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member 'SPM_Connect.txtSearch'
