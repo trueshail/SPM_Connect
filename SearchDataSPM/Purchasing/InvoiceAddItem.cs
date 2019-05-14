@@ -201,25 +201,30 @@ namespace SearchDataSPM
                     DataTable priceinfo = new DataTable();
                     priceinfo.Clear();
                     priceinfo = connectapi.getpriceforitem(item);
-                    DataRow r = priceinfo.Rows[0];
-                    string price = string.Format("{0:c2}", Convert.ToDecimal(r["PriceItem"].ToString()));
-                    string Currency = r["Currency"].ToString();
-                    string PurchaseOrder = r["PurchaseOrder"].ToString();
-                    if (price != "$0.00")
+                    if (priceinfo.Rows.Count > 0)
                     {
-                        DialogResult result = MetroFramework.MetroMessageBox.Show(this, "System has found below values for the selected item. Would you like to use these values?" + Environment.NewLine + " Price = " + price + Environment.NewLine +
-                                                "Currency = " + Currency + Environment.NewLine +
-                                                "PO No. = " + PurchaseOrder + Environment.NewLine + "", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                        if (result == DialogResult.Yes)
+                        DataRow r = priceinfo.Rows[0];
+                        string price = string.Format("{0:c2}", Convert.ToDecimal(r["PriceItem"].ToString()));
+                        string Currency = r["Currency"].ToString();
+                        string PurchaseOrder = r["PurchaseOrder"].ToString();
+                        if (price != "$0.00")
                         {
-                            dontstop = false;
-                            pricetxt.Text = price;
-                        }
-                        else
-                        {
+                            DialogResult result = MetroFramework.MetroMessageBox.Show(this, "System has found below values for the selected item. Would you like to use these values?" + Environment.NewLine + " Price = " + price + Environment.NewLine +
+                                                    "Currency = " + Currency + Environment.NewLine +
+                                                    "PO No. = " + PurchaseOrder + Environment.NewLine + "", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                            if (result == DialogResult.Yes)
+                            {
+                                dontstop = false;
+                                pricetxt.Text = price;
+                            }
+                            else
+                            {
 
+                            }
                         }
+
                     }
+                        
                 }
             }
             dontstop = true;

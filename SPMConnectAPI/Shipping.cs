@@ -1140,7 +1140,7 @@ namespace SPMConnectAPI
 
         public void UpdateShippingItemIdCopy(string newinvoicenumber)
         {
-            using (SqlCommand sqlCommand = new SqlCommand("UPDATE [SPM_Database].[dbo].[ShippingItems] SET Item =  SUBSTRING(Item,1,2) + '"+newinvoicenumber+"-' + CAST(OrderId as varchar(10)) WHERE InvoiceNo = '"+newinvoicenumber+"'", cn))
+            using (SqlCommand sqlCommand = new SqlCommand("UPDATE [SPM_Database].[dbo].[ShippingItems] SET Item =  SUBSTRING(Item,1,2) + '"+newinvoicenumber+"-' + CAST(OrderId as varchar(10)) WHERE InvoiceNo = '"+newinvoicenumber+ "' AND SUBSTRING(Item,1,2) = 'CT'", cn))
             {
                 try
                 {
@@ -1151,6 +1151,29 @@ namespace SPMConnectAPI
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "SPM Connect - Update Items Id - Copy", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                    UpdateShippingItemsCTOrderId(newinvoicenumber);
+                }
+            }
+        }
+
+        public void UpdateShippingItemsCTOrderId(string invoicenumber)
+        {
+            using (SqlCommand sqlCommand = new SqlCommand("with cte as(select *, new_row_id = row_number() over(partition by InvoiceNo order by InvoiceNo)from[dbo].[ShippingItems] where InvoiceNo = @itemnumber AND  SUBSTRING(Item,1,2) = 'CT')update cte set Item = SUBSTRING(Item,1,7) + CAST(new_row_id as varchar(10)) ", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    sqlCommand.CommandType = CommandType.Text;
+                    sqlCommand.Parameters.AddWithValue("@itemnumber", invoicenumber);
+                    sqlCommand.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Update Order Id", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
