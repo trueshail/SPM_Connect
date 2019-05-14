@@ -42,13 +42,13 @@ namespace SearchDataSPM
             {
                 cn.Close();
             }
-          dt = new DataTable();
+            dt = new DataTable();
         }
 
         private void ParentView_Load(object sender, EventArgs e)
         {
             fillsupervisor();
-           
+
             Connect_SPMSQL(0);
         }
 
@@ -64,7 +64,7 @@ namespace SearchDataSPM
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "SELECT Name FROM [SPM_Database].[dbo].[Users] order by Name";
                 cmd.ExecuteNonQuery();
-              
+
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 dt.Clear();
                 da.Fill(dt);
@@ -80,7 +80,7 @@ namespace SearchDataSPM
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);              
+                MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -152,7 +152,7 @@ namespace SearchDataSPM
                     useremailtxt.Text = dr["Email"].ToString();
                     sharepathtxt.Text = dr["SharesFolder"].ToString();
                     idlabel.Text = "Id : " + dr["id"].ToString();
-                    empidtxt.Text =  dr["Emp_Id"].ToString();
+                    empidtxt.Text = dr["Emp_Id"].ToString();
 
                     if (dr["Supervisor"].ToString().Length > 0)
                     {
@@ -455,7 +455,7 @@ namespace SearchDataSPM
                  "CribCheckOut = " + (cribouttoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                  "CribShortNotfi = " + (cribshorttoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                  "Scan WorkOrder = " + (scanwotoggle.Checked ? "Yes" : "No") + Environment.NewLine +
-                 "Management = " + (managementtoggle.Checked ? "Yes" : "No"), "Update User Information?",
+                 "Management = " + (managementtoggle.Checked ? "Yes" : "No"), "Remove user from system?",
                                                  MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
@@ -683,7 +683,7 @@ namespace SearchDataSPM
                 finally
                 {
                     cn.Close();
-                    performcancelbutton();                    
+                    performcancelbutton();
                 }
 
             }
@@ -696,7 +696,7 @@ namespace SearchDataSPM
 
         private void cnclbttn_Click(object sender, EventArgs e)
         {
-            performcancelbutton();          
+            performcancelbutton();
         }
 
         private void performcancelbutton()
@@ -1128,8 +1128,11 @@ namespace SearchDataSPM
 
             if (keyData == Keys.Delete)
             {
-                performdeletebttn();
-                return true;
+                if (updatebttn.Visible)
+                {
+                    performdeletebttn();
+                    return true;
+                }
             }
 
 
@@ -1145,7 +1148,7 @@ namespace SearchDataSPM
                 DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to close without saving changes?", "SPM Connect - Save User Details", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {
-                    
+
                     this.Dispose();
                 }
                 else

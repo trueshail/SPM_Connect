@@ -32,7 +32,7 @@ namespace SearchDataSPM
             {
                 MessageBox.Show(ex.Message, "SPM Connect - SQL Connection Error Invoice Add items", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-           // connectapi.SPM_Connect();
+            // connectapi.SPM_Connect();
 
 
             _command = new SqlCommand();
@@ -96,7 +96,7 @@ namespace SearchDataSPM
                     //fillitemscombobox();
                     //ItemsCombobox.Text = null;
                     //showspmchk.Visible = true;
-                   
+
                     showspmchk.Visible = true;
                     ItemTxtBox.Text = "New item id will be generated on save";
 
@@ -153,8 +153,8 @@ namespace SearchDataSPM
             DataRow r = iteminfo.Rows[0];
             //if (!vendor)
             //{
-                ItemTxtBox.Text = r["Item"].ToString();
-                extractdescription(r["Description"].ToString());
+            ItemTxtBox.Text = r["Item"].ToString();
+            extractdescription(r["Description"].ToString());
             //}
             qtytxt.Text = r["Qty"].ToString();
             pricetxt.Text = string.Format("{0:c2}", Convert.ToDecimal(r["Cost"].ToString()));
@@ -195,8 +195,34 @@ namespace SearchDataSPM
                         }
                     }
                 }
-                else iteminfo.Clear();
+                else
+                {
+                    iteminfo.Clear();
+                    DataTable priceinfo = new DataTable();
+                    priceinfo.Clear();
+                    priceinfo = connectapi.getpriceforitem(item);
+                    DataRow r = priceinfo.Rows[0];
+                    string price = string.Format("{0:c2}", Convert.ToDecimal(r["PriceItem"].ToString()));
+                    string Currency = r["Currency"].ToString();
+                    string PurchaseOrder = r["PurchaseOrder"].ToString();
+                    if (price != "$0.00")
+                    {
+                        DialogResult result = MetroFramework.MetroMessageBox.Show(this, "System has found below values for the selected item. Would you like to use these values?" + Environment.NewLine + " Price = " + price + Environment.NewLine +
+                                                "Currency = " + Currency + Environment.NewLine +
+                                                "PO No. = " + PurchaseOrder + Environment.NewLine + "", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (result == DialogResult.Yes)
+                        {
+                            dontstop = false;
+                            pricetxt.Text = price;
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                }
             }
+            dontstop = true;
 
         }
 
@@ -319,20 +345,25 @@ namespace SearchDataSPM
 
         }
 
+        bool dontstop = true;
+
         private void pricetxt_TextChanged(object sender, EventArgs e)
         {
-            string value = pricetxt.Text.Replace(",", "").Replace("$", "").Replace(".", "").TrimStart('0');
-            decimal ul;
-            //Check we are indeed handling a number
-            if (decimal.TryParse(value, out ul))
+            if (dontstop)
             {
-                ul /= 100;
-                //Unsub the event so we don't enter a loop
-                pricetxt.TextChanged -= pricetxt_TextChanged;
-                //Format the text as currency
-                pricetxt.Text = string.Format(CultureInfo.CreateSpecificCulture("en-US"), "{0:C2}", ul);
-                pricetxt.TextChanged += pricetxt_TextChanged;
-                pricetxt.Select(pricetxt.Text.Length, 0);
+                string value = pricetxt.Text.Replace(",", "").Replace("$", "").Replace(".", "").TrimStart('0');
+                decimal ul;
+                //Check we are indeed handling a number
+                if (decimal.TryParse(value, out ul))
+                {
+                    ul /= 100;
+                    //Unsub the event so we don't enter a loop
+                    pricetxt.TextChanged -= pricetxt_TextChanged;
+                    //Format the text as currency
+                    pricetxt.Text = string.Format(CultureInfo.CreateSpecificCulture("en-US"), "{0:C2}", ul);
+                    pricetxt.TextChanged += pricetxt_TextChanged;
+                    pricetxt.Select(pricetxt.Text.Length, 0);
+                }
             }
             bool goodToGo = TextisValid(pricetxt.Text);
 
@@ -448,7 +479,7 @@ namespace SearchDataSPM
                                     ItemTxtBox.Text = "New item id will be generated on save";
                                 }
                             }
-                          
+
                         }
 
                     }
@@ -497,7 +528,7 @@ namespace SearchDataSPM
             {
                 ItemTxtBox.Text = "New item id will be generated on save";
             }
-            
+
         }
 
         private void ItemsCombobox_KeyDown(object sender, KeyEventArgs e)
@@ -517,7 +548,7 @@ namespace SearchDataSPM
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
-          
+
         }
 
         private void Descriptiontxtbox_TextChanged(object sender, EventArgs e)
@@ -621,7 +652,7 @@ namespace SearchDataSPM
 
         private void ItemsCombobox_Leave(object sender, EventArgs e)
         {
-            if (ItemsCombobox.Text.Length >= 6)
+            if (ItemsCombobox.Text.Length == 6)
             {
                 clearaddnewtextboxes();
                 string item = ItemsCombobox.Text.Trim().Substring(0, 6);

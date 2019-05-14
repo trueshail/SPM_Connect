@@ -117,7 +117,7 @@
             this.txtSearch.MaximumSize = new System.Drawing.Size(32767, 25);
             this.txtSearch.MinimumSize = new System.Drawing.Size(25, 25);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(424, 25);
+            this.txtSearch.Size = new System.Drawing.Size(424, 26);
             this.txtSearch.TabIndex = 3;
             this.LabelTooltips.SetToolTip(this.txtSearch, "Enter Search Keyword");
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
@@ -162,7 +162,7 @@
             // 
             this.Descriptiontxtbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.Descriptiontxtbox.Location = new System.Drawing.Point(566, 189);
+            this.Descriptiontxtbox.Location = new System.Drawing.Point(566, 162);
             this.Descriptiontxtbox.MaximumSize = new System.Drawing.Size(180, 50);
             this.Descriptiontxtbox.MinimumSize = new System.Drawing.Size(180, 50);
             this.Descriptiontxtbox.Multiline = true;
@@ -177,7 +177,7 @@
             // 
             this.oemitemtxtbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.oemitemtxtbox.Location = new System.Drawing.Point(566, 325);
+            this.oemitemtxtbox.Location = new System.Drawing.Point(566, 298);
             this.oemitemtxtbox.MaximumSize = new System.Drawing.Size(180, 50);
             this.oemitemtxtbox.MinimumSize = new System.Drawing.Size(180, 50);
             this.oemitemtxtbox.Multiline = true;
@@ -192,7 +192,7 @@
             // 
             this.oemtxtbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.oemtxtbox.Location = new System.Drawing.Point(566, 256);
+            this.oemtxtbox.Location = new System.Drawing.Point(566, 229);
             this.oemtxtbox.MaximumSize = new System.Drawing.Size(180, 50);
             this.oemtxtbox.MinimumSize = new System.Drawing.Size(180, 50);
             this.oemtxtbox.Multiline = true;
@@ -225,7 +225,7 @@
             // 
             this.familytxtbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.familytxtbox.Location = new System.Drawing.Point(566, 399);
+            this.familytxtbox.Location = new System.Drawing.Point(566, 372);
             this.familytxtbox.MaximumSize = new System.Drawing.Size(180, 20);
             this.familytxtbox.MinimumSize = new System.Drawing.Size(180, 20);
             this.familytxtbox.Name = "familytxtbox";
@@ -239,7 +239,7 @@
             // 
             this.sparetxtbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.sparetxtbox.Location = new System.Drawing.Point(566, 475);
+            this.sparetxtbox.Location = new System.Drawing.Point(566, 448);
             this.sparetxtbox.MaximumSize = new System.Drawing.Size(180, 20);
             this.sparetxtbox.MinimumSize = new System.Drawing.Size(180, 20);
             this.sparetxtbox.Name = "sparetxtbox";
@@ -253,7 +253,7 @@
             // 
             this.ItemTxtBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ItemTxtBox.Location = new System.Drawing.Point(566, 152);
+            this.ItemTxtBox.Location = new System.Drawing.Point(566, 125);
             this.ItemTxtBox.MaximumSize = new System.Drawing.Size(180, 20);
             this.ItemTxtBox.MinimumSize = new System.Drawing.Size(180, 20);
             this.ItemTxtBox.Name = "ItemTxtBox";
@@ -267,7 +267,7 @@
             // 
             this.qtytxtbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.qtytxtbox.Location = new System.Drawing.Point(566, 437);
+            this.qtytxtbox.Location = new System.Drawing.Point(566, 410);
             this.qtytxtbox.MaximumSize = new System.Drawing.Size(180, 20);
             this.qtytxtbox.MinimumSize = new System.Drawing.Size(180, 20);
             this.qtytxtbox.Name = "qtytxtbox";
@@ -341,7 +341,7 @@
             this.oemlbl.AutoSize = true;
             this.oemlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.oemlbl.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.oemlbl.Location = new System.Drawing.Point(457, 256);
+            this.oemlbl.Location = new System.Drawing.Point(457, 229);
             this.oemlbl.Name = "oemlbl";
             this.oemlbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.oemlbl.Size = new System.Drawing.Size(46, 15);
@@ -355,7 +355,7 @@
             this.oemitemlbl.AutoSize = true;
             this.oemitemlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.oemitemlbl.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.oemitemlbl.Location = new System.Drawing.Point(457, 328);
+            this.oemitemlbl.Location = new System.Drawing.Point(457, 301);
             this.oemitemlbl.Name = "oemitemlbl";
             this.oemitemlbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.oemitemlbl.Size = new System.Drawing.Size(102, 30);
@@ -370,7 +370,7 @@
             this.SpareLbl.AutoSize = true;
             this.SpareLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SpareLbl.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.SpareLbl.Location = new System.Drawing.Point(457, 478);
+            this.SpareLbl.Location = new System.Drawing.Point(457, 451);
             this.SpareLbl.MaximumSize = new System.Drawing.Size(57, 15);
             this.SpareLbl.Name = "SpareLbl";
             this.SpareLbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -385,7 +385,7 @@
             this.descriptionlbl.AutoSize = true;
             this.descriptionlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.descriptionlbl.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.descriptionlbl.Location = new System.Drawing.Point(457, 192);
+            this.descriptionlbl.Location = new System.Drawing.Point(457, 165);
             this.descriptionlbl.Name = "descriptionlbl";
             this.descriptionlbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.descriptionlbl.Size = new System.Drawing.Size(80, 15);
@@ -399,7 +399,7 @@
             this.Itemlbl.AutoSize = true;
             this.Itemlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Itemlbl.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.Itemlbl.Location = new System.Drawing.Point(461, 155);
+            this.Itemlbl.Location = new System.Drawing.Point(461, 128);
             this.Itemlbl.Name = "Itemlbl";
             this.Itemlbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.Itemlbl.Size = new System.Drawing.Size(43, 15);
@@ -413,7 +413,7 @@
             this.familylbl.AutoSize = true;
             this.familylbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.familylbl.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.familylbl.Location = new System.Drawing.Point(457, 402);
+            this.familylbl.Location = new System.Drawing.Point(457, 375);
             this.familylbl.Name = "familylbl";
             this.familylbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.familylbl.Size = new System.Drawing.Size(61, 15);
@@ -427,7 +427,7 @@
             this.qtylbl.AutoSize = true;
             this.qtylbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.qtylbl.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.qtylbl.Location = new System.Drawing.Point(457, 440);
+            this.qtylbl.Location = new System.Drawing.Point(457, 413);
             this.qtylbl.Name = "qtylbl";
             this.qtylbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.qtylbl.Size = new System.Drawing.Size(78, 15);

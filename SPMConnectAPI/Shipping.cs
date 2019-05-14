@@ -376,6 +376,34 @@ namespace SPMConnectAPI
             return dt;
         }
 
+        public DataTable getpriceforitem(string itemnumber)
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT TOP (1) * FROM [SPM_Database].[dbo].[PriceItemsFromPO] WHERE [Item] = '" + itemnumber + "' order by LastUpdate Desc", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Item Price From PriceItemsPo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+            return dt;
+        }
+
         #endregion
 
         #region Generating New Ids
@@ -1236,14 +1264,16 @@ namespace SPMConnectAPI
         public bool CheckinInvoice(string invoicenumber)
         {
             bool success = false;
-           
+            DateTime datecreated = DateTime.Now;
+            string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
+
             try
             {
                 if (cn.State == ConnectionState.Closed)
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[UserHolding] (App, UserName, ItemId) VALUES('ShipInv','" + UserName() + "','" + invoicenumber + "')";
+                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[UserHolding] (App, UserName, ItemId,CheckInDateTime) VALUES('ShipInv','" + UserName() + "','" + invoicenumber + "','" + sqlFormattedDatetime + "')";
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 success = true;
