@@ -503,7 +503,7 @@
             this.wotakentxt.MaxLength = 32767;
             this.wotakentxt.Name = "wotakentxt";
             this.wotakentxt.PasswordChar = '*';
-            this.wotakentxt.PromptText = "Scan Work Order";
+            this.wotakentxt.WaterMark = "Scan Work Order";
             this.wotakentxt.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.wotakentxt.SelectedText = "";
             this.wotakentxt.SelectionLength = 0;

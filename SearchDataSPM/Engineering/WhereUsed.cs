@@ -979,6 +979,8 @@ namespace SearchDataSPM
             }
         }
 
+        #region Contextmenu Strip
+
         private void treeView1_BeforeSelect(object sender, TreeViewCancelEventArgs e)
         {
             switch (e.Node.ImageIndex)
@@ -1049,6 +1051,101 @@ namespace SearchDataSPM
                 e.Cancel = true;
             }
         }
+
+        private void bomlistviewmenustrpc_Click(object sender, EventArgs e)
+        {
+            if (listView.FocusedItem != null)
+            {
+                string txt = listView.FocusedItem.Text;
+                txt = txt.Substring(0, 6);
+                processbom(txt);
+
+            }
+        }
+
+        private void iteminfolistviewStripMenu_Click(object sender, EventArgs e)
+        {
+            if (listView.FocusedItem != null)
+            {
+                string txt = listView.FocusedItem.Text;
+                txt = txt.Substring(0, 6);
+                ItemInfo itemInfo = new ItemInfo();
+                itemInfo.item(txt);
+                itemInfo.Show();
+
+            }
+        }
+
+        private void revelInExplorerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            string filePath = makepathfordrag();
+            if (!File.Exists(filePath))
+            {
+                return;
+            }
+            string argument = "/select, \"" + filePath + "\"";
+            System.Diagnostics.Process.Start("explorer.exe", argument);
+        }
+
+        private string makepathfordrag()
+        {
+            string txt = listView.FocusedItem.Text;
+            string first3char = txt.Substring(0, 3) + @"\";
+            string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
+            string Pathpart = (spmcadpath + first3char + txt);
+            return Pathpart;
+        }
+
+        private void toolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            if (listView.SelectedItems.Count == 1)
+            {
+                string txt = listView.FocusedItem.Text;
+                txt = txt.Substring(0, 6);
+                connectapi.addtofavorites(txt);
+            }
+        }
+
+        private void Listviewcontextmenu_Opening(object sender, CancelEventArgs e)
+        {
+            if (listView.SelectedItems.Count == 1)
+            {
+
+            }
+            else
+            {
+                e.Cancel = true;
+            }
+
+        }
+
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            if (treeView1.SelectedNode != null)
+            {
+                string txt = treeView1.SelectedNode.Text;
+                txt = txt.Substring(0, 6);
+                ItemInfo itemInfo = new ItemInfo();
+                itemInfo.item(txt);
+                itemInfo.Show();
+
+            }
+
+        }
+
+        private void addToFavoritesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (treeView1.SelectedNode != null)
+            {
+                string itemstr = treeView1.SelectedNode.Text;
+                itemstr = itemstr.Substring(0, 6);
+                connectapi.addtofavorites(itemstr);
+            }
+
+        }
+
+        #endregion
     }
 
 }

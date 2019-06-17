@@ -1,6 +1,6 @@
 ﻿namespace SearchDataSPM
 {
-    partial class TreeView
+    partial class EstimateBOM
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TreeView));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EstimateBOM));
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openDrawingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,13 +59,11 @@
             this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.foundlabel = new System.Windows.Forms.Label();
             this.Listviewcontextmenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.whereusedlistviewStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.iteminfolistviewStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.revelInExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.addToFavoritesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.Listviewcontextmenu.SuspendLayout();
             this.SuspendLayout();
@@ -75,11 +73,10 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openModelToolStripMenuItem,
             this.openDrawingToolStripMenuItem,
-            this.toolStripMenuItem1,
             this.toolStripMenuItem2,
             this.addToFavoritesToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 136);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 114);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // openModelToolStripMenuItem
@@ -95,7 +92,7 @@
             // 
             this.openDrawingToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openDrawingToolStripMenuItem.Image")));
             this.openDrawingToolStripMenuItem.Name = "openDrawingToolStripMenuItem";
-            this.openDrawingToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.openDrawingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openDrawingToolStripMenuItem.Text = "Open Drawing";
             this.openDrawingToolStripMenuItem.ToolTipText = "Opens Selected Item Drawing";
             this.openDrawingToolStripMenuItem.Click += new System.EventHandler(this.openDrawingToolStripMenuItem_Click);
@@ -149,7 +146,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Assy_txtbox.BackColor = System.Drawing.SystemColors.MenuBar;
             this.Assy_txtbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Assy_txtbox.Location = new System.Drawing.Point(138, 16);
+            this.Assy_txtbox.Location = new System.Drawing.Point(123, 16);
             this.Assy_txtbox.MaximumSize = new System.Drawing.Size(120, 25);
             this.Assy_txtbox.MinimumSize = new System.Drawing.Size(110, 25);
             this.Assy_txtbox.Name = "Assy_txtbox";
@@ -330,11 +327,11 @@
             this.Assy_label.AutoSize = true;
             this.Assy_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Assy_label.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.Assy_label.Location = new System.Drawing.Point(6, 22);
+            this.Assy_label.Location = new System.Drawing.Point(8, 20);
             this.Assy_label.Name = "Assy_label";
-            this.Assy_label.Size = new System.Drawing.Size(130, 15);
+            this.Assy_label.Size = new System.Drawing.Size(106, 15);
             this.Assy_label.TabIndex = 28;
-            this.Assy_label.Text = "Assembly Number :";
+            this.Assy_label.Text = "Estimate BOM :";
             // 
             // oemlbl
             // 
@@ -477,29 +474,19 @@
             // Listviewcontextmenu
             // 
             this.Listviewcontextmenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.whereusedlistviewStripMenu,
             this.iteminfolistviewStripMenu,
             this.revelInExplorerToolStripMenuItem,
             this.toolStripMenuItem3});
             this.Listviewcontextmenu.Name = "contextMenuStrip1";
             this.Listviewcontextmenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.Listviewcontextmenu.Size = new System.Drawing.Size(168, 92);
+            this.Listviewcontextmenu.Size = new System.Drawing.Size(168, 70);
             this.Listviewcontextmenu.Opening += new System.ComponentModel.CancelEventHandler(this.Listviewcontextmenu_Opening);
-            // 
-            // whereusedlistviewStripMenu
-            // 
-            this.whereusedlistviewStripMenu.Image = ((System.Drawing.Image)(resources.GetObject("whereusedlistviewStripMenu.Image")));
-            this.whereusedlistviewStripMenu.Name = "whereusedlistviewStripMenu";
-            this.whereusedlistviewStripMenu.Size = new System.Drawing.Size(180, 22);
-            this.whereusedlistviewStripMenu.Text = "Where Used";
-            this.whereusedlistviewStripMenu.ToolTipText = "Check Where Used";
-            this.whereusedlistviewStripMenu.Click += new System.EventHandler(this.whereusedlistviewStripMenu_Click);
             // 
             // iteminfolistviewStripMenu
             // 
             this.iteminfolistviewStripMenu.Image = ((System.Drawing.Image)(resources.GetObject("iteminfolistviewStripMenu.Image")));
             this.iteminfolistviewStripMenu.Name = "iteminfolistviewStripMenu";
-            this.iteminfolistviewStripMenu.Size = new System.Drawing.Size(180, 22);
+            this.iteminfolistviewStripMenu.Size = new System.Drawing.Size(167, 22);
             this.iteminfolistviewStripMenu.Text = "Get Item Info";
             this.iteminfolistviewStripMenu.ToolTipText = "Get Selected Item\'s Info.";
             this.iteminfolistviewStripMenu.Click += new System.EventHandler(this.iteminfolistviewStripMenu_Click);
@@ -508,18 +495,18 @@
             // 
             this.revelInExplorerToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("revelInExplorerToolStripMenuItem.Image")));
             this.revelInExplorerToolStripMenuItem.Name = "revelInExplorerToolStripMenuItem";
-            this.revelInExplorerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.revelInExplorerToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.revelInExplorerToolStripMenuItem.Text = "Reveal in Explorer";
             this.revelInExplorerToolStripMenuItem.Click += new System.EventHandler(this.revelInExplorerToolStripMenuItem_Click);
             // 
-            // toolStripMenuItem1
+            // toolStripMenuItem3
             // 
-            this.toolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem1.Image")));
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.toolStripMenuItem1.Text = "Where Used";
-            this.toolStripMenuItem1.ToolTipText = "Check Where Used";
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            this.toolStripMenuItem3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem3.Image")));
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(167, 22);
+            this.toolStripMenuItem3.Text = "Add To Favorites";
+            this.toolStripMenuItem3.ToolTipText = "Add selected item to favorites";
+            this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
             // 
             // toolStripMenuItem2
             // 
@@ -539,20 +526,11 @@
             this.addToFavoritesToolStripMenuItem.ToolTipText = "Add selected item to favorites";
             this.addToFavoritesToolStripMenuItem.Click += new System.EventHandler(this.addToFavoritesToolStripMenuItem_Click);
             // 
-            // toolStripMenuItem3
-            // 
-            this.toolStripMenuItem3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem3.Image")));
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(180, 22);
-            this.toolStripMenuItem3.Text = "Add To Favorites";
-            this.toolStripMenuItem3.ToolTipText = "Add selected item to favorites";
-            this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
-            // 
-            // TreeView
+            // EstimateBOM
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(69)))), ((int)(((byte)(76)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(50)))), ((int)(((byte)(100)))));
             this.ClientSize = new System.Drawing.Size(784, 716);
             this.Controls.Add(this.listView);
             this.Controls.Add(this.Descriptiontxtbox);
@@ -579,9 +557,9 @@
             this.HelpButton = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(600, 700);
-            this.Name = "TreeView";
+            this.Name = "EstimateBOM";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Bills of Manufacturing - SPM Connect";
+            this.Text = "Estimates BOM - SPM Connect";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.TreeView_FormClosed);
             this.Load += new System.EventHandler(this.ParentView_Load);
             this.contextMenuStrip1.ResumeLayout(false);
@@ -620,13 +598,11 @@
         private System.Windows.Forms.ImageList imageList;
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.Label foundlabel;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.ContextMenuStrip Listviewcontextmenu;
-        private System.Windows.Forms.ToolStripMenuItem whereusedlistviewStripMenu;
         private System.Windows.Forms.ToolStripMenuItem iteminfolistviewStripMenu;
         private System.Windows.Forms.ToolStripMenuItem revelInExplorerToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem addToFavoritesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem addToFavoritesToolStripMenuItem;
     }
 }

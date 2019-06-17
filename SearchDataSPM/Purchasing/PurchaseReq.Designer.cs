@@ -117,6 +117,9 @@
             this.managergroupbox = new System.Windows.Forms.GroupBox();
             this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
             this.lineShape1 = new Microsoft.VisualBasic.PowerPacks.LineShape();
+            this.ApprovalMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.approvetoolstrip = new System.Windows.Forms.ToolStripMenuItem();
+            this.rejecttoolstrip = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -140,6 +143,7 @@
             this.hauthoritygroupbox.SuspendLayout();
             this.usercontrolgroupbox.SuspendLayout();
             this.managergroupbox.SuspendLayout();
+            this.ApprovalMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -821,7 +825,7 @@
             this.itemspanel.Controls.Add(this.groupBox3);
             this.itemspanel.Location = new System.Drawing.Point(0, 0);
             this.itemspanel.Name = "itemspanel";
-            this.itemspanel.Size = new System.Drawing.Size(371, 298);
+            this.itemspanel.Size = new System.Drawing.Size(367, 298);
             this.itemspanel.TabIndex = 0;
             // 
             // groupBox3
@@ -850,7 +854,7 @@
             this.groupBox3.Location = new System.Drawing.Point(0, 0);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(1);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(371, 298);
+            this.groupBox3.Size = new System.Drawing.Size(367, 298);
             this.groupBox3.TabIndex = 9;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Add Item to order";
@@ -951,7 +955,7 @@
             this.oemitemnotxt.Name = "oemitemnotxt";
             this.oemitemnotxt.ReadOnly = true;
             this.oemitemnotxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.oemitemnotxt.Size = new System.Drawing.Size(248, 20);
+            this.oemitemnotxt.Size = new System.Drawing.Size(244, 20);
             this.oemitemnotxt.TabIndex = 64;
             this.oemitemnotxt.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.oemitemnotxt, "Manufacturer Item No");
@@ -982,7 +986,7 @@
             this.qtytxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.qtytxt.Name = "qtytxt";
             this.qtytxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.qtytxt.Size = new System.Drawing.Size(248, 22);
+            this.qtytxt.Size = new System.Drawing.Size(244, 22);
             this.qtytxt.TabIndex = 3;
             this.TreeViewToolTip.SetToolTip(this.qtytxt, "Quantity required");
             this.qtytxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.qtytxt_KeyPress);
@@ -1013,7 +1017,7 @@
             this.pricetxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.pricetxt.Name = "pricetxt";
             this.pricetxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.pricetxt.Size = new System.Drawing.Size(248, 22);
+            this.pricetxt.Size = new System.Drawing.Size(244, 22);
             this.pricetxt.TabIndex = 4;
             this.pricetxt.Text = "$0.00";
             this.TreeViewToolTip.SetToolTip(this.pricetxt, "Unit price for the item");
@@ -1048,7 +1052,7 @@
             this.oemtxt.Name = "oemtxt";
             this.oemtxt.ReadOnly = true;
             this.oemtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.oemtxt.Size = new System.Drawing.Size(248, 20);
+            this.oemtxt.Size = new System.Drawing.Size(244, 20);
             this.oemtxt.TabIndex = 58;
             this.oemtxt.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.oemtxt, "Item Manufacturer");
@@ -1083,7 +1087,7 @@
             this.Descriptiontxtbox.Name = "Descriptiontxtbox";
             this.Descriptiontxtbox.ReadOnly = true;
             this.Descriptiontxtbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.Descriptiontxtbox.Size = new System.Drawing.Size(248, 46);
+            this.Descriptiontxtbox.Size = new System.Drawing.Size(244, 46);
             this.Descriptiontxtbox.TabIndex = 55;
             this.Descriptiontxtbox.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.Descriptiontxtbox, "Item Description");
@@ -1115,7 +1119,7 @@
             this.ItemTxtBox.Name = "ItemTxtBox";
             this.ItemTxtBox.ReadOnly = true;
             this.ItemTxtBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.ItemTxtBox.Size = new System.Drawing.Size(248, 20);
+            this.ItemTxtBox.Size = new System.Drawing.Size(244, 20);
             this.ItemTxtBox.TabIndex = 54;
             this.ItemTxtBox.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.ItemTxtBox, "Item Number");
@@ -1133,7 +1137,7 @@
             this.itemsearchtxtbox.MinimumSize = new System.Drawing.Size(200, 20);
             this.itemsearchtxtbox.Name = "itemsearchtxtbox";
             this.itemsearchtxtbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.itemsearchtxtbox.Size = new System.Drawing.Size(303, 22);
+            this.itemsearchtxtbox.Size = new System.Drawing.Size(299, 22);
             this.itemsearchtxtbox.TabIndex = 2;
             this.TreeViewToolTip.SetToolTip(this.itemsearchtxtbox, "Search for item to order \r\nStarting with Letter \'A\' or \'B\' or \'C\'");
             this.itemsearchtxtbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.itemsearchtxtbox_KeyDown);
@@ -1546,6 +1550,34 @@
             this.lineShape1.Y1 = 87;
             this.lineShape1.Y2 = 87;
             // 
+            // ApprovalMenuStrip
+            // 
+            this.ApprovalMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.approvetoolstrip,
+            this.rejecttoolstrip});
+            this.ApprovalMenuStrip.Name = "contextMenuStrip1";
+            this.ApprovalMenuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.ApprovalMenuStrip.Size = new System.Drawing.Size(228, 70);
+            this.ApprovalMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.ApprovalMenuStrip_Opening);
+            // 
+            // approvetoolstrip
+            // 
+            this.approvetoolstrip.Image = ((System.Drawing.Image)(resources.GetObject("approvetoolstrip.Image")));
+            this.approvetoolstrip.Name = "approvetoolstrip";
+            this.approvetoolstrip.Size = new System.Drawing.Size(227, 22);
+            this.approvetoolstrip.Text = "Approve Purchase Req";
+            this.approvetoolstrip.ToolTipText = "Approve Selected Purchase Req";
+            this.approvetoolstrip.Click += new System.EventHandler(this.approvetoolstrip_Click);
+            // 
+            // rejecttoolstrip
+            // 
+            this.rejecttoolstrip.Image = ((System.Drawing.Image)(resources.GetObject("rejecttoolstrip.Image")));
+            this.rejecttoolstrip.Name = "rejecttoolstrip";
+            this.rejecttoolstrip.Size = new System.Drawing.Size(227, 22);
+            this.rejecttoolstrip.Text = "Reject Selected Purchase Req";
+            this.rejecttoolstrip.ToolTipText = "Reject Selected Purchase Req";
+            this.rejecttoolstrip.Click += new System.EventHandler(this.rejecttoolstrip_Click);
+            // 
             // PurchaseReqform
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -1593,6 +1625,7 @@
             this.usercontrolgroupbox.PerformLayout();
             this.managergroupbox.ResumeLayout(false);
             this.managergroupbox.PerformLayout();
+            this.ApprovalMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1685,5 +1718,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Manufacturer;
         private System.Windows.Forms.DataGridViewTextBoxColumn OEMItemNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn Price;
+        private System.Windows.Forms.ContextMenuStrip ApprovalMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem approvetoolstrip;
+        private System.Windows.Forms.ToolStripMenuItem rejecttoolstrip;
     }
 }

@@ -38,6 +38,7 @@
             this.remapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.getWorkOrderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createFoldersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.getEstimateBOMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Reload = new System.Windows.Forms.Button();
             this.Descrip_txtbox = new System.Windows.Forms.TextBox();
             this.filteroem_txtbox = new System.Windows.Forms.TextBox();
@@ -106,15 +107,16 @@
             this.getBOMToolStripMenuItem,
             this.projectEngineeringToolStripMenuItem,
             this.getWorkOrderToolStripMenuItem,
-            this.createFoldersToolStripMenuItem});
+            this.createFoldersToolStripMenuItem,
+            this.getEstimateBOMToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(178, 92);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 136);
             // 
             // getBOMToolStripMenuItem
             // 
             this.getBOMToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("getBOMToolStripMenuItem.Image")));
             this.getBOMToolStripMenuItem.Name = "getBOMToolStripMenuItem";
-            this.getBOMToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.getBOMToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.getBOMToolStripMenuItem.Text = "Get BOM";
             this.getBOMToolStripMenuItem.ToolTipText = "Get Selected Job\'s BOM";
             this.getBOMToolStripMenuItem.Click += new System.EventHandler(this.getBOMToolStripMenuItem_Click);
@@ -125,7 +127,7 @@
             this.remapToolStripMenuItem});
             this.projectEngineeringToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("projectEngineeringToolStripMenuItem.Image")));
             this.projectEngineeringToolStripMenuItem.Name = "projectEngineeringToolStripMenuItem";
-            this.projectEngineeringToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.projectEngineeringToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.projectEngineeringToolStripMenuItem.Text = "Project Engineering";
             this.projectEngineeringToolStripMenuItem.ToolTipText = "Open Project Eng Folder";
             this.projectEngineeringToolStripMenuItem.Click += new System.EventHandler(this.projectEngineeringToolStripMenuItem_Click);
@@ -143,7 +145,7 @@
             // 
             this.getWorkOrderToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("getWorkOrderToolStripMenuItem.Image")));
             this.getWorkOrderToolStripMenuItem.Name = "getWorkOrderToolStripMenuItem";
-            this.getWorkOrderToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.getWorkOrderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.getWorkOrderToolStripMenuItem.Text = "Get Work Order";
             this.getWorkOrderToolStripMenuItem.Click += new System.EventHandler(this.getWorkOrderToolStripMenuItem_Click);
             // 
@@ -152,11 +154,20 @@
             this.createFoldersToolStripMenuItem.Enabled = false;
             this.createFoldersToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("createFoldersToolStripMenuItem.Image")));
             this.createFoldersToolStripMenuItem.Name = "createFoldersToolStripMenuItem";
-            this.createFoldersToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.createFoldersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.createFoldersToolStripMenuItem.Text = "Create Folders";
             this.createFoldersToolStripMenuItem.ToolTipText = "Create Folders For Selected Job";
             this.createFoldersToolStripMenuItem.Visible = false;
             this.createFoldersToolStripMenuItem.Click += new System.EventHandler(this.createFoldersToolStripMenuItem_Click);
+            // 
+            // getEstimateBOMToolStripMenuItem
+            // 
+            this.getEstimateBOMToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("getEstimateBOMToolStripMenuItem.Image")));
+            this.getEstimateBOMToolStripMenuItem.Name = "getEstimateBOMToolStripMenuItem";
+            this.getEstimateBOMToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.getEstimateBOMToolStripMenuItem.Text = "Get Estimate BOM";
+            this.getEstimateBOMToolStripMenuItem.ToolTipText = "Get BOM From Estimates";
+            this.getEstimateBOMToolStripMenuItem.Click += new System.EventHandler(this.getEstimateBOMToolStripMenuItem_Click);
             // 
             // Reload
             // 
@@ -437,6 +448,7 @@
         private System.Windows.Forms.Button quotebttn;
         private System.Windows.Forms.Button CreateFolderBttn;
         private System.Windows.Forms.Button shippingbttn;
+        private System.Windows.Forms.ToolStripMenuItem getEstimateBOMToolStripMenuItem;
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member 'SPM_Connect.txtSearch'
     }
 }

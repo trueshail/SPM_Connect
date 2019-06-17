@@ -36,6 +36,7 @@ namespace SearchDataSPM
         string userfullname = "";
         List<string> Itemstodiscard = new List<string>();
         int supervisoridfromreq = 0;
+        bool showingwaitingforapproval = false;
 
         #endregion
 
@@ -75,6 +76,7 @@ namespace SearchDataSPM
             {
                 managergroupbox.Visible = true;
                 managergroupbox.Enabled = true;
+                dataGridView.ContextMenuStrip = ApprovalMenuStrip;
 
             }
 
@@ -82,13 +84,16 @@ namespace SearchDataSPM
             {
                 managergroupbox.Visible = true;
                 managergroupbox.Enabled = true;
+                if (higherauthority)
+                {
+                    dataGridView.ContextMenuStrip = ApprovalMenuStrip;
+                }
                 changecontrolbuttonnames();
 
             }
 
             if (higherauthority || supervisor || pbuyer)
             {
-
                 bttnneedapproval.PerformClick();
             }
             else
@@ -120,6 +125,7 @@ namespace SearchDataSPM
 
         private void showReqSearchItems(string user)
         {
+            showingwaitingforapproval = false;
             using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] Where [RequestedBy] = '" + user + "'ORDER BY ReqNumber DESC", cn))
             {
                 try
@@ -302,7 +308,7 @@ namespace SearchDataSPM
                         pbuyer = true;
                     }
 
-                    
+
                 }
             }
             catch (Exception ex)
@@ -336,7 +342,16 @@ namespace SearchDataSPM
                 {
                     dataGridView.DataSource = null;
                     dataGridView.Refresh();
-                    showReqSearchItems(userfullname);
+                    if (managergroupbox.Visible)
+                    {
+                        bttnshowapproved.PerformClick();
+                    }
+                    else
+                    {
+                        showReqSearchItems(userfullname);
+                    }
+
+
                 }
 
                 e.Handled = true;
@@ -582,15 +597,23 @@ namespace SearchDataSPM
                 {
                     cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + userfullname.ToString() + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',HApproval = '" + (approval ? "1" : "0") + "',ApprovedBy = ' ',DateApproved = null,PApproval = '0' WHERE ReqNumber = '" + reqnumber + "' ";
                 }
+                if (typesave == "Rejected")
+                {
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + userfullname.ToString() + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "3" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',HApproval = '" + (approval ? "0" : "0") + "',ApprovedBy = '" + userfullname + "',DateApproved = '" + (approvechk.Checked ? sqlFormattedDate : "") + "',PApproval ='" + (approval ? "0" : "0") + "' WHERE ReqNumber = '" + reqnumber + "' ";
+                }
                 if (typesave == "Happroved")
                 {
                     cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET HApproved = '" + (happrovechk.Checked ? "1" : "0") + "',HApproval = '" + (approval ? "1" : "0") + "',HApprovedBy = '" + userfullname + "',HDateApproved = '" + (happrovechk.Checked ? sqlFormattedDate : "") + "',PApproval = '1' WHERE ReqNumber = '" + reqnumber + "' ";
                 }
-
                 if (typesave == "Happrovedfalse")
                 {
                     cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET Total = '" + totalvalue + "',HApproval = '" + (approval ? "1" : "0") + "',Happroved = '" + (happrovechk.Checked ? "1" : "0") + "',HApprovedBy = ' ',HDateApproved = null,PApproval = '0' WHERE ReqNumber = '" + reqnumber + "' ";
                 }
+                if (typesave == "HRejected")
+                {
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET HApproved = '" + (happrovechk.Checked ? "3" : "0") + "',HApproval = '" + (approval ? "1" : "0") + "',HApprovedBy = '" + userfullname + "',HDateApproved = '" + (happrovechk.Checked ? sqlFormattedDate : "") + "',PApproval = '0' WHERE ReqNumber = '" + reqnumber + "' ";
+                }
+
                 if (typesave == "Papproved")
                 {
                     string ponumber = "";
@@ -715,13 +738,13 @@ namespace SearchDataSPM
 
             if (supervisor && Validatechk.Checked)
             {
-                if(myid==supervisoridfromreq)
+                if (myid == supervisoridfromreq)
                 {
                     approvechk.Visible = true;
                     approvechk.Enabled = true;
                 }
 
-               
+
                 Validatechk.Visible = false;
                 if (userfullname == requestbytxt.Text && approvechk.Checked == false)
                 {
@@ -796,11 +819,11 @@ namespace SearchDataSPM
                     showReqSearchItems(userfullname);
                     clearaddnewtextboxes();
                     processexitbutton();
-                    if (typeofsave == "Approved" || typeofsave == "Papproved" || typeofsave == "Hpproved")
+                    if (typeofsave == "Approved" || typeofsave == "Papproved" || typeofsave == "Happroved" || typeofsave == "Rejected" || typeofsave == "HRejected")
                     {
                         bttnshowapproved.PerformClick();
                     }
-                    if (typeofsave == "ApprovedFalse" || typeofsave == "HpprovedFalse" || typeofsave == "PpprovedFalse")
+                    if (typeofsave == "ApprovedFalse" || typeofsave == "HapprovedFalse" || typeofsave == "PapprovedFalse")
                     {
                         bttnneedapproval.PerformClick();
                     }
@@ -1231,6 +1254,18 @@ namespace SearchDataSPM
                         approvebylabel.Visible = true;
                         apprvonlabel.Visible = true;
                     }
+                    else if (dr[0]["Approved"].ToString().Equals("3") && dr[0]["Validate"].ToString().Equals("1"))
+                    {
+                        approvechk.Text = "Rejected";
+                        approvebylabel.Text = "Rejected by : " + dr[0]["Approvedby"].ToString();
+                        apprvonlabel.Text = "Rejected on : " + dr[0]["DateApproved"].ToString();
+                        approvechk.Checked = true;
+                        approvechk.Visible = true;
+                        Validatechk.Visible = false;
+                        printbttn.Enabled = false;
+                        approvebylabel.Visible = true;
+                        apprvonlabel.Visible = true;
+                    }
                     else
                     {
                         approvechk.Text = "Approve";
@@ -1255,9 +1290,34 @@ namespace SearchDataSPM
                             Validatechk.Visible = false;
                             Validatechk.Enabled = false;
                         }
+                        else if (dr[0]["Approved"].ToString().Equals("3"))
+                        {
+                            approvechk.Text = "Rejected";
+                            approvebylabel.Text = "Rejected by : " + dr[0]["Approvedby"].ToString();
+                            apprvonlabel.Text = "Rejected on : " + dr[0]["DateApproved"].ToString();
+                            approvechk.Checked = true;
+                            approvechk.Visible = true;
+                            printbttn.Enabled = false;
+                            approvebylabel.Visible = true;
+                            apprvonlabel.Visible = true;
+                            Validatechk.Visible = false;
+                            Validatechk.Enabled = false;
+                        }
+                        else if (dr[0]["Approved"].ToString().Equals("1") && dr[0]["Happroved"].ToString().Equals("1"))
+                        {
+                            approvechk.Text = "Approved";
+                            approvechk.Checked = true;
+                            approvechk.Visible = true;
+                            printbttn.Enabled = true;
+                            approvebylabel.Visible = true;
+                            editbttn.Visible = false;
+                            apprvonlabel.Visible = true;
+                            Validatechk.Visible = false;
+                            Validatechk.Enabled = false;
+                        }
                         else
                         {
-                            if(myid == supervisoridfromreq)
+                            if (myid == supervisoridfromreq)
                             {
                                 approvechk.Text = "Approve";
                                 approvechk.Checked = false;
@@ -1266,7 +1326,7 @@ namespace SearchDataSPM
                                 approvebylabel.Visible = false;
                                 apprvonlabel.Visible = false;
                             }
-                          
+
 
                         }
 
@@ -1296,13 +1356,23 @@ namespace SearchDataSPM
 
 
                                 }
+                                else if (dr[0]["Happroved"].ToString().Equals("3"))
+                                {
+                                    hauthoritygroupbox.Visible = true;
+                                    hauthoritygroupbox.Enabled = false;
+                                    happrovechk.Text = "Final Rejected";
+                                    happrovedbylbl.Text = "Rejected by : " + dr[0]["HApprovedBy"].ToString();
+                                    happroveonlblb.Text = "Rejected on : " + dr[0]["HDateApproved"].ToString();
+                                    happrovechk.Checked = true;
+                                    editbttn.Visible = false;
+                                }
                                 else
                                 {
                                     hauthoritygroupbox.Visible = true;
                                     hauthoritygroupbox.Enabled = false;
                                     happrovechk.Text = "Final Approved";
                                     happrovechk.Checked = true;
-                                    // editbttn.Visible = false;
+                                    editbttn.Visible = false;
                                 }
 
                             }
@@ -1318,6 +1388,17 @@ namespace SearchDataSPM
                                         happrovechk.Checked = true;
                                         printbttn.Enabled = true;
                                         editbttn.Visible = false;
+                                    }
+                                    else if (dr[0]["Happroved"].ToString().Equals("3"))
+                                    {
+                                        hauthoritygroupbox.Visible = true;
+                                        hauthoritygroupbox.Enabled = false;
+                                        happrovechk.Text = "Final Rejected";
+                                        happrovedbylbl.Text = "Rejected by : " + dr[0]["HApprovedBy"].ToString();
+                                        happroveonlblb.Text = "Rejected on : " + dr[0]["HDateApproved"].ToString();
+                                        happrovechk.Checked = true;
+                                        editbttn.Visible = false;
+                                        printbttn.Enabled = false;
                                     }
                                     else
                                     {
@@ -1341,6 +1422,17 @@ namespace SearchDataSPM
                                         editbttn.Visible = false;
 
                                     }
+                                    else if (dr[0]["Happroved"].ToString().Equals("3"))
+                                    {
+                                        hauthoritygroupbox.Visible = true;
+                                        hauthoritygroupbox.Enabled = false;
+                                        happrovechk.Text = "Final Rejected";
+                                        happrovedbylbl.Text = "Rejected by : " + dr[0]["HApprovedBy"].ToString();
+                                        happroveonlblb.Text = "Rejected on : " + dr[0]["HDateApproved"].ToString();
+                                        happrovechk.Checked = true;
+                                        printbttn.Enabled = false;
+                                        editbttn.Visible = false;
+                                    }
                                     else
                                     {
                                         hauthoritygroupbox.Visible = false;
@@ -1348,7 +1440,7 @@ namespace SearchDataSPM
                                         happrovechk.Text = "Final Approved";
                                         happrovechk.Checked = false;
                                         printbttn.Enabled = false;
-
+                                        editbttn.Visible = false;
 
                                     }
                                 }
@@ -1392,7 +1484,6 @@ namespace SearchDataSPM
                                     purchasedchk.Text = "Purchase";
                                     purchasedchk.Checked = false;
 
-
                                 }
                                 else
                                 {
@@ -1427,6 +1518,10 @@ namespace SearchDataSPM
                                         if (supervisor && higherauthority)
                                         {
                                             editbttn.Visible = true;
+                                            if (dr[0]["Happroved"].ToString().Equals("1"))
+                                            {
+                                                editbttn.Visible = false;
+                                            }
                                         }
                                         else
                                         {
@@ -1457,8 +1552,7 @@ namespace SearchDataSPM
                                         purchasedchk.Text = "Purchase";
                                         purchasedchk.Checked = false;
                                         // printbttn.Enabled = false;
-
-
+                                        
                                     }
                                 }
                             }
@@ -1651,7 +1745,7 @@ namespace SearchDataSPM
                         this.Enabled = false;
                         string filename = makefilenameforreport(reqno, true);
                         SaveReport(reqno, filename);
-                        preparetosendemail(reqno, true, "", filename, false, "user");
+                        preparetosendemail(reqno, true, "", filename, false, "user", false);
                         //t.Abort();
 
                         // this.TopMost = true;
@@ -1834,7 +1928,7 @@ namespace SearchDataSPM
 
                             string filename = makefilenameforreport(reqno, false).ToString();
                             SaveReport(reqno, filename);
-                            preparetosendemail(reqno, false, requestby, filename, happroval(), "supervisor");
+                            preparetosendemail(reqno, false, requestby, filename, happroval(), "supervisor", false);
                             exporttoexcel();
                             //t.Abort();
                             //this.TopMost = true;
@@ -2307,38 +2401,45 @@ namespace SearchDataSPM
             return null;
         }
 
-        void preparetosendemail(string reqno, bool prelim, string requestby, string fileName, bool happroval, string triggerby)
+        void preparetosendemail(string reqno, bool prelim, string requestby, string fileName, bool happroval, string triggerby, bool rejected)
         {
-            if (prelim)
+            if (!rejected)
             {
-                snedemailtosupervisor(reqno, fileName);
-            }
-            else
-            {
-                if (happroval)
+                if (prelim)
                 {
-                    if (sendemailyesnohauthority())
-                    {
-                        sendmailforhapproval(reqno, fileName);
-                    }
-
+                    snedemailtosupervisor(reqno, fileName);
                 }
                 else
                 {
-                    sendemailtouser(reqno, fileName, requestby, triggerby);
-                    if (triggerby == "pbuyer")
+                    if (happroval)
                     {
+                        if (sendemailyesnohauthority())
+                        {
+                            sendmailforhapproval(reqno, fileName);
+                        }
 
                     }
                     else
                     {
-                        if (sendemailyesnopbuyer())
+                        sendemailtouser(reqno, fileName, requestby, triggerby, false);
+                        if (triggerby == "pbuyer")
                         {
-                            sendmailtopbuyers(reqno, "");
-                        }
 
+                        }
+                        else
+                        {
+                            if (sendemailyesnopbuyer())
+                            {
+                                sendmailtopbuyers(reqno, "");
+                            }
+
+                        }
                     }
                 }
+            }
+            else
+            {
+                sendemailtouser(reqno, fileName, requestby, triggerby, rejected);
             }
 
         }
@@ -2366,38 +2467,59 @@ namespace SearchDataSPM
             sendemail(email, reqno + " Purchase Req Approval Required", "Hello " + name + "," + Environment.NewLine + userfullname + " sent this purchase req for approval.", fileName, "");
         }
 
-        void sendemailtouser(string reqno, string fileName, string requestby, string triggerby)
+        void sendemailtouser(string reqno, string fileName, string requestby, string triggerby, bool rejected)
         {
             string email = getusernameandemail(requestby);
-
-            if (triggerby == "supervisor")
+            if (!rejected)
             {
-                sendemail(email, reqno + " Purchase Req Approved", "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is approved.", fileName, "");
+                if (triggerby == "supervisor")
+                {
+                    sendemail(email, reqno + " Purchase Req Approved", "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is approved.", fileName, "");
+                }
+                else
+                {
+                    string supnameemail = getsupervisornameandemail(supervisoridfromreq);
+                    string[] values = supnameemail.Replace("][", "~").Split('~');
+                    for (int i = 0; i < values.Length; i++)
+                    {
+                        values[i] = values[i].Trim();
+
+                    }
+                    string supervisoremail = values[0];
+
+                    if (triggerby == "pbuyer")
+                    {
+                        sendemail(email, reqno + " Purchase Req Purchased", "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is sent out for purchase.", fileName, supervisoremail);
+                    }
+                    if (triggerby == "highautority")
+                    {
+                        sendemail(email, reqno + " Purchase Req Approved", "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is approved.", fileName, supervisoremail);
+                    }
+                }
             }
             else
             {
-                string supnameemail = getsupervisornameandemail(supervisoridfromreq);
-                string[] values = supnameemail.Replace("][", "~").Split('~');
-                for (int i = 0; i < values.Length; i++)
+                if (triggerby == "supervisor")
                 {
-                    values[i] = values[i].Trim();
-
+                    sendemail(email, reqno + " Purchase Req Rejected", "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is not approved.", fileName, "");
                 }
-                string supervisoremail = values[0];
-
-                if (triggerby == "pbuyer")
+                else
                 {
-                    sendemail(email, reqno + " Purchase Req Purchased", "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is sent out for purchase.", fileName, supervisoremail);
-                }
-                if (triggerby == "highautority")
-                {
+                    string supnameemail = getsupervisornameandemail(supervisoridfromreq);
+                    string[] values = supnameemail.Replace("][", "~").Split('~');
+                    for (int i = 0; i < values.Length; i++)
+                    {
+                        values[i] = values[i].Trim();
 
+                    }
+                    string supervisoremail = values[0];
 
-                    sendemail(email, reqno + " Purchase Req Approved", "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is approved.", fileName, supervisoremail);
+                    if (triggerby == "highautority")
+                    {
+                        sendemail(email, reqno + " Purchase Req Rejected", "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is not approved.", fileName, supervisoremail);
+                    }
                 }
             }
-
-
         }
 
         void sendmailforhapproval(string reqno, string fileName)
@@ -2667,6 +2789,10 @@ namespace SearchDataSPM
                     MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Send Email", MessageBoxButtons.OK);
                 }
             }
+            else
+            {
+                MessageBox.Show("Email turned off.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
 
         }
 
@@ -2749,7 +2875,7 @@ namespace SearchDataSPM
                     pricetxt.Text = string.Format(CultureInfo.CreateSpecificCulture("en-US"), "{0:C2}", ul);
                     pricetxt.TextChanged += pricetxt_TextChanged;
                     pricetxt.Select(pricetxt.Text.Length, 0);
-                } 
+                }
             }
             bool goodToGo = TextisValid(pricetxt.Text);
 
@@ -2801,7 +2927,7 @@ namespace SearchDataSPM
                 {
                     DataRow r = iteminfo.Rows[0];
                     string price = string.Format("{0:c2}", Convert.ToDecimal(r["PriceItem"].ToString()));
-                   
+
                     string Currency = r["Currency"].ToString();
                     string PurchaseOrder = r["PurchaseOrder"].ToString();
                     if (price != "$0.00")
@@ -2812,8 +2938,8 @@ namespace SearchDataSPM
                         if (result == DialogResult.Yes)
                         {
                             dontstop = false;
-                            pricetxt.Text = price;                           
-                            notestxt.Text += Environment.NewLine + string.Format("Price for item {0} is referred from PO# {1}."+ Environment.NewLine + "{2}", item,PurchaseOrder,Currency.Length>0? "Currency is in " + Currency+ "." : "");
+                            pricetxt.Text = price;
+                            notestxt.Text += Environment.NewLine + string.Format("Price for item {0} is referred from PO# {1}." + Environment.NewLine + "{2}", item, PurchaseOrder, Currency.Length > 0 ? "Currency is in " + Currency + "." : "");
                         }
                         else
                         {
@@ -3097,6 +3223,8 @@ namespace SearchDataSPM
 
         private void showwaitingonapproval()
         {
+            showingwaitingforapproval = true;
+
             if (higherauthority && !supervisor)
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '1' AND Validate = '1' AND HApproval = '1' AND Happroved = '0' ORDER BY ReqNumber DESC", cn))
@@ -3210,9 +3338,11 @@ namespace SearchDataSPM
 
         private void showallapproved()
         {
+            showingwaitingforapproval = false;
+
             if (higherauthority)
             {
-                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '1'AND Validate = '1' ORDER BY ReqNumber DESC", cn))
+                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE (Approved = '1' OR Approved = '3') AND Validate = '1' ORDER BY ReqNumber DESC", cn))
                 {
                     try
                     {
@@ -3266,7 +3396,7 @@ namespace SearchDataSPM
             }
             else if (supervisor)
             {
-                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '1'AND Validate = '1' AND SupervisorId = '" + myid + "' ORDER BY ReqNumber DESC", cn))
+                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE (Approved = '1' OR Approved = '3') AND Validate = '1' AND SupervisorId = '" + myid + "' ORDER BY ReqNumber DESC", cn))
                 {
                     try
                     {
@@ -3295,6 +3425,7 @@ namespace SearchDataSPM
 
         private void showmydeptreq()
         {
+            showingwaitingforapproval = false;
             if (higherauthority)
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Validate != '5'  ORDER BY ReqNumber DESC", cn))
@@ -3403,7 +3534,7 @@ namespace SearchDataSPM
                         string requestby = requestbytxt.Text;
 
                         processsavebutton(true, "Happroved");
-                        approvechk.Checked = true;
+                        happrovechk.Checked = true;
                         //this.TopMost = false;
 
                         //Thread t = new Thread(new ThreadStart(Splashemail));
@@ -3426,7 +3557,7 @@ namespace SearchDataSPM
                         string filename = makefilenameforreport(reqno, false).ToString();
                         //SaveReport(reqno, filename);
 
-                        preparetosendemail(reqno, false, requestby, filename, false, "highautority");
+                        preparetosendemail(reqno, false, requestby, filename, false, "highautority", false);
 
                         // t.Abort();
                         // this.TopMost = true;
@@ -3438,7 +3569,7 @@ namespace SearchDataSPM
                     }
                     else
                     {
-                        approvechk.Checked = false;
+                        happrovechk.Checked = false;
                     }
 
                 }
@@ -3520,7 +3651,7 @@ namespace SearchDataSPM
                         this.Enabled = false;
                         purchasedchk.Checked = true;
 
-                        preparetosendemail(reqno, false, requestby, "", false, "pbuyer");
+                        preparetosendemail(reqno, false, requestby, "", false, "pbuyer", false);
 
                         //t.Abort();
                         //this.TopMost = true;
@@ -3583,7 +3714,7 @@ namespace SearchDataSPM
 
                 string filepath = getsupervisorsharepath(get_username()).ToString() + @"\SPM_Connect\PreliminaryPurchases\";
                 System.IO.Directory.CreateDirectory(filepath);
-                filepath += purchreqtxt.Text + " - "+ requestbytxt.Text +".xls";
+                filepath += purchreqtxt.Text + " - " + requestbytxt.Text + ".xls";
                 // Copy DataGridView results to clipboard
                 copyAlltoClipboard();
 
@@ -3642,11 +3773,11 @@ namespace SearchDataSPM
                 //if (File.Exists(filepath))
                 //    System.Diagnostics.Process.Start(filepath);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Error Saving excel file", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
+
         }
 
         private void copyAlltoClipboard()
@@ -3693,7 +3824,7 @@ namespace SearchDataSPM
                 foreach (DataRow dr in dt.Rows)
                 {
                     path = dr["SharesFolder"].ToString();
-                   
+
                 }
             }
             catch (Exception ex)
@@ -3711,6 +3842,382 @@ namespace SearchDataSPM
         }
 
         #endregion
-    
+
+        private void ApprovalMenuStrip_Opening(object sender, CancelEventArgs e)
+        {
+            if (dataGridView.SelectedRows.Count == 1 && showingwaitingforapproval)
+            {
+
+            }
+            else
+            {
+                e.Cancel = true;
+            }
+        }
+
+        private void approvetoolstrip_Click(object sender, EventArgs e)
+        {
+            if (!approvechk.Checked)
+            {
+
+                if (supervisor)
+                {
+                    if (approvechk.Checked)
+                    {
+                        approvechk.Checked = false;
+                    }
+                    else
+                    {
+                        approvechk.Checked = true;
+                    }
+
+                    if (approvechk.Checked == false)
+                    {
+                        if (gethapprovedstatus(Convert.ToInt32(purchreqtxt.Text)))
+                        {
+                            MetroFramework.MetroMessageBox.Show(this, "This purchase requisition is approved by higher authority. Only people at that credentials can edit the details.", "SPM Connect - Purchase Req H-approved", MessageBoxButtons.OK);
+                            approvechk.Checked = true;
+                            approvechk.Text = "Approved";
+                            processexitbutton();
+
+                        }
+                        else
+                        {
+                            approvechk.Checked = false;
+                            approvechk.Text = "Approve";
+                            processsavebutton(true, "ApprovedFalse");
+
+                        }
+
+                    }
+                    else
+                    {
+                        DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to approve this purchase requistion for order?" + Environment.NewLine +
+                        " " + Environment.NewLine +
+                        "This will send email to requested user attaching the approved purchase req.", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                        if (result == DialogResult.Yes)
+                        {
+                            if (jobnumbertxt.Text.Length > 0 && subassytxt.Text.Length > 0)
+                            {
+                                string reqno = purchreqtxt.Text;
+                                string requestby = requestbytxt.Text;
+
+                                processsavebutton(true, "Approved");
+                                approvechk.Checked = true;
+                                // this.TopMost = false;
+
+                                //Thread t = new Thread(new ThreadStart(Splashemail));
+                                //t.Start();
+                                bool done = false;
+                                ThreadPool.QueueUserWorkItem(delegate
+                                {
+                                    using (var splashForm = new Engineering.WaitFormEmail())
+                                    {
+                                        splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
+                                        splashForm.Show();
+                                        while (!done)
+                                            Application.DoEvents();
+                                        splashForm.Close();
+                                    }
+                                }, null);
+                                this.Enabled = false;
+
+                                string filename = makefilenameforreport(reqno, false).ToString();
+                                SaveReport(reqno, filename);
+                                preparetosendemail(reqno, false, requestby, filename, happroval(), "supervisor", false);
+                                exporttoexcel();
+                                //t.Abort();
+                                //this.TopMost = true;
+                                this.Enabled = true;
+                                this.Focus();
+                                this.Activate();
+                                done = true;
+                            }
+                            else
+                            {
+                                errorProvider1.Clear();
+                                if (jobnumbertxt.Text.Length > 0)
+                                {
+                                    errorProvider1.SetError(subassytxt, "Sub Assy No cannot be empty");
+                                }
+                                else if (subassytxt.Text.Length > 0)
+                                {
+                                    errorProvider1.SetError(jobnumbertxt, "Job Number cannot be empty");
+                                }
+                                else
+                                {
+                                    errorProvider1.SetError(jobnumbertxt, "Job Number cannot be empty");
+                                    errorProvider1.SetError(subassytxt, "Sub Assy No cannot be empty");
+                                }
+
+                                approvechk.Checked = false;
+                            }
+
+
+                        }
+                        else
+                        {
+                            approvechk.Checked = false;
+                        }
+
+                    }
+                }
+            }
+            else if (approvechk.Checked)
+            {
+                if (higherauthority)
+                {
+                    if (happrovechk.Checked)
+                    {
+                        happrovechk.Checked = false;
+                    }
+                    else
+                    {
+                        happrovechk.Checked = true;
+                    }
+
+                    if (happrovechk.Checked == false)
+                    {
+                        processsavebutton(true, "Happrovedfalse");
+                    }
+                    else
+                    {
+                        DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to approve this purchase requistion for order?" + Environment.NewLine +
+                        " " + Environment.NewLine +
+                        "This will send email to requested user attaching the approved purchase req.", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                        if (result == DialogResult.Yes)
+                        {
+                            string reqno = purchreqtxt.Text;
+                            string requestby = requestbytxt.Text;
+
+                            processsavebutton(true, "Happroved");
+                            happrovechk.Checked = true;
+                            //this.TopMost = false;
+
+                            //Thread t = new Thread(new ThreadStart(Splashemail));
+                            //t.Start();
+                            bool done = false;
+                            ThreadPool.QueueUserWorkItem(delegate
+                            {
+                                using (var splashForm = new Engineering.WaitFormEmail())
+                                {
+                                    splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
+                                    splashForm.Show();
+                                    while (!done)
+                                        Application.DoEvents();
+                                    splashForm.Close();
+                                }
+                            }, null);
+                            this.Enabled = false;
+
+
+                            string filename = makefilenameforreport(reqno, false).ToString();
+                            //SaveReport(reqno, filename);
+
+                            preparetosendemail(reqno, false, requestby, filename, false, "highautority", false);
+
+                            // t.Abort();
+                            // this.TopMost = true;
+                            this.Enabled = true;
+                            this.Focus();
+                            this.Activate();
+                            done = true;
+
+                        }
+                        else
+                        {
+                            happrovechk.Checked = false;
+                        }
+
+                    }
+                }
+            }
+
+
+        }
+
+        private void rejecttoolstrip_Click(object sender, EventArgs e)
+        {
+            if (!approvechk.Checked)
+            {
+                if (supervisor)
+                {
+                    if (approvechk.Checked)
+                    {
+                        approvechk.Checked = false;
+                    }
+                    else
+                    {
+                        approvechk.Checked = true;
+                    }
+
+                    if (approvechk.Checked == false)
+                    {
+                        if (gethapprovedstatus(Convert.ToInt32(purchreqtxt.Text)))
+                        {
+                            MetroFramework.MetroMessageBox.Show(this, "This purchase requisition is approved by higher authority. Only people at that credentials can edit the details.", "SPM Connect - Purchase Req H-approved", MessageBoxButtons.OK);
+                            approvechk.Checked = true;
+                            approvechk.Text = "Approved";
+                            processexitbutton();
+
+                        }
+                        else
+                        {
+                            approvechk.Checked = false;
+                            approvechk.Text = "Approve";
+                            processsavebutton(true, "ApprovedFalse");
+
+                        }
+
+                    }
+                    else
+                    {
+                        DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to reject this purchase requistion from ordering?" + Environment.NewLine +
+                        " " + Environment.NewLine +
+                        "This will send email to requested user stating that purchase req is rejected.", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Stop);
+
+                        if (result == DialogResult.Yes)
+                        {
+                            if (jobnumbertxt.Text.Length > 0 && subassytxt.Text.Length > 0)
+                            {
+                                string reqno = purchreqtxt.Text;
+                                string requestby = requestbytxt.Text;
+
+                                processsavebutton(true, "Rejected");
+                                approvechk.Checked = true;
+                                // this.TopMost = false;
+
+                                //Thread t = new Thread(new ThreadStart(Splashemail));
+                                //t.Start();
+                                bool done = false;
+                                ThreadPool.QueueUserWorkItem(delegate
+                                {
+                                    using (var splashForm = new Engineering.WaitFormEmail())
+                                    {
+                                        splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
+                                        splashForm.Show();
+                                        while (!done)
+                                            Application.DoEvents();
+                                        splashForm.Close();
+                                    }
+                                }, null);
+                                this.Enabled = false;
+
+                                //string filename = makefilenameforreport(reqno, false).ToString();
+                                //SaveReport(reqno, filename);
+                                preparetosendemail(reqno, false, requestby, "", happroval(), "supervisor", true);
+                                //exporttoexcel();
+                                //t.Abort();
+                                //this.TopMost = true;
+                                this.Enabled = true;
+                                this.Focus();
+                                this.Activate();
+                                done = true;
+                            }
+                            else
+                            {
+                                errorProvider1.Clear();
+                                if (jobnumbertxt.Text.Length > 0)
+                                {
+                                    errorProvider1.SetError(subassytxt, "Sub Assy No cannot be empty");
+                                }
+                                else if (subassytxt.Text.Length > 0)
+                                {
+                                    errorProvider1.SetError(jobnumbertxt, "Job Number cannot be empty");
+                                }
+                                else
+                                {
+                                    errorProvider1.SetError(jobnumbertxt, "Job Number cannot be empty");
+                                    errorProvider1.SetError(subassytxt, "Sub Assy No cannot be empty");
+                                }
+
+                                approvechk.Checked = false;
+                            }
+
+
+                        }
+                        else
+                        {
+                            approvechk.Checked = false;
+                        }
+
+                    }
+                }
+            }
+            else if (approvechk.Checked)
+            {
+                if (higherauthority)
+                {
+                    if (happrovechk.Checked)
+                    {
+                        happrovechk.Checked = false;
+                    }
+                    else
+                    {
+                        happrovechk.Checked = true;
+                    }
+
+                    if (happrovechk.Checked == false)
+                    {
+                        processsavebutton(true, "Happrovedfalse");
+                    }
+                    else
+                    {
+                        DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to reject this purchase requistion from ordering?" + Environment.NewLine +
+                        " " + Environment.NewLine +
+                        "This will send email to requested user stating that purchase req is rejected.", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Stop);
+
+                        if (result == DialogResult.Yes)
+                        {
+                            string reqno = purchreqtxt.Text;
+                            string requestby = requestbytxt.Text;
+
+                            processsavebutton(true, "HRejected");
+                            happrovechk.Checked = true;
+                            //this.TopMost = false;
+
+                            //Thread t = new Thread(new ThreadStart(Splashemail));
+                            //t.Start();
+                            bool done = false;
+                            ThreadPool.QueueUserWorkItem(delegate
+                            {
+                                using (var splashForm = new Engineering.WaitFormEmail())
+                                {
+                                    splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
+                                    splashForm.Show();
+                                    while (!done)
+                                        Application.DoEvents();
+                                    splashForm.Close();
+                                }
+                            }, null);
+                            this.Enabled = false;
+
+
+                            //string filename = makefilenameforreport(reqno, false).ToString();
+                            //SaveReport(reqno, filename);
+
+                            preparetosendemail(reqno, false, requestby, "", false, "highautority", true);
+
+                            // t.Abort();
+                            // this.TopMost = true;
+                            this.Enabled = true;
+                            this.Focus();
+                            this.Activate();
+                            done = true;
+
+                        }
+                        else
+                        {
+                            happrovechk.Checked = false;
+                        }
+
+                    }
+                }
+
+            }
+
+        }
     }
 }

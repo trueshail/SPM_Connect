@@ -1404,10 +1404,18 @@ namespace SearchDataSPM
 
             if (keyData == (Keys.Control | Keys.Q))
             {
-                Compare sPM_ConnectJobs = new Compare();
-                sPM_ConnectJobs.item(getitemnumberselected());
-                sPM_ConnectJobs.Show();
-                return true;
+                if (dataGridView.SelectedRows.Count > 0)
+                {
+                    Compare sPM_ConnectJobs = new Compare();
+                    sPM_ConnectJobs.item(getitemnumberselected());
+                    sPM_ConnectJobs.Show();
+                    return true;
+                }
+                else
+                {
+                    MessageBox.Show("No item found to run the compare tool", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
             }
 
             if (keyData == Keys.F1)
@@ -2442,10 +2450,18 @@ namespace SearchDataSPM
         {
             if (listView.FocusedItem != null)
             {
-                string file = listFiles[listView.FocusedItem.Index];
-                Edrawings.EModelViewer modelViewer = new Edrawings.EModelViewer();
-                modelViewer.filetoopen(file);
-                modelViewer.Show();
+                try
+                {
+                    string file = listFiles[listView.FocusedItem.Index];
+                    Edrawings.EModelViewer modelViewer = new Edrawings.EModelViewer();
+                    modelViewer.filetoopen(file);
+                    modelViewer.Show();
+                }
+                catch
+                {
+
+                }
+               
             }
         }
 
@@ -3136,13 +3152,13 @@ namespace SearchDataSPM
                     File.Delete(filePath);
                     showfilesonlistview();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }                
+                }
 
             }
-            
+
 
         }
     }

@@ -59,11 +59,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Assy_txtbox.BackColor = System.Drawing.SystemColors.MenuBar;
             this.Assy_txtbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Assy_txtbox.Location = new System.Drawing.Point(198, 13);
+            this.Assy_txtbox.Location = new System.Drawing.Point(138, 13);
             this.Assy_txtbox.MaximumSize = new System.Drawing.Size(120, 25);
             this.Assy_txtbox.MinimumSize = new System.Drawing.Size(110, 25);
             this.Assy_txtbox.Name = "Assy_txtbox";
-            this.Assy_txtbox.Size = new System.Drawing.Size(110, 26);
+            this.Assy_txtbox.Size = new System.Drawing.Size(110, 25);
             this.Assy_txtbox.TabIndex = 1;
             this.LabelTooltips.SetToolTip(this.Assy_txtbox, "Enter Assy Item Number");
             this.Assy_txtbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Assy_txtbox_KeyDown);
@@ -75,11 +75,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.assytxt2.BackColor = System.Drawing.SystemColors.MenuBar;
             this.assytxt2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.assytxt2.Location = new System.Drawing.Point(702, 12);
+            this.assytxt2.Location = new System.Drawing.Point(626, 12);
             this.assytxt2.MaximumSize = new System.Drawing.Size(120, 25);
             this.assytxt2.MinimumSize = new System.Drawing.Size(110, 25);
             this.assytxt2.Name = "assytxt2";
-            this.assytxt2.Size = new System.Drawing.Size(110, 26);
+            this.assytxt2.Size = new System.Drawing.Size(110, 25);
             this.assytxt2.TabIndex = 29;
             this.LabelTooltips.SetToolTip(this.assytxt2, "Enter Assy Item Number");
             this.assytxt2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.assytxt2_KeyDown);
@@ -107,7 +107,7 @@
             this.Assy_label.AutoSize = true;
             this.Assy_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Assy_label.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.Assy_label.Location = new System.Drawing.Point(62, 19);
+            this.Assy_label.Location = new System.Drawing.Point(7, 19);
             this.Assy_label.Name = "Assy_label";
             this.Assy_label.Size = new System.Drawing.Size(130, 15);
             this.Assy_label.TabIndex = 28;
@@ -134,7 +134,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label1.Location = new System.Drawing.Point(570, 18);
+            this.label1.Location = new System.Drawing.Point(494, 18);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(130, 15);
             this.label1.TabIndex = 30;

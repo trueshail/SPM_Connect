@@ -2517,7 +2517,7 @@ namespace SPMConnectAPI
                 }
                 else
                 {
-                    MessageBox.Show("Item already exists on your favorite list", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Item no " + itemid + " already exists on your favorite list.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             else
@@ -2536,7 +2536,7 @@ namespace SPMConnectAPI
 
             updateusernametoitemonfavorites(itemid, removeusername(usernamesfromitem));
 
-            MessageBox.Show("Item removed from your favorite list", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Item no " + itemid+   " has been removed from your favorite list.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 
             return completed;
@@ -2592,7 +2592,7 @@ namespace SPMConnectAPI
                 cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[favourite] (Item,UserName) VALUES('" + itemid + "','" + userid + " ')";
                 cmd.ExecuteNonQuery();
                 cn.Close();
-                MessageBox.Show("Item Added To your Favorites", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Item no " +itemid + " has been added to your favorites.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             }
             catch (Exception ex)
@@ -2792,6 +2792,36 @@ namespace SPMConnectAPI
             return Happrovalnames;
         }
 
+        public bool checkPurchaseReqMaintenance()
+        {
+            bool maintenance = false;
+            string result = "";
+            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'PurchaseReqDev'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    result = (string)cmd.ExecuteScalar();
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect Error connecting to server", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+            if (result == "1")
+            {
+                maintenance = true;
+            }
+            return maintenance;
+
+        }
     }
 }
 

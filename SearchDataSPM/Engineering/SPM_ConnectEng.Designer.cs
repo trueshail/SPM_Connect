@@ -50,8 +50,6 @@ namespace SearchDataSPM
             this.addToFavoritesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showFavoritesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeFromFavoritesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.inventoryBindingSource3 = new System.Windows.Forms.BindingSource(this.components);
-            this.sPM_DatabaseDataSet = new SearchDataSPM.SPM_DatabaseDataSet();
             this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.SPM = new System.Windows.Forms.Label();
             this.AddNewBttn = new System.Windows.Forms.Button();
@@ -93,6 +91,8 @@ namespace SearchDataSPM
             this.familyCodeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.manufacturerDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.manufacturerItemNumberDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.inventoryBindingSource3 = new System.Windows.Forms.BindingSource(this.components);
+            this.sPM_DatabaseDataSet = new SearchDataSPM.SPM_DatabaseDataSet();
             this.matlbl = new System.Windows.Forms.Label();
             this.clrfiltersbttn = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
@@ -123,14 +123,14 @@ namespace SearchDataSPM
             this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem11 = new System.Windows.Forms.ToolStripMenuItem();
             this.FormSelectorEng.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.inventoryBindingSource3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.sPM_DatabaseDataSet)).BeginInit();
             this.Listviewcontextmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.inventoryBindingSource3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sPM_DatabaseDataSet)).BeginInit();
             this.trayiconstrip.SuspendLayout();
             this.FormSelectorControls.SuspendLayout();
             this.SuspendLayout();
@@ -256,6 +256,7 @@ namespace SearchDataSPM
             this.eModelViewerToolStripMenuItem1.Size = new System.Drawing.Size(198, 22);
             this.eModelViewerToolStripMenuItem1.Text = "E Model Viewer";
             this.eModelViewerToolStripMenuItem1.ToolTipText = "Show E Model";
+            this.eModelViewerToolStripMenuItem1.Visible = false;
             this.eModelViewerToolStripMenuItem1.Click += new System.EventHandler(this.eModelViewerToolStripMenuItem1_Click);
             // 
             // addToFavoritesToolStripMenuItem
@@ -286,16 +287,6 @@ namespace SearchDataSPM
             this.removeFromFavoritesToolStripMenuItem.ToolTipText = "Remove selected item from favorites";
             this.removeFromFavoritesToolStripMenuItem.Visible = false;
             this.removeFromFavoritesToolStripMenuItem.Click += new System.EventHandler(this.removeFromFavoritesToolStripMenuItem_Click);
-            // 
-            // inventoryBindingSource3
-            // 
-            this.inventoryBindingSource3.DataMember = "Inventory";
-            this.inventoryBindingSource3.DataSource = this.sPM_DatabaseDataSet;
-            // 
-            // sPM_DatabaseDataSet
-            // 
-            this.sPM_DatabaseDataSet.DataSetName = "SPM_DatabaseDataSet";
-            this.sPM_DatabaseDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // TreeViewToolTip
             // 
@@ -534,7 +525,7 @@ namespace SearchDataSPM
             this.Manufactureritemcomboxbox.FormattingEnabled = true;
             this.Manufactureritemcomboxbox.Location = new System.Drawing.Point(6, 376);
             this.Manufactureritemcomboxbox.Name = "Manufactureritemcomboxbox";
-            this.Manufactureritemcomboxbox.Size = new System.Drawing.Size(151, 21);
+            this.Manufactureritemcomboxbox.Size = new System.Drawing.Size(157, 21);
             this.Manufactureritemcomboxbox.TabIndex = 125;
             this.TreeViewToolTip.SetToolTip(this.Manufactureritemcomboxbox, "Filter by OEM item number");
             this.Manufactureritemcomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Manufactureritemcomboxbox_KeyDown);
@@ -550,7 +541,7 @@ namespace SearchDataSPM
             this.familycomboxbox.FormattingEnabled = true;
             this.familycomboxbox.Location = new System.Drawing.Point(6, 227);
             this.familycomboxbox.Name = "familycomboxbox";
-            this.familycomboxbox.Size = new System.Drawing.Size(151, 21);
+            this.familycomboxbox.Size = new System.Drawing.Size(157, 21);
             this.familycomboxbox.TabIndex = 123;
             this.TreeViewToolTip.SetToolTip(this.familycomboxbox, "Filter by family type");
             this.familycomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.familycomboxbox_KeyDown);
@@ -566,7 +557,7 @@ namespace SearchDataSPM
             this.lastsavedbycombo.FormattingEnabled = true;
             this.lastsavedbycombo.Location = new System.Drawing.Point(6, 520);
             this.lastsavedbycombo.Name = "lastsavedbycombo";
-            this.lastsavedbycombo.Size = new System.Drawing.Size(151, 21);
+            this.lastsavedbycombo.Size = new System.Drawing.Size(157, 21);
             this.lastsavedbycombo.TabIndex = 127;
             this.TreeViewToolTip.SetToolTip(this.lastsavedbycombo, "Filter by last saved");
             this.lastsavedbycombo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lastsavedbycombo_KeyDown);
@@ -585,7 +576,7 @@ namespace SearchDataSPM
             "SPM AUTOMATION (Canada) INC."});
             this.oemitemcombobox.Location = new System.Drawing.Point(6, 301);
             this.oemitemcombobox.Name = "oemitemcombobox";
-            this.oemitemcombobox.Size = new System.Drawing.Size(151, 21);
+            this.oemitemcombobox.Size = new System.Drawing.Size(157, 21);
             this.oemitemcombobox.TabIndex = 124;
             this.TreeViewToolTip.SetToolTip(this.oemitemcombobox, "Filter by manufacture");
             this.oemitemcombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.oemitemcombobox_KeyDown);
@@ -601,7 +592,7 @@ namespace SearchDataSPM
             this.ActiveCadblockcombobox.FormattingEnabled = true;
             this.ActiveCadblockcombobox.Location = new System.Drawing.Point(6, 601);
             this.ActiveCadblockcombobox.Name = "ActiveCadblockcombobox";
-            this.ActiveCadblockcombobox.Size = new System.Drawing.Size(151, 21);
+            this.ActiveCadblockcombobox.Size = new System.Drawing.Size(157, 21);
             this.ActiveCadblockcombobox.TabIndex = 128;
             this.TreeViewToolTip.SetToolTip(this.ActiveCadblockcombobox, "Filter by current cad block number");
             this.ActiveCadblockcombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ActiveCadblockcombobox_KeyDown);
@@ -621,7 +612,7 @@ namespace SearchDataSPM
             "Joel Goldsmith"});
             this.designedbycombobox.Location = new System.Drawing.Point(6, 150);
             this.designedbycombobox.Name = "designedbycombobox";
-            this.designedbycombobox.Size = new System.Drawing.Size(151, 21);
+            this.designedbycombobox.Size = new System.Drawing.Size(157, 21);
             this.designedbycombobox.TabIndex = 122;
             this.TreeViewToolTip.SetToolTip(this.designedbycombobox, "Filter Designed by");
             this.designedbycombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.designedbycombobox_KeyDown);
@@ -637,7 +628,7 @@ namespace SearchDataSPM
             this.MaterialcomboBox.FormattingEnabled = true;
             this.MaterialcomboBox.Location = new System.Drawing.Point(6, 447);
             this.MaterialcomboBox.Name = "MaterialcomboBox";
-            this.MaterialcomboBox.Size = new System.Drawing.Size(151, 21);
+            this.MaterialcomboBox.Size = new System.Drawing.Size(157, 21);
             this.MaterialcomboBox.TabIndex = 126;
             this.TreeViewToolTip.SetToolTip(this.MaterialcomboBox, "Filter by Material");
             this.MaterialcomboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MaterialcomboBox_KeyDown);
@@ -763,6 +754,7 @@ namespace SearchDataSPM
             this.toolStripMenuItem3.Size = new System.Drawing.Size(176, 22);
             this.toolStripMenuItem3.Text = "E Model Viewer";
             this.toolStripMenuItem3.ToolTipText = "Open Selected Item in Emodel Viewer";
+            this.toolStripMenuItem3.Visible = false;
             this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
             // 
             // revelInExplorerToolStripMenuItem
@@ -859,6 +851,7 @@ namespace SearchDataSPM
             this.listView.BackColor = System.Drawing.Color.White;
             this.listView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.listView.ContextMenuStrip = this.Listviewcontextmenu;
+            this.listView.HideSelection = false;
             this.listView.LargeImageList = this.imageList;
             this.listView.Location = new System.Drawing.Point(1, 488);
             this.listView.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
@@ -967,6 +960,16 @@ namespace SearchDataSPM
             this.manufacturerItemNumberDataGridViewTextBoxColumn.HeaderText = "Manufacturer Item Number";
             this.manufacturerItemNumberDataGridViewTextBoxColumn.Name = "manufacturerItemNumberDataGridViewTextBoxColumn";
             this.manufacturerItemNumberDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // inventoryBindingSource3
+            // 
+            this.inventoryBindingSource3.DataMember = "Inventory";
+            this.inventoryBindingSource3.DataSource = this.sPM_DatabaseDataSet;
+            // 
+            // sPM_DatabaseDataSet
+            // 
+            this.sPM_DatabaseDataSet.DataSetName = "SPM_DatabaseDataSet";
+            this.sPM_DatabaseDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // matlbl
             // 
@@ -1247,6 +1250,7 @@ namespace SearchDataSPM
             this.eModelViewerToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
             this.eModelViewerToolStripMenuItem.Text = "E Model Viewer";
             this.eModelViewerToolStripMenuItem.ToolTipText = "Show 3d Model";
+            this.eModelViewerToolStripMenuItem.Visible = false;
             this.eModelViewerToolStripMenuItem.Click += new System.EventHandler(this.eModelViewerToolStripMenuItem_Click);
             // 
             // toolStripMenuItem9
@@ -1295,8 +1299,6 @@ namespace SearchDataSPM
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SPM_Connect_FormClosed);
             this.Load += new System.EventHandler(this.SPM_Connect_Load);
             this.FormSelectorEng.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.inventoryBindingSource3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.sPM_DatabaseDataSet)).EndInit();
             this.Listviewcontextmenu.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
@@ -1305,6 +1307,8 @@ namespace SearchDataSPM
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.inventoryBindingSource3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sPM_DatabaseDataSet)).EndInit();
             this.trayiconstrip.ResumeLayout(false);
             this.FormSelectorControls.ResumeLayout(false);
             this.ResumeLayout(false);

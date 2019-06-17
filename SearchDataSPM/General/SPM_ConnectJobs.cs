@@ -1056,6 +1056,7 @@ namespace SearchDataSPM
         private void purchasereq_Click(object sender, EventArgs e)
         {
             int openforms = Application.OpenForms.Count;
+            bool checkmaintenance = connectapi.checkPurchaseReqMaintenance();
             if (openforms >= 2)
             {
                 bool purchasereqopen = false;
@@ -1066,11 +1067,27 @@ namespace SearchDataSPM
                     if (frm.Name.ToString() == "PurchaseReqform")
                     {
                         purchasereqopen = true;
-                        frm.Show();
-                        frm.Activate();
-                        frm.BringToFront();
-                        frm.Focus();
-                        frm.WindowState = FormWindowState.Normal;
+                        if (!checkmaintenance)
+                        {
+                            frm.Show();
+                            frm.Activate();
+                            frm.BringToFront();
+                            frm.Focus();
+                            frm.WindowState = FormWindowState.Normal;
+                            break;
+                        }
+                        else
+                        {
+                            frm.Show();
+                            frm.Activate();
+                            frm.BringToFront();
+                            frm.Focus();
+                            frm.WindowState = FormWindowState.Normal;
+                            frm.Close();
+                            MetroFramework.MetroMessageBox.Show(this, "SPM Connect puchase req module is under maintenance. Please check back soon. Sorry for the inconvenience.", "Purhase Req Under Maintenance", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
+                        }
+                        
                     }
 
                 }
@@ -1080,8 +1097,22 @@ namespace SearchDataSPM
                 }
                 else
                 {
-                    PurchaseReqform purchaseReq = new PurchaseReqform();
-                    purchaseReq.Show();
+                    if (!checkmaintenance)
+                    {
+                        PurchaseReqform purchaseReq = new PurchaseReqform();
+                        purchaseReq.Show();
+
+                    }
+                    else if (checkmaintenance && connectapi.Checkdeveloper())
+                    {
+                        PurchaseReqform purchaseReq = new PurchaseReqform();
+                        purchaseReq.Show();
+                    }
+                    else
+                    {
+                        MetroFramework.MetroMessageBox.Show(this, "SPM Connect puchase req module is under maintenance. Please check back soon. Sorry for the inconvenience.", "Purhase Req Under Maintenance", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    
                 }
             }
         }
@@ -1192,6 +1223,33 @@ namespace SearchDataSPM
         {
             ShippingHome shipping = new ShippingHome();
             shipping.Show();
+        }
+
+        private void getEstimateBOMToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string item;
+            if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
+            {
+                int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
+                DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
+                item = Convert.ToString(slectedrow.Cells[3].Value);
+                //MessageBox.Show(ItemNo);
+
+            }
+            else
+            {
+                item = "";
+            }
+
+            processbomEstimate(item);
+
+        }
+
+        private void processbomEstimate(string itemvalue)
+        {
+            EstimateBOM treeView = new EstimateBOM();
+            treeView.item(itemvalue);
+            treeView.Show();
         }
     }
 }

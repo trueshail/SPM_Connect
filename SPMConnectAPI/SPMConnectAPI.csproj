@@ -59,7 +59,7 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="wpfPreviewFlowControl">
-      <HintPath>C:\Program Files\SOLIDWORKS Corp\SOLIDWORKS Explorer\SOLIDWORKS Explorer 2018\wpfPreviewFlowControl.dll</HintPath>
+      <HintPath>C:\Program Files\SOLIDWORKS Corp\SOLIDWORKS Explorer (2)\SOLIDWORKS Explorer 2019\wpfPreviewFlowControl.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

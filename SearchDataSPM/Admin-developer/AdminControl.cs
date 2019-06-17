@@ -1102,7 +1102,7 @@ namespace SearchDataSPM
                 return true;
             }
 
-            if (keyData == (Keys.Control | Keys.X))
+            if (keyData == (Keys.Alt | Keys.X))
             {
                 performcancelbutton();
                 return true;
@@ -1114,7 +1114,7 @@ namespace SearchDataSPM
                 return true;
             }
 
-            if (keyData == (Keys.Control | Keys.A))
+            if (keyData == (Keys.Alt | Keys.A))
             {
                 performaddnewbutton();
                 return true;

@@ -28,12 +28,12 @@
     <ErrorReportUrl>http://www.spm-automation.com/contact.php</ErrorReportUrl>
     <ProductName>SPM Connect</ProductName>
     <PublisherName>SPM Automation</PublisherName>
-    <MinimumRequiredVersion>7.6.13.1</MinimumRequiredVersion>
+    <MinimumRequiredVersion>7.6.14.2</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>2</ApplicationRevision>
-    <ApplicationVersion>7.6.13.%2a</ApplicationVersion>
+    <ApplicationRevision>3</ApplicationRevision>
+    <ApplicationVersion>7.6.14.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -80,7 +80,7 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>5D9D039F10257899AE4CD255D2BD36D724E2DB23</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>B15D9D8AC550F392E83F6EC2CFAF7F24B2634697</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>
@@ -332,6 +332,12 @@
     </Compile>
     <Compile Include="Engineering\ItemInfo.Designer.cs">
       <DependentUpon>ItemInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Engineering\EstimateBOM.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Engineering\EstimateBOM.Designer.cs">
+      <DependentUpon>EstimateBOM.cs</DependentUpon>
     </Compile>
     <Compile Include="Engineering\WaitFormLoading.cs">
       <SubType>Form</SubType>
@@ -660,6 +666,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Engineering\ItemInfo.resx">
       <DependentUpon>ItemInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Engineering\EstimateBOM.resx">
+      <DependentUpon>EstimateBOM.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Engineering\WaitFormLoading.resx">
       <DependentUpon>WaitFormLoading.cs</DependentUpon>
