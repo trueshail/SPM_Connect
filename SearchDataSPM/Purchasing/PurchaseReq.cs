@@ -736,7 +736,7 @@ namespace SearchDataSPM
                 Validatechk.Visible = true;
             }
 
-            if (supervisor && Validatechk.Checked)
+            if ((supervisor || pbuyer || higherauthority) && Validatechk.Checked)
             {
                 if (myid == supervisoridfromreq)
                 {
@@ -827,6 +827,8 @@ namespace SearchDataSPM
                     {
                         bttnneedapproval.PerformClick();
                     }
+
+                   
 
                     if (dataGridView.Rows.Count > 0)
                     {
@@ -1483,7 +1485,7 @@ namespace SearchDataSPM
                                     purchasegrpbox.Enabled = true;
                                     purchasedchk.Text = "Purchase";
                                     purchasedchk.Checked = false;
-
+                                    editbttn.Visible = true;
                                 }
                                 else
                                 {
@@ -1552,7 +1554,7 @@ namespace SearchDataSPM
                                         purchasedchk.Text = "Purchase";
                                         purchasedchk.Checked = false;
                                         // printbttn.Enabled = false;
-                                        
+
                                     }
                                 }
                             }
@@ -3843,6 +3845,8 @@ namespace SearchDataSPM
 
         #endregion
 
+        #region Approval Tool Menu Strip
+
         private void ApprovalMenuStrip_Opening(object sender, CancelEventArgs e)
         {
             if (dataGridView.SelectedRows.Count == 1 && showingwaitingforapproval)
@@ -4219,5 +4223,7 @@ namespace SearchDataSPM
             }
 
         }
+
+        #endregion
     }
 }

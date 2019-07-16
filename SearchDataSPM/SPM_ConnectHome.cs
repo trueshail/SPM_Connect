@@ -13,7 +13,7 @@ namespace SearchDataSPM
         }
 
         int time = 0;
-        
+
         string connection;
         SqlConnection cn;
 
@@ -68,7 +68,7 @@ namespace SearchDataSPM
                         loadspmconnect.Closed += (s, args) => this.Close();
                         loadspmconnect.Show();
                     }
-                    if (checkmaintenance() && Checkdeveloper())
+                    else if (checkmaintenance() && Checkdeveloper())
                     {
                         var loadspmconnect = new SPM_Connect();
                         loadspmconnect.Closed += (s, args) => this.Close();

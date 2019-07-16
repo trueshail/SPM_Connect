@@ -538,7 +538,7 @@ namespace SearchDataSPM
 
         private void scanwobttn_Click(object sender, EventArgs e)
         {
-            if (connectapi.CheckScanRights())
+            if (connectapi.CheckRights("[WOScan]"))
             {
                 ScanWO scanWO = new ScanWO();
                 scanWO.Show();

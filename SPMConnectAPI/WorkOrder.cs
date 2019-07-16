@@ -150,12 +150,12 @@ namespace SPMConnectAPI
             return Department;
         }
 
-        public bool CheckScanRights()
+        public bool CheckRights(string Module)
         {
             bool yeswoscan = false;
             string useradmin = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
 
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND WOScan = '1'", cn))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND "+Module+" = '1'", cn))
             {
                 try
                 {

@@ -1404,7 +1404,7 @@ namespace SearchDataSPM
 
             if (keyData == (Keys.Control | Keys.Q))
             {
-                if (dataGridView.SelectedRows.Count > 0)
+                if (dataGridView.SelectedCells.Count == 1)
                 {
                     Compare sPM_ConnectJobs = new Compare();
                     sPM_ConnectJobs.item(getitemnumberselected());
