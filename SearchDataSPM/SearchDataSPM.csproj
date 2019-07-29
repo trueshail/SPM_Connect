@@ -309,6 +309,12 @@
     <Compile Include="Customer.cs">
       <DependentUpon>ConnectCustomers.tt</DependentUpon>
     </Compile>
+    <Compile Include="ECR\ECRHome.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ECR\ECRHome.Designer.cs">
+      <DependentUpon>ECRHome.cs</DependentUpon>
+    </Compile>
     <Compile Include="Edrawings\EModelViewer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -639,6 +645,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Admin-developer\Customers.resx">
       <DependentUpon>Customers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ECR\ECRHome.resx">
+      <DependentUpon>ECRHome.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Edrawings\EModelViewer.resx">
       <DependentUpon>EModelViewer.cs</DependentUpon>

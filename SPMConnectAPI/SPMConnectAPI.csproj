@@ -69,6 +69,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="ECR.cs" />
     <Compile Include="Shipping.cs" />
     <Compile Include="SPMSQLCommands.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
