@@ -40,7 +40,7 @@ namespace SearchDataSPM
                 Application.Exit();
             }
 
-           // connectapi.SPM_Connect();
+            // connectapi.SPM_Connect();
 
         }
 
@@ -562,10 +562,17 @@ namespace SearchDataSPM
             }
         }
 
+        private void dataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dataGridView.SelectedCells.Count == 1)
+            {
+                showshippinginvoice(getselectedinvoicenumber(), "1");
+            }
+        }
+
         private void dataGridView_SelectionChanged(object sender, EventArgs e)
         {
             showfilterdata();
-
         }
 
         void showfilterdata()
@@ -599,14 +606,6 @@ namespace SearchDataSPM
                     invoiceitemsdataGridView2.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                     invoiceitemsdataGridView2.Columns[3].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
                 }
-            }
-        }
-
-        private void dataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (dataGridView.SelectedCells.Count == 1)
-            {
-                showshippinginvoice(getselectedinvoicenumber(), "1");
             }
         }
 
@@ -722,7 +721,7 @@ namespace SearchDataSPM
 
                 return true;
             }
-            
+
             if (keyData == (Keys.Shift | Keys.OemPeriod))
             {
                 if (splitContainer1.Panel2Collapsed == true)
@@ -1123,16 +1122,16 @@ namespace SearchDataSPM
                 {
                     MetroFramework.MetroMessageBox.Show(this, "Inovice for not selected. System cannot create new shipping invoice.", "SPM Connect - Create New Invoice?", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-               
+
             }
         }
 
         private void showshippinginvoice(string invoice, string vendorcust)
         {
             string invoiceopen = connectapi.InvoiceOpen(invoice);
-            if (invoiceopen.Length>0)
+            if (invoiceopen.Length > 0)
             {
-                MetroFramework.MetroMessageBox.Show(this, "Inovice is opened for edit by "+invoiceopen+". ", "SPM Connect - Open Invoice Failed", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                MetroFramework.MetroMessageBox.Show(this, "Inovice is opened for edit by " + invoiceopen + ". ", "SPM Connect - Open Invoice Failed", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
             else
             {
@@ -1150,9 +1149,9 @@ namespace SearchDataSPM
                         this.Focus();
                     }
                 }
-               
+
             }
-           
+
         }
 
         private string getselectedinvoicenumber()
@@ -1181,12 +1180,12 @@ namespace SearchDataSPM
             {
                 this.Enabled = false;
                 string status = connectapi.CopyShippingInvoice(getselectedinvoicenumber());
-                
+
                 if (status.Length > 1)
                 {
                     showshippinginvoice(status, "1");
                 }
-               
+
 
             }
 
@@ -1208,6 +1207,8 @@ namespace SearchDataSPM
         }
 
         #endregion
+
+
     }
 
 }

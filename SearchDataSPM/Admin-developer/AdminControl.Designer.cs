@@ -1045,13 +1045,13 @@ namespace SearchDataSPM
             this.ecrapproval2chklbl.AutoSize = true;
             this.ecrapproval2chklbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ecrapproval2chklbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.ecrapproval2chklbl.Location = new System.Drawing.Point(397, 531);
+            this.ecrapproval2chklbl.Location = new System.Drawing.Point(415, 531);
             this.ecrapproval2chklbl.MaximumSize = new System.Drawing.Size(150, 30);
             this.ecrapproval2chklbl.Name = "ecrapproval2chklbl";
             this.ecrapproval2chklbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.ecrapproval2chklbl.Size = new System.Drawing.Size(130, 15);
+            this.ecrapproval2chklbl.Size = new System.Drawing.Size(102, 15);
             this.ecrapproval2chklbl.TabIndex = 103;
-            this.ecrapproval2chklbl.Text = "ECR 2nd Approval :";
+            this.ecrapproval2chklbl.Text = "ECR Approval :";
             // 
             // label18
             // 
@@ -1075,13 +1075,13 @@ namespace SearchDataSPM
             this.label19.AutoSize = true;
             this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label19.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label19.Location = new System.Drawing.Point(249, 531);
+            this.label19.Location = new System.Drawing.Point(232, 531);
             this.label19.MaximumSize = new System.Drawing.Size(150, 30);
             this.label19.Name = "label19";
             this.label19.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label19.Size = new System.Drawing.Size(102, 15);
+            this.label19.Size = new System.Drawing.Size(115, 15);
             this.label19.TabIndex = 102;
-            this.label19.Text = "ECR Approval :";
+            this.label19.Text = "ECR Supervisor :";
             // 
             // label20
             // 
@@ -1120,16 +1120,18 @@ namespace SearchDataSPM
             this.ecrapprovalchk.Size = new System.Drawing.Size(15, 14);
             this.ecrapprovalchk.TabIndex = 99;
             this.ecrapprovalchk.UseVisualStyleBackColor = true;
+            this.ecrapprovalchk.CheckedChanged += new System.EventHandler(this.ecrapprovalchk_CheckedChanged);
             // 
             // ecrapproval2chk
             // 
             this.ecrapproval2chk.AutoSize = true;
             this.ecrapproval2chk.Enabled = false;
-            this.ecrapproval2chk.Location = new System.Drawing.Point(532, 533);
+            this.ecrapproval2chk.Location = new System.Drawing.Point(525, 533);
             this.ecrapproval2chk.Name = "ecrapproval2chk";
             this.ecrapproval2chk.Size = new System.Drawing.Size(15, 14);
             this.ecrapproval2chk.TabIndex = 100;
             this.ecrapproval2chk.UseVisualStyleBackColor = true;
+            this.ecrapproval2chk.CheckedChanged += new System.EventHandler(this.ecrapproval2chk_CheckedChanged);
             // 
             // ecrhandlerchk
             // 
@@ -1140,6 +1142,7 @@ namespace SearchDataSPM
             this.ecrhandlerchk.Size = new System.Drawing.Size(15, 14);
             this.ecrhandlerchk.TabIndex = 101;
             this.ecrhandlerchk.UseVisualStyleBackColor = true;
+            this.ecrhandlerchk.CheckedChanged += new System.EventHandler(this.ecrhandlerchk_CheckedChanged);
             // 
             // label21
             // 

@@ -828,7 +828,7 @@ namespace SearchDataSPM
                         bttnneedapproval.PerformClick();
                     }
 
-                   
+
 
                     if (dataGridView.Rows.Count > 0)
                     {
@@ -1524,10 +1524,18 @@ namespace SearchDataSPM
                                             {
                                                 editbttn.Visible = false;
                                             }
+                                            else
+                                            {
+                                                editbttn.Visible = true;
+                                            }
                                         }
                                         else
                                         {
                                             if (getrequestname() == userfullname)
+                                            {
+                                                editbttn.Visible = true;
+                                            }
+                                            else
                                             {
                                                 editbttn.Visible = false;
                                             }

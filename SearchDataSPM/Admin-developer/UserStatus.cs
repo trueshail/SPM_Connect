@@ -128,9 +128,9 @@ namespace SearchDataSPM.Admin_developer
 
         private void freeuser_Click(object sender, EventArgs e)
         {
-            
+
             string userName = getuserselected().Trim();
-            
+
 
             deleteuser(userName);
             if (userName == System.Security.Principal.WindowsIdentity.GetCurrent().Name)

@@ -1287,5 +1287,32 @@ namespace SearchDataSPM
             }
         }
 
+        private void ecrapprovalchk_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ecrapprovalchk.Checked)
+            {
+                ecrhandlerchk.Checked = false;
+                ecrapproval2chk.Checked = false;
+            }
+
+        }
+
+        private void ecrhandlerchk_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ecrhandlerchk.Checked)
+            {
+                ecrapprovalchk.Checked = false;
+                ecrapproval2chk.Checked = false;
+            }
+        }
+
+        private void ecrapproval2chk_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ecrapproval2chk.Checked)
+            {
+                ecrhandlerchk.Checked = false;
+                ecrapprovalchk.Checked = false;
+            }
+        }
     }
 }

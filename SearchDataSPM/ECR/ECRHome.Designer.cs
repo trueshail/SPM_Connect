@@ -32,7 +32,7 @@ namespace SearchDataSPM
 		{
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ECRHome));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.SPM = new System.Windows.Forms.Label();
             this.versionlabel = new System.Windows.Forms.Label();
@@ -43,25 +43,19 @@ namespace SearchDataSPM
             this.filteroem_txtbox = new System.Windows.Forms.TextBox();
             this.Descrip_txtbox = new System.Windows.Forms.TextBox();
             this.advsearchbttn = new System.Windows.Forms.Button();
-            this.Shiptocomboxbox = new System.Windows.Forms.ComboBox();
-            this.Salespersoncomboxbox = new System.Windows.Forms.ComboBox();
-            this.lastsavedbycombo = new System.Windows.Forms.ComboBox();
-            this.Soldtocombobox = new System.Windows.Forms.ComboBox();
-            this.custvendcombobox = new System.Windows.Forms.ComboBox();
-            this.Createdbycombobox = new System.Windows.Forms.ComboBox();
-            this.CarrierscomboBox = new System.Windows.Forms.ComboBox();
+            this.requestedbycomboxbox = new System.Windows.Forms.ComboBox();
+            this.deptrequestedcomboxbox = new System.Windows.Forms.ComboBox();
+            this.approvedbycombo = new System.Windows.Forms.ComboBox();
+            this.ecrstatuscombobox = new System.Windows.Forms.ComboBox();
+            this.completedbycombobox = new System.Windows.Forms.ComboBox();
+            this.jobnumbercombobox = new System.Windows.Forms.ComboBox();
+            this.supervicsorcomboBox = new System.Windows.Forms.ComboBox();
             this.addnewbttn = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.recordlabel = new System.Windows.Forms.Label();
             this.dataGridView = new System.Windows.Forms.DataGridView();
-            this.InvoiceNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SoldTo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ShipTo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.JobNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DateCreated = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ContextMenuStripShipping = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.invoiceinfostripmenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyinvoicestrip = new System.Windows.Forms.ToolStripMenuItem();
             this.matlbl = new System.Windows.Forms.Label();
             this.clrfiltersbttn = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
@@ -70,6 +64,13 @@ namespace SearchDataSPM
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.actcadblk = new System.Windows.Forms.Label();
+            this.ECRNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.JobNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.JobName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SANo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SAName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RequestedBy = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DateCreated = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -119,8 +120,10 @@ namespace SearchDataSPM
             this.Reload.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Reload.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.Reload.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.Reload.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Reload.Location = new System.Drawing.Point(437, 20);
+            this.Reload.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.Reload.Location = new System.Drawing.Point(485, 22);
             this.Reload.MaximumSize = new System.Drawing.Size(140, 30);
             this.Reload.MinimumSize = new System.Drawing.Size(140, 30);
             this.Reload.Name = "Reload";
@@ -143,7 +146,7 @@ namespace SearchDataSPM
             this.txtSearch.MaximumSize = new System.Drawing.Size(32767, 25);
             this.txtSearch.MinimumSize = new System.Drawing.Size(4, 25);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(222, 25);
+            this.txtSearch.Size = new System.Drawing.Size(271, 25);
             this.txtSearch.TabIndex = 106;
             this.TreeViewToolTip.SetToolTip(this.txtSearch, "Enter Search Keyword.\r\n");
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
@@ -231,137 +234,137 @@ namespace SearchDataSPM
             this.advsearchbttn.UseVisualStyleBackColor = true;
             this.advsearchbttn.Click += new System.EventHandler(this.advsearchbttn_Click);
             // 
-            // Shiptocomboxbox
+            // requestedbycomboxbox
             // 
-            this.Shiptocomboxbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.requestedbycomboxbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.Shiptocomboxbox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.Shiptocomboxbox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.Shiptocomboxbox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.Shiptocomboxbox.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Shiptocomboxbox.FormattingEnabled = true;
-            this.Shiptocomboxbox.Location = new System.Drawing.Point(7, 379);
-            this.Shiptocomboxbox.Name = "Shiptocomboxbox";
-            this.Shiptocomboxbox.Size = new System.Drawing.Size(163, 22);
-            this.Shiptocomboxbox.TabIndex = 125;
-            this.TreeViewToolTip.SetToolTip(this.Shiptocomboxbox, "Filter by ship to");
-            this.Shiptocomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Manufactureritemcomboxbox_KeyDown);
+            this.requestedbycomboxbox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.requestedbycomboxbox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.requestedbycomboxbox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.requestedbycomboxbox.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.requestedbycomboxbox.FormattingEnabled = true;
+            this.requestedbycomboxbox.Location = new System.Drawing.Point(7, 379);
+            this.requestedbycomboxbox.Name = "requestedbycomboxbox";
+            this.requestedbycomboxbox.Size = new System.Drawing.Size(162, 22);
+            this.requestedbycomboxbox.TabIndex = 125;
+            this.TreeViewToolTip.SetToolTip(this.requestedbycomboxbox, "Filter by ship to");
+            this.requestedbycomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Manufactureritemcomboxbox_KeyDown);
             // 
-            // Salespersoncomboxbox
+            // deptrequestedcomboxbox
             // 
-            this.Salespersoncomboxbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.deptrequestedcomboxbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.Salespersoncomboxbox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.Salespersoncomboxbox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.Salespersoncomboxbox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.Salespersoncomboxbox.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Salespersoncomboxbox.FormattingEnabled = true;
-            this.Salespersoncomboxbox.Location = new System.Drawing.Point(7, 230);
-            this.Salespersoncomboxbox.Name = "Salespersoncomboxbox";
-            this.Salespersoncomboxbox.Size = new System.Drawing.Size(163, 22);
-            this.Salespersoncomboxbox.TabIndex = 123;
-            this.TreeViewToolTip.SetToolTip(this.Salespersoncomboxbox, "Filter by sales person");
-            this.Salespersoncomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.familycomboxbox_KeyDown);
+            this.deptrequestedcomboxbox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.deptrequestedcomboxbox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.deptrequestedcomboxbox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.deptrequestedcomboxbox.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.deptrequestedcomboxbox.FormattingEnabled = true;
+            this.deptrequestedcomboxbox.Location = new System.Drawing.Point(7, 230);
+            this.deptrequestedcomboxbox.Name = "deptrequestedcomboxbox";
+            this.deptrequestedcomboxbox.Size = new System.Drawing.Size(162, 22);
+            this.deptrequestedcomboxbox.TabIndex = 123;
+            this.TreeViewToolTip.SetToolTip(this.deptrequestedcomboxbox, "Filter by sales person");
+            this.deptrequestedcomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.familycomboxbox_KeyDown);
             // 
-            // lastsavedbycombo
+            // approvedbycombo
             // 
-            this.lastsavedbycombo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.approvedbycombo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lastsavedbycombo.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.lastsavedbycombo.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.lastsavedbycombo.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.lastsavedbycombo.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lastsavedbycombo.FormattingEnabled = true;
-            this.lastsavedbycombo.Location = new System.Drawing.Point(7, 520);
-            this.lastsavedbycombo.Name = "lastsavedbycombo";
-            this.lastsavedbycombo.Size = new System.Drawing.Size(163, 22);
-            this.lastsavedbycombo.TabIndex = 127;
-            this.TreeViewToolTip.SetToolTip(this.lastsavedbycombo, "Filter by last saved");
-            this.lastsavedbycombo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lastsavedbycombo_KeyDown);
+            this.approvedbycombo.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.approvedbycombo.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.approvedbycombo.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.approvedbycombo.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.approvedbycombo.FormattingEnabled = true;
+            this.approvedbycombo.Location = new System.Drawing.Point(7, 520);
+            this.approvedbycombo.Name = "approvedbycombo";
+            this.approvedbycombo.Size = new System.Drawing.Size(162, 22);
+            this.approvedbycombo.TabIndex = 127;
+            this.TreeViewToolTip.SetToolTip(this.approvedbycombo, "Filter by last saved");
+            this.approvedbycombo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lastsavedbycombo_KeyDown);
             // 
-            // Soldtocombobox
+            // ecrstatuscombobox
             // 
-            this.Soldtocombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.ecrstatuscombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.Soldtocombobox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.Soldtocombobox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.Soldtocombobox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.Soldtocombobox.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Soldtocombobox.FormattingEnabled = true;
-            this.Soldtocombobox.Items.AddRange(new object[] {
+            this.ecrstatuscombobox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.ecrstatuscombobox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.ecrstatuscombobox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.ecrstatuscombobox.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ecrstatuscombobox.FormattingEnabled = true;
+            this.ecrstatuscombobox.Items.AddRange(new object[] {
             "Festo",
             "SPM AUTOMATION (Canada) INC."});
-            this.Soldtocombobox.Location = new System.Drawing.Point(7, 304);
-            this.Soldtocombobox.Name = "Soldtocombobox";
-            this.Soldtocombobox.Size = new System.Drawing.Size(163, 22);
-            this.Soldtocombobox.TabIndex = 124;
-            this.TreeViewToolTip.SetToolTip(this.Soldtocombobox, "Filter by sold to");
-            this.Soldtocombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.oemitemcombobox_KeyDown);
+            this.ecrstatuscombobox.Location = new System.Drawing.Point(7, 304);
+            this.ecrstatuscombobox.Name = "ecrstatuscombobox";
+            this.ecrstatuscombobox.Size = new System.Drawing.Size(162, 22);
+            this.ecrstatuscombobox.TabIndex = 124;
+            this.TreeViewToolTip.SetToolTip(this.ecrstatuscombobox, "Filter by sold to");
+            this.ecrstatuscombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.oemitemcombobox_KeyDown);
             // 
-            // custvendcombobox
+            // completedbycombobox
             // 
-            this.custvendcombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.completedbycombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.custvendcombobox.AutoCompleteCustomSource.AddRange(new string[] {
+            this.completedbycombobox.AutoCompleteCustomSource.AddRange(new string[] {
             "0 - Vendor",
             "1 - Customer"});
-            this.custvendcombobox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.custvendcombobox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.custvendcombobox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.custvendcombobox.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.custvendcombobox.FormattingEnabled = true;
-            this.custvendcombobox.Items.AddRange(new object[] {
+            this.completedbycombobox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.completedbycombobox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.completedbycombobox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.completedbycombobox.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.completedbycombobox.FormattingEnabled = true;
+            this.completedbycombobox.Items.AddRange(new object[] {
             "0 - Vendor",
             "1 - Customer"});
-            this.custvendcombobox.Location = new System.Drawing.Point(7, 594);
-            this.custvendcombobox.Name = "custvendcombobox";
-            this.custvendcombobox.Size = new System.Drawing.Size(163, 22);
-            this.custvendcombobox.TabIndex = 128;
-            this.TreeViewToolTip.SetToolTip(this.custvendcombobox, "Filter by customer or vendor");
-            this.custvendcombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ActiveCadblockcombobox_KeyDown);
+            this.completedbycombobox.Location = new System.Drawing.Point(7, 594);
+            this.completedbycombobox.Name = "completedbycombobox";
+            this.completedbycombobox.Size = new System.Drawing.Size(162, 22);
+            this.completedbycombobox.TabIndex = 128;
+            this.TreeViewToolTip.SetToolTip(this.completedbycombobox, "Filter by customer or vendor");
+            this.completedbycombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ActiveCadblockcombobox_KeyDown);
             // 
-            // Createdbycombobox
+            // jobnumbercombobox
             // 
-            this.Createdbycombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.jobnumbercombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.Createdbycombobox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.Createdbycombobox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.Createdbycombobox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.Createdbycombobox.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Createdbycombobox.FormattingEnabled = true;
-            this.Createdbycombobox.Items.AddRange(new object[] {
+            this.jobnumbercombobox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.jobnumbercombobox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.jobnumbercombobox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.jobnumbercombobox.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.jobnumbercombobox.FormattingEnabled = true;
+            this.jobnumbercombobox.Items.AddRange(new object[] {
             "Shailkumar Patel",
             "Scott Reid",
             "Joel Goldsmith"});
-            this.Createdbycombobox.Location = new System.Drawing.Point(7, 153);
-            this.Createdbycombobox.Name = "Createdbycombobox";
-            this.Createdbycombobox.Size = new System.Drawing.Size(163, 22);
-            this.Createdbycombobox.TabIndex = 122;
-            this.TreeViewToolTip.SetToolTip(this.Createdbycombobox, "Filter Created by");
-            this.Createdbycombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.designedbycombobox_KeyDown);
+            this.jobnumbercombobox.Location = new System.Drawing.Point(7, 153);
+            this.jobnumbercombobox.Name = "jobnumbercombobox";
+            this.jobnumbercombobox.Size = new System.Drawing.Size(162, 22);
+            this.jobnumbercombobox.TabIndex = 122;
+            this.TreeViewToolTip.SetToolTip(this.jobnumbercombobox, "Filter Created by");
+            this.jobnumbercombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.designedbycombobox_KeyDown);
             // 
-            // CarrierscomboBox
+            // supervicsorcomboBox
             // 
-            this.CarrierscomboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.supervicsorcomboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.CarrierscomboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.CarrierscomboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.CarrierscomboBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.CarrierscomboBox.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CarrierscomboBox.FormattingEnabled = true;
-            this.CarrierscomboBox.Location = new System.Drawing.Point(7, 450);
-            this.CarrierscomboBox.Name = "CarrierscomboBox";
-            this.CarrierscomboBox.Size = new System.Drawing.Size(163, 22);
-            this.CarrierscomboBox.TabIndex = 126;
-            this.TreeViewToolTip.SetToolTip(this.CarrierscomboBox, "Filter by carrier");
-            this.CarrierscomboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MaterialcomboBox_KeyDown);
+            this.supervicsorcomboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.supervicsorcomboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.supervicsorcomboBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.supervicsorcomboBox.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.supervicsorcomboBox.FormattingEnabled = true;
+            this.supervicsorcomboBox.Location = new System.Drawing.Point(7, 450);
+            this.supervicsorcomboBox.Name = "supervicsorcomboBox";
+            this.supervicsorcomboBox.Size = new System.Drawing.Size(162, 22);
+            this.supervicsorcomboBox.TabIndex = 126;
+            this.TreeViewToolTip.SetToolTip(this.supervicsorcomboBox, "Filter by carrier");
+            this.supervicsorcomboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MaterialcomboBox_KeyDown);
             // 
             // addnewbttn
             // 
@@ -371,7 +374,7 @@ namespace SearchDataSPM
             this.addnewbttn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.addnewbttn.ForeColor = System.Drawing.Color.White;
             this.addnewbttn.Image = ((System.Drawing.Image)(resources.GetObject("addnewbttn.Image")));
-            this.addnewbttn.Location = new System.Drawing.Point(759, 3);
+            this.addnewbttn.Location = new System.Drawing.Point(759, 5);
             this.addnewbttn.MaximumSize = new System.Drawing.Size(65, 56);
             this.addnewbttn.MinimumSize = new System.Drawing.Size(65, 56);
             this.addnewbttn.Name = "addnewbttn";
@@ -413,7 +416,7 @@ namespace SearchDataSPM
             // 
             this.splitContainer1.Panel2.BackColor = System.Drawing.Color.Lavender;
             this.splitContainer1.Panel2.Controls.Add(this.matlbl);
-            this.splitContainer1.Panel2.Controls.Add(this.CarrierscomboBox);
+            this.splitContainer1.Panel2.Controls.Add(this.supervicsorcomboBox);
             this.splitContainer1.Panel2.Controls.Add(this.clrfiltersbttn);
             this.splitContainer1.Panel2.Controls.Add(this.label6);
             this.splitContainer1.Panel2.Controls.Add(this.label5);
@@ -421,12 +424,12 @@ namespace SearchDataSPM
             this.splitContainer1.Panel2.Controls.Add(this.label3);
             this.splitContainer1.Panel2.Controls.Add(this.label2);
             this.splitContainer1.Panel2.Controls.Add(this.actcadblk);
-            this.splitContainer1.Panel2.Controls.Add(this.Shiptocomboxbox);
-            this.splitContainer1.Panel2.Controls.Add(this.Salespersoncomboxbox);
-            this.splitContainer1.Panel2.Controls.Add(this.lastsavedbycombo);
-            this.splitContainer1.Panel2.Controls.Add(this.Soldtocombobox);
-            this.splitContainer1.Panel2.Controls.Add(this.custvendcombobox);
-            this.splitContainer1.Panel2.Controls.Add(this.Createdbycombobox);
+            this.splitContainer1.Panel2.Controls.Add(this.requestedbycomboxbox);
+            this.splitContainer1.Panel2.Controls.Add(this.deptrequestedcomboxbox);
+            this.splitContainer1.Panel2.Controls.Add(this.approvedbycombo);
+            this.splitContainer1.Panel2.Controls.Add(this.ecrstatuscombobox);
+            this.splitContainer1.Panel2.Controls.Add(this.completedbycombobox);
+            this.splitContainer1.Panel2.Controls.Add(this.jobnumbercombobox);
             this.splitContainer1.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.splitContainer1.Panel2MinSize = 175;
             this.splitContainer1.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -460,20 +463,21 @@ namespace SearchDataSPM
             this.dataGridView.BackgroundColor = System.Drawing.Color.CornflowerBlue;
             this.dataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.InvoiceNo,
-            this.SoldTo,
-            this.ShipTo,
-            this.JobNumber,
+            this.ECRNo,
+            this.JobNo,
+            this.JobName,
+            this.SANo,
+            this.SAName,
+            this.RequestedBy,
             this.DateCreated});
             this.dataGridView.ContextMenuStrip = this.ContextMenuStripShipping;
             this.dataGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
@@ -490,76 +494,25 @@ namespace SearchDataSPM
             this.dataGridView.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellMouseLeave);
             this.dataGridView.CellMouseMove += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseMove);
             this.dataGridView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridView_CellPainting_1);
-            this.dataGridView.SelectionChanged += new System.EventHandler(this.dataGridView_SelectionChanged);
             this.dataGridView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView_KeyDown);
-            // 
-            // InvoiceNo
-            // 
-            this.InvoiceNo.DataPropertyName = "InvoiceNo";
-            this.InvoiceNo.FillWeight = 126.9036F;
-            this.InvoiceNo.HeaderText = "Invoice No";
-            this.InvoiceNo.Name = "InvoiceNo";
-            this.InvoiceNo.ReadOnly = true;
-            // 
-            // SoldTo
-            // 
-            this.SoldTo.DataPropertyName = "SoldToName";
-            this.SoldTo.FillWeight = 116.1212F;
-            this.SoldTo.HeaderText = "Sold To";
-            this.SoldTo.Name = "SoldTo";
-            this.SoldTo.ReadOnly = true;
-            // 
-            // ShipTo
-            // 
-            this.ShipTo.DataPropertyName = "ShipToName";
-            this.ShipTo.FillWeight = 77.8091F;
-            this.ShipTo.HeaderText = "Ship To";
-            this.ShipTo.Name = "ShipTo";
-            this.ShipTo.ReadOnly = true;
-            // 
-            // JobNumber
-            // 
-            this.JobNumber.DataPropertyName = "JobNumber";
-            this.JobNumber.FillWeight = 73.30341F;
-            this.JobNumber.HeaderText = "Job No";
-            this.JobNumber.Name = "JobNumber";
-            this.JobNumber.ReadOnly = true;
-            // 
-            // DateCreated
-            // 
-            this.DateCreated.DataPropertyName = "DateCreated";
-            this.DateCreated.FillWeight = 105.8627F;
-            this.DateCreated.HeaderText = "Created On";
-            this.DateCreated.Name = "DateCreated";
-            this.DateCreated.ReadOnly = true;
             // 
             // ContextMenuStripShipping
             // 
             this.ContextMenuStripShipping.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.invoiceinfostripmenu,
-            this.copyinvoicestrip});
+            this.invoiceinfostripmenu});
             this.ContextMenuStripShipping.Name = "contextMenuStrip1";
             this.ContextMenuStripShipping.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.ContextMenuStripShipping.Size = new System.Drawing.Size(191, 48);
+            this.ContextMenuStripShipping.Size = new System.Drawing.Size(158, 26);
             this.ContextMenuStripShipping.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStripShipping_Opening);
             // 
             // invoiceinfostripmenu
             // 
             this.invoiceinfostripmenu.Image = ((System.Drawing.Image)(resources.GetObject("invoiceinfostripmenu.Image")));
             this.invoiceinfostripmenu.Name = "invoiceinfostripmenu";
-            this.invoiceinfostripmenu.Size = new System.Drawing.Size(190, 22);
+            this.invoiceinfostripmenu.Size = new System.Drawing.Size(157, 22);
             this.invoiceinfostripmenu.Text = "Get Invoice Info";
             this.invoiceinfostripmenu.ToolTipText = "Get Selected Invoice Info.";
             this.invoiceinfostripmenu.Click += new System.EventHandler(this.invoiceinfostripmenu_Click);
-            // 
-            // copyinvoicestrip
-            // 
-            this.copyinvoicestrip.Image = ((System.Drawing.Image)(resources.GetObject("copyinvoicestrip.Image")));
-            this.copyinvoicestrip.Name = "copyinvoicestrip";
-            this.copyinvoicestrip.Size = new System.Drawing.Size(190, 22);
-            this.copyinvoicestrip.Text = "Copy Selected Invoice";
-            this.copyinvoicestrip.ToolTipText = "Copy selected invoice to new invoice number";
-            this.copyinvoicestrip.Click += new System.EventHandler(this.copyinvoicestrip_Click);
             // 
             // matlbl
             // 
@@ -569,11 +522,11 @@ namespace SearchDataSPM
             this.matlbl.AutoSize = true;
             this.matlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.matlbl.ForeColor = System.Drawing.Color.Black;
-            this.matlbl.Location = new System.Drawing.Point(9, 428);
+            this.matlbl.Location = new System.Drawing.Point(9, 573);
             this.matlbl.Name = "matlbl";
-            this.matlbl.Size = new System.Drawing.Size(61, 18);
+            this.matlbl.Size = new System.Drawing.Size(101, 18);
             this.matlbl.TabIndex = 147;
-            this.matlbl.Text = "Carriers";
+            this.matlbl.Text = "Completed By";
             // 
             // clrfiltersbttn
             // 
@@ -597,11 +550,11 @@ namespace SearchDataSPM
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.Black;
-            this.label6.Location = new System.Drawing.Point(9, 132);
+            this.label6.Location = new System.Drawing.Point(9, 358);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(79, 18);
+            this.label6.Size = new System.Drawing.Size(98, 18);
             this.label6.TabIndex = 145;
-            this.label6.Text = "Created by";
+            this.label6.Text = "Requested by";
             // 
             // label5
             // 
@@ -611,11 +564,11 @@ namespace SearchDataSPM
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.Black;
-            this.label5.Location = new System.Drawing.Point(9, 499);
+            this.label5.Location = new System.Drawing.Point(9, 429);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(102, 18);
+            this.label5.Size = new System.Drawing.Size(79, 18);
             this.label5.TabIndex = 144;
-            this.label5.Text = "Last Saved By";
+            this.label5.Text = "Supervisor";
             // 
             // label4
             // 
@@ -625,11 +578,11 @@ namespace SearchDataSPM
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.Black;
-            this.label4.Location = new System.Drawing.Point(9, 358);
+            this.label4.Location = new System.Drawing.Point(7, 209);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(59, 18);
+            this.label4.Size = new System.Drawing.Size(118, 18);
             this.label4.TabIndex = 143;
-            this.label4.Text = "Ship To";
+            this.label4.Text = "Dept. Requested";
             // 
             // label3
             // 
@@ -639,11 +592,11 @@ namespace SearchDataSPM
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.Black;
-            this.label3.Location = new System.Drawing.Point(9, 283);
+            this.label3.Location = new System.Drawing.Point(7, 283);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(100, 18);
+            this.label3.Size = new System.Drawing.Size(86, 18);
             this.label3.TabIndex = 142;
-            this.label3.Text = "Dept. Affected";
+            this.label3.Text = "ECR Status";
             // 
             // label2
             // 
@@ -653,7 +606,7 @@ namespace SearchDataSPM
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Black;
-            this.label2.Location = new System.Drawing.Point(9, 209);
+            this.label2.Location = new System.Drawing.Point(7, 132);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(90, 18);
             this.label2.TabIndex = 141;
@@ -667,11 +620,67 @@ namespace SearchDataSPM
             this.actcadblk.AutoSize = true;
             this.actcadblk.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.actcadblk.ForeColor = System.Drawing.Color.Black;
-            this.actcadblk.Location = new System.Drawing.Point(12, 573);
+            this.actcadblk.Location = new System.Drawing.Point(7, 499);
             this.actcadblk.Name = "actcadblk";
-            this.actcadblk.Size = new System.Drawing.Size(85, 18);
+            this.actcadblk.Size = new System.Drawing.Size(91, 18);
             this.actcadblk.TabIndex = 140;
-            this.actcadblk.Text = "Department";
+            this.actcadblk.Text = "Approved By";
+            // 
+            // ECRNo
+            // 
+            this.ECRNo.DataPropertyName = "ECRNo";
+            this.ECRNo.FillWeight = 54.65411F;
+            this.ECRNo.HeaderText = "ECR No";
+            this.ECRNo.Name = "ECRNo";
+            this.ECRNo.ReadOnly = true;
+            // 
+            // JobNo
+            // 
+            this.JobNo.DataPropertyName = "JobNo";
+            this.JobNo.FillWeight = 157.483F;
+            this.JobNo.HeaderText = "JobNo";
+            this.JobNo.Name = "JobNo";
+            this.JobNo.ReadOnly = true;
+            // 
+            // JobName
+            // 
+            this.JobName.DataPropertyName = "JobName";
+            this.JobName.FillWeight = 91.09017F;
+            this.JobName.HeaderText = "Job Name";
+            this.JobName.Name = "JobName";
+            this.JobName.ReadOnly = true;
+            // 
+            // SANo
+            // 
+            this.SANo.DataPropertyName = "SANo";
+            this.SANo.FillWeight = 68.48032F;
+            this.SANo.HeaderText = "Sub Assy No";
+            this.SANo.Name = "SANo";
+            this.SANo.ReadOnly = true;
+            // 
+            // SAName
+            // 
+            this.SAName.DataPropertyName = "SAName";
+            this.SAName.FillWeight = 91.09017F;
+            this.SAName.HeaderText = "Sub Assy Name";
+            this.SAName.Name = "SAName";
+            this.SAName.ReadOnly = true;
+            // 
+            // RequestedBy
+            // 
+            this.RequestedBy.DataPropertyName = "RequestedBy";
+            this.RequestedBy.FillWeight = 64.51484F;
+            this.RequestedBy.HeaderText = "Requested By";
+            this.RequestedBy.Name = "RequestedBy";
+            this.RequestedBy.ReadOnly = true;
+            // 
+            // DateCreated
+            // 
+            this.DateCreated.DataPropertyName = "DateCreated";
+            this.DateCreated.FillWeight = 93.17049F;
+            this.DateCreated.HeaderText = "Created On";
+            this.DateCreated.Name = "DateCreated";
+            this.DateCreated.ReadOnly = true;
             // 
             // ECRHome
             // 
@@ -716,12 +725,12 @@ namespace SearchDataSPM
         private System.Windows.Forms.TextBox filteroemitem_txtbox;
         private System.Windows.Forms.TextBox filteroem_txtbox;
         private System.Windows.Forms.TextBox Descrip_txtbox;
-        private System.Windows.Forms.ComboBox Createdbycombobox;
-        private System.Windows.Forms.ComboBox Shiptocomboxbox;
-        private System.Windows.Forms.ComboBox Salespersoncomboxbox;
-        private System.Windows.Forms.ComboBox lastsavedbycombo;
-        private System.Windows.Forms.ComboBox Soldtocombobox;
-        private System.Windows.Forms.ComboBox custvendcombobox;
+        private System.Windows.Forms.ComboBox jobnumbercombobox;
+        private System.Windows.Forms.ComboBox requestedbycomboxbox;
+        private System.Windows.Forms.ComboBox deptrequestedcomboxbox;
+        private System.Windows.Forms.ComboBox approvedbycombo;
+        private System.Windows.Forms.ComboBox ecrstatuscombobox;
+        private System.Windows.Forms.ComboBox completedbycombobox;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
@@ -732,16 +741,17 @@ namespace SearchDataSPM
         public System.Windows.Forms.DataGridView dataGridView;
         public System.Windows.Forms.Label recordlabel;
         private System.Windows.Forms.Label matlbl;
-        private System.Windows.Forms.ComboBox CarrierscomboBox;
+        private System.Windows.Forms.ComboBox supervicsorcomboBox;
         private System.Windows.Forms.Button addnewbttn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn InvoiceNo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn SoldTo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ShipTo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn JobNumber;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DateCreated;
         private System.Windows.Forms.ContextMenuStrip ContextMenuStripShipping;
         private System.Windows.Forms.ToolStripMenuItem invoiceinfostripmenu;
-        private System.Windows.Forms.ToolStripMenuItem copyinvoicestrip;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ECRNo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn JobNo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn JobName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SANo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SAName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RequestedBy;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DateCreated;
 
 
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member 'SPM_Connect.txtSearch'
