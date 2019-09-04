@@ -256,7 +256,7 @@ namespace SearchDataSPM
 
         #region Get User Full Name
 
-        private String get_username()
+        private string get_username()
         {
             string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
             this.Text = "SPM Connect Purchase Requisition - " + userName.Substring(4);

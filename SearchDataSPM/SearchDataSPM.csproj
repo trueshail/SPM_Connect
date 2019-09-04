@@ -315,6 +315,12 @@
     <Compile Include="ECR\ECRHome.Designer.cs">
       <DependentUpon>ECRHome.cs</DependentUpon>
     </Compile>
+    <Compile Include="ECR\ECRDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ECR\ECRDetails.Designer.cs">
+      <DependentUpon>ECRDetails.cs</DependentUpon>
+    </Compile>
     <Compile Include="Edrawings\EModelViewer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -648,6 +654,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ECR\ECRHome.resx">
       <DependentUpon>ECRHome.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ECR\ECRDetails.resx">
+      <DependentUpon>ECRDetails.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Edrawings\EModelViewer.resx">
       <DependentUpon>EModelViewer.cs</DependentUpon>

@@ -90,7 +90,7 @@
             this.notestxt.BackColor = System.Drawing.Color.White;
             this.notestxt.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.notestxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.notestxt.Location = new System.Drawing.Point(8, 21);
+            this.notestxt.Location = new System.Drawing.Point(5, 22);
             this.notestxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.notestxt.Multiline = true;
             this.notestxt.Name = "notestxt";
@@ -309,7 +309,7 @@
             // 
             this.CreatedBy.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CreatedBy.Name = "CreatedBy";
-            this.CreatedBy.Size = new System.Drawing.Size(62, 13);
+            this.CreatedBy.Size = new System.Drawing.Size(61, 13);
             this.CreatedBy.Text = "Created By";
             this.CreatedBy.ToolTipText = "Created By";
             // 
@@ -325,7 +325,7 @@
             // 
             this.LastSavedBy.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LastSavedBy.Name = "LastSavedBy";
-            this.LastSavedBy.Size = new System.Drawing.Size(75, 13);
+            this.LastSavedBy.Size = new System.Drawing.Size(74, 13);
             this.LastSavedBy.Text = "Last Saved By";
             this.LastSavedBy.ToolTipText = "Last Saved By";
             // 
@@ -503,7 +503,7 @@
             this.wotakentxt.MaxLength = 32767;
             this.wotakentxt.Name = "wotakentxt";
             this.wotakentxt.PasswordChar = '*';
-            this.wotakentxt.WaterMark = "Scan Work Order";
+            this.wotakentxt.PromptText = "Scan Work Order";
             this.wotakentxt.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.wotakentxt.SelectedText = "";
             this.wotakentxt.SelectionLength = 0;

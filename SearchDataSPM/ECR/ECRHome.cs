@@ -17,6 +17,9 @@ namespace SearchDataSPM
         SqlConnection cn;
         DataTable dt;
         bool formloading = false;
+        bool ecrsupervisor = false;
+        bool ecrapprovee = false;
+        bool ecrhandler = false;
         string userfullname = "";
         int _advcollapse = 0;
         SPMConnectAPI.ECR connectapi = new ECR();
@@ -58,6 +61,26 @@ namespace SearchDataSPM
             string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
             versionlabel.Text = connectapi.getassyversionnumber();
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
+
+            if (connectapi.CheckECRSupervisor())
+            {
+                ecrsupervisor = true;
+                attentionbttn.Visible = true;
+            }
+            else if (connectapi.CheckECRApprovee())
+            {
+                ecrapprovee = true;
+                attentionbttn.Visible = true;
+            }
+            else if (connectapi.CheckECRHandler())
+            {
+                ecrhandler = true;
+                attentionbttn.Visible = true;
+            }
+            else
+            {
+                attentionbttn.Visible = false;
+            }
         }
 
         private void fillinfo()
@@ -132,7 +155,6 @@ namespace SearchDataSPM
             dataGridView.Columns[3].Width = 80;
             dataGridView.Columns[11].Width = 150;
             dataGridView.Columns[12].Width = 150;
-
             dataGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dataGridView.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             UpdateFont();
@@ -152,7 +174,6 @@ namespace SearchDataSPM
             txtSearch.Focus();
             SendKeys.Send("~");
             dataGridView.Refresh();
-
         }
 
         private void UpdateFont()
@@ -704,7 +725,7 @@ namespace SearchDataSPM
 
         #endregion        
 
-        #region Advance Filters
+        #region Advance Filtersf
 
         private void advsearchbttn_Click(object sender, EventArgs e)
         {
@@ -1057,7 +1078,7 @@ namespace SearchDataSPM
             if (result == DialogResult.Yes)
             {
 
-                string status = connectapi.Createnewshippinginvoice();
+                string status = connectapi.CreatenewECR();
                 if (status.Length > 1)
                 {
                     showecrinvoice(status);
@@ -1078,16 +1099,16 @@ namespace SearchDataSPM
             {
                 if (connectapi.CheckinInvoice(invoice))
                 {
-                    //using (InvoiceDetails invoiceDetails = new InvoiceDetails())
-                    //{
-                    //    invoiceDetails.invoicenumber(invoice);
-                    //    invoiceDetails.ShowDialog();
-                    //    this.Enabled = true;
-                    //    performreload();
-                    //    this.Show();
-                    //    this.Activate();
-                    //    this.Focus();
-                    //}
+                    using (ECRDetails invoiceDetails = new ECRDetails())
+                    {
+                        invoiceDetails.invoicenumber(invoice);
+                        invoiceDetails.ShowDialog();
+                        this.Enabled = true;
+                        performreload();
+                        this.Show();
+                        this.Activate();
+                        this.Focus();
+                    }
                 }
 
             }
@@ -1112,20 +1133,36 @@ namespace SearchDataSPM
             }
         }
 
-
-
         private void invoiceinfostripmenu_Click(object sender, EventArgs e)
         {
             showecrinvoice(getselectedinvoicenumber());
         }
-
 
         private void ContextMenuStripShipping_Opening(object sender, CancelEventArgs e)
         {
             if (!(dataGridView.Rows.Count > 0 && dataGridView.SelectedRows.Count == 1)) e.Cancel = true;
         }
 
+
+
         #endregion
+
+        private void attentionbttn_Click(object sender, EventArgs e)
+        {
+            if (ecrsupervisor)
+            {
+
+            }
+            else if (ecrapprovee)
+            {
+
+            }
+            else if (ecrhandler)
+            {
+
+            }
+
+        }
     }
 
 }

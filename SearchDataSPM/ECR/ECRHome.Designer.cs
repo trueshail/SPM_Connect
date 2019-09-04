@@ -54,8 +54,16 @@ namespace SearchDataSPM
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.recordlabel = new System.Windows.Forms.Label();
             this.dataGridView = new System.Windows.Forms.DataGridView();
+            this.ECRNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.JobNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.JobName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SANo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SAName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RequestedBy = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DateCreated = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ContextMenuStripShipping = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.invoiceinfostripmenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.attentionbttn = new System.Windows.Forms.Button();
             this.matlbl = new System.Windows.Forms.Label();
             this.clrfiltersbttn = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
@@ -64,13 +72,6 @@ namespace SearchDataSPM
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.actcadblk = new System.Windows.Forms.Label();
-            this.ECRNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.JobNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.JobName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SANo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SAName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RequestedBy = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DateCreated = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -123,7 +124,7 @@ namespace SearchDataSPM
             this.Reload.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.Reload.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Reload.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.Reload.Location = new System.Drawing.Point(485, 22);
+            this.Reload.Location = new System.Drawing.Point(484, 22);
             this.Reload.MaximumSize = new System.Drawing.Size(140, 30);
             this.Reload.MinimumSize = new System.Drawing.Size(140, 30);
             this.Reload.Name = "Reload";
@@ -403,6 +404,7 @@ namespace SearchDataSPM
             this.splitContainer1.Panel1.Controls.Add(this.recordlabel);
             this.splitContainer1.Panel1.Controls.Add(this.versionlabel);
             this.splitContainer1.Panel1.Controls.Add(this.dataGridView);
+            this.splitContainer1.Panel1.Controls.Add(this.attentionbttn);
             this.splitContainer1.Panel1.Controls.Add(this.Reload);
             this.splitContainer1.Panel1.Controls.Add(this.txtSearch);
             this.splitContainer1.Panel1.Controls.Add(this.filter4);
@@ -496,6 +498,62 @@ namespace SearchDataSPM
             this.dataGridView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridView_CellPainting_1);
             this.dataGridView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView_KeyDown);
             // 
+            // ECRNo
+            // 
+            this.ECRNo.DataPropertyName = "ECRNo";
+            this.ECRNo.FillWeight = 54.65411F;
+            this.ECRNo.HeaderText = "ECR No";
+            this.ECRNo.Name = "ECRNo";
+            this.ECRNo.ReadOnly = true;
+            // 
+            // JobNo
+            // 
+            this.JobNo.DataPropertyName = "JobNo";
+            this.JobNo.FillWeight = 157.483F;
+            this.JobNo.HeaderText = "JobNo";
+            this.JobNo.Name = "JobNo";
+            this.JobNo.ReadOnly = true;
+            // 
+            // JobName
+            // 
+            this.JobName.DataPropertyName = "JobName";
+            this.JobName.FillWeight = 91.09017F;
+            this.JobName.HeaderText = "Job Name";
+            this.JobName.Name = "JobName";
+            this.JobName.ReadOnly = true;
+            // 
+            // SANo
+            // 
+            this.SANo.DataPropertyName = "SANo";
+            this.SANo.FillWeight = 68.48032F;
+            this.SANo.HeaderText = "Sub Assy No";
+            this.SANo.Name = "SANo";
+            this.SANo.ReadOnly = true;
+            // 
+            // SAName
+            // 
+            this.SAName.DataPropertyName = "SAName";
+            this.SAName.FillWeight = 91.09017F;
+            this.SAName.HeaderText = "Sub Assy Name";
+            this.SAName.Name = "SAName";
+            this.SAName.ReadOnly = true;
+            // 
+            // RequestedBy
+            // 
+            this.RequestedBy.DataPropertyName = "RequestedBy";
+            this.RequestedBy.FillWeight = 64.51484F;
+            this.RequestedBy.HeaderText = "Requested By";
+            this.RequestedBy.Name = "RequestedBy";
+            this.RequestedBy.ReadOnly = true;
+            // 
+            // DateCreated
+            // 
+            this.DateCreated.DataPropertyName = "DateCreated";
+            this.DateCreated.FillWeight = 93.17049F;
+            this.DateCreated.HeaderText = "Created On";
+            this.DateCreated.Name = "DateCreated";
+            this.DateCreated.ReadOnly = true;
+            // 
             // ContextMenuStripShipping
             // 
             this.ContextMenuStripShipping.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -513,6 +571,24 @@ namespace SearchDataSPM
             this.invoiceinfostripmenu.Text = "Get Invoice Info";
             this.invoiceinfostripmenu.ToolTipText = "Get Selected Invoice Info.";
             this.invoiceinfostripmenu.Click += new System.EventHandler(this.invoiceinfostripmenu_Click);
+            // 
+            // attentionbttn
+            // 
+            this.attentionbttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.attentionbttn.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.attentionbttn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.attentionbttn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.attentionbttn.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.attentionbttn.Location = new System.Drawing.Point(628, 22);
+            this.attentionbttn.MaximumSize = new System.Drawing.Size(120, 30);
+            this.attentionbttn.MinimumSize = new System.Drawing.Size(120, 30);
+            this.attentionbttn.Name = "attentionbttn";
+            this.attentionbttn.Size = new System.Drawing.Size(120, 30);
+            this.attentionbttn.TabIndex = 113;
+            this.attentionbttn.Text = "Req. Attention";
+            this.attentionbttn.UseVisualStyleBackColor = true;
+            this.attentionbttn.Click += new System.EventHandler(this.attentionbttn_Click);
             // 
             // matlbl
             // 
@@ -626,62 +702,6 @@ namespace SearchDataSPM
             this.actcadblk.TabIndex = 140;
             this.actcadblk.Text = "Approved By";
             // 
-            // ECRNo
-            // 
-            this.ECRNo.DataPropertyName = "ECRNo";
-            this.ECRNo.FillWeight = 54.65411F;
-            this.ECRNo.HeaderText = "ECR No";
-            this.ECRNo.Name = "ECRNo";
-            this.ECRNo.ReadOnly = true;
-            // 
-            // JobNo
-            // 
-            this.JobNo.DataPropertyName = "JobNo";
-            this.JobNo.FillWeight = 157.483F;
-            this.JobNo.HeaderText = "JobNo";
-            this.JobNo.Name = "JobNo";
-            this.JobNo.ReadOnly = true;
-            // 
-            // JobName
-            // 
-            this.JobName.DataPropertyName = "JobName";
-            this.JobName.FillWeight = 91.09017F;
-            this.JobName.HeaderText = "Job Name";
-            this.JobName.Name = "JobName";
-            this.JobName.ReadOnly = true;
-            // 
-            // SANo
-            // 
-            this.SANo.DataPropertyName = "SANo";
-            this.SANo.FillWeight = 68.48032F;
-            this.SANo.HeaderText = "Sub Assy No";
-            this.SANo.Name = "SANo";
-            this.SANo.ReadOnly = true;
-            // 
-            // SAName
-            // 
-            this.SAName.DataPropertyName = "SAName";
-            this.SAName.FillWeight = 91.09017F;
-            this.SAName.HeaderText = "Sub Assy Name";
-            this.SAName.Name = "SAName";
-            this.SAName.ReadOnly = true;
-            // 
-            // RequestedBy
-            // 
-            this.RequestedBy.DataPropertyName = "RequestedBy";
-            this.RequestedBy.FillWeight = 64.51484F;
-            this.RequestedBy.HeaderText = "Requested By";
-            this.RequestedBy.Name = "RequestedBy";
-            this.RequestedBy.ReadOnly = true;
-            // 
-            // DateCreated
-            // 
-            this.DateCreated.DataPropertyName = "DateCreated";
-            this.DateCreated.FillWeight = 93.17049F;
-            this.DateCreated.HeaderText = "Created On";
-            this.DateCreated.Name = "DateCreated";
-            this.DateCreated.ReadOnly = true;
-            // 
             // ECRHome
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -752,6 +772,7 @@ namespace SearchDataSPM
         private System.Windows.Forms.DataGridViewTextBoxColumn SAName;
         private System.Windows.Forms.DataGridViewTextBoxColumn RequestedBy;
         private System.Windows.Forms.DataGridViewTextBoxColumn DateCreated;
+        private System.Windows.Forms.Button attentionbttn;
 
 
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member 'SPM_Connect.txtSearch'
