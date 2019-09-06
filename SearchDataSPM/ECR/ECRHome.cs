@@ -62,6 +62,11 @@ namespace SearchDataSPM
             versionlabel.Text = connectapi.getassyversionnumber();
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
 
+            if (connectapi.CheckECRCreator())
+            {
+                addnewbttn.Visible = true;
+            }
+
             if (connectapi.CheckECRSupervisor())
             {
                 ecrsupervisor = true;
@@ -1097,19 +1102,27 @@ namespace SearchDataSPM
             }
             else
             {
-                if (connectapi.CheckinInvoice(invoice))
+                if (connectapi.getEmployeeId() != 0)
                 {
-                    using (ECRDetails invoiceDetails = new ECRDetails())
+                    if (connectapi.CheckinInvoice(invoice))
                     {
-                        invoiceDetails.invoicenumber(invoice);
-                        invoiceDetails.ShowDialog();
-                        this.Enabled = true;
-                        performreload();
-                        this.Show();
-                        this.Activate();
-                        this.Focus();
+                        using (ECRDetails invoiceDetails = new ECRDetails())
+                        {
+                            invoiceDetails.invoicenumber(invoice);
+                            invoiceDetails.ShowDialog();
+                            this.Enabled = true;
+                            performreload();
+                            this.Show();
+                            this.Activate();
+                            this.Focus();
+                        }
                     }
                 }
+                else
+                {
+                    // scan the employee barcode and grab the user name
+                }
+
 
             }
 

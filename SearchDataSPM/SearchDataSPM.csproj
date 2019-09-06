@@ -387,6 +387,12 @@
     <Compile Include="Engineering\WaitFormImport.Designer.cs">
       <DependentUpon>WaitFormImport.cs</DependentUpon>
     </Compile>
+    <Compile Include="Purchasing\InvoiceDateChange.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Purchasing\InvoiceDateChange.Designer.cs">
+      <DependentUpon>InvoiceDateChange.cs</DependentUpon>
+    </Compile>
     <Compile Include="Purchasing\PODetails.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -711,6 +717,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Engineering\TreeView.resx">
       <DependentUpon>TreeView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\InvoiceDateChange.resx">
+      <DependentUpon>InvoiceDateChange.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Purchasing\PODetails.resx">
       <DependentUpon>PODetails.cs</DependentUpon>

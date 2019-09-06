@@ -890,7 +890,7 @@ namespace SearchDataSPM
             filepath += reqno + " - PL.pdf";
             SaveReport(reqno, fileName);
             SaveReport(reqno, filepath);
-          
+
         }
 
         public void SaveReport(string invoiceno, string fileName)
@@ -920,7 +920,7 @@ namespace SearchDataSPM
             RE2005.Warning[] warnings = null;
             string[] streamIDs = null;
             string _reportName = "";
-            if(fileName.Substring(fileName.Length - 6) == "CI.pdf")
+            if (fileName.Substring(fileName.Length - 6) == "CI.pdf")
             {
                 _reportName = @"/GeniusReports/PurchaseOrder/SPM_ShippingInvoice";
             }
@@ -974,5 +974,34 @@ namespace SearchDataSPM
 
         #endregion
 
+
+        private void Createdon_Click(object sender, EventArgs e)
+        {
+            if (editbttn.Visible)
+            {
+                string pdate = "";
+                General.InvoiceDateChange pODetails = new SearchDataSPM.General.InvoiceDateChange();
+
+                if (pODetails.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    pdate = pODetails.podate;
+                }
+
+                if (connectapi.UpdateInvoiceDateCreatedToSql(invoicetxtbox.Text, pdate))
+                {
+                    if (GetShippingBaseInfo(invoicetxtbox.Text))
+                    {
+                        FillShippingBaseInfo();
+                        SaveReport(invoicetxtbox.Text);
+                    }
+                }
+
+            }
+            else
+            {
+                MetroFramework.MetroMessageBox.Show(this, "Please save the invoice first in order to change date created.", "SPM Connect - Save Invoice Details", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+
+        }
     }
 }

@@ -62,13 +62,15 @@
             this.lastsavedby = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
             this.submissiongroupBox = new System.Windows.Forms.GroupBox();
+            this.submitecrhandlercheckBox = new System.Windows.Forms.CheckBox();
             this.ecrhandlercheckBox = new System.Windows.Forms.CheckBox();
             this.managercheckBox = new System.Windows.Forms.CheckBox();
             this.supcheckBox = new System.Windows.Forms.CheckBox();
-            this.submitecrhandlercheckBox = new System.Windows.Forms.CheckBox();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.iteminfogroupBox.SuspendLayout();
             this.statusStrip2.SuspendLayout();
             this.submissiongroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // notestxt
@@ -270,9 +272,8 @@
             this.jobtxt.MaximumSize = new System.Drawing.Size(200, 30);
             this.jobtxt.MaxLength = 5;
             this.jobtxt.Name = "jobtxt";
-            this.jobtxt.ReadOnly = true;
             this.jobtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.jobtxt.Size = new System.Drawing.Size(108, 22);
+            this.jobtxt.Size = new System.Drawing.Size(69, 22);
             this.jobtxt.TabIndex = 102;
             this.TreeViewToolTip.SetToolTip(this.jobtxt, "Invoice Number");
             this.jobtxt.TextChanged += new System.EventHandler(this.jobtxt_TextChanged);
@@ -288,9 +289,8 @@
             this.satxt.MaximumSize = new System.Drawing.Size(200, 30);
             this.satxt.MaxLength = 6;
             this.satxt.Name = "satxt";
-            this.satxt.ReadOnly = true;
             this.satxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.satxt.Size = new System.Drawing.Size(108, 22);
+            this.satxt.Size = new System.Drawing.Size(69, 22);
             this.satxt.TabIndex = 103;
             this.TreeViewToolTip.SetToolTip(this.satxt, "Invoice Number");
             this.satxt.TextChanged += new System.EventHandler(this.satxt_TextChanged);
@@ -305,7 +305,6 @@
             this.partnotxt.Location = new System.Drawing.Point(84, 93);
             this.partnotxt.MaximumSize = new System.Drawing.Size(300, 30);
             this.partnotxt.Name = "partnotxt";
-            this.partnotxt.ReadOnly = true;
             this.partnotxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.partnotxt.Size = new System.Drawing.Size(300, 22);
             this.partnotxt.TabIndex = 104;
@@ -388,7 +387,7 @@
             this.subassylbl.AutoSize = true;
             this.subassylbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.subassylbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.subassylbl.Location = new System.Drawing.Point(196, 60);
+            this.subassylbl.Location = new System.Drawing.Point(158, 60);
             this.subassylbl.Name = "subassylbl";
             this.subassylbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.subassylbl.Size = new System.Drawing.Size(114, 15);
@@ -403,7 +402,7 @@
             this.jobnamelbl.AutoSize = true;
             this.jobnamelbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.jobnamelbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.jobnamelbl.Location = new System.Drawing.Point(196, 23);
+            this.jobnamelbl.Location = new System.Drawing.Point(158, 23);
             this.jobnamelbl.Name = "jobnamelbl";
             this.jobnamelbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.jobnamelbl.Size = new System.Drawing.Size(80, 15);
@@ -483,7 +482,7 @@
             this.statusStrip2.Location = new System.Drawing.Point(0, 689);
             this.statusStrip2.Name = "statusStrip2";
             this.statusStrip2.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.statusStrip2.Size = new System.Drawing.Size(1009, 22);
+            this.statusStrip2.Size = new System.Drawing.Size(1005, 22);
             this.statusStrip2.TabIndex = 104;
             this.statusStrip2.Text = "statusStrip2";
             // 
@@ -544,20 +543,34 @@
             this.submissiongroupBox.TabStop = false;
             this.submissiongroupBox.Text = "Submission Logs";
             // 
+            // submitecrhandlercheckBox
+            // 
+            this.submitecrhandlercheckBox.AutoSize = true;
+            this.submitecrhandlercheckBox.Enabled = false;
+            this.submitecrhandlercheckBox.Location = new System.Drawing.Point(10, 78);
+            this.submitecrhandlercheckBox.Name = "submitecrhandlercheckBox";
+            this.submitecrhandlercheckBox.Size = new System.Drawing.Size(164, 20);
+            this.submitecrhandlercheckBox.TabIndex = 3;
+            this.submitecrhandlercheckBox.Text = "Submit to ECR Handler";
+            this.submitecrhandlercheckBox.UseVisualStyleBackColor = true;
+            this.submitecrhandlercheckBox.Click += new System.EventHandler(this.submitecrhandlercheckBox_Click);
+            // 
             // ecrhandlercheckBox
             // 
             this.ecrhandlercheckBox.AutoSize = true;
+            this.ecrhandlercheckBox.Enabled = false;
             this.ecrhandlercheckBox.Location = new System.Drawing.Point(10, 104);
             this.ecrhandlercheckBox.Name = "ecrhandlercheckBox";
-            this.ecrhandlercheckBox.Size = new System.Drawing.Size(170, 20);
+            this.ecrhandlercheckBox.Size = new System.Drawing.Size(147, 20);
             this.ecrhandlercheckBox.TabIndex = 2;
-            this.ecrhandlercheckBox.Text = "ECR Request Complete";
+            this.ecrhandlercheckBox.Text = "Close ECR Request";
             this.ecrhandlercheckBox.UseVisualStyleBackColor = true;
             this.ecrhandlercheckBox.Click += new System.EventHandler(this.ecrhandlercheckBox_Click);
             // 
             // managercheckBox
             // 
             this.managercheckBox.AutoSize = true;
+            this.managercheckBox.Enabled = false;
             this.managercheckBox.Location = new System.Drawing.Point(10, 52);
             this.managercheckBox.Name = "managercheckBox";
             this.managercheckBox.Size = new System.Drawing.Size(170, 20);
@@ -569,6 +582,7 @@
             // supcheckBox
             // 
             this.supcheckBox.AutoSize = true;
+            this.supcheckBox.Enabled = false;
             this.supcheckBox.Location = new System.Drawing.Point(10, 26);
             this.supcheckBox.Name = "supcheckBox";
             this.supcheckBox.Size = new System.Drawing.Size(150, 20);
@@ -577,23 +591,17 @@
             this.supcheckBox.UseVisualStyleBackColor = true;
             this.supcheckBox.Click += new System.EventHandler(this.supcheckBox_Click);
             // 
-            // submitecrhandlercheckBox
+            // errorProvider1
             // 
-            this.submitecrhandlercheckBox.AutoSize = true;
-            this.submitecrhandlercheckBox.Location = new System.Drawing.Point(10, 78);
-            this.submitecrhandlercheckBox.Name = "submitecrhandlercheckBox";
-            this.submitecrhandlercheckBox.Size = new System.Drawing.Size(164, 20);
-            this.submitecrhandlercheckBox.TabIndex = 3;
-            this.submitecrhandlercheckBox.Text = "Submit to ECR Handler";
-            this.submitecrhandlercheckBox.UseVisualStyleBackColor = true;
-            this.submitecrhandlercheckBox.Click += new System.EventHandler(this.submitecrhandlercheckBox_Click);
+            this.errorProvider1.ContainerControl = this;
+            this.errorProvider1.RightToLeft = true;
             // 
             // ECRDetails
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(69)))), ((int)(((byte)(76)))));
-            this.ClientSize = new System.Drawing.Size(1009, 711);
+            this.ClientSize = new System.Drawing.Size(1005, 711);
             this.Controls.Add(this.submissiongroupBox);
             this.Controls.Add(this.statusStrip2);
             this.Controls.Add(this.ecrnotxtbox);
@@ -606,7 +614,9 @@
             this.Controls.Add(this.SPM);
             this.Controls.Add(this.notestxt);
             this.Controls.Add(this.commentslbl);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(1025, 2000);
             this.MinimumSize = new System.Drawing.Size(1025, 750);
             this.Name = "ECRDetails";
@@ -620,6 +630,7 @@
             this.statusStrip2.PerformLayout();
             this.submissiongroupBox.ResumeLayout(false);
             this.submissiongroupBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -662,5 +673,6 @@
         private System.Windows.Forms.CheckBox managercheckBox;
         private System.Windows.Forms.CheckBox supcheckBox;
         private System.Windows.Forms.CheckBox submitecrhandlercheckBox;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }

@@ -28,7 +28,7 @@ namespace SPMConnectAPI
             }
             catch (Exception)
             {
-                MessageBox.Show("Error Connecting to SQL Server.....", "SPM Connect shipping sql", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error Connecting to SQL Server.....", "SPM Connect ECR sql", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             }
 
@@ -113,6 +113,70 @@ namespace SPMConnectAPI
             return supervisorId;
         }
 
+        public string getNameByEmpId(string empid)
+        {
+            string fullname = "";
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [id]='" + empid + "' ";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    fullname = dr["Name"].ToString();
+
+                }
+                dt.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve user full name", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return fullname;
+        }
+
+        public int getEmployeeId()
+        {
+            int employeeId = 0;
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + UserName().ToString() + "' ";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    employeeId = Convert.ToInt32(dr["Emp_Id"].ToString());
+
+                }
+                dt.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve user employee id", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return employeeId;
+        }
+
         public string getassyversionnumber()
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
@@ -152,9 +216,42 @@ namespace SPMConnectAPI
             return path;
         }
 
+        public bool CheckECRCreator()
+        {
+            bool ecrCreator = false;
+            string useradmin = UserName();
+
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND [ECR] = '1'", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    sqlCommand.Parameters.AddWithValue("@username", useradmin);
+
+                    int userCount = (int)sqlCommand.ExecuteScalar();
+                    if (userCount == 1)
+                    {
+                        ecrCreator = true;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve ECR Creator rights", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+            return ecrCreator;
+
+        }
+
         public bool CheckECRSupervisor()
         {
-            bool developer = false;
+            bool ecrSupervisor = false;
             string useradmin = UserName();
 
             using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND [ECRApproval] = '1'", cn))
@@ -167,7 +264,7 @@ namespace SPMConnectAPI
                     int userCount = (int)sqlCommand.ExecuteScalar();
                     if (userCount == 1)
                     {
-                        developer = true;
+                        ecrSupervisor = true;
                     }
 
                 }
@@ -181,13 +278,13 @@ namespace SPMConnectAPI
                 }
 
             }
-            return developer;
+            return ecrSupervisor;
 
         }
 
         public bool CheckECRApprovee()
         {
-            bool developer = false;
+            bool ecrApprovee = false;
             string useradmin = UserName();
 
             using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND [ECRApproval2] = '1'", cn))
@@ -200,7 +297,7 @@ namespace SPMConnectAPI
                     int userCount = (int)sqlCommand.ExecuteScalar();
                     if (userCount == 1)
                     {
-                        developer = true;
+                        ecrApprovee = true;
                     }
 
                 }
@@ -214,13 +311,13 @@ namespace SPMConnectAPI
                 }
 
             }
-            return developer;
+            return ecrApprovee;
 
         }
 
         public bool CheckECRHandler()
         {
-            bool developer = false;
+            bool ecrHandler = false;
             string useradmin = UserName();
 
             using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND [ECRHandler] = '1'", cn))
@@ -233,7 +330,7 @@ namespace SPMConnectAPI
                     int userCount = (int)sqlCommand.ExecuteScalar();
                     if (userCount == 1)
                     {
-                        developer = true;
+                        ecrHandler = true;
                     }
 
                 }
@@ -247,7 +344,7 @@ namespace SPMConnectAPI
                 }
 
             }
-            return developer;
+            return ecrHandler;
 
         }
 
@@ -689,10 +786,11 @@ namespace SPMConnectAPI
             string username = getuserfullname();
             DateTime dateedited = DateTime.Now;
             string sqlFormattedDate = dateedited.ToString("yyyy-MM-dd HH:mm:ss");
-            if (cn.State == ConnectionState.Closed)
-                cn.Open();
+            int supervisorid = getsupervisorId();
             try
             {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
 
@@ -702,7 +800,7 @@ namespace SPMConnectAPI
                    "[LastSavedBy] = '" + username + "',[JobNo] = '" + jobnumber + "',[ProjectManager] = '" + projectmanager + "'," +
                    "[RequestedBy] = '" + requestedby + "',[Department] = '" + department + "',[Description] = '" + description + "'," +
                    "[SANo] =  '" + subassyno + "',[PartNo] = '" + partno + "',[JobName] = '" + jobname + "',[Comments] = '" + notes + "'," +
-                   "[SAName] = '" + subassyname + "' WHERE [ECR] = '" + ecrno + "' ";
+                   "[SAName] = '" + subassyname + "' WHERE [ECRNo] = '" + ecrno + "' ";
 
                 }
                 else if (typeofSave == "Submitted")
@@ -711,8 +809,8 @@ namespace SPMConnectAPI
                    "[LastSavedBy] = '" + username + "',[JobNo] = '" + jobnumber + "',[ProjectManager] = '" + projectmanager + "'," +
                    "[RequestedBy] = '" + requestedby + "',[Department] = '" + department + "',[Description] = '" + description + "'," +
                    "[SANo] =  '" + subassyno + "',[PartNo] = '" + partno + "',[JobName] = '" + jobname + "',[Comments] = '" + notes + "'," +
-                   "[Submitted] = '" + supsubmit + "',[Submittedby] =  '" + username + "',[SubmittedOn] = '" + sqlFormattedDate + "',[SupervisorId] = '" + getsupervisorId() + "'," +
-                   "[SAName] = '" + subassyname + "' WHERE [ECR] = '" + ecrno + "' ";
+                   "[Submitted] = '" + supsubmit + "',[Submittedby] =  '" + username + "',[SubmittedOn] = '" + sqlFormattedDate + "',[SupervisorId] = '" + supervisorid + "'," +
+                   "[SAName] = '" + subassyname + "' WHERE [ECRNo] = '" + ecrno + "' ";
 
                 }
                 else if (typeofSave == "SubmittedFalse")
@@ -721,8 +819,8 @@ namespace SPMConnectAPI
                    "[LastSavedBy] = '" + username + "',[JobNo] = '" + jobnumber + "',[ProjectManager] = '" + projectmanager + "'," +
                    "[RequestedBy] = '" + requestedby + "',[Department] = '" + department + "',[Description] = '" + description + "'," +
                    "[SANo] =  '" + subassyno + "',[PartNo] = '" + partno + "',[JobName] = '" + jobname + "',[Comments] = '" + notes + "'," +
-                   "[Submitted] = '" + supsubmit + "',[Submittedby] =  '" + username + "',[SubmittedOn] = '" + sqlFormattedDate + "',[SupervisorId] = ' '," +
-                   "[SAName] = '" + subassyname + "' WHERE [ECR] = '" + ecrno + "' ";
+                   "[Submitted] = '" + supsubmit + "',[Submittedby] =  ' ',[SubmittedOn] = ' ',[SupervisorId] = ' '," +
+                   "[SAName] = '" + subassyname + "' WHERE [ECRNo] = '" + ecrno + "' ";
 
                 }
                 else if (typeofSave == "Supervisor")
@@ -731,7 +829,7 @@ namespace SPMConnectAPI
                    "[LastSavedBy] = '" + username + "',[JobNo] = '" + jobnumber + "',[ProjectManager] = '" + projectmanager + "'," +
                    "[RequestedBy] = '" + requestedby + "',[Department] = '" + department + "',[Description] = '" + description + "'," +
                    "[SANo] =  '" + subassyno + "',[PartNo] = '" + partno + "',[JobName] = '" + jobname + "',[Comments] = '" + notes + "'," +
-                   "[SAName] = '" + subassyname + "' WHERE [ECR] = '" + ecrno + "' ";
+                   "[SAName] = '" + subassyname + "' WHERE [ECRNo] = '" + ecrno + "' ";
 
                 }
                 else if (typeofSave == "SupSubmit")
@@ -741,7 +839,7 @@ namespace SPMConnectAPI
                    "[RequestedBy] = '" + requestedby + "',[Department] = '" + department + "',[Description] = '" + description + "'," +
                    "[SANo] =  '" + subassyno + "',[PartNo] = '" + partno + "',[JobName] = '" + jobname + "',[Comments] = '" + notes + "'," +
                    "[SupApproval] = '" + managersubmit + "',[SupApprovalBy] =  '" + username + "',[SupApprovedOn] = '" + sqlFormattedDate + "',[SubmitToId] = '" + ecrmanagerid + "'," +
-                   "[SAName] = '" + subassyname + "' WHERE [ECR] = '" + ecrno + "' ";
+                   "[SAName] = '" + subassyname + "' WHERE [ECRNo] = '" + ecrno + "' ";
 
                 }
                 else if (typeofSave == "SupSubmitFalse")
@@ -750,16 +848,16 @@ namespace SPMConnectAPI
                    "[LastSavedBy] = '" + username + "',[JobNo] = '" + jobnumber + "',[ProjectManager] = '" + projectmanager + "'," +
                    "[RequestedBy] = '" + requestedby + "',[Department] = '" + department + "',[Description] = '" + description + "'," +
                    "[SANo] =  '" + subassyno + "',[PartNo] = '" + partno + "',[JobName] = '" + jobname + "',[Comments] = '" + notes + "'," +
-                   "[SupApproval] = '" + managersubmit + "',[SupApprovalBy] =  '" + username + "',[SupApprovedOn] = '" + sqlFormattedDate + "',[SubmitToId] = ' '," +
-                   "[SAName] = '" + subassyname + "' WHERE [ECR] = '" + ecrno + "' ";
+                   "[SupApproval] = '" + managersubmit + "',[SupApprovalBy] =  ' ',[SupApprovedOn] = ' ',[SubmitToId] = ' '," +
+                   "[SAName] = '" + subassyname + "' WHERE [ECRNo] = '" + ecrno + "' ";
 
                 }
                 else if (typeofSave == "Manager")
                 {
                     cmd.CommandText = "UPDATE [SPM_Database].[dbo].[ECR] SET [DateLastSaved] = '" + sqlFormattedDate + "'," +
                    "[LastSavedBy] = '" + username + "'," +
-                   "[Comments] = '" + notes + "'," +
-                   " WHERE [ECR] = '" + ecrno + "' ";
+                   "[Comments] = '" + notes + "'" +
+                   " WHERE [ECRNo] = '" + ecrno + "' ";
 
                 }
                 else if (typeofSave == "ManagerApproved")
@@ -767,25 +865,42 @@ namespace SPMConnectAPI
                     cmd.CommandText = "UPDATE [SPM_Database].[dbo].[ECR] SET [DateLastSaved] = '" + sqlFormattedDate + "'," +
                     "[LastSavedBy] = '" + username + "'," +
                     "[Comments] = '" + notes + "'," +
-                    "[Approved] = '" + managersubmit + "',[ApprovedBy] =  '" + username + "',[ApprovedOn] = '" + sqlFormattedDate + "',[AssignedTo] = '" + ecrhandlerid + " '," +
-                    " WHERE [ECR] = '" + ecrno + "' ";
+                    "[Approved] = '" + ecrhandlersubmit + "',[ApprovedBy] =  '" + username + "',[ApprovedOn] = '" + sqlFormattedDate + "',[AssignedTo] = '" + ecrhandlerid + " '" +
+                    " WHERE [ECRNo] = '" + ecrno + "' ";
                 }
                 else if (typeofSave == "ManagerApprovedFalse")
                 {
                     cmd.CommandText = "UPDATE [SPM_Database].[dbo].[ECR] SET [DateLastSaved] = '" + sqlFormattedDate + "'," +
                     "[LastSavedBy] = '" + username + "'," +
                     "[Comments] = '" + notes + "'," +
-                    "[Approved] = '" + managersubmit + "',[ApprovedBy] =  '" + username + "',[ApprovedOn] = '" + sqlFormattedDate + "',[AssignedTo] = ' '," +
-                    " WHERE [ECR] = '" + ecrno + "' ";
+                    "[Approved] = '" + ecrhandlersubmit + "',[ApprovedBy] =  ' ',[ApprovedOn] = ' ',[AssignedTo] = ' '" +
+                    " WHERE [ECRNo] = '" + ecrno + "' ";
 
                 }
                 else if (typeofSave == "Handler")
                 {
                     cmd.CommandText = "UPDATE [SPM_Database].[dbo].[ECR] SET [DateLastSaved] = '" + sqlFormattedDate + "'," +
                     "[LastSavedBy] = '" + username + "'," +
+                    "[Comments] = '" + notes + "'" +
+                    " WHERE [ECRNo] = '" + ecrno + "' ";
+
+                }
+                else if (typeofSave == "Completed")
+                {
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[ECR] SET [DateLastSaved] = '" + sqlFormattedDate + "'," +
+                    "[LastSavedBy] = '" + username + "'," +
                     "[Comments] = '" + notes + "'," +
-                    "[Completed] = '" + completed + "',[CompletedBy] =  '" + username + "',[CompletedOn] = '" + sqlFormattedDate + "'," +
-                    " WHERE [ECR] = '" + ecrno + "' ";
+                    "[Completed] = '" + completed + "',[CompletedBy] =  '" + username + "',[CompletedOn] = '" + sqlFormattedDate + "'" +
+                    " WHERE [ECRNo] = '" + ecrno + "' ";
+
+                }
+                else if (typeofSave == "CompletedFalse")
+                {
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[ECR] SET [DateLastSaved] = '" + sqlFormattedDate + "'," +
+                    "[LastSavedBy] = '" + username + "'," +
+                    "[Comments] = '" + notes + "'," +
+                    "[Completed] = '" + completed + "',[CompletedBy] =  ' ',[CompletedOn] = ' '" +
+                    " WHERE [ECRNo] = '" + ecrno + "' ";
 
                 }
                 cmd.ExecuteNonQuery();

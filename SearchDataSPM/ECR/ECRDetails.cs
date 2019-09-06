@@ -69,7 +69,7 @@ namespace SearchDataSPM
             if (GetECRInfo(Invoice_Number))
             {
                 FillECRDetails();
-                if (ecrsup || ecrcreator || ecrmanager || ecrhandler)
+                if (!supcheckBox.Checked)
                 {
                     processeditbutton();
                 }
@@ -114,8 +114,8 @@ namespace SearchDataSPM
                     supervisorid = Convert.ToInt32(dr["Supervisor"].ToString());
                     myid = Convert.ToInt32(dr["id"].ToString());
                     string ecrsupstring = dr["ECRApproval"].ToString();
-                    string ecrmanagerstring = dr["PurchaseReqApproval2"].ToString();
-                    string ecrhandlerstring = dr["PurchaseReqBuyer"].ToString();
+                    string ecrmanagerstring = dr["ECRApproval2"].ToString();
+                    string ecrhandlerstring = dr["ECRHandler"].ToString();
 
                     if (ecrsupstring == "1")
                     {
@@ -203,7 +203,8 @@ namespace SearchDataSPM
             string submittedtoecrhandler = r["Approved"].ToString();
             string ecrcomplete = r["Completed"].ToString();
 
-            handleCheckBoxes(submittedtosup, submittedtomanager, submittedtoecrhandler, ecrcomplete);
+            handleCheckBoxes(submittedtosup, submittedtomanager, submittedtoecrhandler, ecrcomplete, r["SupervisorId"].ToString(),
+                r["SubmitToId"].ToString(), r["AssignedTo"].ToString(), r["CompletedBy"].ToString());
 
 
             string projectmanager = r["ProjectManager"].ToString();
@@ -231,6 +232,8 @@ namespace SearchDataSPM
             {
                 ecrcreator = true;
             }
+
+            checkEditButtonRights(Convert.ToInt32(r["SupervisorId"].ToString()), Convert.ToInt32(r["SubmitToId"].ToString()), Convert.ToInt32(r["AssignedTo"].ToString()));
         }
 
 
@@ -256,11 +259,13 @@ namespace SearchDataSPM
             }
         }
 
-        private void handleCheckBoxes(string submittedtosup, string submittedtomanager, string submittedtoecrhandler, string ecrcomplete)
+        private void handleCheckBoxes(string submittedtosup, string submittedtomanager, string submittedtoecrhandler, string ecrcomplete,
+            string supervisorid, string managerid, string assignedto, string completedby)
         {
             if (submittedtosup == "1")
             {
                 supcheckBox.Checked = true;
+                supcheckBox.Text = "Submitted to " + connectapi.getNameByEmpId(supervisorid) + " ";
             }
             else if (submittedtosup == "3")
             {
@@ -273,52 +278,92 @@ namespace SearchDataSPM
 
             if (submittedtomanager == "1")
             {
-                supcheckBox.Checked = true;
+                managercheckBox.Checked = true;
+                managercheckBox.Text = "Submitted to " + connectapi.getNameByEmpId(managerid) + " ";
             }
             else if (submittedtomanager == "3")
             {
-                supcheckBox.Checked = true;
+                managercheckBox.Checked = true;
             }
             else
             {
-                supcheckBox.Checked = false;
+                managercheckBox.Checked = false;
             }
 
             if (submittedtoecrhandler == "1")
             {
-                supcheckBox.Checked = true;
+                submitecrhandlercheckBox.Checked = true;
+                submitecrhandlercheckBox.Text = "Assigned to " + connectapi.getNameByEmpId(assignedto) + " ";
             }
             else if (submittedtoecrhandler == "3")
             {
-                supcheckBox.Checked = true;
+                submitecrhandlercheckBox.Checked = true;
             }
             else
             {
-                supcheckBox.Checked = false;
+                submitecrhandlercheckBox.Checked = false;
+                submitecrhandlercheckBox.Text = "Submit to ECR Handler";
             }
 
             if (ecrcomplete == "1")
             {
-                supcheckBox.Checked = true;
+                ecrhandlercheckBox.Checked = true;
+                ecrhandlercheckBox.Text = "Completed by " + completedby + " ";
             }
             else if (ecrcomplete == "3")
             {
-                supcheckBox.Checked = true;
+                ecrhandlercheckBox.Checked = true;
             }
             else
             {
-                supcheckBox.Checked = false;
+                ecrhandlercheckBox.Checked = false;
+                ecrhandlercheckBox.Text = "Close ECR Request";
             }
 
 
         }
 
-        private void checkEditButtonRights()
+        private void checkEditButtonRights(int supervisorid, int managerid, int assignedto)
         {
+
+            if (ecrcreator && !managercheckBox.Checked)
+            {
+                supcheckBox.Enabled = true;
+            }
+            else if (supervisorid == myid && ecrsup && !submitecrhandlercheckBox.Checked)
+            {
+                managercheckBox.Enabled = true;
+            }
+            else if (managerid == myid && ecrmanager && !ecrhandlercheckBox.Checked)
+            {
+                submitecrhandlercheckBox.Enabled = true;
+                iteminfogroupBox.Enabled = false;
+                descriptiontxtbox.ReadOnly = true;
+            }
+            else if (assignedto == myid && ecrhandler)
+            {
+                ecrhandlercheckBox.Enabled = true;
+                iteminfogroupBox.Enabled = false;
+                descriptiontxtbox.ReadOnly = true;
+            }
+            else
+            {
+                perfromEditlockdown();
+            }
 
 
         }
 
+        private void perfromEditlockdown()
+        {
+            editbttn.Visible = false;
+            savbttn.Enabled = false;
+            savbttn.Visible = false;
+            notestxt.ReadOnly = true;
+            descriptiontxtbox.ReadOnly = true;
+            iteminfogroupBox.Enabled = false;
+            submissiongroupBox.Enabled = false;
+        }
 
         #endregion
 
@@ -361,7 +406,7 @@ namespace SearchDataSPM
             }
             if (keyData == (Keys.Control | Keys.S))
             {
-                perfromsavebttn();
+                perfromsavebttn("", true);
                 return true;
             }
             return base.ProcessCmdKey(ref msg, keyData);
@@ -431,19 +476,16 @@ namespace SearchDataSPM
 
         private void savbttn_Click(object sender, EventArgs e)
         {
-            perfromsavebttn();
+            perfromsavebttn("", true);
         }
 
-        void perfromsavebttn()
+        void perfromsavebttn(string typeofSave, bool buttonclick)
         {
             Cursor.Current = Cursors.WaitCursor;
             this.Enabled = false;
             perfromlockdown();
             graballinfor();
-            if (connectapi.UpdateECRDetsToSql("TypeofSave", list[0].ToString(), list[1].ToString(),
-                list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(),
-                list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(),
-                list[10].ToString(), 0, 0, 0, 0, "", ""))
+            if (processSaveType(typeofSave, buttonclick))
             {
                 if (GetECRInfo(list[0].ToString()))
                 {
@@ -458,6 +500,87 @@ namespace SearchDataSPM
             this.Enabled = true;
             Cursor.Current = Cursors.Default;
 
+        }
+
+        private bool processSaveType(string typeofSave, bool savebttn)
+        {
+            bool success = false;
+            if (savebttn)
+            {
+                if (ecrcreator)
+                {
+                    success = connectapi.UpdateECRDetsToSql("Creator", list[0].ToString(), list[1].ToString(),
+                     list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(),
+                     list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(),
+                     list[10].ToString(), 0, 0, 0, 0, "", "");
+                }
+                else if (ecrsup)
+                {
+                    success = connectapi.UpdateECRDetsToSql("Supervisor", list[0].ToString(), list[1].ToString(),
+                    list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(),
+                    list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(),
+                    list[10].ToString(), 0, 0, 0, 0, "", "");
+                }
+                else if (ecrmanager)
+                {
+                    success = connectapi.UpdateECRDetsToSql("Manager", list[0].ToString(), list[1].ToString(),
+                    list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(),
+                    list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(),
+                    list[10].ToString(), 0, 0, 0, 0, "", "");
+                }
+                else if (ecrhandler)
+                {
+                    success = connectapi.UpdateECRDetsToSql("Handler", list[0].ToString(), list[1].ToString(),
+                    list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(),
+                    list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(),
+                    list[10].ToString(), 0, 0, 0, 0, "", "");
+                }
+
+            }
+            else
+            {
+                if (typeofSave == "Submitted")
+                {
+                    success = connectapi.UpdateECRDetsToSql(typeofSave, list[0].ToString(), list[1].ToString(),
+                       list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(),
+                       list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(),
+                       list[10].ToString(), 1, 0, 0, 0, "", "");
+                }
+                else if (typeofSave == "SupSubmit")
+                {
+                    // Get the option to select the available managers
+                    string managerid = "";
+                    success = connectapi.UpdateECRDetsToSql(typeofSave, list[0].ToString(), list[1].ToString(),
+                    list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(),
+                    list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(),
+                    list[10].ToString(), 0, 1, 0, 0, managerid, "");
+                }
+                else if (typeofSave == "ManagerApproved")
+                {
+                    // Get the option to select the available ecr handlers
+                    string ecrhandler = "";
+                    success = connectapi.UpdateECRDetsToSql(typeofSave, list[0].ToString(), list[1].ToString(),
+                    list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(),
+                    list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(),
+                    list[10].ToString(), 0, 0, 1, 0, "", ecrhandler);
+                }
+                else if (typeofSave == "Completed")
+                {
+                    success = connectapi.UpdateECRDetsToSql(typeofSave, list[0].ToString(), list[1].ToString(),
+                    list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(),
+                    list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(),
+                    list[10].ToString(), 0, 0, 0, 1, "", "");
+                }
+                else
+                {
+                    success = connectapi.UpdateECRDetsToSql(typeofSave, list[0].ToString(), list[1].ToString(),
+                    list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(),
+                    list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(),
+                    list[10].ToString(), 0, 0, 0, 0, "", "");
+                }
+
+            }
+            return success;
         }
 
         #endregion
@@ -478,7 +601,9 @@ namespace SearchDataSPM
             descriptiontxtbox.ReadOnly = false;
             iteminfogroupBox.Enabled = true;
             submissiongroupBox.Enabled = true;
-            checkEditButtonRights();
+
+            DataRow r = dt.Rows[0];
+            checkEditButtonRights(Convert.ToInt32(r["SupervisorId"].ToString()), Convert.ToInt32(r["SubmitToId"].ToString()), Convert.ToInt32(r["AssignedTo"].ToString()));
         }
 
         #endregion
@@ -602,29 +727,257 @@ namespace SearchDataSPM
 
         private void supcheckBox_Click(object sender, EventArgs e)
         {
+            if (supcheckBox.Checked == false)
+            {
+                supcheckBox.Checked = false;
+                supcheckBox.Text = "Submit to Supervisor";
 
+            }
+            else
+            {
+
+                DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to send this ECR for approval?" + Environment.NewLine +
+                    " " + Environment.NewLine +
+                    "This will send email to respective supervisor for approval.", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+
+                    if (jobtxt.Text.Length > 0 && satxt.Text.Length > 0)
+                    {
+
+                        supcheckBox.Text = "Submitted to Supervisor";
+                        perfromsavebttn("Submitted", false);
+                        // SaveReport(reqno, filename);
+                        //preparetosendemail(reqno, true, "", filename, false, "user", false);
+
+                    }
+                    else
+                    {
+                        errorProvider1.Clear();
+                        if (jobtxt.Text.Length > 0)
+                        {
+                            errorProvider1.SetError(satxt, "Sub Assy No cannot be empty");
+                        }
+                        else if (satxt.Text.Length > 0)
+                        {
+                            errorProvider1.SetError(jobtxt, "Job Number cannot be empty");
+                        }
+                        else
+                        {
+                            errorProvider1.SetError(jobtxt, "Job Number cannot be empty");
+                            errorProvider1.SetError(satxt, "Sub Assy No cannot be empty");
+                        }
+                        if (jobtxt.Text.Length > 0 && satxt.Text.Length > 0)
+                        {
+                            errorProvider1.Clear();
+                            MetroFramework.MetroMessageBox.Show(this, "System cannot send out this purchase req for approval as there are no items to order.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+                        }
+                        supcheckBox.Checked = false;
+                    }
+
+                }
+                else
+                {
+                    supcheckBox.Checked = false;
+                }
+
+            }
         }
 
         private void managercheckBox_Click(object sender, EventArgs e)
         {
+            if (managercheckBox.Checked == false)
+            {
+                managercheckBox.Checked = false;
+                managercheckBox.Text = "Submit to ECR Manager";
 
+            }
+            else
+            {
+
+                DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to send this ECR for approval?" + Environment.NewLine +
+                    " " + Environment.NewLine +
+                    "This will send email to respective ECR manager for approval.", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+
+                    if (jobtxt.Text.Length > 0 && satxt.Text.Length > 0)
+                    {
+
+                        managercheckBox.Text = "Submitted to ECR Manager";
+                        perfromsavebttn("SupSubmit", false);
+                        // SaveReport(reqno, filename);
+                        //preparetosendemail(reqno, true, "", filename, false, "user", false);
+
+                    }
+                    else
+                    {
+                        errorProvider1.Clear();
+                        if (jobtxt.Text.Length > 0)
+                        {
+                            errorProvider1.SetError(satxt, "Sub Assy No cannot be empty");
+                        }
+                        else if (satxt.Text.Length > 0)
+                        {
+                            errorProvider1.SetError(jobtxt, "Job Number cannot be empty");
+                        }
+                        else
+                        {
+                            errorProvider1.SetError(jobtxt, "Job Number cannot be empty");
+                            errorProvider1.SetError(satxt, "Sub Assy No cannot be empty");
+                        }
+                        if (jobtxt.Text.Length > 0 && satxt.Text.Length > 0)
+                        {
+                            errorProvider1.Clear();
+                            MetroFramework.MetroMessageBox.Show(this, "System cannot send out this purchase req for approval as there are no items to order.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+                        }
+                        managercheckBox.Checked = false;
+                    }
+
+                }
+                else
+                {
+                    managercheckBox.Checked = false;
+                }
+
+            }
         }
 
         private void submitecrhandlercheckBox_Click(object sender, EventArgs e)
         {
+            if (submitecrhandlercheckBox.Checked == false)
+            {
+                submitecrhandlercheckBox.Checked = false;
+                submitecrhandlercheckBox.Text = "Submit to ECR Handler";
 
+            }
+            else
+            {
+
+                DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to send this ECR for approval?" + Environment.NewLine +
+                    " " + Environment.NewLine +
+                    "This will send email to respective ECR manager for approval.", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+
+                    if (jobtxt.Text.Length > 0 && satxt.Text.Length > 0)
+                    {
+
+                        submitecrhandlercheckBox.Text = "Submitted to ECR Handler";
+                        perfromsavebttn("ManagerApproved", false);
+                        // SaveReport(reqno, filename);
+                        //preparetosendemail(reqno, true, "", filename, false, "user", false);
+
+                    }
+                    else
+                    {
+                        errorProvider1.Clear();
+                        if (jobtxt.Text.Length > 0)
+                        {
+                            errorProvider1.SetError(satxt, "Sub Assy No cannot be empty");
+                        }
+                        else if (satxt.Text.Length > 0)
+                        {
+                            errorProvider1.SetError(jobtxt, "Job Number cannot be empty");
+                        }
+                        else
+                        {
+                            errorProvider1.SetError(jobtxt, "Job Number cannot be empty");
+                            errorProvider1.SetError(satxt, "Sub Assy No cannot be empty");
+                        }
+                        if (jobtxt.Text.Length > 0 && satxt.Text.Length > 0)
+                        {
+                            errorProvider1.Clear();
+                            MetroFramework.MetroMessageBox.Show(this, "System cannot send out this purchase req for approval as there are no items to order.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+                        }
+                        submitecrhandlercheckBox.Checked = false;
+                    }
+
+                }
+                else
+                {
+                    submitecrhandlercheckBox.Checked = false;
+                }
+
+            }
         }
 
         private void ecrhandlercheckBox_Click(object sender, EventArgs e)
         {
+            if (ecrhandlercheckBox.Checked == false)
+            {
+                ecrhandlercheckBox.Checked = false;
+                ecrhandlercheckBox.Text = "Close ECR Request";
 
+            }
+            else
+            {
+
+                DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to mark this ECR as complete?" + Environment.NewLine +
+                    " " + Environment.NewLine +
+                    "This will send email to associated people with this ECR.", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+
+                    if (jobtxt.Text.Length > 0 && satxt.Text.Length > 0)
+                    {
+
+                        ecrhandlercheckBox.Text = "Completed";
+                        perfromsavebttn("Completed", false);
+                        // SaveReport(reqno, filename);
+                        //preparetosendemail(reqno, true, "", filename, false, "user", false);
+
+                    }
+                    else
+                    {
+                        errorProvider1.Clear();
+                        if (jobtxt.Text.Length > 0)
+                        {
+                            errorProvider1.SetError(satxt, "Sub Assy No cannot be empty");
+                        }
+                        else if (satxt.Text.Length > 0)
+                        {
+                            errorProvider1.SetError(jobtxt, "Job Number cannot be empty");
+                        }
+                        else
+                        {
+                            errorProvider1.SetError(jobtxt, "Job Number cannot be empty");
+                            errorProvider1.SetError(satxt, "Sub Assy No cannot be empty");
+                        }
+                        if (jobtxt.Text.Length > 0 && satxt.Text.Length > 0)
+                        {
+                            errorProvider1.Clear();
+                            MetroFramework.MetroMessageBox.Show(this, "System cannot send out this purchase req for approval as there are no items to order.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+                        }
+                        ecrhandlercheckBox.Checked = false;
+                    }
+
+                }
+                else
+                {
+                    ecrhandlercheckBox.Checked = false;
+                }
+
+            }
         }
 
         private void jobtxt_TextChanged(object sender, EventArgs e)
         {
             if (jobtxt.Text.Length == 5)
             {
-
+                fetchJobSaNames(jobtxt.Text.Trim(), satxt.Text.Trim());
+            }
+            else
+            {
+                jobnamelbl.Text = "Job Name :";
             }
         }
 
@@ -632,7 +985,11 @@ namespace SearchDataSPM
         {
             if (satxt.Text.Length == 6 && Char.IsLetter(satxt.Text[0]))
             {
-
+                fetchJobSaNames(jobtxt.Text.Trim(), satxt.Text.Trim());
+            }
+            else
+            {
+                subassylbl.Text = "Sub Assy Name :";
             }
         }
 
