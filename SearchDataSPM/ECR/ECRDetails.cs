@@ -14,13 +14,12 @@ namespace SearchDataSPM
     {
         #region Load Invoice Details and setting Parameters
 
-        String connection;
+        string connection;
         DataTable dt = new DataTable();
         SqlConnection cn;
         SqlCommand _command;
         SqlDataAdapter _adapter;
         string Invoice_Number = "";
-        bool formloading = false;
         SPMConnectAPI.ECR connectapi = new ECR();
 
         bool ecrcreator = false;
@@ -59,7 +58,6 @@ namespace SearchDataSPM
 
         private void ECRDetails_Load(object sender, EventArgs e)
         {
-            formloading = true;
             this.Text = "ECR Details - " + Invoice_Number;
             userfullname = getuserfullname();
             FillProjectManagers();
@@ -75,7 +73,6 @@ namespace SearchDataSPM
                 }
             }
 
-            formloading = false;
         }
 
         private string get_username()
@@ -555,6 +552,15 @@ namespace SearchDataSPM
                     list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(),
                     list[10].ToString(), 0, 1, 0, 0, managerid, "");
                 }
+                else if (typeofSave == "SupSubmitFalse")
+                {
+                    // Get the option to select the available managers
+                    string managerid = "";
+                    success = connectapi.UpdateECRDetsToSql(typeofSave, list[0].ToString(), list[1].ToString(),
+                    list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(),
+                    list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(),
+                    list[10].ToString(), 0, 0, 0, 0, managerid, "");
+                }
                 else if (typeofSave == "ManagerApproved")
                 {
                     // Get the option to select the available ecr handlers
@@ -564,12 +570,28 @@ namespace SearchDataSPM
                     list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(),
                     list[10].ToString(), 0, 0, 1, 0, "", ecrhandler);
                 }
+                else if (typeofSave == "ManagerApprovedFalse")
+                {
+                    // Get the option to select the available ecr handlers
+                    string ecrhandler = "";
+                    success = connectapi.UpdateECRDetsToSql(typeofSave, list[0].ToString(), list[1].ToString(),
+                    list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(),
+                    list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(),
+                    list[10].ToString(), 0, 0, 0, 0, "", ecrhandler);
+                }
                 else if (typeofSave == "Completed")
                 {
                     success = connectapi.UpdateECRDetsToSql(typeofSave, list[0].ToString(), list[1].ToString(),
                     list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(),
                     list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(),
                     list[10].ToString(), 0, 0, 0, 1, "", "");
+                }
+                else if (typeofSave == "CompletedFalse")
+                {
+                    success = connectapi.UpdateECRDetsToSql(typeofSave, list[0].ToString(), list[1].ToString(),
+                    list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(),
+                    list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(),
+                    list[10].ToString(), 0, 0, 0, 0, "", "");
                 }
                 else
                 {
@@ -729,8 +751,22 @@ namespace SearchDataSPM
         {
             if (supcheckBox.Checked == false)
             {
-                supcheckBox.Checked = false;
-                supcheckBox.Text = "Submit to Supervisor";
+
+                DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to remove this ECR from approval?", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    supcheckBox.Text = "Submit to Supervisor";
+                    supcheckBox.Checked = false;
+                    perfromsavebttn("SubmittedFalse", false);
+                    // SaveReport(reqno, filename);
+                    //preparetosendemail(reqno, true, "", filename, false, "user", false);
+
+                }
+                else
+                {
+                    supcheckBox.Checked = true;
+                }
 
             }
             else
@@ -738,7 +774,7 @@ namespace SearchDataSPM
 
                 DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to send this ECR for approval?" + Environment.NewLine +
                     " " + Environment.NewLine +
-                    "This will send email to respective supervisor for approval.", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    "This will send an email to respective supervisor for approval.", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (result == DialogResult.Yes)
                 {
@@ -790,8 +826,21 @@ namespace SearchDataSPM
         {
             if (managercheckBox.Checked == false)
             {
-                managercheckBox.Checked = false;
-                managercheckBox.Text = "Submit to ECR Manager";
+                DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to remove this ECR from approval?", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    managercheckBox.Checked = false;
+                    managercheckBox.Text = "Submit to ECR Manager";
+                    perfromsavebttn("SupSubmitFalse", false);
+                    // SaveReport(reqno, filename);
+                    //preparetosendemail(reqno, true, "", filename, false, "user", false);
+
+                }
+                else
+                {
+                    managercheckBox.Checked = true;
+                }
 
             }
             else
@@ -799,7 +848,7 @@ namespace SearchDataSPM
 
                 DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to send this ECR for approval?" + Environment.NewLine +
                     " " + Environment.NewLine +
-                    "This will send email to respective ECR manager for approval.", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    "This will send an email to respective ECR manager for approval.", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (result == DialogResult.Yes)
                 {
@@ -851,8 +900,21 @@ namespace SearchDataSPM
         {
             if (submitecrhandlercheckBox.Checked == false)
             {
-                submitecrhandlercheckBox.Checked = false;
-                submitecrhandlercheckBox.Text = "Submit to ECR Handler";
+                DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to remove this ECR from process?", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    submitecrhandlercheckBox.Checked = false;
+                    submitecrhandlercheckBox.Text = "Submit to ECR Handler";
+                    perfromsavebttn("ManagerApprovedFalse", false);
+                    // SaveReport(reqno, filename);
+                    //preparetosendemail(reqno, true, "", filename, false, "user", false);
+
+                }
+                else
+                {
+                    submitecrhandlercheckBox.Checked = true;
+                }
 
             }
             else
@@ -860,7 +922,7 @@ namespace SearchDataSPM
 
                 DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to send this ECR for approval?" + Environment.NewLine +
                     " " + Environment.NewLine +
-                    "This will send email to respective ECR manager for approval.", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    "This will notify respective ECR handler.", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (result == DialogResult.Yes)
                 {
@@ -912,8 +974,21 @@ namespace SearchDataSPM
         {
             if (ecrhandlercheckBox.Checked == false)
             {
-                ecrhandlercheckBox.Checked = false;
-                ecrhandlercheckBox.Text = "Close ECR Request";
+                DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to mark this ECR not completed?", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    ecrhandlercheckBox.Checked = false;
+                    ecrhandlercheckBox.Text = "Close ECR Request";
+                    perfromsavebttn("ManagerApprovedFalse", false);
+                    // SaveReport(reqno, filename);
+                    //preparetosendemail(reqno, true, "", filename, false, "user", false);
+
+                }
+                else
+                {
+                    ecrhandlercheckBox.Checked = true;
+                }
 
             }
             else
@@ -1013,7 +1088,5 @@ namespace SearchDataSPM
             else
                 e.Handled = false;
         }
-
-
     }
 }

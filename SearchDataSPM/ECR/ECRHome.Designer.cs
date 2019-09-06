@@ -247,7 +247,7 @@ namespace SearchDataSPM
             this.requestedbycomboxbox.FormattingEnabled = true;
             this.requestedbycomboxbox.Location = new System.Drawing.Point(7, 379);
             this.requestedbycomboxbox.Name = "requestedbycomboxbox";
-            this.requestedbycomboxbox.Size = new System.Drawing.Size(162, 22);
+            this.requestedbycomboxbox.Size = new System.Drawing.Size(164, 22);
             this.requestedbycomboxbox.TabIndex = 125;
             this.TreeViewToolTip.SetToolTip(this.requestedbycomboxbox, "Filter by ship to");
             this.requestedbycomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Manufactureritemcomboxbox_KeyDown);
@@ -264,7 +264,7 @@ namespace SearchDataSPM
             this.deptrequestedcomboxbox.FormattingEnabled = true;
             this.deptrequestedcomboxbox.Location = new System.Drawing.Point(7, 230);
             this.deptrequestedcomboxbox.Name = "deptrequestedcomboxbox";
-            this.deptrequestedcomboxbox.Size = new System.Drawing.Size(162, 22);
+            this.deptrequestedcomboxbox.Size = new System.Drawing.Size(164, 22);
             this.deptrequestedcomboxbox.TabIndex = 123;
             this.TreeViewToolTip.SetToolTip(this.deptrequestedcomboxbox, "Filter by sales person");
             this.deptrequestedcomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.familycomboxbox_KeyDown);
@@ -281,7 +281,7 @@ namespace SearchDataSPM
             this.approvedbycombo.FormattingEnabled = true;
             this.approvedbycombo.Location = new System.Drawing.Point(7, 520);
             this.approvedbycombo.Name = "approvedbycombo";
-            this.approvedbycombo.Size = new System.Drawing.Size(162, 22);
+            this.approvedbycombo.Size = new System.Drawing.Size(164, 22);
             this.approvedbycombo.TabIndex = 127;
             this.TreeViewToolTip.SetToolTip(this.approvedbycombo, "Filter by last saved");
             this.approvedbycombo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lastsavedbycombo_KeyDown);
@@ -301,7 +301,7 @@ namespace SearchDataSPM
             "SPM AUTOMATION (Canada) INC."});
             this.ecrstatuscombobox.Location = new System.Drawing.Point(7, 304);
             this.ecrstatuscombobox.Name = "ecrstatuscombobox";
-            this.ecrstatuscombobox.Size = new System.Drawing.Size(162, 22);
+            this.ecrstatuscombobox.Size = new System.Drawing.Size(164, 22);
             this.ecrstatuscombobox.TabIndex = 124;
             this.TreeViewToolTip.SetToolTip(this.ecrstatuscombobox, "Filter by sold to");
             this.ecrstatuscombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.oemitemcombobox_KeyDown);
@@ -324,7 +324,7 @@ namespace SearchDataSPM
             "1 - Customer"});
             this.completedbycombobox.Location = new System.Drawing.Point(7, 594);
             this.completedbycombobox.Name = "completedbycombobox";
-            this.completedbycombobox.Size = new System.Drawing.Size(162, 22);
+            this.completedbycombobox.Size = new System.Drawing.Size(164, 22);
             this.completedbycombobox.TabIndex = 128;
             this.TreeViewToolTip.SetToolTip(this.completedbycombobox, "Filter by customer or vendor");
             this.completedbycombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ActiveCadblockcombobox_KeyDown);
@@ -345,7 +345,7 @@ namespace SearchDataSPM
             "Joel Goldsmith"});
             this.jobnumbercombobox.Location = new System.Drawing.Point(7, 153);
             this.jobnumbercombobox.Name = "jobnumbercombobox";
-            this.jobnumbercombobox.Size = new System.Drawing.Size(162, 22);
+            this.jobnumbercombobox.Size = new System.Drawing.Size(164, 22);
             this.jobnumbercombobox.TabIndex = 122;
             this.TreeViewToolTip.SetToolTip(this.jobnumbercombobox, "Filter Created by");
             this.jobnumbercombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.designedbycombobox_KeyDown);
@@ -362,7 +362,7 @@ namespace SearchDataSPM
             this.supervicsorcomboBox.FormattingEnabled = true;
             this.supervicsorcomboBox.Location = new System.Drawing.Point(7, 450);
             this.supervicsorcomboBox.Name = "supervicsorcomboBox";
-            this.supervicsorcomboBox.Size = new System.Drawing.Size(162, 22);
+            this.supervicsorcomboBox.Size = new System.Drawing.Size(164, 22);
             this.supervicsorcomboBox.TabIndex = 126;
             this.TreeViewToolTip.SetToolTip(this.supervicsorcomboBox, "Filter by carrier");
             this.supervicsorcomboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MaterialcomboBox_KeyDown);
@@ -385,6 +385,7 @@ namespace SearchDataSPM
             this.addnewbttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TreeViewToolTip.SetToolTip(this.addnewbttn, "Create New Invoice");
             this.addnewbttn.UseVisualStyleBackColor = false;
+            this.addnewbttn.Visible = false;
             this.addnewbttn.Click += new System.EventHandler(this.addnewbttn_Click);
             // 
             // splitContainer1

@@ -50,7 +50,7 @@ namespace SearchDataSPM
             dt = new DataTable();
             checkdeptsandrights();
             userfullname = connectapi.getuserfullname();
-            Showallitems();
+            Showallitems(true);
             txtSearch.Focus();
             formloading = false;
 
@@ -123,10 +123,15 @@ namespace SearchDataSPM
 
         }
 
-        private void Showallitems()
+        private void Showallitems(bool showall)
         {
-            dt.Clear();
-            dt = connectapi.ShowAllECRInvoices();
+
+            if (showall)
+            {
+                dt.Clear();
+                dt = connectapi.ShowAllECRInvoices();
+            }
+
             dataGridView.DataSource = dt;
             DataView dv = dt.DefaultView;
             dataGridView.Sort(dataGridView.Columns[0], ListSortDirection.Descending);
@@ -155,6 +160,7 @@ namespace SearchDataSPM
             dataGridView.Columns[28].Visible = false;
             dataGridView.Columns[29].Visible = false;
             dataGridView.Columns[30].Visible = false;
+            dataGridView.Columns[31].Visible = false;
             dataGridView.Columns[0].Width = 80;
             dataGridView.Columns[1].Width = 80;
             dataGridView.Columns[3].Width = 80;
@@ -224,7 +230,7 @@ namespace SearchDataSPM
 
                 if (jobnumbercombobox.Text == "" && approvedbycombo.Text == "" && deptrequestedcomboxbox.Text == "" && requestedbycomboxbox.Text == "" && ecrstatuscombobox.Text == "" && completedbycombobox.Text == "" && supervicsorcomboBox.Text == "")
                 {
-                    Showallitems();
+                    Showallitems(true);
 
                 }
                 if (txtSearch.Text.Length > 0)
@@ -1162,18 +1168,86 @@ namespace SearchDataSPM
 
         private void attentionbttn_Click(object sender, EventArgs e)
         {
+            int empidtomach = connectapi.getConnectEmployeeId();
             if (ecrsupervisor)
             {
+                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT *,CONCAT([ECRNo], ' ',[JobNo],' ',[JobName],' ',[SANo],' ',[SAName],' ',RequestedBy) AS FullSearch FROM [SPM_Database].[dbo].[ECR] WHERE Submitted = '1' AND SupApproval = '0' AND Approved = '0' AND Completed = '0' AND SupervisorId = '" + empidtomach + "' ORDER BY ECRNo DESC", cn))
+                {
+                    try
+                    {
+                        if (cn.State == ConnectionState.Closed)
+                            cn.Open();
+
+                        dt.Clear();
+                        sda.Fill(dt);
+
+                    }
+                    catch (Exception)
+                    {
+                        MetroFramework.MetroMessageBox.Show(this, "Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect - SHow Waiting For Approval", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    }
+                    finally
+                    {
+                        cn.Close();
+                    }
+
+                }
 
             }
             else if (ecrapprovee)
             {
+                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT *,CONCAT([ECRNo], ' ',[JobNo],' ',[JobName],' ',[SANo],' ',[SAName],' ',RequestedBy) AS FullSearch FROM [SPM_Database].[dbo].[ECR] WHERE Submitted = '1' AND SupApproval = '1' AND Approved = '0' AND Completed = '0' AND SubmitToId = '" + empidtomach + "' ORDER BY ECRNo DESC", cn))
+                {
+                    try
+                    {
+                        if (cn.State == ConnectionState.Closed)
+                            cn.Open();
+
+                        dt.Clear();
+                        sda.Fill(dt);
+
+
+                    }
+                    catch (Exception)
+                    {
+                        MetroFramework.MetroMessageBox.Show(this, "Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect - SHow Waiting For Approval", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    }
+                    finally
+                    {
+                        cn.Close();
+                    }
+
+                }
 
             }
             else if (ecrhandler)
             {
+                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT *,CONCAT([ECRNo], ' ',[JobNo],' ',[JobName],' ',[SANo],' ',[SAName],' ',RequestedBy) AS FullSearch FROM [SPM_Database].[dbo].[ECR] WHERE Submitted = '1' AND SupApproval = '1' AND Approved = '1' AND Completed = '0' AND AssignedTo = '" + empidtomach + "' ORDER BY ECRNo DESC", cn))
+                {
+                    try
+                    {
+                        if (cn.State == ConnectionState.Closed)
+                            cn.Open();
 
+                        dt.Clear();
+                        sda.Fill(dt);
+
+                    }
+                    catch (Exception)
+                    {
+                        MetroFramework.MetroMessageBox.Show(this, "Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect - SHow Waiting For Approval", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    }
+                    finally
+                    {
+                        cn.Close();
+                    }
+
+                }
             }
+            Showallitems(false);
 
         }
     }

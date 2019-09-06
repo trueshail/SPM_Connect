@@ -38,14 +38,11 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.savbttn = new System.Windows.Forms.Button();
-            this.editbttn = new System.Windows.Forms.Button();
             this.descriptiontxtbox = new System.Windows.Forms.TextBox();
             this.requestedbycombobox = new System.Windows.Forms.ComboBox();
             this.jobtxt = new System.Windows.Forms.TextBox();
             this.satxt = new System.Windows.Forms.TextBox();
             this.partnotxt = new System.Windows.Forms.TextBox();
-            this.SPM = new System.Windows.Forms.Label();
             this.commentslbl = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.iteminfogroupBox = new System.Windows.Forms.GroupBox();
@@ -60,13 +57,16 @@
             this.CreatedBy = new System.Windows.Forms.ToolStripStatusLabel();
             this.lastsavedon = new System.Windows.Forms.ToolStripStatusLabel();
             this.lastsavedby = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
             this.submissiongroupBox = new System.Windows.Forms.GroupBox();
             this.submitecrhandlercheckBox = new System.Windows.Forms.CheckBox();
             this.ecrhandlercheckBox = new System.Windows.Forms.CheckBox();
             this.managercheckBox = new System.Windows.Forms.CheckBox();
             this.supcheckBox = new System.Windows.Forms.CheckBox();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
+            this.savbttn = new System.Windows.Forms.Button();
+            this.editbttn = new System.Windows.Forms.Button();
+            this.SPM = new System.Windows.Forms.Label();
             this.iteminfogroupBox.SuspendLayout();
             this.statusStrip2.SuspendLayout();
             this.submissiongroupBox.SuspendLayout();
@@ -77,8 +77,7 @@
             // 
             this.notestxt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.notestxt.BackColor = System.Drawing.Color.White;
-            this.notestxt.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.notestxt.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.notestxt.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.notestxt.Location = new System.Drawing.Point(9, 531);
             this.notestxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.notestxt.Multiline = true;
@@ -87,7 +86,7 @@
             this.notestxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.notestxt.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.notestxt.Size = new System.Drawing.Size(660, 119);
-            this.notestxt.TabIndex = 12;
+            this.notestxt.TabIndex = 2;
             this.TreeViewToolTip.SetToolTip(this.notestxt, "Notes or comments for invoice");
             // 
             // invoicelbl
@@ -132,7 +131,7 @@
             this.departmentcomboBox.Location = new System.Drawing.Point(769, 54);
             this.departmentcomboBox.Name = "departmentcomboBox";
             this.departmentcomboBox.Size = new System.Drawing.Size(202, 21);
-            this.departmentcomboBox.TabIndex = 7;
+            this.departmentcomboBox.TabIndex = 4;
             this.TreeViewToolTip.SetToolTip(this.departmentcomboBox, "Requested by");
             // 
             // projectmanagercombobox
@@ -148,7 +147,7 @@
             this.projectmanagercombobox.Location = new System.Drawing.Point(769, 22);
             this.projectmanagercombobox.Name = "projectmanagercombobox";
             this.projectmanagercombobox.Size = new System.Drawing.Size(202, 21);
-            this.projectmanagercombobox.TabIndex = 6;
+            this.projectmanagercombobox.TabIndex = 3;
             this.TreeViewToolTip.SetToolTip(this.projectmanagercombobox, "Sales Person");
             // 
             // label3
@@ -188,53 +187,11 @@
             this.TreeViewToolTip.InitialDelay = 500;
             this.TreeViewToolTip.ReshowDelay = 100;
             // 
-            // savbttn
-            // 
-            this.savbttn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.savbttn.BackColor = System.Drawing.Color.Transparent;
-            this.savbttn.Enabled = false;
-            this.savbttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.savbttn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.savbttn.ForeColor = System.Drawing.Color.White;
-            this.savbttn.Image = ((System.Drawing.Image)(resources.GetObject("savbttn.Image")));
-            this.savbttn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.savbttn.Location = new System.Drawing.Point(491, 656);
-            this.savbttn.Name = "savbttn";
-            this.savbttn.Size = new System.Drawing.Size(78, 27);
-            this.savbttn.TabIndex = 14;
-            this.savbttn.Text = "Save";
-            this.savbttn.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.savbttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.TreeViewToolTip.SetToolTip(this.savbttn, "Save Invoice Details");
-            this.savbttn.UseVisualStyleBackColor = false;
-            this.savbttn.Visible = false;
-            this.savbttn.Click += new System.EventHandler(this.savbttn_Click);
-            // 
-            // editbttn
-            // 
-            this.editbttn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.editbttn.BackColor = System.Drawing.Color.Transparent;
-            this.editbttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.editbttn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.editbttn.ForeColor = System.Drawing.Color.White;
-            this.editbttn.Image = ((System.Drawing.Image)(resources.GetObject("editbttn.Image")));
-            this.editbttn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.editbttn.Location = new System.Drawing.Point(388, 656);
-            this.editbttn.Name = "editbttn";
-            this.editbttn.Size = new System.Drawing.Size(78, 27);
-            this.editbttn.TabIndex = 13;
-            this.editbttn.Text = "Edit";
-            this.editbttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.TreeViewToolTip.SetToolTip(this.editbttn, "Edit Invoice Details");
-            this.editbttn.UseVisualStyleBackColor = false;
-            this.editbttn.Click += new System.EventHandler(this.editbttn_Click);
-            // 
             // descriptiontxtbox
             // 
             this.descriptiontxtbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.descriptiontxtbox.BackColor = System.Drawing.Color.White;
-            this.descriptiontxtbox.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.descriptiontxtbox.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.descriptiontxtbox.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.descriptiontxtbox.Location = new System.Drawing.Point(9, 243);
             this.descriptiontxtbox.MinimumSize = new System.Drawing.Size(180, 20);
             this.descriptiontxtbox.Multiline = true;
@@ -243,7 +200,7 @@
             this.descriptiontxtbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.descriptiontxtbox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.descriptiontxtbox.Size = new System.Drawing.Size(988, 266);
-            this.descriptiontxtbox.TabIndex = 101;
+            this.descriptiontxtbox.TabIndex = 1;
             this.TreeViewToolTip.SetToolTip(this.descriptiontxtbox, "Notes or comments for invoice");
             // 
             // requestedbycombobox
@@ -259,7 +216,7 @@
             this.requestedbycombobox.Location = new System.Drawing.Point(769, 87);
             this.requestedbycombobox.Name = "requestedbycombobox";
             this.requestedbycombobox.Size = new System.Drawing.Size(202, 21);
-            this.requestedbycombobox.TabIndex = 100;
+            this.requestedbycombobox.TabIndex = 5;
             this.TreeViewToolTip.SetToolTip(this.requestedbycombobox, "Requested by");
             // 
             // jobtxt
@@ -274,7 +231,7 @@
             this.jobtxt.Name = "jobtxt";
             this.jobtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.jobtxt.Size = new System.Drawing.Size(69, 22);
-            this.jobtxt.TabIndex = 102;
+            this.jobtxt.TabIndex = 0;
             this.TreeViewToolTip.SetToolTip(this.jobtxt, "Invoice Number");
             this.jobtxt.TextChanged += new System.EventHandler(this.jobtxt_TextChanged);
             this.jobtxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.jobtxt_KeyPress);
@@ -284,6 +241,7 @@
             this.satxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.satxt.BackColor = System.Drawing.Color.White;
+            this.satxt.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.satxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.satxt.Location = new System.Drawing.Point(84, 57);
             this.satxt.MaximumSize = new System.Drawing.Size(200, 30);
@@ -291,7 +249,7 @@
             this.satxt.Name = "satxt";
             this.satxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.satxt.Size = new System.Drawing.Size(69, 22);
-            this.satxt.TabIndex = 103;
+            this.satxt.TabIndex = 1;
             this.TreeViewToolTip.SetToolTip(this.satxt, "Invoice Number");
             this.satxt.TextChanged += new System.EventHandler(this.satxt_TextChanged);
             this.satxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.satxt_KeyPress);
@@ -301,30 +259,15 @@
             this.partnotxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.partnotxt.BackColor = System.Drawing.Color.White;
+            this.partnotxt.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.partnotxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.partnotxt.Location = new System.Drawing.Point(84, 93);
             this.partnotxt.MaximumSize = new System.Drawing.Size(300, 30);
             this.partnotxt.Name = "partnotxt";
             this.partnotxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.partnotxt.Size = new System.Drawing.Size(300, 22);
-            this.partnotxt.TabIndex = 104;
+            this.partnotxt.TabIndex = 2;
             this.TreeViewToolTip.SetToolTip(this.partnotxt, "Invoice Number");
-            // 
-            // SPM
-            // 
-            this.SPM.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.SPM.BackColor = System.Drawing.Color.Transparent;
-            this.SPM.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SPM.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.SPM.Image = ((System.Drawing.Image)(resources.GetObject("SPM.Image")));
-            this.SPM.Location = new System.Drawing.Point(409, 2);
-            this.SPM.MaximumSize = new System.Drawing.Size(288, 100);
-            this.SPM.MinimumSize = new System.Drawing.Size(100, 100);
-            this.SPM.Name = "SPM";
-            this.SPM.Size = new System.Drawing.Size(211, 100);
-            this.SPM.TabIndex = 90;
-            this.SPM.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // commentslbl
             // 
@@ -376,7 +319,7 @@
             this.iteminfogroupBox.Location = new System.Drawing.Point(9, 93);
             this.iteminfogroupBox.Name = "iteminfogroupBox";
             this.iteminfogroupBox.Size = new System.Drawing.Size(988, 125);
-            this.iteminfogroupBox.TabIndex = 103;
+            this.iteminfogroupBox.TabIndex = 1;
             this.iteminfogroupBox.TabStop = false;
             this.iteminfogroupBox.Text = "ECR Info";
             // 
@@ -436,7 +379,7 @@
             this.label6.Name = "label6";
             this.label6.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label6.Size = new System.Drawing.Size(72, 15);
-            this.label6.TabIndex = 106;
+            this.label6.TabIndex = 1;
             this.label6.Text = "Sub Assy :";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -451,7 +394,7 @@
             this.label4.Name = "label4";
             this.label4.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label4.Size = new System.Drawing.Size(60, 15);
-            this.label4.TabIndex = 105;
+            this.label4.TabIndex = 0;
             this.label4.Text = "Job No :";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -483,7 +426,7 @@
             this.statusStrip2.Name = "statusStrip2";
             this.statusStrip2.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
             this.statusStrip2.Size = new System.Drawing.Size(1005, 22);
-            this.statusStrip2.TabIndex = 104;
+            this.statusStrip2.TabIndex = 0;
             this.statusStrip2.Text = "statusStrip2";
             // 
             // Createdon
@@ -518,15 +461,6 @@
             this.lastsavedby.Text = "Last Saved By";
             this.lastsavedby.ToolTipText = "Last Saved By";
             // 
-            // toolStripSplitButton1
-            // 
-            this.toolStripSplitButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSplitButton1.Image")));
-            this.toolStripSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripSplitButton1.Name = "toolStripSplitButton1";
-            this.toolStripSplitButton1.Size = new System.Drawing.Size(64, 20);
-            this.toolStripSplitButton1.Text = "Print";
-            this.toolStripSplitButton1.ToolTipText = "Print Invoice";
-            // 
             // submissiongroupBox
             // 
             this.submissiongroupBox.Controls.Add(this.submitecrhandlercheckBox);
@@ -550,7 +484,7 @@
             this.submitecrhandlercheckBox.Location = new System.Drawing.Point(10, 78);
             this.submitecrhandlercheckBox.Name = "submitecrhandlercheckBox";
             this.submitecrhandlercheckBox.Size = new System.Drawing.Size(164, 20);
-            this.submitecrhandlercheckBox.TabIndex = 3;
+            this.submitecrhandlercheckBox.TabIndex = 2;
             this.submitecrhandlercheckBox.Text = "Submit to ECR Handler";
             this.submitecrhandlercheckBox.UseVisualStyleBackColor = true;
             this.submitecrhandlercheckBox.Click += new System.EventHandler(this.submitecrhandlercheckBox_Click);
@@ -562,7 +496,7 @@
             this.ecrhandlercheckBox.Location = new System.Drawing.Point(10, 104);
             this.ecrhandlercheckBox.Name = "ecrhandlercheckBox";
             this.ecrhandlercheckBox.Size = new System.Drawing.Size(147, 20);
-            this.ecrhandlercheckBox.TabIndex = 2;
+            this.ecrhandlercheckBox.TabIndex = 3;
             this.ecrhandlercheckBox.Text = "Close ECR Request";
             this.ecrhandlercheckBox.UseVisualStyleBackColor = true;
             this.ecrhandlercheckBox.Click += new System.EventHandler(this.ecrhandlercheckBox_Click);
@@ -595,6 +529,72 @@
             // 
             this.errorProvider1.ContainerControl = this;
             this.errorProvider1.RightToLeft = true;
+            // 
+            // toolStripSplitButton1
+            // 
+            this.toolStripSplitButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSplitButton1.Image")));
+            this.toolStripSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripSplitButton1.Name = "toolStripSplitButton1";
+            this.toolStripSplitButton1.Size = new System.Drawing.Size(64, 20);
+            this.toolStripSplitButton1.Text = "Print";
+            this.toolStripSplitButton1.ToolTipText = "Print Invoice";
+            // 
+            // savbttn
+            // 
+            this.savbttn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.savbttn.BackColor = System.Drawing.Color.Transparent;
+            this.savbttn.Enabled = false;
+            this.savbttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.savbttn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.savbttn.ForeColor = System.Drawing.Color.White;
+            this.savbttn.Image = ((System.Drawing.Image)(resources.GetObject("savbttn.Image")));
+            this.savbttn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.savbttn.Location = new System.Drawing.Point(491, 656);
+            this.savbttn.Name = "savbttn";
+            this.savbttn.Size = new System.Drawing.Size(78, 27);
+            this.savbttn.TabIndex = 3;
+            this.savbttn.Text = "Save";
+            this.savbttn.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.savbttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.TreeViewToolTip.SetToolTip(this.savbttn, "Save Invoice Details");
+            this.savbttn.UseVisualStyleBackColor = false;
+            this.savbttn.Visible = false;
+            this.savbttn.Click += new System.EventHandler(this.savbttn_Click);
+            // 
+            // editbttn
+            // 
+            this.editbttn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.editbttn.BackColor = System.Drawing.Color.Transparent;
+            this.editbttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.editbttn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.editbttn.ForeColor = System.Drawing.Color.White;
+            this.editbttn.Image = ((System.Drawing.Image)(resources.GetObject("editbttn.Image")));
+            this.editbttn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.editbttn.Location = new System.Drawing.Point(388, 656);
+            this.editbttn.Name = "editbttn";
+            this.editbttn.Size = new System.Drawing.Size(78, 27);
+            this.editbttn.TabIndex = 13;
+            this.editbttn.Text = "Edit";
+            this.editbttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.TreeViewToolTip.SetToolTip(this.editbttn, "Edit Invoice Details");
+            this.editbttn.UseVisualStyleBackColor = false;
+            this.editbttn.Click += new System.EventHandler(this.editbttn_Click);
+            // 
+            // SPM
+            // 
+            this.SPM.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.SPM.BackColor = System.Drawing.Color.Transparent;
+            this.SPM.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SPM.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.SPM.Image = ((System.Drawing.Image)(resources.GetObject("SPM.Image")));
+            this.SPM.Location = new System.Drawing.Point(409, 2);
+            this.SPM.MaximumSize = new System.Drawing.Size(288, 100);
+            this.SPM.MinimumSize = new System.Drawing.Size(100, 100);
+            this.SPM.Name = "SPM";
+            this.SPM.Size = new System.Drawing.Size(211, 100);
+            this.SPM.TabIndex = 90;
+            this.SPM.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // ECRDetails
             // 
