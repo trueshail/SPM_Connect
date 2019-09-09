@@ -113,7 +113,7 @@ namespace SPMConnectAPI
             return supervisorId;
         }
 
-        public string getNameByEmpId(string empid)
+        public string getNameByConnectEmpId(string empid)
         {
             string fullname = "";
             try
@@ -123,6 +123,38 @@ namespace SPMConnectAPI
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [id]='" + empid + "' ";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    fullname = dr["Name"].ToString();
+
+                }
+                dt.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve user full name", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return fullname;
+        }
+
+        public string getNameByEmpId(string empid)
+        {
+            string fullname = "";
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [Emp_Id]='" + empid + "' ";
                 cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -769,19 +801,46 @@ namespace SPMConnectAPI
 
         }
 
+        public AutoCompleteStringCollection FillECRCompletedBy()
+        {
+            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT [CompletedBy] from [dbo].[ECR] where [CompletedBy] is not null order by [CompletedBy]", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        MyCollection.Add(reader.GetString(0));
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Fill Completed By Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+
+            }
+            return MyCollection;
+        }
 
         #endregion
 
         #region Perfrom CRUD on invoice details and shipping items
 
-        public string CreatenewECR()
+        public string CreatenewECR(string empid)
         {
             string success = "";
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-            string username = getuserfullname();
+            string username = getNameByEmpId(empid);
             string newinvoiceno = getnewECRNo();
-            string computername = System.Environment.MachineName;
 
             try
             {
@@ -789,7 +848,7 @@ namespace SPMConnectAPI
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[ECR] (ECRNo, DateCreated, RequestedBy, DateLastSaved, LastSavedBy, ComputerName) VALUES('" + newinvoiceno + "','" + sqlFormattedDatetime + "','" + username + "','" + sqlFormattedDatetime + "','" + username + "','" + computername + "')";
+                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[ECR] (ECRNo, DateCreated, RequestedBy, DateLastSaved, LastSavedBy, CreatedBy, Status) VALUES('" + newinvoiceno + "','" + sqlFormattedDatetime + "','" + username + "','" + sqlFormattedDatetime + "','" + username + "','" + username + "','ECR Initiated')";
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 success = newinvoiceno;
@@ -811,7 +870,7 @@ namespace SPMConnectAPI
         public bool UpdateECRDetsToSql(string typeofSave, string ecrno, string jobnumber,
             string subassyno, string partno, string jobname, string subassyname, string projectmanager,
             string requestedby, string department, string description, string notes, int supsubmit, int managersubmit, int ecrhandlersubmit, int completed, string ecrmanagerid,
-            string ecrhandlerid
+            string ecrhandlerid, bool reject
             )
         {
             bool success = false;
@@ -831,7 +890,7 @@ namespace SPMConnectAPI
                     cmd.CommandText = "UPDATE [SPM_Database].[dbo].[ECR] SET [DateLastSaved] = '" + sqlFormattedDate + "'," +
                    "[LastSavedBy] = '" + username + "',[JobNo] = '" + jobnumber + "',[ProjectManager] = '" + projectmanager + "'," +
                    "[RequestedBy] = '" + requestedby + "',[Department] = '" + department + "',[Description] = '" + description + "'," +
-                   "[SANo] =  '" + subassyno + "',[PartNo] = '" + partno + "',[JobName] = '" + jobname + "',[Comments] = '" + notes + "'," +
+                   "[SANo] =  '" + subassyno + "',[Status] = 'ECR Initiated',[PartNo] = '" + partno + "',[JobName] = '" + jobname + "',[Comments] = '" + notes + "'," +
                    "[SAName] = '" + subassyname + "' WHERE [ECRNo] = '" + ecrno + "' ";
 
                 }
@@ -840,7 +899,7 @@ namespace SPMConnectAPI
                     cmd.CommandText = "UPDATE [SPM_Database].[dbo].[ECR] SET [DateLastSaved] = '" + sqlFormattedDate + "'," +
                    "[LastSavedBy] = '" + username + "',[JobNo] = '" + jobnumber + "',[ProjectManager] = '" + projectmanager + "'," +
                    "[RequestedBy] = '" + requestedby + "',[Department] = '" + department + "',[Description] = '" + description + "'," +
-                   "[SANo] =  '" + subassyno + "',[PartNo] = '" + partno + "',[JobName] = '" + jobname + "',[Comments] = '" + notes + "'," +
+                   "[SANo] =  '" + subassyno + "',[Status] = 'Submitted To Supervisor',[PartNo] = '" + partno + "',[JobName] = '" + jobname + "',[Comments] = '" + notes + "'," +
                    "[Submitted] = '" + supsubmit + "',[Submittedby] =  '" + username + "',[SubmittedOn] = '" + sqlFormattedDate + "',[SupervisorId] = '" + supervisorid + "'," +
                    "[SAName] = '" + subassyname + "' WHERE [ECRNo] = '" + ecrno + "' ";
 
@@ -850,7 +909,7 @@ namespace SPMConnectAPI
                     cmd.CommandText = "UPDATE [SPM_Database].[dbo].[ECR] SET [DateLastSaved] = '" + sqlFormattedDate + "'," +
                    "[LastSavedBy] = '" + username + "',[JobNo] = '" + jobnumber + "',[ProjectManager] = '" + projectmanager + "'," +
                    "[RequestedBy] = '" + requestedby + "',[Department] = '" + department + "',[Description] = '" + description + "'," +
-                   "[SANo] =  '" + subassyno + "',[PartNo] = '" + partno + "',[JobName] = '" + jobname + "',[Comments] = '" + notes + "'," +
+                   "[SANo] =  '" + subassyno + "',[Status] = 'Req Supervisor Approval',[PartNo] = '" + partno + "',[JobName] = '" + jobname + "',[Comments] = '" + notes + "'," +
                    "[Submitted] = '" + supsubmit + "',[Submittedby] =  ' ',[SubmittedOn] = ' ',[SupervisorId] = ' '," +
                    "[SAName] = '" + subassyname + "' WHERE [ECRNo] = '" + ecrno + "' ";
 
@@ -860,7 +919,7 @@ namespace SPMConnectAPI
                     cmd.CommandText = "UPDATE [SPM_Database].[dbo].[ECR] SET [DateLastSaved] = '" + sqlFormattedDate + "'," +
                    "[LastSavedBy] = '" + username + "',[JobNo] = '" + jobnumber + "',[ProjectManager] = '" + projectmanager + "'," +
                    "[RequestedBy] = '" + requestedby + "',[Department] = '" + department + "',[Description] = '" + description + "'," +
-                   "[SANo] =  '" + subassyno + "',[PartNo] = '" + partno + "',[JobName] = '" + jobname + "',[Comments] = '" + notes + "'," +
+                   "[SANo] =  '" + subassyno + "',[Status] = 'Supervisor Acknowledged',[PartNo] = '" + partno + "',[JobName] = '" + jobname + "',[Comments] = '" + notes + "'," +
                    "[SAName] = '" + subassyname + "' WHERE [ECRNo] = '" + ecrno + "' ";
 
                 }
@@ -869,25 +928,38 @@ namespace SPMConnectAPI
                     cmd.CommandText = "UPDATE [SPM_Database].[dbo].[ECR] SET [DateLastSaved] = '" + sqlFormattedDate + "'," +
                    "[LastSavedBy] = '" + username + "',[JobNo] = '" + jobnumber + "',[ProjectManager] = '" + projectmanager + "'," +
                    "[RequestedBy] = '" + requestedby + "',[Department] = '" + department + "',[Description] = '" + description + "'," +
-                   "[SANo] =  '" + subassyno + "',[PartNo] = '" + partno + "',[JobName] = '" + jobname + "',[Comments] = '" + notes + "'," +
+                   "[SANo] =  '" + subassyno + "',[Status] = 'Submitted To ECR Manager',[PartNo] = '" + partno + "',[JobName] = '" + jobname + "',[Comments] = '" + notes + "'," +
                    "[SupApproval] = '" + managersubmit + "',[SupApprovalBy] =  '" + username + "',[SupApprovedOn] = '" + sqlFormattedDate + "',[SubmitToId] = '" + ecrmanagerid + "'," +
                    "[SAName] = '" + subassyname + "' WHERE [ECRNo] = '" + ecrno + "' ";
 
                 }
                 else if (typeofSave == "SupSubmitFalse")
                 {
-                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[ECR] SET [DateLastSaved] = '" + sqlFormattedDate + "'," +
-                   "[LastSavedBy] = '" + username + "',[JobNo] = '" + jobnumber + "',[ProjectManager] = '" + projectmanager + "'," +
-                   "[RequestedBy] = '" + requestedby + "',[Department] = '" + department + "',[Description] = '" + description + "'," +
-                   "[SANo] =  '" + subassyno + "',[PartNo] = '" + partno + "',[JobName] = '" + jobname + "',[Comments] = '" + notes + "'," +
-                   "[SupApproval] = '" + managersubmit + "',[SupApprovalBy] =  ' ',[SupApprovedOn] = ' ',[SubmitToId] = ' '," +
-                   "[SAName] = '" + subassyname + "' WHERE [ECRNo] = '" + ecrno + "' ";
+                    if (reject)
+                    {
+                        cmd.CommandText = "UPDATE [SPM_Database].[dbo].[ECR] SET [DateLastSaved] = '" + sqlFormattedDate + "'," +
+                       "[LastSavedBy] = '" + username + "',[JobNo] = '" + jobnumber + "',[ProjectManager] = '" + projectmanager + "'," +
+                       "[RequestedBy] = '" + requestedby + "',[Department] = '" + department + "',[Description] = '" + description + "'," +
+                       "[SANo] =  '" + subassyno + "',[Status] = 'Req ECR Manager Approval',[PartNo] = '" + partno + "',[JobName] = '" + jobname + "',[Comments] = '" + notes + "'," +
+                       "[SupApproval] = '" + managersubmit + "',[SupApprovalBy] =  '" + username + "',[SupApprovedOn] = '" + sqlFormattedDate + "',[SubmitToId] = ' '," +
+                       "[SAName] = '" + subassyname + "' WHERE [ECRNo] = '" + ecrno + "' ";
+                    }
+                    else
+                    {
+                        cmd.CommandText = "UPDATE [SPM_Database].[dbo].[ECR] SET [DateLastSaved] = '" + sqlFormattedDate + "'," +
+                       "[LastSavedBy] = '" + username + "',[JobNo] = '" + jobnumber + "',[ProjectManager] = '" + projectmanager + "'," +
+                       "[RequestedBy] = '" + requestedby + "',[Department] = '" + department + "',[Description] = '" + description + "'," +
+                       "[SANo] =  '" + subassyno + "',[Status] = 'Req ECR Manager Approval',[PartNo] = '" + partno + "',[JobName] = '" + jobname + "',[Comments] = '" + notes + "'," +
+                       "[SupApproval] = '" + managersubmit + "',[SupApprovalBy] =  ' ',[SupApprovedOn] = ' ',[SubmitToId] = ' '," +
+                       "[SAName] = '" + subassyname + "' WHERE [ECRNo] = '" + ecrno + "' ";
+                    }
+
 
                 }
                 else if (typeofSave == "Manager")
                 {
                     cmd.CommandText = "UPDATE [SPM_Database].[dbo].[ECR] SET [DateLastSaved] = '" + sqlFormattedDate + "'," +
-                   "[LastSavedBy] = '" + username + "'," +
+                   "[LastSavedBy] = '" + username + "',[Status] = 'ECR Manager Acknowledged'," +
                    "[Comments] = '" + notes + "'" +
                    " WHERE [ECRNo] = '" + ecrno + "' ";
 
@@ -896,23 +968,35 @@ namespace SPMConnectAPI
                 {
                     cmd.CommandText = "UPDATE [SPM_Database].[dbo].[ECR] SET [DateLastSaved] = '" + sqlFormattedDate + "'," +
                     "[LastSavedBy] = '" + username + "'," +
-                    "[Comments] = '" + notes + "'," +
+                    "[Comments] = '" + notes + "',[Status] = 'Assigned for changes'," +
                     "[Approved] = '" + ecrhandlersubmit + "',[ApprovedBy] =  '" + username + "',[ApprovedOn] = '" + sqlFormattedDate + "',[AssignedTo] = '" + ecrhandlerid + " '" +
                     " WHERE [ECRNo] = '" + ecrno + "' ";
                 }
                 else if (typeofSave == "ManagerApprovedFalse")
                 {
-                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[ECR] SET [DateLastSaved] = '" + sqlFormattedDate + "'," +
+                    if (reject)
+                    {
+                        cmd.CommandText = "UPDATE [SPM_Database].[dbo].[ECR] SET [DateLastSaved] = '" + sqlFormattedDate + "'," +
                     "[LastSavedBy] = '" + username + "'," +
-                    "[Comments] = '" + notes + "'," +
+                    "[Comments] = '" + notes + "',[Status] = 'Not assigned'," +
+                    "[Approved] = '" + ecrhandlersubmit + "',[ApprovedBy] =  '" + username + "',[ApprovedOn] = '" + sqlFormattedDate + "',[AssignedTo] = ' '" +
+                    " WHERE [ECRNo] = '" + ecrno + "' ";
+                    }
+                    else
+                    {
+                        cmd.CommandText = "UPDATE [SPM_Database].[dbo].[ECR] SET [DateLastSaved] = '" + sqlFormattedDate + "'," +
+                    "[LastSavedBy] = '" + username + "'," +
+                    "[Comments] = '" + notes + "',[Status] = 'Not assigned'," +
                     "[Approved] = '" + ecrhandlersubmit + "',[ApprovedBy] =  ' ',[ApprovedOn] = ' ',[AssignedTo] = ' '" +
                     " WHERE [ECRNo] = '" + ecrno + "' ";
+                    }
+
 
                 }
                 else if (typeofSave == "Handler")
                 {
                     cmd.CommandText = "UPDATE [SPM_Database].[dbo].[ECR] SET [DateLastSaved] = '" + sqlFormattedDate + "'," +
-                    "[LastSavedBy] = '" + username + "'," +
+                    "[LastSavedBy] = '" + username + "',[Status] = 'Being Processed'," +
                     "[Comments] = '" + notes + "'" +
                     " WHERE [ECRNo] = '" + ecrno + "' ";
 
@@ -920,7 +1004,7 @@ namespace SPMConnectAPI
                 else if (typeofSave == "Completed")
                 {
                     cmd.CommandText = "UPDATE [SPM_Database].[dbo].[ECR] SET [DateLastSaved] = '" + sqlFormattedDate + "'," +
-                    "[LastSavedBy] = '" + username + "'," +
+                    "[LastSavedBy] = '" + username + "',[Status] = 'ECR Completed'," +
                     "[Comments] = '" + notes + "'," +
                     "[Completed] = '" + completed + "',[CompletedBy] =  '" + username + "',[CompletedOn] = '" + sqlFormattedDate + "'" +
                     " WHERE [ECRNo] = '" + ecrno + "' ";
@@ -929,7 +1013,7 @@ namespace SPMConnectAPI
                 else if (typeofSave == "CompletedFalse")
                 {
                     cmd.CommandText = "UPDATE [SPM_Database].[dbo].[ECR] SET [DateLastSaved] = '" + sqlFormattedDate + "'," +
-                    "[LastSavedBy] = '" + username + "'," +
+                    "[LastSavedBy] = '" + username + "',[Status] = 'ECR not complete'," +
                     "[Comments] = '" + notes + "'," +
                     "[Completed] = '" + completed + "',[CompletedBy] =  ' ',[CompletedOn] = ' '" +
                     " WHERE [ECRNo] = '" + ecrno + "' ";

@@ -13,7 +13,7 @@ namespace SearchDataSPM
     {
         #region Shipping Home Load
 
-        String connection;
+        string connection;
         SqlConnection cn;
         DataTable dt;
         bool formloading = false;
@@ -22,7 +22,7 @@ namespace SearchDataSPM
         bool ecrhandler = false;
         string userfullname = "";
         int _advcollapse = 0;
-        SPMConnectAPI.ECR connectapi = new ECR();
+        SPMConnectAPI.ECR connectapi = new SPMConnectAPI.ECR();
 
         public ECRHome()
         {
@@ -98,6 +98,7 @@ namespace SearchDataSPM
             filljobnumber();
             fillapprovedby();
             fillsupervisors();
+            fillcompletedby();
             clearfilercombos();
             formloading = false;
             Cursor.Current = Cursors.Default;
@@ -854,11 +855,11 @@ namespace SearchDataSPM
                     if (filter.Length > 0)
                     {
                         //filter += "AND";
-                        filter += string.Format(" AND CompletedBy = {0}", completedbycombobox.Text.ToString().Substring(0, 1));
+                        filter += string.Format(" AND CompletedBy  LIKE '%{0}%'", completedbycombobox.Text.ToString());
                     }
                     else
                     {
-                        filter += string.Format("CompletedBy = {0}", completedbycombobox.Text.ToString().Substring(0, 1));
+                        filter += string.Format("CompletedBy  LIKE '%{0}%'", completedbycombobox.Text.ToString());
                     }
 
                 }
@@ -997,6 +998,13 @@ namespace SearchDataSPM
             supervicsorcomboBox.DataSource = MyCollection;
         }
 
+        private void fillcompletedby()
+        {
+            AutoCompleteStringCollection MyCollection = connectapi.FillECRCompletedBy();
+            completedbycombobox.AutoCompleteCustomSource = MyCollection;
+            completedbycombobox.DataSource = MyCollection;
+        }
+
         #endregion
 
         #region advance filters events
@@ -1088,11 +1096,37 @@ namespace SearchDataSPM
 
             if (result == DialogResult.Yes)
             {
-
-                string status = connectapi.CreatenewECR();
-                if (status.Length > 1)
+                if (connectapi.getEmployeeId() != 0)
                 {
-                    showecrinvoice(status);
+                    string status = connectapi.CreatenewECR(connectapi.getEmployeeId().ToString());
+                    if (status.Length > 1)
+                    {
+                        showecrinvoice(status);
+                    }
+
+                }
+                else
+                {
+                    // scan the employee barcode and grab the user name
+                    string scanEmployeeId = "";
+                    ScanEmpId invoiceFor = new ScanEmpId();
+                    if (invoiceFor.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    {
+                        scanEmployeeId = invoiceFor.ValueIWant;
+                    }
+                    if (scanEmployeeId.Length > 0)
+                    {
+                        string status = connectapi.CreatenewECR(scanEmployeeId);
+                        if (status.Length > 1)
+                        {
+                            showecrinvoice(status);
+                        }
+
+                    }
+                    else
+                    {
+                        MetroFramework.MetroMessageBox.Show(this, "Please try again. Employee not found.", "SPM Connect - Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
 
 
@@ -1115,6 +1149,7 @@ namespace SearchDataSPM
                         using (ECRDetails invoiceDetails = new ECRDetails())
                         {
                             invoiceDetails.invoicenumber(invoice);
+                            invoiceDetails.username(connectapi.getuserfullname());
                             invoiceDetails.ShowDialog();
                             this.Enabled = true;
                             performreload();
@@ -1127,6 +1162,34 @@ namespace SearchDataSPM
                 else
                 {
                     // scan the employee barcode and grab the user name
+                    string scanEmployeeId = "";
+                    ScanEmpId invoiceFor = new ScanEmpId();
+                    if (invoiceFor.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    {
+                        scanEmployeeId = invoiceFor.ValueIWant;
+                    }
+                    if (scanEmployeeId.Length > 0)
+                    {
+                        if (connectapi.CheckinInvoice(invoice))
+                        {
+                            using (ECRDetails invoiceDetails = new ECRDetails())
+                            {
+                                invoiceDetails.invoicenumber(invoice);
+                                invoiceDetails.username(connectapi.getNameByEmpId(scanEmployeeId));
+                                invoiceDetails.ShowDialog();
+                                this.Enabled = true;
+                                performreload();
+                                this.Show();
+                                this.Activate();
+                                this.Focus();
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        MetroFramework.MetroMessageBox.Show(this, "Please try again. Employee not found.", "SPM Connect - Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
 
 
