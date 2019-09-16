@@ -1036,47 +1036,6 @@ namespace SPMConnectAPI
 
         #endregion
 
-        #region Perform Copy and CRUD
-
-        public bool checkitemexistsbeforeadding(string itemid, string invoiceno)
-        {
-            bool itempresent = false;
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[ShippingItems] WHERE [Item]='" + itemid.ToString() + "' AND InvoiceNo = '" + invoiceno + "'", cn))
-            {
-                try
-                {
-                    cn.Open();
-
-                    int userCount = (int)sqlCommand.ExecuteScalar();
-                    if (userCount == 1)
-                    {
-                        //MessageBox.Show("item already exists");
-                        itempresent = true;
-                    }
-                    else
-                    {
-                        //MessageBox.Show(" move forward");
-                        itempresent = false;
-                    }
-
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Check Item Present On SQL Shipping Item", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-
-                }
-
-            }
-            return itempresent;
-
-        }
-
-        #endregion
-
         #region Checkin Checkout Check ECR
 
         public string InvoiceOpen(string invoicenumber)

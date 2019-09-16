@@ -118,7 +118,7 @@ namespace SearchDataSPM
                 MessageBox.Show("System has encountered an error. Please contact the admin", "SPM Connect Error - Fill Mat Inv Info", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.Close();
             }
-            
+
 
         }
 
@@ -223,7 +223,7 @@ namespace SearchDataSPM
         void perfromsavebttn()
         {
             errorProvider1.Clear();
-            if (!(appnametxt.Text.Trim().Length>0 && qtytxt.Text.Trim().Length > 0 ))
+            if (!(appnametxt.Text.Trim().Length > 0 && qtytxt.Text.Trim().Length > 0))
             {
                 errorProvider1.SetError(qtytxt, "Qty cannot be null");
                 errorProvider1.SetError(appidtxt, "It has to be approved");
@@ -245,7 +245,7 @@ namespace SearchDataSPM
                 this.Enabled = true;
                 Cursor.Current = Cursors.Default;
             }
-           
+
 
         }
 
@@ -411,7 +411,7 @@ namespace SearchDataSPM
             if (e.KeyCode == Keys.Return)
             {
                 if (ItemTxtBox.Text.Length >= 6)
-                {                   
+                {
                     string item = ItemTxtBox.Text.Trim().Substring(0, 6);
                     fillselectediteminfo(item);
                     notestxt.Focus();
@@ -579,7 +579,7 @@ namespace SearchDataSPM
         {
             if (e.KeyChar == 13)
             {
-                if(qtytxt.Text == "" || qtytxt.Text == "0")
+                if (qtytxt.Text == "" || qtytxt.Text == "0")
                 {
                     qtytxt.Clear();
                     qtytxt.Focus();
@@ -588,7 +588,7 @@ namespace SearchDataSPM
                 {
                     ItemTxtBox.Focus();
                 }
-                
+
                 e.Handled = true;
             }
             if (System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"[0-9+\b]"))
@@ -604,12 +604,12 @@ namespace SearchDataSPM
 
         private void qtytxt_Leave(object sender, EventArgs e)
         {
-           
+
         }
 
         private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
-          
+
         }
 
         private void PrintToolStrip_Click(object sender, EventArgs e)

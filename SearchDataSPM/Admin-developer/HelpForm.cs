@@ -11,7 +11,7 @@ namespace SearchDataSPM
 
         public HelpForm()
         {
-            InitializeComponent();            
+            InitializeComponent();
         }
 
         private void HelpForm_Load(object sender, EventArgs e)
@@ -31,7 +31,7 @@ namespace SearchDataSPM
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-                  
+
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -50,13 +50,13 @@ namespace SearchDataSPM
             if (result == DialogResult.OK) // Test result.
             {
                 file = openFileDialog1.FileName;
-                
+
             }
         }
 
         private void browsebttn_Click(object sender, EventArgs e)
         {
-           importfilename();
+            importfilename();
 
             if (file.Length > 0)
             {
@@ -86,7 +86,7 @@ namespace SearchDataSPM
             MessageBox.Show("Email successfully sent to developer.", "SPM Connect - Developer", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        void sendemailtodevelopers(string requser, string fileName , string subject, string notes)
+        void sendemailtodevelopers(string requser, string fileName, string subject, string notes)
         {
             //connectapi.SPM_Connect();
             string[] nameemail = connectapi.getdevelopersnamesandemail().ToArray();
@@ -109,14 +109,14 @@ namespace SearchDataSPM
 
                 }
                 name = names[0];
-                connectapi.sendemail(email,"Connect Error Occured - " + subject, "Hello " + name + "," + Environment.NewLine + requser + " sent this error report." + Environment.NewLine + notes + Environment.NewLine + "Triggered by "+connectapi.UserName(), fileName,"");
+                connectapi.sendemail(email, "Connect Error Occured - " + subject, "Hello " + name + "," + Environment.NewLine + requser + " sent this error report." + Environment.NewLine + notes + Environment.NewLine + "Triggered by " + connectapi.UserName(), fileName, "");
             }
 
         }
 
         private void nametxt_TextChanged(object sender, EventArgs e)
         {
-            if (nametxt.Text.Length > 0 && notestxt.Text.Length>0)
+            if (nametxt.Text.Length > 0 && notestxt.Text.Length > 0)
             {
                 sendemailbttn.Enabled = true;
             }
@@ -128,7 +128,7 @@ namespace SearchDataSPM
 
         private void notestxt_TextChanged(object sender, EventArgs e)
         {
-            if (notestxt.Text.Length > 0 && nametxt.Text.Length>0)
+            if (notestxt.Text.Length > 0 && nametxt.Text.Length > 0)
             {
                 sendemailbttn.Enabled = true;
             }

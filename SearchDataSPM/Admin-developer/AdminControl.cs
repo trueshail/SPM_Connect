@@ -935,8 +935,10 @@ namespace SearchDataSPM
 
         private void reluanchbttn_Click(object sender, EventArgs e)
         {
-            Application.Restart();
-            Environment.Exit(0);
+            Admin_developer.BlockedForms userStatus = new Admin_developer.BlockedForms();
+            userStatus.ShowDialog();
+            //Application.Restart();
+            //Environment.Exit(0);
         }
 
         private void UserStats_Click(object sender, EventArgs e)

@@ -534,6 +534,7 @@
             this.toolStripSplitButton1.Size = new System.Drawing.Size(64, 20);
             this.toolStripSplitButton1.Text = "Print";
             this.toolStripSplitButton1.ToolTipText = "Print Invoice";
+            this.toolStripSplitButton1.ButtonClick += new System.EventHandler(this.toolStripSplitButton1_ButtonClick);
             // 
             // submissiongroupBox
             // 
@@ -645,7 +646,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(69)))), ((int)(((byte)(76)))));
+            this.BackColor = System.Drawing.Color.SteelBlue;
             this.ClientSize = new System.Drawing.Size(1005, 711);
             this.Controls.Add(this.submissiongroupBox);
             this.Controls.Add(this.statusStrip2);

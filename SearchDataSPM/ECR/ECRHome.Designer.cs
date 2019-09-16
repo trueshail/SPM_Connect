@@ -31,10 +31,9 @@ namespace SearchDataSPM
 		private void InitializeComponent()
 		{
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ECRHome));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ECRHome));
             this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.SPM = new System.Windows.Forms.Label();
             this.versionlabel = new System.Windows.Forms.Label();
             this.Reload = new System.Windows.Forms.Button();
             this.txtSearch = new System.Windows.Forms.TextBox();
@@ -49,7 +48,7 @@ namespace SearchDataSPM
             this.ecrstatuscombobox = new System.Windows.Forms.ComboBox();
             this.jobnumbercombobox = new System.Windows.Forms.ComboBox();
             this.supervicsorcomboBox = new System.Windows.Forms.ComboBox();
-            this.addnewbttn = new System.Windows.Forms.Button();
+            this.completedbycombobox = new System.Windows.Forms.ComboBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.recordlabel = new System.Windows.Forms.Label();
             this.dataGridView = new System.Windows.Forms.DataGridView();
@@ -61,7 +60,6 @@ namespace SearchDataSPM
             this.RequestedBy = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DateCreated = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ContextMenuStripShipping = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.invoiceinfostripmenu = new System.Windows.Forms.ToolStripMenuItem();
             this.attentionbttn = new System.Windows.Forms.Button();
             this.matlbl = new System.Windows.Forms.Label();
             this.clrfiltersbttn = new System.Windows.Forms.Button();
@@ -71,7 +69,9 @@ namespace SearchDataSPM
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.actcadblk = new System.Windows.Forms.Label();
-            this.completedbycombobox = new System.Windows.Forms.ComboBox();
+            this.addnewbttn = new System.Windows.Forms.Button();
+            this.SPM = new System.Windows.Forms.Label();
+            this.invoiceinfostripmenu = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -87,26 +87,13 @@ namespace SearchDataSPM
             this.TreeViewToolTip.InitialDelay = 500;
             this.TreeViewToolTip.ReshowDelay = 100;
             // 
-            // SPM
-            // 
-            this.SPM.BackColor = System.Drawing.Color.Transparent;
-            this.SPM.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SPM.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.SPM.Image = ((System.Drawing.Image)(resources.GetObject("SPM.Image")));
-            this.SPM.Location = new System.Drawing.Point(4, 9);
-            this.SPM.Name = "SPM";
-            this.SPM.Size = new System.Drawing.Size(198, 85);
-            this.SPM.TabIndex = 114;
-            this.SPM.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.TreeViewToolTip.SetToolTip(this.SPM, "SPM Automation Inc.");
-            // 
             // versionlabel
             // 
             this.versionlabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.versionlabel.AutoSize = true;
             this.versionlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.versionlabel.ForeColor = System.Drawing.Color.White;
+            this.versionlabel.ForeColor = System.Drawing.Color.Black;
             this.versionlabel.Location = new System.Drawing.Point(833, 6);
             this.versionlabel.MaximumSize = new System.Drawing.Size(35, 8);
             this.versionlabel.MinimumSize = new System.Drawing.Size(26, 8);
@@ -123,7 +110,7 @@ namespace SearchDataSPM
             this.Reload.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.Reload.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.Reload.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Reload.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.Reload.ForeColor = System.Drawing.Color.Black;
             this.Reload.Location = new System.Drawing.Point(484, 22);
             this.Reload.MaximumSize = new System.Drawing.Size(140, 30);
             this.Reload.MinimumSize = new System.Drawing.Size(140, 30);
@@ -247,7 +234,7 @@ namespace SearchDataSPM
             this.requestedbycomboxbox.FormattingEnabled = true;
             this.requestedbycomboxbox.Location = new System.Drawing.Point(8, 379);
             this.requestedbycomboxbox.Name = "requestedbycomboxbox";
-            this.requestedbycomboxbox.Size = new System.Drawing.Size(156, 22);
+            this.requestedbycomboxbox.Size = new System.Drawing.Size(160, 22);
             this.requestedbycomboxbox.TabIndex = 125;
             this.TreeViewToolTip.SetToolTip(this.requestedbycomboxbox, "Filter by ship to");
             this.requestedbycomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Manufactureritemcomboxbox_KeyDown);
@@ -264,7 +251,7 @@ namespace SearchDataSPM
             this.deptrequestedcomboxbox.FormattingEnabled = true;
             this.deptrequestedcomboxbox.Location = new System.Drawing.Point(8, 230);
             this.deptrequestedcomboxbox.Name = "deptrequestedcomboxbox";
-            this.deptrequestedcomboxbox.Size = new System.Drawing.Size(156, 22);
+            this.deptrequestedcomboxbox.Size = new System.Drawing.Size(160, 22);
             this.deptrequestedcomboxbox.TabIndex = 123;
             this.TreeViewToolTip.SetToolTip(this.deptrequestedcomboxbox, "Filter by sales person");
             this.deptrequestedcomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.familycomboxbox_KeyDown);
@@ -281,7 +268,7 @@ namespace SearchDataSPM
             this.approvedbycombo.FormattingEnabled = true;
             this.approvedbycombo.Location = new System.Drawing.Point(8, 520);
             this.approvedbycombo.Name = "approvedbycombo";
-            this.approvedbycombo.Size = new System.Drawing.Size(156, 22);
+            this.approvedbycombo.Size = new System.Drawing.Size(160, 22);
             this.approvedbycombo.TabIndex = 127;
             this.TreeViewToolTip.SetToolTip(this.approvedbycombo, "Filter by last saved");
             this.approvedbycombo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lastsavedbycombo_KeyDown);
@@ -301,7 +288,7 @@ namespace SearchDataSPM
             "SPM AUTOMATION (Canada) INC."});
             this.ecrstatuscombobox.Location = new System.Drawing.Point(8, 304);
             this.ecrstatuscombobox.Name = "ecrstatuscombobox";
-            this.ecrstatuscombobox.Size = new System.Drawing.Size(156, 22);
+            this.ecrstatuscombobox.Size = new System.Drawing.Size(160, 22);
             this.ecrstatuscombobox.TabIndex = 124;
             this.TreeViewToolTip.SetToolTip(this.ecrstatuscombobox, "Filter by sold to");
             this.ecrstatuscombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.oemitemcombobox_KeyDown);
@@ -322,7 +309,7 @@ namespace SearchDataSPM
             "Joel Goldsmith"});
             this.jobnumbercombobox.Location = new System.Drawing.Point(8, 153);
             this.jobnumbercombobox.Name = "jobnumbercombobox";
-            this.jobnumbercombobox.Size = new System.Drawing.Size(156, 22);
+            this.jobnumbercombobox.Size = new System.Drawing.Size(160, 22);
             this.jobnumbercombobox.TabIndex = 122;
             this.TreeViewToolTip.SetToolTip(this.jobnumbercombobox, "Filter Created by");
             this.jobnumbercombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.designedbycombobox_KeyDown);
@@ -339,31 +326,27 @@ namespace SearchDataSPM
             this.supervicsorcomboBox.FormattingEnabled = true;
             this.supervicsorcomboBox.Location = new System.Drawing.Point(8, 450);
             this.supervicsorcomboBox.Name = "supervicsorcomboBox";
-            this.supervicsorcomboBox.Size = new System.Drawing.Size(156, 22);
+            this.supervicsorcomboBox.Size = new System.Drawing.Size(160, 22);
             this.supervicsorcomboBox.TabIndex = 126;
             this.TreeViewToolTip.SetToolTip(this.supervicsorcomboBox, "Filter by carrier");
             this.supervicsorcomboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MaterialcomboBox_KeyDown);
             // 
-            // addnewbttn
+            // completedbycombobox
             // 
-            this.addnewbttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.completedbycombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.addnewbttn.BackColor = System.Drawing.Color.Transparent;
-            this.addnewbttn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.addnewbttn.ForeColor = System.Drawing.Color.White;
-            this.addnewbttn.Image = ((System.Drawing.Image)(resources.GetObject("addnewbttn.Image")));
-            this.addnewbttn.Location = new System.Drawing.Point(759, 5);
-            this.addnewbttn.MaximumSize = new System.Drawing.Size(65, 56);
-            this.addnewbttn.MinimumSize = new System.Drawing.Size(65, 56);
-            this.addnewbttn.Name = "addnewbttn";
-            this.addnewbttn.Size = new System.Drawing.Size(65, 56);
-            this.addnewbttn.TabIndex = 122;
-            this.addnewbttn.Text = "Add New";
-            this.addnewbttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.TreeViewToolTip.SetToolTip(this.addnewbttn, "Create New Invoice");
-            this.addnewbttn.UseVisualStyleBackColor = false;
-            this.addnewbttn.Visible = false;
-            this.addnewbttn.Click += new System.EventHandler(this.addnewbttn_Click);
+            this.completedbycombobox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.completedbycombobox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.completedbycombobox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.completedbycombobox.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.completedbycombobox.FormattingEnabled = true;
+            this.completedbycombobox.Location = new System.Drawing.Point(8, 594);
+            this.completedbycombobox.Name = "completedbycombobox";
+            this.completedbycombobox.Size = new System.Drawing.Size(160, 22);
+            this.completedbycombobox.TabIndex = 148;
+            this.TreeViewToolTip.SetToolTip(this.completedbycombobox, "Filter by last saved");
+            this.completedbycombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ActiveCadblockcombobox_KeyDown);
             // 
             // splitContainer1
             // 
@@ -375,7 +358,7 @@ namespace SearchDataSPM
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.splitContainer1.Panel1.BackColor = System.Drawing.Color.Thistle;
             this.splitContainer1.Panel1.Controls.Add(this.addnewbttn);
             this.splitContainer1.Panel1.Controls.Add(this.advsearchbttn);
             this.splitContainer1.Panel1.Controls.Add(this.SPM);
@@ -440,7 +423,7 @@ namespace SearchDataSPM
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView.BackgroundColor = System.Drawing.Color.CornflowerBlue;
+            this.dataGridView.BackgroundColor = System.Drawing.Color.Thistle;
             this.dataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
@@ -541,15 +524,6 @@ namespace SearchDataSPM
             this.ContextMenuStripShipping.Size = new System.Drawing.Size(158, 26);
             this.ContextMenuStripShipping.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStripShipping_Opening);
             // 
-            // invoiceinfostripmenu
-            // 
-            this.invoiceinfostripmenu.Image = ((System.Drawing.Image)(resources.GetObject("invoiceinfostripmenu.Image")));
-            this.invoiceinfostripmenu.Name = "invoiceinfostripmenu";
-            this.invoiceinfostripmenu.Size = new System.Drawing.Size(157, 22);
-            this.invoiceinfostripmenu.Text = "Get Invoice Info";
-            this.invoiceinfostripmenu.ToolTipText = "Get Selected Invoice Info.";
-            this.invoiceinfostripmenu.Click += new System.EventHandler(this.invoiceinfostripmenu_Click);
-            // 
             // attentionbttn
             // 
             this.attentionbttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -557,7 +531,7 @@ namespace SearchDataSPM
             this.attentionbttn.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.attentionbttn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.attentionbttn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.attentionbttn.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.attentionbttn.ForeColor = System.Drawing.Color.Black;
             this.attentionbttn.Location = new System.Drawing.Point(628, 22);
             this.attentionbttn.MaximumSize = new System.Drawing.Size(120, 30);
             this.attentionbttn.MinimumSize = new System.Drawing.Size(120, 30);
@@ -680,22 +654,48 @@ namespace SearchDataSPM
             this.actcadblk.TabIndex = 140;
             this.actcadblk.Text = "Approved By";
             // 
-            // completedbycombobox
+            // addnewbttn
             // 
-            this.completedbycombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.addnewbttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.completedbycombobox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.completedbycombobox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.completedbycombobox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.completedbycombobox.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.completedbycombobox.FormattingEnabled = true;
-            this.completedbycombobox.Location = new System.Drawing.Point(8, 594);
-            this.completedbycombobox.Name = "completedbycombobox";
-            this.completedbycombobox.Size = new System.Drawing.Size(156, 22);
-            this.completedbycombobox.TabIndex = 148;
-            this.TreeViewToolTip.SetToolTip(this.completedbycombobox, "Filter by last saved");
-            this.completedbycombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ActiveCadblockcombobox_KeyDown);
+            this.addnewbttn.BackColor = System.Drawing.Color.Transparent;
+            this.addnewbttn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.addnewbttn.ForeColor = System.Drawing.Color.Black;
+            this.addnewbttn.Image = ((System.Drawing.Image)(resources.GetObject("addnewbttn.Image")));
+            this.addnewbttn.Location = new System.Drawing.Point(759, 5);
+            this.addnewbttn.MaximumSize = new System.Drawing.Size(65, 56);
+            this.addnewbttn.MinimumSize = new System.Drawing.Size(65, 56);
+            this.addnewbttn.Name = "addnewbttn";
+            this.addnewbttn.Size = new System.Drawing.Size(65, 56);
+            this.addnewbttn.TabIndex = 122;
+            this.addnewbttn.Text = "Add New";
+            this.addnewbttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.TreeViewToolTip.SetToolTip(this.addnewbttn, "Create New Invoice");
+            this.addnewbttn.UseVisualStyleBackColor = false;
+            this.addnewbttn.Visible = false;
+            this.addnewbttn.Click += new System.EventHandler(this.addnewbttn_Click);
+            // 
+            // SPM
+            // 
+            this.SPM.BackColor = System.Drawing.Color.Transparent;
+            this.SPM.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SPM.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.SPM.Image = ((System.Drawing.Image)(resources.GetObject("SPM.Image")));
+            this.SPM.Location = new System.Drawing.Point(4, 9);
+            this.SPM.Name = "SPM";
+            this.SPM.Size = new System.Drawing.Size(198, 85);
+            this.SPM.TabIndex = 114;
+            this.SPM.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.TreeViewToolTip.SetToolTip(this.SPM, "SPM Automation Inc.");
+            // 
+            // invoiceinfostripmenu
+            // 
+            this.invoiceinfostripmenu.Image = ((System.Drawing.Image)(resources.GetObject("invoiceinfostripmenu.Image")));
+            this.invoiceinfostripmenu.Name = "invoiceinfostripmenu";
+            this.invoiceinfostripmenu.Size = new System.Drawing.Size(157, 22);
+            this.invoiceinfostripmenu.Text = "Get Invoice Info";
+            this.invoiceinfostripmenu.ToolTipText = "Get Selected Invoice Info.";
+            this.invoiceinfostripmenu.Click += new System.EventHandler(this.invoiceinfostripmenu_Click);
             // 
             // ECRHome
             // 

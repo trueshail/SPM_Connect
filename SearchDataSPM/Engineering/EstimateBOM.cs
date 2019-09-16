@@ -11,13 +11,11 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using wpfPreviewFlowControl;
 
 namespace SearchDataSPM
 {
-
     public partial class EstimateBOM : Form
     {
         #region steupvariables
@@ -77,7 +75,14 @@ namespace SearchDataSPM
                 return itemnumber = item;
             return null;
         }
+        string estid;
 
+        public string estimate(string est)
+        {
+            if (est.Length > 0)
+                return estid = est;
+            return null;
+        }
         private void ParentView_Load(object sender, EventArgs e)
         {
             Assy_txtbox.Focus();
@@ -126,7 +131,7 @@ namespace SearchDataSPM
                     Assy_txtbox.SelectAll();
                     SendKeys.Send("~");
                 }
-                
+
                 return true;
             }
             return base.ProcessCmdKey(ref msg, keyData);
@@ -356,7 +361,7 @@ namespace SearchDataSPM
 
             TreeNode childNode;
 
-            foreach (DataRow dr in _acountsTb.Select("[AssyNo] ='" + parentId.ToString() + "'"))
+            foreach (DataRow dr in _acountsTb.Select("[AssyNo] ='" + parentId.ToString() + "' AND [estid]  ='" + estid + "'"))
             {
                 TreeNode t = new TreeNode();
                 t.Text = dr["ItemNumber"].ToString() + " - " + dr["Description"].ToString() + " ( " + dr["QuantityPerAssembly"].ToString() + " ) ";
@@ -719,7 +724,7 @@ namespace SearchDataSPM
                 n = treeView1.SelectedNode;
                 n.BackColor = Color.LightBlue;
             }
-         
+
         }
 
         #endregion
@@ -877,7 +882,7 @@ namespace SearchDataSPM
         private void treeView1_BeforeCollapse(object sender, TreeViewCancelEventArgs e)
         {
             //e.Node.SelectedImageIndex = 0;
-           // e.Node.ImageIndex = 0;
+            // e.Node.ImageIndex = 0;
             if (e.Node.ImageIndex == 1)
             {
                 e.Node.SelectedImageIndex = 0;
@@ -921,7 +926,7 @@ namespace SearchDataSPM
                 string family = r["ItemFamily"].ToString();
                 setimageaccordingtofamily(family, treeNode);
             }
-           
+
             // Print each node recursively.  
             foreach (TreeNode tn in treeNode.Nodes)
             {
@@ -955,11 +960,11 @@ namespace SearchDataSPM
             {
                 treeNode.ImageIndex = 6;
             }
-            else if (family == "FAHW" )
+            else if (family == "FAHW")
             {
                 treeNode.ImageIndex = 7;
             }
-            else if(family == "ASEL")
+            else if (family == "ASEL")
             {
                 treeNode.ImageIndex = 8;
             }
@@ -971,7 +976,7 @@ namespace SearchDataSPM
             {
                 treeNode.ImageIndex = 10;
             }
-            else if ( family == "DR")
+            else if (family == "DR")
             {
                 treeNode.ImageIndex = 11;
             }
@@ -997,7 +1002,7 @@ namespace SearchDataSPM
 
         private void treeView1_BeforeSelect(object sender, TreeViewCancelEventArgs e)
         {
-            switch (e.Node.ImageIndex)      
+            switch (e.Node.ImageIndex)
             {
                 case 1:
                     e.Node.SelectedImageIndex = 1;
@@ -1069,7 +1074,6 @@ namespace SearchDataSPM
         private void SPM_MouseEnter(object sender, EventArgs e)
         {
         }
-
 
         private void iteminfolistviewStripMenu_Click(object sender, EventArgs e)
         {

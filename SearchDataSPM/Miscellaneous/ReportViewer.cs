@@ -12,19 +12,19 @@ namespace SearchDataSPM
         {
             InitializeComponent();
             string connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
-           // connectapi.SPM_Connect();
+            // connectapi.SPM_Connect();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            if(reportname == "BOM")
+            if (reportname == "BOM")
             {
                 this.Text = "Bills of Manufacturing - " + itemnumber;
                 reportViewer1.ServerReport.ReportPath = connectapi.GetReportBOM();
                 this.reportViewer1.RefreshReport();
                 fillbomreport();
             }
-            else if(reportname == "SPAREPARTS")
+            else if (reportname == "SPAREPARTS")
             {
                 this.Text = "Spare Parts - " + itemnumber;
                 reportViewer1.ServerReport.ReportPath = connectapi.GetReportSpareParts();
@@ -34,11 +34,11 @@ namespace SearchDataSPM
             else if (reportname == "WorkOrder")
             {
                 this.Text = "Work Order - " + itemnumber;
-                reportViewer1.ServerReport.ReportPath =connectapi.GetReportWorkOrder();
+                reportViewer1.ServerReport.ReportPath = connectapi.GetReportWorkOrder();
                 this.reportViewer1.RefreshReport();
                 fillwrokdorderreport();
             }
-            else if(reportname == "Purchasereq")
+            else if (reportname == "Purchasereq")
             {
                 this.Text = "Purchase Requisition - " + itemnumber;
                 reportViewer1.ServerReport.ReportPath = connectapi.GetReportPurchaseReq();
@@ -50,21 +50,28 @@ namespace SearchDataSPM
                 this.Text = "Shipping Invoice - " + itemnumber;
                 reportViewer1.ServerReport.ReportPath = connectapi.GetReportShippingInvCom();
                 this.reportViewer1.RefreshReport();
-                fillshippingcom();
+                filloneParamter();
             }
             else if (reportname == "ShippingInvPack")
             {
                 this.Text = "Shipping Invoice - " + itemnumber;
                 reportViewer1.ServerReport.ReportPath = connectapi.GetReportShippingInvPack();
                 this.reportViewer1.RefreshReport();
-                fillshippingpack();
+                filloneParamter();
             }
             else if (reportname == "MatReAloc")
             {
                 this.Text = "Material Re-Allocation Invoice - " + itemnumber;
                 reportViewer1.ServerReport.ReportPath = connectapi.GetReportMatReAloc();
                 this.reportViewer1.RefreshReport();
-                fillmatrealloc();
+                filloneParamter();
+            }
+            else if (reportname == "ECR")
+            {
+                this.Text = "ECR Invoice - " + itemnumber;
+                reportViewer1.ServerReport.ReportPath = connectapi.GetReportECR();
+                this.reportViewer1.RefreshReport();
+                filloneParamter();
             }
         }
 
@@ -113,34 +120,19 @@ namespace SearchDataSPM
         {
             Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection();
             reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("pReqno", itemnumber));
-            
             this.reportViewer1.ServerReport.SetParameters(reportParameters);
-            this.reportViewer1.RefreshReport();           
+            this.reportViewer1.RefreshReport();
         }
 
-        void fillshippingcom()
+        void filloneParamter()
         {
             Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection();
             reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("pInvno", itemnumber));
             this.reportViewer1.ServerReport.SetParameters(reportParameters);
             this.reportViewer1.RefreshReport();
+
         }
 
-        void fillshippingpack()
-        {
-            Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection();
-            reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("pInvno", itemnumber));
-            this.reportViewer1.ServerReport.SetParameters(reportParameters);
-            this.reportViewer1.RefreshReport();
-        }
-
-        void fillmatrealloc()
-        {
-            Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection();
-            reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("pInvno", itemnumber));
-            this.reportViewer1.ServerReport.SetParameters(reportParameters);
-            this.reportViewer1.RefreshReport();
-        }
 
         private void ReportViewer_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -151,7 +143,7 @@ namespace SearchDataSPM
         {
             if (keyData == (Keys.Control | Keys.P))
             {
-                reportViewer1.PrintDialog();               
+                reportViewer1.PrintDialog();
                 return true;
             }
             if (keyData == (Keys.Control | Keys.W))

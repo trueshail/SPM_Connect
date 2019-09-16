@@ -1087,7 +1087,7 @@ namespace SearchDataSPM
                             MetroFramework.MetroMessageBox.Show(this, "SPM Connect puchase req module is under maintenance. Please check back soon. Sorry for the inconvenience.", "Purhase Req Under Maintenance", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             break;
                         }
-                        
+
                     }
 
                 }
@@ -1112,7 +1112,7 @@ namespace SearchDataSPM
                     {
                         MetroFramework.MetroMessageBox.Show(this, "SPM Connect puchase req module is under maintenance. Please check back soon. Sorry for the inconvenience.", "Purhase Req Under Maintenance", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-                    
+
                 }
             }
         }
@@ -1228,27 +1228,31 @@ namespace SearchDataSPM
         private void getEstimateBOMToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string item;
+            string estid;
             if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
             {
                 int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                 DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
                 item = Convert.ToString(slectedrow.Cells[3].Value);
+                estid = Convert.ToString(slectedrow.Cells[1].Value);
                 //MessageBox.Show(ItemNo);
 
             }
             else
             {
                 item = "";
+                estid = "";
             }
 
-            processbomEstimate(item);
+            processbomEstimate(item, estid);
 
         }
 
-        private void processbomEstimate(string itemvalue)
+        private void processbomEstimate(string itemvalue, string estid)
         {
             EstimateBOM treeView = new EstimateBOM();
             treeView.item(itemvalue);
+            treeView.estimate(estid);
             treeView.Show();
         }
     }

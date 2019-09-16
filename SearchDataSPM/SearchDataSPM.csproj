@@ -248,6 +248,12 @@
     <Compile Include="Admin-developer\Materials.designer.cs">
       <DependentUpon>Materials.cs</DependentUpon>
     </Compile>
+    <Compile Include="Admin-developer\BlockedForms.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Admin-developer\BlockedForms.Designer.cs">
+      <DependentUpon>BlockedForms.cs</DependentUpon>
+    </Compile>
     <Compile Include="Admin-developer\UserStatus.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -651,6 +657,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Admin-developer\Materials.resx">
       <DependentUpon>Materials.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Admin-developer\BlockedForms.resx">
+      <DependentUpon>BlockedForms.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Admin-developer\UserStatus.resx">
       <DependentUpon>UserStatus.cs</DependentUpon>

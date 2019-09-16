@@ -264,8 +264,8 @@ namespace SearchDataSPM
             this.reluanchbttn.Name = "reluanchbttn";
             this.reluanchbttn.Size = new System.Drawing.Size(117, 30);
             this.reluanchbttn.TabIndex = 30;
-            this.reluanchbttn.Text = "Relaunch Application";
-            this.LabelTooltips.SetToolTip(this.reluanchbttn, "Relaunch SPM Connect");
+            this.reluanchbttn.Text = "Free App Forms";
+            this.LabelTooltips.SetToolTip(this.reluanchbttn, "Free users from holding on forms open");
             this.reluanchbttn.UseVisualStyleBackColor = true;
             this.reluanchbttn.Click += new System.EventHandler(this.reluanchbttn_Click);
             // 
@@ -1067,6 +1067,7 @@ namespace SearchDataSPM
             this.label18.Size = new System.Drawing.Size(107, 15);
             this.label18.TabIndex = 106;
             this.label18.Text = "ECR Supervisor";
+            this.label18.Visible = false;
             // 
             // label19
             // 
@@ -1109,6 +1110,7 @@ namespace SearchDataSPM
             this.ecrSupervisorcomboBox.Name = "ecrSupervisorcomboBox";
             this.ecrSupervisorcomboBox.Size = new System.Drawing.Size(165, 23);
             this.ecrSupervisorcomboBox.TabIndex = 105;
+            this.ecrSupervisorcomboBox.Visible = false;
             // 
             // ecrapprovalchk
             // 
