@@ -69,6 +69,13 @@
             this.supcheckBox = new System.Windows.Forms.CheckBox();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.SPM = new System.Windows.Forms.Label();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.browsebttn = new System.Windows.Forms.Button();
+            this.attachlbl = new System.Windows.Forms.Label();
+            this.listView = new System.Windows.Forms.ListView();
+            this.label9 = new System.Windows.Forms.Label();
+            this.imageList = new System.Windows.Forms.ImageList(this.components);
+            this.delbttn = new System.Windows.Forms.Button();
             this.iteminfogroupBox.SuspendLayout();
             this.statusStrip2.SuspendLayout();
             this.submissiongroupBox.SuspendLayout();
@@ -80,14 +87,14 @@
             this.notestxt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.notestxt.BackColor = System.Drawing.Color.White;
             this.notestxt.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.notestxt.Location = new System.Drawing.Point(9, 531);
+            this.notestxt.Location = new System.Drawing.Point(0, 495);
             this.notestxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.notestxt.Multiline = true;
             this.notestxt.Name = "notestxt";
             this.notestxt.ReadOnly = true;
             this.notestxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.notestxt.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.notestxt.Size = new System.Drawing.Size(611, 119);
+            this.notestxt.Size = new System.Drawing.Size(697, 110);
             this.notestxt.TabIndex = 2;
             this.TreeViewToolTip.SetToolTip(this.notestxt, "Notes or comments for ECR");
             // 
@@ -130,7 +137,7 @@
             this.departmentcomboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.departmentcomboBox.FormattingEnabled = true;
             this.departmentcomboBox.ItemHeight = 16;
-            this.departmentcomboBox.Location = new System.Drawing.Point(769, 54);
+            this.departmentcomboBox.Location = new System.Drawing.Point(863, 52);
             this.departmentcomboBox.Name = "departmentcomboBox";
             this.departmentcomboBox.Size = new System.Drawing.Size(202, 24);
             this.departmentcomboBox.TabIndex = 4;
@@ -146,7 +153,7 @@
             this.projectmanagercombobox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.projectmanagercombobox.FormattingEnabled = true;
             this.projectmanagercombobox.ItemHeight = 16;
-            this.projectmanagercombobox.Location = new System.Drawing.Point(769, 22);
+            this.projectmanagercombobox.Location = new System.Drawing.Point(863, 20);
             this.projectmanagercombobox.Name = "projectmanagercombobox";
             this.projectmanagercombobox.Size = new System.Drawing.Size(202, 24);
             this.projectmanagercombobox.TabIndex = 3;
@@ -159,7 +166,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label3.Location = new System.Drawing.Point(673, 60);
+            this.label3.Location = new System.Drawing.Point(767, 58);
             this.label3.Name = "label3";
             this.label3.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label3.Size = new System.Drawing.Size(90, 15);
@@ -174,7 +181,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label5.Location = new System.Drawing.Point(643, 24);
+            this.label5.Location = new System.Drawing.Point(737, 22);
             this.label5.Name = "label5";
             this.label5.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label5.Size = new System.Drawing.Size(121, 15);
@@ -194,14 +201,14 @@
             this.descriptiontxtbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.descriptiontxtbox.BackColor = System.Drawing.Color.White;
             this.descriptiontxtbox.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.descriptiontxtbox.Location = new System.Drawing.Point(9, 243);
+            this.descriptiontxtbox.Location = new System.Drawing.Point(0, 238);
             this.descriptiontxtbox.MinimumSize = new System.Drawing.Size(180, 20);
             this.descriptiontxtbox.Multiline = true;
             this.descriptiontxtbox.Name = "descriptiontxtbox";
             this.descriptiontxtbox.ReadOnly = true;
             this.descriptiontxtbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.descriptiontxtbox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.descriptiontxtbox.Size = new System.Drawing.Size(988, 266);
+            this.descriptiontxtbox.Size = new System.Drawing.Size(1074, 238);
             this.descriptiontxtbox.TabIndex = 1;
             this.TreeViewToolTip.SetToolTip(this.descriptiontxtbox, "Description of the change required");
             // 
@@ -216,7 +223,7 @@
             this.requestedbycombobox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.requestedbycombobox.FormattingEnabled = true;
             this.requestedbycombobox.ItemHeight = 16;
-            this.requestedbycombobox.Location = new System.Drawing.Point(769, 87);
+            this.requestedbycombobox.Location = new System.Drawing.Point(863, 85);
             this.requestedbycombobox.Name = "requestedbycombobox";
             this.requestedbycombobox.Size = new System.Drawing.Size(202, 24);
             this.requestedbycombobox.TabIndex = 5;
@@ -282,7 +289,7 @@
             this.savbttn.ForeColor = System.Drawing.Color.White;
             this.savbttn.Image = ((System.Drawing.Image)(resources.GetObject("savbttn.Image")));
             this.savbttn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.savbttn.Location = new System.Drawing.Point(491, 656);
+            this.savbttn.Location = new System.Drawing.Point(854, 690);
             this.savbttn.Name = "savbttn";
             this.savbttn.Size = new System.Drawing.Size(78, 27);
             this.savbttn.TabIndex = 3;
@@ -303,7 +310,7 @@
             this.editbttn.ForeColor = System.Drawing.Color.White;
             this.editbttn.Image = ((System.Drawing.Image)(resources.GetObject("editbttn.Image")));
             this.editbttn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.editbttn.Location = new System.Drawing.Point(388, 656);
+            this.editbttn.Location = new System.Drawing.Point(751, 690);
             this.editbttn.Name = "editbttn";
             this.editbttn.Size = new System.Drawing.Size(78, 27);
             this.editbttn.TabIndex = 13;
@@ -341,7 +348,7 @@
             this.commentslbl.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.commentslbl.Font = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.commentslbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.commentslbl.Location = new System.Drawing.Point(12, 512);
+            this.commentslbl.Location = new System.Drawing.Point(12, 479);
             this.commentslbl.Name = "commentslbl";
             this.commentslbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.commentslbl.Size = new System.Drawing.Size(105, 16);
@@ -355,7 +362,7 @@
             this.label1.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.label1.Font = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label1.Location = new System.Drawing.Point(12, 223);
+            this.label1.Location = new System.Drawing.Point(12, 218);
             this.label1.Name = "label1";
             this.label1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label1.Size = new System.Drawing.Size(76, 16);
@@ -381,9 +388,9 @@
             this.iteminfogroupBox.Enabled = false;
             this.iteminfogroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.iteminfogroupBox.ForeColor = System.Drawing.Color.White;
-            this.iteminfogroupBox.Location = new System.Drawing.Point(9, 93);
+            this.iteminfogroupBox.Location = new System.Drawing.Point(0, 93);
             this.iteminfogroupBox.Name = "iteminfogroupBox";
-            this.iteminfogroupBox.Size = new System.Drawing.Size(988, 125);
+            this.iteminfogroupBox.Size = new System.Drawing.Size(1074, 125);
             this.iteminfogroupBox.TabIndex = 1;
             this.iteminfogroupBox.TabStop = false;
             this.iteminfogroupBox.Text = "ECR Info";
@@ -470,7 +477,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label2.Location = new System.Drawing.Point(660, 93);
+            this.label2.Location = new System.Drawing.Point(754, 91);
             this.label2.Name = "label2";
             this.label2.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label2.Size = new System.Drawing.Size(103, 15);
@@ -487,10 +494,10 @@
             this.lastsavedby,
             this.toolStripSplitButton1});
             this.statusStrip2.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
-            this.statusStrip2.Location = new System.Drawing.Point(0, 689);
+            this.statusStrip2.Location = new System.Drawing.Point(0, 751);
             this.statusStrip2.Name = "statusStrip2";
             this.statusStrip2.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.statusStrip2.Size = new System.Drawing.Size(1005, 22);
+            this.statusStrip2.Size = new System.Drawing.Size(1080, 22);
             this.statusStrip2.TabIndex = 0;
             this.statusStrip2.Text = "statusStrip2";
             // 
@@ -547,7 +554,7 @@
             this.submissiongroupBox.Enabled = false;
             this.submissiongroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.submissiongroupBox.ForeColor = System.Drawing.Color.White;
-            this.submissiongroupBox.Location = new System.Drawing.Point(626, 515);
+            this.submissiongroupBox.Location = new System.Drawing.Point(703, 477);
             this.submissiongroupBox.Name = "submissiongroupBox";
             this.submissiongroupBox.Size = new System.Drawing.Size(371, 171);
             this.submissiongroupBox.TabIndex = 105;
@@ -634,7 +641,7 @@
             this.SPM.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SPM.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.SPM.Image = ((System.Drawing.Image)(resources.GetObject("SPM.Image")));
-            this.SPM.Location = new System.Drawing.Point(409, 2);
+            this.SPM.Location = new System.Drawing.Point(409, 1);
             this.SPM.MaximumSize = new System.Drawing.Size(288, 100);
             this.SPM.MinimumSize = new System.Drawing.Size(100, 100);
             this.SPM.Name = "SPM";
@@ -642,12 +649,102 @@
             this.SPM.TabIndex = 90;
             this.SPM.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog1.Multiselect = true;
+            // 
+            // browsebttn
+            // 
+            this.browsebttn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.browsebttn.Enabled = false;
+            this.browsebttn.Font = new System.Drawing.Font("Modern No. 20", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.browsebttn.ForeColor = System.Drawing.Color.White;
+            this.browsebttn.Location = new System.Drawing.Point(497, 607);
+            this.browsebttn.Name = "browsebttn";
+            this.browsebttn.Size = new System.Drawing.Size(98, 30);
+            this.browsebttn.TabIndex = 106;
+            this.browsebttn.Text = "Browse Files";
+            this.browsebttn.UseVisualStyleBackColor = false;
+            this.browsebttn.Visible = false;
+            this.browsebttn.Click += new System.EventHandler(this.browsebttn_Click);
+            // 
+            // attachlbl
+            // 
+            this.attachlbl.AutoSize = true;
+            this.attachlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.attachlbl.ForeColor = System.Drawing.Color.White;
+            this.attachlbl.Location = new System.Drawing.Point(412, 615);
+            this.attachlbl.Name = "attachlbl";
+            this.attachlbl.Size = new System.Drawing.Size(83, 16);
+            this.attachlbl.TabIndex = 107;
+            this.attachlbl.Text = "Attach Files: ";
+            this.attachlbl.Visible = false;
+            // 
+            // listView
+            // 
+            this.listView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.listView.HideSelection = false;
+            this.listView.LargeImageList = this.imageList;
+            this.listView.Location = new System.Drawing.Point(0, 638);
+            this.listView.MultiSelect = false;
+            this.listView.Name = "listView";
+            this.listView.ShowItemToolTips = true;
+            this.listView.Size = new System.Drawing.Size(697, 110);
+            this.listView.TabIndex = 108;
+            this.listView.UseCompatibleStateImageBehavior = false;
+            this.listView.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.listView_ItemDrag);
+            this.listView.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.listView_ItemSelectionChanged);
+            this.listView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.listView_KeyDown);
+            this.listView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView_MouseDoubleClick);
+            // 
+            // label9
+            // 
+            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label9.AutoSize = true;
+            this.label9.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label9.Font = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label9.Location = new System.Drawing.Point(11, 616);
+            this.label9.Name = "label9";
+            this.label9.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label9.Size = new System.Drawing.Size(93, 16);
+            this.label9.TabIndex = 109;
+            this.label9.Text = "Files Attached : ";
+            // 
+            // imageList
+            // 
+            this.imageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+            this.imageList.ImageSize = new System.Drawing.Size(64, 64);
+            this.imageList.TransparentColor = System.Drawing.Color.Black;
+            // 
+            // delbttn
+            // 
+            this.delbttn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.delbttn.Enabled = false;
+            this.delbttn.Font = new System.Drawing.Font("Modern No. 20", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.delbttn.ForeColor = System.Drawing.Color.White;
+            this.delbttn.Location = new System.Drawing.Point(599, 607);
+            this.delbttn.Name = "delbttn";
+            this.delbttn.Size = new System.Drawing.Size(98, 30);
+            this.delbttn.TabIndex = 110;
+            this.delbttn.Text = "Delete Files";
+            this.TreeViewToolTip.SetToolTip(this.delbttn, "Removed all attached files");
+            this.delbttn.UseVisualStyleBackColor = false;
+            this.delbttn.Visible = false;
+            this.delbttn.Click += new System.EventHandler(this.delbttn_Click);
+            // 
             // ECRDetails
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SteelBlue;
-            this.ClientSize = new System.Drawing.Size(1005, 711);
+            this.ClientSize = new System.Drawing.Size(1080, 773);
+            this.Controls.Add(this.delbttn);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.listView);
+            this.Controls.Add(this.browsebttn);
+            this.Controls.Add(this.attachlbl);
             this.Controls.Add(this.submissiongroupBox);
             this.Controls.Add(this.statusStrip2);
             this.Controls.Add(this.ecrnotxtbox);
@@ -663,7 +760,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(1025, 2000);
+            this.MaximumSize = new System.Drawing.Size(1100, 2000);
             this.MinimumSize = new System.Drawing.Size(1025, 750);
             this.Name = "ECRDetails";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -722,5 +819,12 @@
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.Label statuslbl;
         private System.Windows.Forms.Button rejectbttn;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Button browsebttn;
+        private System.Windows.Forms.Label attachlbl;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ListView listView;
+        private System.Windows.Forms.ImageList imageList;
+        private System.Windows.Forms.Button delbttn;
     }
 }

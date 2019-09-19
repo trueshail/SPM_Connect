@@ -1,5 +1,4 @@
-﻿using SearchDataSPM.Admin_developer;
-using System;
+﻿using System;
 using System.Windows.Forms;
 namespace SearchDataSPM
 {
@@ -13,7 +12,7 @@ namespace SearchDataSPM
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new spmadmin());
+            Application.Run(new SPM_ConnectHome());
         }
 
     }

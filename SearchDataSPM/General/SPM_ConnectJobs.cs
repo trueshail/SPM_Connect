@@ -1255,6 +1255,12 @@ namespace SearchDataSPM
             treeView.estimate(estid);
             treeView.Show();
         }
+
+        private void ecrbutton_Click(object sender, EventArgs e)
+        {
+            ECRHome ecr = new ECRHome();
+            ecr.Show();
+        }
     }
 }
 

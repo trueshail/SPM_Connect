@@ -11,7 +11,7 @@ namespace SearchDataSPM
     public class pnotifier
     {
         SqlConnection cn;
-        String connection;
+        string connection;
 
         // current user creds
         bool supervisor = false;
@@ -118,7 +118,7 @@ namespace SearchDataSPM
 
         public string showpopupnotifation(int reqno, int validate, int approved, int happroval, int happroved, int papproval, int papproved, string requestname, int supervisorid)
         {
-           // SPM_Connect();
+            // SPM_Connect();
             //currentusercreds();
             string message = "no";
 
@@ -131,7 +131,7 @@ namespace SearchDataSPM
                 {
                     message = "New purchase req issued for approval.";
                 }
-             
+
             }
             else if (validate == 1 && approved == 1 && happroval == 0 && papproval == 1 && papproved == 0)
             {
@@ -229,7 +229,7 @@ namespace SearchDataSPM
             return fullname;
         }
 
-        public int getsupervisorid(string  username)
+        public int getsupervisorid(string username)
         {
             int fullname = 0;
             try
@@ -249,10 +249,10 @@ namespace SearchDataSPM
 
                 }
             }
-            catch (Exception )
+            catch (Exception)
             {
 
-                
+
 
 
             }

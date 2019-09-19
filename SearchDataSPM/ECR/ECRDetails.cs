@@ -1,14 +1,20 @@
-﻿using SearchDataSPM.ECR;
+﻿using ExtractLargeIconFromFile;
+using SearchDataSPM.ECR;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Net.Mail;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using wpfPreviewFlowControl;
 
 namespace SearchDataSPM
 {
@@ -239,6 +245,7 @@ namespace SearchDataSPM
             }
 
             checkEditButtonRights(Convert.ToInt32(r["SupervisorId"].ToString()), Convert.ToInt32(r["SubmitToId"].ToString()), Convert.ToInt32(r["AssignedTo"].ToString()));
+            filllistview(ecrnotxtbox.Text);
         }
 
         private void fetchJobSaNames(string jobno, string sano)
@@ -361,15 +368,21 @@ namespace SearchDataSPM
                 {
                     rejectbttn.Visible = true;
                 }
-
+                attachlbl.Visible = false;
+                browsebttn.Visible = false;
+                delbttn.Visible = false;
                 iteminfogroupBox.Enabled = false;
-                descriptiontxtbox.ReadOnly = true;
+                descriptiontxtbox.Enabled = false;
             }
             else if (assignedto == myid && ecrhandler)
             {
+                attachlbl.Visible = false;
+                browsebttn.Visible = false;
+                delbttn.Visible = false;
                 ecrhandlercheckBox.Enabled = true;
                 iteminfogroupBox.Enabled = false;
-                descriptiontxtbox.ReadOnly = true;
+                descriptiontxtbox.Enabled = false;
+
             }
             else
             {
@@ -476,6 +489,11 @@ namespace SearchDataSPM
             descriptiontxtbox.ReadOnly = true;
             iteminfogroupBox.Enabled = false;
             submissiongroupBox.Enabled = false;
+            browsebttn.Enabled = false;
+            delbttn.Enabled = false;
+            browsebttn.Visible = false;
+            delbttn.Visible = false;
+            attachlbl.Visible = false;
         }
 
         List<string> list = new List<string>();
@@ -532,7 +550,7 @@ namespace SearchDataSPM
                 if (GetECRInfo(list[0].ToString()))
                 {
                     FillECRDetails();
-                    SaveReport(ecrnotxtbox.Text);
+
                 }
             }
             else
@@ -541,7 +559,7 @@ namespace SearchDataSPM
                 if (GetECRInfo(list[0].ToString()))
                 {
                     FillECRDetails();
-                    SaveReport(ecrnotxtbox.Text);
+
                 }
             }
             this.Enabled = true;
@@ -592,6 +610,7 @@ namespace SearchDataSPM
                        list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(),
                        list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(),
                        list[10].ToString(), 1, 0, 0, 0, "", "", rejectbttn);
+
                 }
                 else if (typeofSave == "SupSubmit")
                 {
@@ -709,6 +728,7 @@ namespace SearchDataSPM
                     list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(),
                     list[10].ToString(), 0, 0, 0, 0, "", "", rejectbttn);
                 }
+                SaveReport(ecrnotxtbox.Text);
 
             }
             return success;
@@ -734,8 +754,11 @@ namespace SearchDataSPM
             descriptiontxtbox.ReadOnly = false;
             iteminfogroupBox.Enabled = true;
             submissiongroupBox.Enabled = true;
-
-
+            browsebttn.Enabled = true;
+            delbttn.Enabled = true;
+            browsebttn.Visible = true;
+            delbttn.Visible = true;
+            attachlbl.Visible = true;
             DataRow r = dt.Rows[0];
             checkEditButtonRights(Convert.ToInt32(r["SupervisorId"].ToString()), Convert.ToInt32(r["SubmitToId"].ToString()), Convert.ToInt32(r["AssignedTo"].ToString()));
         }
@@ -826,7 +849,8 @@ namespace SearchDataSPM
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "SPM Connect - Save Report", MessageBoxButtons.OK);
+                    Debug.Print(e.Message);
+                    //MessageBox.Show(e.Message, "SPM Connect - Save Report", MessageBoxButtons.OK);
                 }
             }
             catch (Exception ex)
@@ -1194,6 +1218,8 @@ namespace SearchDataSPM
             }
         }
 
+        #region Sending Email
+
         void sendemail(string emailtosend, string subject, string body, string filetoattach, string cc, string extracc)
         {
             if (sendemailyesno())
@@ -1245,7 +1271,8 @@ namespace SearchDataSPM
                 }
                 catch (Exception ex)
                 {
-                    MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Send Email", MessageBoxButtons.OK);
+                    Debug.Print(ex.ToString());
+                    //MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Send Email", MessageBoxButtons.OK);
                 }
             }
             else
@@ -1346,7 +1373,6 @@ namespace SearchDataSPM
             }
         }
 
-
         private string getUserNameEmail(int id)
         {
             string Email = "";
@@ -1440,7 +1466,7 @@ namespace SearchDataSPM
 
         void sendemailtosupervisor(string fileName)
         {
-            string nameemail = getUserNameEmail(supervisorid);
+            string nameemail = getUserNameEmail(connectapi.getsupervisorId());
 
             string[] values = nameemail.Replace("][", "~").Split('~');
             for (int i = 0; i < values.Length; i++)
@@ -1490,7 +1516,7 @@ namespace SearchDataSPM
         void sendemailtoHandler(string fileName)
         {
             DataRow r = dt.Rows[0];
-            string supnameemail = getUserNameEmail(Convert.ToInt32(r["SubmitToId"].ToString()));
+            string supnameemail = getUserNameEmail(Convert.ToInt32(r["AssignedTo"].ToString()));
             string[] values = supnameemail.Replace("][", "~").Split('~');
             for (int i = 0; i < values.Length; i++)
             {
@@ -1610,5 +1636,258 @@ namespace SearchDataSPM
                 }
             }
         }
+
+        #endregion
+
+        #region Attachments
+
+        private void filllistview(string item)
+        {
+            try
+            {
+
+                listFiles.Clear();
+                listView.Items.Clear();
+                string first3char = item.Substring(0, 3) + @"\";
+
+                string spmcadpath = @"\\spm-adfs\SDBASE\Reports\ECR_Attachments\" + ecrnotxtbox.Text + "\\";
+
+                getitemstodisplay(spmcadpath, item);
+
+
+            }
+            catch
+            {
+                return;
+            }
+
+        }
+
+        private void getitemstodisplay(string Pathpart, string ItemNo)
+        {
+            if (Directory.Exists(Pathpart))
+            {
+                foreach (string item in Directory.GetFiles(Pathpart))
+                {
+                    try
+                    {
+                        string sDocFileName = item;
+                        wpfThumbnailCreator pvf;
+                        pvf = new wpfThumbnailCreator();
+                        System.Drawing.Size size = new Size();
+                        size.Width = 128;
+                        size.Height = 128;
+                        pvf.DesiredSize = size;
+                        System.Drawing.Bitmap pic = pvf.GetThumbNail(sDocFileName);
+                        imageList.Images.Add(pic);
+                        //axEModelViewControl1 = new EModelViewControl();
+                        //axEModelViewControl1.OpenDoc(item, false, false, true, "");
+
+                    }
+                    catch (Exception)
+                    {
+                        //MessageBox.Show(ex.Message);
+
+                        var size = ShellEx.IconSizeEnum.ExtraLargeIcon;
+                        imageList.Images.Add(ShellEx.GetBitmapFromFilePath(item, size));
+                        // imageList.Images.Add(GetIcon(item));
+                    }
+
+                    // imageList.Images.Add(GetIcon(item));
+
+                    FileInfo fi = new FileInfo(item);
+                    listFiles.Add(fi.FullName);
+                    listView.Items.Add(fi.Name, imageList.Images.Count - 1);
+
+
+                }
+
+            }
+
+        }
+
+        List<string> listFiles = new List<string>();
+        [DllImport("shell32.dll")]
+        static extern IntPtr ExtractAssociatedIcon(IntPtr hInst,
+        StringBuilder lpIconPath, out ushort lpiIcon);
+
+        public static Icon GetIconOldSchool(string fileName)
+        {
+            ushort uicon;
+            StringBuilder strB = new StringBuilder(fileName);
+            IntPtr handle = ExtractAssociatedIcon(IntPtr.Zero, strB, out uicon);
+            Icon ico = Icon.FromHandle(handle);
+
+            return ico;
+        }
+
+        public static Icon GetIcon(string fileName)
+        {
+            try
+            {
+                Icon icon = Icon.ExtractAssociatedIcon(fileName);
+                ShellEx.IconSizeEnum ExtraLargeIcon = default(ShellEx.IconSizeEnum);
+                var size = (ShellEx.IconSizeEnum)ExtraLargeIcon;
+
+                ShellEx.GetBitmapFromFilePath(fileName, size);
+
+                return icon;
+
+            }
+            catch
+            {
+                try
+                {
+                    Icon icon2 = GetIconOldSchool(fileName);
+                    return icon2;
+                }
+                catch
+                {
+
+                    return null;
+                }
+            }
+        }
+
+        private void listView_ItemDrag(object sender, ItemDragEventArgs e)
+        {
+            string[] fList = new string[1];
+            fList[0] = Pathpart;
+            DataObject dataObj = new DataObject(DataFormats.FileDrop, fList);
+            DragDropEffects eff = DoDragDrop(dataObj, DragDropEffects.Link | DragDropEffects.Copy);
+        }
+
+        private void listView_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                try
+                {
+                    if (listView.FocusedItem != null)
+                        Process.Start(listFiles[listView.FocusedItem.Index]);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect");
+                }
+            }
+        }
+
+        string Pathpart;
+
+        private void listView_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            if (listView.FocusedItem != null)
+            {
+                string txt = listView.FocusedItem.Text;
+                //string txt = listView.SelectedItems[0].Text;
+                //string path = listView.FocusedItem.Text;
+                string first3char = txt.Substring(0, 3) + @"\";
+                // //MessageBox.Show(first3char);
+                string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
+                Pathpart = (spmcadpath + first3char + txt);
+                // //MessageBox.Show(Pathpart);          
+
+            }
+        }
+
+        private void listView_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                try
+                {
+                    if (listView.FocusedItem != null)
+                        Process.Start(listFiles[listView.FocusedItem.Index]);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect");
+                }
+
+            }
+        }
+
+        private void browsebttn_Click(object sender, EventArgs e)
+        {
+            DialogResult result = openFileDialog1.ShowDialog(); // Show the dialog.
+
+            if (result == DialogResult.OK) // Test result.
+            {
+                if (!(openFileDialog1.FileNames.Length > 10))
+                {
+                    var failedToUploads = new List<string>();
+                    var uploads = new List<string>();
+                    string str = @"\\spm-adfs\SDBASE\Reports\ECR_Attachments\" + ecrnotxtbox.Text + "\\";
+                    if (!Directory.Exists(str))
+                    {
+                        Directory.CreateDirectory(str);
+                    }
+
+                    openFileDialog1.FileNames.ToList().ForEach(file =>
+                    {
+                        if (copyFile(file, str + Path.GetFileName(file)))
+                            uploads.Add(file);
+                        else
+                            failedToUploads.Add(file);
+                    });
+                    var message = string.Format("Files Attached: \n {0}", string.Join("\n", uploads.ToArray()));
+                    if (failedToUploads.Count > 0)
+                        message += string.Format("\nFailed to Attach: \n {0}", string.Join("\n", failedToUploads.ToArray()));
+
+                    MessageBox.Show(message);
+
+                    filllistview(ecrnotxtbox.Text);
+                }
+                else
+                {
+                    MetroFramework.MetroMessageBox.Show(this, "Please select not more than 10 files at a time. Try again.", "SPM Connect?", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+
+            }
+        }
+
+        private bool copyFile(string file, string destfile)
+        {
+            bool success = false;
+
+            try
+            {
+                File.Copy(file, destfile, true);
+                success = true;
+            }
+            catch
+            {
+                success = false;
+            }
+
+            return success;
+
+        }
+
+        private void delbttn_Click(object sender, EventArgs e)
+        {
+            if (listView.Items.Count > 0)
+            {
+                DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to remove all the files attached from this ECR removed?" + Environment.NewLine +
+                     "This action cannot be reversed.", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Stop);
+
+                if (result == DialogResult.Yes)
+                {
+                    string str = @"\\spm-adfs\SDBASE\Reports\ECR_Attachments\" + ecrnotxtbox.Text + "\\";
+                    Array.ForEach(Directory.GetFiles(str), File.Delete);
+                    filllistview(ecrnotxtbox.Text);
+
+                }
+                else
+                {
+                }
+
+            }
+
+        }
+
+        #endregion
+
     }
 }

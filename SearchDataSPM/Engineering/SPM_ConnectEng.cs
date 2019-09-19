@@ -36,9 +36,9 @@ namespace SearchDataSPM
         bool production = false;
         bool controls = false;
         int _advcollapse = 0;
-        bool purchasereqnotification = false;
+        //bool purchasereqnotification = false;
         bool showingfavorites = false;
-        SearchDataSPM.pnotifier purchaseReq = new SearchDataSPM.pnotifier();
+        //SearchDataSPM.pnotifier purchaseReq = new SearchDataSPM.pnotifier();
         SPMConnectAPI.SPMSQLCommands connectapi = new SPMSQLCommands();
         SPMConnectAPI.Controls connectapicntrls = new SPMConnectAPI.Controls();
         //AutoCompleteStringCollection autoComplete = new AutoCompleteStringCollection();
@@ -73,11 +73,11 @@ namespace SearchDataSPM
             checkdeptsandrights();
             userfullname = connectapi.getuserfullname();
             sqlnotifier();
-            if (purchasereqnotification = connectapi.CheckPurchaseReqNotification())
-            {
-                watchpreqtable();
-                purchaseReq.currentusercreds();
-            }
+            //if (purchasereqnotification = connectapi.CheckPurchaseReqNotification())
+            //{
+            //    watchpreqtable();
+            //    purchaseReq.currentusercreds();
+            //}
             //assignhistory();
             Showallitems();
             txtSearch.Focus();
@@ -161,23 +161,23 @@ namespace SearchDataSPM
         {
             this.Size = new Size(900, 750);
             this.CenterToScreen();
-            if (Properties.Settings.Default.F1Size.Width == 0) Properties.Settings.Default.Upgrade();
+            //if (Properties.Settings.Default.F1Size.Width == 0) Properties.Settings.Default.Upgrade();
 
-            if (Properties.Settings.Default.F1Size.Width == 0 || Properties.Settings.Default.F1Size.Height == 0)
-            {
-                // first start
-                // optional: add default values
-            }
-            else
-            {
-                this.WindowState = Properties.Settings.Default.F1State;
+            //if (Properties.Settings.Default.F1Size.Width == 0 || Properties.Settings.Default.F1Size.Height == 0)
+            //{
+            //    // first start
+            //    // optional: add default values
+            //}
+            //else
+            //{
+            //    this.WindowState = Properties.Settings.Default.F1State;
 
-                // we don't want a minimized window at startup
-                if (this.WindowState == FormWindowState.Minimized) this.WindowState = FormWindowState.Normal;
+            //    // we don't want a minimized window at startup
+            //    if (this.WindowState == FormWindowState.Minimized) this.WindowState = FormWindowState.Normal;
 
-                this.Location = Properties.Settings.Default.F1Location;
-                this.Size = Properties.Settings.Default.F1Size;
-            }
+            //    this.Location = Properties.Settings.Default.F1Location;
+            //    this.Size = Properties.Settings.Default.F1Size;
+            //}
         }
 
         private void fillinfo()
@@ -276,69 +276,69 @@ namespace SearchDataSPM
 
         #region Monitor Purchase Req
 
-        SqlTableDependency<PurhcaseReqSQL> _preqdependency;
+        //SqlTableDependency<PurhcaseReqSQL> _preqdependency;
 
-        public void watchpreqtable()
-        {
-            var mapper = new ModelToTableMapper<PurhcaseReqSQL>();
-            mapper.AddMapping(c => c.reqnumber, "ReqNumber");
-            mapper.AddMapping(c => c.requestname, "RequestedBy");
-            mapper.AddMapping(c => c.supervisorid, "SupervisorId");
-            mapper.AddMapping(c => c.validate, "Validate");
-            mapper.AddMapping(c => c.approved, "Approved");
-            mapper.AddMapping(c => c.happroval, "HApproval");
-            mapper.AddMapping(c => c.happroved, "Happroved");
-            mapper.AddMapping(c => c.papproval, "PApproval");
-            mapper.AddMapping(c => c.papproved, "Papproved");
-
-
-
-            _preqdependency = new SqlTableDependency<PurhcaseReqSQL>(connection, tableName: "PurchaseReqBase", mapper: mapper);
-            _preqdependency.OnChanged += _preqdependency_OnChanged;
-            _preqdependency.OnError += _preqdependency_OnError;
-            _preqdependency.Start();
-
-        }
-
-        private void _preqdependency_OnChanged(object sender, TableDependency.SqlClient.Base.EventArgs.RecordChangedEventArgs<PurhcaseReqSQL> e)
-        {
-            var changedEntity = e.Entity;
-            string type = e.ChangeType.ToString();
-
-            if (type == "Update")
-            {
-                string requestname = "";
-                int reqno = 0, validate = 0, approved = 0, happroval = 0, happroved = 0, papproval = 0, papproved = 0, supervisoridfromreq = 0;
-                reqno = changedEntity.reqnumber;
-                validate = changedEntity.validate;
-                approved = changedEntity.approved;
-                happroval = changedEntity.happroval;
-                happroved = changedEntity.happroved;
-                papproval = changedEntity.papproval;
-                papproved = changedEntity.papproved;
-                supervisoridfromreq = changedEntity.supervisorid;
-                requestname = string.Format((changedEntity.requestname));
+        //public void watchpreqtable()
+        //{
+        //    var mapper = new ModelToTableMapper<PurhcaseReqSQL>();
+        //    mapper.AddMapping(c => c.reqnumber, "ReqNumber");
+        //    mapper.AddMapping(c => c.requestname, "RequestedBy");
+        //    mapper.AddMapping(c => c.supervisorid, "SupervisorId");
+        //    mapper.AddMapping(c => c.validate, "Validate");
+        //    mapper.AddMapping(c => c.approved, "Approved");
+        //    mapper.AddMapping(c => c.happroval, "HApproval");
+        //    mapper.AddMapping(c => c.happroved, "Happroved");
+        //    mapper.AddMapping(c => c.papproval, "PApproval");
+        //    mapper.AddMapping(c => c.papproved, "Papproved");
 
 
-                if (requestname == userfullname && validate == 1)
-                {
 
-                    string message = purchaseReq.showpopupnotifation(reqno, validate, approved, happroval, happroved, papproval, papproved, requestname, supervisoridfromreq).ToString();
-                    if (message != "no")
-                    {
-                        notifyIcon1.ShowBalloonTip(1000, reqno.ToString(), message + " \r\nClick to know more", ToolTipIcon.Info);
-                    }
+        //    _preqdependency = new SqlTableDependency<PurhcaseReqSQL>(connection, tableName: "PurchaseReqBase", mapper: mapper);
+        //    _preqdependency.OnChanged += _preqdependency_OnChanged;
+        //    _preqdependency.OnError += _preqdependency_OnError;
+        //    _preqdependency.Start();
+
+        //}
+
+        //private void _preqdependency_OnChanged(object sender, TableDependency.SqlClient.Base.EventArgs.RecordChangedEventArgs<PurhcaseReqSQL> e)
+        //{
+        //    var changedEntity = e.Entity;
+        //    string type = e.ChangeType.ToString();
+
+        //    if (type == "Update")
+        //    {
+        //        string requestname = "";
+        //        int reqno = 0, validate = 0, approved = 0, happroval = 0, happroved = 0, papproval = 0, papproved = 0, supervisoridfromreq = 0;
+        //        reqno = changedEntity.reqnumber;
+        //        validate = changedEntity.validate;
+        //        approved = changedEntity.approved;
+        //        happroval = changedEntity.happroval;
+        //        happroved = changedEntity.happroved;
+        //        papproval = changedEntity.papproval;
+        //        papproved = changedEntity.papproved;
+        //        supervisoridfromreq = changedEntity.supervisorid;
+        //        requestname = string.Format((changedEntity.requestname));
 
 
-                }
-            }
-            // 
-        }
+        //        if (requestname == userfullname && validate == 1)
+        //        {
 
-        private void _preqdependency_OnError(object sender, TableDependency.SqlClient.Base.EventArgs.ErrorEventArgs e)
-        {
-            throw e.Error;
-        }
+        //            string message = purchaseReq.showpopupnotifation(reqno, validate, approved, happroval, happroved, papproval, papproved, requestname, supervisoridfromreq).ToString();
+        //            if (message != "no")
+        //            {
+        //                notifyIcon1.ShowBalloonTip(1000, reqno.ToString(), message + " \r\nClick to know more", ToolTipIcon.Info);
+        //            }
+
+
+        //        }
+        //    }
+        //    // 
+        //}
+
+        //private void _preqdependency_OnError(object sender, TableDependency.SqlClient.Base.EventArgs.ErrorEventArgs e)
+        //{
+        //    throw e.Error;
+        //}
 
         #endregion
 
@@ -1268,27 +1268,27 @@ namespace SearchDataSPM
         {
             Cursor.Current = Cursors.WaitCursor;
             _dependency.Stop();
-            if (purchasereqnotification)
-            {
-                _preqdependency.Stop();
-            }
+            //if (purchasereqnotification)
+            //{
+            //    _preqdependency.Stop();
+            //}
 
-            Properties.Settings.Default.F1State = this.WindowState;
-            if (this.WindowState == FormWindowState.Normal)
-            {
-                // save location and size if the state is normal
-                Properties.Settings.Default.F1Location = this.Location;
-                Properties.Settings.Default.F1Size = this.Size;
-            }
-            else
-            {
-                // save the RestoreBounds if the form is minimized or maximized!
-                Properties.Settings.Default.F1Location = this.RestoreBounds.Location;
-                Properties.Settings.Default.F1Size = this.RestoreBounds.Size;
-            }
+            //Properties.Settings.Default.F1State = this.WindowState;
+            //if (this.WindowState == FormWindowState.Normal)
+            //{
+            //    // save location and size if the state is normal
+            //    Properties.Settings.Default.F1Location = this.Location;
+            //    Properties.Settings.Default.F1Size = this.Size;
+            //}
+            //else
+            //{
+            //    // save the RestoreBounds if the form is minimized or maximized!
+            //    Properties.Settings.Default.F1Location = this.RestoreBounds.Location;
+            //    Properties.Settings.Default.F1Size = this.RestoreBounds.Size;
+            //}
 
-            // don't forget to save the settings
-            Properties.Settings.Default.Save();
+            //// don't forget to save the settings
+            //Properties.Settings.Default.Save();
             connectapi.checkout();
             Cursor.Current = Cursors.Default;
         }
@@ -2461,7 +2461,7 @@ namespace SearchDataSPM
                 {
 
                 }
-               
+
             }
         }
 

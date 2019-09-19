@@ -51,6 +51,7 @@
             this.quotebttn = new System.Windows.Forms.Button();
             this.CreateFolderBttn = new System.Windows.Forms.Button();
             this.shippingbttn = new System.Windows.Forms.Button();
+            this.ecrbutton = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
@@ -64,11 +65,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSearch.BackColor = System.Drawing.SystemColors.MenuBar;
             this.txtSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSearch.Location = new System.Drawing.Point(210, 10);
+            this.txtSearch.Location = new System.Drawing.Point(210, 14);
             this.txtSearch.MaximumSize = new System.Drawing.Size(32767, 25);
             this.txtSearch.MinimumSize = new System.Drawing.Size(4, 23);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(430, 26);
+            this.txtSearch.Size = new System.Drawing.Size(398, 26);
             this.txtSearch.TabIndex = 1;
             this.TreeViewToolTip.SetToolTip(this.txtSearch, "Enter Search Keyword.\r\n(Double click to reset)");
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
@@ -110,13 +111,13 @@
             this.createFoldersToolStripMenuItem,
             this.getEstimateBOMToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 136);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(178, 114);
             // 
             // getBOMToolStripMenuItem
             // 
             this.getBOMToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("getBOMToolStripMenuItem.Image")));
             this.getBOMToolStripMenuItem.Name = "getBOMToolStripMenuItem";
-            this.getBOMToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.getBOMToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.getBOMToolStripMenuItem.Text = "Get BOM";
             this.getBOMToolStripMenuItem.ToolTipText = "Get Selected Job\'s BOM";
             this.getBOMToolStripMenuItem.Click += new System.EventHandler(this.getBOMToolStripMenuItem_Click);
@@ -127,7 +128,7 @@
             this.remapToolStripMenuItem});
             this.projectEngineeringToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("projectEngineeringToolStripMenuItem.Image")));
             this.projectEngineeringToolStripMenuItem.Name = "projectEngineeringToolStripMenuItem";
-            this.projectEngineeringToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.projectEngineeringToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.projectEngineeringToolStripMenuItem.Text = "Project Engineering";
             this.projectEngineeringToolStripMenuItem.ToolTipText = "Open Project Eng Folder";
             this.projectEngineeringToolStripMenuItem.Click += new System.EventHandler(this.projectEngineeringToolStripMenuItem_Click);
@@ -145,7 +146,7 @@
             // 
             this.getWorkOrderToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("getWorkOrderToolStripMenuItem.Image")));
             this.getWorkOrderToolStripMenuItem.Name = "getWorkOrderToolStripMenuItem";
-            this.getWorkOrderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.getWorkOrderToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.getWorkOrderToolStripMenuItem.Text = "Get Work Order";
             this.getWorkOrderToolStripMenuItem.Click += new System.EventHandler(this.getWorkOrderToolStripMenuItem_Click);
             // 
@@ -154,7 +155,7 @@
             this.createFoldersToolStripMenuItem.Enabled = false;
             this.createFoldersToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("createFoldersToolStripMenuItem.Image")));
             this.createFoldersToolStripMenuItem.Name = "createFoldersToolStripMenuItem";
-            this.createFoldersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.createFoldersToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.createFoldersToolStripMenuItem.Text = "Create Folders";
             this.createFoldersToolStripMenuItem.ToolTipText = "Create Folders For Selected Job";
             this.createFoldersToolStripMenuItem.Visible = false;
@@ -164,7 +165,7 @@
             // 
             this.getEstimateBOMToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("getEstimateBOMToolStripMenuItem.Image")));
             this.getEstimateBOMToolStripMenuItem.Name = "getEstimateBOMToolStripMenuItem";
-            this.getEstimateBOMToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.getEstimateBOMToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.getEstimateBOMToolStripMenuItem.Text = "Get Estimate BOM";
             this.getEstimateBOMToolStripMenuItem.ToolTipText = "Get BOM From Estimates";
             this.getEstimateBOMToolStripMenuItem.Click += new System.EventHandler(this.getEstimateBOMToolStripMenuItem_Click);
@@ -175,7 +176,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Reload.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.Reload.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Reload.Location = new System.Drawing.Point(646, 8);
+            this.Reload.Location = new System.Drawing.Point(615, 12);
             this.Reload.MaximumSize = new System.Drawing.Size(140, 30);
             this.Reload.MinimumSize = new System.Drawing.Size(140, 30);
             this.Reload.Name = "Reload";
@@ -304,7 +305,7 @@
             this.purchasereq.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.purchasereq.ForeColor = System.Drawing.Color.Transparent;
             this.purchasereq.Image = ((System.Drawing.Image)(resources.GetObject("purchasereq.Image")));
-            this.purchasereq.Location = new System.Drawing.Point(895, 9);
+            this.purchasereq.Location = new System.Drawing.Point(853, 7);
             this.purchasereq.MaximumSize = new System.Drawing.Size(40, 40);
             this.purchasereq.MinimumSize = new System.Drawing.Size(40, 40);
             this.purchasereq.Name = "purchasereq";
@@ -324,7 +325,7 @@
             this.quotebttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.quotebttn.ForeColor = System.Drawing.Color.Gray;
             this.quotebttn.Image = ((System.Drawing.Image)(resources.GetObject("quotebttn.Image")));
-            this.quotebttn.Location = new System.Drawing.Point(846, 9);
+            this.quotebttn.Location = new System.Drawing.Point(806, 7);
             this.quotebttn.MaximumSize = new System.Drawing.Size(40, 40);
             this.quotebttn.MinimumSize = new System.Drawing.Size(40, 40);
             this.quotebttn.Name = "quotebttn";
@@ -348,7 +349,7 @@
             this.CreateFolderBttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.CreateFolderBttn.ForeColor = System.Drawing.Color.Transparent;
             this.CreateFolderBttn.Image = ((System.Drawing.Image)(resources.GetObject("CreateFolderBttn.Image")));
-            this.CreateFolderBttn.Location = new System.Drawing.Point(800, 12);
+            this.CreateFolderBttn.Location = new System.Drawing.Point(761, 10);
             this.CreateFolderBttn.MaximumSize = new System.Drawing.Size(35, 35);
             this.CreateFolderBttn.MinimumSize = new System.Drawing.Size(35, 35);
             this.CreateFolderBttn.Name = "CreateFolderBttn";
@@ -372,7 +373,7 @@
             this.shippingbttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.shippingbttn.ForeColor = System.Drawing.Color.Transparent;
             this.shippingbttn.Image = ((System.Drawing.Image)(resources.GetObject("shippingbttn.Image")));
-            this.shippingbttn.Location = new System.Drawing.Point(944, 13);
+            this.shippingbttn.Location = new System.Drawing.Point(902, 11);
             this.shippingbttn.MaximumSize = new System.Drawing.Size(35, 35);
             this.shippingbttn.MinimumSize = new System.Drawing.Size(35, 35);
             this.shippingbttn.Name = "shippingbttn";
@@ -382,6 +383,29 @@
             this.TreeViewToolTip.SetToolTip(this.shippingbttn, "Shipping Module");
             this.shippingbttn.UseVisualStyleBackColor = false;
             this.shippingbttn.Click += new System.EventHandler(this.shippingbttn_Click);
+            // 
+            // ecrbutton
+            // 
+            this.ecrbutton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ecrbutton.BackColor = System.Drawing.Color.Transparent;
+            this.ecrbutton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
+            this.ecrbutton.FlatAppearance.BorderSize = 0;
+            this.ecrbutton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.ecrbutton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.ecrbutton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ecrbutton.ForeColor = System.Drawing.Color.Transparent;
+            this.ecrbutton.Image = ((System.Drawing.Image)(resources.GetObject("ecrbutton.Image")));
+            this.ecrbutton.Location = new System.Drawing.Point(945, 13);
+            this.ecrbutton.MaximumSize = new System.Drawing.Size(35, 35);
+            this.ecrbutton.MinimumSize = new System.Drawing.Size(35, 35);
+            this.ecrbutton.Name = "ecrbutton";
+            this.ecrbutton.Size = new System.Drawing.Size(35, 35);
+            this.ecrbutton.TabIndex = 22;
+            this.ecrbutton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.TreeViewToolTip.SetToolTip(this.ecrbutton, "Engineering Change Requests");
+            this.ecrbutton.UseVisualStyleBackColor = false;
+            this.ecrbutton.Click += new System.EventHandler(this.ecrbutton_Click);
             // 
             // openFileDialog1
             // 
@@ -398,6 +422,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Gray;
             this.ClientSize = new System.Drawing.Size(987, 661);
+            this.Controls.Add(this.ecrbutton);
             this.Controls.Add(this.quotebttn);
             this.Controls.Add(this.shippingbttn);
             this.Controls.Add(this.CreateFolderBttn);
@@ -449,6 +474,7 @@
         private System.Windows.Forms.Button CreateFolderBttn;
         private System.Windows.Forms.Button shippingbttn;
         private System.Windows.Forms.ToolStripMenuItem getEstimateBOMToolStripMenuItem;
+        private System.Windows.Forms.Button ecrbutton;
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member 'SPM_Connect.txtSearch'
     }
 }

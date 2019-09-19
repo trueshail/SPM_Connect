@@ -67,7 +67,7 @@
             this.empid_txtbox.MaxLength = 32767;
             this.empid_txtbox.Name = "empid_txtbox";
             this.empid_txtbox.PasswordChar = '*';
-            this.empid_txtbox.PromptText = "Scan Emp Id";
+            this.empid_txtbox.WaterMark = "Scan Emp Id";
             this.empid_txtbox.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.empid_txtbox.SelectedText = "";
             this.empid_txtbox.SelectionLength = 0;
