@@ -1654,6 +1654,16 @@ namespace SearchDataSPM
 
                 getitemstodisplay(spmcadpath, item);
 
+                if (listView.Items.Count > 0)
+                {
+                    fileslabel.Text = "Files attached : " + listView.Items.Count;
+
+                }
+                else
+                {
+                    fileslabel.Text = "No files attached";
+
+                }
 
             }
             catch
@@ -1698,7 +1708,6 @@ namespace SearchDataSPM
                     FileInfo fi = new FileInfo(item);
                     listFiles.Add(fi.FullName);
                     listView.Items.Add(fi.Name, imageList.Images.Count - 1);
-
 
                 }
 
@@ -1814,36 +1823,30 @@ namespace SearchDataSPM
 
             if (result == DialogResult.OK) // Test result.
             {
-                if (!(openFileDialog1.FileNames.Length > 10))
+                Cursor.Current = Cursors.WaitCursor;
+                var failedToUploads = new List<string>();
+                var uploads = new List<string>();
+                string str = @"\\spm-adfs\SDBASE\Reports\ECR_Attachments\" + ecrnotxtbox.Text + "\\";
+                if (!Directory.Exists(str))
                 {
-                    var failedToUploads = new List<string>();
-                    var uploads = new List<string>();
-                    string str = @"\\spm-adfs\SDBASE\Reports\ECR_Attachments\" + ecrnotxtbox.Text + "\\";
-                    if (!Directory.Exists(str))
-                    {
-                        Directory.CreateDirectory(str);
-                    }
+                    Directory.CreateDirectory(str);
+                }
 
-                    openFileDialog1.FileNames.ToList().ForEach(file =>
-                    {
-                        if (copyFile(file, str + Path.GetFileName(file)))
-                            uploads.Add(file);
-                        else
-                            failedToUploads.Add(file);
-                    });
-                    var message = string.Format("Files Attached: \n {0}", string.Join("\n", uploads.ToArray()));
-                    if (failedToUploads.Count > 0)
-                        message += string.Format("\nFailed to Attach: \n {0}", string.Join("\n", failedToUploads.ToArray()));
-
+                openFileDialog1.FileNames.ToList().ForEach(file =>
+                {
+                    if (copyFile(file, str + Path.GetFileName(file)))
+                        uploads.Add(file);
+                    else
+                        failedToUploads.Add(file);
+                });
+                var message = string.Format("Files Attached: \n {0}", string.Join("\n", uploads.ToArray()));
+                if (failedToUploads.Count > 0)
+                {
+                    message += string.Format("\nFailed to Attach: \n {0}", string.Join("\n", failedToUploads.ToArray()));
                     MessageBox.Show(message);
-
-                    filllistview(ecrnotxtbox.Text);
                 }
-                else
-                {
-                    MetroFramework.MetroMessageBox.Show(this, "Please select not more than 10 files at a time. Try again.", "SPM Connect?", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-
+                filllistview(ecrnotxtbox.Text);
+                Cursor.Current = Cursors.Default;
             }
         }
 

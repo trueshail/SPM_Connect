@@ -46,6 +46,7 @@
             this.savbttn = new System.Windows.Forms.Button();
             this.editbttn = new System.Windows.Forms.Button();
             this.rejectbttn = new System.Windows.Forms.Button();
+            this.delbttn = new System.Windows.Forms.Button();
             this.commentslbl = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.iteminfogroupBox = new System.Windows.Forms.GroupBox();
@@ -73,9 +74,8 @@
             this.browsebttn = new System.Windows.Forms.Button();
             this.attachlbl = new System.Windows.Forms.Label();
             this.listView = new System.Windows.Forms.ListView();
-            this.label9 = new System.Windows.Forms.Label();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
-            this.delbttn = new System.Windows.Forms.Button();
+            this.fileslabel = new System.Windows.Forms.Label();
             this.iteminfogroupBox.SuspendLayout();
             this.statusStrip2.SuspendLayout();
             this.submissiongroupBox.SuspendLayout();
@@ -289,7 +289,7 @@
             this.savbttn.ForeColor = System.Drawing.Color.White;
             this.savbttn.Image = ((System.Drawing.Image)(resources.GetObject("savbttn.Image")));
             this.savbttn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.savbttn.Location = new System.Drawing.Point(854, 690);
+            this.savbttn.Location = new System.Drawing.Point(906, 690);
             this.savbttn.Name = "savbttn";
             this.savbttn.Size = new System.Drawing.Size(78, 27);
             this.savbttn.TabIndex = 3;
@@ -310,7 +310,7 @@
             this.editbttn.ForeColor = System.Drawing.Color.White;
             this.editbttn.Image = ((System.Drawing.Image)(resources.GetObject("editbttn.Image")));
             this.editbttn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.editbttn.Location = new System.Drawing.Point(751, 690);
+            this.editbttn.Location = new System.Drawing.Point(803, 690);
             this.editbttn.Name = "editbttn";
             this.editbttn.Size = new System.Drawing.Size(78, 27);
             this.editbttn.TabIndex = 13;
@@ -340,6 +340,22 @@
             this.rejectbttn.UseVisualStyleBackColor = false;
             this.rejectbttn.Visible = false;
             this.rejectbttn.Click += new System.EventHandler(this.rejectbttn_Click);
+            // 
+            // delbttn
+            // 
+            this.delbttn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.delbttn.Enabled = false;
+            this.delbttn.Font = new System.Drawing.Font("Modern No. 20", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.delbttn.ForeColor = System.Drawing.Color.White;
+            this.delbttn.Location = new System.Drawing.Point(599, 607);
+            this.delbttn.Name = "delbttn";
+            this.delbttn.Size = new System.Drawing.Size(98, 30);
+            this.delbttn.TabIndex = 110;
+            this.delbttn.Text = "Delete Files";
+            this.TreeViewToolTip.SetToolTip(this.delbttn, "Removed all attached files");
+            this.delbttn.UseVisualStyleBackColor = false;
+            this.delbttn.Visible = false;
+            this.delbttn.Click += new System.EventHandler(this.delbttn_Click);
             // 
             // commentslbl
             // 
@@ -698,41 +714,25 @@
             this.listView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.listView_KeyDown);
             this.listView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView_MouseDoubleClick);
             // 
-            // label9
-            // 
-            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label9.AutoSize = true;
-            this.label9.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.label9.Font = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label9.Location = new System.Drawing.Point(11, 616);
-            this.label9.Name = "label9";
-            this.label9.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label9.Size = new System.Drawing.Size(93, 16);
-            this.label9.TabIndex = 109;
-            this.label9.Text = "Files Attached : ";
-            // 
             // imageList
             // 
             this.imageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
             this.imageList.ImageSize = new System.Drawing.Size(64, 64);
             this.imageList.TransparentColor = System.Drawing.Color.Black;
             // 
-            // delbttn
+            // fileslabel
             // 
-            this.delbttn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.delbttn.Enabled = false;
-            this.delbttn.Font = new System.Drawing.Font("Modern No. 20", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.delbttn.ForeColor = System.Drawing.Color.White;
-            this.delbttn.Location = new System.Drawing.Point(599, 607);
-            this.delbttn.Name = "delbttn";
-            this.delbttn.Size = new System.Drawing.Size(98, 30);
-            this.delbttn.TabIndex = 110;
-            this.delbttn.Text = "Delete Files";
-            this.TreeViewToolTip.SetToolTip(this.delbttn, "Removed all attached files");
-            this.delbttn.UseVisualStyleBackColor = false;
-            this.delbttn.Visible = false;
-            this.delbttn.Click += new System.EventHandler(this.delbttn_Click);
+            this.fileslabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.fileslabel.AutoSize = true;
+            this.fileslabel.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.fileslabel.Font = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.fileslabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.fileslabel.Location = new System.Drawing.Point(11, 616);
+            this.fileslabel.Name = "fileslabel";
+            this.fileslabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.fileslabel.Size = new System.Drawing.Size(93, 16);
+            this.fileslabel.TabIndex = 109;
+            this.fileslabel.Text = "Files Attached : ";
             // 
             // ECRDetails
             // 
@@ -741,7 +741,7 @@
             this.BackColor = System.Drawing.Color.SteelBlue;
             this.ClientSize = new System.Drawing.Size(1080, 773);
             this.Controls.Add(this.delbttn);
-            this.Controls.Add(this.label9);
+            this.Controls.Add(this.fileslabel);
             this.Controls.Add(this.listView);
             this.Controls.Add(this.browsebttn);
             this.Controls.Add(this.attachlbl);
@@ -822,7 +822,7 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button browsebttn;
         private System.Windows.Forms.Label attachlbl;
-        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label fileslabel;
         private System.Windows.Forms.ListView listView;
         private System.Windows.Forms.ImageList imageList;
         private System.Windows.Forms.Button delbttn;
