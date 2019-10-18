@@ -437,6 +437,12 @@ namespace SearchDataSPM
                     lettergame.Show();
                     return;
                 }
+                if (txtSearch.Text.ToLower() == "showduplicates")
+                {
+                    SPM_ConnectDuplicates sPM_Connect = new SPM_ConnectDuplicates();
+                    sPM_Connect.Show();
+                    return;
+                }
                 if (Descrip_txtbox.Visible == true)
                 {
                     clearandhide();

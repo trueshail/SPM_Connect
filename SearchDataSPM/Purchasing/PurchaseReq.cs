@@ -1291,6 +1291,7 @@ namespace SearchDataSPM
                             apprvonlabel.Visible = true;
                             Validatechk.Visible = false;
                             Validatechk.Enabled = false;
+
                         }
                         else if (dr[0]["Approved"].ToString().Equals("3"))
                         {
@@ -1527,6 +1528,14 @@ namespace SearchDataSPM
                                             else
                                             {
                                                 editbttn.Visible = true;
+                                            }
+                                        }
+                                        else if (supervisor)
+                                        {
+                                            editbttn.Visible = true;
+                                            if (dr[0]["Happroved"].ToString().Equals("1"))
+                                            {
+                                                editbttn.Visible = false;
                                             }
                                         }
                                         else
@@ -2474,7 +2483,7 @@ namespace SearchDataSPM
 
             }
             name = names[0];
-            sendemail(email, reqno + " Purchase Req Approval Required", "Hello " + name + "," + Environment.NewLine + userfullname + " sent this purchase req for approval.", fileName, "");
+            sendemail(email, reqno + " Purchase Req Approval Required - Job " + jobnumbertxt.Text, "Hello " + name + "," + Environment.NewLine + userfullname + " sent this purchase req for approval.", fileName, "");
         }
 
         void sendemailtouser(string reqno, string fileName, string requestby, string triggerby, bool rejected)
@@ -2484,7 +2493,7 @@ namespace SearchDataSPM
             {
                 if (triggerby == "supervisor")
                 {
-                    sendemail(email, reqno + " Purchase Req Approved", "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is approved.", fileName, "");
+                    sendemail(email, reqno + " Purchase Req Approved - Job " + jobnumbertxt.Text, "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is approved.", fileName, "");
                 }
                 else
                 {
@@ -2499,11 +2508,11 @@ namespace SearchDataSPM
 
                     if (triggerby == "pbuyer")
                     {
-                        sendemail(email, reqno + " Purchase Req Purchased", "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is sent out for purchase.", fileName, supervisoremail);
+                        sendemail(email, reqno + " Purchase Req Purchased - Job " + jobnumbertxt.Text, "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is sent out for purchase.", fileName, supervisoremail);
                     }
                     if (triggerby == "highautority")
                     {
-                        sendemail(email, reqno + " Purchase Req Approved", "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is approved.", fileName, supervisoremail);
+                        sendemail(email, reqno + " Purchase Req Approved - Job " + jobnumbertxt.Text, "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is approved.", fileName, supervisoremail);
                     }
                 }
             }
@@ -2511,7 +2520,7 @@ namespace SearchDataSPM
             {
                 if (triggerby == "supervisor")
                 {
-                    sendemail(email, reqno + " Purchase Req Rejected", "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is not approved.", fileName, "");
+                    sendemail(email, reqno + " Purchase Req Rejected - Job " + jobnumbertxt.Text, "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is not approved.", fileName, "");
                 }
                 else
                 {
@@ -2526,7 +2535,7 @@ namespace SearchDataSPM
 
                     if (triggerby == "highautority")
                     {
-                        sendemail(email, reqno + " Purchase Req Rejected", "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is not approved.", fileName, supervisoremail);
+                        sendemail(email, reqno + " Purchase Req Rejected - Job " + jobnumbertxt.Text, "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is not approved.", fileName, supervisoremail);
                     }
                 }
             }
@@ -2554,7 +2563,7 @@ namespace SearchDataSPM
 
                 }
                 name = names[0];
-                sendemail(email, reqno + " Purchase Req Approval Required - 2nd Approval", "Hello " + name + "," + Environment.NewLine + userfullname + " sent this purchase req for second approval.", fileName, "");
+                sendemail(email, reqno + " Purchase Req Approval Required - 2nd Approval - Job " + jobnumbertxt.Text, "Hello " + name + "," + Environment.NewLine + userfullname + " sent this purchase req for second approval.", fileName, "");
             }
 
         }
@@ -2581,7 +2590,7 @@ namespace SearchDataSPM
 
                 }
                 name = names[0];
-                sendemail(email, reqno + " Purchase Req needs PO - Notification", "Hello " + name + "," + Environment.NewLine + userfullname + " apporved this purchase req and on its way to be purchased. ", fileName, "");
+                sendemail(email, reqno + " Purchase Req needs PO - Notification - Job " + jobnumbertxt.Text, "Hello " + name + "," + Environment.NewLine + userfullname + " apporved this purchase req and on its way to be purchased. ", fileName, "");
             }
 
         }

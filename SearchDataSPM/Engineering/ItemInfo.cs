@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
@@ -82,7 +76,7 @@ namespace SearchDataSPM
             if (yesmanagement)
             {
                 showitemstogridview(iteminfo2);
-                
+
             }
             if (pricerights)
             {
@@ -173,7 +167,7 @@ namespace SearchDataSPM
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                   // Application.Exit();
+                    // Application.Exit();
                 }
                 finally
                 {

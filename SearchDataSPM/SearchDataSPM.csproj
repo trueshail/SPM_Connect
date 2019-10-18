@@ -28,12 +28,12 @@
     <ErrorReportUrl>http://www.spm-automation.com/contact.php</ErrorReportUrl>
     <ProductName>SPM Connect</ProductName>
     <PublisherName>SPM Automation</PublisherName>
-    <MinimumRequiredVersion>7.6.16.0</MinimumRequiredVersion>
+    <MinimumRequiredVersion>7.6.17.0</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
     <ApplicationRevision>1</ApplicationRevision>
-    <ApplicationVersion>7.6.16.%2a</ApplicationVersion>
+    <ApplicationVersion>7.6.17.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -314,6 +314,18 @@
     <Compile Include="Admin-developer\ConverterHash.cs" />
     <Compile Include="Customer.cs">
       <DependentUpon>ConnectCustomers.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dashboard\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dashboard\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dashboard\Dashboard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dashboard\Dashboard.Designer.cs">
+      <DependentUpon>Dashboard.cs</DependentUpon>
     </Compile>
     <Compile Include="ECR\ECRHome.cs">
       <SubType>Form</SubType>
@@ -672,6 +684,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Admin-developer\Customers.resx">
       <DependentUpon>Customers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dashboard\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dashboard\Dashboard.resx">
+      <DependentUpon>Dashboard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ECR\ECRHome.resx">
       <DependentUpon>ECRHome.cs</DependentUpon>
