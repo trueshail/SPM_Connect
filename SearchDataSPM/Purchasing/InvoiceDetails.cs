@@ -1,4 +1,5 @@
-﻿using SPMConnectAPI;
+﻿using SPMConnect.UserActionLog;
+using SPMConnectAPI;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -7,6 +8,7 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
@@ -15,7 +17,7 @@ namespace SearchDataSPM
     {
         #region Load Invoice Details and setting Parameters
 
-        String connection;
+        string connection;
         DataTable dt = new DataTable();
         SqlConnection cn;
         SqlCommand _command;
@@ -26,9 +28,14 @@ namespace SearchDataSPM
         string soldtoid = "";
         bool formloading = false;
         SPMConnectAPI.Shipping connectapi = new Shipping();
+        log4net.ILog log;
+        private UserActions _userActions;
+        ErrorHandler errorHandler = new ErrorHandler();
 
         public InvoiceDetails()
         {
+            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
             connection = ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
             try
@@ -78,6 +85,10 @@ namespace SearchDataSPM
             }
 
             formloading = false;
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Opened Shipping Invoice Detail " + Invoice_Number + " by " + System.Environment.UserName);
+            _userActions = new UserActions(this);
         }
 
         private bool GetShippingBaseInfo(string invoicenumber)
@@ -974,7 +985,6 @@ namespace SearchDataSPM
 
         #endregion
 
-
         private void Createdon_Click(object sender, EventArgs e)
         {
             if (editbttn.Visible)
@@ -1002,6 +1012,23 @@ namespace SearchDataSPM
                 MetroFramework.MetroMessageBox.Show(this, "Please save the invoice first in order to change date created.", "SPM Connect - Save Invoice Details", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
 
+        }
+
+        private void InvoiceDetails_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _userActions.FinishLoggingUserActions(this);
+            log.Info("Closed Shipping Invoice Detail " + Invoice_Number + " by " + System.Environment.UserName);
+            this.Dispose();
+        }
+
+        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+        }
+
+        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
         }
     }
 }

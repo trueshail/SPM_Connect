@@ -1,16 +1,12 @@
-﻿using System;
+﻿using SPMConnect.UserActionLog;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
@@ -20,8 +16,8 @@ namespace SearchDataSPM
 
     {
         #region steupvariables
-        String connection;
-        String cntrlconnection;
+        string connection;
+        string cntrlconnection;
         DataTable _acountsTb = null;
         DataTable _productTB;
         SqlConnection _connection;
@@ -29,14 +25,18 @@ namespace SearchDataSPM
         SqlDataAdapter _adapter;
         TreeNode root = new TreeNode();
         string txtvalue;
+        log4net.ILog log;
+        private UserActions _userActions;
+        ErrorHandler errorHandler = new ErrorHandler();
 
         #endregion
 
         #region loadtree
 
         public AutocadAssembly()
-
         {
+            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
             connection = ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
             cntrlconnection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cntrlscn"].ConnectionString;
@@ -90,6 +90,10 @@ namespace SearchDataSPM
                 //SendKeys.Send("~");
                 startprocessofwhereused();
             }
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Opened AutoCadAssembly Form by " + System.Environment.UserName);
+            _userActions = new UserActions(this);
 
         }
 
@@ -128,7 +132,7 @@ namespace SearchDataSPM
                 _adapter = new SqlDataAdapter(sql, _connection);
                 _adapter.Fill(_acountsTb);
                 fillrootnode();
-               
+
             }
             catch (SqlException ex)
             {
@@ -214,47 +218,47 @@ namespace SearchDataSPM
         {
             //if (Assy_txtbox.Text.Length == 6)
             //{
-                Assy_txtbox.BackColor = Color.White; //to add high light
-                try
-                {
+            Assy_txtbox.BackColor = Color.White; //to add high light
+            try
+            {
 
-                    treeView1.Nodes.Clear();
-                    RemoveChildNodes(root);
-                    treeView1.ResetText();
-                    Expandchk.Checked = false;
-                    //DataRow[] dr = _productTB.Select("ItemNumber = '" + txtvalue.ToString() + "'");
-                    DataRow[] dr = _acountsTb.Select("AssyNo = '" + txtvalue.ToString() + "'");
-
-
-                    root.Text = dr[0]["AssyNo"].ToString() + " - " + dr[0]["AssyDesc"].ToString();
-                    root.Tag = dr[0]["AssyNo"].ToString() + "][" + dr[0]["AssyDesc"].ToString() + "][" + dr[0]["AssyNo"].ToString() + "][" + dr[0]["AssyManufacturer"].ToString() + "][" + dr[0]["AssyOem"].ToString() + "][" + "1";
-
-                    //Font f = FontStyle.Bold);
-                    // root.NodeFont = f;
-
-                    treeView1.Nodes.Add(root);
-
-                    PopulateTreeView(Assy_txtbox.Text, root);
-
-                    chekroot = "Assy";
-                    ItemTxtBox.Text = dr[0]["AssyNo"].ToString();
-                    Descriptiontxtbox.Text = dr[0]["AssyDesc"].ToString();
-                    oemtxtbox.Text = dr[0]["AssyManufacturer"].ToString();
-                    oemitemtxtbox.Text = dr[0]["AssyOem"].ToString();
-                    //familytxtbox.Text = dr[0]["AssyFamily"].ToString();
-                    // sparetxtbox.Text = dr[0]["AssySpare"].ToString();
+                treeView1.Nodes.Clear();
+                RemoveChildNodes(root);
+                treeView1.ResetText();
+                Expandchk.Checked = false;
+                //DataRow[] dr = _productTB.Select("ItemNumber = '" + txtvalue.ToString() + "'");
+                DataRow[] dr = _acountsTb.Select("AssyNo = '" + txtvalue.ToString() + "'");
 
 
+                root.Text = dr[0]["AssyNo"].ToString() + " - " + dr[0]["AssyDesc"].ToString();
+                root.Tag = dr[0]["AssyNo"].ToString() + "][" + dr[0]["AssyDesc"].ToString() + "][" + dr[0]["AssyNo"].ToString() + "][" + dr[0]["AssyManufacturer"].ToString() + "][" + dr[0]["AssyOem"].ToString() + "][" + "1";
 
-                }
-                catch
-                {
-                    treeView1.TopNode.Nodes.Clear();
-                    treeView1.Nodes.Clear();
-                    RemoveChildNodes(root);
-                    treeView1.ResetText();
-                    Expandchk.Checked = false;
-                }
+                //Font f = FontStyle.Bold);
+                // root.NodeFont = f;
+
+                treeView1.Nodes.Add(root);
+
+                PopulateTreeView(Assy_txtbox.Text, root);
+
+                chekroot = "Assy";
+                ItemTxtBox.Text = dr[0]["AssyNo"].ToString();
+                Descriptiontxtbox.Text = dr[0]["AssyDesc"].ToString();
+                oemtxtbox.Text = dr[0]["AssyManufacturer"].ToString();
+                oemitemtxtbox.Text = dr[0]["AssyOem"].ToString();
+                //familytxtbox.Text = dr[0]["AssyFamily"].ToString();
+                // sparetxtbox.Text = dr[0]["AssySpare"].ToString();
+
+
+
+            }
+            catch
+            {
+                treeView1.TopNode.Nodes.Clear();
+                treeView1.Nodes.Clear();
+                RemoveChildNodes(root);
+                treeView1.ResetText();
+                Expandchk.Checked = false;
+            }
             //}
             //else
             //{
@@ -276,7 +280,7 @@ namespace SearchDataSPM
                 TreeNode t = new TreeNode();
                 t.Text = dr["QUERY2"].ToString() + " - " + dr["DESCRIPTION"].ToString() + " ( " + dr["AssyQty"].ToString() + " ) ";
                 t.Name = dr["QUERY2"].ToString();
-                t.Tag = dr["QUERY2"].ToString() + "][" + dr["DESCRIPTION"].ToString()+ "][" + dr["QUERY2"].ToString() + "][" + dr["USER3"].ToString() + "][" + dr["TEXTVALUE"].ToString()+ "][" + dr["AssyQty"].ToString();
+                t.Tag = dr["QUERY2"].ToString() + "][" + dr["DESCRIPTION"].ToString() + "][" + dr["QUERY2"].ToString() + "][" + dr["USER3"].ToString() + "][" + dr["TEXTVALUE"].ToString() + "][" + dr["AssyQty"].ToString();
                 if (parentNode == null)
                 {
 
@@ -284,7 +288,7 @@ namespace SearchDataSPM
                     t.NodeFont = f;
                     t.Text = dr["AssyNo"].ToString() + " - " + dr["DESCRIPTION"].ToString() + " ( " + dr["AssyQty"].ToString() + " ) ";
                     t.Name = dr["AssyNo"].ToString();
-                    t.Tag = dr["AssyNo"].ToString() + "][" + dr["AssyDesc"].ToString()+ "][" + dr["AssyNo"].ToString() + "][" + dr["AssyManufacturer"].ToString() + "][" + dr["AssyOem"].ToString() + "][" + "1";
+                    t.Tag = dr["AssyNo"].ToString() + "][" + dr["AssyDesc"].ToString() + "][" + dr["AssyNo"].ToString() + "][" + dr["AssyManufacturer"].ToString() + "][" + dr["AssyOem"].ToString() + "][" + "1";
                     treeView1.Nodes.Add(t);
                     childNode = t;
 
@@ -344,10 +348,10 @@ namespace SearchDataSPM
         private void SearchNodes(string SearchText, TreeNode StartNode)
         {
             //TreeNode node = null;
-            
+
             while (StartNode != null)
             {
-                
+
                 string searchwithin = StartNode.Tag.ToString();
 
                 //if (StartNode.Parent == null)
@@ -470,9 +474,9 @@ namespace SearchDataSPM
                 ////sparetxtbox.Text = r["AssySpare"].ToString();
                 qtylbl.Visible = false;
                 qtytxtbox.Visible = false;
-               // qtytxtbox.ReadOnly = true;
+                // qtytxtbox.ReadOnly = true;
 
-               // qtytxtbox.BackColor = Color.Gray;
+                // qtytxtbox.BackColor = Color.Gray;
                 string s = treeView1.SelectedNode.Tag.ToString();
                 string[] values = s.Replace("][", "~").Split('~');
                 for (int i = 0; i < values.Length; i++)
@@ -485,7 +489,7 @@ namespace SearchDataSPM
                 Descriptiontxtbox.Text = values[1];
                 oemtxtbox.Text = values[3];
                 oemitemtxtbox.Text = values[4];
-               // familytxtbox.Text = values[2];
+                // familytxtbox.Text = values[2];
                 qtytxtbox.Text = "";
 
 
@@ -502,11 +506,11 @@ namespace SearchDataSPM
                 //qtytxtbox.Text = r["AssyQty"].ToString();
                 ////familytxtbox.Text = r["ItemFamily"].ToString();
                 ////sparetxtbox.Text = r["Spare"].ToString();
-                
-                
+
+
                 qtylbl.Visible = true;
-                qtytxtbox.Visible = true;              
-                
+                qtytxtbox.Visible = true;
+
 
                 string s = treeView1.SelectedNode.Tag.ToString();
                 string[] values = s.Replace("][", "~").Split('~');
@@ -661,7 +665,7 @@ namespace SearchDataSPM
                 {
                     return;
                 }
-                
+
 
             }
             else
@@ -700,7 +704,7 @@ namespace SearchDataSPM
         private void savebttn_Click(object sender, EventArgs e)
         {
             treeView1.SelectedNode = treeView1.Nodes[0];
-            if(treeView1.SelectedNode!=null && treeView1.SelectedNode.Parent == null)
+            if (treeView1.SelectedNode != null && treeView1.SelectedNode.Parent == null)
             {
                 treeView1.PathSeparator = ".";
 
@@ -724,18 +728,18 @@ namespace SearchDataSPM
                 }
                 else
                 {
-                    MessageBox.Show("Assembly list cannot be empty in order to save to AutoCad Catalog.", "SPM Connect",MessageBoxButtons.OK,MessageBoxIcon.Stop);
+                    MessageBox.Show("Assembly list cannot be empty in order to save to AutoCad Catalog.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 }
-                
+
             }
-            
-            
+
+
         }
 
         private void deleteassy(string assyitem)
         {
             string sql;
-            sql = "DELETE FROM [SPMControlCatalog].[dbo].[SPM-Catalog] WHERE [ASSEMBLYCODE] = '"+ assyitem + "' OR [ASSEMBLYLIST] = '" + assyitem + "' ";
+            sql = "DELETE FROM [SPMControlCatalog].[dbo].[SPM-Catalog] WHERE [ASSEMBLYCODE] = '" + assyitem + "' OR [ASSEMBLYLIST] = '" + assyitem + "' ";
 
             try
             {
@@ -915,7 +919,7 @@ namespace SearchDataSPM
         {
             if (e.KeyCode == Keys.Return)
             {
-              
+
                 if (treeView1.SelectedNode != null)
                 {
                     if (qtytxtbox.Text == "0")
@@ -923,7 +927,7 @@ namespace SearchDataSPM
                         qtytxtbox.Text = "1";
                     }
                     treeView1.SelectedNode.Text = ItemTxtBox.Text + " - " + Descriptiontxtbox.Text + " (" + qtytxtbox.Text + " )";
-                    treeView1.SelectedNode.Tag = ItemTxtBox.Text + "][" + Descriptiontxtbox.Text + "][" + " "+"][" + oemtxtbox.Text + "][" + oemitemtxtbox.Text + "][" + qtytxtbox.Text;
+                    treeView1.SelectedNode.Tag = ItemTxtBox.Text + "][" + Descriptiontxtbox.Text + "][" + " " + "][" + oemtxtbox.Text + "][" + oemitemtxtbox.Text + "][" + qtytxtbox.Text;
                 }
                 e.Handled = true;
                 e.SuppressKeyPress = true;
@@ -959,7 +963,19 @@ namespace SearchDataSPM
 
         private void AutocadAssembly_FormClosed(object sender, FormClosedEventArgs e)
         {
+            _userActions.FinishLoggingUserActions(this);
+            log.Info("Closed AutoCadAssembly Form by " + System.Environment.UserName);
             this.Dispose();
+        }
+
+        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+        }
+
+        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
         }
     }
 }

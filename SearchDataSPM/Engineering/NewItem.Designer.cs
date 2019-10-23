@@ -643,6 +643,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Item Number Detail Data - SPM Connect";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.NewItem_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.NewItem_FormClosed);
             this.Load += new System.EventHandler(this.NewItem_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -1,14 +1,21 @@
-﻿using System;
+﻿using SPMConnect.UserActionLog;
+using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
 {
     public partial class SPM_ConnectHome : Form
     {
+        log4net.ILog log;
+        private UserActions _userActions;
+        ErrorHandler errorHandler = new ErrorHandler();
         public SPM_ConnectHome()
         {
+            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
         }
 
@@ -36,8 +43,11 @@ namespace SearchDataSPM
 
         private void SPM_ConnectHome_Load(object sender, EventArgs e)
         {
-
             timer1.Start();
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Opened SPM Connect Home by " + System.Environment.UserName);
+            _userActions = new UserActions(this);
         }
 
         public void Connect_SPMSQL()
@@ -181,6 +191,23 @@ namespace SearchDataSPM
                 }
             }
             return userpresent;
+        }
+
+        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+        }
+
+        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
+        }
+
+        private void SPM_ConnectHome_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _userActions.FinishLoggingUserActions(this);
+            log.Info("Closed SPM Connect Home by " + System.Environment.UserName);
+            this.Dispose();
         }
     }
 }

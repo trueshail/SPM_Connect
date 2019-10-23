@@ -1,25 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using SPMConnect.UserActionLog;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace SearchDataSPM.General
 {
     public partial class SPM_ConnectQuoteManagement : MetroFramework.Forms.MetroForm
     {
-        String connection;
+        string connection;
         SqlConnection cn;
         DataTable dt;
+        log4net.ILog log;
+        private UserActions _userActions;
+        ErrorHandler errorHandler = new ErrorHandler();
 
         public SPM_ConnectQuoteManagement()
         {
+            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
             connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
             try
@@ -53,6 +55,10 @@ namespace SearchDataSPM.General
             dataGridView.Columns[5].Visible = false;
             dataGridView.Columns[6].Visible = false;
             UpdateFont();
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Opened Quote Management by " + System.Environment.UserName);
+            _userActions = new UserActions(this);
         }
 
         private void Showallitems()
@@ -67,7 +73,7 @@ namespace SearchDataSPM.General
                 dt.Clear();
                 sda.Fill(dt);
                 dataGridView.DataSource = dt;
-               
+
 
             }
             catch (Exception)
@@ -484,6 +490,8 @@ namespace SearchDataSPM.General
 
         private void SPM_ConnectJobs_FormClosed(object sender, FormClosedEventArgs e)
         {
+            _userActions.FinishLoggingUserActions(this);
+            log.Info("Closed Quote Management by " + System.Environment.UserName);
             this.Dispose();
         }
 
@@ -630,7 +638,7 @@ namespace SearchDataSPM.General
 
         private void addnewbttn_Click(object sender, EventArgs e)
         {
-            
+
             DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to create a new quote?", "SPM Connect - Create New Quote?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result == DialogResult.Yes)
@@ -643,7 +651,7 @@ namespace SearchDataSPM.General
                     //createfolders(newnunber);
                     showquotedetails(newnunber);
                 }
-                
+
             }
         }
 
@@ -652,7 +660,7 @@ namespace SearchDataSPM.General
             bool success = false;
             DateTime datecreated = DateTime.Now;
             DateTime date = DateTime.Now.Date;
-            
+
             string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
             string sqlFormattedDate = date.ToString("yyyy-MM-dd");
             string folderpath = @"\\spm-adfs\SPM\S300 Sales and Project Management\Sales\Opportunities\";
@@ -667,7 +675,7 @@ namespace SearchDataSPM.General
 
                 cmd.Parameters.AddWithValue("@value1", sqlFormattedDate);
                 cmd.Parameters.AddWithValue("@value2", sqlFormattedDatetime);
-                cmd.ExecuteNonQuery();                
+                cmd.ExecuteNonQuery();
                 cn.Close();
                 success = true;
                 //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -679,11 +687,11 @@ namespace SearchDataSPM.General
             }
             finally
             {
-                cn.Close();               
-            
+                cn.Close();
+
             }
             return success;
-            
+
         }
 
         private static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs)
@@ -766,6 +774,14 @@ namespace SearchDataSPM.General
             DirectoryCopy(sourcepaths300, destpaths300, true);
         }
 
+        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+        }
 
+        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
+        }
     }
 }

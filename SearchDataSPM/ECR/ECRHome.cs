@@ -3,12 +3,12 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Threading;
 using System.Windows.Forms;
-using SPMConnectAPI;
+using SPMConnect.UserActionLog;
 
 namespace SearchDataSPM
 {
-
     public partial class ECRHome : Form
     {
         #region Shipping Home Load
@@ -23,9 +23,14 @@ namespace SearchDataSPM
         string userfullname = "";
         int _advcollapse = 0;
         SPMConnectAPI.ECR connectapi = new SPMConnectAPI.ECR();
+        log4net.ILog log;
+        private UserActions _userActions;
+        ErrorHandler errorHandler = new ErrorHandler();
 
         public ECRHome()
         {
+            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
             formloading = true;
 
@@ -53,7 +58,10 @@ namespace SearchDataSPM
             Showallitems(true);
             txtSearch.Focus();
             formloading = false;
-
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Opened ECR Home by " + System.Environment.UserName);
+            _userActions = new UserActions(this);
         }
 
         private void checkdeptsandrights()
@@ -172,7 +180,6 @@ namespace SearchDataSPM
             UpdateFont();
 
         }
-
 
         private void Reload_Click(object sender, EventArgs e)
         {
@@ -682,6 +689,8 @@ namespace SearchDataSPM
 
         private void SPM_Connect_FormClosed(object sender, FormClosedEventArgs e)
         {
+            _userActions.FinishLoggingUserActions(this);
+            log.Info("Closed ECR Home by " + System.Environment.UserName);
             this.Dispose();
         }
 
@@ -1312,6 +1321,16 @@ namespace SearchDataSPM
             }
             Showallitems(false);
 
+        }
+
+        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+        }
+
+        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
         }
     }
 

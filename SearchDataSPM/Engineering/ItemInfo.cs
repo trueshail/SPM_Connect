@@ -1,20 +1,22 @@
-﻿using System;
+﻿using SPMConnect.UserActionLog;
+using System;
 using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Globalization;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
 {
 
     public partial class ItemInfo : Form
-
     {
         #region steupvariables
-        String connection;
+
+        string connection;
         DataTable _acountsTb;
         DataTable dt = new DataTable();
         DataTable PO;
@@ -25,13 +27,16 @@ namespace SearchDataSPM
         string iteminfo2;
         int PW;
         bool hiden;
-
+        log4net.ILog log;
+        private UserActions _userActions;
+        ErrorHandler errorHandler = new ErrorHandler();
 
         #endregion
 
         public ItemInfo()
-
         {
+            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
             PW = 500;
             hiden = true;
@@ -84,7 +89,10 @@ namespace SearchDataSPM
             }
 
             checkfordata(iteminfo2);
-
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Opened Item Details " + iteminfo2 + " by " + System.Environment.UserName);
+            _userActions = new UserActions(this);
 
             // filldatatable(iteminfo2);
 
@@ -564,6 +572,8 @@ namespace SearchDataSPM
 
         private void ItemInfo_FormClosed(object sender, FormClosedEventArgs e)
         {
+            _userActions.FinishLoggingUserActions(this);
+            log.Info("Closed Item Details " + iteminfo2 + " by " + System.Environment.UserName);
             this.Dispose();
         }
 
@@ -579,6 +589,16 @@ namespace SearchDataSPM
                 this.Size = new Size(750, 520);
                 dataGridView2.Visible = false;
             }
+        }
+
+        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+        }
+
+        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
         }
     }
 

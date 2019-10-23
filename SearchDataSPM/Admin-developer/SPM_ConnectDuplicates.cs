@@ -1,16 +1,9 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Configuration;
+﻿using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 
@@ -51,7 +44,7 @@ namespace SearchDataSPM
             //Text = SearchDataSPM.Properties.Settings.Default.Title;          
             Connect_SPMSQL();
             string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-           // MessageBox.Show(userName);
+            // MessageBox.Show(userName);
         }
 
         private void Connect_SPMSQL()
@@ -110,7 +103,7 @@ namespace SearchDataSPM
             showduplicates();
             //TimeSpan elapsed = sw.Elapsed;
             //MessageBox.Show("Query took: " + elapsed.TotalSeconds);
-           
+
         }
 
         private void UpdateFont()
@@ -235,7 +228,7 @@ namespace SearchDataSPM
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
-        
+
 
         }
 
@@ -295,7 +288,7 @@ namespace SearchDataSPM
                 e.SuppressKeyPress = true;
 
             }
-     
+
         }
 
         private void filteroem_txtbox_KeyDown(object sender, KeyEventArgs e)
@@ -349,7 +342,7 @@ namespace SearchDataSPM
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
-        
+
         }
 
         private void filteroemitem_txtbox_KeyDown(object sender, KeyEventArgs e)
@@ -402,7 +395,7 @@ namespace SearchDataSPM
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
-           
+
         }
 
         private void filter4_KeyDown(object sender, KeyEventArgs e)
@@ -444,7 +437,7 @@ namespace SearchDataSPM
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
-          
+
         }
 
         #endregion
@@ -713,7 +706,7 @@ namespace SearchDataSPM
             {
                 int columnindex = e.RowIndex;
                 dataGridView.ClearSelection();
-                 dataGridView.Rows[columnindex].Selected = true;
+                dataGridView.Rows[columnindex].Selected = true;
 
             }
         }
@@ -847,7 +840,7 @@ namespace SearchDataSPM
 
         #region ParentView
 
-       // public static string whereused;
+        // public static string whereused;
 
         private void ParentView_Click(object sender, EventArgs e)
         {
@@ -905,7 +898,7 @@ namespace SearchDataSPM
             string c = Convert.ToString(columnchk.Index);
             //MessageBox.Show(c);
 
-            if (dataGridView.SelectedRows.Count == 1)          
+            if (dataGridView.SelectedRows.Count == 1)
             {
                 int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                 DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
@@ -918,7 +911,7 @@ namespace SearchDataSPM
             }
             else
             {
-               //assytree = "";
+                //assytree = "";
                 TreeView treeView = new TreeView();
                 treeView.Show();
             }
@@ -941,7 +934,7 @@ namespace SearchDataSPM
         #region Closing SPMConnect
 
         public static bool checkboxshop = false;
-  
+
         private void SPM_Connect_FormClosing(object sender, FormClosingEventArgs e)
         {
             this.Dispose();

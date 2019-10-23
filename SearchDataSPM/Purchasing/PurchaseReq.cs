@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SPMConnect.UserActionLog;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -37,6 +38,9 @@ namespace SearchDataSPM
         List<string> Itemstodiscard = new List<string>();
         int supervisoridfromreq = 0;
         bool showingwaitingforapproval = false;
+        log4net.ILog log;
+        private UserActions _userActions;
+        ErrorHandler errorHandler = new ErrorHandler();
 
         #endregion
 
@@ -44,6 +48,8 @@ namespace SearchDataSPM
 
         public PurchaseReqform()
         {
+            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
 
             connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
@@ -110,6 +116,10 @@ namespace SearchDataSPM
             Debug.WriteLine(higherauthority);
             Debug.WriteLine(pbuyer);
             Debug.WriteLine(supervisoridfromreq);
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Opened Purchase Req by " + System.Environment.UserName);
+            _userActions = new UserActions(this);
         }
 
         void changecontrolbuttonnames()
@@ -1673,6 +1683,8 @@ namespace SearchDataSPM
 
         private void PurchaseReqform_FormClosed(object sender, FormClosedEventArgs e)
         {
+            _userActions.FinishLoggingUserActions(this);
+            log.Info("Closed Purchase Req by " + System.Environment.UserName);
             this.Dispose();
         }
 
@@ -4242,5 +4254,15 @@ namespace SearchDataSPM
         }
 
         #endregion
+
+        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+        }
+
+        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
+        }
     }
 }

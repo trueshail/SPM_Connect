@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using SPMConnect.UserActionLog;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace SearchDataSPM.Admin_developer
@@ -16,11 +12,16 @@ namespace SearchDataSPM.Admin_developer
     {
 
         SqlConnection cn;
-        String connection;
+        string connection;
         DataTable dt;
+        log4net.ILog log;
+        private UserActions _userActions;
+        ErrorHandler errorHandler = new ErrorHandler();
 
         public UserStatus()
         {
+            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
 
             connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
@@ -42,6 +43,10 @@ namespace SearchDataSPM.Admin_developer
         {
             Checkdeveloper();
             loaddata();
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Opened User Status by " + System.Environment.UserName);
+            _userActions = new UserActions(this);
         }
 
         private void loaddata()
@@ -183,10 +188,12 @@ namespace SearchDataSPM.Admin_developer
 
         private void UserStatus_FormClosed(object sender, FormClosedEventArgs e)
         {
+            _userActions.FinishLoggingUserActions(this);
+            log.Info("Closed User Status by " + System.Environment.UserName);
             this.Dispose();
         }
 
-        private String getuserselected()
+        private string getuserselected()
         {
             int selectedclmindex = dataGridView1.SelectedCells[0].ColumnIndex;
             DataGridViewColumn columnchk = dataGridView1.Columns[selectedclmindex];
@@ -208,7 +215,7 @@ namespace SearchDataSPM.Admin_developer
             }
         }
 
-        private String getapplicaitonrunning()
+        private string getapplicaitonrunning()
         {
             int selectedclmindex = dataGridView1.SelectedCells[0].ColumnIndex;
             DataGridViewColumn columnchk = dataGridView1.Columns[selectedclmindex];
@@ -230,5 +237,14 @@ namespace SearchDataSPM.Admin_developer
             }
         }
 
+        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+        }
+
+        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
+        }
     }
 }

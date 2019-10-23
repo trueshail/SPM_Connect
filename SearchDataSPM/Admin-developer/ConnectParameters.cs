@@ -1,7 +1,9 @@
-﻿using System;
+﻿using SPMConnect.UserActionLog;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
@@ -10,9 +12,13 @@ namespace SearchDataSPM
     {
         private BindingSource bindingSource1 = new BindingSource();
         private SqlDataAdapter dataAdapter = new SqlDataAdapter();
-
+        log4net.ILog log;
+        private UserActions _userActions;
+        ErrorHandler errorHandler = new ErrorHandler();
         public ConnectParameters()
         {
+            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
         }
 
@@ -21,13 +27,17 @@ namespace SearchDataSPM
             bindingSource1.EndEdit();
             dataAdapter.Update((DataTable)bindingSource1.DataSource);
             GetData();
-            MessageBox.Show("You have successfully saved changes.","SPM Connect",MessageBoxButtons.OK,MessageBoxIcon.Information);
+            MessageBox.Show("You have successfully saved changes.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void ConnectParameters_Load(object sender, EventArgs e)
         {
             dataGridView1.DataSource = bindingSource1;
             GetData();
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Opened Connect Parameters by " + System.Environment.UserName);
+            _userActions = new UserActions(this);
         }
 
         private void GetData()
@@ -67,7 +77,7 @@ namespace SearchDataSPM
 
         private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.Delete)
+            if (e.KeyCode == Keys.Delete)
             {
                 if (MessageBox.Show("Are you sure want to delete this record?", "Delete Parameter", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     bindingSource1.RemoveCurrent();
@@ -89,9 +99,25 @@ namespace SearchDataSPM
                     dataGridView1.BeginEdit(true);
                     if (dataGridView1.CurrentCell.ColumnIndex.Equals(1) && e.RowIndex != -1)
                         MessageBox.Show("Not allowed to edit parameters name as they are being used by the program.", "SPM Connect - Allow Edit", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                } 
+                }
             }
         }
 
+        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+        }
+
+        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
+        }
+
+        private void ConnectParameters_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _userActions.FinishLoggingUserActions(this);
+            log.Info("Closed Connect Parameters by " + System.Environment.UserName);
+            this.Dispose();
+        }
     }
 }

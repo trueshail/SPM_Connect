@@ -1,8 +1,10 @@
-﻿using SPMConnectAPI;
+﻿using SPMConnect.UserActionLog;
+using SPMConnectAPI;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
@@ -14,9 +16,14 @@ namespace SearchDataSPM
         List<char> _barcode = new List<char>(10);
         int userinputtime = 100;
         bool developer = false;
+        log4net.ILog log;
+        private UserActions _userActions;
+        ErrorHandler errorHandler = new ErrorHandler();
 
         public ScanWO()
         {
+            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
             //connectapi.SPM_Connect();
         }
@@ -27,6 +34,10 @@ namespace SearchDataSPM
             woid_txtbox.Focus();
             userinputtime = connectapi.getuserinputtime();
             developer = connectapi.Checkdeveloper();
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Opened Scan Work Order by " + System.Environment.UserName);
+            _userActions = new UserActions(this);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -121,6 +132,23 @@ namespace SearchDataSPM
                     woid_txtbox.Focus();
                 }
             }
+        }
+
+        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+        }
+
+        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
+        }
+
+        private void ScanWO_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _userActions.FinishLoggingUserActions(this);
+            log.Info("Closed Scan Work Order by " + System.Environment.UserName);
+            this.Dispose();
         }
     }
 }

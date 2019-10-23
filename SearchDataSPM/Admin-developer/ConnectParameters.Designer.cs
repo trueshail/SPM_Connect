@@ -78,6 +78,7 @@
             this.Name = "ConnectParameters";
             this.Text = "SPM Connect Parameters";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ConnectParameters_FormClosed);
             this.Load += new System.EventHandler(this.ConnectParameters_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);

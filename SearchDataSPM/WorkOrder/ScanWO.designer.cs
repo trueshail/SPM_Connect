@@ -127,7 +127,7 @@
             this.woid_txtbox.MaxLength = 32767;
             this.woid_txtbox.Name = "woid_txtbox";
             this.woid_txtbox.PasswordChar = '*';
-            this.woid_txtbox.WaterMark = "Scan Work Order";
+            this.woid_txtbox.PromptText = "Scan Work Order";
             this.woid_txtbox.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.woid_txtbox.SelectedText = "";
             this.woid_txtbox.SelectionLength = 0;
@@ -165,6 +165,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SPM Connect - Work Order Scanning";
             this.Activated += new System.EventHandler(this.ScanWO_Activated);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ScanWO_FormClosed);
             this.Load += new System.EventHandler(this.Home_Load);
             this.Move += new System.EventHandler(this.ScanWO_Move);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();

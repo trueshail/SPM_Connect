@@ -593,6 +593,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Quote Details";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.QuoteDetails_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.QuoteDetails_FormClosed);
             this.Load += new System.EventHandler(this.QuoteDetails_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

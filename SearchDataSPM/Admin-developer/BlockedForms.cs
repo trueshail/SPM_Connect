@@ -1,20 +1,26 @@
-﻿using System;
+﻿using SPMConnect.UserActionLog;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace SearchDataSPM.Admin_developer
 {
     public partial class BlockedForms : Form
     {
-
         SqlConnection cn;
-        String connection;
+        string connection;
         DataTable dt;
+        log4net.ILog log;
+        private UserActions _userActions;
+        ErrorHandler errorHandler = new ErrorHandler();
 
         public BlockedForms()
         {
+            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
 
             connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
@@ -36,6 +42,10 @@ namespace SearchDataSPM.Admin_developer
         {
             Checkdeveloper();
             loaddata();
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Opened Blocked Forms by " + System.Environment.UserName);
+            _userActions = new UserActions(this);
         }
 
         private void loaddata()
@@ -174,6 +184,8 @@ namespace SearchDataSPM.Admin_developer
 
         private void UserStatus_FormClosed(object sender, FormClosedEventArgs e)
         {
+            _userActions.FinishLoggingUserActions(this);
+            log.Info("Closed Blocked Forms by " + System.Environment.UserName);
             this.Dispose();
         }
 
@@ -243,5 +255,14 @@ namespace SearchDataSPM.Admin_developer
             }
         }
 
+        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+        }
+
+        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
+        }
     }
 }

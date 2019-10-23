@@ -1,6 +1,8 @@
-﻿using SPMConnectAPI;
+﻿using SPMConnect.UserActionLog;
+using SPMConnectAPI;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
@@ -12,9 +14,14 @@ namespace SearchDataSPM
         WorkOrder connectapi = new WorkOrder();
         int userinputtime = 100;
         bool developer = false;
+        log4net.ILog log;
+        private UserActions _userActions;
+        ErrorHandler errorHandler = new ErrorHandler();
 
         public ScanEmpId()
         {
+            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
             //connectapi.SPM_Connect();
         }
@@ -26,6 +33,10 @@ namespace SearchDataSPM
             empid_txtbox.Focus();
             userinputtime = connectapi.getuserinputtime();
             developer = connectapi.Checkdeveloper();
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Opened Scan Emp ID by " + System.Environment.UserName);
+            _userActions = new UserActions(this);
         }
 
 
@@ -71,8 +82,25 @@ namespace SearchDataSPM
         {
             if (!(empid_txtbox.Text.Length > 0))
             {
-               // e.Cancel = true;
+                // e.Cancel = true;
             }
+        }
+
+        private void ScanEmpId_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _userActions.FinishLoggingUserActions(this);
+            log.Info("Closed Scan Emp ID by " + System.Environment.UserName);
+            this.Dispose();
+        }
+
+        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+        }
+
+        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
         }
     }
 }

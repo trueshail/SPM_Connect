@@ -1,15 +1,13 @@
-﻿using System;
+﻿using SPMConnect.UserActionLog;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
@@ -20,8 +18,8 @@ namespace SearchDataSPM
     {
         #region setup variables
 
-        String connection;
-        String cntrlconnection;
+        string connection;
+        string cntrlconnection;
         DataTable _acountsTb = null;
         DataTable _productTB;
         SqlConnection _connection;
@@ -30,14 +28,18 @@ namespace SearchDataSPM
         //SqlDataAdapter _adapaterproduct;
         TreeNode root = new TreeNode();
         string txtvalue;
+        log4net.ILog log;
+        private UserActions _userActions;
+        ErrorHandler errorHandler = new ErrorHandler();
 
         #endregion
 
         #region whereused loading
 
         public AutocadWhereUsed()
-
         {
+            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
             connection = ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
             cntrlconnection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cntrlscn"].ConnectionString;
@@ -85,6 +87,10 @@ namespace SearchDataSPM
                 startprocessofwhereused();
             }
             Assy_txtbox.Select();
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Opened AutoCadWhereUsed Form by " + System.Environment.UserName);
+            _userActions = new UserActions(this);
 
         }
 
@@ -104,7 +110,7 @@ namespace SearchDataSPM
                 //_adapaterproduct.Fill(_productTB);
                 _adapter.Fill(_acountsTb);
                 fillrootnode();
-                
+
             }
             catch (SqlException ex)
             {
@@ -146,7 +152,7 @@ namespace SearchDataSPM
             treeView1.Nodes.Clear();
             treeView1.ResetText();
             RemoveChildNodes(root);
-            _acountsTb.Clear();           
+            _acountsTb.Clear();
             Expandchk.Checked = false;
             txtSearch.Clear();
             ItemTxtBox.Clear();
@@ -202,46 +208,46 @@ namespace SearchDataSPM
         private void fillrootnode()
         {
             //if (Assy_txtbox.Text.Length == 6)
-           // {
-                Assy_txtbox.BackColor = Color.White; //to add high light
-                try
-                {
-                    treeView1.Nodes.Clear();
-                    RemoveChildNodes(root);
-                    treeView1.ResetText();
-                    Expandchk.Checked = false;
-                    //DataRow[] dr = _productTB.Select("ItemNumber = '" + txtvalue.ToString() + "'");
-                    DataRow[] dr = _acountsTb.Select("QUERY2 = '" + txtvalue.ToString() + "'");
+            // {
+            Assy_txtbox.BackColor = Color.White; //to add high light
+            try
+            {
+                treeView1.Nodes.Clear();
+                RemoveChildNodes(root);
+                treeView1.ResetText();
+                Expandchk.Checked = false;
+                //DataRow[] dr = _productTB.Select("ItemNumber = '" + txtvalue.ToString() + "'");
+                DataRow[] dr = _acountsTb.Select("QUERY2 = '" + txtvalue.ToString() + "'");
 
 
-                    root.Text = dr[0]["QUERY2"].ToString() + " - " + dr[0]["DESCRIPTION"].ToString();
-                    root.Tag = _acountsTb.Rows.IndexOf(dr[0]);
+                root.Text = dr[0]["QUERY2"].ToString() + " - " + dr[0]["DESCRIPTION"].ToString();
+                root.Tag = _acountsTb.Rows.IndexOf(dr[0]);
 
-                    //Font f = FontStyle.Bold);
-                    // root.NodeFont = f;
+                //Font f = FontStyle.Bold);
+                // root.NodeFont = f;
 
-                    treeView1.Nodes.Add(root);
-                    PopulateTreeView(Assy_txtbox.Text, root);
+                treeView1.Nodes.Add(root);
+                PopulateTreeView(Assy_txtbox.Text, root);
 
-                    chekroot = "Item";
+                chekroot = "Item";
 
-                    ItemTxtBox.Text = dr[0]["QUERY2"].ToString();
-                    Descriptiontxtbox.Text = dr[0]["DESCRIPTION"].ToString();
-                    oemtxtbox.Text = dr[0]["USER3"].ToString();
-                    oemitemtxtbox.Text = dr[0]["TEXTVALUE"].ToString();
-                    assemblycode = dr[0]["ASSEMBLYLIST"].ToString();
-                    // PopulateTreeView(assemblycode, root);
+                ItemTxtBox.Text = dr[0]["QUERY2"].ToString();
+                Descriptiontxtbox.Text = dr[0]["DESCRIPTION"].ToString();
+                oemtxtbox.Text = dr[0]["USER3"].ToString();
+                oemitemtxtbox.Text = dr[0]["TEXTVALUE"].ToString();
+                assemblycode = dr[0]["ASSEMBLYLIST"].ToString();
+                // PopulateTreeView(assemblycode, root);
 
 
-                }
-                catch
-                {
-                    treeView1.TopNode.Nodes.Clear();
-                    treeView1.Nodes.Clear();
-                    RemoveChildNodes(root);
-                    treeView1.ResetText();
-                    Expandchk.Checked = false;
-                }
+            }
+            catch
+            {
+                treeView1.TopNode.Nodes.Clear();
+                treeView1.Nodes.Clear();
+                RemoveChildNodes(root);
+                treeView1.ResetText();
+                Expandchk.Checked = false;
+            }
             //}
             //else
             //{
@@ -671,7 +677,19 @@ namespace SearchDataSPM
 
         private void AutocadWhereUsed_FormClosed(object sender, FormClosedEventArgs e)
         {
+            _userActions.FinishLoggingUserActions(this);
+            log.Info("Closed AutoCadWhereUsed Form by " + System.Environment.UserName);
             this.Dispose();
+        }
+
+        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+        }
+
+        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
         }
     }
 

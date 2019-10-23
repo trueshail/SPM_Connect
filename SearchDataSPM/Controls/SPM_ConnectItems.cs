@@ -1,7 +1,9 @@
-﻿using System;
+﻿using SPMConnect.UserActionLog;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
@@ -12,34 +14,29 @@ namespace SearchDataSPM
     {
         #region SPM Connect Load
 
-        String connection;
+        string connection;
         SqlConnection cn;
         DataTable dt;
-        DataTable _controlsTb = null;
-        SqlConnection _connection;
-        SqlCommand _command;
+        log4net.ILog log;
+        private UserActions _userActions;
+        ErrorHandler errorHandler = new ErrorHandler();
 
         public SPM_ConnectItems()
-
         {
+            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
             connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
+
             try
             {
                 cn = new SqlConnection(connection);
-                _controlsTb = new DataTable();
-                _connection = new SqlConnection("Data Source=tcp:DESKTOP-8N7AJNL,49172;Initial Catalog=SPM_Database;;user id=SPM_Agent;password=spm@5445");
-                _command = new SqlCommand();
-                _command.Connection = _connection;
 
             }
-            catch (Exception )
+            catch (Exception)
             {
-
-               // MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                MessageBox.Show("Error Connecting to SQL Server.....", "SPM Connect - ENG", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error Connecting to SQL Server.....", "SPM Connect - Items", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
-                Environment.Exit(0);
 
             }
             dt = new DataTable();
@@ -48,10 +45,12 @@ namespace SearchDataSPM
         private void SPM_Connect_Load(object sender, EventArgs e)
         {
             Showallitems();
-            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;            
+            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
             this.Text = "SPM Connect Engineering - " + userName.ToString().Substring(4);
-
-
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Opened Connect Select Items by " + System.Environment.UserName);
+            _userActions = new UserActions(this);
         }
 
         private void Showallitems()
@@ -518,7 +517,19 @@ namespace SearchDataSPM
 
         private void SPM_ConnectItems_FormClosed(object sender, FormClosedEventArgs e)
         {
+            _userActions.FinishLoggingUserActions(this);
+            log.Info("Closed Select Items by " + System.Environment.UserName);
             this.Dispose();
+        }
+
+        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+        }
+
+        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
         }
     }
 }

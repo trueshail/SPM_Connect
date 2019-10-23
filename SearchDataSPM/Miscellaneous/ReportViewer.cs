@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Threading;
 using System.Windows.Forms;
+using SPMConnect.UserActionLog;
 using SPMConnectAPI;
 
 namespace SearchDataSPM
@@ -7,9 +9,14 @@ namespace SearchDataSPM
     public partial class ReportViewer : Form
     {
         SPMConnectAPI.SPMSQLCommands connectapi = new SPMSQLCommands();
+        log4net.ILog log;
+        private UserActions _userActions;
+        ErrorHandler errorHandler = new ErrorHandler();
 
         public ReportViewer()
         {
+            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
             string connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
             // connectapi.SPM_Connect();
@@ -73,6 +80,11 @@ namespace SearchDataSPM
                 this.reportViewer1.RefreshReport();
                 filloneParamter();
             }
+
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Opened ReportViewer, ReportName : " + reportname + ", ItemNumber : " + itemnumber + " by " + System.Environment.UserName);
+            _userActions = new UserActions(this);
         }
 
         string itemnumber = "";
@@ -136,6 +148,8 @@ namespace SearchDataSPM
 
         private void ReportViewer_FormClosed(object sender, FormClosedEventArgs e)
         {
+            _userActions.FinishLoggingUserActions(this);
+            log.Info("Closed ReportViewer, ReportName : " + reportname + ", ItemNumber : " + itemnumber + " by " + System.Environment.UserName);
             this.Dispose();
         }
 
@@ -154,5 +168,14 @@ namespace SearchDataSPM
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
+        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+        }
+
+        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
+        }
     }
 }

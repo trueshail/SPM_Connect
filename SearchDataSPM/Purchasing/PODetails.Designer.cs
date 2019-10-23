@@ -112,6 +112,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PO Details";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PODetails_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.PODetails_FormClosed);
             this.Load += new System.EventHandler(this.ImportFileSelector_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

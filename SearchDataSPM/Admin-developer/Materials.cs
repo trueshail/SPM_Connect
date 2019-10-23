@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using SPMConnect.UserActionLog;
+using System;
 using System.Data;
 using System.Data.Entity;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
@@ -14,9 +11,14 @@ namespace SearchDataSPM
     public partial class Materials : Form
     {
         Material model = new Material();
+        log4net.ILog log;
+        private UserActions _userActions;
+        ErrorHandler errorHandler = new ErrorHandler();
 
         public Materials()
         {
+            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
         }
 
@@ -27,7 +29,7 @@ namespace SearchDataSPM
 
         void Clear()
         {
-            custname.Text  =  "";
+            custname.Text = "";
             btnSave.Text = "Save";
             btnDelete.Enabled = false;
             model.id = 0;
@@ -37,11 +39,15 @@ namespace SearchDataSPM
         {
             Clear();
             PopulateDataGridView();
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Opened Manage Materials by " + System.Environment.UserName);
+            _userActions = new UserActions(this);
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            
+
             model.MaterialNames = custname.Text.Trim();
             using (SPM_DatabaseEntities1 db = new SPM_DatabaseEntities1())
             {
@@ -62,7 +68,7 @@ namespace SearchDataSPM
             using (SPM_DatabaseEntities1 db = new SPM_DatabaseEntities1())
             {
                 dgvCustomer.DataSource = db.Materials.ToList<Material>();
-                
+
             }
         }
 
@@ -83,7 +89,8 @@ namespace SearchDataSPM
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are You Sure to Delete this Record ?", "SPM Connect", MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.Yes) {
+            if (MessageBox.Show("Are You Sure to Delete this Record ?", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
                 using (SPM_DatabaseEntities1 db = new SPM_DatabaseEntities1())
                 {
                     var entry = db.Entry(model);
@@ -100,7 +107,19 @@ namespace SearchDataSPM
 
         private void Materials_FormClosed(object sender, FormClosedEventArgs e)
         {
+            _userActions.FinishLoggingUserActions(this);
+            log.Info("Closed Manage Materials by " + System.Environment.UserName);
             this.Dispose();
+        }
+
+        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+        }
+
+        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
         }
     }
 }

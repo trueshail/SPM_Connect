@@ -17,6 +17,7 @@ using System.Threading;
 using TableDependency.SqlClient;
 using TableDependency.SqlClient.Base;
 using SPMConnectAPI;
+using SPMConnect.UserActionLog;
 
 namespace SearchDataSPM
 {
@@ -24,7 +25,9 @@ namespace SearchDataSPM
     public partial class SPM_Connect : Form
     {
         #region SPM Connect Load
-
+        private UserActions _userActions;
+        ErrorHandler errorHandler = new ErrorHandler();
+        log4net.ILog log;
         string connection;
         string cntrlconnection;
         SqlConnection cn;
@@ -36,15 +39,18 @@ namespace SearchDataSPM
         bool production = false;
         bool controls = false;
         int _advcollapse = 0;
+        bool showingduplicates = false;
         //bool purchasereqnotification = false;
         bool showingfavorites = false;
         //SearchDataSPM.pnotifier purchaseReq = new SearchDataSPM.pnotifier();
-        SPMConnectAPI.SPMSQLCommands connectapi = new SPMSQLCommands();
-        SPMConnectAPI.Controls connectapicntrls = new SPMConnectAPI.Controls();
+        SPMSQLCommands connectapi = new SPMSQLCommands();
+        Controls connectapicntrls = new Controls();
         //AutoCompleteStringCollection autoComplete = new AutoCompleteStringCollection();
 
         public SPM_Connect()
         {
+            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
             formloading = true;
 
@@ -83,6 +89,12 @@ namespace SearchDataSPM
             txtSearch.Focus();
             formloading = false;
             this.Show();
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Opened SPM Connect Eng by " + System.Environment.UserName);
+            _userActions = new UserActions(this);
+
+
         }
 
         private void checkdeptsandrights()
@@ -225,6 +237,7 @@ namespace SearchDataSPM
             dataGridView.Sort(itemNumberDataGridViewTextBoxColumn, ListSortDirection.Descending);
             UpdateFont();
             showingfavorites = false;
+            showingduplicates = false;
         }
 
         private void Reload_Click(object sender, EventArgs e)
@@ -241,6 +254,7 @@ namespace SearchDataSPM
             SendKeys.Send("~");
             dataGridView.Refresh();
             showingfavorites = false;
+            showingduplicates = false;
         }
 
         private void UpdateFont()
@@ -439,24 +453,28 @@ namespace SearchDataSPM
                 }
                 if (txtSearch.Text.ToLower() == "showduplicates")
                 {
-                    SPM_ConnectDuplicates sPM_Connect = new SPM_ConnectDuplicates();
-                    sPM_Connect.Show();
+                    showduplicates();
                     return;
                 }
                 if (Descrip_txtbox.Visible == true)
                 {
                     clearandhide();
                 }
-                if (!showingfavorites)
+                if (!showingfavorites && !showingduplicates)
                 {
                     if (designedbycombobox.Text == "" && lastsavedbycombo.Text == "" && familycomboxbox.Text == "" && Manufactureritemcomboxbox.Text == "" && oemitemcombobox.Text == "" && ActiveCadblockcombobox.Text == "" && MaterialcomboBox.Text == "")
                     {
                         Showallitems();
                     }
                 }
-                else
+                else if (showingfavorites && !showingduplicates)
                 {
                     showfavorites();
+                    txtSearch.Text = searchtexttxt;
+                }
+                else
+                {
+                    showduplicates();
                     txtSearch.Text = searchtexttxt;
                 }
 
@@ -1218,6 +1236,8 @@ namespace SearchDataSPM
 
         private void SPM_Connect_FormClosed(object sender, FormClosedEventArgs e)
         {
+            _userActions.FinishLoggingUserActions(this);
+            log.Info("Closed SPM Connect Eng by " + System.Environment.UserName);
             this.Dispose();
         }
 
@@ -3165,6 +3185,31 @@ namespace SearchDataSPM
 
             }
 
+
+        }
+
+        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+        }
+
+        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
+        }
+
+        private void showduplicates()
+        {
+            clearandhide();
+            txtSearch.Clear();
+            txtSearch.Focus();
+            dt.Clear();
+            dt = connectapi.ShowDuplicates();
+            dataGridView.DataSource = dt;
+            DataView dv = dt.DefaultView;
+            UpdateFont();
+            showingduplicates = true;
+            recordlabel.Text = "Showing " + dataGridView.Rows.Count + " duplicate items.";
 
         }
     }

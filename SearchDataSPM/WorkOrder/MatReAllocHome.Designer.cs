@@ -236,7 +236,7 @@ namespace SearchDataSPM
             this.woreqcombox.FormattingEnabled = true;
             this.woreqcombox.Location = new System.Drawing.Point(6, 379);
             this.woreqcombox.Name = "woreqcombox";
-            this.woreqcombox.Size = new System.Drawing.Size(165, 21);
+            this.woreqcombox.Size = new System.Drawing.Size(157, 21);
             this.woreqcombox.TabIndex = 125;
             this.TreeViewToolTip.SetToolTip(this.woreqcombox, "Filter by ship to");
             this.woreqcombox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Manufactureritemcomboxbox_KeyDown);
@@ -252,7 +252,7 @@ namespace SearchDataSPM
             this.reqstbycomboxbox.FormattingEnabled = true;
             this.reqstbycomboxbox.Location = new System.Drawing.Point(6, 230);
             this.reqstbycomboxbox.Name = "reqstbycomboxbox";
-            this.reqstbycomboxbox.Size = new System.Drawing.Size(165, 21);
+            this.reqstbycomboxbox.Size = new System.Drawing.Size(157, 21);
             this.reqstbycomboxbox.TabIndex = 123;
             this.TreeViewToolTip.SetToolTip(this.reqstbycomboxbox, "Filter Requested By");
             this.reqstbycomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.familycomboxbox_KeyDown);
@@ -268,7 +268,7 @@ namespace SearchDataSPM
             this.Jobreqcombo.FormattingEnabled = true;
             this.Jobreqcombo.Location = new System.Drawing.Point(6, 520);
             this.Jobreqcombo.Name = "Jobreqcombo";
-            this.Jobreqcombo.Size = new System.Drawing.Size(165, 21);
+            this.Jobreqcombo.Size = new System.Drawing.Size(157, 21);
             this.Jobreqcombo.TabIndex = 127;
             this.TreeViewToolTip.SetToolTip(this.Jobreqcombo, "Filter by last saved");
             this.Jobreqcombo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lastsavedbycombo_KeyDown);
@@ -287,7 +287,7 @@ namespace SearchDataSPM
             "SPM AUTOMATION (Canada) INC."});
             this.itemcombobox.Location = new System.Drawing.Point(6, 304);
             this.itemcombobox.Name = "itemcombobox";
-            this.itemcombobox.Size = new System.Drawing.Size(165, 21);
+            this.itemcombobox.Size = new System.Drawing.Size(157, 21);
             this.itemcombobox.TabIndex = 124;
             this.TreeViewToolTip.SetToolTip(this.itemcombobox, "Filter by sold to");
             this.itemcombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.oemitemcombobox_KeyDown);
@@ -306,7 +306,7 @@ namespace SearchDataSPM
             this.jobtakencombobox.FormattingEnabled = true;
             this.jobtakencombobox.Location = new System.Drawing.Point(6, 594);
             this.jobtakencombobox.Name = "jobtakencombobox";
-            this.jobtakencombobox.Size = new System.Drawing.Size(165, 21);
+            this.jobtakencombobox.Size = new System.Drawing.Size(157, 21);
             this.jobtakencombobox.TabIndex = 128;
             this.TreeViewToolTip.SetToolTip(this.jobtakencombobox, "Filter by customer or vendor");
             this.jobtakencombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ActiveCadblockcombobox_KeyDown);
@@ -326,7 +326,7 @@ namespace SearchDataSPM
             "Joel Goldsmith"});
             this.apprvdbycomboxbox.Location = new System.Drawing.Point(6, 153);
             this.apprvdbycomboxbox.Name = "apprvdbycomboxbox";
-            this.apprvdbycomboxbox.Size = new System.Drawing.Size(165, 21);
+            this.apprvdbycomboxbox.Size = new System.Drawing.Size(157, 21);
             this.apprvdbycomboxbox.TabIndex = 122;
             this.TreeViewToolTip.SetToolTip(this.apprvdbycomboxbox, "Filter Approved By");
             this.apprvdbycomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.designedbycombobox_KeyDown);
@@ -342,7 +342,7 @@ namespace SearchDataSPM
             this.wotakenfromcomboBox.FormattingEnabled = true;
             this.wotakenfromcomboBox.Location = new System.Drawing.Point(6, 450);
             this.wotakenfromcomboBox.Name = "wotakenfromcomboBox";
-            this.wotakenfromcomboBox.Size = new System.Drawing.Size(165, 21);
+            this.wotakenfromcomboBox.Size = new System.Drawing.Size(157, 21);
             this.wotakenfromcomboBox.TabIndex = 126;
             this.TreeViewToolTip.SetToolTip(this.wotakenfromcomboBox, "Filter by carrier");
             this.wotakenfromcomboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MaterialcomboBox_KeyDown);

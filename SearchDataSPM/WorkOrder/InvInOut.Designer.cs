@@ -143,7 +143,7 @@
             this.woid_txtbox.MaxLength = 32767;
             this.woid_txtbox.Name = "woid_txtbox";
             this.woid_txtbox.PasswordChar = '*';
-            this.woid_txtbox.WaterMark = "Scan Work Order";
+            this.woid_txtbox.PromptText = "Scan Work Order";
             this.woid_txtbox.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.woid_txtbox.SelectedText = "";
             this.woid_txtbox.SelectionLength = 0;
@@ -183,7 +183,7 @@
             this.empid_txtbox.MaxLength = 32767;
             this.empid_txtbox.Name = "empid_txtbox";
             this.empid_txtbox.PasswordChar = '*';
-            this.empid_txtbox.WaterMark = "Scan Emp Id";
+            this.empid_txtbox.PromptText = "Scan Emp Id";
             this.empid_txtbox.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.empid_txtbox.SelectedText = "";
             this.empid_txtbox.SelectionLength = 0;
@@ -294,7 +294,7 @@
             // DateTimeLbl
             // 
             this.DateTimeLbl.Name = "DateTimeLbl";
-            this.DateTimeLbl.Size = new System.Drawing.Size(58, 22);
+            this.DateTimeLbl.Size = new System.Drawing.Size(57, 22);
             this.DateTimeLbl.Text = "DateTime";
             // 
             // toolStripSeparator2
@@ -343,7 +343,7 @@
             this.apprvlidtxt.MaxLength = 32767;
             this.apprvlidtxt.Name = "apprvlidtxt";
             this.apprvlidtxt.PasswordChar = '*';
-            this.apprvlidtxt.WaterMark = "Scan Emp Id";
+            this.apprvlidtxt.PromptText = "Scan Emp Id";
             this.apprvlidtxt.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.apprvlidtxt.SelectedText = "";
             this.apprvlidtxt.SelectionLength = 0;
@@ -391,6 +391,7 @@
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SPM Connect - Crib Management";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.InvInOut_FormClosed);
             this.Load += new System.EventHandler(this.Home_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.toolStrip1.ResumeLayout(false);

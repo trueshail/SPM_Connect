@@ -1,8 +1,10 @@
-﻿using System;
+﻿using SPMConnect.UserActionLog;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
@@ -16,14 +18,17 @@ namespace SearchDataSPM
         string controluseraction;
         int selectedindex = 0;
         DataTable dt;
-
+        log4net.ILog log;
+        private UserActions _userActions;
+        ErrorHandler errorHandler = new ErrorHandler();
         #endregion
 
         #region loadtree
 
         public spmadmin()
-
         {
+            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
 
             connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
@@ -49,6 +54,10 @@ namespace SearchDataSPM
         {
             fillsupervisor();
             Connect_SPMSQL(0);
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Opened Admin Control by " + System.Environment.UserName);
+            _userActions = new UserActions(this);
         }
 
         private void Connect_SPMSQL(int index)
@@ -961,6 +970,8 @@ namespace SearchDataSPM
 
         private void spmadmin_FormClosed(object sender, FormClosedEventArgs e)
         {
+            _userActions.FinishLoggingUserActions(this);
+            log.Info("Closed Admin Control by " + System.Environment.UserName);
             this.Dispose();
         }
 
@@ -1280,13 +1291,14 @@ namespace SearchDataSPM
                 if (result == DialogResult.Yes)
                 {
 
-                    this.Dispose();
+                    this.Close();
                 }
                 else
                 {
                     e.Cancel = (result == DialogResult.No);
                 }
             }
+
         }
 
         private void ecrapprovalchk_CheckedChanged(object sender, EventArgs e)
@@ -1315,6 +1327,16 @@ namespace SearchDataSPM
                 ecrhandlerchk.Checked = false;
                 ecrapprovalchk.Checked = false;
             }
+        }
+
+        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+        }
+
+        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
         }
     }
 }

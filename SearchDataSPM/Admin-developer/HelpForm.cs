@@ -1,6 +1,8 @@
-﻿using SPMConnectAPI;
+﻿using SPMConnect.UserActionLog;
+using SPMConnectAPI;
 using System;
 using System.Reflection;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
@@ -8,9 +10,14 @@ namespace SearchDataSPM
     public partial class HelpForm : Form
     {
         SPMSQLCommands connectapi = new SPMSQLCommands();
+        log4net.ILog log;
+        private UserActions _userActions;
+        ErrorHandler errorHandler = new ErrorHandler();
 
         public HelpForm()
         {
+            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
         }
 
@@ -19,6 +26,10 @@ namespace SearchDataSPM
             Assembly assembly = Assembly.GetExecutingAssembly();
             string version = assembly.GetName().Version.ToString();
             versionlbl.Text = string.Format("SPM Connect Version - {0}", version);
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Opened Help Form by " + System.Environment.UserName);
+            _userActions = new UserActions(this);
         }
 
         private void shrtcutbttn_Click(object sender, EventArgs e)
@@ -136,6 +147,23 @@ namespace SearchDataSPM
             {
                 sendemailbttn.Enabled = false;
             }
+        }
+
+        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+        }
+
+        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
+        }
+
+        private void HelpForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _userActions.FinishLoggingUserActions(this);
+            log.Info("Closed Help Form by " + System.Environment.UserName);
+            this.Dispose();
         }
     }
 }

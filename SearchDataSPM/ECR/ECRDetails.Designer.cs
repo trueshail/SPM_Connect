@@ -766,6 +766,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ECR Details";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.QuoteDetails_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ECRDetails_FormClosed);
             this.Load += new System.EventHandler(this.ECRDetails_Load);
             this.iteminfogroupBox.ResumeLayout(false);
             this.iteminfogroupBox.PerformLayout();

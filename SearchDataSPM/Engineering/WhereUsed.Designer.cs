@@ -34,6 +34,8 @@
             this.openModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openDrawingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.getBOMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.addToFavoritesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.LabelTooltips = new System.Windows.Forms.ToolTip(this.components);
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.Expandchk = new System.Windows.Forms.CheckBox();
@@ -57,15 +59,13 @@
             this.familylbl = new System.Windows.Forms.Label();
             this.qtylbl = new System.Windows.Forms.Label();
             this.listView = new System.Windows.Forms.ListView();
-            this.imageList = new System.Windows.Forms.ImageList(this.components);
-            this.foundlabel = new System.Windows.Forms.Label();
             this.Listviewcontextmenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.bomlistviewmenustrpc = new System.Windows.Forms.ToolStripMenuItem();
             this.iteminfolistviewStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.revelInExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.bomlistviewmenustrpc = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.addToFavoritesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.imageList = new System.Windows.Forms.ImageList(this.components);
+            this.foundlabel = new System.Windows.Forms.Label();
             this.contextMenuStrip1.SuspendLayout();
             this.Listviewcontextmenu.SuspendLayout();
             this.SuspendLayout();
@@ -95,7 +95,7 @@
             // 
             this.openDrawingToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openDrawingToolStripMenuItem.Image")));
             this.openDrawingToolStripMenuItem.Name = "openDrawingToolStripMenuItem";
-            this.openDrawingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openDrawingToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.openDrawingToolStripMenuItem.Text = "Open Drawing";
             this.openDrawingToolStripMenuItem.ToolTipText = "Opens Selected Item Drawing";
             this.openDrawingToolStripMenuItem.Click += new System.EventHandler(this.openDrawingToolStripMenuItem_Click);
@@ -104,10 +104,28 @@
             // 
             this.getBOMToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("getBOMToolStripMenuItem.Image")));
             this.getBOMToolStripMenuItem.Name = "getBOMToolStripMenuItem";
-            this.getBOMToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.getBOMToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.getBOMToolStripMenuItem.Text = "Get BOM";
             this.getBOMToolStripMenuItem.ToolTipText = "Get Selected Assy\'s BOM";
             this.getBOMToolStripMenuItem.Click += new System.EventHandler(this.getBOMToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem2.Image")));
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(161, 22);
+            this.toolStripMenuItem2.Text = "Get Item Info";
+            this.toolStripMenuItem2.ToolTipText = "Get Selected Item\'s Info.";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
+            // 
+            // addToFavoritesToolStripMenuItem
+            // 
+            this.addToFavoritesToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("addToFavoritesToolStripMenuItem.Image")));
+            this.addToFavoritesToolStripMenuItem.Name = "addToFavoritesToolStripMenuItem";
+            this.addToFavoritesToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.addToFavoritesToolStripMenuItem.Text = "Add To Favorites";
+            this.addToFavoritesToolStripMenuItem.ToolTipText = "Add selected item to favorites";
+            this.addToFavoritesToolStripMenuItem.Click += new System.EventHandler(this.addToFavoritesToolStripMenuItem_Click);
             // 
             // LabelTooltips
             // 
@@ -462,26 +480,6 @@
             this.listView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.listView_KeyDown);
             this.listView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView_MouseDoubleClick);
             // 
-            // imageList
-            // 
-            this.imageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
-            this.imageList.ImageSize = new System.Drawing.Size(128, 128);
-            this.imageList.TransparentColor = System.Drawing.Color.Black;
-            // 
-            // foundlabel
-            // 
-            this.foundlabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.foundlabel.AutoSize = true;
-            this.foundlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.foundlabel.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.foundlabel.Location = new System.Drawing.Point(5, 669);
-            this.foundlabel.Name = "foundlabel";
-            this.foundlabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.foundlabel.Size = new System.Drawing.Size(49, 15);
-            this.foundlabel.TabIndex = 47;
-            this.foundlabel.Text = "Search:";
-            // 
             // Listviewcontextmenu
             // 
             this.Listviewcontextmenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -491,8 +489,17 @@
             this.toolStripMenuItem3});
             this.Listviewcontextmenu.Name = "contextMenuStrip1";
             this.Listviewcontextmenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.Listviewcontextmenu.Size = new System.Drawing.Size(181, 114);
+            this.Listviewcontextmenu.Size = new System.Drawing.Size(168, 92);
             this.Listviewcontextmenu.Opening += new System.ComponentModel.CancelEventHandler(this.Listviewcontextmenu_Opening);
+            // 
+            // bomlistviewmenustrpc
+            // 
+            this.bomlistviewmenustrpc.Image = ((System.Drawing.Image)(resources.GetObject("bomlistviewmenustrpc.Image")));
+            this.bomlistviewmenustrpc.Name = "bomlistviewmenustrpc";
+            this.bomlistviewmenustrpc.Size = new System.Drawing.Size(167, 22);
+            this.bomlistviewmenustrpc.Text = "Get BOM";
+            this.bomlistviewmenustrpc.ToolTipText = "Bills Of Material";
+            this.bomlistviewmenustrpc.Click += new System.EventHandler(this.bomlistviewmenustrpc_Click);
             // 
             // iteminfolistviewStripMenu
             // 
@@ -520,32 +527,25 @@
             this.toolStripMenuItem3.ToolTipText = "Add selected item to favorites";
             this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
             // 
-            // bomlistviewmenustrpc
+            // imageList
             // 
-            this.bomlistviewmenustrpc.Image = ((System.Drawing.Image)(resources.GetObject("bomlistviewmenustrpc.Image")));
-            this.bomlistviewmenustrpc.Name = "bomlistviewmenustrpc";
-            this.bomlistviewmenustrpc.Size = new System.Drawing.Size(180, 22);
-            this.bomlistviewmenustrpc.Text = "Get BOM";
-            this.bomlistviewmenustrpc.ToolTipText = "Bills Of Material";
-            this.bomlistviewmenustrpc.Click += new System.EventHandler(this.bomlistviewmenustrpc_Click);
+            this.imageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+            this.imageList.ImageSize = new System.Drawing.Size(128, 128);
+            this.imageList.TransparentColor = System.Drawing.Color.Black;
             // 
-            // toolStripMenuItem2
+            // foundlabel
             // 
-            this.toolStripMenuItem2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem2.Image")));
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
-            this.toolStripMenuItem2.Text = "Get Item Info";
-            this.toolStripMenuItem2.ToolTipText = "Get Selected Item\'s Info.";
-            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
-            // 
-            // addToFavoritesToolStripMenuItem
-            // 
-            this.addToFavoritesToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("addToFavoritesToolStripMenuItem.Image")));
-            this.addToFavoritesToolStripMenuItem.Name = "addToFavoritesToolStripMenuItem";
-            this.addToFavoritesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.addToFavoritesToolStripMenuItem.Text = "Add To Favorites";
-            this.addToFavoritesToolStripMenuItem.ToolTipText = "Add selected item to favorites";
-            this.addToFavoritesToolStripMenuItem.Click += new System.EventHandler(this.addToFavoritesToolStripMenuItem_Click);
+            this.foundlabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.foundlabel.AutoSize = true;
+            this.foundlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.foundlabel.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.foundlabel.Location = new System.Drawing.Point(5, 669);
+            this.foundlabel.Name = "foundlabel";
+            this.foundlabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.foundlabel.Size = new System.Drawing.Size(49, 15);
+            this.foundlabel.TabIndex = 47;
+            this.foundlabel.Text = "Search:";
             // 
             // WhereUsed
             // 
@@ -580,6 +580,7 @@
             this.Name = "WhereUsed";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Where Used - SPM Connect";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.WhereUsed_FormClosed);
             this.Load += new System.EventHandler(this.ParentView_Load);
             this.contextMenuStrip1.ResumeLayout(false);
             this.Listviewcontextmenu.ResumeLayout(false);

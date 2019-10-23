@@ -3,8 +3,6 @@ using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
@@ -14,10 +12,10 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using wpfPreviewFlowControl;
 using SPMConnectAPI;
+using SPMConnect.UserActionLog;
 
 namespace SearchDataSPM
 {
@@ -27,20 +25,24 @@ namespace SearchDataSPM
     {
         #region steupvariables
 
-        String connection;
+        string connection;
         DataTable _acountsTb = null;
         SqlConnection _connection;
         SqlCommand _command;
         SqlDataAdapter _adapter;
         SPMConnectAPI.SPMSQLCommands connectapi = new SPMSQLCommands();
+        log4net.ILog log;
+        private UserActions _userActions;
+        ErrorHandler errorHandler = new ErrorHandler();
 
         #endregion
 
         #region form load
 
         public NewItem()
-
         {
+            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
             connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
 
@@ -95,6 +97,11 @@ namespace SearchDataSPM
                 processsavebutton();
                 processeditbutton();
             }
+
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Opened Create/Edit Item " + itemnumber + " by " + System.Environment.UserName);
+            _userActions = new UserActions(this);
 
 
         }
@@ -918,6 +925,22 @@ namespace SearchDataSPM
 
         #endregion
 
+        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+        }
+
+        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
+        }
+
+        private void NewItem_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _userActions.FinishLoggingUserActions(this);
+            log.Info("Closed Create/Edit Item " + itemnumber + " by " + System.Environment.UserName);
+            this.Dispose();
+        }
     }
 
 }

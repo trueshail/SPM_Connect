@@ -1,4 +1,5 @@
 ﻿using ExtractLargeIconFromFile;
+using SPMConnect.UserActionLog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 using wpfPreviewFlowControl;
 
@@ -33,14 +34,18 @@ namespace SearchDataSPM
         bool eng = false;
         bool rootnodedone = false;
         SPMConnectAPI.SPMSQLCommands connectapi = new SPMConnectAPI.SPMSQLCommands();
+        log4net.ILog log;
+        private UserActions _userActions;
+        ErrorHandler errorHandler = new ErrorHandler();
 
         #endregion
 
         #region loadtree
 
         public TreeView()
-
         {
+            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
             connection = ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
 
@@ -92,6 +97,11 @@ namespace SearchDataSPM
                 if (connectapi.getdepartment() == "Eng") eng = true;
                 Assy_txtbox.Select();
             }
+
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Opened Engineering BOM " + itemnumber + " by " + System.Environment.UserName);
+            _userActions = new UserActions(this);
 
         }
 
@@ -899,6 +909,8 @@ namespace SearchDataSPM
 
         private void TreeView_FormClosed(object sender, FormClosedEventArgs e)
         {
+            _userActions.FinishLoggingUserActions(this);
+            log.Info("Closed Engineering BOM " + itemnumber + " by " + System.Environment.UserName);
             this.Dispose();
         }
 
@@ -1178,6 +1190,16 @@ namespace SearchDataSPM
         }
 
         #endregion
+
+        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+        }
+
+        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
+        }
     }
 
 }

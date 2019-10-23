@@ -1,17 +1,19 @@
-﻿using SPMConnectAPI;
+﻿using SPMConnect.UserActionLog;
+using SPMConnectAPI;
 using System;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
 {
     public partial class InvoiceAddItem : Form
     {
-        String connection;
+        string connection;
         SqlConnection cn;
         SqlCommand _command;
         string Invoice_Number = "";
@@ -19,9 +21,14 @@ namespace SearchDataSPM
         string _operation = "";
         string _itemnumber = "";
         SPMConnectAPI.Shipping connectapi = new Shipping();
+        log4net.ILog log;
+        private UserActions _userActions;
+        ErrorHandler errorHandler = new ErrorHandler();
 
         public InvoiceAddItem()
         {
+            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
             connection = ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
             try
@@ -122,6 +129,10 @@ namespace SearchDataSPM
                 }
             }
             Cursor.Current = Cursors.Default;
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Opened Shipping Invoice Add Item " + Invoice_Number + " by " + System.Environment.UserName);
+            _userActions = new UserActions(this);
         }
 
         #region Fill information on controls
@@ -224,7 +235,7 @@ namespace SearchDataSPM
                         }
 
                     }
-                        
+
                 }
             }
             dontstop = true;
@@ -667,6 +678,23 @@ namespace SearchDataSPM
                 this.Focus();
                 this.Activate();
             }
+        }
+
+        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+        }
+
+        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
+        }
+
+        private void InvoiceAddItem_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _userActions.FinishLoggingUserActions(this);
+            log.Info("Closed Shipping Invoice Add Item " + Invoice_Number + " by " + System.Environment.UserName);
+            this.Dispose();
         }
     }
 }

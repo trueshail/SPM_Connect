@@ -3,7 +3,9 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Threading;
 using System.Windows.Forms;
+using SPMConnect.UserActionLog;
 using SPMConnectAPI;
 
 namespace SearchDataSPM
@@ -13,7 +15,7 @@ namespace SearchDataSPM
     {
         #region Shipping Home Load
 
-        String connection;
+        string connection;
         SqlConnection cn;
         DataTable dt;
         DataTable invoiceitems = new DataTable();
@@ -21,9 +23,14 @@ namespace SearchDataSPM
         string userfullname = "";
         int _advcollapse = 0;
         WorkOrder connectapi = new WorkOrder();
+        log4net.ILog log;
+        private UserActions _userActions;
+        ErrorHandler errorHandler = new ErrorHandler();
 
         public MatReAllocHome()
         {
+            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
             formloading = true;
 
@@ -54,6 +61,10 @@ namespace SearchDataSPM
             Showallitems();
             txtSearch.Focus();
             formloading = false;
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Opened Material Re-Allocation by " + System.Environment.UserName);
+            _userActions = new UserActions(this);
 
         }
 
@@ -130,8 +141,6 @@ namespace SearchDataSPM
             UpdateFont();
 
         }
-
-
 
         private void Reload_Click(object sender, EventArgs e)
         {
@@ -650,6 +659,8 @@ namespace SearchDataSPM
 
         private void SPM_Connect_FormClosed(object sender, FormClosedEventArgs e)
         {
+            _userActions.FinishLoggingUserActions(this);
+            log.Info("Closed Material Re-Allocation by " + System.Environment.UserName);
             this.Dispose();
         }
 
@@ -697,7 +708,7 @@ namespace SearchDataSPM
                 }
                 return true;
             }
-            
+
 
             return base.ProcessCmdKey(ref msg, keyData);
         }
@@ -1079,7 +1090,7 @@ namespace SearchDataSPM
             using (MatReAlloc matReAlloc = new MatReAlloc())
             {
                 matReAlloc.invoicenumber(invoice);
-                matReAlloc.ShowDialog();                
+                matReAlloc.ShowDialog();
                 this.Enabled = true;
                 performreload();
                 this.Show();
@@ -1117,6 +1128,16 @@ namespace SearchDataSPM
         }
 
         #endregion
+
+        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+        }
+
+        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
+        }
     }
 
 }

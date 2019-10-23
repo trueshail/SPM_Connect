@@ -1,7 +1,9 @@
-﻿using SPMConnectAPI;
+﻿using SPMConnect.UserActionLog;
+using SPMConnectAPI;
 using System;
 using System.Data;
 using System.Drawing;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
@@ -11,9 +13,14 @@ namespace SearchDataSPM
         WorkOrder connectapi = new WorkOrder();
         bool formloading = false;
         DataTable workorderstatus = new DataTable();
+        log4net.ILog log;
+        private UserActions _userActions;
+        ErrorHandler errorHandler = new ErrorHandler();
 
         public BinLog()
         {
+            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
             //connectapi.SPM_Connect();
         }
@@ -38,6 +45,10 @@ namespace SearchDataSPM
         private void BinLog_Load(object sender, EventArgs e)
         {
             loadform();
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Opened Inventory Bin Status by " + System.Environment.UserName);
+            _userActions = new UserActions(this);
         }
 
         private void loadform()
@@ -119,7 +130,7 @@ namespace SearchDataSPM
                 {
                     dataGridView.DataSource = workorderstatus;
                     UpdateFont();
-                }                    
+                }
                 wolistbox.SelectedItem = woid_txtbox.Text.Trim();
                 woid_txtbox.Clear();
                 woid_txtbox.Focus();
@@ -132,7 +143,7 @@ namespace SearchDataSPM
         {
             DataTable dtb1 = new DataTable();
             dtb1 = connectapi.ShowWODetails(wo);
-            
+
             if (dtb1.Rows.Count > 0)
             {
                 DataRow r = dtb1.Rows[0];
@@ -179,7 +190,7 @@ namespace SearchDataSPM
                 inbuiltlabel.ForeColor = Color.Black;
                 completelabel.ForeColor = Color.Black;
             }
-            
+
         }
 
         private void reloadbttn_Click(object sender, EventArgs e)
@@ -198,7 +209,7 @@ namespace SearchDataSPM
             wostatuslbl.BackColor = Color.White;
             wostatuslbl.ForeColor = Color.Red;
 
-            wogrpdesign.Text = "WO :- "+ wo + " Tracking Progress :"; 
+            wogrpdesign.Text = "WO :- " + wo + " Tracking Progress :";
 
             if (r["Engin"].ToString() == "1")
             {
@@ -254,7 +265,7 @@ namespace SearchDataSPM
             }
 
 
-          
+
 
             if (r["Prodin"].ToString() == "1")
             {
@@ -271,8 +282,8 @@ namespace SearchDataSPM
                 prodchkbox.SetItemCheckState(0, CheckState.Unchecked);
                 prodchkbox.SetItemCheckState(1, CheckState.Unchecked);
                 prodchkbox.SetItemCheckState(2, CheckState.Unchecked);
-                prodchkbox.Items[1] = "Check In By : " ;
-                prodchkbox.Items[2] = "Check In On : " ;
+                prodchkbox.Items[1] = "Check In By : ";
+                prodchkbox.Items[2] = "Check In On : ";
                 prodout.BackColor = Color.Red;
                 prodchkbox.BackColor = Color.Silver;
             }
@@ -302,7 +313,7 @@ namespace SearchDataSPM
 
             ////////////////////////////////////////////////////////////////////
 
-            
+
 
             if (r["Purin"].ToString() == "1")
             {
@@ -374,7 +385,7 @@ namespace SearchDataSPM
                 cribchkbox.SetItemCheckState(2, CheckState.Unchecked);
                 cribchkbox.Items[1] = "Check In By : ";
                 cribchkbox.Items[2] = "Check In On : ";
-                if(r["Prodout"].ToString() == "1")
+                if (r["Prodout"].ToString() == "1")
                 {
                     cribwait.BackColor = Color.Yellow;
                 }
@@ -408,10 +419,26 @@ namespace SearchDataSPM
                 cribchkbox.Items[5] = "Check Out On : ";
                 timespentcriblbl.Visible = false;
                 overalltimelbl.Visible = false;
-                
+
             }
 
         }
 
+        private void BinLog_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _userActions.FinishLoggingUserActions(this);
+            log.Info("Closed Inventory Bin Status by " + System.Environment.UserName);
+            this.Dispose();
+        }
+
+        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+        }
+
+        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
+        }
     }
 }

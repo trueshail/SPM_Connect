@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SPMConnect.UserActionLog;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -6,21 +7,27 @@ using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace SearchDataSPM.General
 {
     public partial class QuoteDetails : Form
     {
-        String connection;
+        string connection;
         DataTable dt = new DataTable();
         SqlConnection cn;
         SqlCommand _command;
         SqlDataAdapter _adapter;
-        string quoteno2 ="";
+        string quoteno2 = "";
+        log4net.ILog log;
+        private UserActions _userActions;
+        ErrorHandler errorHandler = new ErrorHandler();
 
         public QuoteDetails()
         {
+            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
             connection = ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
 
@@ -35,7 +42,7 @@ namespace SearchDataSPM.General
                 MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             }
-            
+
             dt = new DataTable();
             _command = new SqlCommand();
         }
@@ -50,13 +57,17 @@ namespace SearchDataSPM.General
         private void QuoteDetails_Load(object sender, EventArgs e)
         {
             this.Text = "Quote Details - " + quoteno2;
-            
+
             Fillcustomers();
             HowFound();
             Rating();
             Category();
             filldatatable(quoteno2);
             processeditbutton();
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Opened Quote Details " + quoteno2 + " by " + System.Environment.UserName);
+            _userActions = new UserActions(this);
         }
 
         private void filldatatable(string quotenumber)
@@ -69,7 +80,7 @@ namespace SearchDataSPM.General
                 _adapter = new SqlDataAdapter(sql, cn);
                 dt.Clear();
                 _adapter.Fill(dt);
-                fillinfo();                
+                fillinfo();
             }
             catch (SqlException ex)
             {
@@ -86,7 +97,7 @@ namespace SearchDataSPM.General
         {
             DataRow r = dt.Rows[0];
             ItemTxtBox.Text = r["Quote"].ToString();
-            Descriptiontxtbox.Text = r["Title"].ToString();           
+            Descriptiontxtbox.Text = r["Title"].ToString();
             notestxt.Text = r["Comments"].ToString();
             textBox1.Text = r["Est_Revenue"].ToString();
             txtPath.Text = r["FolderPath"].ToString();
@@ -94,7 +105,7 @@ namespace SearchDataSPM.General
             {
                 webBrowser1.Url = new Uri(txtPath.Text);
             }
-           
+
 
             string quoteddate = r["Quote_Date"].ToString();
             string quotedby = r["Employee"].ToString();
@@ -105,7 +116,7 @@ namespace SearchDataSPM.General
                 quotedatelbl.Text = "Quote Date : " + quoteddate.Substring(0, 10);
                 quotedatelbl.Text = "Quote Date : " + quoteddate.Substring(0, 10);
             }
-           
+
             Quotedbylbl.Text = "Quoted By : " + quotedby;
             Lsatsavedbylbl.Text = "Last Saved By : " + lastsavedby;
             Lastsavedlbl.Text = "Last Saved : " + lastsaved;
@@ -299,7 +310,7 @@ namespace SearchDataSPM.General
 
         private void textBox1_Leave(object sender, EventArgs e)
         {
-           
+
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -320,7 +331,7 @@ namespace SearchDataSPM.General
                 textBox1.Select(textBox1.Text.Length, 0);
             }
             bool goodToGo = TextisValid(textBox1.Text);
-           
+
         }
 
         private bool TextisValid(string text)
@@ -380,7 +391,7 @@ namespace SearchDataSPM.General
         {
             if (savbttn.Visible == true)
             {
-                DialogResult result = MetroFramework.MetroMessageBox.Show(this,"Are you sure want to close without saving changes?", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to close without saving changes?", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {
                 }
@@ -403,7 +414,7 @@ namespace SearchDataSPM.General
             Ratingcombobox.Enabled = true;
             textBox1.Enabled = true;
             Howfndcombox.Enabled = true;
-            currencycombox.Enabled = true;           
+            currencycombox.Enabled = true;
             notestxt.Enabled = true;
 
             DataRow r = dt.Rows[0];
@@ -413,7 +424,7 @@ namespace SearchDataSPM.General
                 cvttojobchkbox.Enabled = false;
                 closedchkbox.Visible = false;
             }
-           
+
             else if (r["Closed"].ToString().Equals("1") && r["Converted_to_Job"].ToString().Equals("0"))
             {
                 closedchkbox.Enabled = false;
@@ -427,8 +438,8 @@ namespace SearchDataSPM.General
                 closedchkbox.Enabled = true;
                 cvttojobchkbox.Visible = true;
             }
-          
-            
+
+
         }
 
         private void perfromlockdown()
@@ -486,7 +497,7 @@ namespace SearchDataSPM.General
 
         private void savbttn_Click(object sender, EventArgs e)
         {
-            perfromsavebttn(true);           
+            perfromsavebttn(true);
         }
 
         void perfromsavebttn(bool createfolder)
@@ -499,10 +510,10 @@ namespace SearchDataSPM.General
             {
                 createfolders(ItemTxtBox.Text);
             }
-            
+
             string lastsavedby = getuserfullname(get_username().ToString()).ToString();
             createnewitemtosql(list[0].ToString(), list[1].ToString(), list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(), list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(), list[10].ToString(), lastsavedby);
-           
+
             this.Enabled = true;
             Cursor.Current = Cursors.Default;
             filldatatable(list[0].ToString());
@@ -527,7 +538,7 @@ namespace SearchDataSPM.General
             }
             catch (Exception ex)
             {
-                MetroFramework.MetroMessageBox.Show(this,ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -617,11 +628,11 @@ namespace SearchDataSPM.General
                     //customer = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(customer.ToLower());
 
                     //string sourcepath = @"\\spm-adfs\SPM\S300 Sales and Project Management\Sales\Opportunities\Q" + ItemTxtBox.Text + "_" + customer + "_" + jobdescription;
-                    string sourcepath =txtPath.Text;
+                    string sourcepath = txtPath.Text;
                     string destinationpath = @"\\spm-adfs\SPM\S300 Sales and Project Management\Sales\Opportunities\Closed Opportunities\Transfered_to_Jobs\Q" + ItemTxtBox.Text + "_" + customer + "_" + jobdescription;
                     movefoldertoscrap(sourcepath, destinationpath);
                     webBrowser1.Url = new Uri(destinationpath);
-                    txtPath.Text = destinationpath;                  
+                    txtPath.Text = destinationpath;
                     perfromsavebttn(false);
                     MetroFramework.MetroMessageBox.Show(this, "Quote converted to job and folders are moved to new location.", "SPM Connect - Move to Job", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -638,10 +649,10 @@ namespace SearchDataSPM.General
             {
                 System.IO.Directory.Move(sourcefile, destfile);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                MetroFramework.MetroMessageBox.Show(this , ex.Message, "SPM Connect - Move to Lost Opportunity", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }           
+                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Move to Lost Opportunity", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
         }
 
@@ -744,7 +755,7 @@ namespace SearchDataSPM.General
 
             if (Directory.Exists(destpaths300))
             {
-                
+
             }
             else
             {
@@ -752,8 +763,24 @@ namespace SearchDataSPM.General
                 txtPath.Text = destpaths300 + @"\";
             }
 
-          
+
         }
 
+        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+        }
+
+        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
+        }
+
+        private void QuoteDetails_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _userActions.FinishLoggingUserActions(this);
+            log.Info("Closed Quote Details " + quoteno2 + " by " + System.Environment.UserName);
+            this.Dispose();
+        }
     }
 }

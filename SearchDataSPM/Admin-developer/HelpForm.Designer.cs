@@ -285,6 +285,7 @@
             this.Name = "HelpForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "About SPM Connect";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.HelpForm_FormClosed);
             this.Load += new System.EventHandler(this.HelpForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

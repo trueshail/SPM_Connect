@@ -1,7 +1,9 @@
-﻿using SPMConnectAPI;
+﻿using SPMConnect.UserActionLog;
+using SPMConnectAPI;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
@@ -14,9 +16,14 @@ namespace SearchDataSPM
         List<char> _barcode = new List<char>(10);
         int userinputtime = 100;
         bool developer = false;
+        log4net.ILog log;
+        private UserActions _userActions;
+        ErrorHandler errorHandler = new ErrorHandler();
 
         public InvInOut()
         {
+            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
             timer1.Start();
             //connectapi.SPM_Connect();
@@ -28,6 +35,10 @@ namespace SearchDataSPM
             empid_txtbox.Focus();
             versionlabel.Text = connectapi.getassyversionnumber();
             developer = connectapi.Checkdeveloper();
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Opened Crib Management by " + System.Environment.UserName);
+            _userActions = new UserActions(this);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -35,7 +46,7 @@ namespace SearchDataSPM
             DateTime datetime = DateTime.Now;
             DateTimeLbl.Text = datetime.ToString();
         }
-        
+
         private void empid_txtbox_Click(object sender, EventArgs e)
         {
             if (!empid_txtbox.Focused)
@@ -91,7 +102,7 @@ namespace SearchDataSPM
         {
             if (empid_txtbox.Text.Length == 0)
                 apprvlidtxt.Enabled = false;
-        }        
+        }
 
         private void clearresettxtboxes()
         {
@@ -175,7 +186,7 @@ namespace SearchDataSPM
                         toolStripDropDownButton1.DropDownItems[1].Enabled = true;
                         toolStripDropDownButton1.DropDownItems[2].Enabled = true;
                         toolStripDropDownButton1.DropDownItems[3].Enabled = true;
-                        
+
                     }
                     else
                     {
@@ -187,7 +198,7 @@ namespace SearchDataSPM
                     MetroFramework.MetroMessageBox.Show(this, "Please try again. Employee not found.", "SPM Connect - Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 this.Enabled = true;
-               
+
             }
         }
 
@@ -204,7 +215,7 @@ namespace SearchDataSPM
         {
             BinLog binLog = new BinLog();
             binLog.Show();
-            
+
         }
 
         private void empid_txtbox_KeyPress(object sender, KeyPressEventArgs e)
@@ -243,7 +254,7 @@ namespace SearchDataSPM
                             empid_txtbox.Clear();
                             empid_txtbox.Focus();
                             woid_txtbox.Enabled = false;
-                           
+
                         }
                         e.Handled = true;
                     }
@@ -430,6 +441,23 @@ namespace SearchDataSPM
         private void toolStripDropDownButton1_DropDownClosed(object sender, EventArgs e)
         {
             performlockdown();
+        }
+
+        private void InvInOut_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _userActions.FinishLoggingUserActions(this);
+            log.Info("Closed Crib Management by " + System.Environment.UserName);
+            this.Dispose();
+        }
+
+        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+        }
+
+        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
         }
     }
 }

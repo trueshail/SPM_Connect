@@ -130,6 +130,7 @@ namespace SearchDataSPM
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SPM_ConnectHome";
             this.UseWaitCursor = true;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SPM_ConnectHome_FormClosed);
             this.Load += new System.EventHandler(this.SPM_ConnectHome_Load);
             this.ResumeLayout(false);
 

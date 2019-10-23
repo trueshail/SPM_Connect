@@ -1,8 +1,10 @@
-﻿using System;
+﻿using SPMConnect.UserActionLog;
+using System;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace SearchDataSPM.ECR
@@ -16,8 +18,14 @@ namespace SearchDataSPM.ECR
         public string ValueIWant { get; set; }
         SPMConnectAPI.ECR connectapi = new SPMConnectAPI.ECR();
         string formlabel = "";
+        log4net.ILog log;
+        private UserActions _userActions;
+        ErrorHandler errorHandler = new ErrorHandler();
+
         public ECR_Users()
         {
+            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
 
             connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
@@ -126,6 +134,10 @@ namespace SearchDataSPM.ECR
             DataView dv = dt.DefaultView;
             dataGridView.Sort(dataGridView.Columns[1], ListSortDirection.Ascending);
             UpdateFont();
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Opened ECR Users Available by " + System.Environment.UserName);
+            _userActions = new UserActions(this);
         }
 
         private void UpdateFont()
@@ -136,6 +148,23 @@ namespace SearchDataSPM.ECR
             dataGridView.DefaultCellStyle.BackColor = Color.FromArgb(237, 237, 237);
             dataGridView.DefaultCellStyle.SelectionForeColor = Color.Yellow;
             dataGridView.DefaultCellStyle.SelectionBackColor = Color.Black;
+        }
+
+        private void ECR_Users_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _userActions.FinishLoggingUserActions(this);
+            log.Info("Closed ECR Users Available by " + System.Environment.UserName);
+            this.Dispose();
+        }
+
+        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+        }
+
+        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
         }
     }
 }

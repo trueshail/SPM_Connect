@@ -113,6 +113,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="MetroFramework, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
       <HintPath>..\packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.dll</HintPath>
     </Reference>
@@ -121,6 +124,12 @@
     </Reference>
     <Reference Include="MetroFramework.Fonts, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
       <HintPath>..\packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.Fonts.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Exchange.WebServices, Version=15.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Exchange.WebServices.2.2\lib\40\Microsoft.Exchange.WebServices.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Exchange.WebServices.Auth, Version=15.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Exchange.WebServices.2.2\lib\40\Microsoft.Exchange.WebServices.Auth.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ReportViewer.Common, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.900.148\lib\net40\Microsoft.ReportViewer.Common.dll</HintPath>
@@ -375,40 +384,40 @@
     <Compile Include="Engineering\EstimateBOM.Designer.cs">
       <DependentUpon>EstimateBOM.cs</DependentUpon>
     </Compile>
-    <Compile Include="Engineering\WaitFormLoading.cs">
+    <Compile Include="WaitForms\WaitFormLoading.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Engineering\WaitFormLoading.Designer.cs">
+    <Compile Include="WaitForms\WaitFormLoading.Designer.cs">
       <DependentUpon>WaitFormLoading.cs</DependentUpon>
     </Compile>
-    <Compile Include="Engineering\WaitFormOpening.cs">
+    <Compile Include="WaitForms\WaitFormOpening.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Engineering\WaitFormOpening.Designer.cs">
+    <Compile Include="WaitForms\WaitFormOpening.Designer.cs">
       <DependentUpon>WaitFormOpening.cs</DependentUpon>
     </Compile>
-    <Compile Include="Engineering\WaitFormEmail.cs">
+    <Compile Include="WaitForms\WaitFormEmail.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Engineering\WaitFormEmail.Designer.cs">
+    <Compile Include="WaitForms\WaitFormEmail.Designer.cs">
       <DependentUpon>WaitFormEmail.cs</DependentUpon>
     </Compile>
-    <Compile Include="Engineering\WaitFormSaving.cs">
+    <Compile Include="WaitForms\WaitFormSaving.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Engineering\WaitFormSaving.Designer.cs">
+    <Compile Include="WaitForms\WaitFormSaving.Designer.cs">
       <DependentUpon>WaitFormSaving.cs</DependentUpon>
     </Compile>
-    <Compile Include="Engineering\WaitFormCopying.cs">
+    <Compile Include="WaitForms\WaitFormCopying.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Engineering\WaitFormCopying.Designer.cs">
+    <Compile Include="WaitForms\WaitFormCopying.Designer.cs">
       <DependentUpon>WaitFormCopying.cs</DependentUpon>
     </Compile>
-    <Compile Include="Engineering\WaitFormImport.cs">
+    <Compile Include="WaitForms\WaitFormImport.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Engineering\WaitFormImport.Designer.cs">
+    <Compile Include="WaitForms\WaitFormImport.Designer.cs">
       <DependentUpon>WaitFormImport.cs</DependentUpon>
     </Compile>
     <Compile Include="Purchasing\InvoiceDateChange.cs">
@@ -435,6 +444,7 @@
     <Compile Include="General\SPM_ConnectQuoteManagement.Designer.cs">
       <DependentUpon>SPM_ConnectQuoteManagement.cs</DependentUpon>
     </Compile>
+    <Compile Include="ErrorHandler.cs" />
     <Compile Include="WorkOrder\BinLog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -538,10 +548,10 @@
     <Compile Include="General\JobType.Designer.cs">
       <DependentUpon>JobType.cs</DependentUpon>
     </Compile>
-    <Compile Include="Engineering\WaitFormCreatingFolders.cs">
+    <Compile Include="WaitForms\WaitFormCreatingFolders.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Engineering\WaitFormCreatingFolders.Designer.cs">
+    <Compile Include="WaitForms\WaitFormCreatingFolders.Designer.cs">
       <DependentUpon>WaitFormCreatingFolders.cs</DependentUpon>
     </Compile>
     <Compile Include="Purchasing\PurchaseReq.cs">
@@ -730,22 +740,22 @@
     <EmbeddedResource Include="Engineering\EstimateBOM.resx">
       <DependentUpon>EstimateBOM.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Engineering\WaitFormLoading.resx">
+    <EmbeddedResource Include="WaitForms\WaitFormLoading.resx">
       <DependentUpon>WaitFormLoading.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Engineering\WaitFormOpening.resx">
+    <EmbeddedResource Include="WaitForms\WaitFormOpening.resx">
       <DependentUpon>WaitFormOpening.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Engineering\WaitFormEmail.resx">
+    <EmbeddedResource Include="WaitForms\WaitFormEmail.resx">
       <DependentUpon>WaitFormEmail.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Engineering\WaitFormSaving.resx">
+    <EmbeddedResource Include="WaitForms\WaitFormSaving.resx">
       <DependentUpon>WaitFormSaving.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Engineering\WaitFormCopying.resx">
+    <EmbeddedResource Include="WaitForms\WaitFormCopying.resx">
       <DependentUpon>WaitFormCopying.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Engineering\WaitFormImport.resx">
+    <EmbeddedResource Include="WaitForms\WaitFormImport.resx">
       <DependentUpon>WaitFormImport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Engineering\WhereUsed.resx">
@@ -817,7 +827,7 @@
     <EmbeddedResource Include="General\JobType.resx">
       <DependentUpon>JobType.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Engineering\WaitFormCreatingFolders.resx">
+    <EmbeddedResource Include="WaitForms\WaitFormCreatingFolders.resx">
       <DependentUpon>WaitFormCreatingFolders.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -1132,6 +1142,10 @@
     <ProjectReference Include="..\SPMConnectAPI\SPMConnectAPI.csproj">
       <Project>{fd0f6e6e-b1cd-498b-b634-19b23053c5d1}</Project>
       <Name>SPMConnectAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UserActionLog\UserActionLog.csproj">
+      <Project>{54ea61b1-ab46-4580-86cf-cff082f078de}</Project>
+      <Name>UserActionLog</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

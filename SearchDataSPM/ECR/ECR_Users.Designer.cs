@@ -115,6 +115,7 @@
             this.Name = "ECR_Users";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ECR Select available to user";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ECR_Users_FormClosed);
             this.Load += new System.EventHandler(this.ECR_Users_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.ResumeLayout(false);

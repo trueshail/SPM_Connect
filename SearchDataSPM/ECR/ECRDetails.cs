@@ -1,5 +1,6 @@
 ﻿using ExtractLargeIconFromFile;
 using SearchDataSPM.ECR;
+using SPMConnect.UserActionLog;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -13,6 +14,7 @@ using System.Net.Mail;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows.Forms;
 using wpfPreviewFlowControl;
 
@@ -38,8 +40,15 @@ namespace SearchDataSPM
         int supervisorid = 0;
         string userfullname = "";
 
+        log4net.ILog log;
+        private UserActions _userActions;
+        ErrorHandler errorHandler = new ErrorHandler();
+
+
         public ECRDetails()
         {
+            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
             connection = ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
             try
@@ -86,7 +95,10 @@ namespace SearchDataSPM
                     processeditbutton();
                 }
             }
-
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Opened ECR Detail " + Invoice_Number + " by " + System.Environment.UserName);
+            _userActions = new UserActions(this);
         }
 
         private string get_username()
@@ -1892,5 +1904,21 @@ namespace SearchDataSPM
 
         #endregion
 
+        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+        }
+
+        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
+        }
+
+        private void ECRDetails_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _userActions.FinishLoggingUserActions(this);
+            log.Info("Closed ECR Detail " + Invoice_Number + " by " + System.Environment.UserName);
+            this.Dispose();
+        }
     }
 }

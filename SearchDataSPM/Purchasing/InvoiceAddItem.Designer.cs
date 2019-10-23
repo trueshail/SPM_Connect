@@ -484,6 +484,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Invoice Details  - Add Item";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.QuoteDetails_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.InvoiceAddItem_FormClosed);
             this.Load += new System.EventHandler(this.QuoteDetails_Load);
             this.ItemsGrpBox.ResumeLayout(false);
             this.ItemsGrpBox.PerformLayout();
