@@ -503,7 +503,7 @@
             this.wotakentxt.MaxLength = 32767;
             this.wotakentxt.Name = "wotakentxt";
             this.wotakentxt.PasswordChar = '*';
-            this.wotakentxt.PromptText = "Scan Work Order";
+            this.wotakentxt.WaterMark = "Scan Work Order";
             this.wotakentxt.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.wotakentxt.SelectedText = "";
             this.wotakentxt.SelectionLength = 0;
@@ -539,7 +539,7 @@
             this.woreqtxt.MaxLength = 32767;
             this.woreqtxt.Name = "woreqtxt";
             this.woreqtxt.PasswordChar = '*';
-            this.woreqtxt.PromptText = "Scan Work Order";
+            this.woreqtxt.WaterMark = "Scan Work Order";
             this.woreqtxt.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.woreqtxt.SelectedText = "";
             this.woreqtxt.SelectionLength = 0;
@@ -689,7 +689,7 @@
             this.appidtxt.MaxLength = 32767;
             this.appidtxt.Name = "appidtxt";
             this.appidtxt.PasswordChar = '*';
-            this.appidtxt.PromptText = "Scan Approved By Id";
+            this.appidtxt.WaterMark = "Scan Approved By Id";
             this.appidtxt.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.appidtxt.SelectedText = "";
             this.appidtxt.SelectionLength = 0;
@@ -726,7 +726,7 @@
             this.empidtxt.MaxLength = 32767;
             this.empidtxt.Name = "empidtxt";
             this.empidtxt.PasswordChar = '*';
-            this.empidtxt.PromptText = "Scan Employee Id";
+            this.empidtxt.WaterMark = "Scan Employee Id";
             this.empidtxt.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.empidtxt.SelectedText = "";
             this.empidtxt.SelectionLength = 0;

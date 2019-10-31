@@ -62,8 +62,10 @@ namespace SearchDataSPM
             }
 
             _acountsTb = new DataTable();
-            _command = new SqlCommand();
-            _command.Connection = _connection;
+            _command = new SqlCommand
+            {
+                Connection = _connection
+            };
             _productTB = new DataTable();
             Rectangle screen = Screen.PrimaryScreen.WorkingArea;
             int w = Width >= screen.Width ? screen.Width : (screen.Width + Width) / 3;
@@ -230,9 +232,7 @@ namespace SearchDataSPM
                 if (!String.IsNullOrEmpty(txtvalue) && Char.IsLetter(txtvalue[0]))
                 {
                     MessageBox.Show(" Item does not contain a Bill OF Material on Genius.", "SPM Connect - Bill Of Manufacturing", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    // Assy_txtbox.Clear();
-                    this.Hide();
-                    this.Close();
+
                 }
                 else
                 {
@@ -373,10 +373,12 @@ namespace SearchDataSPM
 
             foreach (DataRow dr in _acountsTb.Select("[AssyNo] ='" + parentId.ToString() + "' AND [estid]  ='" + estid + "'"))
             {
-                TreeNode t = new TreeNode();
-                t.Text = dr["ItemNumber"].ToString() + " - " + dr["Description"].ToString() + " ( " + dr["QuantityPerAssembly"].ToString() + " ) ";
-                t.Name = dr["ItemNumber"].ToString();
-                t.Tag = _acountsTb.Rows.IndexOf(dr);
+                TreeNode t = new TreeNode
+                {
+                    Text = dr["ItemNumber"].ToString() + " - " + dr["Description"].ToString() + " ( " + dr["QuantityPerAssembly"].ToString() + " ) ",
+                    Name = dr["ItemNumber"].ToString(),
+                    Tag = _acountsTb.Rows.IndexOf(dr)
+                };
                 if (parentNode == null)
                 {
 
@@ -753,9 +755,11 @@ namespace SearchDataSPM
                         string sDocFileName = item;
                         wpfThumbnailCreator pvf;
                         pvf = new wpfThumbnailCreator();
-                        System.Drawing.Size size = new Size();
-                        size.Width = 256;
-                        size.Height = 256;
+                        System.Drawing.Size size = new Size
+                        {
+                            Width = 256,
+                            Height = 256
+                        };
                         pvf.DesiredSize = size;
                         System.Drawing.Bitmap pic = pvf.GetThumbNail(sDocFileName);
                         imageList.Images.Add(pic);
@@ -792,9 +796,8 @@ namespace SearchDataSPM
 
         public static Icon GetIconOldSchool(string fileName)
         {
-            ushort uicon;
             StringBuilder strB = new StringBuilder(fileName);
-            IntPtr handle = ExtractAssociatedIcon(IntPtr.Zero, strB, out uicon);
+            IntPtr handle = ExtractAssociatedIcon(IntPtr.Zero, strB, out ushort uicon);
             Icon ico = Icon.FromHandle(handle);
 
             return ico;
@@ -1093,8 +1096,7 @@ namespace SearchDataSPM
             {
                 string txt = listView.FocusedItem.Text;
                 txt = txt.Substring(0, 6);
-                ItemInfo itemInfo = new ItemInfo();
-                itemInfo.item(txt);
+                ItemInfo itemInfo = new ItemInfo(itemno: txt);
                 itemInfo.Show();
 
             }
@@ -1148,8 +1150,7 @@ namespace SearchDataSPM
             {
                 string txt = treeView1.SelectedNode.Text;
                 txt = txt.Substring(0, 6);
-                ItemInfo itemInfo = new ItemInfo();
-                itemInfo.item(txt);
+                ItemInfo itemInfo = new ItemInfo(itemno: txt);
                 itemInfo.Show();
 
             }

@@ -227,7 +227,7 @@
   <metadata name="Addremovecontextmenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>451, 17</value>
   </metadata>
-  <data name="addItemToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="AddItemToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAjRJREFUWEft
         lk9IFFEcx395tHso1CEIAg9ewl2Dzm62uKZiXha6JGgUxR6iPwgb/Zk3TioY+0YTonN2LAg6FOmlS9S1
@@ -242,7 +242,7 @@
         GYGr3WS9TzGCpn0tWhAR7QIZ/itTKoKXsgAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="removeItemToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="RemoveItemToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAR9JREFUWEdj
         GAWjgBQQm3UwKCb7wEcg/o8FX0vMPSQKVUobEJu1fwXQooNxuftd0DHIESAHQpVSB0Rn7reIzTkQCsPR

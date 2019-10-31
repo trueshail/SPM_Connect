@@ -60,8 +60,10 @@ namespace SearchDataSPM
 
 
             _acountsTb = new DataTable();
-            _command = new SqlCommand();
-            _command.Connection = _connection;
+            _command = new SqlCommand
+            {
+                Connection = _connection
+            };
 
 
             //connectapi.SPM_Connect();
@@ -282,9 +284,11 @@ namespace SearchDataSPM
                         string sDocFileName = item;
                         wpfThumbnailCreator pvf;
                         pvf = new wpfThumbnailCreator();
-                        System.Drawing.Size size = new Size();
-                        size.Width = 256;
-                        size.Height = 256;
+                        System.Drawing.Size size = new Size
+                        {
+                            Width = 256,
+                            Height = 256
+                        };
                         pvf.DesiredSize = size;
                         System.Drawing.Bitmap pic = pvf.GetThumbNail(sDocFileName);
                         imageList.Images.Add(pic);
@@ -321,9 +325,8 @@ namespace SearchDataSPM
 
         public static Icon GetIconOldSchool(string fileName)
         {
-            ushort uicon;
             StringBuilder strB = new StringBuilder(fileName);
-            IntPtr handle = ExtractAssociatedIcon(IntPtr.Zero, strB, out uicon);
+            IntPtr handle = ExtractAssociatedIcon(IntPtr.Zero, strB, out ushort uicon);
             Icon ico = Icon.FromHandle(handle);
 
             return ico;

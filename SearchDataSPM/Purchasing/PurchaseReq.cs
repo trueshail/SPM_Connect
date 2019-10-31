@@ -72,7 +72,7 @@ namespace SearchDataSPM
             }
             dt = new DataTable();
             Clear();
-            userfullname = getuserfullname(get_username().ToString()).ToString();
+            userfullname = Getuserfullname(Get_username().ToString()).ToString();
         }
 
         private void PurchaseReq_Load(object sender, EventArgs e)
@@ -94,7 +94,7 @@ namespace SearchDataSPM
                 {
                     dataGridView.ContextMenuStrip = ApprovalMenuStrip;
                 }
-                changecontrolbuttonnames();
+                Changecontrolbuttonnames();
 
             }
 
@@ -104,7 +104,7 @@ namespace SearchDataSPM
             }
             else
             {
-                showReqSearchItems(userfullname);
+                ShowReqSearchItems(userfullname);
             }
 
             formloading = false;
@@ -122,7 +122,7 @@ namespace SearchDataSPM
             _userActions = new UserActions(this);
         }
 
-        void changecontrolbuttonnames()
+        void Changecontrolbuttonnames()
         {
             bttnshowmydept.Text = "Show All";
 
@@ -133,7 +133,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void showReqSearchItems(string user)
+        private void ShowReqSearchItems(string user)
         {
             showingwaitingforapproval = false;
             using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] Where [RequestedBy] = '" + user + "'ORDER BY ReqNumber DESC", cn))
@@ -145,7 +145,7 @@ namespace SearchDataSPM
 
                     dt.Clear();
                     sda.Fill(dt);
-                    preparedatagrid();
+                    Preparedatagrid();
 
                 }
                 catch (Exception)
@@ -161,7 +161,7 @@ namespace SearchDataSPM
             }
         }
 
-        void preparedatagrid()
+        void Preparedatagrid()
         {
             dataGridView.DataSource = dt;
             DataView dv = dt.DefaultView;
@@ -202,7 +202,7 @@ namespace SearchDataSPM
 
         #region show edit button for approved req
 
-        private String getapprovalstatus()
+        private string Getapprovalstatus()
         {
             string approved;
             if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
@@ -220,7 +220,7 @@ namespace SearchDataSPM
             }
         }
 
-        private String getrequestname()
+        private string Getrequestname()
         {
             string getusername;
             if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
@@ -238,9 +238,9 @@ namespace SearchDataSPM
             }
         }
 
-        private void checkforeditrights()
+        private void Checkforeditrights()
         {
-            if (getapprovalstatus().ToString() == "0")
+            if (Getapprovalstatus().ToString() == "0")
             {
                 editbttn.Visible = true;
 
@@ -266,7 +266,7 @@ namespace SearchDataSPM
 
         #region Get User Full Name
 
-        private string get_username()
+        private string Get_username()
         {
             string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
             this.Text = "SPM Connect Purchase Requisition - " + userName.Substring(4);
@@ -282,7 +282,7 @@ namespace SearchDataSPM
 
         }
 
-        private string getuserfullname(string username)
+        private string Getuserfullname(string username)
         {
 
             string fullname = "";
@@ -346,7 +346,7 @@ namespace SearchDataSPM
 
                 if (PurchaseReqSearchTxt.Text.Length > 0)
                 {
-                    mainsearch();
+                    Mainsearch();
                 }
                 else
                 {
@@ -358,7 +358,7 @@ namespace SearchDataSPM
                     }
                     else
                     {
-                        showReqSearchItems(userfullname);
+                        ShowReqSearchItems(userfullname);
                     }
 
 
@@ -370,7 +370,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void mainsearch()
+        private void Mainsearch()
         {
 
             try
@@ -395,7 +395,7 @@ namespace SearchDataSPM
 
         #region Create New Purchase Req
 
-        void createnew()
+        void Createnew()
         {
             DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to create a new purchase req?", "SPM Connect - Create New Purchase Requistion?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
@@ -405,14 +405,14 @@ namespace SearchDataSPM
                 //Clear();
                 dateTimePicker1.MinDate = DateTime.Today;
                 ecitbttn.Visible = false;
-                int lastreq = getlastreqnumber();
+                int lastreq = Getlastreqnumber();
 
-                if (createnewreq(lastreq, userfullname.ToString()))
+                if (Createnewreq(lastreq, userfullname.ToString()))
                 {
 
-                    showReqSearchItems(userfullname);
-                    selectrowbeforeediting(lastreq.ToString());
-                    populatereqdetails(lastreq);
+                    ShowReqSearchItems(userfullname);
+                    Selectrowbeforeediting(lastreq.ToString());
+                    Populatereqdetails(lastreq);
                     PopulateDataGridView();
                     processeditbutton(false);
                     jobnumbertxt.Text = jobnumbertxt.Text.TrimStart();
@@ -422,7 +422,7 @@ namespace SearchDataSPM
             }
         }
 
-        void selectrowbeforeediting(string searchValue)
+        void Selectrowbeforeediting(string searchValue)
         {
             int rowIndex = -1;
             foreach (DataGridViewRow row in dataGridView.Rows)
@@ -438,7 +438,7 @@ namespace SearchDataSPM
             }
         }
 
-        void clearitemsbeforenewreq()
+        void Clearitemsbeforenewreq()
         {
             purchreqtxt.Clear();
             requestbytxt.Clear();
@@ -459,7 +459,7 @@ namespace SearchDataSPM
             groupBox3.Visible = true;
         }
 
-        private int getlastreqnumber()
+        private int Getlastreqnumber()
         {
             int lastreqnumber = 0;
             using (SqlCommand cmd = new SqlCommand("SELECT MAX(ReqNumber) FROM [SPM_Database].[dbo].[PurchaseReqBase]", cn))
@@ -487,7 +487,7 @@ namespace SearchDataSPM
             return lastreqnumber;
         }
 
-        private bool createnewreq(int reqnumber, string employee)
+        private bool Createnewreq(int reqnumber, string employee)
         {
             bool revtal = false;
             DateTime datecreated = DateTime.Now;
@@ -579,7 +579,7 @@ namespace SearchDataSPM
             string jobnumber = jobnumbertxt.Text.Trim();
             string subassy = subassytxt.Text.Trim();
             string notes = notestxt.Text;
-            bool approval = happroval();
+            bool approval = Happroval();
 
             if (cn.State == ConnectionState.Closed)
                 cn.Open();
@@ -668,12 +668,12 @@ namespace SearchDataSPM
 
         }
 
-        private bool happroval()
+        private bool Happroval()
         {
             bool req = false;
             if (totalcostlbl.Text.Length > 0)
             {
-                if (Convert.ToInt32(Convert.ToDecimal(totalvalue.TrimEnd())) > Convert.ToInt32(Convert.ToDecimal(gethapporvallimit())))
+                if (Convert.ToInt32(Convert.ToDecimal(totalvalue.TrimEnd())) > Convert.ToInt32(Convert.ToDecimal(Gethapporvallimit())))
                 {
                     req = true;
                 }
@@ -683,7 +683,7 @@ namespace SearchDataSPM
             return req;
         }
 
-        private string gethapporvallimit()
+        private string Gethapporvallimit()
         {
             string limit = "";
             using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'Limit'", cn))
@@ -775,7 +775,7 @@ namespace SearchDataSPM
 
             savebttn.Visible = true;
 
-            fillitemssource();
+            Fillitemssource();
             toolbarpanel.Enabled = false;
             if (showexit)
             {
@@ -787,10 +787,10 @@ namespace SearchDataSPM
         private void savebttn_Click(object sender, EventArgs e)
         {
             Itemstodiscard.Clear();
-            processsavebutton(false, "Normal");
+            Processsavebutton(false, "Normal");
         }
 
-        void processsavebutton(bool validatehit, string typeofsave)
+        void Processsavebutton(bool validatehit, string typeofsave)
         {
             try
             {
@@ -826,9 +826,9 @@ namespace SearchDataSPM
                 {
 
                     UpdateReq(Convert.ToInt32(purchreqtxt.Text), typeofsave);
-                    showReqSearchItems(userfullname);
-                    clearaddnewtextboxes();
-                    processexitbutton();
+                    ShowReqSearchItems(userfullname);
+                    Clearaddnewtextboxes();
+                    Processexitbutton();
                     if (typeofsave == "Approved" || typeofsave == "Papproved" || typeofsave == "Happroved" || typeofsave == "Rejected" || typeofsave == "HRejected")
                     {
                         bttnshowapproved.PerformClick();
@@ -843,9 +843,9 @@ namespace SearchDataSPM
                     if (dataGridView.Rows.Count > 0)
                     {
                         dataGridView.ClearSelection();
-                        selectrowbeforeediting(reqnumber);
+                        Selectrowbeforeediting(reqnumber);
                         //selectrowbeforeediting(reqnumber);
-                        populatereqdetails(Convert.ToInt32(reqnumber));
+                        Populatereqdetails(Convert.ToInt32(reqnumber));
                         PopulateDataGridView();
                     }
                     dateTimePicker1.MinDate = new DateTime(1900, 01, 01);
@@ -861,15 +861,15 @@ namespace SearchDataSPM
                         if (bttnshowmyreq.Visible)
                         {
                             // bttnshowmyreq.PerformClick();
-                            perfromshowmyreqbuttn();
+                            Perfromshowmyreqbuttn();
                         }
                         else
                         {
-                            showReqSearchItems(userfullname);
+                            ShowReqSearchItems(userfullname);
                         }
 
-                        clearaddnewtextboxes();
-                        processexitbutton();
+                        Clearaddnewtextboxes();
+                        Processexitbutton();
                         dateTimePicker1.MinDate = new DateTime(1900, 01, 01);
                         //if (dataGridView.Rows.Count > 0)
                         //{
@@ -923,11 +923,11 @@ namespace SearchDataSPM
                 if (result == DialogResult.Yes)
                 {
                     errorProvider1.Clear();
-                    performdiscarditem();
-                    updateorderid(Convert.ToInt32(purchreqtxt.Text));
+                    Performdiscarditem();
+                    Updateorderid(Convert.ToInt32(purchreqtxt.Text));
                     PopulateDataGridView();
                     Itemstodiscard.Clear();
-                    processexitbutton();
+                    Processexitbutton();
                 }
                 else
                 {
@@ -938,15 +938,15 @@ namespace SearchDataSPM
 
         }
 
-        void performdiscarditem()
+        void Performdiscarditem()
         {
             foreach (string item in Itemstodiscard)
             {
-                splittagtovariables(item);
+                Splittagtovariables(item);
             }
         }
 
-        private void splittagtovariables(string s)
+        private void Splittagtovariables(string s)
         {
             string[] values = s.Replace("][", "~").Split('~');
             //string[] values = s.Split('][');
@@ -955,10 +955,10 @@ namespace SearchDataSPM
                 values[i] = values[i].Trim();
 
             }
-            removeitems(values[0], values[1]);
+            Removeitems(values[0], values[1]);
         }
 
-        private void removeitems(string itemno, string description)
+        private void Removeitems(string itemno, string description)
         {
             if (cn.State == ConnectionState.Closed)
                 cn.Open();
@@ -980,7 +980,7 @@ namespace SearchDataSPM
 
         }
 
-        void processexitbutton()
+        void Processexitbutton()
         {
             tabControl1.TabPages.Remove(PreviewTabPage);
             jobnumbertxt.ReadOnly = true;
@@ -1007,7 +1007,7 @@ namespace SearchDataSPM
             dateTimePicker1.MinDate = new DateTime(1900, 01, 01);
         }
 
-        private void updateorderid(int reqnumber)
+        private void Updateorderid(int reqnumber)
         {
             using (SqlCommand sqlCommand = new SqlCommand("with cte as(select *, new_row_id = row_number() over(partition by ReqNumber order by ReqNumber)from[dbo].[PurchaseReq] where ReqNumber = @itemnumber)update cte set OrderId = new_row_id", cn))
             {
@@ -1029,7 +1029,7 @@ namespace SearchDataSPM
             }
         }
 
-        void processdeletebttn()
+        void Processdeletebttn()
         {
             if (MessageBox.Show("Are You Sure to Delete this Record ?", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
@@ -1040,7 +1040,7 @@ namespace SearchDataSPM
                         db.PurchaseReqs.Attach(model);
                     db.PurchaseReqs.Remove(model);
                     db.SaveChanges();
-                    updateorderid(Convert.ToInt32(purchreqtxt.Text));
+                    Updateorderid(Convert.ToInt32(purchreqtxt.Text));
                     PopulateDataGridView();
                     Clear();
                 }
@@ -1056,7 +1056,7 @@ namespace SearchDataSPM
 
         }
 
-        void addnewitemtoreq()
+        void Addnewitemtoreq()
         {
             int resultqty = 0;
             //int result = 0;
@@ -1090,7 +1090,7 @@ namespace SearchDataSPM
                 }
 
                 Clear();
-                updateorderid(Convert.ToInt32(purchreqtxt.Text));
+                Updateorderid(Convert.ToInt32(purchreqtxt.Text));
                 PopulateDataGridView();
                 Addnewbttn.Enabled = false;
                 itemsearchtxtbox.Focus();
@@ -1140,7 +1140,7 @@ namespace SearchDataSPM
 
         #region Fill Items Source for search and add
 
-        private void fillitemssource()
+        private void Fillitemssource()
         {
             using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM [SPM_Database].[dbo].[ItemsToSelect]", cn))
             {
@@ -1169,7 +1169,7 @@ namespace SearchDataSPM
 
         private void filldatatable(string itemnumber)
         {
-            String sql = "SELECT *  FROM [SPM_Database].[dbo].[UnionInventory] WHERE [ItemNumber]='" + itemnumber.ToString() + "'";
+            string sql = "SELECT *  FROM [SPM_Database].[dbo].[UnionInventory] WHERE [ItemNumber]='" + itemnumber.ToString() + "'";
             try
             {
                 if (cn.State == ConnectionState.Closed)
@@ -1177,7 +1177,7 @@ namespace SearchDataSPM
                 _adapter = new SqlDataAdapter(sql, cn);
                 itemstable.Clear();
                 _adapter.Fill(itemstable);
-                fillinfo();
+                Fillinfo();
             }
             catch (SqlException ex)
             {
@@ -1190,7 +1190,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void fillinfo()
+        private void Fillinfo()
         {
             DataRow r = itemstable.Rows[0];
             ItemTxtBox.Text = r["ItemNumber"].ToString();
@@ -1199,7 +1199,7 @@ namespace SearchDataSPM
             oemitemnotxt.Text = r["ManufacturerItemNumber"].ToString();
         }
 
-        void clearaddnewtextboxes()
+        void Clearaddnewtextboxes()
         {
             ///itemsearchtxtbox.Clear();
             Descriptiontxtbox.Clear();
@@ -1214,7 +1214,7 @@ namespace SearchDataSPM
 
         #region Populated Details for both datagrids showing purchase req details
 
-        void populatereqdetails(int item) // populates details of selected purchase req
+        void Populatereqdetails(int item) // populates details of selected purchase req
         {
             if (dataGridView.Rows.Count > 0)
             {
@@ -1550,7 +1550,7 @@ namespace SearchDataSPM
                                         }
                                         else
                                         {
-                                            if (getrequestname() == userfullname)
+                                            if (Getrequestname() == userfullname)
                                             {
                                                 editbttn.Visible = true;
                                             }
@@ -1594,7 +1594,7 @@ namespace SearchDataSPM
                             purchasedchk.Text = "Purchase";
                             purchasedchk.Checked = false;
                             printbttn.Enabled = false;
-                            if (getrequestname() == userfullname)
+                            if (Getrequestname() == userfullname)
                             {
                                 editbttn.Visible = true;
                             }
@@ -1617,7 +1617,7 @@ namespace SearchDataSPM
                     ///////////////////////////////////////
 
 
-                    if (higherauthority && getrequestname() == userfullname && happrovechk.Checked == false && dr[0]["Papproved"].ToString().Equals("0"))
+                    if (higherauthority && Getrequestname() == userfullname && happrovechk.Checked == false && dr[0]["Papproved"].ToString().Equals("0"))
                     {
                         editbttn.Visible = true;
                     }
@@ -1716,8 +1716,8 @@ namespace SearchDataSPM
                     Validatechk.Checked = true;
                     Validatechk.Text = "Invalidate";
                     groupBox3.Visible = false;
-                    processexitbutton();
-                    showReqSearchItems(userfullname);
+                    Processexitbutton();
+                    ShowReqSearchItems(userfullname);
                 }
                 else
                 {
@@ -1741,7 +1741,7 @@ namespace SearchDataSPM
                     if (jobnumbertxt.Text.Length > 0 && subassytxt.Text.Length > 0 && dataGridView1.Rows.Count > 0)
                     {
                         string reqno = purchreqtxt.Text;
-                        processsavebutton(true, "Validated");
+                        Processsavebutton(true, "Validated");
                         Validatechk.Text = "Invalidate";
                         //this.TopMost = false;
 
@@ -1774,9 +1774,9 @@ namespace SearchDataSPM
                         });
                         Cursor.Current = Cursors.WaitCursor;
                         this.Enabled = false;
-                        string filename = makefilenameforreport(reqno, true);
+                        string filename = Makefilenameforreport(reqno, true);
                         SaveReport(reqno, filename);
-                        preparetosendemail(reqno, true, "", filename, false, "user", false);
+                        Preparetosendemail(reqno, true, "", filename, false, "user", false);
                         //t.Abort();
 
                         // this.TopMost = true;
@@ -1912,14 +1912,14 @@ namespace SearchDataSPM
                         MetroFramework.MetroMessageBox.Show(this, "This purchase requisition is approved by higher authority. Only people at that credentials can edit the details.", "SPM Connect - Purchase Req H-approved", MessageBoxButtons.OK);
                         approvechk.Checked = true;
                         approvechk.Text = "Approved";
-                        processexitbutton();
+                        Processexitbutton();
 
                     }
                     else
                     {
                         approvechk.Checked = false;
                         approvechk.Text = "Approve";
-                        processsavebutton(true, "ApprovedFalse");
+                        Processsavebutton(true, "ApprovedFalse");
 
                     }
 
@@ -1937,7 +1937,7 @@ namespace SearchDataSPM
                             string reqno = purchreqtxt.Text;
                             string requestby = requestbytxt.Text;
 
-                            processsavebutton(true, "Approved");
+                            Processsavebutton(true, "Approved");
                             approvechk.Checked = true;
                             // this.TopMost = false;
 
@@ -1957,10 +1957,10 @@ namespace SearchDataSPM
                             }, null);
                             this.Enabled = false;
 
-                            string filename = makefilenameforreport(reqno, false).ToString();
+                            string filename = Makefilenameforreport(reqno, false).ToString();
                             SaveReport(reqno, filename);
-                            preparetosendemail(reqno, false, requestby, filename, happroval(), "supervisor", false);
-                            exporttoexcel();
+                            Preparetosendemail(reqno, false, requestby, filename, Happroval(), "supervisor", false);
+                            Exporttoexcel();
                             //t.Abort();
                             //this.TopMost = true;
                             this.Enabled = true;
@@ -2072,7 +2072,7 @@ namespace SearchDataSPM
             dataGridView1.Columns["Price"].DefaultCellStyle.Format = "n2";
         }
 
-        private void dataGridView_SelectionChanged(object sender, EventArgs e)
+        private void DataGridView_SelectionChanged(object sender, EventArgs e)
         {
             if (!formloading)
             {
@@ -2115,9 +2115,9 @@ namespace SearchDataSPM
                         int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                         DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
                         int item = Convert.ToInt32(slectedrow.Cells[0].Value);
-                        checkforeditrights();
+                        Checkforeditrights();
 
-                        populatereqdetails(item);
+                        Populatereqdetails(item);
                         PopulateDataGridView();
                         tabControl1.Visible = true;
                         totalcostlbl.Visible = true;
@@ -2159,7 +2159,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void dataGridView_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+        private void DataGridView_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
         {
             if (dataGridView.Rows.Count < 1)
             {
@@ -2171,7 +2171,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        private void DataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.RowIndex == -1) return;
 
@@ -2188,14 +2188,14 @@ namespace SearchDataSPM
             }
         }
 
-        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void DataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
 
-            getitemsfromgrid();
+            Getitemsfromgrid();
 
         }
 
-        private void dataGridView_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        private void DataGridView_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.RowIndex == -1) return;
 
@@ -2211,7 +2211,7 @@ namespace SearchDataSPM
             }
         }
 
-        void getitemsfromgrid()
+        void Getitemsfromgrid()
         {
             if (dataGridView1.Rows.Count > 0)
             {
@@ -2258,18 +2258,18 @@ namespace SearchDataSPM
             }
         }
 
-        private void deleteItemToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DeleteItemToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Clear();
-            getitemsfromgrid();
-            processdeletebttn();
+            Getitemsfromgrid();
+            Processdeletebttn();
         }
 
-        private void editItemToolStripMenuItem_Click(object sender, EventArgs e)
+        private void EditItemToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ecitbttn.Visible = false;
             Clear();
-            getitemsfromgrid();
+            Getitemsfromgrid();
             qtytxt.Focus();
             qtytxt.SelectAll();
 
@@ -2279,7 +2279,7 @@ namespace SearchDataSPM
 
         #region save report and send email
 
-        private string makefilenameforreport(string reqno, bool prelim)
+        private string Makefilenameforreport(string reqno, bool prelim)
         {
             string fileName = "";
 
@@ -2350,10 +2350,12 @@ namespace SearchDataSPM
 
                 if (_parameters.Length > 0)
                 {
-                    parameters[0] = new RE2005.ParameterValue();
-                    //parameters[0].Label = "";
-                    parameters[0].Name = "pReqno";
-                    parameters[0].Value = reqno;
+                    parameters[0] = new RE2005.ParameterValue
+                    {
+                        //parameters[0].Label = "";
+                        Name = "pReqno",
+                        Value = reqno
+                    };
                 }
                 rsExec.SetExecutionParameters(parameters, "en-us");
 
@@ -2399,7 +2401,7 @@ namespace SearchDataSPM
 
         }
 
-        private string savereporttodb(Byte[] username)
+        private string Savereporttodb(Byte[] username)
         {
             try
             {
@@ -2432,13 +2434,13 @@ namespace SearchDataSPM
             return null;
         }
 
-        void preparetosendemail(string reqno, bool prelim, string requestby, string fileName, bool happroval, string triggerby, bool rejected)
+        void Preparetosendemail(string reqno, bool prelim, string requestby, string fileName, bool happroval, string triggerby, bool rejected)
         {
             if (!rejected)
             {
                 if (prelim)
                 {
-                    snedemailtosupervisor(reqno, fileName);
+                    Sendemailtosupervisor(reqno, fileName);
                 }
                 else
                 {
@@ -2446,22 +2448,22 @@ namespace SearchDataSPM
                     {
                         if (sendemailyesnohauthority())
                         {
-                            sendmailforhapproval(reqno, fileName);
+                            Sendmailforhapproval(reqno, fileName);
                         }
 
                     }
                     else
                     {
-                        sendemailtouser(reqno, fileName, requestby, triggerby, false);
+                        Sendemailtouser(reqno, fileName, requestby, triggerby, false);
                         if (triggerby == "pbuyer")
                         {
 
                         }
                         else
                         {
-                            if (sendemailyesnopbuyer())
+                            if (Sendemailyesnopbuyer())
                             {
-                                sendmailtopbuyers(reqno, "");
+                                Sendmailtopbuyers(reqno, "");
                             }
 
                         }
@@ -2470,14 +2472,14 @@ namespace SearchDataSPM
             }
             else
             {
-                sendemailtouser(reqno, fileName, requestby, triggerby, rejected);
+                Sendemailtouser(reqno, fileName, requestby, triggerby, rejected);
             }
 
         }
 
-        void snedemailtosupervisor(string reqno, string fileName)
+        void Sendemailtosupervisor(string reqno, string fileName)
         {
-            string nameemail = getsupervisornameandemail(supervisorid);
+            string nameemail = Getsupervisornameandemail(supervisorid);
 
             string[] values = nameemail.Replace("][", "~").Split('~');
             for (int i = 0; i < values.Length; i++)
@@ -2495,21 +2497,21 @@ namespace SearchDataSPM
 
             }
             name = names[0];
-            sendemail(email, reqno + " Purchase Req Approval Required - Job " + jobnumbertxt.Text, "Hello " + name + "," + Environment.NewLine + userfullname + " sent this purchase req for approval.", fileName, "");
+            Sendemail(email, reqno + " Purchase Req Approval Required - Job " + jobnumbertxt.Text, "Hello " + name + "," + Environment.NewLine + userfullname + " sent this purchase req for approval.", fileName, "");
         }
 
-        void sendemailtouser(string reqno, string fileName, string requestby, string triggerby, bool rejected)
+        void Sendemailtouser(string reqno, string fileName, string requestby, string triggerby, bool rejected)
         {
-            string email = getusernameandemail(requestby);
+            string email = Getusernameandemail(requestby);
             if (!rejected)
             {
                 if (triggerby == "supervisor")
                 {
-                    sendemail(email, reqno + " Purchase Req Approved - Job " + jobnumbertxt.Text, "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is approved.", fileName, "");
+                    Sendemail(email, reqno + " Purchase Req Approved - Job " + jobnumbertxt.Text, "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is approved.", fileName, "");
                 }
                 else
                 {
-                    string supnameemail = getsupervisornameandemail(supervisoridfromreq);
+                    string supnameemail = Getsupervisornameandemail(supervisoridfromreq);
                     string[] values = supnameemail.Replace("][", "~").Split('~');
                     for (int i = 0; i < values.Length; i++)
                     {
@@ -2520,11 +2522,11 @@ namespace SearchDataSPM
 
                     if (triggerby == "pbuyer")
                     {
-                        sendemail(email, reqno + " Purchase Req Purchased - Job " + jobnumbertxt.Text, "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is sent out for purchase.", fileName, supervisoremail);
+                        Sendemail(email, reqno + " Purchase Req Purchased - Job " + jobnumbertxt.Text, "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is sent out for purchase.", fileName, supervisoremail);
                     }
                     if (triggerby == "highautority")
                     {
-                        sendemail(email, reqno + " Purchase Req Approved - Job " + jobnumbertxt.Text, "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is approved.", fileName, supervisoremail);
+                        Sendemail(email, reqno + " Purchase Req Approved - Job " + jobnumbertxt.Text, "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is approved.", fileName, supervisoremail);
                     }
                 }
             }
@@ -2532,11 +2534,11 @@ namespace SearchDataSPM
             {
                 if (triggerby == "supervisor")
                 {
-                    sendemail(email, reqno + " Purchase Req Rejected - Job " + jobnumbertxt.Text, "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is not approved.", fileName, "");
+                    Sendemail(email, reqno + " Purchase Req Rejected - Job " + jobnumbertxt.Text, "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is not approved.", fileName, "");
                 }
                 else
                 {
-                    string supnameemail = getsupervisornameandemail(supervisoridfromreq);
+                    string supnameemail = Getsupervisornameandemail(supervisoridfromreq);
                     string[] values = supnameemail.Replace("][", "~").Split('~');
                     for (int i = 0; i < values.Length; i++)
                     {
@@ -2547,15 +2549,15 @@ namespace SearchDataSPM
 
                     if (triggerby == "highautority")
                     {
-                        sendemail(email, reqno + " Purchase Req Rejected - Job " + jobnumbertxt.Text, "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is not approved.", fileName, supervisoremail);
+                        Sendemail(email, reqno + " Purchase Req Rejected - Job " + jobnumbertxt.Text, "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is not approved.", fileName, supervisoremail);
                     }
                 }
             }
         }
 
-        void sendmailforhapproval(string reqno, string fileName)
+        void Sendmailforhapproval(string reqno, string fileName)
         {
-            string[] nameemail = gethapprovalnamesandemail().ToArray();
+            string[] nameemail = Gethapprovalnamesandemail().ToArray();
             for (int i = 0; i < nameemail.Length; i++)
             {
                 string[] values = nameemail[i].Replace("][", "~").Split('~');
@@ -2575,14 +2577,14 @@ namespace SearchDataSPM
 
                 }
                 name = names[0];
-                sendemail(email, reqno + " Purchase Req Approval Required - 2nd Approval - Job " + jobnumbertxt.Text, "Hello " + name + "," + Environment.NewLine + userfullname + " sent this purchase req for second approval.", fileName, "");
+                Sendemail(email, reqno + " Purchase Req Approval Required - 2nd Approval - Job " + jobnumbertxt.Text, "Hello " + name + "," + Environment.NewLine + userfullname + " sent this purchase req for second approval.", fileName, "");
             }
 
         }
 
-        void sendmailtopbuyers(string reqno, string fileName)
+        void Sendmailtopbuyers(string reqno, string fileName)
         {
-            string[] nameemail = getpbuyersnamesandemail().ToArray();
+            string[] nameemail = Getpbuyersnamesandemail().ToArray();
             for (int i = 0; i < nameemail.Length; i++)
             {
                 string[] values = nameemail[i].Replace("][", "~").Split('~');
@@ -2602,12 +2604,12 @@ namespace SearchDataSPM
 
                 }
                 name = names[0];
-                sendemail(email, reqno + " Purchase Req needs PO - Notification - Job " + jobnumbertxt.Text, "Hello " + name + "," + Environment.NewLine + userfullname + " apporved this purchase req and on its way to be purchased. ", fileName, "");
+                Sendemail(email, reqno + " Purchase Req needs PO - Notification - Job " + jobnumbertxt.Text, "Hello " + name + "," + Environment.NewLine + userfullname + " apporved this purchase req and on its way to be purchased. ", fileName, "");
             }
 
         }
 
-        private string getsupervisornameandemail(int id)
+        private string Getsupervisornameandemail(int id)
         {
             string Email = "";
             string name = "";
@@ -2656,7 +2658,7 @@ namespace SearchDataSPM
 
         }
 
-        private string getusernameandemail(string requestby)
+        private string Getusernameandemail(string requestby)
         {
             string Email = "";
             try
@@ -2698,7 +2700,7 @@ namespace SearchDataSPM
 
         }
 
-        private List<string> gethapprovalnamesandemail()
+        private List<string> Gethapprovalnamesandemail()
         {
 
             List<string> Happrovalnames = new List<string>();
@@ -2736,7 +2738,7 @@ namespace SearchDataSPM
             return Happrovalnames;
         }
 
-        private List<string> getpbuyersnamesandemail()
+        private List<string> Getpbuyersnamesandemail()
         {
 
             List<string> Happrovalnames = new List<string>();
@@ -2774,9 +2776,9 @@ namespace SearchDataSPM
             return Happrovalnames;
         }
 
-        void sendemail(string emailtosend, string subject, string body, string filetoattach, string cc)
+        void Sendemail(string emailtosend, string subject, string body, string filetoattach, string cc)
         {
-            if (sendemailyesno())
+            if (Sendemailyesno())
             {
                 try
                 {
@@ -2827,7 +2829,7 @@ namespace SearchDataSPM
 
         }
 
-        private bool sendemailyesno()
+        private bool Sendemailyesno()
         {
             bool sendemail = false;
             string limit = "";
@@ -2862,7 +2864,7 @@ namespace SearchDataSPM
 
         #region add items to purchase req button and text events groupbox 3
 
-        private void pricetxt_Leave(object sender, EventArgs e)
+        private void Pricetxt_Leave(object sender, EventArgs e)
         {
             //Double value;
             //if (Double.TryParse(pricetxt.Text, out value))
@@ -2871,7 +2873,7 @@ namespace SearchDataSPM
             //    pricetxt.Text = String.Empty;
         }
 
-        private void itemsearchtxtbox_KeyDown(object sender, KeyEventArgs e)
+        private void Itemsearchtxtbox_KeyDown(object sender, KeyEventArgs e)
         {
 
             if (e.KeyCode == Keys.Return)
@@ -2879,7 +2881,7 @@ namespace SearchDataSPM
                 if (itemsearchtxtbox.Text.Length >= 6)
                 {
                     string item = itemsearchtxtbox.Text.Trim().Substring(0, 6).ToString();
-                    clearaddnewtextboxes();
+                    Clearaddnewtextboxes();
                     filldatatable(item);
                     Addnewbttn.Enabled = true;
                     FillPrice(item);
@@ -2895,9 +2897,8 @@ namespace SearchDataSPM
             if (dontstop)
             {
                 string value = pricetxt.Text.Replace(",", "").Replace("$", "").Replace(".", "").TrimStart('0');
-                decimal ul;
                 //Check we are indeed handling a number
-                if (decimal.TryParse(value, out ul))
+                if (decimal.TryParse(value, out decimal ul))
                 {
                     ul /= 100;
                     //Unsub the event so we don't enter a loop
@@ -2919,7 +2920,7 @@ namespace SearchDataSPM
 
         bool dontstop = true;
 
-        private DataTable getpriceforitem(string itemnumber)
+        private DataTable Getpriceforitem(string itemnumber)
         {
             DataTable dt = new DataTable();
 
@@ -2953,7 +2954,7 @@ namespace SearchDataSPM
             {
                 DataTable iteminfo = new DataTable();
                 iteminfo.Clear();
-                iteminfo = getpriceforitem(item);
+                iteminfo = Getpriceforitem(item);
                 if (iteminfo.Rows.Count > 0)
                 {
                     DataRow r = iteminfo.Rows[0];
@@ -3017,21 +3018,21 @@ namespace SearchDataSPM
 
         private void Addnewbttn_Click(object sender, EventArgs e)
         {
-            addnewitemtoreq();
+            Addnewitemtoreq();
         }
 
-        private void btnDelete_Click(object sender, EventArgs e)
+        private void BtnDelete_Click(object sender, EventArgs e)
         {
-            processdeletebttn();
+            Processdeletebttn();
         }
 
-        private void btnCancel_Click(object sender, EventArgs e)
+        private void BtnCancel_Click(object sender, EventArgs e)
         {
             Clear();
             Addnewbttn.Enabled = false;
         }
 
-        private void jobnumbertxt_KeyPress(object sender, KeyPressEventArgs e)
+        private void Jobnumbertxt_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"[0-9+\b]"))
             {
@@ -3044,7 +3045,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void subassytxt_KeyPress(object sender, KeyPressEventArgs e)
+        private void Subassytxt_KeyPress(object sender, KeyPressEventArgs e)
         {
             if ((sender as TextBox).SelectionStart == 0)
                 e.Handled = (e.KeyChar == (char)Keys.Space);
@@ -3052,12 +3053,12 @@ namespace SearchDataSPM
                 e.Handled = false;
         }
 
-        private void jobnumbertxt_Leave(object sender, EventArgs e)
+        private void Jobnumbertxt_Leave(object sender, EventArgs e)
         {
             jobnumbertxt.Text = jobnumbertxt.Text.Trim();
         }
 
-        private void subassytxt_Leave(object sender, EventArgs e)
+        private void Subassytxt_Leave(object sender, EventArgs e)
         {
             subassytxt.Text = subassytxt.Text.Trim();
         }
@@ -3068,13 +3069,13 @@ namespace SearchDataSPM
         #region button click events tool bars
 
 
-        private void newbttn_Click(object sender, EventArgs e)
+        private void Newbttn_Click(object sender, EventArgs e)
         {
-            createnew();
+            Createnew();
 
         }
 
-        private void printbttn_Click(object sender, EventArgs e)
+        private void Printbttn_Click(object sender, EventArgs e)
         {
             // this.TopMost = false;
 
@@ -3082,7 +3083,7 @@ namespace SearchDataSPM
 
         }
 
-        private void bttnneedapproval_Click(object sender, EventArgs e)
+        private void Bttnneedapproval_Click(object sender, EventArgs e)
         {
             //this.TopMost = false;
 
@@ -3114,7 +3115,7 @@ namespace SearchDataSPM
             }, null);
 
             this.Enabled = false;
-            showwaitingonapproval();
+            Showwaitingonapproval();
             foreach (Control c in managergroupbox.Controls)
             {
                 c.BackColor = Color.Transparent;
@@ -3131,7 +3132,7 @@ namespace SearchDataSPM
             done = true;
         }
 
-        private void bttnshowapproved_Click(object sender, EventArgs e)
+        private void Bttnshowapproved_Click(object sender, EventArgs e)
         {
             // this.TopMost = false;
             //Thread t = new Thread(new ThreadStart(Splashopening));
@@ -3152,7 +3153,7 @@ namespace SearchDataSPM
 
 
             this.Enabled = false;
-            showallapproved();
+            Showallapproved();
             foreach (Control c in managergroupbox.Controls)
             {
                 c.BackColor = Color.Transparent;
@@ -3188,7 +3189,7 @@ namespace SearchDataSPM
             });
 
             this.Enabled = false;
-            showmydeptreq();
+            Showmydeptreq();
             foreach (Control c in managergroupbox.Controls)
             {
                 c.BackColor = Color.Transparent;
@@ -3205,13 +3206,13 @@ namespace SearchDataSPM
 
         }
 
-        private void bttnshowmyreq_Click(object sender, EventArgs e)
+        private void Bttnshowmyreq_Click(object sender, EventArgs e)
         {
-            perfromshowmyreqbuttn();
+            Perfromshowmyreqbuttn();
         }
 
 
-        private void perfromshowmyreqbuttn()
+        private void Perfromshowmyreqbuttn()
         {
             //this.TopMost = false;
             //Thread t = new Thread(new ThreadStart(Splashopening));
@@ -3232,7 +3233,7 @@ namespace SearchDataSPM
             });
 
             this.Enabled = false;
-            showReqSearchItems(userfullname);
+            ShowReqSearchItems(userfullname);
             foreach (Control c in managergroupbox.Controls)
             {
                 c.BackColor = Color.Transparent;
@@ -3252,7 +3253,7 @@ namespace SearchDataSPM
 
         #region manager commands to retrieve data
 
-        private void showwaitingonapproval()
+        private void Showwaitingonapproval()
         {
             showingwaitingforapproval = true;
 
@@ -3267,7 +3268,7 @@ namespace SearchDataSPM
 
                         dt.Clear();
                         sda.Fill(dt);
-                        preparedatagrid();
+                        Preparedatagrid();
 
 
                     }
@@ -3294,7 +3295,7 @@ namespace SearchDataSPM
 
                         dt.Clear();
                         sda.Fill(dt);
-                        preparedatagrid();
+                        Preparedatagrid();
 
 
                     }
@@ -3321,7 +3322,7 @@ namespace SearchDataSPM
 
                         dt.Clear();
                         sda.Fill(dt);
-                        preparedatagrid();
+                        Preparedatagrid();
 
 
                     }
@@ -3348,7 +3349,7 @@ namespace SearchDataSPM
 
                         dt.Clear();
                         sda.Fill(dt);
-                        preparedatagrid();
+                        Preparedatagrid();
 
 
                     }
@@ -3367,7 +3368,7 @@ namespace SearchDataSPM
 
         }
 
-        private void showallapproved()
+        private void Showallapproved()
         {
             showingwaitingforapproval = false;
 
@@ -3382,7 +3383,7 @@ namespace SearchDataSPM
 
                         dt.Clear();
                         sda.Fill(dt);
-                        preparedatagrid();
+                        Preparedatagrid();
 
                     }
                     catch (Exception)
@@ -3409,7 +3410,7 @@ namespace SearchDataSPM
 
                         dt.Clear();
                         sda.Fill(dt);
-                        preparedatagrid();
+                        Preparedatagrid();
 
                     }
                     catch (Exception)
@@ -3436,7 +3437,7 @@ namespace SearchDataSPM
 
                         dt.Clear();
                         sda.Fill(dt);
-                        preparedatagrid();
+                        Preparedatagrid();
 
                     }
                     catch (Exception)
@@ -3454,7 +3455,7 @@ namespace SearchDataSPM
 
         }
 
-        private void showmydeptreq()
+        private void Showmydeptreq()
         {
             showingwaitingforapproval = false;
             if (higherauthority)
@@ -3468,7 +3469,7 @@ namespace SearchDataSPM
 
                         dt.Clear();
                         sda.Fill(dt);
-                        preparedatagrid();
+                        Preparedatagrid();
 
                     }
                     catch (Exception)
@@ -3495,7 +3496,7 @@ namespace SearchDataSPM
 
                         dt.Clear();
                         sda.Fill(dt);
-                        preparedatagrid();
+                        Preparedatagrid();
 
                     }
                     catch (Exception)
@@ -3522,7 +3523,7 @@ namespace SearchDataSPM
 
                         dt.Clear();
                         sda.Fill(dt);
-                        preparedatagrid();
+                        Preparedatagrid();
 
                     }
                     catch (Exception)
@@ -3551,7 +3552,7 @@ namespace SearchDataSPM
             {
                 if (happrovechk.Checked == false)
                 {
-                    processsavebutton(true, "Happrovedfalse");
+                    Processsavebutton(true, "Happrovedfalse");
                 }
                 else
                 {
@@ -3564,7 +3565,7 @@ namespace SearchDataSPM
                         string reqno = purchreqtxt.Text;
                         string requestby = requestbytxt.Text;
 
-                        processsavebutton(true, "Happroved");
+                        Processsavebutton(true, "Happroved");
                         happrovechk.Checked = true;
                         //this.TopMost = false;
 
@@ -3585,10 +3586,10 @@ namespace SearchDataSPM
                         this.Enabled = false;
 
 
-                        string filename = makefilenameforreport(reqno, false).ToString();
+                        string filename = Makefilenameforreport(reqno, false).ToString();
                         //SaveReport(reqno, filename);
 
-                        preparetosendemail(reqno, false, requestby, filename, false, "highautority", false);
+                        Preparetosendemail(reqno, false, requestby, filename, false, "highautority", false);
 
                         // t.Abort();
                         // this.TopMost = true;
@@ -3648,7 +3649,7 @@ namespace SearchDataSPM
             {
                 if (purchasedchk.Checked == false)
                 {
-                    processsavebutton(true, "Papprovedfalse");
+                    Processsavebutton(true, "Papprovedfalse");
                 }
                 else
                 {
@@ -3661,8 +3662,8 @@ namespace SearchDataSPM
                         string reqno = purchreqtxt.Text;
                         string requestby = requestbytxt.Text;
 
-                        processsavebutton(true, "Papproved");
-                        dataGridView_SelectionChanged(sender, e);
+                        Processsavebutton(true, "Papproved");
+                        DataGridView_SelectionChanged(sender, e);
                         //this.TopMost = false;
 
                         //Thread t = new Thread(new ThreadStart(Splashemail));
@@ -3682,7 +3683,7 @@ namespace SearchDataSPM
                         this.Enabled = false;
                         purchasedchk.Checked = true;
 
-                        preparetosendemail(reqno, false, requestby, "", false, "pbuyer", false);
+                        Preparetosendemail(reqno, false, requestby, "", false, "pbuyer", false);
 
                         //t.Abort();
                         //this.TopMost = true;
@@ -3700,7 +3701,7 @@ namespace SearchDataSPM
             }
         }
 
-        private bool sendemailyesnopbuyer()
+        private bool Sendemailyesnopbuyer()
         {
             bool sendemail = false;
             string yesno = "";
@@ -3735,7 +3736,7 @@ namespace SearchDataSPM
 
         #region export to excel
 
-        private void exporttoexcel()
+        private void Exporttoexcel()
         {
             try
             {
@@ -3743,16 +3744,17 @@ namespace SearchDataSPM
                 //sfd.Filter = "Excel Documents (*.xls)|*.xls";
                 //sfd.FileName = "Inventory_Adjustment_Export.xls";
 
-                string filepath = getsupervisorsharepath(get_username()).ToString() + @"\SPM_Connect\PreliminaryPurchases\";
+                string filepath = Getsupervisorsharepath(Get_username()).ToString() + @"\SPM_Connect\PreliminaryPurchases\";
                 System.IO.Directory.CreateDirectory(filepath);
                 filepath += purchreqtxt.Text + " - " + requestbytxt.Text + ".xls";
                 // Copy DataGridView results to clipboard
-                copyAlltoClipboard();
+                CopyAlltoClipboard();
 
                 object misValue = System.Reflection.Missing.Value;
-                Excel.Application xlexcel = new Excel.Application();
-
-                xlexcel.DisplayAlerts = false; // Without this you will get two confirm overwrite prompts
+                Excel.Application xlexcel = new Excel.Application
+                {
+                    DisplayAlerts = false // Without this you will get two confirm overwrite prompts
+                };
                 Excel.Workbook xlWorkBook = xlexcel.Workbooks.Add(misValue);
                 Excel.Worksheet xlWorkSheet = (Excel.Worksheet)xlWorkBook.Worksheets.get_Item(1);
 
@@ -3792,9 +3794,9 @@ namespace SearchDataSPM
                 xlWorkBook.Close(true, misValue, misValue);
                 xlexcel.Quit();
 
-                releaseObject(xlWorkSheet);
-                releaseObject(xlWorkBook);
-                releaseObject(xlexcel);
+                ReleaseObject(xlWorkSheet);
+                ReleaseObject(xlWorkBook);
+                ReleaseObject(xlexcel);
 
                 // Clear Clipboard and DataGridView selection
                 Clipboard.Clear();
@@ -3811,7 +3813,7 @@ namespace SearchDataSPM
 
         }
 
-        private void copyAlltoClipboard()
+        private void CopyAlltoClipboard()
         {
             dataGridView1.SelectAll();
             DataObject dataObj = dataGridView1.GetClipboardContent();
@@ -3819,7 +3821,7 @@ namespace SearchDataSPM
                 Clipboard.SetDataObject(dataObj);
         }
 
-        private void releaseObject(object obj)
+        private void ReleaseObject(object obj)
         {
             try
             {
@@ -3837,7 +3839,7 @@ namespace SearchDataSPM
             }
         }
 
-        private string getsupervisorsharepath(string username)
+        private string Getsupervisorsharepath(string username)
         {
 
             string path = "";
@@ -3888,7 +3890,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void approvetoolstrip_Click(object sender, EventArgs e)
+        private void Approvetoolstrip_Click(object sender, EventArgs e)
         {
             if (!approvechk.Checked)
             {
@@ -3911,14 +3913,14 @@ namespace SearchDataSPM
                             MetroFramework.MetroMessageBox.Show(this, "This purchase requisition is approved by higher authority. Only people at that credentials can edit the details.", "SPM Connect - Purchase Req H-approved", MessageBoxButtons.OK);
                             approvechk.Checked = true;
                             approvechk.Text = "Approved";
-                            processexitbutton();
+                            Processexitbutton();
 
                         }
                         else
                         {
                             approvechk.Checked = false;
                             approvechk.Text = "Approve";
-                            processsavebutton(true, "ApprovedFalse");
+                            Processsavebutton(true, "ApprovedFalse");
 
                         }
 
@@ -3936,7 +3938,7 @@ namespace SearchDataSPM
                                 string reqno = purchreqtxt.Text;
                                 string requestby = requestbytxt.Text;
 
-                                processsavebutton(true, "Approved");
+                                Processsavebutton(true, "Approved");
                                 approvechk.Checked = true;
                                 // this.TopMost = false;
 
@@ -3956,10 +3958,10 @@ namespace SearchDataSPM
                                 }, null);
                                 this.Enabled = false;
 
-                                string filename = makefilenameforreport(reqno, false).ToString();
+                                string filename = Makefilenameforreport(reqno, false).ToString();
                                 SaveReport(reqno, filename);
-                                preparetosendemail(reqno, false, requestby, filename, happroval(), "supervisor", false);
-                                exporttoexcel();
+                                Preparetosendemail(reqno, false, requestby, filename, Happroval(), "supervisor", false);
+                                Exporttoexcel();
                                 //t.Abort();
                                 //this.TopMost = true;
                                 this.Enabled = true;
@@ -4012,7 +4014,7 @@ namespace SearchDataSPM
 
                     if (happrovechk.Checked == false)
                     {
-                        processsavebutton(true, "Happrovedfalse");
+                        Processsavebutton(true, "Happrovedfalse");
                     }
                     else
                     {
@@ -4025,7 +4027,7 @@ namespace SearchDataSPM
                             string reqno = purchreqtxt.Text;
                             string requestby = requestbytxt.Text;
 
-                            processsavebutton(true, "Happroved");
+                            Processsavebutton(true, "Happroved");
                             happrovechk.Checked = true;
                             //this.TopMost = false;
 
@@ -4046,10 +4048,10 @@ namespace SearchDataSPM
                             this.Enabled = false;
 
 
-                            string filename = makefilenameforreport(reqno, false).ToString();
+                            string filename = Makefilenameforreport(reqno, false).ToString();
                             //SaveReport(reqno, filename);
 
-                            preparetosendemail(reqno, false, requestby, filename, false, "highautority", false);
+                            Preparetosendemail(reqno, false, requestby, filename, false, "highautority", false);
 
                             // t.Abort();
                             // this.TopMost = true;
@@ -4093,14 +4095,14 @@ namespace SearchDataSPM
                             MetroFramework.MetroMessageBox.Show(this, "This purchase requisition is approved by higher authority. Only people at that credentials can edit the details.", "SPM Connect - Purchase Req H-approved", MessageBoxButtons.OK);
                             approvechk.Checked = true;
                             approvechk.Text = "Approved";
-                            processexitbutton();
+                            Processexitbutton();
 
                         }
                         else
                         {
                             approvechk.Checked = false;
                             approvechk.Text = "Approve";
-                            processsavebutton(true, "ApprovedFalse");
+                            Processsavebutton(true, "ApprovedFalse");
 
                         }
 
@@ -4118,7 +4120,7 @@ namespace SearchDataSPM
                                 string reqno = purchreqtxt.Text;
                                 string requestby = requestbytxt.Text;
 
-                                processsavebutton(true, "Rejected");
+                                Processsavebutton(true, "Rejected");
                                 approvechk.Checked = true;
                                 // this.TopMost = false;
 
@@ -4140,7 +4142,7 @@ namespace SearchDataSPM
 
                                 //string filename = makefilenameforreport(reqno, false).ToString();
                                 //SaveReport(reqno, filename);
-                                preparetosendemail(reqno, false, requestby, "", happroval(), "supervisor", true);
+                                Preparetosendemail(reqno, false, requestby, "", Happroval(), "supervisor", true);
                                 //exporttoexcel();
                                 //t.Abort();
                                 //this.TopMost = true;
@@ -4194,7 +4196,7 @@ namespace SearchDataSPM
 
                     if (happrovechk.Checked == false)
                     {
-                        processsavebutton(true, "Happrovedfalse");
+                        Processsavebutton(true, "Happrovedfalse");
                     }
                     else
                     {
@@ -4207,7 +4209,7 @@ namespace SearchDataSPM
                             string reqno = purchreqtxt.Text;
                             string requestby = requestbytxt.Text;
 
-                            processsavebutton(true, "HRejected");
+                            Processsavebutton(true, "HRejected");
                             happrovechk.Checked = true;
                             //this.TopMost = false;
 
@@ -4231,7 +4233,7 @@ namespace SearchDataSPM
                             //string filename = makefilenameforreport(reqno, false).ToString();
                             //SaveReport(reqno, filename);
 
-                            preparetosendemail(reqno, false, requestby, "", false, "highautority", true);
+                            Preparetosendemail(reqno, false, requestby, "", false, "highautority", true);
 
                             // t.Abort();
                             // this.TopMost = true;

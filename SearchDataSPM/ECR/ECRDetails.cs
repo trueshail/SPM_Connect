@@ -45,7 +45,7 @@ namespace SearchDataSPM
         ErrorHandler errorHandler = new ErrorHandler();
 
 
-        public ECRDetails()
+        public ECRDetails(string username, string invoiceno)
         {
             Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
@@ -62,26 +62,14 @@ namespace SearchDataSPM
 
             dt = new DataTable();
             _command = new SqlCommand();
-        }
-
-        public string invoicenumber(string number)
-        {
-            if (number.Length > 0)
-                return Invoice_Number = number;
-            return null;
-        }
-
-        public string username(string name)
-        {
-            if (name.Length > 0)
-                return userfullname = name;
-            return null;
+            this.userfullname = username;
+            this.Invoice_Number = invoiceno;
         }
 
         private void ECRDetails_Load(object sender, EventArgs e)
         {
             this.Text = "SPM Connect ECR Details - " + Invoice_Number;
-            getUserCreds();
+            GetUserCreds();
 
             FillProjectManagers();
             FillRequestedBy();
@@ -101,7 +89,7 @@ namespace SearchDataSPM
             _userActions = new UserActions(this);
         }
 
-        private string get_username()
+        private string Get_username()
         {
             string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
 
@@ -116,7 +104,7 @@ namespace SearchDataSPM
 
         }
 
-        private void getUserCreds()
+        private void GetUserCreds()
         {
             try
             {
@@ -124,7 +112,7 @@ namespace SearchDataSPM
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + get_username().ToString() + "' ";
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + Get_username().ToString() + "' ";
                 cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -843,10 +831,12 @@ namespace SearchDataSPM
 
                 if (_parameters.Length > 0)
                 {
-                    parameters[0] = new RE2005.ParameterValue();
-                    //parameters[0].Label = "";
-                    parameters[0].Name = "pInvno";
-                    parameters[0].Value = invoiceno;
+                    parameters[0] = new RE2005.ParameterValue
+                    {
+                        //parameters[0].Label = "";
+                        Name = "pInvno",
+                        Value = invoiceno
+                    };
                 }
                 rsExec.SetExecutionParameters(parameters, "en-us");
 
@@ -876,7 +866,7 @@ namespace SearchDataSPM
 
         #endregion
 
-        private void supcheckBox_Click(object sender, EventArgs e)
+        private void SupcheckBox_Click(object sender, EventArgs e)
         {
             if (supcheckBox.Checked == false)
             {
@@ -946,7 +936,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void managercheckBox_Click(object sender, EventArgs e)
+        private void ManagercheckBox_Click(object sender, EventArgs e)
         {
             if (managercheckBox.Checked == false)
             {
@@ -1015,7 +1005,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void submitecrhandlercheckBox_Click(object sender, EventArgs e)
+        private void SubmitecrhandlercheckBox_Click(object sender, EventArgs e)
         {
             if (submitecrhandlercheckBox.Checked == false)
             {
@@ -1084,7 +1074,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void ecrhandlercheckBox_Click(object sender, EventArgs e)
+        private void EcrhandlercheckBox_Click(object sender, EventArgs e)
         {
             if (ecrhandlercheckBox.Checked == false)
             {
@@ -1696,9 +1686,11 @@ namespace SearchDataSPM
                         string sDocFileName = item;
                         wpfThumbnailCreator pvf;
                         pvf = new wpfThumbnailCreator();
-                        System.Drawing.Size size = new Size();
-                        size.Width = 128;
-                        size.Height = 128;
+                        System.Drawing.Size size = new Size
+                        {
+                            Width = 128,
+                            Height = 128
+                        };
                         pvf.DesiredSize = size;
                         System.Drawing.Bitmap pic = pvf.GetThumbNail(sDocFileName);
                         imageList.Images.Add(pic);
@@ -1734,9 +1726,8 @@ namespace SearchDataSPM
 
         public static Icon GetIconOldSchool(string fileName)
         {
-            ushort uicon;
             StringBuilder strB = new StringBuilder(fileName);
-            IntPtr handle = ExtractAssociatedIcon(IntPtr.Zero, strB, out uicon);
+            IntPtr handle = ExtractAssociatedIcon(IntPtr.Zero, strB, out ushort uicon);
             Icon ico = Icon.FromHandle(handle);
 
             return ico;

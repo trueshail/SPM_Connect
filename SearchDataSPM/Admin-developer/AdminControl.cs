@@ -21,6 +21,7 @@ namespace SearchDataSPM
         log4net.ILog log;
         private UserActions _userActions;
         ErrorHandler errorHandler = new ErrorHandler();
+
         #endregion
 
         #region loadtree
@@ -343,6 +344,15 @@ namespace SearchDataSPM
                         ecrtoggle.Checked = false;
                     }
 
+                    if (dr["ItemDependencies"].ToString().Equals("1"))
+                    {
+                        itmdeptoggle.Checked = true;
+                    }
+                    else
+                    {
+                        itmdeptoggle.Checked = false;
+                    }
+
                     if (dr["ECRApproval"].ToString().Equals("1"))
                     {
 
@@ -505,6 +515,7 @@ namespace SearchDataSPM
             scanwotoggle.Enabled = true;
             cribshorttoggle.Enabled = true;
             ecrtoggle.Enabled = true;
+            itmdeptoggle.Enabled = true;
         }
 
         private void disablealltoggles()
@@ -520,6 +531,7 @@ namespace SearchDataSPM
             scanwotoggle.Enabled = false;
             cribshorttoggle.Enabled = false;
             ecrtoggle.Enabled = false;
+            itmdeptoggle.Enabled = false;
 
         }
 
@@ -550,6 +562,7 @@ namespace SearchDataSPM
                  "CribShortNotfi = " + (cribshorttoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                  "Scan WorkOrder = " + (scanwotoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                  "ECR Access = " + (ecrtoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+                 "Item Dependencies Access = " + (itmdeptoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                  "ECR Supervisor = " + (ecrapprovalchk.Checked ? "Yes" : "No") + Environment.NewLine +
                  "ECR Approval = " + (ecrapproval2chk.Checked ? "Yes" : "No") + Environment.NewLine +
                  "ECR Handler = " + (ecrhandlerchk.Checked ? "Yes" : "No") + Environment.NewLine +
@@ -673,6 +686,7 @@ namespace SearchDataSPM
                "CribShortNotif = " + (cribshorttoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                "Scan WorkOrder = " + (scanwotoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                "ECR Access = " + (ecrtoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+               "Item Dependencies Access = " + (itmdeptoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                "ECR Supervisor = " + (ecrapprovalchk.Checked ? "Yes" : "No") + Environment.NewLine +
                "ECR Approval = " + (ecrapproval2chk.Checked ? "Yes" : "No") + Environment.NewLine +
                "ECR Handler = " + (ecrhandlerchk.Checked ? "Yes" : "No") + Environment.NewLine +
@@ -701,7 +715,7 @@ namespace SearchDataSPM
                         "PurchaseReqBuyer = '" + (pbuyerchk.Checked ? "1" : "0") + "',Supervisor = '" + supervisorcombox.SelectedItem.ToString().Substring(0, 2) + "'," +
                         "Email = '" + useremailtxt.Text + "',PriceRight = '" + (pricetoggle.Checked ? "1" : "0") + "',Shipping = '" + (shiptoggle.Checked ? "1" : "0") + "'," +
                         "CribCheckout = '" + (cribouttoggle.Checked ? "1" : "0") + "',CribShort = '" + (cribshorttoggle.Checked ? "1" : "0") + "'," +
-                        "ECR = '" + (ecrtoggle.Checked ? "1" : "0") + "',ECRApproval = '" + (ecrapprovalchk.Checked ? "1" : "0") + "',ECRApproval2 = '" + (ecrapproval2chk.Checked ? "1" : "0") + "',ECRHandler = '" + (ecrhandlerchk.Checked ? "1" : "0") + "'," +
+                        "ECR = '" + (ecrtoggle.Checked ? "1" : "0") + "',ItemDependencies = '" + (itmdeptoggle.Checked ? "1" : "0") + "',ECRApproval = '" + (ecrapprovalchk.Checked ? "1" : "0") + "',ECRApproval2 = '" + (ecrapproval2chk.Checked ? "1" : "0") + "',ECRHandler = '" + (ecrhandlerchk.Checked ? "1" : "0") + "'," +
                         "WOScan = '" + (scanwotoggle.Checked ? "1" : "0") + "',SharesFolder = '" + sharepathtxt.Text.Trim() + "'," +
                         "Emp_Id = '" + empidtxt.Text.Trim() + "' WHERE UserName = '" + domaintxtbox.Text + "' ";
 
@@ -750,6 +764,7 @@ namespace SearchDataSPM
                "CribShortNotif = " + (cribshorttoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                "Scan WorkOrder = " + (scanwotoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                "ECR Access = " + (ecrtoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+               "Item Dependencies Access = " + (itmdeptoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                "ECR Supervisor = " + (ecrapprovalchk.Checked ? "Yes" : "No") + Environment.NewLine +
                "ECR Approval = " + (ecrapproval2chk.Checked ? "Yes" : "No") + Environment.NewLine +
                "ECR Handler = " + (ecrhandlerchk.Checked ? "Yes" : "No") + Environment.NewLine +
@@ -772,14 +787,14 @@ namespace SearchDataSPM
                     cmd.CommandType = CommandType.Text;
                     cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Users]([Emp_Id], [UserName], [Department], [Name],[ActiveBlockNumber],[Admin],[Developer],[Management]," +
                         "[Quote],[PurchaseReq],[PurchaseReqApproval],[PurchaseReqApproval2],[PurchaseReqBuyer],[PriceRight],[CribCheckout],[CribShort],[WOScan],[Shipping],[Supervisor]," +
-                        "[Email],[SharesFolder],[ECR],[ECRApproval],[ECRApproval2],[ECRHandler]) " +
+                        "[Email],[SharesFolder],[ECR],[ItemDependencies],[ECRApproval],[ECRApproval2],[ECRHandler]) " +
                         "VALUES('" + empidtxt.Text.Trim() + "','" + domaintxtbox.Text.Trim() + "','" + deptcombobox.SelectedItem.ToString() + "'," +
                         "'" + nametextbox.Text.Trim() + "','" + activeblocknumber + "','" + (admintoggle.Checked ? "1" : "0") + "','" + (developertoggle.Checked ? "1" : "0") + "'," +
                         "'" + (managementtoggle.Checked ? "1" : "0") + "','" + (quotetoggle.Checked ? "1" : "0") + "','" + (purchasereqtoggle.Checked ? "1" : "0") + "'," +
                         "'" + (papprovalchk.Checked ? "1" : "0") + "','" + (papproval2chk.Checked ? "1" : "0") + "','" + (pbuyerchk.Checked ? "1" : "0") + "'," +
                         "'" + (pricetoggle.Checked ? "1" : "0") + "','" + (cribouttoggle.Checked ? "1" : "0") + "','" + (cribshorttoggle.Checked ? "1" : "0") + "','" + (scanwotoggle.Checked ? "1" : "0") + "','" + (shiptoggle.Checked ? "1" : "0") + "'," +
                         "'" + supervisorcombox.SelectedItem.ToString().Substring(0, 2).TrimEnd() + "','" + useremailtxt.Text + "','" + sharepathtxt.Text + "'," +
-                        "'" + (ecrtoggle.Checked ? "1" : "0") + "','" + (ecrapprovalchk.Checked ? "1" : "0") + "','" + (ecrapproval2chk.Checked ? "1" : "0") + "','" + (ecrhandlerchk.Checked ? "1" : "0") + "')";
+                        "'" + (ecrtoggle.Checked ? "1" : "0") + "','" + (itmdeptoggle.Checked ? "1" : "0") + "','" + (ecrapprovalchk.Checked ? "1" : "0") + "','" + (ecrapproval2chk.Checked ? "1" : "0") + "','" + (ecrhandlerchk.Checked ? "1" : "0") + "')";
                     cmd.ExecuteNonQuery();
                     cn.Close();
                     MessageBox.Show("New user added successfully", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -932,7 +947,7 @@ namespace SearchDataSPM
 
         private void button1_Click(object sender, EventArgs e)
         {
-            SPM_ConnectDuplicates sPM_Connect = new SPM_ConnectDuplicates();
+            Admin_developer.UserLogs sPM_Connect = new Admin_developer.UserLogs();
             sPM_Connect.ShowDialog();
 
         }
@@ -1003,6 +1018,7 @@ namespace SearchDataSPM
             toggleScanwo();
             toggleCribShort();
             toggleECR();
+            toggleItemDependencies();
         }
 
         private void toggleadmin()
@@ -1181,6 +1197,22 @@ namespace SearchDataSPM
             }
         }
 
+        private void toggleItemDependencies()
+        {
+            if (itmdeptoggle.Checked)
+            {
+                itmdeptoggle.ToggleBarText = "Yes";
+                itmdeptoggle.ToggleCircleColor = Color.Green;
+                itmdeptoggle.ToggleColorBar = Color.White;
+            }
+            else
+            {
+                itmdeptoggle.ToggleBarText = "No";
+                itmdeptoggle.ToggleCircleColor = Color.Red;
+                itmdeptoggle.ToggleColorBar = Color.LightGray;
+            }
+        }
+
         private void quotetoggle_CheckChanged(object sender, EventArgs e)
         {
             togglequote();
@@ -1230,6 +1262,11 @@ namespace SearchDataSPM
         {
             toggleECR();
 
+        }
+
+        private void itmdeptoggle_CheckChanged(object sender, EventArgs e)
+        {
+            toggleItemDependencies();
         }
 
         #endregion
@@ -1338,5 +1375,7 @@ namespace SearchDataSPM
         {
             errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
         }
+
+
     }
 }

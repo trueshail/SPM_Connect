@@ -46,8 +46,10 @@ namespace SearchDataSPM
             }
 
             _acountsTb = new DataTable();
-            _command = new SqlCommand();
-            _command.Connection = _connection;
+            _command = new SqlCommand
+            {
+                Connection = _connection
+            };
             _productTB = new DataTable();
             Rectangle screen = Screen.PrimaryScreen.WorkingArea;
             int w = Width >= screen.Width ? screen.Width : (screen.Width + Width) / 3;
@@ -342,10 +344,12 @@ namespace SearchDataSPM
 
                 foreach (DataRow dr in _acountsTb.Select("[AssyNo] ='" + parentId.ToString() + "'"))
                 {
-                    TreeNode t = new TreeNode();
-                    t.Text = dr["ItemNumber"].ToString() + " - " + dr["Description"].ToString() + " ( " + dr["QuantityPerAssembly"].ToString() + " ) ";
-                    t.Name = dr["ItemNumber"].ToString();
-                    t.Tag = _acountsTb.Rows.IndexOf(dr);
+                    TreeNode t = new TreeNode
+                    {
+                        Text = dr["ItemNumber"].ToString() + " - " + dr["Description"].ToString() + " ( " + dr["QuantityPerAssembly"].ToString() + " ) ",
+                        Name = dr["ItemNumber"].ToString(),
+                        Tag = _acountsTb.Rows.IndexOf(dr)
+                    };
                     if (parentNode == null)
                     {
 
@@ -375,10 +379,12 @@ namespace SearchDataSPM
 
                 foreach (DataRow dr in _acountsTb.Select("[AssyNo] ='" + parentId.ToString() + "'"))
                 {
-                    TreeNode t = new TreeNode();
-                    t.Text = dr["ItemNumber"].ToString() + " - " + dr["Description"].ToString() + " ( " + dr["QuantityPerAssembly"].ToString() + " ) ";
-                    t.Name = dr["ItemNumber"].ToString();
-                    t.Tag = _acountsTb.Rows.IndexOf(dr);
+                    TreeNode t = new TreeNode
+                    {
+                        Text = dr["ItemNumber"].ToString() + " - " + dr["Description"].ToString() + " ( " + dr["QuantityPerAssembly"].ToString() + " ) ",
+                        Name = dr["ItemNumber"].ToString(),
+                        Tag = _acountsTb.Rows.IndexOf(dr)
+                    };
                     if (parentNode == null)
                     {
 

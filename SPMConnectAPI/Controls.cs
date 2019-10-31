@@ -24,8 +24,10 @@ namespace SPMConnectAPI
             try
             {
                 _connection = new SqlConnection(connection);
-                _command = new SqlCommand();
-                _command.Connection = _connection;
+                _command = new SqlCommand
+                {
+                    Connection = _connection
+                };
 
             }
             catch (Exception)

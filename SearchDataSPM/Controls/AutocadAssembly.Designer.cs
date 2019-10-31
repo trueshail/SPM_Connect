@@ -50,8 +50,8 @@
             this.Itemlbl = new System.Windows.Forms.Label();
             this.qtylbl = new System.Windows.Forms.Label();
             this.Addremovecontextmenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.addItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.removeItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.AddItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.RemoveItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Addremovecontextmenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -337,27 +337,27 @@
             // Addremovecontextmenu
             // 
             this.Addremovecontextmenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addItemToolStripMenuItem,
-            this.removeItemToolStripMenuItem});
+            this.AddItemToolStripMenuItem,
+            this.RemoveItemToolStripMenuItem});
             this.Addremovecontextmenu.Name = "contextMenuStrip1";
-            this.Addremovecontextmenu.Size = new System.Drawing.Size(145, 48);
+            this.Addremovecontextmenu.Size = new System.Drawing.Size(181, 70);
             this.Addremovecontextmenu.Opening += new System.ComponentModel.CancelEventHandler(this.Addremovecontextmenu_Opening);
             // 
-            // addItemToolStripMenuItem
+            // AddItemToolStripMenuItem
             // 
-            this.addItemToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("addItemToolStripMenuItem.Image")));
-            this.addItemToolStripMenuItem.Name = "addItemToolStripMenuItem";
-            this.addItemToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
-            this.addItemToolStripMenuItem.Text = "Add Item";
-            this.addItemToolStripMenuItem.Click += new System.EventHandler(this.addItemToolStripMenuItem_Click);
+            this.AddItemToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("AddItemToolStripMenuItem.Image")));
+            this.AddItemToolStripMenuItem.Name = "AddItemToolStripMenuItem";
+            this.AddItemToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.AddItemToolStripMenuItem.Text = "Add Item";
+            this.AddItemToolStripMenuItem.Click += new System.EventHandler(this.AddItemToolStripMenuItem_Click);
             // 
-            // removeItemToolStripMenuItem
+            // RemoveItemToolStripMenuItem
             // 
-            this.removeItemToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("removeItemToolStripMenuItem.Image")));
-            this.removeItemToolStripMenuItem.Name = "removeItemToolStripMenuItem";
-            this.removeItemToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
-            this.removeItemToolStripMenuItem.Text = "Remove Item";
-            this.removeItemToolStripMenuItem.Click += new System.EventHandler(this.removeItemToolStripMenuItem_Click);
+            this.RemoveItemToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("RemoveItemToolStripMenuItem.Image")));
+            this.RemoveItemToolStripMenuItem.Name = "RemoveItemToolStripMenuItem";
+            this.RemoveItemToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.RemoveItemToolStripMenuItem.Text = "Remove Item";
+            this.RemoveItemToolStripMenuItem.Click += new System.EventHandler(this.removeItemToolStripMenuItem_Click);
             // 
             // AutocadAssembly
             // 
@@ -417,7 +417,7 @@
         private System.Windows.Forms.Button Editbttn;
         private System.Windows.Forms.Button savebttn;
         private System.Windows.Forms.ContextMenuStrip Addremovecontextmenu;
-        private System.Windows.Forms.ToolStripMenuItem addItemToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem removeItemToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem AddItemToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem RemoveItemToolStripMenuItem;
     }
 }

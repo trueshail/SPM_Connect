@@ -55,8 +55,10 @@ namespace SearchDataSPM
 
             string txtvalue = Assy_txtbox.Text;
             _acountsTb = new DataTable();
-            _command = new SqlCommand();
-            _command.Connection = _connection;
+            _command = new SqlCommand
+            {
+                Connection = _connection
+            };
             _productTB = new DataTable();
 
 
@@ -64,7 +66,7 @@ namespace SearchDataSPM
 
         string itemnumber;
 
-        public string item(string item)
+        public string Item(string item)
         {
             if (item.Length > 0)
                 return itemnumber = item;
@@ -171,19 +173,18 @@ namespace SearchDataSPM
                 if (!String.IsNullOrEmpty(txtvalue) && Char.IsLetter(txtvalue[0]))
                 {
                     MessageBox.Show(" Item does not contain a BOM.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    this.Hide();
-                    this.Close();
+
                 }
                 else
                 {
                     MessageBox.Show("Invalid Search Parameter / Item Not Found On Autocad Catalog.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    cleanup2();
+                    Cleanup2();
                     Assy_txtbox.BackColor = Color.IndianRed; //to add high light
                 }
             }
         }
 
-        private void cleanup()
+        private void Cleanup()
         {
             treeView1.Nodes.Clear();
             treeView1.ResetText();
@@ -199,7 +200,7 @@ namespace SearchDataSPM
             qtytxtbox.Clear();
         }
 
-        private void cleanup2()
+        private void Cleanup2()
         {
             treeView1.Nodes.Clear();
             treeView1.ResetText();
@@ -277,10 +278,12 @@ namespace SearchDataSPM
 
             foreach (DataRow dr in _acountsTb.Select("[ASSEMBLYLIST] ='" + parentId.ToString() + "'"))
             {
-                TreeNode t = new TreeNode();
-                t.Text = dr["QUERY2"].ToString() + " - " + dr["DESCRIPTION"].ToString() + " ( " + dr["AssyQty"].ToString() + " ) ";
-                t.Name = dr["QUERY2"].ToString();
-                t.Tag = dr["QUERY2"].ToString() + "][" + dr["DESCRIPTION"].ToString() + "][" + dr["QUERY2"].ToString() + "][" + dr["USER3"].ToString() + "][" + dr["TEXTVALUE"].ToString() + "][" + dr["AssyQty"].ToString();
+                TreeNode t = new TreeNode
+                {
+                    Text = dr["QUERY2"].ToString() + " - " + dr["DESCRIPTION"].ToString() + " ( " + dr["AssyQty"].ToString() + " ) ",
+                    Name = dr["QUERY2"].ToString(),
+                    Tag = dr["QUERY2"].ToString() + "][" + dr["DESCRIPTION"].ToString() + "][" + dr["QUERY2"].ToString() + "][" + dr["USER3"].ToString() + "][" + dr["TEXTVALUE"].ToString() + "][" + dr["AssyQty"].ToString()
+                };
                 if (parentNode == null)
                 {
 
@@ -576,12 +579,12 @@ namespace SearchDataSPM
                     itemexists = "yes";
                     treeView1.SelectedNode = StartNode;
                     _CurrentNodeMatches.Add(StartNode);
-                };
+                }
                 if (StartNode.Nodes.Count != 0)
                 {
                     _SearchNodes(SearchText, StartNode.Nodes[0]);//Recursive Search 
 
-                };
+                }
                 StartNode = StartNode.NextNode;
             }
 
@@ -623,7 +626,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void addItemToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AddItemToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (treeView1.SelectedNode.Parent == null && root.IsSelected && chekroot == "Assy")
             {
@@ -644,9 +647,11 @@ namespace SearchDataSPM
                     {
                         TreeNode childNode;
 
-                        TreeNode child = new TreeNode();
-                        child.Text = _itemno.ToString() + " - " + _description.ToString() + " " + "(1)";
-                        child.Tag = _itemno + "][" + _description + "][" + _family + "][" + _manufacturer + "][" + _oem + "][" + "1";
+                        TreeNode child = new TreeNode
+                        {
+                            Text = _itemno.ToString() + " - " + _description.ToString() + " " + "(1)",
+                            Tag = _itemno + "][" + _description + "][" + _family + "][" + _manufacturer + "][" + _oem + "][" + "1"
+                        };
 
                         childNode = child;
                         treeView1.SelectedNode.Nodes.Add(childNode);
@@ -786,7 +791,7 @@ namespace SearchDataSPM
                 PrintRecursive(n);
             }
 
-            lockdownsave();
+            Lockdownsave();
         }
 
         string parentchild;
@@ -799,21 +804,21 @@ namespace SearchDataSPM
                 string parentnode = treeNode.Tag.ToString();
 
                 //MessageBox.Show(parentnode);
-                splittagtovariables(parentnode);
+                Splittagtovariables(parentnode);
 
             }
             else
             {
                 parentchild = "";
                 string childnode = treeNode.Tag.ToString();
-                splittagtovariables(childnode);
+                Splittagtovariables(childnode);
             }
 
         }
 
         string assemblylist;
 
-        private void splittagtovariables(string s)
+        private void Splittagtovariables(string s)
         {
             string[] values = s.Replace("][", "~").Split('~');
 
@@ -900,7 +905,7 @@ namespace SearchDataSPM
 
         }
 
-        private void lockdownsave()
+        private void Lockdownsave()
         {
             treeView1.SelectedNode = root;
             savebttn.Enabled = false;

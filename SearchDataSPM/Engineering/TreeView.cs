@@ -37,12 +37,12 @@ namespace SearchDataSPM
         log4net.ILog log;
         private UserActions _userActions;
         ErrorHandler errorHandler = new ErrorHandler();
-
+        string itemnumber;
         #endregion
 
         #region loadtree
 
-        public TreeView()
+        public TreeView(string item = "")
         {
             Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
@@ -62,26 +62,14 @@ namespace SearchDataSPM
             }
 
             _acountsTb = new DataTable();
-            _command = new SqlCommand();
-            _command.Connection = _connection;
+            _command = new SqlCommand
+            {
+                Connection = _connection
+            };
             _productTB = new DataTable();
-            Rectangle screen = Screen.PrimaryScreen.WorkingArea;
-            int w = Width >= screen.Width ? screen.Width : (screen.Width + Width) / 3;
-            int h = Height >= screen.Height ? screen.Height : (screen.Height + Height) / 3;
-            this.Location = new Point((screen.Width - w) / 2, (screen.Height - h) / 2);
-            this.Size = new Size(w, h);
-
-
+            this.itemnumber = item;
         }
 
-        string itemnumber;
-
-        public string item(string item)
-        {
-            if (item.Length > 0)
-                return itemnumber = item;
-            return null;
-        }
 
         private void ParentView_Load(object sender, EventArgs e)
         {
@@ -91,7 +79,7 @@ namespace SearchDataSPM
             {
                 //SendKeys.Send("~");
                 itemnumber = null;
-                startprocessofbom();
+                Startprocessofbom();
                 CallRecursive();
                 //connectapi.SPM_Connect();
                 if (connectapi.getdepartment() == "Eng") eng = true;
@@ -150,11 +138,11 @@ namespace SearchDataSPM
         {
 
             // treeView1.TopNode.Nodes.Clear();
-            cleanup();
+            Cleanup();
             //SendKeys.Send("~");
         }
 
-        private void cleanup()
+        private void Cleanup()
         {
             treeView1.Nodes.Clear();
             treeView1.ResetText();
@@ -176,7 +164,7 @@ namespace SearchDataSPM
 
         }
 
-        private void cleaup2()
+        private void Cleaup2()
         {
             treeView1.Nodes.Clear();
             treeView1.ResetText();
@@ -200,7 +188,7 @@ namespace SearchDataSPM
         {
             if (e.KeyCode == Keys.Return)
             {
-                startprocessofbom();
+                Startprocessofbom();
                 rootnodedone = false;
                 CallRecursive();
                 e.Handled = true;
@@ -208,7 +196,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void startprocessofbom()
+        private void Startprocessofbom()
         {
             txtvalue = Assy_txtbox.Text;
             try
@@ -216,23 +204,23 @@ namespace SearchDataSPM
                 treeView1.Nodes.Clear();
                 RemoveChildNodes(root);
                 treeView1.ResetText();
-                filldatatable();
+                Filldatatable();
 
             }
-            catch (Exception)
-
+            catch
             {
+
                 if (!String.IsNullOrEmpty(txtvalue) && Char.IsLetter(txtvalue[0]))
                 {
                     MessageBox.Show(" Item does not contain a Bill OF Material on Genius.", "SPM Connect - Bill Of Manufacturing", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     // Assy_txtbox.Clear();
-                    this.Hide();
-                    this.Close();
+                    //this.Hide();
+                    //this.Close();
                 }
                 else
                 {
                     MessageBox.Show("Invalid Search Parameter / Item Not Found On Genius.", "SPM Connect - Bill Of Manufacturing", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    cleaup2();
+                    Cleaup2();
                     Assy_txtbox.BackColor = Color.IndianRed; //to add high light
                     //Assy_txtbox.Clear();
                 }
@@ -241,9 +229,9 @@ namespace SearchDataSPM
             }
         }
 
-        private void filldatatable()
+        private void Filldatatable()
         {
-            String sql = "SELECT *  FROM [SPM_Database].[dbo].[SPMConnectBOM] ORDER BY [ItemNumber]";
+            string sql = "SELECT *  FROM [SPM_Database].[dbo].[SPMConnectBOM] ORDER BY [ItemNumber]";
 
             // String sql2 = "SELECT *  FROM [SPM_Database].[dbo].[UnionInventory]";
             try
@@ -268,11 +256,11 @@ namespace SearchDataSPM
                 _connection.Close();
             }
 
-            fillrootnode();
+            Fillrootnode();
 
         }
 
-        private void fillrootnode()
+        private void Fillrootnode()
         {
             //if (Assy_txtbox.Text.Length == 6)
             //{
@@ -368,10 +356,12 @@ namespace SearchDataSPM
 
             foreach (DataRow dr in _acountsTb.Select("[AssyNo] ='" + parentId.ToString() + "'"))
             {
-                TreeNode t = new TreeNode();
-                t.Text = dr["ItemNumber"].ToString() + " - " + dr["Description"].ToString() + " ( " + dr["QuantityPerAssembly"].ToString() + " ) ";
-                t.Name = dr["ItemNumber"].ToString();
-                t.Tag = _acountsTb.Rows.IndexOf(dr);
+                TreeNode t = new TreeNode
+                {
+                    Text = dr["ItemNumber"].ToString() + " - " + dr["Description"].ToString() + " ( " + dr["QuantityPerAssembly"].ToString() + " ) ",
+                    Name = dr["ItemNumber"].ToString(),
+                    Tag = _acountsTb.Rows.IndexOf(dr)
+                };
                 if (parentNode == null)
                 {
 
@@ -745,9 +735,11 @@ namespace SearchDataSPM
                         string sDocFileName = item;
                         wpfThumbnailCreator pvf;
                         pvf = new wpfThumbnailCreator();
-                        System.Drawing.Size size = new Size();
-                        size.Width = 256;
-                        size.Height = 256;
+                        System.Drawing.Size size = new Size
+                        {
+                            Width = 256,
+                            Height = 256
+                        };
                         pvf.DesiredSize = size;
                         System.Drawing.Bitmap pic = pvf.GetThumbNail(sDocFileName);
                         imageList.Images.Add(pic);
@@ -784,9 +776,8 @@ namespace SearchDataSPM
 
         public static Icon GetIconOldSchool(string fileName)
         {
-            ushort uicon;
             StringBuilder strB = new StringBuilder(fileName);
-            IntPtr handle = ExtractAssociatedIcon(IntPtr.Zero, strB, out uicon);
+            IntPtr handle = ExtractAssociatedIcon(IntPtr.Zero, strB, out ushort uicon);
             Icon ico = Icon.FromHandle(handle);
 
             return ico;
@@ -1106,7 +1097,7 @@ namespace SearchDataSPM
 
         private void revelInExplorerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string filePath = makepathfordrag();
+            string filePath = Makepathfordrag();
             if (!File.Exists(filePath))
             {
                 return;
@@ -1115,7 +1106,7 @@ namespace SearchDataSPM
             System.Diagnostics.Process.Start("explorer.exe", argument);
         }
 
-        private string makepathfordrag()
+        private string Makepathfordrag()
         {
             string txt = listView.FocusedItem.Text;
             string first3char = txt.Substring(0, 3) + @"\";
@@ -1130,8 +1121,7 @@ namespace SearchDataSPM
             {
                 string txt = listView.FocusedItem.Text;
                 txt = txt.Substring(0, 6);
-                ItemInfo itemInfo = new ItemInfo();
-                itemInfo.item(txt);
+                ItemInfo itemInfo = new ItemInfo(itemno: txt);
                 itemInfo.Show();
 
             }
@@ -1143,15 +1133,14 @@ namespace SearchDataSPM
             {
                 string txt = listView.FocusedItem.Text;
                 txt = txt.Substring(0, 6);
-                processwhereused(txt);
+                Processwhereused(txt);
 
             }
         }
 
-        private void processwhereused(string item)
+        private void Processwhereused(string item)
         {
-            WhereUsed whereUsed = new WhereUsed();
-            whereUsed.item(item);
+            WhereUsed whereUsed = new WhereUsed(item: item);
             whereUsed.Show();
         }
 
@@ -1161,7 +1150,7 @@ namespace SearchDataSPM
             {
                 string txt = treeView1.SelectedNode.Text;
                 txt = txt.Substring(0, 6);
-                processwhereused(txt);
+                Processwhereused(txt);
 
             }
         }
@@ -1172,8 +1161,7 @@ namespace SearchDataSPM
             {
                 string txt = treeView1.SelectedNode.Text;
                 txt = txt.Substring(0, 6);
-                ItemInfo itemInfo = new ItemInfo();
-                itemInfo.item(txt);
+                ItemInfo itemInfo = new ItemInfo(itemno: txt);
                 itemInfo.Show();
 
             }

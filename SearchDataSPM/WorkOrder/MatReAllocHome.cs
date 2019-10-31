@@ -611,9 +611,11 @@ namespace SearchDataSPM
                     int sindx = val.ToLower().IndexOf(sw.ToLower());
                     if (sindx >= 0)
                     {
-                        Rectangle hl_rect = new Rectangle();
-                        hl_rect.Y = e.CellBounds.Y + 2;
-                        hl_rect.Height = e.CellBounds.Height - 5;
+                        Rectangle hl_rect = new Rectangle
+                        {
+                            Y = e.CellBounds.Y + 2,
+                            Height = e.CellBounds.Height - 5
+                        };
 
                         string sBefore = val.Substring(0, sindx);
                         string sWord = val.Substring(sindx, sw.Length);

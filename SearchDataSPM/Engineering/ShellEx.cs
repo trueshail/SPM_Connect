@@ -119,8 +119,7 @@ namespace ExtractLargeIconFromFile
             if (retval == 0) throw (new System.IO.FileNotFoundException());
             var iconIndex = shinfo.iIcon;
             var iImageListGuid = new Guid("46EB5926-582E-4017-9FDF-E8998DAA0950");
-            Shell.IImageList iml;
-            var hres = SHGetImageList((int)iconsize, ref iImageListGuid, out iml);
+            var hres = SHGetImageList((int)iconsize, ref iImageListGuid, out Shell.IImageList iml);
             var hIcon = IntPtr.Zero;
             hres = iml.GetIcon(iconIndex, ILD_TRANSPARENT, ref hIcon);
             return hIcon;

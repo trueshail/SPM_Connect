@@ -9,8 +9,8 @@ namespace SPMConnect.UserActionLog
         #region "Private Member Variables"
 
         //The StackFrameCounttoGetMethodName depends, usually its the 1st Frame but in some framework (eg CSLA) its the 2nd Frame
-        private int _stackFrameCountToGetMethodName = 1;
-        private Type _frmType;
+        private readonly int _stackFrameCountToGetMethodName = 1;
+        private readonly Type _frmType;
         private Form _frm;
 
         //Choose your preferred Logging , Log4Net, Elmah, etc TODO do this a Config switch
@@ -72,44 +72,37 @@ namespace SPMConnect.UserActionLog
         /// <param name="ctrl">The control whose events we're suspicious of causing problems.</param>
         private void HookUpEvents(Control ctrl)
         {
-            if (ctrl is TextBoxBase)
+            if (ctrl is TextBoxBase txt)
             { //TextBoxBase stands for Textboxes, MaskedBoxes and various other text input controls too.
-                TextBoxBase txt = ((TextBoxBase)ctrl);
                 txt.Enter += LogAction;
             }
-            else if (ctrl is ListControl)
+            else if (ctrl is ListControl lst)
             { //ListControl stands for ComboBoxes and ListBoxes.
-                ListControl lst = ((ListControl)ctrl);
                 lst.SelectedValueChanged += LogAction;
             }
-            else if (ctrl is ButtonBase)
+            else if (ctrl is ButtonBase btn)
             { //ButtonBase stands for Buttons, CheckBoxes and RadioButtons.
-                ButtonBase btn = ((ButtonBase)ctrl);
                 btn.Click += LogAction;
             }
-            else if (ctrl is DateTimePicker)
+            else if (ctrl is DateTimePicker dtp)
             {
-                DateTimePicker dtp = ((DateTimePicker)ctrl);
                 dtp.Enter += LogAction;
                 dtp.ValueChanged += LogAction;
             }
-            else if (ctrl is DataGridView)
+            else if (ctrl is DataGridView dgv)
             {
-                DataGridView dgv = ((DataGridView)ctrl);
                 dgv.RowEnter += LogAction;
                 dgv.CellBeginEdit += LogAction;
                 dgv.CellEndEdit += LogAction;
             }
-            else if (ctrl is TreeView)
+            else if (ctrl is TreeView tv)
             {
-                TreeView tv = ((TreeView)ctrl);
                 tv.BeforeSelect += LogAction;
                 tv.BeforeCollapse += LogAction;
                 tv.BeforeExpand += LogAction;
             }
-            else if (ctrl is Form)
+            else if (ctrl is Form frm)
             {
-                Form frm = ((Form)ctrl);
                 frm.Load += LogAction;
                 frm.FormClosing += LogAction;
                 frm.Resize += LogAction;
@@ -124,44 +117,37 @@ namespace SPMConnect.UserActionLog
         /// <param name="ctrl"></param>
         private void ReleaseEvents(Control ctrl)
         {
-            if (ctrl is TextBoxBase)
+            if (ctrl is TextBoxBase txt)
             {
-                TextBoxBase txt = ((TextBoxBase)ctrl);
                 txt.Enter -= LogAction;
             }
-            else if (ctrl is ButtonBase)
+            else if (ctrl is ButtonBase btn)
             {
-                ButtonBase btn = ((ButtonBase)ctrl);
                 btn.Click -= LogAction;
             }
-            else if (ctrl is ListControl)
+            else if (ctrl is ListControl lst)
             {
-                ListControl lst = ((ListControl)ctrl);
                 lst.SelectedValueChanged -= LogAction;
             }
-            else if (ctrl is DateTimePicker)
+            else if (ctrl is DateTimePicker dtp)
             {
-                DateTimePicker dtp = ((DateTimePicker)ctrl);
                 dtp.Enter -= LogAction;
                 dtp.ValueChanged -= LogAction;
             }
-            else if (ctrl is DataGridView)
+            else if (ctrl is DataGridView dgv)
             {
-                DataGridView dgv = ((DataGridView)ctrl);
                 dgv.RowEnter -= LogAction;
                 dgv.CellBeginEdit -= LogAction;
                 dgv.CellEndEdit -= LogAction;
             }
-            else if (ctrl is TreeView)
+            else if (ctrl is TreeView tv)
             {
-                TreeView tv = ((TreeView)ctrl);
                 tv.BeforeSelect -= LogAction;
                 tv.BeforeCollapse -= LogAction;
                 tv.BeforeExpand -= LogAction;
             }
-            else if (ctrl is Form)
+            else if (ctrl is Form frm)
             {
-                Form frm = ((Form)ctrl);
                 frm.Load -= LogAction;
                 frm.FormClosing -= LogAction;
                 frm.Resize -= LogAction;
@@ -191,7 +177,7 @@ namespace SPMConnect.UserActionLog
             StackTrace stackTrace = new StackTrace();
             StackFrame[] stackFrames = stackTrace.GetFrames();
             var eventName = stackFrames[_stackFrameCountToGetMethodName].GetMethod().Name;
-            _logger.LogAction(_frm.Name, ((Control)sender).Name, eventName, GetSendingCtrlValue(((Control)sender), eventName));
+            _logger.LogAction(DateTime.Now, _frm.Name, ((Control)sender).Name, eventName, GetSendingCtrlValue(((Control)sender), eventName));
         }
 
         private string GetSendingCtrlValue(Control ctrl, string eventType)
@@ -239,14 +225,11 @@ namespace SPMConnect.UserActionLog
             return string.Empty;
         }
 
-        public string[] GetTodaysLogFileNames()
-        {
-            return _logger.GetTodaysLogFileNames();
-        }
+
 
         public void FinishLoggingUserActions(Control frm)
         {
-            _logger.WriteLogActionsToFile();
+            _logger.WriteLogActionsToSQL();
             ReleaseEvents(frm);
         }
 

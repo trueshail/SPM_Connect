@@ -603,7 +603,7 @@
             this.submitecrhandlercheckBox.TabIndex = 2;
             this.submitecrhandlercheckBox.Text = "Submit to ECR Handler";
             this.submitecrhandlercheckBox.UseVisualStyleBackColor = true;
-            this.submitecrhandlercheckBox.Click += new System.EventHandler(this.submitecrhandlercheckBox_Click);
+            this.submitecrhandlercheckBox.Click += new System.EventHandler(this.SubmitecrhandlercheckBox_Click);
             // 
             // ecrhandlercheckBox
             // 
@@ -616,7 +616,7 @@
             this.ecrhandlercheckBox.TabIndex = 3;
             this.ecrhandlercheckBox.Text = "Close ECR Request";
             this.ecrhandlercheckBox.UseVisualStyleBackColor = true;
-            this.ecrhandlercheckBox.Click += new System.EventHandler(this.ecrhandlercheckBox_Click);
+            this.ecrhandlercheckBox.Click += new System.EventHandler(this.EcrhandlercheckBox_Click);
             // 
             // managercheckBox
             // 
@@ -629,7 +629,7 @@
             this.managercheckBox.TabIndex = 1;
             this.managercheckBox.Text = "Submit to ECR Manager";
             this.managercheckBox.UseVisualStyleBackColor = true;
-            this.managercheckBox.Click += new System.EventHandler(this.managercheckBox_Click);
+            this.managercheckBox.Click += new System.EventHandler(this.ManagercheckBox_Click);
             // 
             // supcheckBox
             // 
@@ -642,7 +642,7 @@
             this.supcheckBox.TabIndex = 0;
             this.supcheckBox.Text = "Submit to Supervisor";
             this.supcheckBox.UseVisualStyleBackColor = true;
-            this.supcheckBox.Click += new System.EventHandler(this.supcheckBox_Click);
+            this.supcheckBox.Click += new System.EventHandler(this.SupcheckBox_Click);
             // 
             // errorProvider1
             // 

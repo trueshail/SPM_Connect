@@ -37,11 +37,12 @@ namespace SearchDataSPM
         private UserActions _userActions;
         ErrorHandler errorHandler = new ErrorHandler();
 
+        string itemnumber;
         #endregion
 
         #region loadtree
 
-        public WhereUsed()
+        public WhereUsed(string item = "")
 
         {
             Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
@@ -61,25 +62,15 @@ namespace SearchDataSPM
 
             }
             _acountsTb = new DataTable();
-            _command = new SqlCommand();
-            _command.Connection = _connection;
+            _command = new SqlCommand
+            {
+                Connection = _connection
+            };
             _productTB = new DataTable();
-            Rectangle screen = Screen.PrimaryScreen.WorkingArea;
-            int w = Width >= screen.Width ? screen.Width : (screen.Width + Width) / 3;
-            int h = Height >= screen.Height ? screen.Height : (screen.Height + Height) / 3;
-            this.Location = new Point((screen.Width - w) / 2, (screen.Height - h) / 2);
-            this.Size = new Size(w, h);
+            this.itemnumber = item;
 
         }
 
-        string itemnumber;
-
-        public string item(string item)
-        {
-            if (item.Length > 0)
-                return itemnumber = item;
-            return null;
-        }
 
         private void ParentView_Load(object sender, EventArgs e)
         {
@@ -221,8 +212,7 @@ namespace SearchDataSPM
                 if (!String.IsNullOrEmpty(txtvalue) && Char.IsLetter(txtvalue[0]))
                 {
                     MessageBox.Show(" Item does not belong to any assembly in Genius.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    this.Hide();
-                    this.Close();
+
                 }
                 else
                 {
@@ -287,7 +277,7 @@ namespace SearchDataSPM
 
                     root.Text = dr[0]["ItemNumber"].ToString() + " - " + dr[0]["Description"].ToString();
                     root.Tag = _acountsTb.Rows.IndexOf(dr[0]);
-                    setimageaccordingtofamily(dr[0]["ItemFamily"].ToString(), root);
+                    Setimageaccordingtofamily(dr[0]["ItemFamily"].ToString(), root);
 
                     //Font f = FontStyle.Bold);
                     // root.NodeFont = f;
@@ -318,7 +308,7 @@ namespace SearchDataSPM
 
                     root.Text = dr[0]["AssyNo"].ToString() + " - " + dr[0]["AssyDescription"].ToString();
                     root.Tag = _acountsTb.Rows.IndexOf(dr[0]);
-                    setimageaccordingtofamily(dr[0]["AssyFamily"].ToString(), root);
+                    Setimageaccordingtofamily(dr[0]["AssyFamily"].ToString(), root);
                     //Font f = FontStyle.Bold);
                     // root.NodeFont = f;
 
@@ -363,10 +353,12 @@ namespace SearchDataSPM
 
             foreach (DataRow dr in _acountsTb.Select("[ItemNumber] ='" + parentId.ToString() + "'"))
             {
-                TreeNode t = new TreeNode();
-                t.Text = dr["AssyNo"].ToString() + " - " + dr["AssyDescription"].ToString() + " ( " + dr["QuantityPerAssembly"].ToString() + " ) ";
-                t.Name = dr["AssyNo"].ToString();
-                t.Tag = _acountsTb.Rows.IndexOf(dr);
+                TreeNode t = new TreeNode
+                {
+                    Text = dr["AssyNo"].ToString() + " - " + dr["AssyDescription"].ToString() + " ( " + dr["QuantityPerAssembly"].ToString() + " ) ",
+                    Name = dr["AssyNo"].ToString(),
+                    Tag = _acountsTb.Rows.IndexOf(dr)
+                };
                 if (parentNode == null)
                 {
 
@@ -702,9 +694,11 @@ namespace SearchDataSPM
                         string sDocFileName = item;
                         wpfThumbnailCreator pvf;
                         pvf = new wpfThumbnailCreator();
-                        System.Drawing.Size size = new Size();
-                        size.Width = 256;
-                        size.Height = 256;
+                        System.Drawing.Size size = new Size
+                        {
+                            Width = 256,
+                            Height = 256
+                        };
                         pvf.DesiredSize = size;
                         System.Drawing.Bitmap pic = pvf.GetThumbNail(sDocFileName);
                         imageList.Images.Add(pic);
@@ -743,9 +737,8 @@ namespace SearchDataSPM
 
         public static Icon GetIconOldSchool(string fileName)
         {
-            ushort uicon;
             StringBuilder strB = new StringBuilder(fileName);
-            IntPtr handle = ExtractAssociatedIcon(IntPtr.Zero, strB, out uicon);
+            IntPtr handle = ExtractAssociatedIcon(IntPtr.Zero, strB, out ushort uicon);
             Icon ico = Icon.FromHandle(handle);
 
             return ico;
@@ -873,15 +866,14 @@ namespace SearchDataSPM
         private void processbom(string itemvalue)
         {
             //assytree = itemvalue;
-            TreeView treeView = new TreeView();
-            treeView.item(itemvalue);
+            TreeView treeView = new TreeView(item: itemvalue);
             treeView.Show();
             //assytree = null;
         }
 
         #endregion
 
-        private void treeView1_BeforeExpand(object sender, TreeViewCancelEventArgs e)
+        private void TreeView1_BeforeExpand(object sender, TreeViewCancelEventArgs e)
         {
             if (e.Node.ImageIndex == 0)
             {
@@ -891,7 +883,7 @@ namespace SearchDataSPM
 
         }
 
-        private void treeView1_BeforeCollapse(object sender, TreeViewCancelEventArgs e)
+        private void TreeView1_BeforeCollapse(object sender, TreeViewCancelEventArgs e)
         {
             if (e.Node.ImageIndex == 1)
             {
@@ -910,7 +902,7 @@ namespace SearchDataSPM
             {
                 DataRow r = _acountsTb.Rows[int.Parse(treeNode.Tag.ToString())];
                 string family = r["AssyFamily"].ToString();
-                setimageaccordingtofamily(family, treeNode);
+                Setimageaccordingtofamily(family, treeNode);
             }
 
 
@@ -936,7 +928,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void setimageaccordingtofamily(string family, TreeNode treeNode)
+        private void Setimageaccordingtofamily(string family, TreeNode treeNode)
         {
 
             if (family == "AG")
@@ -991,7 +983,7 @@ namespace SearchDataSPM
 
         #region Contextmenu Strip
 
-        private void treeView1_BeforeSelect(object sender, TreeViewCancelEventArgs e)
+        private void TreeView1_BeforeSelect(object sender, TreeViewCancelEventArgs e)
         {
             switch (e.Node.ImageIndex)
             {
@@ -1079,8 +1071,7 @@ namespace SearchDataSPM
             {
                 string txt = listView.FocusedItem.Text;
                 txt = txt.Substring(0, 6);
-                ItemInfo itemInfo = new ItemInfo();
-                itemInfo.item(txt);
+                ItemInfo itemInfo = new ItemInfo(itemno: txt);
                 itemInfo.Show();
 
             }
@@ -1136,8 +1127,7 @@ namespace SearchDataSPM
             {
                 string txt = treeView1.SelectedNode.Text;
                 txt = txt.Substring(0, 6);
-                ItemInfo itemInfo = new ItemInfo();
-                itemInfo.item(txt);
+                ItemInfo itemInfo = new ItemInfo(itemno: txt);
                 itemInfo.Show();
 
             }

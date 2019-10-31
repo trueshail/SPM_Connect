@@ -58,8 +58,10 @@ namespace SearchDataSPM
 
             string txtvalue = Assy_txtbox.Text;
             _acountsTb = new DataTable();
-            _command = new SqlCommand();
-            _command.Connection = _connection;
+            _command = new SqlCommand
+            {
+                Connection = _connection
+            };
             _productTB = new DataTable();
 
         }
@@ -193,8 +195,7 @@ namespace SearchDataSPM
                 if (!String.IsNullOrEmpty(txtvalue) && Char.IsLetter(txtvalue[0]))
                 {
                     MessageBox.Show(" Item does not belong to any assembly in AutoCad.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    this.Hide();
-                    this.Close();
+
                 }
                 else
                 {
@@ -266,10 +267,12 @@ namespace SearchDataSPM
 
             foreach (DataRow dr in _acountsTb.Select("[QUERY2] ='" + parentId.ToString() + "'"))
             {
-                TreeNode t = new TreeNode();
-                t.Text = dr["AssyNo"].ToString() + " - " + dr["AssyDesc"].ToString() + " ( " + dr["AssyQty"].ToString() + " ) ";
-                t.Name = dr["AssyNo"].ToString();
-                t.Tag = _acountsTb.Rows.IndexOf(dr);
+                TreeNode t = new TreeNode
+                {
+                    Text = dr["AssyNo"].ToString() + " - " + dr["AssyDesc"].ToString() + " ( " + dr["AssyQty"].ToString() + " ) ",
+                    Name = dr["AssyNo"].ToString(),
+                    Tag = _acountsTb.Rows.IndexOf(dr)
+                };
                 if (parentNode == null)
                 {
 

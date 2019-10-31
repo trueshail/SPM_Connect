@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.IO;
-using System.Linq;
-
 namespace SPMConnect.UserActionLog
 {
     public class Logger : ILog
@@ -10,7 +10,7 @@ namespace SPMConnect.UserActionLog
         #region "Private Member Variables"
 
         const string ACTIONLOGFILEIDENTIFIER = "ActionLog_";
-        private static int _maxNumerOfLogsInMemory = 512;
+        private static readonly int _maxNumerOfLogsInMemory = 512;
         private static List<string> _theUserActions = new List<string>();
         private static string _actionLoggerDirectory = string.Empty;
 
@@ -30,75 +30,71 @@ namespace SPMConnect.UserActionLog
                     Directory.CreateDirectory(actionLoggerDirectory);
                 }
             }
+
             _actionLoggerDirectory = actionLoggerDirectory;
 
-            LogAction("MainForm", "APPLICATION", "STARTUP", "");
-        }
-
-        public void LogAction(string frmName, string ctrlName, string eventName, string value)
-        {
-            if (value?.Length > 10) value = value.Substring(0, 10);
-            LogAction(DateTime.Now, frmName, ctrlName, eventName, value);
         }
 
         public void LogAction(DateTime timeStamp, string frmName, string ctrlName, string eventName, string value)
         {
-            _theUserActions.Add(string.Format("{0}\t{1}\t{2}\t{3}\t{4}", timeStamp.ToString("H:mm:ss"), frmName, ctrlName, eventName, value));
-            if (_theUserActions.Count > _maxNumerOfLogsInMemory) WriteLogActionsToFile();
+            _theUserActions.Add(string.Format("{0},{1},{2},{3},{4},{5}", timeStamp.ToString("H:mm:ss"), frmName, ctrlName, eventName, value, System.Environment.UserName));
+            if (_theUserActions.Count > _maxNumerOfLogsInMemory) WriteLogActionsToSQL();
         }
 
-        public string GetLogFileName()
-        {
-            //Check if the current file is > 1 MB and create another
-            string[] existingFileList = System.IO.Directory.GetFiles(_actionLoggerDirectory, ACTIONLOGFILEIDENTIFIER + DateTime.Now.ToString("yyyyMMdd") + "*.log");
 
-            string filePath = _actionLoggerDirectory + ACTIONLOGFILEIDENTIFIER + DateTime.Now.ToString("yyyyMMdd") + "-0.log";
-            if (existingFileList.Count() > 0)
+        public void WriteLogActionsToSQL()
+        {
+            DataTable dt = new DataTable();
+
+            dt.Columns.Add(new DataColumn("timeStamp", typeof(DateTime)));
+            dt.Columns.Add(new DataColumn("formName", typeof(string)));
+            dt.Columns.Add(new DataColumn("ctrlName", typeof(string)));
+            dt.Columns.Add(new DataColumn("eventName", typeof(string)));
+            dt.Columns.Add(new DataColumn("value", typeof(string)));
+            dt.Columns.Add(new DataColumn("UserName", typeof(string)));
+
+            for (int i = 0; i < _theUserActions.Count; i++)
             {
-                filePath = _actionLoggerDirectory + ACTIONLOGFILEIDENTIFIER + DateTime.Now.ToString("yyyyMMdd") + "-" + (existingFileList.Count() - 1).ToString() + ".log";
-                FileInfo fi = new FileInfo(filePath);
-                if (fi.Length / 1024 > 1000) //Over a MB (ie > 1000 KBs)
+                string[] values = _theUserActions[i].Split(',');
+                for (int j = 0; j < values.Length; j++)
                 {
-                    filePath = _actionLoggerDirectory + ACTIONLOGFILEIDENTIFIER + DateTime.Now.ToString("yyyyMMdd") + "-" + existingFileList.Count().ToString() + ".log";
+                    values[j] = values[j].Trim();
+
                 }
+                dt.Rows.Add(new object[] { values[0], values[1], values[2], values[3], values[4], values[5] });
+                values = null;
             }
 
-            return filePath;
-        }
-
-        public string[] GetTodaysLogFileNames()
-        {
-            string[] existingFileList = System.IO.Directory.GetFiles(_actionLoggerDirectory, ACTIONLOGFILEIDENTIFIER + DateTime.Now.ToString("yyyyMMdd") + "*.log");
-            return existingFileList;
-        }
-
-        public void WriteLogActionsToFile()
-        {
-            string logFilePath = GetLogFileName();
-            if (File.Exists(logFilePath))
+            using (SqlConnection conn = new SqlConnection("Data Source=spm-sql;Initial Catalog=SPM_Database;User ID=SPM_Agent;password=spm5445"))
             {
-                //If this fails its because as a Admin you need to run the app as Admin - wierd problem with GPO's
-                try
+
+                conn.Open();
+
+                using (SqlCommand cmd = new SqlCommand("inset_user_actions", conn))
                 {
-                    File.AppendAllLines(logFilePath, _theUserActions);
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    SqlParameter param = new SqlParameter("@mytable", SqlDbType.Structured)
+                    {
+                        Value = dt
+                    };
+
+                    cmd.Parameters.Add(param);
+
+                    cmd.ExecuteNonQuery();
+
                 }
-                catch (Exception ex)
-                {
-                    System.Windows.Forms.MessageBox.Show("If you see this message its because you're an Admin you need to run as Admin - wierd problem with GPO's" + ex.Message + ex.StackTrace);
-                }
+
             }
-            else
-            {
-                try
-                {
-                    File.WriteAllLines(logFilePath, _theUserActions);
-                }
-                catch (Exception ex)
-                {
-                    System.Windows.Forms.MessageBox.Show("If you see this message its because you're not an Admin you need to run as Admin - wierd problem with GPO's" + ex.Message + ex.StackTrace);
-                }
-            }
+
+            //SqlTransaction trans = _connection.BeginTransaction();
+
+            //_connection.Execute(@"insert Member(Username, IsActive)values(@Username, @IsActive)", _theUserActions, transaction: trans);
+
+            //trans.Commit();
             _theUserActions = new List<string>();
+            dt.Clear();
         }
 
         #endregion

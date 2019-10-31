@@ -109,6 +109,8 @@ namespace SearchDataSPM
             this.ecrhandlerchk = new System.Windows.Forms.CheckBox();
             this.label21 = new System.Windows.Forms.Label();
             this.ecrtoggle = new ToggleSlider.ToggleSliderComponent();
+            this.label17 = new System.Windows.Forms.Label();
+            this.itmdeptoggle = new ToggleSlider.ToggleSliderComponent();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -253,8 +255,8 @@ namespace SearchDataSPM
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(115, 30);
             this.button1.TabIndex = 26;
-            this.button1.Text = "Show Duplicates";
-            this.LabelTooltips.SetToolTip(this.button1, "Show Duplicate Items");
+            this.button1.Text = "User Logs";
+            this.LabelTooltips.SetToolTip(this.button1, "Show User Action Logs");
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -1178,12 +1180,46 @@ namespace SearchDataSPM
             this.ecrtoggle.ToggleColorBar = System.Drawing.Color.LightGray;
             this.ecrtoggle.CheckChanged += new System.EventHandler(this.ecrtoggle_CheckChanged);
             // 
+            // label17
+            // 
+            this.label17.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label17.Location = new System.Drawing.Point(398, 380);
+            this.label17.MaximumSize = new System.Drawing.Size(150, 30);
+            this.label17.Name = "label17";
+            this.label17.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label17.Size = new System.Drawing.Size(103, 30);
+            this.label17.TabIndex = 109;
+            this.label17.Text = "       Item \r\nDependencies:";
+            // 
+            // itmdeptoggle
+            // 
+            this.itmdeptoggle.AutoSize = true;
+            this.itmdeptoggle.Checked = false;
+            this.itmdeptoggle.Enabled = false;
+            this.itmdeptoggle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.itmdeptoggle.Location = new System.Drawing.Point(508, 389);
+            this.itmdeptoggle.MaximumSize = new System.Drawing.Size(70, 25);
+            this.itmdeptoggle.MinimumSize = new System.Drawing.Size(70, 25);
+            this.itmdeptoggle.Name = "itmdeptoggle";
+            this.itmdeptoggle.Size = new System.Drawing.Size(70, 25);
+            this.itmdeptoggle.TabIndex = 110;
+            this.itmdeptoggle.ToggleBarText = "No";
+            this.itmdeptoggle.ToggleCircleColor = System.Drawing.Color.Red;
+            this.itmdeptoggle.ToggleColorBar = System.Drawing.Color.LightGray;
+            this.itmdeptoggle.CheckChanged += new System.EventHandler(this.itmdeptoggle_CheckChanged);
+            // 
             // spmadmin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(69)))), ((int)(((byte)(76)))));
             this.ClientSize = new System.Drawing.Size(625, 775);
+            this.Controls.Add(this.label17);
+            this.Controls.Add(this.itmdeptoggle);
             this.Controls.Add(this.label18);
             this.Controls.Add(this.ecrapproval2chklbl);
             this.Controls.Add(this.label19);
@@ -1347,5 +1383,7 @@ namespace SearchDataSPM
         private System.Windows.Forms.CheckBox ecrhandlerchk;
         private System.Windows.Forms.Label label21;
         private ToggleSlider.ToggleSliderComponent ecrtoggle;
+        private System.Windows.Forms.Label label17;
+        private ToggleSlider.ToggleSliderComponent itmdeptoggle;
     }
 }

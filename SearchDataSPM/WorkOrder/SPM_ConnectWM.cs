@@ -18,14 +18,15 @@ namespace SearchDataSPM
         log4net.ILog log;
         private UserActions _userActions;
         ErrorHandler errorHandler = new ErrorHandler();
-
-        public SPM_ConnectWM()
+        string jobnumber;
+        public SPM_ConnectWM(string jobno = "")
         {
             Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
             //connectapi.SPM_Connect();
             dt = new DataTable();
+            this.jobnumber = jobno;
         }
 
         private void SPM_Connect_Load(object sender, EventArgs e)
@@ -34,14 +35,14 @@ namespace SearchDataSPM
             txtSearch.Text = jobnumber;
             if (txtSearch.Text.Trim().Length > 0)
                 SendKeys.Send("~");
-            checkdeptsandrights();
+            Checkdeptsandrights();
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Work Order Management by " + System.Environment.UserName);
             _userActions = new UserActions(this);
         }
 
-        private void checkdeptsandrights()
+        private void Checkdeptsandrights()
         {
             versionlabel.Text = connectapi.getassyversionnumber();
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
@@ -73,7 +74,7 @@ namespace SearchDataSPM
 
         private void Reload_Click(object sender, EventArgs e)
         {
-            clearandhide();
+            Clearandhide();
             txtSearch.Clear();
             txtSearch.Focus();
             SendKeys.Send("~");
@@ -112,35 +113,27 @@ namespace SearchDataSPM
 
         #region Search Parameters
 
-        public void txtSearch_KeyDown(object sender, KeyEventArgs e)
+        public void TxtSearch_KeyDown(object sender, KeyEventArgs e)
 
         {
             if (e.KeyCode == Keys.Return)
 
             {
-                performjobsearch(txtSearch.Text);
+                Performjobsearch(txtSearch.Text);
                 e.Handled = true;
                 e.SuppressKeyPress = true;
 
             }
         }
-        string jobnumber = "";
 
-        public string getjobnumber(string job)
-        {
-            if (job.Length > 0)
-                return jobnumber = job;
-            return null;
-        }
-
-        void performjobsearch(string job)
+        void Performjobsearch(string job)
         {
             if (Descrip_txtbox.Visible == true)
             {
-                clearandhide();
+                Clearandhide();
             }
             Showallitems();
-            mainsearch(job);
+            Mainsearch(job);
             if (txtSearch.Text.Length > 0)
             {
                 Descrip_txtbox.Show();
@@ -149,7 +142,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void clearandhide()
+        private void Clearandhide()
         {
 
             Descrip_txtbox.Hide();
@@ -166,7 +159,7 @@ namespace SearchDataSPM
             table3.Clear();
         }
 
-        private void mainsearch(string jobnumber)
+        private void Mainsearch(string jobnumber)
         {
 
             DataView dv = dt.DefaultView;
@@ -242,7 +235,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void filteroem_txtbox_KeyDown(object sender, KeyEventArgs e)
+        private void Filteroem_txtbox_KeyDown(object sender, KeyEventArgs e)
         {
             DataView dv = table1.DefaultView;
             table1 = dv.ToTable();
@@ -288,7 +281,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void filteroemitem_txtbox_KeyDown(object sender, KeyEventArgs e)
+        private void Filteroemitem_txtbox_KeyDown(object sender, KeyEventArgs e)
         {
             DataView dv = table2.DefaultView;
             table2 = dv.ToTable();
@@ -333,7 +326,7 @@ namespace SearchDataSPM
 
         }
 
-        private void filter4_KeyDown(object sender, KeyEventArgs e)
+        private void Filter4_KeyDown(object sender, KeyEventArgs e)
         {
             DataView dv = table3.DefaultView;
             table3 = dv.ToTable();
@@ -366,8 +359,6 @@ namespace SearchDataSPM
                 e.SuppressKeyPress = true;
             }
         }
-
-
 
 
         #endregion
@@ -404,9 +395,11 @@ namespace SearchDataSPM
                     int sindx = val.ToLower().IndexOf(sw.ToLower());
                     if (sindx >= 0)
                     {
-                        Rectangle hl_rect = new Rectangle();
-                        hl_rect.Y = e.CellBounds.Y + 2;
-                        hl_rect.Height = e.CellBounds.Height - 5;
+                        Rectangle hl_rect = new Rectangle
+                        {
+                            Y = e.CellBounds.Y + 2,
+                            Height = e.CellBounds.Height - 5
+                        };
 
                         string sBefore = val.Substring(0, sindx);
                         string sWord = val.Substring(sindx, sw.Length);
@@ -496,10 +489,10 @@ namespace SearchDataSPM
 
         private void getBOMToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            prorcessreportbom(getselectedworkorder(), "WorkOrder");
+            Prorcessreportbom(getselectedworkorder(), "WorkOrder");
         }
 
-        private void prorcessreportbom(string itemvalue, string Reportname)
+        private void Prorcessreportbom(string itemvalue, string Reportname)
         {
             ReportViewer form1 = new ReportViewer();
             form1.item(itemvalue);
@@ -569,8 +562,7 @@ namespace SearchDataSPM
 
         private void processbom(string itemvalue)
         {
-            TreeView treeView = new TreeView();
-            treeView.item(itemvalue);
+            TreeView treeView = new TreeView(item: itemvalue);
             treeView.Show();
         }
 
@@ -610,7 +602,7 @@ namespace SearchDataSPM
 
             if (keyData == (Keys.Control | Keys.D))
             {
-                prorcessreportbom(getselectedworkorder(), "WorkOrder");
+                Prorcessreportbom(getselectedworkorder(), "WorkOrder");
                 return true;
             }
 

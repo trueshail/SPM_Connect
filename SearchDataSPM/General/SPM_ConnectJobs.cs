@@ -454,9 +454,11 @@ namespace SearchDataSPM
                     int sindx = val.ToLower().IndexOf(sw.ToLower());
                     if (sindx >= 0)
                     {
-                        Rectangle hl_rect = new Rectangle();
-                        hl_rect.Y = e.CellBounds.Y + 2;
-                        hl_rect.Height = e.CellBounds.Height - 5;
+                        Rectangle hl_rect = new Rectangle
+                        {
+                            Y = e.CellBounds.Y + 2,
+                            Height = e.CellBounds.Height - 5
+                        };
 
                         string sBefore = val.Substring(0, sindx);
                         string sWord = val.Substring(sindx, sw.Length);
@@ -569,8 +571,7 @@ namespace SearchDataSPM
 
         private void processbom(string itemvalue)
         {
-            TreeView treeView = new TreeView();
-            treeView.item(itemvalue);
+            TreeView treeView = new TreeView(item: itemvalue);
             treeView.Show();
         }
 
@@ -687,9 +688,11 @@ namespace SearchDataSPM
             {
 
                 cn.Open();
-                _command = new SqlCommand();
-                _command.Connection = cn;
-                _command.CommandText = sql;
+                _command = new SqlCommand
+                {
+                    Connection = cn,
+                    CommandText = sql
+                };
                 _command.ExecuteNonQuery();
                 // MessageBox.Show("Item added to the catalog.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -786,9 +789,11 @@ namespace SearchDataSPM
             {
 
                 cn.Open();
-                _command = new SqlCommand();
-                _command.Connection = cn;
-                _command.CommandText = sql;
+                _command = new SqlCommand
+                {
+                    Connection = cn,
+                    CommandText = sql
+                };
                 _command.ExecuteNonQuery();
                 // MessageBox.Show("Item added to the catalog.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -1149,8 +1154,7 @@ namespace SearchDataSPM
 
         private void showworkorder()
         {
-            SPM_ConnectWM sPM_ConnectWM = new SPM_ConnectWM();
-            sPM_ConnectWM.getjobnumber(getselectedjobnumber());
+            SPM_ConnectWM sPM_ConnectWM = new SPM_ConnectWM(jobno: getselectedjobnumber());
             sPM_ConnectWM.Show();
         }
 
@@ -1232,13 +1236,13 @@ namespace SearchDataSPM
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        private void shippingbttn_Click(object sender, EventArgs e)
+        private void Shippingbttn_Click(object sender, EventArgs e)
         {
             ShippingHome shipping = new ShippingHome();
             shipping.Show();
         }
 
-        private void getEstimateBOMToolStripMenuItem_Click(object sender, EventArgs e)
+        private void GetEstimateBOMToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string item;
             string estid;
@@ -1257,11 +1261,11 @@ namespace SearchDataSPM
                 estid = "";
             }
 
-            processbomEstimate(item, estid);
+            ProcessbomEstimate(item, estid);
 
         }
 
-        private void processbomEstimate(string itemvalue, string estid)
+        private void ProcessbomEstimate(string itemvalue, string estid)
         {
             EstimateBOM treeView = new EstimateBOM();
             treeView.item(itemvalue);
@@ -1269,7 +1273,7 @@ namespace SearchDataSPM
             treeView.Show();
         }
 
-        private void ecrbutton_Click(object sender, EventArgs e)
+        private void Ecrbutton_Click(object sender, EventArgs e)
         {
             ECRHome ecr = new ECRHome();
             ecr.Show();

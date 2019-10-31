@@ -193,9 +193,9 @@
             this.dataGridView.RowHeadersVisible = false;
             this.dataGridView.Size = new System.Drawing.Size(329, 639);
             this.dataGridView.TabIndex = 7;
-            this.dataGridView.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseDown);
-            this.dataGridView.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dataGridView_RowsRemoved);
-            this.dataGridView.SelectionChanged += new System.EventHandler(this.dataGridView_SelectionChanged);
+            this.dataGridView.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView_CellMouseDown);
+            this.dataGridView.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.DataGridView_RowsRemoved);
+            this.dataGridView.SelectionChanged += new System.EventHandler(this.DataGridView_SelectionChanged);
             // 
             // PurchaseReqSearchTxt
             // 
@@ -345,8 +345,8 @@
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.Size = new System.Drawing.Size(737, 242);
             this.dataGridView1.TabIndex = 15;
-            this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
-            this.dataGridView1.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDown);
+            this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1_CellDoubleClick);
+            this.dataGridView1.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView1_CellMouseDown);
             // 
             // ID
             // 
@@ -728,8 +728,8 @@
             this.subassytxt.Size = new System.Drawing.Size(228, 21);
             this.subassytxt.TabIndex = 7;
             this.TreeViewToolTip.SetToolTip(this.subassytxt, "Sub-assembly number");
-            this.subassytxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.subassytxt_KeyPress);
-            this.subassytxt.Leave += new System.EventHandler(this.subassytxt_Leave);
+            this.subassytxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Subassytxt_KeyPress);
+            this.subassytxt.Leave += new System.EventHandler(this.Subassytxt_Leave);
             // 
             // jobnumbertxt
             // 
@@ -746,8 +746,8 @@
             this.jobnumbertxt.Size = new System.Drawing.Size(228, 21);
             this.jobnumbertxt.TabIndex = 6;
             this.TreeViewToolTip.SetToolTip(this.jobnumbertxt, "Job-number associated with the items purchased");
-            this.jobnumbertxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.jobnumbertxt_KeyPress);
-            this.jobnumbertxt.Leave += new System.EventHandler(this.jobnumbertxt_Leave);
+            this.jobnumbertxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Jobnumbertxt_KeyPress);
+            this.jobnumbertxt.Leave += new System.EventHandler(this.Jobnumbertxt_Leave);
             // 
             // purchreqtxt
             // 
@@ -891,7 +891,7 @@
             this.btnCancel.Text = "Cancel";
             this.TreeViewToolTip.SetToolTip(this.btnCancel, "Cancel");
             this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            this.btnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
             // 
             // btnDelete
             // 
@@ -908,7 +908,7 @@
             this.btnDelete.Text = "&Delete";
             this.TreeViewToolTip.SetToolTip(this.btnDelete, "Double Click item from grid \r\nand press Delete to remove");
             this.btnDelete.UseVisualStyleBackColor = true;
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            this.btnDelete.Click += new System.EventHandler(this.BtnDelete_Click);
             // 
             // Addnewbttn
             // 
@@ -1023,7 +1023,7 @@
             this.TreeViewToolTip.SetToolTip(this.pricetxt, "Unit price for the item");
             this.pricetxt.TextChanged += new System.EventHandler(this.pricetxt_TextChanged);
             this.pricetxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.pricetxt_KeyPress);
-            this.pricetxt.Leave += new System.EventHandler(this.pricetxt_Leave);
+            this.pricetxt.Leave += new System.EventHandler(this.Pricetxt_Leave);
             // 
             // label1
             // 
@@ -1140,7 +1140,7 @@
             this.itemsearchtxtbox.Size = new System.Drawing.Size(299, 22);
             this.itemsearchtxtbox.TabIndex = 2;
             this.TreeViewToolTip.SetToolTip(this.itemsearchtxtbox, "Search for item to order \r\nStarting with Letter \'A\' or \'B\' or \'C\'");
-            this.itemsearchtxtbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.itemsearchtxtbox_KeyDown);
+            this.itemsearchtxtbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Itemsearchtxtbox_KeyDown);
             // 
             // TreeViewToolTip
             // 
@@ -1174,7 +1174,7 @@
             this.newbttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TreeViewToolTip.SetToolTip(this.newbttn, "Create New Purchase Requisition");
             this.newbttn.UseVisualStyleBackColor = false;
-            this.newbttn.Click += new System.EventHandler(this.newbttn_Click);
+            this.newbttn.Click += new System.EventHandler(this.Newbttn_Click);
             // 
             // bttnshowmyreq
             // 
@@ -1202,7 +1202,7 @@
             this.bttnshowmyreq.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TreeViewToolTip.SetToolTip(this.bttnshowmyreq, "Show purchase reqs created by me");
             this.bttnshowmyreq.UseVisualStyleBackColor = false;
-            this.bttnshowmyreq.Click += new System.EventHandler(this.bttnshowmyreq_Click);
+            this.bttnshowmyreq.Click += new System.EventHandler(this.Bttnshowmyreq_Click);
             // 
             // bttnshowmydept
             // 
@@ -1258,7 +1258,7 @@
             this.bttnshowapproved.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TreeViewToolTip.SetToolTip(this.bttnshowapproved, "Show all approved purchase reqs");
             this.bttnshowapproved.UseVisualStyleBackColor = false;
-            this.bttnshowapproved.Click += new System.EventHandler(this.bttnshowapproved_Click);
+            this.bttnshowapproved.Click += new System.EventHandler(this.Bttnshowapproved_Click);
             // 
             // bttnneedapproval
             // 
@@ -1286,7 +1286,7 @@
             this.bttnneedapproval.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TreeViewToolTip.SetToolTip(this.bttnneedapproval, "Show all puchase req which requires approval");
             this.bttnneedapproval.UseVisualStyleBackColor = false;
-            this.bttnneedapproval.Click += new System.EventHandler(this.bttnneedapproval_Click);
+            this.bttnneedapproval.Click += new System.EventHandler(this.Bttnneedapproval_Click);
             // 
             // printbttn
             // 
@@ -1314,7 +1314,7 @@
             this.printbttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TreeViewToolTip.SetToolTip(this.printbttn, "Print Selected Purchase Requisition");
             this.printbttn.UseVisualStyleBackColor = false;
-            this.printbttn.Click += new System.EventHandler(this.printbttn_Click);
+            this.printbttn.Click += new System.EventHandler(this.Printbttn_Click);
             // 
             // happrovechk
             // 
@@ -1370,7 +1370,7 @@
             this.editItemToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.editItemToolStripMenuItem.Text = "Update Item";
             this.editItemToolStripMenuItem.ToolTipText = "Update Selected Item";
-            this.editItemToolStripMenuItem.Click += new System.EventHandler(this.editItemToolStripMenuItem_Click);
+            this.editItemToolStripMenuItem.Click += new System.EventHandler(this.EditItemToolStripMenuItem_Click);
             // 
             // deleteItemToolStripMenuItem
             // 
@@ -1379,7 +1379,7 @@
             this.deleteItemToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.deleteItemToolStripMenuItem.Text = "Delete Item";
             this.deleteItemToolStripMenuItem.ToolTipText = "Delete Selected Item ";
-            this.deleteItemToolStripMenuItem.Click += new System.EventHandler(this.deleteItemToolStripMenuItem_Click);
+            this.deleteItemToolStripMenuItem.Click += new System.EventHandler(this.DeleteItemToolStripMenuItem_Click);
             // 
             // toolbarpanel
             // 
@@ -1567,7 +1567,7 @@
             this.approvetoolstrip.Size = new System.Drawing.Size(227, 22);
             this.approvetoolstrip.Text = "Approve Purchase Req";
             this.approvetoolstrip.ToolTipText = "Approve Selected Purchase Req";
-            this.approvetoolstrip.Click += new System.EventHandler(this.approvetoolstrip_Click);
+            this.approvetoolstrip.Click += new System.EventHandler(this.Approvetoolstrip_Click);
             // 
             // rejecttoolstrip
             // 

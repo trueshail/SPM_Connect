@@ -49,8 +49,10 @@ namespace SearchDataSPM
                 cn = new SqlConnection(connection);
 
                 _connection = new SqlConnection(cntrlconnection);
-                _command = new SqlCommand();
-                _command.Connection = _connection;
+                _command = new SqlCommand
+                {
+                    Connection = _connection
+                };
 
             }
             catch (Exception ex)
@@ -297,9 +299,11 @@ namespace SearchDataSPM
                     {
                         TreeNode childNode;
 
-                        TreeNode child = new TreeNode();
-                        child.Text = _itemno.ToString() + " - " + _description.ToString() + " " + "(1)";
-                        child.Tag = _itemno + "][" + _description + "][" + _family + "][" + _manufacturer + "][" + _oem + "][" + "1";
+                        TreeNode child = new TreeNode
+                        {
+                            Text = _itemno.ToString() + " - " + _description.ToString() + " " + "(1)",
+                            Tag = _itemno + "][" + _description + "][" + _family + "][" + _manufacturer + "][" + _oem + "][" + "1"
+                        };
 
                         childNode = child;
                         treeView1.SelectedNode.Nodes.Add(childNode);

@@ -355,10 +355,12 @@ namespace SearchDataSPM
 
                 if (_parameters.Length > 0)
                 {
-                    parameters[0] = new RE2005.ParameterValue();
-                    //parameters[0].Label = "";
-                    parameters[0].Name = "pInvno";
-                    parameters[0].Value = invoiceno;
+                    parameters[0] = new RE2005.ParameterValue
+                    {
+                        //parameters[0].Label = "";
+                        Name = "pInvno",
+                        Value = invoiceno
+                    };
                 }
                 rsExec.SetExecutionParameters(parameters, "en-us");
 

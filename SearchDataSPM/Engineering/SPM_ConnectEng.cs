@@ -47,6 +47,7 @@ namespace SearchDataSPM
         Controls connectapicntrls = new Controls();
         //AutoCompleteStringCollection autoComplete = new AutoCompleteStringCollection();
 
+
         public SPM_Connect()
         {
             Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
@@ -73,10 +74,10 @@ namespace SearchDataSPM
         private void SPM_Connect_Load(object sender, EventArgs e)
         {
             this.Hide();
-            collapse();
-            loadusersettings();
+            Collapse();
+            Loadusersettings();
             dt = new DataTable();
-            checkdeptsandrights();
+            Checkdeptsandrights();
             userfullname = connectapi.getuserfullname();
             sqlnotifier();
             //if (purchasereqnotification = connectapi.CheckPurchaseReqNotification())
@@ -97,7 +98,7 @@ namespace SearchDataSPM
 
         }
 
-        private void checkdeptsandrights()
+        private void Checkdeptsandrights()
         {
             string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
             department = connectapi.getdepartment();
@@ -169,7 +170,7 @@ namespace SearchDataSPM
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
         }
 
-        private void loadusersettings()
+        private void Loadusersettings()
         {
             this.Size = new Size(900, 750);
             this.CenterToScreen();
@@ -192,7 +193,7 @@ namespace SearchDataSPM
             //}
         }
 
-        private void fillinfo()
+        private void Fillinfo()
         {
             Cursor.Current = Cursors.WaitCursor;
             formloading = true;
@@ -203,12 +204,12 @@ namespace SearchDataSPM
             filllastsavedby();
             filluserwithblock();
             FillMaterials();
-            clearfilercombos();
+            Clearfilercombos();
             formloading = false;
             Cursor.Current = Cursors.Default;
         }
 
-        void clearfilercombos()
+        void Clearfilercombos()
         {
             designedbycombobox.SelectedItem = null;
             oemitemcombobox.SelectedItem = null;
@@ -242,12 +243,12 @@ namespace SearchDataSPM
 
         private void Reload_Click(object sender, EventArgs e)
         {
-            performreload();
+            Performreload();
         }
 
-        void performreload()
+        void Performreload()
         {
-            clearandhide();
+            Clearandhide();
             //clearfilercombos();
             txtSearch.Clear();
             txtSearch.Focus();
@@ -453,12 +454,12 @@ namespace SearchDataSPM
                 }
                 if (txtSearch.Text.ToLower() == "showduplicates")
                 {
-                    showduplicates();
+                    Showduplicates();
                     return;
                 }
                 if (Descrip_txtbox.Visible == true)
                 {
-                    clearandhide();
+                    Clearandhide();
                 }
                 if (!showingfavorites && !showingduplicates)
                 {
@@ -469,12 +470,12 @@ namespace SearchDataSPM
                 }
                 else if (showingfavorites && !showingduplicates)
                 {
-                    showfavorites();
+                    Showfavorites();
                     txtSearch.Text = searchtexttxt;
                 }
                 else
                 {
-                    showduplicates();
+                    Showduplicates();
                     txtSearch.Text = searchtexttxt;
                 }
 
@@ -509,10 +510,10 @@ namespace SearchDataSPM
             }
         }
 
-        private void clearandhide()
+        private void Clearandhide()
         {
             formloading = true;
-            clearfilercombos();
+            Clearfilercombos();
             Descrip_txtbox.Hide();
             Descrip_txtbox.Clear();
             filteroem_txtbox.Hide();
@@ -894,8 +895,7 @@ namespace SearchDataSPM
                     int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                     DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
                     itemnumber = Convert.ToString(slectedrow.Cells[0].Value);
-                    ItemInfo itemInfo = new ItemInfo();
-                    itemInfo.item(itemnumber);
+                    ItemInfo itemInfo = new ItemInfo(itemno: itemnumber);
                     itemInfo.Show();
                 }
 
@@ -906,8 +906,7 @@ namespace SearchDataSPM
                 int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                 DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
                 itemnumber = Convert.ToString(slectedrow.Cells[0].Value);
-                ItemInfo itemInfo = new ItemInfo();
-                itemInfo.item(itemnumber);
+                ItemInfo itemInfo = new ItemInfo(itemno: itemnumber);
                 itemInfo.Show();
 
             }
@@ -927,7 +926,6 @@ namespace SearchDataSPM
                 dataGridView.Rows[columnindex].Selected = true;
 
             }
-
         }
 
         private void openModelToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1042,9 +1040,11 @@ namespace SearchDataSPM
                     int sindx = val.ToLower().IndexOf(sw.ToLower());
                     if (sindx >= 0)
                     {
-                        Rectangle hl_rect = new Rectangle();
-                        hl_rect.Y = e.CellBounds.Y + 2;
-                        hl_rect.Height = e.CellBounds.Height - 5;
+                        Rectangle hl_rect = new Rectangle
+                        {
+                            Y = e.CellBounds.Y + 2,
+                            Height = e.CellBounds.Height - 5
+                        };
 
                         string sBefore = val.Substring(0, sindx);
                         string sWord = val.Substring(sindx, sw.Length);
@@ -1137,8 +1137,7 @@ namespace SearchDataSPM
         private void processwhereused(string item)
         {
             //whereused = item;
-            WhereUsed whereUsed = new WhereUsed();
-            whereUsed.item(item);
+            WhereUsed whereUsed = new WhereUsed(item: item);
             whereUsed.Show();
             //whereused = null;
         }
@@ -1192,14 +1191,13 @@ namespace SearchDataSPM
                 item = "";
             }
 
-            processbom(item);
+            Processbom(item);
         }
 
-        private void processbom(string itemvalue)
+        private void Processbom(string itemvalue)
         {
 
-            TreeView treeView = new TreeView();
-            treeView.item(itemvalue);
+            TreeView treeView = new TreeView(item: itemvalue);
             treeView.Show();
 
 
@@ -1225,7 +1223,7 @@ namespace SearchDataSPM
                 item = "";
             }
 
-            processbom(item);
+            Processbom(item);
             //TreeView_Bttn.PerformClick();
             // TreeView_Bttn_Click(sender, e);
         }
@@ -1325,7 +1323,7 @@ namespace SearchDataSPM
 
         private void deleteItemToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            connectapi.deleteitem(getitemnumberselected().ToString());
+            connectapi.deleteitem(Getitemnumberselected().ToString());
         }
 
         #endregion
@@ -1354,7 +1352,7 @@ namespace SearchDataSPM
                 {
                     item = "";
                 }
-                processbom(item);
+                Processbom(item);
 
                 return true;
             }
@@ -1386,11 +1384,11 @@ namespace SearchDataSPM
             {
                 if (showingfavorites)
                 {
-                    performreload();
+                    Performreload();
                 }
                 else
                 {
-                    showfavorites();
+                    Showfavorites();
                 }
 
                 return true;
@@ -1414,7 +1412,7 @@ namespace SearchDataSPM
             {
                 if (splitContainer1.Panel2Collapsed == true)
                 {
-                    advsearchbttnclick();
+                    Advsearchbttnclick();
                 }
                 return true;
             }
@@ -1423,7 +1421,7 @@ namespace SearchDataSPM
             {
                 if (splitContainer1.Panel2Collapsed == false)
                 {
-                    advsearchbttnclick();
+                    Advsearchbttnclick();
                 }
                 return true;
             }
@@ -1433,7 +1431,7 @@ namespace SearchDataSPM
                 if (dataGridView.SelectedCells.Count == 1)
                 {
                     Compare sPM_ConnectJobs = new Compare();
-                    sPM_ConnectJobs.item(getitemnumberselected());
+                    sPM_ConnectJobs.item(Getitemnumberselected());
                     sPM_ConnectJobs.Show();
                     return true;
                 }
@@ -1446,7 +1444,7 @@ namespace SearchDataSPM
 
             if (keyData == Keys.F1)
             {
-                showhelp();
+                Showhelp();
                 return true;
             }
 
@@ -1470,9 +1468,11 @@ namespace SearchDataSPM
                         string sDocFileName = item;
                         wpfThumbnailCreator pvf;
                         pvf = new wpfThumbnailCreator();
-                        System.Drawing.Size size = new Size();
-                        size.Width = 256;
-                        size.Height = 256;
+                        System.Drawing.Size size = new Size
+                        {
+                            Width = 256,
+                            Height = 256
+                        };
                         pvf.DesiredSize = size;
                         System.Drawing.Bitmap pic = pvf.GetThumbNail(sDocFileName);
                         imageList.Images.Add(pic);
@@ -1516,9 +1516,8 @@ namespace SearchDataSPM
 
         public static Icon GetIconOldSchool(string fileName)
         {
-            ushort uicon;
             StringBuilder strB = new StringBuilder(fileName);
-            IntPtr handle = ExtractAssociatedIcon(IntPtr.Zero, strB, out uicon);
+            IntPtr handle = ExtractAssociatedIcon(IntPtr.Zero, strB, out ushort uicon);
             Icon ico = Icon.FromHandle(handle);
 
             return ico;
@@ -1552,7 +1551,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void listView_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void ListView_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
@@ -1569,22 +1568,22 @@ namespace SearchDataSPM
             }
         }
 
-        private void listView_ItemDrag(object sender, ItemDragEventArgs e)
+        private void ListView_ItemDrag(object sender, ItemDragEventArgs e)
         {
             string[] fList = new string[1];
             fList[0] = makepathfordrag().ToString();
             DataObject dataObj = new DataObject(DataFormats.FileDrop, fList);
-            DragDropEffects eff = DoDragDrop(dataObj, DragDropEffects.Link | DragDropEffects.Copy);
+            DragDropEffects eff = DoDragDrop(dataObj, DragDropEffects.Move | DragDropEffects.Copy);
             // listView.DoDragDrop(listView.SelectedItems, DragDropEffects.Copy);           
 
         }
 
-        private void dataGridView_SelectionChanged(object sender, EventArgs e)
+        private void DataGridView_SelectionChanged(object sender, EventArgs e)
         {
-            showfilesonlistview();
+            Showfilesonlistview();
         }
 
-        private void showfilesonlistview()
+        private void Showfilesonlistview()
         {
             try
             {
@@ -1686,7 +1685,7 @@ namespace SearchDataSPM
             {
                 string txt = listView.FocusedItem.Text;
                 txt = txt.Substring(0, 6);
-                processbom(txt);
+                Processbom(txt);
 
             }
         }
@@ -1708,8 +1707,7 @@ namespace SearchDataSPM
             {
                 string txt = listView.FocusedItem.Text;
                 txt = txt.Substring(0, 6);
-                ItemInfo itemInfo = new ItemInfo();
-                itemInfo.item(txt);
+                ItemInfo itemInfo = new ItemInfo(itemno: txt);
                 itemInfo.Show();
 
             }
@@ -1747,23 +1745,23 @@ namespace SearchDataSPM
 
                     if (activeblock.ToString().Length > 0)
                     {
-                        string lastnumber = connectapi.getlastnumber();
+                        string lastnumber = connectapi.Getlastnumber();
                         if (lastnumber.ToString().Length > 0)
                         {
-                            if (connectapi.validnumber(lastnumber.ToString()) == true)
+                            if (connectapi.Validnumber(lastnumber.ToString()) == true)
                             {
-                                uniqueid = connectapi.spmnew_idincrement(lastnumber.ToString(), activeblock.ToString());
+                                uniqueid = connectapi.Spmnew_idincrement(lastnumber.ToString(), activeblock.ToString());
                                 //insertinto_blocks(uniqueid, activeblock.ToString());
-                                itempresentdecide(connectapi.checkitempresentoninventory(uniqueid));
+                                Itempresentdecide(connectapi.Checkitempresentoninventory(uniqueid));
 
                             }
 
                         }
                         else
                         {
-                            spmnew_id(activeblock.ToString());
+                            Spmnew_id(activeblock.ToString());
                             //insertinto_blocks(uniqueid, activeblock.ToString());
-                            itempresentdecide(connectapi.checkitempresentoninventory(uniqueid));
+                            Itempresentdecide(connectapi.Checkitempresentoninventory(uniqueid));
 
                         }
 
@@ -1780,27 +1778,27 @@ namespace SearchDataSPM
 
         string uniqueid;
 
-        private void spmnew_id(string blocknumber)
+        private void Spmnew_id(string blocknumber)
         {
             string letterblock = Char.ToUpper(blocknumber[0]) + blocknumber.Substring(1);
             uniqueid = letterblock + "000";
         }
 
-        private void itempresentdecide(bool itempresent)
+        private void Itempresentdecide(bool itempresent)
         {
             if (itempresent == true)
             {
-                openiteminfo(uniqueid);
+                Openiteminfo(uniqueid);
             }
             else
             {
                 string username = connectapi.getuserfullname();
-                createentryoninventory(uniqueid, username);
-                openiteminfo(uniqueid);
+                Createentryoninventory(uniqueid, username);
+                Openiteminfo(uniqueid);
             }
         }
 
-        private void createentryoninventory(string uniqueid, string user)
+        private void Createentryoninventory(string uniqueid, string user)
         {
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDate = datecreated.ToString("yyyy-MM-dd HH:mm:ss.fff");
@@ -1827,7 +1825,7 @@ namespace SearchDataSPM
 
         }
 
-        private void openiteminfo(string itemid)
+        private void Openiteminfo(string itemid)
         {
             NewItem newItem = new NewItem();
             newItem.item(itemid);
@@ -1840,14 +1838,14 @@ namespace SearchDataSPM
 
         private void editbttn_Click(object sender, EventArgs e)
         {
-            processeditbutton(getitemnumberselected().ToString());
+            Processeditbutton(Getitemnumberselected().ToString());
         }
 
         public string chekeditbutton = "";
 
-        private void processeditbutton(string item)
+        private void Processeditbutton(string item)
         {
-            showfilesonlistview();
+            Showfilesonlistview();
             Cursor.Current = Cursors.WaitCursor;
             chekeditbutton = "yes";
             this.Enabled = false;
@@ -1855,11 +1853,11 @@ namespace SearchDataSPM
             {
                 //string item = getitemnumberselected().ToString();
 
-                if (connectapi.checkitempresentoninventory(item) == true)
+                if (connectapi.Checkitempresentoninventory(item) == true)
                 {
                     if (listView.Items.Count > 0)
                     {
-                        getitemopenforedit(item);
+                        Getitemopenforedit(item);
                     }
                     else
                     {
@@ -1867,7 +1865,7 @@ namespace SearchDataSPM
                         if (result == DialogResult.Yes)
                         {
 
-                            processmodelcreattion(item);
+                            Processmodelcreattion(item);
 
                         }
                         else
@@ -1880,7 +1878,7 @@ namespace SearchDataSPM
                 else
                 {
                     //MessageBox.Show("Item does not exist on SPM Connect Server", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                    getitemonconnectsql(item);
+                    Getitemonconnectsql(item);
                 }
 
             }
@@ -1889,14 +1887,14 @@ namespace SearchDataSPM
 
         }
 
-        private void getitemonconnectsql(string item)
+        private void Getitemonconnectsql(string item)
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                if (additemtosqlinventory(item))
+                if (Additemtosqlinventory(item))
                 {
-                    updateitemtosqlinventory(item);
-                    processeditbutton(item);
+                    Updateitemtosqlinventory(item);
+                    Processeditbutton(item);
                 }
             }
             else
@@ -1907,7 +1905,7 @@ namespace SearchDataSPM
 
         }
 
-        private void getitemopenforedit(string item)
+        private void Getitemopenforedit(string item)
         {
             //new Thread(() => new Engineering.WaitFormOpening().ShowDialog()).Start();
             Thread t = new Thread(new ThreadStart(Splashopening));
@@ -1916,12 +1914,12 @@ namespace SearchDataSPM
             if (connectapi.getfilename().ToString() != item)
             {
                 connectapi.checkforspmfile(item);
-                if (checkforreadonly() == true)
+                if (Checkforreadonly() == true)
                 {
                     chekeditbutton = "yes";
                     //Thread.Sleep(3000);
                     t.Abort();
-                    openiteminfo(item);
+                    Openiteminfo(item);
 
                 }
 
@@ -1930,10 +1928,10 @@ namespace SearchDataSPM
             {
                 //timer1.Start();
                 //Thread.Sleep(3000);
-                if (checkforreadonly() == true)
+                if (Checkforreadonly() == true)
                 {
                     t.Abort();
-                    openiteminfo(item);
+                    Openiteminfo(item);
                 }
             }
         }
@@ -1944,7 +1942,7 @@ namespace SearchDataSPM
             Application.Run(waitFormOpening);
         }
 
-        private String getitemnumberselected()
+        private string Getitemnumberselected()
         {
             int selectedclmindex = dataGridView.SelectedCells[0].ColumnIndex;
             DataGridViewColumn columnchk = dataGridView.Columns[selectedclmindex];
@@ -1966,7 +1964,7 @@ namespace SearchDataSPM
             }
         }
 
-        public bool checkforreadonly()
+        public bool Checkforreadonly()
         {
             var progId = "SldWorks.Application";
             SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
@@ -1999,7 +1997,7 @@ namespace SearchDataSPM
 
         }
 
-        private bool additemtosqlinventory(string uniqueid)
+        private bool Additemtosqlinventory(string uniqueid)
         {
             bool success = false;
 
@@ -2028,10 +2026,10 @@ namespace SearchDataSPM
             return success;
         }
 
-        private void updateitemtosqlinventory(string uniqueid)
+        private void Updateitemtosqlinventory(string uniqueid)
         {
 
-            string familycategory = connectapi.getfamilycategory(getfamilycode().ToString());
+            string familycategory = connectapi.getfamilycategory(Getfamilycode().ToString());
             //MessageBox.Show(familycategory);
             string rupture = "ALWAYS";
 
@@ -2066,7 +2064,7 @@ namespace SearchDataSPM
 
         }
 
-        private String getfamilycode()
+        private string Getfamilycode()
         {
             string familycode;
             if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
@@ -2084,15 +2082,15 @@ namespace SearchDataSPM
             }
         }
 
-        private void processmodelcreattion(string item)
+        private void Processmodelcreattion(string item)
         {
-            if (listView.Items.Count == 0 && getfamilycode().ToString() == "")
+            if (listView.Items.Count == 0 && Getfamilycode().ToString() == "")
             {
-                openiteminfo(item);
+                Openiteminfo(item);
             }
             else
             {
-                string category = connectapi.getfamilycategory(getfamilycode().ToString());
+                string category = connectapi.getfamilycategory(Getfamilycode().ToString());
                 string path = connectapi.Makepath(item).ToString();
                 if (category != "")
                 {
@@ -2104,7 +2102,7 @@ namespace SearchDataSPM
                         connectapi.createmodel(filename);
                         string draw = path + (item) + ".slddrw";
                         connectapi.createdrawingpart(draw, item);
-                        getitemopenforedit(item);
+                        Getitemopenforedit(item);
 
                     }
                     else if (category.ToLower() == "assembly")
@@ -2114,7 +2112,7 @@ namespace SearchDataSPM
                         connectapi.createassy(filename);
                         string draw = path + (item) + ".slddrw";
                         connectapi.createdrawingpart(draw, item);
-                        getitemopenforedit(item);
+                        Getitemopenforedit(item);
                     }
                     else
                     {
@@ -2130,7 +2128,7 @@ namespace SearchDataSPM
 
                         //}
                         //return;
-                        openiteminfo(item);
+                        Openiteminfo(item);
                     }
                 }
                 else
@@ -2144,7 +2142,7 @@ namespace SearchDataSPM
 
         private void editItemToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            processeditbutton(getitemnumberselected().ToString());
+            Processeditbutton(Getitemnumberselected().ToString());
         }
 
         #endregion
@@ -2153,7 +2151,7 @@ namespace SearchDataSPM
 
         private void saveascopybttn_Click(object sender, EventArgs e)
         {
-            perfomcopybuttonclick(getitemnumberselected().ToString());
+            perfomcopybuttonclick(Getitemnumberselected().ToString());
         }
 
         void perfomcopybuttonclick(string item)
@@ -2166,14 +2164,14 @@ namespace SearchDataSPM
                 {
                     string user = connectapi.UserName();
                     string activeblock = connectapi.getactiveblock();
-                    string lastnumber = connectapi.getlastnumber();
+                    string lastnumber = connectapi.Getlastnumber();
                     if (activeblock.ToString().Length > 0)
                     {
-                        if (connectapi.validnumber(lastnumber.ToString()) == true)
+                        if (connectapi.Validnumber(lastnumber.ToString()) == true)
                         {
                             new Thread(() => new Engineering.WaitFormCopying().ShowDialog()).Start();
                             //Thread.Sleep(3000);
-                            prepareforcopy(activeblock.ToString(), item, lastnumber);
+                            Prepareforcopy(activeblock.ToString(), item, lastnumber);
                         }
                     }
                     else
@@ -2184,7 +2182,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void prepareforcopy(string activeblock, string selecteditem, string lastnumber)
+        private void Prepareforcopy(string activeblock, string selecteditem, string lastnumber)
         {
 
             string first3char = selecteditem.Substring(0, 3) + @"\";
@@ -2194,47 +2192,47 @@ namespace SearchDataSPM
             if (lastnumber.ToString().Length > 0)
             {
 
-                uniqueid = connectapi.spmnew_idincrement(lastnumber.ToString(), activeblock.ToString());
+                uniqueid = connectapi.Spmnew_idincrement(lastnumber.ToString(), activeblock.ToString());
 
-                if (connectapi.checkitempresentoninventory(uniqueid) == true)
+                if (connectapi.Checkitempresentoninventory(uniqueid) == true)
                 {
                     //insertinto_blocks(uniqueid, activeblock.ToString());
-                    openiteminfo(uniqueid);
+                    Openiteminfo(uniqueid);
                 }
                 else
                 {
-                    copy(Pathpart, selecteditem);
-                    aftercopy(activeblock, selecteditem);
+                    Copy(Pathpart, selecteditem);
+                    Aftercopy(activeblock, selecteditem);
                 }
             }
             else
             {
-                spmnew_id(activeblock.ToString());
-                copy(Pathpart, selecteditem);
-                aftercopy(activeblock, selecteditem);
+                Spmnew_id(activeblock.ToString());
+                Copy(Pathpart, selecteditem);
+                Aftercopy(activeblock, selecteditem);
             }
 
         }
 
-        private void aftercopy(string activeblock, string selecteditem)
+        private void Aftercopy(string activeblock, string selecteditem)
         {
             if (sucessreplacingreference == true)
             {
                 //insertinto_blocks(uniqueid, activeblock.ToString());
 
-                if (connectapi.checkitempresentoninventory(selecteditem) == true)
+                if (connectapi.Checkitempresentoninventory(selecteditem) == true)
                 {
-                    connectapi.addcpoieditemtosqltable(selecteditem, uniqueid);
+                    connectapi.Addcpoieditemtosqltable(selecteditem, uniqueid);
                 }
                 else
                 {
-                    connectapi.addcpoieditemtosqltablefromgenius(uniqueid, selecteditem);
-                    updateitemtosqlinventory(uniqueid);
+                    connectapi.Addcpoieditemtosqltablefromgenius(uniqueid, selecteditem);
+                    Updateitemtosqlinventory(uniqueid);
                 }
                 Engineering.WaitFormCopying f = new Engineering.WaitFormCopying();
                 f = (Engineering.WaitFormCopying)Application.OpenForms["WaitFormCopying"];
                 f.Invoke(new ThreadStart(delegate { f.Close(); }));
-                getitemopenforedit(uniqueid);
+                Getitemopenforedit(uniqueid);
                 //NewItem newItem = new NewItem();
                 //newItem.chekbeforefillingcustomproperties(uniqueid);
             }
@@ -2242,23 +2240,23 @@ namespace SearchDataSPM
             {
                 MessageBox.Show("SPM Connect failed to update drawing references.! Please manually update drawing references.", "SPM Connect - Copy References", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                if (connectapi.checkitempresentoninventory(selecteditem) == true)
+                if (connectapi.Checkitempresentoninventory(selecteditem) == true)
                 {
-                    connectapi.addcpoieditemtosqltable(selecteditem, uniqueid);
+                    connectapi.Addcpoieditemtosqltable(selecteditem, uniqueid);
                 }
                 else
                 {
-                    connectapi.addcpoieditemtosqltablefromgenius(uniqueid, selecteditem);
-                    updateitemtosqlinventory(uniqueid);
+                    connectapi.Addcpoieditemtosqltablefromgenius(uniqueid, selecteditem);
+                    Updateitemtosqlinventory(uniqueid);
                 }
                 Engineering.WaitFormCopying f = new Engineering.WaitFormCopying();
                 f = (Engineering.WaitFormCopying)Application.OpenForms["WaitFormCopying"];
                 f.Invoke(new ThreadStart(delegate { f.Close(); }));
-                getitemopenforedit(uniqueid);
+                Getitemopenforedit(uniqueid);
             }
         }
 
-        private void copy(string Pathpart, string selecteditem)
+        private void Copy(string Pathpart, string selecteditem)
         {
             string type = "";
             string drawingfound = "no";
@@ -2333,7 +2331,7 @@ namespace SearchDataSPM
                     newpath = spmcadpath + newfirst3char + uniqueid + ".sldasm";
                 }
 
-                replacereference(newdraw, oldpath, newpath);
+                Replacereference(newdraw, oldpath, newpath);
             }
             else
             {
@@ -2346,7 +2344,7 @@ namespace SearchDataSPM
 
         bool sucessreplacingreference = false;
 
-        private void replacereference(string newdraw, string oldpath, string newpath)
+        private void Replacereference(string newdraw, string oldpath, string newpath)
         {
             var progId = "SldWorks.Application";
             SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
@@ -2358,7 +2356,7 @@ namespace SearchDataSPM
 
         #region ToolStripMenu
 
-        private void prorcessreportbom(string itemvalue, string Reportname)
+        private void Prorcessreportbom(string itemvalue, string Reportname)
         {
             ReportViewer form1 = new ReportViewer();
             form1.item(itemvalue);
@@ -2369,17 +2367,17 @@ namespace SearchDataSPM
 
         private void billsOfMaunfacturingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            prorcessreportbom(getitemnumberselected(), "BOM");
+            Prorcessreportbom(Getitemnumberselected(), "BOM");
         }
 
         private void sparePartsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            prorcessreportbom(getitemnumberselected(), "SPAREPARTS");
+            Prorcessreportbom(Getitemnumberselected(), "SPAREPARTS");
         }
 
         private void copySelectedItemToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            perfomcopybuttonclick(getitemnumberselected().ToString());
+            perfomcopybuttonclick(Getitemnumberselected().ToString());
         }
 
         private void pictureBox1_DoubleClick(object sender, EventArgs e)
@@ -2394,7 +2392,7 @@ namespace SearchDataSPM
             {
                 string txt = listView.FocusedItem.Text;
                 txt = txt.Substring(0, 6);
-                processeditbutton(txt);
+                Processeditbutton(txt);
 
             }
         }
@@ -2413,14 +2411,14 @@ namespace SearchDataSPM
 
         private void eModelViewerToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            emodelviewtoolstrp();
+            Emodelviewtoolstrp();
         }
 
-        private void emodelviewtoolstrp()
+        private void Emodelviewtoolstrp()
         {
             if (listView.Items.Count > 0)
             {
-                string itemnumber = getitemnumberselected().ToString();
+                string itemnumber = Getitemnumberselected().ToString();
                 string Pathpart = connectapi.Makepath(itemnumber);
                 string filename = Pathpart + itemnumber;
 
@@ -2497,21 +2495,21 @@ namespace SearchDataSPM
 
         private void advsearchbttn_Click(object sender, EventArgs e)
         {
-            advsearchbttnclick();
+            Advsearchbttnclick();
 
         }
 
-        private void advsearchbttnclick()
+        private void Advsearchbttnclick()
         {
             if (_advcollapse == 0)
             {
-                fillinfo();
+                Fillinfo();
                 _advcollapse = 1;
             }
-            collapse();
+            Collapse();
         }
 
-        void collapse()
+        void Collapse()
         {
 
             if (splitContainer1.Panel2Collapsed == true)
@@ -2648,13 +2646,13 @@ namespace SearchDataSPM
                 {
 
                 }
-                advfiltertables(filter);
+                Advfiltertables(filter);
             }
 
 
         }
 
-        void advfiltertables(string filter)
+        void Advfiltertables(string filter)
         {
             if (!Descrip_txtbox.Visible)
             {
@@ -2778,7 +2776,7 @@ namespace SearchDataSPM
 
         private void clrfiltersbttn_Click(object sender, EventArgs e)
         {
-            performreload();
+            Performreload();
         }
 
         private void ActiveCadblockcombobox_KeyDown(object sender, KeyEventArgs e)
@@ -3000,7 +2998,7 @@ namespace SearchDataSPM
         private void openassytocatalog(string ItemNo)
         {
             AutocadAssembly treeView = new AutocadAssembly();
-            treeView.item(ItemNo);
+            treeView.Item(ItemNo);
             treeView.Show();
         }
 
@@ -3020,39 +3018,39 @@ namespace SearchDataSPM
 
         private void autoCadCatalogToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            openassytocatalog(getitemnumberselected().ToString());
+            openassytocatalog(Getitemnumberselected().ToString());
         }
 
         private void geniusToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            processbom(getitemnumberselected().ToString());
+            Processbom(Getitemnumberselected().ToString());
         }
 
         private void autoCadCatalogToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             AutocadWhereUsed treeView = new AutocadWhereUsed();
-            treeView.item(getitemnumberselected().ToString());
+            treeView.item(Getitemnumberselected().ToString());
             treeView.Show();
         }
 
         private void geniusJobsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            processwhereused(getitemnumberselected().ToString());
+            processwhereused(Getitemnumberselected().ToString());
         }
 
         private void toolStripMenuItem7_Click(object sender, EventArgs e)
         {
-            prorcessreportbom(getitemnumberselected(), "BOM");
+            Prorcessreportbom(Getitemnumberselected(), "BOM");
         }
 
         private void toolStripMenuItem8_Click(object sender, EventArgs e)
         {
-            prorcessreportbom(getitemnumberselected(), "SPAREPARTS");
+            Prorcessreportbom(Getitemnumberselected(), "SPAREPARTS");
         }
 
         private void eModelViewerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            emodelviewtoolstrp();
+            Emodelviewtoolstrp();
         }
 
         private void FormSelectorControls_Opening(object sender, CancelEventArgs e)
@@ -3083,11 +3081,11 @@ namespace SearchDataSPM
 
         #endregion
 
-        private void getnewitembttn_Click(object sender, EventArgs e)
+        private void Getnewitembttn_Click(object sender, EventArgs e)
         {
-            if (connectapi.validnumber(connectapi.getlastnumber()))
+            if (connectapi.Validnumber(connectapi.Getlastnumber()))
             {
-                string newid = connectapi.spmnew_idincrement(connectapi.getlastnumber(), connectapi.getactiveblock()).ToString();
+                string newid = connectapi.Spmnew_idincrement(connectapi.Getlastnumber(), connectapi.getactiveblock()).ToString();
                 MessageBox.Show("Your next ItemNumber to use is :- " + newid, "SPM Connect - New Item Number", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 Clipboard.SetText(newid);
             }
@@ -3103,17 +3101,17 @@ namespace SearchDataSPM
 
         private void addToFavoritesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            connectapi.addtofavorites(getitemnumberselected());
+            connectapi.addtofavorites(Getitemnumberselected());
         }
 
         private void showFavoritesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            showfavorites();
+            Showfavorites();
         }
 
-        private void showfavorites()
+        private void Showfavorites()
         {
-            clearandhide();
+            Clearandhide();
             txtSearch.Clear();
             txtSearch.Focus();
             dt.Clear();
@@ -3128,18 +3126,18 @@ namespace SearchDataSPM
 
         private void removeFromFavoritesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            connectapi.removefromfavorites(getitemnumberselected());
-            showfavorites();
+            connectapi.removefromfavorites(Getitemnumberselected());
+            Showfavorites();
         }
 
         #endregion
 
-        private void aboutbtn_Click(object sender, EventArgs e)
+        private void Aboutbtn_Click(object sender, EventArgs e)
         {
-            showhelp();
+            Showhelp();
         }
 
-        private void showhelp()
+        private void Showhelp()
         {
             HelpForm helpForm = new HelpForm();
             helpForm.ShowDialog();
@@ -3147,7 +3145,7 @@ namespace SearchDataSPM
 
         private void toolStripMenuupdateitem_Click(object sender, EventArgs e)
         {
-            connectapicntrls.updateitempropertiesfromgenius(getitemnumberselected());
+            connectapicntrls.updateitempropertiesfromgenius(Getitemnumberselected());
 
         }
 
@@ -3176,7 +3174,7 @@ namespace SearchDataSPM
                 try
                 {
                     File.Delete(filePath);
-                    showfilesonlistview();
+                    Showfilesonlistview();
                 }
                 catch (Exception ex)
                 {
@@ -3198,9 +3196,9 @@ namespace SearchDataSPM
             errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
         }
 
-        private void showduplicates()
+        private void Showduplicates()
         {
-            clearandhide();
+            Clearandhide();
             txtSearch.Clear();
             txtSearch.Focus();
             dt.Clear();
@@ -3211,6 +3209,50 @@ namespace SearchDataSPM
             showingduplicates = true;
             recordlabel.Text = "Showing " + dataGridView.Rows.Count + " duplicate items.";
 
+        }
+
+        private void DataGridView_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void DataGridView_MouseMove(object sender, MouseEventArgs e)
+        {
+            int openforms = Application.OpenForms.Count;
+            if (openforms >= 2)
+            {
+                ListOpenWindows frm2 = new ListOpenWindows();
+                bool purchasereqopen = false;
+
+                foreach (Form frm in Application.OpenForms)
+                {
+                    if (frm.Name.ToString() == "ItemInfo")
+                        purchasereqopen = true;
+
+                }
+                if (purchasereqopen)
+                {
+
+                    if (e.Button == MouseButtons.Left)
+                    {
+                        dataGridView.DoDragDrop(dataGridView.Rows[dataGridView.SelectedCells[0].RowIndex], DragDropEffects.All);
+                    }
+                }
+
+
+            }
+
+        }
+
+        private void DataGridView_DragOver(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.All;
+
+        }
+
+        private void ListView_DragOver(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.All;
         }
     }
 

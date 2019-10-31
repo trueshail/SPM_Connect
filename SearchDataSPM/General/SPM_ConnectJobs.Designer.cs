@@ -168,7 +168,7 @@
             this.getEstimateBOMToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.getEstimateBOMToolStripMenuItem.Text = "Get Estimate BOM";
             this.getEstimateBOMToolStripMenuItem.ToolTipText = "Get BOM From Estimates";
-            this.getEstimateBOMToolStripMenuItem.Click += new System.EventHandler(this.getEstimateBOMToolStripMenuItem_Click);
+            this.getEstimateBOMToolStripMenuItem.Click += new System.EventHandler(this.GetEstimateBOMToolStripMenuItem_Click);
             // 
             // Reload
             // 
@@ -382,7 +382,7 @@
             this.shippingbttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TreeViewToolTip.SetToolTip(this.shippingbttn, "Shipping Module");
             this.shippingbttn.UseVisualStyleBackColor = false;
-            this.shippingbttn.Click += new System.EventHandler(this.shippingbttn_Click);
+            this.shippingbttn.Click += new System.EventHandler(this.Shippingbttn_Click);
             // 
             // ecrbutton
             // 
@@ -405,7 +405,7 @@
             this.ecrbutton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TreeViewToolTip.SetToolTip(this.ecrbutton, "Engineering Change Requests");
             this.ecrbutton.UseVisualStyleBackColor = false;
-            this.ecrbutton.Click += new System.EventHandler(this.ecrbutton_Click);
+            this.ecrbutton.Click += new System.EventHandler(this.Ecrbutton_Click);
             // 
             // openFileDialog1
             // 

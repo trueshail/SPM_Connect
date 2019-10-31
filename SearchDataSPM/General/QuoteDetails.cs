@@ -318,9 +318,8 @@ namespace SearchDataSPM.General
             //Remove previous formatting, or the decimal check will fail including leading zeros
             string value = textBox1.Text.Replace(",", "")
                 .Replace("$", "").Replace(".", "").TrimStart('0');
-            decimal ul;
             //Check we are indeed handling a number
-            if (decimal.TryParse(value, out ul))
+            if (decimal.TryParse(value, out decimal ul))
             {
                 ul /= 100;
                 //Unsub the event so we don't enter a loop

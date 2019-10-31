@@ -44,7 +44,6 @@ namespace SearchDataSPM
             _userActions.FinishLoggingUserActions(frm);
 
             //Get list of today's log files
-            _emailAttachments.AddRange(_userActions.GetTodaysLogFileNames());
 
             //Adding a screenshot of the broken window for support is a good touch
             _emailAttachments.Add(Screenshot.TakeScreenshotReturnFilePath());

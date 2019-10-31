@@ -641,9 +641,11 @@ namespace SearchDataSPM
                     int sindx = val.ToLower().IndexOf(sw.ToLower());
                     if (sindx >= 0)
                     {
-                        Rectangle hl_rect = new Rectangle();
-                        hl_rect.Y = e.CellBounds.Y + 2;
-                        hl_rect.Height = e.CellBounds.Height - 5;
+                        Rectangle hl_rect = new Rectangle
+                        {
+                            Y = e.CellBounds.Y + 2,
+                            Height = e.CellBounds.Height - 5
+                        };
 
                         string sBefore = val.Substring(0, sindx);
                         string sWord = val.Substring(sindx, sw.Length);
@@ -1155,10 +1157,8 @@ namespace SearchDataSPM
                 {
                     if (connectapi.CheckinInvoice(invoice))
                     {
-                        using (ECRDetails invoiceDetails = new ECRDetails())
+                        using (ECRDetails invoiceDetails = new ECRDetails(connectapi.getuserfullname(), invoice))
                         {
-                            invoiceDetails.invoicenumber(invoice);
-                            invoiceDetails.username(connectapi.getuserfullname());
                             invoiceDetails.ShowDialog();
                             this.Enabled = true;
                             performreload();
@@ -1181,10 +1181,8 @@ namespace SearchDataSPM
                     {
                         if (connectapi.CheckinInvoice(invoice))
                         {
-                            using (ECRDetails invoiceDetails = new ECRDetails())
+                            using (ECRDetails invoiceDetails = new ECRDetails(connectapi.getNameByEmpId(scanEmployeeId), invoice))
                             {
-                                invoiceDetails.invoicenumber(invoice);
-                                invoiceDetails.username(connectapi.getNameByEmpId(scanEmployeeId));
                                 invoiceDetails.ShowDialog();
                                 this.Enabled = true;
                                 performreload();

@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="SPM_DatabaseDataSet1" targetNamespace="http://tempuri.org/SPM_DatabaseDataSet1.xsd" xmlns:mstns="http://tempuri.org/SPM_DatabaseDataSet1.xsd" xmlns="http://tempuri.org/SPM_DatabaseDataSet1.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="cn" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="cn (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.SearchDataSPM.Properties.Settings.GlobalReference.Default.cn" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="UnionLogsTableAdapter" GeneratorDataComponentClassName="UnionLogsTableAdapter" Name="UnionLogs" UserDataComponentName="UnionLogsTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="cn (Settings)" DbObjectName="SPM_Database.dbo.UnionLogs" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT Date, loggerFrmName, ctrlNameThread, EventLevel, MessageValue, ExceptionUser FROM dbo.UnionLogs</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="Date" DataSetColumn="Date" />
+              <Mapping SourceColumn="loggerFrmName" DataSetColumn="loggerFrmName" />
+              <Mapping SourceColumn="ctrlNameThread" DataSetColumn="ctrlNameThread" />
+              <Mapping SourceColumn="EventLevel" DataSetColumn="EventLevel" />
+              <Mapping SourceColumn="MessageValue" DataSetColumn="MessageValue" />
+              <Mapping SourceColumn="ExceptionUser" DataSetColumn="ExceptionUser" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="SPM_DatabaseDataSet1" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="SPM_DatabaseDataSet1" msprop:Generator_UserDSName="SPM_DatabaseDataSet1">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="UnionLogs" msprop:Generator_TableClassName="UnionLogsDataTable" msprop:Generator_TableVarName="tableUnionLogs" msprop:Generator_TablePropName="UnionLogs" msprop:Generator_RowDeletingName="UnionLogsRowDeleting" msprop:Generator_RowChangingName="UnionLogsRowChanging" msprop:Generator_RowEvHandlerName="UnionLogsRowChangeEventHandler" msprop:Generator_RowDeletedName="UnionLogsRowDeleted" msprop:Generator_UserTableName="UnionLogs" msprop:Generator_RowChangedName="UnionLogsRowChanged" msprop:Generator_RowEvArgName="UnionLogsRowChangeEvent" msprop:Generator_RowClassName="UnionLogsRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Date" msprop:Generator_ColumnVarNameInTable="columnDate" msprop:Generator_ColumnPropNameInRow="Date" msprop:Generator_ColumnPropNameInTable="DateColumn" msprop:Generator_UserColumnName="Date" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="loggerFrmName" msprop:Generator_ColumnVarNameInTable="columnloggerFrmName" msprop:Generator_ColumnPropNameInRow="loggerFrmName" msprop:Generator_ColumnPropNameInTable="loggerFrmNameColumn" msprop:Generator_UserColumnName="loggerFrmName" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ctrlNameThread" msprop:Generator_ColumnVarNameInTable="columnctrlNameThread" msprop:Generator_ColumnPropNameInRow="ctrlNameThread" msprop:Generator_ColumnPropNameInTable="ctrlNameThreadColumn" msprop:Generator_UserColumnName="ctrlNameThread" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="EventLevel" msprop:Generator_ColumnVarNameInTable="columnEventLevel" msprop:Generator_ColumnPropNameInRow="EventLevel" msprop:Generator_ColumnPropNameInTable="EventLevelColumn" msprop:Generator_UserColumnName="EventLevel" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MessageValue" msprop:Generator_ColumnVarNameInTable="columnMessageValue" msprop:Generator_ColumnPropNameInRow="MessageValue" msprop:Generator_ColumnPropNameInTable="MessageValueColumn" msprop:Generator_UserColumnName="MessageValue" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ExceptionUser" msprop:Generator_ColumnVarNameInTable="columnExceptionUser" msprop:Generator_ColumnPropNameInRow="ExceptionUser" msprop:Generator_ColumnPropNameInTable="ExceptionUserColumn" msprop:Generator_UserColumnName="ExceptionUser" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2000" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

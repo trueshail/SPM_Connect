@@ -28,12 +28,12 @@
     <ErrorReportUrl>http://www.spm-automation.com/contact.php</ErrorReportUrl>
     <ProductName>SPM Connect</ProductName>
     <PublisherName>SPM Automation</PublisherName>
-    <MinimumRequiredVersion>7.6.17.0</MinimumRequiredVersion>
+    <MinimumRequiredVersion>7.19.10.31</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>1</ApplicationRevision>
-    <ApplicationVersion>7.6.17.%2a</ApplicationVersion>
+    <ApplicationRevision>32</ApplicationRevision>
+    <ApplicationVersion>7.19.10.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -100,6 +100,9 @@
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AdvancedDataGridView, Version=0.1.0.10, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ADGV.0.1.0.10\lib\net40\AdvancedDataGridView.dll</HintPath>
+    </Reference>
     <Reference Include="eDrawingHostControl">
       <HintPath>Resources\eDrawingHostControl.dll</HintPath>
     </Reference>
@@ -226,8 +229,8 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="TableDependency.SqlClient, Version=8.5.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SqlTableDependency.8.5.3\lib\net451\TableDependency.SqlClient.dll</HintPath>
+    <Reference Include="TableDependency.SqlClient, Version=8.5.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SqlTableDependency.8.5.4\lib\net451\TableDependency.SqlClient.dll</HintPath>
     </Reference>
     <Reference Include="ToggleSlider">
       <HintPath>Resources\ToggleSlider.dll</HintPath>
@@ -262,6 +265,12 @@
     </Compile>
     <Compile Include="Admin-developer\BlockedForms.Designer.cs">
       <DependentUpon>BlockedForms.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Admin-developer\UserLogs.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Admin-developer\UserLogs.Designer.cs">
+      <DependentUpon>UserLogs.cs</DependentUpon>
     </Compile>
     <Compile Include="Admin-developer\UserStatus.cs">
       <SubType>Form</SubType>
@@ -383,6 +392,11 @@
     </Compile>
     <Compile Include="Engineering\EstimateBOM.Designer.cs">
       <DependentUpon>EstimateBOM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SPM_DatabaseDataSet1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SPM_DatabaseDataSet1.xsd</DependentUpon>
     </Compile>
     <Compile Include="WaitForms\WaitFormLoading.cs">
       <SubType>Form</SubType>
@@ -591,12 +605,6 @@
     <Compile Include="Controls\SPM_ConnectItems.Designer.cs">
       <DependentUpon>SPM_ConnectItems.cs</DependentUpon>
     </Compile>
-    <Compile Include="Admin-developer\SPM_ConnectDuplicates.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Admin-developer\SPM_ConnectDuplicates.Designer.cs">
-      <DependentUpon>SPM_ConnectDuplicates.cs</DependentUpon>
-    </Compile>
     <Compile Include="Engineering\SPM_ConnectEng.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -683,14 +691,14 @@
     <EmbeddedResource Include="Admin-developer\BlockedForms.resx">
       <DependentUpon>BlockedForms.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Admin-developer\UserLogs.resx">
+      <DependentUpon>UserLogs.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Admin-developer\UserStatus.resx">
       <DependentUpon>UserStatus.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\SPM_ConnectItems.resx">
       <DependentUpon>SPM_ConnectItems.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Admin-developer\SPM_ConnectDuplicates.resx">
-      <DependentUpon>SPM_ConnectDuplicates.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Admin-developer\Customers.resx">
       <DependentUpon>Customers.cs</DependentUpon>
@@ -888,6 +896,17 @@
     </None>
     <None Include="SPM_DatabaseDataSet.xss">
       <DependentUpon>SPM_DatabaseDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="SPM_DatabaseDataSet1.xsc">
+      <DependentUpon>SPM_DatabaseDataSet1.xsd</DependentUpon>
+    </None>
+    <None Include="SPM_DatabaseDataSet1.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>SPM_DatabaseDataSet1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="SPM_DatabaseDataSet1.xss">
+      <DependentUpon>SPM_DatabaseDataSet1.xsd</DependentUpon>
     </None>
     <None Include="Web References\RE2005\DocumentMapNode.datasource">
       <DependentUpon>Reference.map</DependentUpon>

@@ -747,7 +747,7 @@ namespace SPMConnectAPI
 
         }
 
-        public string getlastnumber()
+        public string Getlastnumber()
         {
             string blocknumber = getactiveblock().ToString();
 
@@ -779,6 +779,7 @@ namespace SPMConnectAPI
                             lastnumber = blocknumber.Substring(1) + "000";
                         }
 
+
                     }
                 }
                 catch (Exception ex)
@@ -798,9 +799,64 @@ namespace SPMConnectAPI
 
         }
 
-        public string spmnew_idincrement(string lastnumber, string blocknumber)
+        public bool CheckBaseBlockNumberTaken()
         {
-            if (lastnumber.Substring(2) == "000")
+            string blocknumber = getactiveblock().ToString();
+            bool taken = false;
+            if (blocknumber == "")
+            {
+
+                return taken;
+            }
+            else
+            {
+                string lastnumber = "";
+                try
+                {
+
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    SqlCommand cmd = cn.CreateCommand();
+                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandText = "SELECT MAX(RIGHT(ItemNumber,5)) AS " + blocknumber.ToString() + " FROM [SPM_Database].[dbo].[UnionInventory] WHERE ItemNumber like '" + blocknumber.ToString() + "%' AND LEN(ItemNumber)=6";
+                    cmd.ExecuteNonQuery();
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        lastnumber = dr[blocknumber].ToString();
+                        if (lastnumber == "")
+                        {
+                            taken = false;
+                        }
+                        else if (lastnumber == blocknumber.Substring(1) + "000")
+                        {
+                            taken = true;
+                        }
+
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Last Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+
+                }
+                finally
+                {
+                    cn.Close();
+
+                }
+                return taken;
+            }
+
+        }
+
+        public string Spmnew_idincrement(string lastnumber, string blocknumber)
+        {
+            if (!CheckBaseBlockNumberTaken() && lastnumber.Substring(2) == "000")
             {
                 string lastnumbergrp1 = blocknumber.Substring(0, 1).ToUpper();
                 string newid1 = lastnumbergrp1 + lastnumber.ToString();
@@ -817,7 +873,7 @@ namespace SPMConnectAPI
 
         }
 
-        public bool validnumber(string lastnumber)
+        public bool Validnumber(string lastnumber)
         {
             bool valid = true;
             if (lastnumber.ToString() != "")
@@ -836,7 +892,7 @@ namespace SPMConnectAPI
             return valid;
         }
 
-        public bool checkitempresentoninventory(string itemid)
+        public bool Checkitempresentoninventory(string itemid)
         {
             bool itempresent = false;
             using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Inventory] WHERE [ItemNumber]='" + itemid.ToString() + "'", cn))
@@ -873,7 +929,7 @@ namespace SPMConnectAPI
 
         }
 
-        public void addcpoieditemtosqltablefromgenius(string newid, string activeid)
+        public void Addcpoieditemtosqltablefromgenius(string newid, string activeid)
         {
 
             try
@@ -899,7 +955,7 @@ namespace SPMConnectAPI
 
         }
 
-        public void addcpoieditemtosqltable(string selecteditem, string uniqueid)
+        public void Addcpoieditemtosqltable(string selecteditem, string uniqueid)
         {
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDate = datecreated.ToString("yyyy-MM-dd HH:mm:ss.fff");
