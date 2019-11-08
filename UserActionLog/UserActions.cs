@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Windows.Forms;
 using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace SPMConnect.UserActionLog
 {
@@ -10,15 +10,17 @@ namespace SPMConnect.UserActionLog
 
         //The StackFrameCounttoGetMethodName depends, usually its the 1st Frame but in some framework (eg CSLA) its the 2nd Frame
         private readonly int _stackFrameCountToGetMethodName = 1;
+
         private readonly Type _frmType;
         private Form _frm;
 
         //Choose your preferred Logging , Log4Net, Elmah, etc TODO do this a Config switch
         private ILog _logger = new Logger();
 
-        #endregion
+        #endregion "Private Member Variables"
 
         #region "Constructor"
+
         /// <summary>
         /// Ctor Easy/Lazy way of hooking up all form control events to listen for user actions.
         /// </summary>
@@ -32,7 +34,7 @@ namespace SPMConnect.UserActionLog
         }
 
         /// <summary>
-        /// Ctor Optimal way of hooking up control events to listen for user actions. 
+        /// Ctor Optimal way of hooking up control events to listen for user actions.
         /// </summary>
         public UserActions(Control[] ctrls, int stackFrameCountToGetMethodName = 1)
         {
@@ -62,7 +64,7 @@ namespace SPMConnect.UserActionLog
             foreach (var ctrl in ctrls) HookUpEvents(ctrl);
         }
 
-        #endregion
+        #endregion "Constructor"
 
         #region "Methods"
 
@@ -164,6 +166,7 @@ namespace SPMConnect.UserActionLog
         public void LogAction(object sender, EventArgs e)
         {
             #region "Custom control of what is logged that depends on project/solution"
+
             //if (!(sender is Form || sender is Button || sender is DataGridView))
             //{   //dont log control events if its a Maintenance Form and its not in Edit mode
             //    if (_frmType.BaseType.ToString().Contains("frmMaint"))
@@ -173,8 +176,11 @@ namespace SPMConnect.UserActionLog
             //        if (!isEditing) return;
             //    }
             //}
-            #endregion 
+
+            #endregion "Custom control of what is logged that depends on project/solution"
+
             StackTrace stackTrace = new StackTrace();
+
             StackFrame[] stackFrames = stackTrace.GetFrames();
             var eventName = stackFrames[_stackFrameCountToGetMethodName].GetMethod().Name;
             _logger.LogAction(DateTime.Now, _frm.Name, ((Control)sender).Name, eventName, GetSendingCtrlValue(((Control)sender), eventName));
@@ -225,15 +231,12 @@ namespace SPMConnect.UserActionLog
             return string.Empty;
         }
 
-
-
         public void FinishLoggingUserActions(Control frm)
         {
             _logger.WriteLogActionsToSQL();
             ReleaseEvents(frm);
         }
-
     }
 
-    #endregion
+    #endregion "Methods"
 }

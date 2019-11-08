@@ -22,23 +22,24 @@ namespace SearchDataSPM
     {
         #region steupvariables
 
-        string connection;
-        DataTable _acountsTb = null;
-        DataTable _productTB;
-        SqlConnection _connection;
-        SqlCommand _command;
-        SqlDataAdapter _adapter;
-        TreeNode root = new TreeNode();
-        string txtvalue;
-        bool eng = false;
-        bool rootnodedone = false;
-        SPMConnectAPI.SPMSQLCommands connectapi = new SPMConnectAPI.SPMSQLCommands();
-        log4net.ILog log;
+        private string connection;
+        private DataTable _acountsTb = null;
+        private DataTable _productTB;
+        private SqlConnection _connection;
+        private SqlCommand _command;
+        private SqlDataAdapter _adapter;
+        private TreeNode root = new TreeNode();
+        private string txtvalue;
+        private bool eng = false;
+        private bool rootnodedone = false;
+        private SPMConnectAPI.SPMSQLCommands connectapi = new SPMConnectAPI.SPMSQLCommands();
+        private log4net.ILog log;
         private UserActions _userActions;
-        ErrorHandler errorHandler = new ErrorHandler();
+        private ErrorHandler errorHandler = new ErrorHandler();
 
-        string itemnumber;
-        #endregion
+        private string itemnumber;
+
+        #endregion steupvariables
 
         #region loadtree
 
@@ -53,13 +54,10 @@ namespace SearchDataSPM
             try
             {
                 _connection = new SqlConnection(connection);
-
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
             }
             _acountsTb = new DataTable();
             _command = new SqlCommand
@@ -68,18 +66,15 @@ namespace SearchDataSPM
             };
             _productTB = new DataTable();
             this.itemnumber = item;
-
         }
-
 
         private void ParentView_Load(object sender, EventArgs e)
         {
-
             Assy_txtbox.Focus();
             Assy_txtbox.Text = itemnumber;
             if (Assy_txtbox.Text.Length == 5 || Assy_txtbox.Text.Length == 6)
             {
-                //SendKeys.Send("~");    
+                //SendKeys.Send("~");
                 itemnumber = null;
                 Assy_txtbox.Select();
                 startprocessofwhereused();
@@ -95,7 +90,6 @@ namespace SearchDataSPM
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-
             if (keyData == (Keys.Control | Keys.W))
             {
                 this.Close();
@@ -130,13 +124,12 @@ namespace SearchDataSPM
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        #endregion
+        #endregion loadtree
 
         #region assytextbox and button events
 
         private void Assy_txtbox_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-
             // treeView1.TopNode.Nodes.Clear();
             cleanup();
             //SendKeys.Send("~");
@@ -204,7 +197,6 @@ namespace SearchDataSPM
                 RemoveChildNodes(root);
                 treeView1.ResetText();
                 filldatatable();
-
             }
             catch (Exception)
 
@@ -212,16 +204,13 @@ namespace SearchDataSPM
                 if (!String.IsNullOrEmpty(txtvalue) && Char.IsLetter(txtvalue[0]))
                 {
                     MessageBox.Show(" Item does not belong to any assembly in Genius.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-
                 }
                 else
                 {
                     MessageBox.Show("Invalid Search Parameter / Item Not Found On Genius.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     cleaup2();
                     Assy_txtbox.BackColor = Color.IndianRed; //to add high light
-
                 }
-
             }
         }
 
@@ -242,8 +231,6 @@ namespace SearchDataSPM
                 //_adapaterproduct.Fill(_productTB);
 
                 _adapter.Fill(_acountsTb);
-
-
             }
             catch (SqlException ex)
             {
@@ -254,12 +241,10 @@ namespace SearchDataSPM
                 _connection.Close();
             }
             fillrootnode();
-
         }
 
         private void fillrootnode()
         {
-
             //if (Assy_txtbox.Text.Length == 6)
             //{
             Assy_txtbox.BackColor = Color.White; //to add high light
@@ -273,7 +258,6 @@ namespace SearchDataSPM
                     Expandchk.Checked = false;
                     //DataRow[] dr = _productTB.Select("ItemNumber = '" + txtvalue.ToString() + "'");
                     DataRow[] dr = _acountsTb.Select("ItemNumber = '" + txtvalue.ToString() + "'");
-
 
                     root.Text = dr[0]["ItemNumber"].ToString() + " - " + dr[0]["Description"].ToString();
                     root.Tag = _acountsTb.Rows.IndexOf(dr[0]);
@@ -293,18 +277,15 @@ namespace SearchDataSPM
                     oemitemtxtbox.Text = dr[0]["ManufacturerItemNumber"].ToString();
                     familytxtbox.Text = dr[0]["ItemFamily"].ToString();
                     sparetxtbox.Text = dr[0]["Spare"].ToString();
-
                 }
                 catch
                 {
-
                     treeView1.Nodes.Clear();
                     RemoveChildNodes(root);
                     treeView1.ResetText();
                     Expandchk.Checked = false;
                     //DataRow[] dr = _productTB.Select("ItemNumber = '" + txtvalue.ToString() + "'");
                     DataRow[] dr = _acountsTb.Select("AssyNo = '" + txtvalue.ToString() + "'");
-
 
                     root.Text = dr[0]["AssyNo"].ToString() + " - " + dr[0]["AssyDescription"].ToString();
                     root.Tag = _acountsTb.Rows.IndexOf(dr[0]);
@@ -323,9 +304,7 @@ namespace SearchDataSPM
                     oemitemtxtbox.Text = dr[0]["AssyManufacturerItemNumber"].ToString();
                     familytxtbox.Text = dr[0]["AssyFamily"].ToString();
                     sparetxtbox.Text = dr[0]["AssySpare"].ToString();
-
                 }
-
             }
             catch
             {
@@ -348,7 +327,6 @@ namespace SearchDataSPM
 
         private void PopulateTreeView(string parentId, TreeNode parentNode)
         {
-
             TreeNode childNode;
 
             foreach (DataRow dr in _acountsTb.Select("[ItemNumber] ='" + parentId.ToString() + "'"))
@@ -361,7 +339,6 @@ namespace SearchDataSPM
                 };
                 if (parentNode == null)
                 {
-
                     Font f = new Font("Arial", 10, FontStyle.Bold);
                     t.NodeFont = f;
                     t.Text = dr["AssyNo"].ToString() + " - " + dr["AssyDescription"].ToString() + " ( " + dr["QuantityPerAssembly"].ToString() + " ) ";
@@ -369,7 +346,6 @@ namespace SearchDataSPM
                     t.Tag = _acountsTb.Rows.IndexOf(dr);
                     treeView1.Nodes.Add(t);
                     childNode = t;
-
                 }
                 else
                 {
@@ -377,11 +353,9 @@ namespace SearchDataSPM
                     // t.NodeFont = f;
                     parentNode.Nodes.Add(t);
                     childNode = t;
-
                 }
                 PopulateTreeView((dr["AssyNo"].ToString()), childNode);
             }
-
         }
 
         private void RemoveChildNodes(TreeNode parentNode)
@@ -393,7 +367,6 @@ namespace SearchDataSPM
                     parentNode.Nodes[i].Remove();
                 }
             }
-
         }
 
         private void Expandchk_Click(object sender, EventArgs e)
@@ -413,10 +386,9 @@ namespace SearchDataSPM
             System.Diagnostics.Process.Start("http://www.spm-automation.com/");
         }
 
-        #endregion
+        #endregion assytextbox and button events
 
         #region open model and drawing
-
 
         private void openModelToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -446,7 +418,7 @@ namespace SearchDataSPM
             }
         }
 
-        #endregion
+        #endregion open model and drawing
 
         #region search tree
 
@@ -458,7 +430,6 @@ namespace SearchDataSPM
 
         private void SearchNodes(string SearchText, TreeNode StartNode)
         {
-
             //TreeNode node = null;
             while (StartNode != null)
             {
@@ -480,12 +451,10 @@ namespace SearchDataSPM
                 };
                 if (StartNode.Nodes.Count != 0)
                 {
-                    SearchNodes(SearchText, StartNode.Nodes[0]);//Recursive Search 
+                    SearchNodes(SearchText, StartNode.Nodes[0]);//Recursive Search
                 };
                 StartNode = StartNode.NextNode;
-
             }
-
         }
 
         private void txtSearch_KeyDown(object sender, KeyEventArgs e)
@@ -503,7 +472,6 @@ namespace SearchDataSPM
                             return;
                         };
 
-
                         if (LastSearchText != searchText)
                         {
                             //It's a new Search
@@ -515,8 +483,6 @@ namespace SearchDataSPM
 
                         if (LastNodeIndex >= 0 && CurrentNodeMatches.Count > 0 && LastNodeIndex < CurrentNodeMatches.Count)
                         {
-
-
                             TreeNode selectedNode = CurrentNodeMatches[LastNodeIndex];
                             LastNodeIndex++;
                             this.treeView1.SelectedNode = selectedNode;
@@ -525,8 +491,6 @@ namespace SearchDataSPM
                             if (txtSearch.Text.Length > 0)
                                 foundlabel.Text = "Found " + LastNodeIndex + " of " + CurrentNodeMatches.Count + " matching items containing keyword \"" + searchText + "\"";
                             else foundlabel.Text = "Search:";
-
-
                         }
                         else
                         {
@@ -535,13 +499,10 @@ namespace SearchDataSPM
 
                         e.Handled = true;
                         e.SuppressKeyPress = true;
-
                     }
                 }
-
                 catch (Exception)
                 {
-
                 }
             }
             else foundlabel.Text = "Search:";
@@ -553,14 +514,13 @@ namespace SearchDataSPM
             foundlabel.Text = "Search:";
         }
 
-        #endregion
+        #endregion search tree
 
         #region treeview events
 
         private void treeView1_AfterExpand(object sender, TreeViewEventArgs e)
         {
             Expandchk.Checked = true;
-
         }
 
         private void treeView1_KeyDown(object sender, KeyEventArgs e)
@@ -573,10 +533,9 @@ namespace SearchDataSPM
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
-
         }
 
-        string chekroot;
+        private string chekroot;
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
@@ -588,7 +547,6 @@ namespace SearchDataSPM
             }
             if (root.IsSelected && chekroot == "Assy")
             {
-
                 DataRow r = _acountsTb.Rows[int.Parse(treeView1.SelectedNode.Tag.ToString())];
                 ItemTxtBox.Text = r["AssyNo"].ToString();
                 Descriptiontxtbox.Text = r["AssyDescription"].ToString();
@@ -628,13 +586,11 @@ namespace SearchDataSPM
                 ItemNo = ItemTxtBox.Text;
                 filllistview(ItemNo);
                 //getfilepathname(ItemNo);
-
             }
         }
 
         private void treeView1_KeyPress(object sender, KeyPressEventArgs e)
         {
-
             if (e.KeyChar == Convert.ToChar(Keys.Down))
             {
                 TreeNode node = new TreeNode();
@@ -642,7 +598,6 @@ namespace SearchDataSPM
                 treeView1.SelectedNode = node.NextVisibleNode;
                 node.TreeView.Focus();
             }
-
             else if (e.KeyChar == Convert.ToChar(Keys.Up))
             {
                 TreeNode node = new TreeNode();
@@ -675,10 +630,9 @@ namespace SearchDataSPM
                 n.BackColor = Color.Gray;
                 n.ForeColor = Color.White;
             }
-
         }
 
-        #endregion
+        #endregion treeview events
 
         #region Listview Events
 
@@ -690,7 +644,6 @@ namespace SearchDataSPM
                 {
                     try
                     {
-
                         string sDocFileName = item;
                         wpfThumbnailCreator pvf;
                         pvf = new wpfThumbnailCreator();
@@ -704,7 +657,6 @@ namespace SearchDataSPM
                         imageList.Images.Add(pic);
                         //axEModelViewControl1 = new EModelViewControl();
                         //axEModelViewControl1.OpenDoc(item, false, false, true, "");
-
                     }
                     catch (Exception)
                     {
@@ -720,20 +672,17 @@ namespace SearchDataSPM
                     FileInfo fi = new FileInfo(item);
                     listFiles.Add(fi.FullName);
                     listView.Items.Add(fi.Name, imageList.Images.Count - 1);
-
-
                 }
             }
-
-
         }
 
-        List<string> listFiles = new List<string>();
+        private List<string> listFiles = new List<string>();
+
         [DllImport("shell32.dll")]
-        static extern IntPtr ExtractAssociatedIcon(IntPtr hInst,
+        private static extern IntPtr ExtractAssociatedIcon(IntPtr hInst,
         StringBuilder lpIconPath, out ushort lpiIcon);
 
-        string Pathpart;
+        private string Pathpart;
 
         public static Icon GetIconOldSchool(string fileName)
         {
@@ -755,7 +704,6 @@ namespace SearchDataSPM
                 ShellEx.GetBitmapFromFilePath(fileName, size);
 
                 return icon;
-
             }
             catch
             {
@@ -766,7 +714,6 @@ namespace SearchDataSPM
                 }
                 catch
                 {
-
                     return null;
                 }
             }
@@ -782,13 +729,11 @@ namespace SearchDataSPM
                 string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
                 string Pathpart = (spmcadpath + first3char);
                 getitemstodisplay(Pathpart, item);
-
             }
             catch
             {
                 return;
             }
-
         }
 
         private void listView_KeyDown(object sender, KeyEventArgs e)
@@ -839,11 +784,10 @@ namespace SearchDataSPM
                 {
                     MessageBox.Show(ex.Message, "SPM Connect");
                 }
-
             }
         }
 
-        #endregion
+        #endregion Listview Events
 
         #region getbomtree
 
@@ -871,7 +815,7 @@ namespace SearchDataSPM
             //assytree = null;
         }
 
-        #endregion
+        #endregion getbomtree
 
         private void TreeView1_BeforeExpand(object sender, TreeViewCancelEventArgs e)
         {
@@ -880,7 +824,6 @@ namespace SearchDataSPM
                 e.Node.SelectedImageIndex = 1;
                 e.Node.ImageIndex = 1;
             }
-
         }
 
         private void TreeView1_BeforeCollapse(object sender, TreeViewCancelEventArgs e)
@@ -905,9 +848,7 @@ namespace SearchDataSPM
                 Setimageaccordingtofamily(family, treeNode);
             }
 
-
-
-            // Print each node recursively.  
+            // Print each node recursively.
             foreach (TreeNode tn in treeNode.Nodes)
             {
                 PrintRecursive(tn);
@@ -916,7 +857,7 @@ namespace SearchDataSPM
 
         private void CallRecursive()
         {
-            // Print each node recursively.  
+            // Print each node recursively.
             TreeNodeCollection nodes = treeView1.Nodes;
             foreach (TreeNode n in nodes)
             {
@@ -924,13 +865,11 @@ namespace SearchDataSPM
                 {
                     PrintRecursive(n);
                 }
-
             }
         }
 
         private void Setimageaccordingtofamily(string family, TreeNode treeNode)
         {
-
             if (family == "AG")
             {
                 treeNode.ImageIndex = 4;
@@ -991,50 +930,62 @@ namespace SearchDataSPM
                     e.Node.SelectedImageIndex = 1;
                     e.Node.ImageIndex = 1;
                     break;
+
                 case 2:
                     e.Node.SelectedImageIndex = 2;
                     e.Node.ImageIndex = 2;
                     break;
+
                 case 3:
                     e.Node.SelectedImageIndex = 3;
                     e.Node.ImageIndex = 3;
                     break;
+
                 case 4:
                     e.Node.SelectedImageIndex = 4;
                     e.Node.ImageIndex = 4;
                     break;
+
                 case 5:
                     e.Node.SelectedImageIndex = 5;
                     e.Node.ImageIndex = 5;
                     break;
+
                 case 6:
                     e.Node.SelectedImageIndex = 6;
                     e.Node.ImageIndex = 6;
                     break;
+
                 case 7:
                     e.Node.SelectedImageIndex = 7;
                     e.Node.ImageIndex = 7;
                     break;
+
                 case 8:
                     e.Node.SelectedImageIndex = 8;
                     e.Node.ImageIndex = 8;
                     break;
+
                 case 9:
                     e.Node.SelectedImageIndex = 9;
                     e.Node.ImageIndex = 9;
                     break;
+
                 case 10:
                     e.Node.SelectedImageIndex = 10;
                     e.Node.ImageIndex = 10;
                     break;
+
                 case 11:
                     e.Node.SelectedImageIndex = 11;
                     e.Node.ImageIndex = 11;
                     break;
+
                 case 12:
                     e.Node.SelectedImageIndex = 12;
                     e.Node.ImageIndex = 12;
                     break;
+
                 default:
                     e.Node.SelectedImageIndex = 0;
                     e.Node.ImageIndex = 0;
@@ -1046,7 +997,6 @@ namespace SearchDataSPM
         {
             if (treeView1.Nodes.Count > 0)
             {
-
             }
             else
             {
@@ -1061,7 +1011,6 @@ namespace SearchDataSPM
                 string txt = listView.FocusedItem.Text;
                 txt = txt.Substring(0, 6);
                 processbom(txt);
-
             }
         }
 
@@ -1073,13 +1022,11 @@ namespace SearchDataSPM
                 txt = txt.Substring(0, 6);
                 ItemInfo itemInfo = new ItemInfo(itemno: txt);
                 itemInfo.Show();
-
             }
         }
 
         private void revelInExplorerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
             string filePath = makepathfordrag();
             if (!File.Exists(filePath))
             {
@@ -1112,13 +1059,11 @@ namespace SearchDataSPM
         {
             if (listView.SelectedItems.Count == 1)
             {
-
             }
             else
             {
                 e.Cancel = true;
             }
-
         }
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
@@ -1129,9 +1074,7 @@ namespace SearchDataSPM
                 txt = txt.Substring(0, 6);
                 ItemInfo itemInfo = new ItemInfo(itemno: txt);
                 itemInfo.Show();
-
             }
-
         }
 
         private void addToFavoritesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1142,10 +1085,9 @@ namespace SearchDataSPM
                 itemstr = itemstr.Substring(0, 6);
                 connectapi.addtofavorites(itemstr);
             }
-
         }
 
-        #endregion
+        #endregion Contextmenu Strip
 
         private void UIThreadException(object sender, ThreadExceptionEventArgs t)
         {
@@ -1164,5 +1106,4 @@ namespace SearchDataSPM
             this.Dispose();
         }
     }
-
 }

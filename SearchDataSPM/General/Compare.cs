@@ -7,23 +7,22 @@ using System.Windows.Forms;
 
 namespace SearchDataSPM
 {
-
     public partial class Compare : Form
 
     {
         #region steupvariables
 
-        String connection;
-        DataTable _acountsTb = null;
-        DataTable _productTB;
-        SqlConnection _connection;
-        SqlCommand _command;
-        SqlDataAdapter _adapter;
-        TreeNode root = new TreeNode();
-        TreeNode root2 = new TreeNode();
-        string txtvalue;
+        private String connection;
+        private DataTable _acountsTb = null;
+        private DataTable _productTB;
+        private SqlConnection _connection;
+        private SqlCommand _command;
+        private SqlDataAdapter _adapter;
+        private TreeNode root = new TreeNode();
+        private TreeNode root2 = new TreeNode();
+        private string txtvalue;
 
-        #endregion
+        #endregion steupvariables
 
         #region loadtree
 
@@ -36,13 +35,10 @@ namespace SearchDataSPM
             try
             {
                 _connection = new SqlConnection(connection);
-
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
             }
 
             _acountsTb = new DataTable();
@@ -56,11 +52,9 @@ namespace SearchDataSPM
             int h = Height >= screen.Height ? screen.Height : (screen.Height + Height) / 3;
             this.Location = new Point((screen.Width - w) / 2, (screen.Height - h) / 2);
             this.Size = new Size(w, h);
-
-
         }
 
-        string itemnumber;
+        private string itemnumber;
 
         public string item(string item)
         {
@@ -80,17 +74,14 @@ namespace SearchDataSPM
                 itemnumber = null;
                 startprocessofbom();
             }
-
         }
 
-
-        #endregion
+        #endregion loadtree
 
         #region assytextbox and button events
 
         private void Assy_txtbox_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-
             // treeView1.TopNode.Nodes.Clear();
             cleanup();
             //SendKeys.Send("~");
@@ -103,7 +94,6 @@ namespace SearchDataSPM
             RemoveChildNodes(root);
             _acountsTb.Clear();
             Assy_txtbox.Clear();
-
         }
 
         private void cleaup2()
@@ -112,7 +102,6 @@ namespace SearchDataSPM
             treeView1.ResetText();
             RemoveChildNodes(root);
             _acountsTb.Clear();
-
         }
 
         private void cleanup21()
@@ -122,7 +111,6 @@ namespace SearchDataSPM
             RemoveChildNodes(root2);
             _acountsTb.Clear();
             assytxt2.Clear();
-
         }
 
         private void cleaup22()
@@ -131,7 +119,6 @@ namespace SearchDataSPM
             treeView2.ResetText();
             RemoveChildNodes(root2);
             _acountsTb.Clear();
-
         }
 
         private void Assy_txtbox_KeyDown(object sender, KeyEventArgs e)
@@ -155,7 +142,6 @@ namespace SearchDataSPM
 
                 filldatatable();
                 fillrootnode("1");
-
             }
             catch (Exception)
 
@@ -164,16 +150,13 @@ namespace SearchDataSPM
                 {
                     MessageBox.Show(" Item does not contain a Bill OF Material on Genius.", "SPM Connect - Bill Of Manufacturing", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     Assy_txtbox.Clear();
-                    
                 }
                 else
                 {
                     MessageBox.Show("Invalid Search Parameter / Item Not Found On Genius.", "SPM Connect - Bill Of Manufacturing", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     cleaup2();
-                    Assy_txtbox.BackColor = Color.IndianRed; 
+                    Assy_txtbox.BackColor = Color.IndianRed;
                 }
-
-
             }
         }
 
@@ -187,7 +170,6 @@ namespace SearchDataSPM
                 _adapter = new SqlDataAdapter(sql, _connection);
 
                 _adapter.Fill(_acountsTb);
-
             }
             catch (SqlException ex)
             {
@@ -197,7 +179,6 @@ namespace SearchDataSPM
             {
                 _connection.Close();
             }
-
         }
 
         private void fillrootnode(string treeview)
@@ -218,7 +199,6 @@ namespace SearchDataSPM
                         //DataRow[] dr = _productTB.Select("ItemNumber = '" + txtvalue.ToString() + "'");
                         DataRow[] dr = _acountsTb.Select("AssyNo = '" + txtvalue.ToString() + "'");
 
-
                         root.Text = dr[0]["AssyNo"].ToString() + " - " + dr[0]["AssyDescription"].ToString();
                         root.Tag = _acountsTb.Rows.IndexOf(dr[0]);
 
@@ -230,9 +210,7 @@ namespace SearchDataSPM
 
                         PopulateTreeView(Assy_txtbox.Text, "1", root);
 
-                        
                         treeView1.SelectedNode = treeView1.Nodes[0];
-
                     }
                     catch
                     {
@@ -243,7 +221,6 @@ namespace SearchDataSPM
                         //DataRow[] dr = _productTB.Select("ItemNumber = '" + txtvalue.ToString() + "'");
                         DataRow[] dr = _acountsTb.Select("ItemNumber = '" + txtvalue.ToString() + "'");
 
-
                         root.Text = dr[0]["ItemNumber"].ToString() + " - " + dr[0]["Description"].ToString();
                         root.Tag = _acountsTb.Rows.IndexOf(dr[0]);
 
@@ -253,13 +230,9 @@ namespace SearchDataSPM
                         treeView1.Nodes.Add(root);
 
                         PopulateTreeView(Assy_txtbox.Text, "1", root);
-                        
+
                         treeView1.SelectedNode = treeView1.Nodes[0];
-
-
-
                     }
-
                 }
                 catch
                 {
@@ -267,7 +240,6 @@ namespace SearchDataSPM
                     treeView1.Nodes.Clear();
                     RemoveChildNodes(root);
                     treeView1.ResetText();
-
                 }
             }
             else
@@ -284,7 +256,6 @@ namespace SearchDataSPM
                         //DataRow[] dr = _productTB.Select("ItemNumber = '" + txtvalue.ToString() + "'");
                         DataRow[] dr = _acountsTb.Select("AssyNo = '" + assytxt2.Text + "'");
 
-
                         root2.Text = dr[0]["AssyNo"].ToString() + " - " + dr[0]["AssyDescription"].ToString();
                         root2.Tag = _acountsTb.Rows.IndexOf(dr[0]);
 
@@ -296,9 +267,7 @@ namespace SearchDataSPM
 
                         PopulateTreeView(assytxt2.Text, "2", root2);
 
-                        
                         treeView2.SelectedNode = treeView2.Nodes[0];
-
                     }
                     catch
                     {
@@ -309,7 +278,6 @@ namespace SearchDataSPM
                         //DataRow[] dr = _productTB.Select("ItemNumber = '" + txtvalue.ToString() + "'");
                         DataRow[] dr = _acountsTb.Select("ItemNumber = '" + assytxt2.Text + "'");
 
-
                         root2.Text = dr[0]["ItemNumber"].ToString() + " - " + dr[0]["Description"].ToString();
                         root2.Tag = _acountsTb.Rows.IndexOf(dr[0]);
 
@@ -319,10 +287,9 @@ namespace SearchDataSPM
                         treeView2.Nodes.Add(root2);
 
                         PopulateTreeView(assytxt2.Text, "2", root2);
-                       
+
                         treeView2.SelectedNode = treeView2.Nodes[0];
                     }
-
                 }
                 catch
                 {
@@ -330,10 +297,8 @@ namespace SearchDataSPM
                     treeView2.Nodes.Clear();
                     RemoveChildNodes(root2);
                     treeView2.ResetText();
-
                 }
             }
-
         }
 
         private void PopulateTreeView(string parentId, string treeview, TreeNode parentNode)
@@ -352,7 +317,6 @@ namespace SearchDataSPM
                     };
                     if (parentNode == null)
                     {
-
                         Font f = new Font("Arial", 10, FontStyle.Bold);
                         t.NodeFont = f;
                         t.Text = dr["AssyNo"].ToString() + " - " + dr["AssyDescription"].ToString() + " ( " + dr["QuantityPerAssembly"].ToString() + " ) ";
@@ -360,7 +324,6 @@ namespace SearchDataSPM
                         t.Tag = _acountsTb.Rows.IndexOf(dr);
                         treeView1.Nodes.Add(t);
                         childNode = t;
-
                     }
                     else
                     {
@@ -368,7 +331,6 @@ namespace SearchDataSPM
                         // t.NodeFont = f;
                         parentNode.Nodes.Add(t);
                         childNode = t;
-
                     }
                     PopulateTreeView((dr["ItemNumber"].ToString()), "1", childNode);
                 }
@@ -387,7 +349,6 @@ namespace SearchDataSPM
                     };
                     if (parentNode == null)
                     {
-
                         Font f = new Font("Arial", 10, FontStyle.Bold);
                         t.NodeFont = f;
                         t.Text = dr["AssyNo"].ToString() + " - " + dr["AssyDescription"].ToString() + " ( " + dr["QuantityPerAssembly"].ToString() + " ) ";
@@ -395,7 +356,6 @@ namespace SearchDataSPM
                         t.Tag = _acountsTb.Rows.IndexOf(dr);
                         treeView2.Nodes.Add(t);
                         childNode = t;
-
                     }
                     else
                     {
@@ -403,14 +363,12 @@ namespace SearchDataSPM
                         // t.NodeFont = f;
                         parentNode.Nodes.Add(t);
                         childNode = t;
-
                     }
                     PopulateTreeView((dr["ItemNumber"].ToString()), "2", childNode);
                 }
             }
 
             // treeView1.SelectedNode = treeView1.Nodes[0];
-
         }
 
         private void RemoveChildNodes(TreeNode parentNode)
@@ -422,22 +380,18 @@ namespace SearchDataSPM
                     parentNode.Nodes[i].Remove();
                 }
             }
-
         }
 
-
-        #endregion
+        #endregion assytextbox and button events
 
         #region treeview events
 
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             treeView1.SelectedNode = e.Node;
-
         }
 
-
-        #endregion
+        #endregion treeview events
 
         private void TreeView_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -464,7 +418,6 @@ namespace SearchDataSPM
                 filldatatable();
                 fillrootnode("2");
                 treeView2.ResetText();
-
             }
             catch (Exception)
 
@@ -483,8 +436,6 @@ namespace SearchDataSPM
                     Assy_txtbox.BackColor = Color.IndianRed; //to add high light
                     //Assy_txtbox.Clear();
                 }
-
-
             }
         }
 
@@ -510,7 +461,7 @@ namespace SearchDataSPM
         //    }
         //}
 
-        void CompareTreeNodes(System.Windows.Forms.TreeView tv1, System.Windows.Forms.TreeView tv2)
+        private void CompareTreeNodes(System.Windows.Forms.TreeView tv1, System.Windows.Forms.TreeView tv2)
         {
             int compare = Math.Max(tv1.Nodes.Count, tv2.Nodes.Count);
             // ignore extra nodes
@@ -521,7 +472,7 @@ namespace SearchDataSPM
             }
         }
 
-        void CompareRecursiveTree(TreeNode tn1, TreeNode tn2)
+        private void CompareRecursiveTree(TreeNode tn1, TreeNode tn2)
         {
             if (tn1.Text != tn2.Text)
             {
@@ -558,19 +509,14 @@ namespace SearchDataSPM
 
         public void Compare1(TreeNode t1, TreeNode t2)
         {
-
             foreach (TreeNode item1 in t1.Nodes)
             {
-
                 bool isFind = false;
-               
 
                 foreach (TreeNode item2 in t2.Nodes)
                 {
-
                     if (item1.Text.ToString() == item2.Text.ToString())
                     {
-
                         //find the same item. Continue to compare its children items.
 
                         Compare1(item1, item2);
@@ -581,33 +527,24 @@ namespace SearchDataSPM
                         Font boldFont = new Font(treeView2.Font, FontStyle.Strikeout);
                         item2.NodeFont = boldFont;
                         break;
-                        
                     }
-                    if(item2.ForeColor != Color.Gray)
+                    if (item2.ForeColor != Color.Gray)
                     {
                         item2.ForeColor = Color.Green;
                     }
-                   
-
                 }
 
                 if (isFind == true)
                 {
                     item1.ForeColor = Color.Gray;
                     continue;
-
                 }
                 else
 
                 {
-
                     item1.ForeColor = Color.Red;
-                    
                 }
-
             }
-            
         }
     }
-
 }

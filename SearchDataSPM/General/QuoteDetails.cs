@@ -14,15 +14,15 @@ namespace SearchDataSPM.General
 {
     public partial class QuoteDetails : Form
     {
-        string connection;
-        DataTable dt = new DataTable();
-        SqlConnection cn;
-        SqlCommand _command;
-        SqlDataAdapter _adapter;
-        string quoteno2 = "";
-        log4net.ILog log;
+        private string connection;
+        private DataTable dt = new DataTable();
+        private SqlConnection cn;
+        private SqlCommand _command;
+        private SqlDataAdapter _adapter;
+        private string quoteno2 = "";
+        private log4net.ILog log;
         private UserActions _userActions;
-        ErrorHandler errorHandler = new ErrorHandler();
+        private ErrorHandler errorHandler = new ErrorHandler();
 
         public QuoteDetails()
         {
@@ -34,13 +34,10 @@ namespace SearchDataSPM.General
             try
             {
                 cn = new SqlConnection(connection);
-
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
             }
 
             dt = new DataTable();
@@ -85,7 +82,6 @@ namespace SearchDataSPM.General
             catch (SqlException ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
             }
             finally
             {
@@ -105,7 +101,6 @@ namespace SearchDataSPM.General
             {
                 webBrowser1.Url = new Uri(txtPath.Text);
             }
-
 
             string quoteddate = r["Quote_Date"].ToString();
             string quotedby = r["Employee"].ToString();
@@ -169,15 +164,12 @@ namespace SearchDataSPM.General
                 cvttojobchkbox.Enabled = false;
                 closedchkbox.Visible = false;
             }
-
             else if (r["Closed"].ToString().Equals("1") && r["Converted_to_Job"].ToString().Equals("0"))
             {
                 closedchkbox.Enabled = false;
                 closedchkbox.Checked = true;
                 cvttojobchkbox.Visible = false;
             }
-
-
         }
 
         private void Fillcustomers()
@@ -197,7 +189,6 @@ namespace SearchDataSPM.General
                     //familytxtbox.AutoCompleteCustomSource = MyCollection;
                     familycombobox.AutoCompleteCustomSource = MyCollection;
                     familycombobox.DataSource = MyCollection;
-
                 }
                 catch (Exception ex)
                 {
@@ -207,9 +198,7 @@ namespace SearchDataSPM.General
                 {
                     cn.Close();
                 }
-
             }
-
         }
 
         private void HowFound()
@@ -229,7 +218,6 @@ namespace SearchDataSPM.General
                     //familytxtbox.AutoCompleteCustomSource = MyCollection;
                     Howfndcombox.AutoCompleteCustomSource = MyCollection;
                     Howfndcombox.DataSource = MyCollection;
-
                 }
                 catch (Exception ex)
                 {
@@ -239,9 +227,7 @@ namespace SearchDataSPM.General
                 {
                     cn.Close();
                 }
-
             }
-
         }
 
         private void Rating()
@@ -261,7 +247,6 @@ namespace SearchDataSPM.General
                     //familytxtbox.AutoCompleteCustomSource = MyCollection;
                     Ratingcombobox.AutoCompleteCustomSource = MyCollection;
                     Ratingcombobox.DataSource = MyCollection;
-
                 }
                 catch (Exception ex)
                 {
@@ -271,9 +256,7 @@ namespace SearchDataSPM.General
                 {
                     cn.Close();
                 }
-
             }
-
         }
 
         private void Category()
@@ -293,7 +276,6 @@ namespace SearchDataSPM.General
                     //familytxtbox.AutoCompleteCustomSource = MyCollection;
                     Categorycombox.AutoCompleteCustomSource = MyCollection;
                     Categorycombox.DataSource = MyCollection;
-
                 }
                 catch (Exception ex)
                 {
@@ -303,14 +285,11 @@ namespace SearchDataSPM.General
                 {
                     cn.Close();
                 }
-
             }
-
         }
 
         private void textBox1_Leave(object sender, EventArgs e)
         {
-
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -330,7 +309,6 @@ namespace SearchDataSPM.General
                 textBox1.Select(textBox1.Text.Length, 0);
             }
             bool goodToGo = TextisValid(textBox1.Text);
-
         }
 
         private bool TextisValid(string text)
@@ -350,7 +328,6 @@ namespace SearchDataSPM.General
             {
                 return null;
             }
-
         }
 
         private string getuserfullname(string username)
@@ -374,10 +351,7 @@ namespace SearchDataSPM.General
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show(ex.Message, "SPM Connect - Get Full User Name", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-
             }
             finally
             {
@@ -423,7 +397,6 @@ namespace SearchDataSPM.General
                 cvttojobchkbox.Enabled = false;
                 closedchkbox.Visible = false;
             }
-
             else if (r["Closed"].ToString().Equals("1") && r["Converted_to_Job"].ToString().Equals("0"))
             {
                 closedchkbox.Enabled = false;
@@ -437,8 +410,6 @@ namespace SearchDataSPM.General
                 closedchkbox.Enabled = true;
                 cvttojobchkbox.Visible = true;
             }
-
-
         }
 
         private void perfromlockdown()
@@ -459,7 +430,7 @@ namespace SearchDataSPM.General
             notestxt.Enabled = false;
         }
 
-        List<string> list = new List<string>();
+        private List<string> list = new List<string>();
 
         private void graballinfor()
         {
@@ -491,7 +462,6 @@ namespace SearchDataSPM.General
             {
                 list[i] = list[i].Replace("'", "''");
             }
-
         }
 
         private void savbttn_Click(object sender, EventArgs e)
@@ -499,7 +469,7 @@ namespace SearchDataSPM.General
             perfromsavebttn(true);
         }
 
-        void perfromsavebttn(bool createfolder)
+        private void perfromsavebttn(bool createfolder)
         {
             Cursor.Current = Cursors.WaitCursor;
             this.Enabled = false;
@@ -652,7 +622,6 @@ namespace SearchDataSPM.General
             {
                 MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Move to Lost Opportunity", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
 
         private void movefoldertojob(string sourcefile, string destfile)
@@ -737,10 +706,9 @@ namespace SearchDataSPM.General
                     }
                 }
             }
-
         }
 
-        void createfolders(string quotenumber)
+        private void createfolders(string quotenumber)
         {
             Regex reg = new Regex("[*'\"/,_&#^@]");
             string jobdescription = reg.Replace(Descriptiontxtbox.Text, "");
@@ -754,15 +722,12 @@ namespace SearchDataSPM.General
 
             if (Directory.Exists(destpaths300))
             {
-
             }
             else
             {
                 DirectoryCopy(sourcepaths300, destpaths300, true);
                 txtPath.Text = destpaths300 + @"\";
             }
-
-
         }
 
         private void UIThreadException(object sender, ThreadExceptionEventArgs t)

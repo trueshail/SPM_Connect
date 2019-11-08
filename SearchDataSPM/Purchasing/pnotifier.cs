@@ -1,27 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SearchDataSPM
 {
     public class pnotifier
     {
-        SqlConnection cn;
-        string connection;
+        private SqlConnection cn;
+        private string connection;
 
         // current user creds
-        bool supervisor = false;
-        bool higherauthority = false;
-        bool pbuyer = false;
-        int supervisorid = 0;
-        int myid = 0;
-        string userfullname = "";
+        private bool supervisor = false;
 
-        // 
+        private bool higherauthority = false;
+        private bool pbuyer = false;
+        private int supervisorid = 0;
+        private int myid = 0;
+        private string userfullname = "";
+
+        //
 
         // purchase req details
         //string reqrequestname = "";
@@ -41,24 +38,18 @@ namespace SearchDataSPM
             {
                 return null;
             }
-
         }
 
         public void SPM_Connect()
         {
-
             connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
             try
             {
                 cn = new SqlConnection(connection);
-
-
             }
             catch (Exception)
             {
-
             }
-
         }
 
         public void currentusercreds()
@@ -87,7 +78,6 @@ namespace SearchDataSPM
                     string hauthority = dr["PurchaseReqApproval2"].ToString();
                     string PurchaseReqBuyer = dr["PurchaseReqBuyer"].ToString();
 
-
                     if (manager == "1")
                     {
                         supervisor = true;
@@ -100,20 +90,15 @@ namespace SearchDataSPM
                     {
                         pbuyer = true;
                     }
-
                 }
             }
             catch (Exception)
             {
-
-
-
             }
             finally
             {
                 cn.Close();
             }
-
         }
 
         public string showpopupnotifation(int reqno, int validate, int approved, int happroval, int happroved, int papproval, int papproved, string requestname, int supervisorid)
@@ -124,14 +109,12 @@ namespace SearchDataSPM
 
             string supervisorname = getsupervisorname(getsupervisorid(UserName()));
 
-
             if (validate == 1 && approved == 0)
             {
                 if (supervisor && supervisorname == userfullname)
                 {
                     message = "New purchase req issued for approval.";
                 }
-
             }
             else if (validate == 1 && approved == 1 && happroval == 0 && papproval == 1 && papproved == 0)
             {
@@ -153,7 +136,6 @@ namespace SearchDataSPM
                 {
                     message = "New purchase req issued for higher approval.";
                 }
-
             }
             else if (validate == 1 && approved == 1 && happroval == 1 && happroved == 1 && papproval == 1 && papproved == 0)
             {
@@ -212,15 +194,11 @@ namespace SearchDataSPM
                 foreach (DataRow dr in dt.Rows)
                 {
                     fullname = dr["Name"].ToString();
-
                 }
             }
             catch (Exception ex)
             {
-
                 return ex.ToString();
-
-
             }
             finally
             {
@@ -246,15 +224,10 @@ namespace SearchDataSPM
                 foreach (DataRow dr in dt.Rows)
                 {
                     fullname = Convert.ToInt32(dr["Supervisor"]);
-
                 }
             }
             catch (Exception)
             {
-
-
-
-
             }
             finally
             {

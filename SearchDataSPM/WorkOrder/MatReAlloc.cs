@@ -15,16 +15,16 @@ namespace SearchDataSPM
     {
         #region Load Invoice Details and setting Parameters
 
-        DataTable dt = new DataTable();
-        string Invoice_Number = "";
-        WorkOrder connectapi = new WorkOrder();
-        DateTime _lastKeystroke = new DateTime(0);
-        List<char> _barcode = new List<char>(10);
-        int userinputtime = 100;
-        bool developer = false;
-        log4net.ILog log;
+        private DataTable dt = new DataTable();
+        private string Invoice_Number = "";
+        private WorkOrder connectapi = new WorkOrder();
+        private DateTime _lastKeystroke = new DateTime(0);
+        private List<char> _barcode = new List<char>(10);
+        private int userinputtime = 100;
+        private bool developer = false;
+        private log4net.ILog log;
         private UserActions _userActions;
-        ErrorHandler errorHandler = new ErrorHandler();
+        private ErrorHandler errorHandler = new ErrorHandler();
 
         public MatReAlloc()
         {
@@ -78,7 +78,7 @@ namespace SearchDataSPM
             return fillled;
         }
 
-        #endregion
+        #endregion Load Invoice Details and setting Parameters
 
         #region Fill information on controls
 
@@ -128,17 +128,14 @@ namespace SearchDataSPM
                 MessageBox.Show("System has encountered an error. Please contact the admin", "SPM Connect Error - Fill Mat Inv Info", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.Close();
             }
-
-
         }
 
-        #endregion
+        #endregion Fill information on controls
 
         #region shortcuts
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-
             if (keyData == (Keys.Control | Keys.W))
             {
                 this.Close();
@@ -153,8 +150,7 @@ namespace SearchDataSPM
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-
-        #endregion
+        #endregion shortcuts
 
         #region FormClosing
 
@@ -176,11 +172,10 @@ namespace SearchDataSPM
             }
             else
             {
-
             }
         }
 
-        #endregion
+        #endregion FormClosing
 
         #region Process Save
 
@@ -195,7 +190,7 @@ namespace SearchDataSPM
             notesgroupbox.Enabled = false;
         }
 
-        List<string> list = new List<string>();
+        private List<string> list = new List<string>();
 
         private void graballinfor()
         {
@@ -222,7 +217,6 @@ namespace SearchDataSPM
             list.Add(reg.Replace(jobtakenfrom.Text, "''"));
             list.Add(reg.Replace(wotakentxt.Text, "''"));
             list.Add(reg.Replace(qtytxt.Text, "''"));
-
         }
 
         private void savbttn_Click(object sender, EventArgs e)
@@ -230,7 +224,7 @@ namespace SearchDataSPM
             perfromsavebttn();
         }
 
-        void perfromsavebttn()
+        private void perfromsavebttn()
         {
             errorProvider1.Clear();
             if (!(appnametxt.Text.Trim().Length > 0 && qtytxt.Text.Trim().Length > 0))
@@ -255,11 +249,9 @@ namespace SearchDataSPM
                 this.Enabled = true;
                 Cursor.Current = Cursors.Default;
             }
-
-
         }
 
-        #endregion
+        #endregion Process Save
 
         #region Process Edit
 
@@ -280,7 +272,7 @@ namespace SearchDataSPM
             notesgroupbox.Enabled = true;
         }
 
-        #endregion
+        #endregion Process Edit
 
         #region Print Reports
 
@@ -300,7 +292,7 @@ namespace SearchDataSPM
             form1.Show();
         }
 
-        #endregion
+        #endregion Print Reports
 
         #region Save Report
 
@@ -314,7 +306,6 @@ namespace SearchDataSPM
 
         private void savereporttodir(string invoiceno, string fileName)
         {
-
             RS2005.ReportingService2005 rs;
             RE2005.ReportExecutionService rsExec;
 
@@ -369,7 +360,6 @@ namespace SearchDataSPM
                           out mimeType, out warnings, out streamIDs);
                 try
                 {
-
                     File.WriteAllBytes(fileName, results);
                 }
                 catch (Exception e)
@@ -388,7 +378,7 @@ namespace SearchDataSPM
             }
         }
 
-        void sendemailtomanagers(string reqno, string fileName)
+        private void sendemailtomanagers(string reqno, string fileName)
         {
             //connectapi.SPM_Connect();
             string[] nameemail = connectapi.getcribshortemails().ToArray();
@@ -399,7 +389,6 @@ namespace SearchDataSPM
                 for (int a = 0; a < values.Length; a++)
                 {
                     values[a] = values[a].Trim();
-
                 }
                 string email = values[0];
                 string name = values[1];
@@ -408,15 +397,13 @@ namespace SearchDataSPM
                 for (int b = 0; b < names.Length; b++)
                 {
                     names[b] = names[b].Trim();
-
                 }
                 name = names[0];
                 connectapi.sendemail(email, reqno + " Material Re-Allocation", "Hello " + name + "," + Environment.NewLine + " Please see attached invoice regarding crib shortage", fileName, "");
             }
-
         }
 
-        #endregion
+        #endregion Save Report
 
         private void ItemTxtBox_KeyDown(object sender, KeyEventArgs e)
         {
@@ -473,7 +460,6 @@ namespace SearchDataSPM
                 _barcode.Clear();
                 if (msg != "\r" || developer)
                 {
-
                     if (e.KeyChar == 13)
                     {
                         if (connectapi.EmployeeExits(empidtxt.Text.Trim()))
@@ -494,7 +480,6 @@ namespace SearchDataSPM
                 }
                 else
                 {
-
                     MessageBox.Show("System cannot accept keyboard inputs. Scan with barcode reader", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     empidtxt.Clear();
                     empidtxt.Focus();
@@ -530,7 +515,6 @@ namespace SearchDataSPM
                 _barcode.Clear();
                 if (msg != "\r" || developer)
                 {
-
                     if (e.KeyChar == 13)
                     {
                         if (connectapi.EmployeeExitsWithCribRights(appidtxt.Text.Trim()))
@@ -545,14 +529,12 @@ namespace SearchDataSPM
                             appnametxt.Clear();
                             appidtxt.Focus();
                             MessageBox.Show("Your request for approving material reallocation can't be completed based on your security settings." + Environment.NewLine + "Please scan in ID with correct privileges.", "SPM Connect - Warning", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-
                         }
                         e.Handled = true;
                     }
                 }
                 else
                 {
-
                     MessageBox.Show("System cannot accept keyboard inputs. Scan with barcode reader", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     appidtxt.Clear();
                     appidtxt.Focus();
@@ -606,7 +588,6 @@ namespace SearchDataSPM
             if (System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"[0-9+\b]"))
             {
                 // Stop the character from being entered into the control since it is illegal.
-
             }
             else
             {
@@ -616,12 +597,10 @@ namespace SearchDataSPM
 
         private void qtytxt_Leave(object sender, EventArgs e)
         {
-
         }
 
         private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
-
         }
 
         private void PrintToolStrip_Click(object sender, EventArgs e)
@@ -635,7 +614,6 @@ namespace SearchDataSPM
             form1.item(itemvalue);
             form1.getreport(Reportname);
             form1.Show();
-
         }
 
         private void UIThreadException(object sender, ThreadExceptionEventArgs t)

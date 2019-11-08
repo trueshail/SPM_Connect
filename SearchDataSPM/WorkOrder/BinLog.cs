@@ -10,12 +10,12 @@ namespace SearchDataSPM
 {
     public partial class BinLog : Form
     {
-        WorkOrder connectapi = new WorkOrder();
-        bool formloading = false;
-        DataTable workorderstatus = new DataTable();
-        log4net.ILog log;
+        private WorkOrder connectapi = new WorkOrder();
+        private bool formloading = false;
+        private DataTable workorderstatus = new DataTable();
+        private log4net.ILog log;
         private UserActions _userActions;
-        ErrorHandler errorHandler = new ErrorHandler();
+        private ErrorHandler errorHandler = new ErrorHandler();
 
         public BinLog()
         {
@@ -39,7 +39,6 @@ namespace SearchDataSPM
             {
                 wolistbox.SelectedItem = wolistbox.Items[0];
             }
-
         }
 
         private void BinLog_Load(object sender, EventArgs e)
@@ -60,7 +59,6 @@ namespace SearchDataSPM
             wolistbox.SelectedIndex = 0;
             wolistbox.Focus();
             wolistselectionchanged();
-
         }
 
         private void wolistbox_SelectedIndexChanged(object sender, EventArgs e)
@@ -69,7 +67,6 @@ namespace SearchDataSPM
             {
                 wolistselectionchanged();
             }
-
         }
 
         private void wolistselectionchanged()
@@ -102,7 +99,6 @@ namespace SearchDataSPM
 
         private void UpdateFont()
         {
-
             dataGridView.Columns[1].Visible = false;
             dataGridView.Columns[0].Width = 80;
             dataGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
@@ -190,7 +186,6 @@ namespace SearchDataSPM
                 inbuiltlabel.ForeColor = Color.Black;
                 completelabel.ForeColor = Color.Black;
             }
-
         }
 
         private void reloadbttn_Click(object sender, EventArgs e)
@@ -233,7 +228,6 @@ namespace SearchDataSPM
                 {
                     prodwaiting.BackColor = Color.Red;
                 }
-
             }
             else if (r["Ctrlin"].ToString() == "1")
             {
@@ -263,9 +257,6 @@ namespace SearchDataSPM
                 engchkbox.SetItemCheckState(1, CheckState.Unchecked);
                 engchkbox.SetItemCheckState(2, CheckState.Unchecked);
             }
-
-
-
 
             if (r["Prodin"].ToString() == "1")
             {
@@ -310,10 +301,7 @@ namespace SearchDataSPM
                 timespentprodlbl.Visible = false;
             }
 
-
             ////////////////////////////////////////////////////////////////////
-
-
 
             if (r["Purin"].ToString() == "1")
             {
@@ -364,7 +352,6 @@ namespace SearchDataSPM
                 purchkbox.Items[5] = "Check Out On : ";
                 timespentpurlbl.Visible = false;
             }
-
 
             ///////////////////////////////////////////////////
 
@@ -419,9 +406,7 @@ namespace SearchDataSPM
                 cribchkbox.Items[5] = "Check Out On : ";
                 timespentcriblbl.Visible = false;
                 overalltimelbl.Visible = false;
-
             }
-
         }
 
         private void BinLog_FormClosed(object sender, FormClosedEventArgs e)

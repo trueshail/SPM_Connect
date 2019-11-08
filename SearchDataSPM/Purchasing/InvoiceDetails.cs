@@ -17,20 +17,20 @@ namespace SearchDataSPM
     {
         #region Load Invoice Details and setting Parameters
 
-        string connection;
-        DataTable dt = new DataTable();
-        SqlConnection cn;
-        SqlCommand _command;
-        SqlDataAdapter _adapter;
-        string Invoice_Number = "";
-        string custvendor = "";
-        string shiptoid = "";
-        string soldtoid = "";
-        bool formloading = false;
-        SPMConnectAPI.Shipping connectapi = new Shipping();
-        log4net.ILog log;
+        private string connection;
+        private DataTable dt = new DataTable();
+        private SqlConnection cn;
+        private SqlCommand _command;
+        private SqlDataAdapter _adapter;
+        private string Invoice_Number = "";
+        private string custvendor = "";
+        private string shiptoid = "";
+        private string soldtoid = "";
+        private bool formloading = false;
+        private SPMConnectAPI.Shipping connectapi = new Shipping();
+        private log4net.ILog log;
         private UserActions _userActions;
-        ErrorHandler errorHandler = new ErrorHandler();
+        private ErrorHandler errorHandler = new ErrorHandler();
 
         public InvoiceDetails()
         {
@@ -81,7 +81,6 @@ namespace SearchDataSPM
                 FillShippingBaseInfo();
                 processeditbutton();
                 PopulateDataGridView(Invoice_Number);
-
             }
 
             formloading = false;
@@ -108,7 +107,6 @@ namespace SearchDataSPM
             catch (SqlException ex)
             {
                 MessageBox.Show(ex.Message, "SPM Connect  - Shipping Get Shipping Base Info From SQL", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
             }
             finally
             {
@@ -117,7 +115,7 @@ namespace SearchDataSPM
             return fillled;
         }
 
-        #endregion
+        #endregion Load Invoice Details and setting Parameters
 
         #region Fill information on controls
 
@@ -129,7 +127,6 @@ namespace SearchDataSPM
             notestxt.Text = r["Notes"].ToString();
             jobtxt.Text = r["JobNumber"].ToString();
 
-
             Createdon.Text = "Created On : " + r["DateCreated"].ToString();
 
             CreatedBy.Text = "Created By : " + r["CreatedBy"].ToString();
@@ -138,8 +135,6 @@ namespace SearchDataSPM
 
             LastSavedBy.Text = "Last Saved On : " + r["DateLastSaved"].ToString();
 
-
-
             string vendorcust = r["Vendor_Cust"].ToString();
             if (r["Vendor_Cust"].ToString() == "1")
             {
@@ -147,7 +142,6 @@ namespace SearchDataSPM
                 FillcustomersShipto();
                 FillcustomersSoldto();
                 custvendor = "1";
-
             }
             else
             {
@@ -220,7 +214,6 @@ namespace SearchDataSPM
                 collectchkbox.Checked = true;
                 carrriercodetxt.Text = r["CarrierCode"].ToString();
             }
-
         }
 
         private void FillSoldToInformation(string custid, string vendorcust)
@@ -261,8 +254,6 @@ namespace SearchDataSPM
                 sld2phone.Text = r["Phone"].ToString();
                 sld2fax.Text = r["Fax"].ToString();
             }
-
-
         }
 
         private void FillShipToInformation(string custid, string vendorcust)
@@ -303,11 +294,9 @@ namespace SearchDataSPM
                 ship2phone.Text = r["Phone"].ToString();
                 ship2fax.Text = r["Fax"].ToString();
             }
-
-
         }
 
-        #endregion
+        #endregion Fill information on controls
 
         #region Filling Up Comboboxes
 
@@ -374,13 +363,12 @@ namespace SearchDataSPM
             requestcomboBox.DataSource = MyCollection;
         }
 
-        #endregion
+        #endregion Filling Up Comboboxes
 
         #region shortcuts
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-
             if (keyData == (Keys.Control | Keys.W))
             {
                 this.Close();
@@ -395,8 +383,7 @@ namespace SearchDataSPM
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-
-        #endregion
+        #endregion shortcuts
 
         #region DataGridView
 
@@ -420,14 +407,12 @@ namespace SearchDataSPM
             catch (SqlException ex)
             {
                 MessageBox.Show(ex.Message, "SPM Connect  - Shipping Get Shipping Base Items From SQL", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
             }
             finally
             {
                 cn.Close();
             }
             return fillled;
-
         }
 
         private void UpdateFont()
@@ -480,7 +465,7 @@ namespace SearchDataSPM
                 updateitem();
         }
 
-        #endregion
+        #endregion DataGridView
 
         #region FormClosing
 
@@ -505,7 +490,7 @@ namespace SearchDataSPM
             }
         }
 
-        #endregion
+        #endregion FormClosing
 
         #region Process Save
 
@@ -523,7 +508,7 @@ namespace SearchDataSPM
             shippinggroupBox.Enabled = false;
         }
 
-        List<string> list = new List<string>();
+        private List<string> list = new List<string>();
 
         private void graballinfor()
         {
@@ -543,7 +528,6 @@ namespace SearchDataSPM
             list.Add(shiptoid);
             list.Add(reg.Replace(notestxt.Text, "''"));
             list.Add(reg.Replace(carrriercodetxt.Text, "''"));
-
         }
 
         private void savbttn_Click(object sender, EventArgs e)
@@ -551,7 +535,7 @@ namespace SearchDataSPM
             perfromsavebttn();
         }
 
-        void perfromsavebttn()
+        private void perfromsavebttn()
         {
             Cursor.Current = Cursors.WaitCursor;
             this.Enabled = false;
@@ -567,10 +551,9 @@ namespace SearchDataSPM
             }
             this.Enabled = true;
             Cursor.Current = Cursors.Default;
-
         }
 
-        #endregion
+        #endregion Process Save
 
         #region Process Edit
 
@@ -593,13 +576,13 @@ namespace SearchDataSPM
             shippinggroupBox.Enabled = true;
         }
 
-        #endregion
+        #endregion Process Edit
 
         #region Calculate Total
 
-        string totalvalue = "";
+        private string totalvalue = "";
 
-        void calculatetotal()
+        private void calculatetotal()
         {
             totalvalue = "";
             if (dataGridView1.Rows.Count > 0)
@@ -622,23 +605,19 @@ namespace SearchDataSPM
                         totalcostlbl.Text = "Total Cost : $" + string.Format("{0:n}", Convert.ToDecimal(total.ToString()));
                         totalvalue = string.Format("{0:#.00}", total.ToString());
                     }
-
                     catch (Exception ex)
                     {
                         MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect -  Error Getting Total", MessageBoxButtons.OK);
                     }
-
-
                 }
             }
             else
             {
                 totalcostlbl.Text = "";
             }
-
         }
 
-        #endregion
+        #endregion Calculate Total
 
         #region Events
 
@@ -715,7 +694,6 @@ namespace SearchDataSPM
                     soldtoid = r["Code"].ToString();
                 }
             }
-
         }
 
         private void shiptocombobox_SelectedIndexChanged(object sender, EventArgs e)
@@ -760,10 +738,9 @@ namespace SearchDataSPM
                     shiptoid = r["Code"].ToString();
                 }
             }
-
         }
 
-        #endregion
+        #endregion Events
 
         #region ContextMenuStrip
 
@@ -775,7 +752,6 @@ namespace SearchDataSPM
                 FormSelector.Items[1].Enabled = true;
                 FormSelector.Items[2].Visible = true;
                 FormSelector.Items[2].Enabled = true;
-
             }
             else
             {
@@ -821,15 +797,14 @@ namespace SearchDataSPM
                     connectapi.UpdateShippingItemIdCopy(Invoice_Number);
                 }
                 PopulateDataGridView(Invoice_Number);
-
             }
         }
 
-        #endregion
+        #endregion ContextMenuStrip
 
         #region Perform Update
 
-        void updateitem()
+        private void updateitem()
         {
             using (InvoiceAddItem invoiceAddItem = new InvoiceAddItem())
             {
@@ -848,10 +823,9 @@ namespace SearchDataSPM
                 this.Activate();
                 this.Focus();
             }
-
         }
 
-        #endregion
+        #endregion Perform Update
 
         private string getselecteditemnumber()
         {
@@ -888,7 +862,7 @@ namespace SearchDataSPM
             form1.Show();
         }
 
-        #endregion
+        #endregion Print Reports
 
         #region Save Report
 
@@ -901,12 +875,10 @@ namespace SearchDataSPM
             filepath += reqno + " - PL.pdf";
             SaveReport(reqno, fileName);
             SaveReport(reqno, filepath);
-
         }
 
         public void SaveReport(string invoiceno, string fileName)
         {
-
             RS2005.ReportingService2005 rs;
             RE2005.ReportExecutionService rsExec;
 
@@ -968,7 +940,6 @@ namespace SearchDataSPM
 
                 try
                 {
-
                     File.WriteAllBytes(fileName, results);
                 }
                 catch (Exception e)
@@ -985,7 +956,7 @@ namespace SearchDataSPM
             }
         }
 
-        #endregion
+        #endregion Save Report
 
         private void Createdon_Click(object sender, EventArgs e)
         {
@@ -1007,13 +978,11 @@ namespace SearchDataSPM
                         SaveReport(invoicetxtbox.Text);
                     }
                 }
-
             }
             else
             {
                 MetroFramework.MetroMessageBox.Show(this, "Please save the invoice first in order to change date created.", "SPM Connect - Save Invoice Details", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-
         }
 
         private void InvoiceDetails_FormClosed(object sender, FormClosedEventArgs e)

@@ -3,18 +3,19 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
+
 namespace SPMConnect.UserActionLog
 {
     public class Logger : ILog
     {
         #region "Private Member Variables"
 
-        const string ACTIONLOGFILEIDENTIFIER = "ActionLog_";
+        private const string ACTIONLOGFILEIDENTIFIER = "ActionLog_";
         private static readonly int _maxNumerOfLogsInMemory = 512;
         private static List<string> _theUserActions = new List<string>();
         private static string _actionLoggerDirectory = string.Empty;
 
-        #endregion
+        #endregion "Private Member Variables"
 
         #region "Methods"
 
@@ -32,7 +33,6 @@ namespace SPMConnect.UserActionLog
             }
 
             _actionLoggerDirectory = actionLoggerDirectory;
-
         }
 
         public void LogAction(DateTime timeStamp, string frmName, string ctrlName, string eventName, string value)
@@ -40,7 +40,6 @@ namespace SPMConnect.UserActionLog
             _theUserActions.Add(string.Format("{0},{1},{2},{3},{4},{5}", timeStamp.ToString("H:mm:ss"), frmName, ctrlName, eventName, value, System.Environment.UserName));
             if (_theUserActions.Count > _maxNumerOfLogsInMemory) WriteLogActionsToSQL();
         }
-
 
         public void WriteLogActionsToSQL()
         {
@@ -59,7 +58,6 @@ namespace SPMConnect.UserActionLog
                 for (int j = 0; j < values.Length; j++)
                 {
                     values[j] = values[j].Trim();
-
                 }
                 dt.Rows.Add(new object[] { values[0], values[1], values[2], values[3], values[4], values[5] });
                 values = null;
@@ -67,12 +65,10 @@ namespace SPMConnect.UserActionLog
 
             using (SqlConnection conn = new SqlConnection("Data Source=spm-sql;Initial Catalog=SPM_Database;User ID=SPM_Agent;password=spm5445"))
             {
-
                 conn.Open();
 
                 using (SqlCommand cmd = new SqlCommand("inset_user_actions", conn))
                 {
-
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     SqlParameter param = new SqlParameter("@mytable", SqlDbType.Structured)
@@ -83,9 +79,7 @@ namespace SPMConnect.UserActionLog
                     cmd.Parameters.Add(param);
 
                     cmd.ExecuteNonQuery();
-
                 }
-
             }
 
             //SqlTransaction trans = _connection.BeginTransaction();
@@ -97,6 +91,6 @@ namespace SPMConnect.UserActionLog
             dt.Clear();
         }
 
-        #endregion
+        #endregion "Methods"
     }
 }

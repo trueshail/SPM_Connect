@@ -22,27 +22,27 @@ namespace SearchDataSPM
     {
         #region Setting up Various Variables to Store information
 
-        PurchaseReq model = new PurchaseReq();
-        string connection;
-        SqlConnection cn;
-        SqlDataAdapter _adapter;
-        DataTable itemstable = new DataTable();
-        DataTable dt;
-        bool formloading = false;
-        bool supervisor = false;
-        bool higherauthority = false;
-        bool pbuyer = false;
-        int supervisorid = 0;
-        int myid = 0;
-        string userfullname = "";
-        List<string> Itemstodiscard = new List<string>();
-        int supervisoridfromreq = 0;
-        bool showingwaitingforapproval = false;
-        log4net.ILog log;
+        private PurchaseReq model = new PurchaseReq();
+        private string connection;
+        private SqlConnection cn;
+        private SqlDataAdapter _adapter;
+        private DataTable itemstable = new DataTable();
+        private DataTable dt;
+        private bool formloading = false;
+        private bool supervisor = false;
+        private bool higherauthority = false;
+        private bool pbuyer = false;
+        private int supervisorid = 0;
+        private int myid = 0;
+        private string userfullname = "";
+        private List<string> Itemstodiscard = new List<string>();
+        private int supervisoridfromreq = 0;
+        private bool showingwaitingforapproval = false;
+        private log4net.ILog log;
         private UserActions _userActions;
-        ErrorHandler errorHandler = new ErrorHandler();
+        private ErrorHandler errorHandler = new ErrorHandler();
 
-        #endregion
+        #endregion Setting up Various Variables to Store information
 
         #region Form Loading
 
@@ -57,11 +57,9 @@ namespace SearchDataSPM
             {
                 cn = new SqlConnection(connection);
                 cn.Open();
-
             }
             catch (Exception)
             {
-
                 // MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 MetroFramework.MetroMessageBox.Show(this, "Error Connecting to SQL Server.....", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
@@ -83,7 +81,6 @@ namespace SearchDataSPM
                 managergroupbox.Visible = true;
                 managergroupbox.Enabled = true;
                 dataGridView.ContextMenuStrip = ApprovalMenuStrip;
-
             }
 
             if (higherauthority || pbuyer)
@@ -95,7 +92,6 @@ namespace SearchDataSPM
                     dataGridView.ContextMenuStrip = ApprovalMenuStrip;
                 }
                 Changecontrolbuttonnames();
-
             }
 
             if (higherauthority || supervisor || pbuyer)
@@ -122,7 +118,7 @@ namespace SearchDataSPM
             _userActions = new UserActions(this);
         }
 
-        void Changecontrolbuttonnames()
+        private void Changecontrolbuttonnames()
         {
             bttnshowmydept.Text = "Show All";
 
@@ -146,22 +142,19 @@ namespace SearchDataSPM
                     dt.Clear();
                     sda.Fill(dt);
                     Preparedatagrid();
-
                 }
                 catch (Exception)
                 {
                     MetroFramework.MetroMessageBox.Show(this, "Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect - Show All Req Items For User", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 }
                 finally
                 {
                     cn.Close();
                 }
-
             }
         }
 
-        void Preparedatagrid()
+        private void Preparedatagrid()
         {
             dataGridView.DataSource = dt;
             DataView dv = dt.DefaultView;
@@ -195,10 +188,9 @@ namespace SearchDataSPM
             dataGridView.Columns[25].Visible = false;
             dataGridView.Sort(dataGridView.Columns[0], ListSortDirection.Descending);
             UpdateFont();
-
         }
 
-        #endregion
+        #endregion Form Loading
 
         #region show edit button for approved req
 
@@ -243,12 +235,10 @@ namespace SearchDataSPM
             if (Getapprovalstatus().ToString() == "0")
             {
                 editbttn.Visible = true;
-
             }
             else
             {
                 editbttn.Visible = false;
-
             }
 
             if (supervisor)
@@ -259,10 +249,9 @@ namespace SearchDataSPM
             //{
             //    editbttn.Visible = false;
             //}
-
         }
 
-        #endregion
+        #endregion show edit button for approved req
 
         #region Get User Full Name
 
@@ -272,19 +261,16 @@ namespace SearchDataSPM
             this.Text = "SPM Connect Purchase Requisition - " + userName.Substring(4);
             if (userName.Length > 0)
             {
-
                 return userName;
             }
             else
             {
                 return null;
             }
-
         }
 
         private string Getuserfullname(string username)
         {
-
             string fullname = "";
             try
             {
@@ -317,16 +303,11 @@ namespace SearchDataSPM
                     {
                         pbuyer = true;
                     }
-
-
                 }
             }
             catch (Exception ex)
             {
-
                 MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Error Getting Full User Name", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-
             }
             finally
             {
@@ -335,7 +316,7 @@ namespace SearchDataSPM
             return fullname;
         }
 
-        #endregion
+        #endregion Get User Full Name
 
         #region Purchase Req Item Search
 
@@ -343,7 +324,6 @@ namespace SearchDataSPM
         {
             if (e.KeyCode == Keys.Return)
             {
-
                 if (PurchaseReqSearchTxt.Text.Length > 0)
                 {
                     Mainsearch();
@@ -360,19 +340,15 @@ namespace SearchDataSPM
                     {
                         ShowReqSearchItems(userfullname);
                     }
-
-
                 }
 
                 e.Handled = true;
                 e.SuppressKeyPress = true;
-
             }
         }
 
         private void Mainsearch()
         {
-
             try
             {
                 DataView dv = dt.DefaultView;
@@ -387,15 +363,14 @@ namespace SearchDataSPM
             {
                 MessageBox.Show("Invalid Search Criteria Operator.", "SPM Connect");
                 PurchaseReqSearchTxt.Clear();
-
             }
         }
 
-        #endregion
+        #endregion Purchase Req Item Search
 
         #region Create New Purchase Req
 
-        void Createnew()
+        private void Createnew()
         {
             DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to create a new purchase req?", "SPM Connect - Create New Purchase Requistion?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
@@ -409,7 +384,6 @@ namespace SearchDataSPM
 
                 if (Createnewreq(lastreq, userfullname.ToString()))
                 {
-
                     ShowReqSearchItems(userfullname);
                     Selectrowbeforeediting(lastreq.ToString());
                     Populatereqdetails(lastreq);
@@ -418,11 +392,10 @@ namespace SearchDataSPM
                     jobnumbertxt.Text = jobnumbertxt.Text.TrimStart();
                     subassytxt.Text = subassytxt.Text.TrimStart();
                 }
-
             }
         }
 
-        void Selectrowbeforeediting(string searchValue)
+        private void Selectrowbeforeediting(string searchValue)
         {
             int rowIndex = -1;
             foreach (DataGridViewRow row in dataGridView.Rows)
@@ -432,13 +405,12 @@ namespace SearchDataSPM
                     rowIndex = row.Index;
                     dataGridView.Rows[rowIndex].Selected = true;
 
-
                     break;
                 }
             }
         }
 
-        void Clearitemsbeforenewreq()
+        private void Clearitemsbeforenewreq()
         {
             purchreqtxt.Clear();
             requestbytxt.Clear();
@@ -471,7 +443,6 @@ namespace SearchDataSPM
                     lastreqnumber = (int)cmd.ExecuteScalar();
                     lastreqnumber++;
                     cn.Close();
-
                 }
                 catch (Exception ex)
                 {
@@ -481,7 +452,6 @@ namespace SearchDataSPM
                 {
                     cn.Close();
                 }
-
             }
 
             return lastreqnumber;
@@ -516,13 +486,13 @@ namespace SearchDataSPM
             return revtal;
         }
 
-        #endregion
+        #endregion Create New Purchase Req
 
         #region Calculate Total
 
-        string totalvalue = "";
+        private string totalvalue = "";
 
-        void calculatetota()
+        private void calculatetota()
         {
             totalvalue = "";
             if (dataGridView1.Rows.Count > 0)
@@ -551,23 +521,19 @@ namespace SearchDataSPM
 
                         totalvalue = string.Format("{0:#.00}", total.ToString());
                     }
-
                     catch (Exception ex)
                     {
                         MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect -  Error Getting Total", MessageBoxButtons.OK);
                     }
-
-
                 }
             }
             else
             {
                 totalcostlbl.Text = "";
             }
-
         }
 
-        #endregion
+        #endregion Calculate Total
 
         #region Perform CRUD Operations
 
@@ -655,7 +621,6 @@ namespace SearchDataSPM
 
                 cmd.ExecuteNonQuery();
                 cn.Close();
-
             }
             catch (Exception ex)
             {
@@ -665,7 +630,6 @@ namespace SearchDataSPM
             {
                 cn.Close();
             }
-
         }
 
         private bool Happroval()
@@ -678,7 +642,6 @@ namespace SearchDataSPM
                     req = true;
                 }
             }
-
 
             return req;
         }
@@ -703,7 +666,6 @@ namespace SearchDataSPM
                 {
                     cn.Close();
                 }
-
             }
 
             return limit;
@@ -715,7 +677,7 @@ namespace SearchDataSPM
             processeditbutton(true);
         }
 
-        void processeditbutton(bool showexit)
+        private void processeditbutton(bool showexit)
         {
             dataGridView1.ContextMenuStrip = FormSelector;
             PurchaseReqSearchTxt.Enabled = false;
@@ -754,7 +716,6 @@ namespace SearchDataSPM
                     approvechk.Enabled = true;
                 }
 
-
                 Validatechk.Visible = false;
                 if (userfullname == requestbytxt.Text && approvechk.Checked == false)
                 {
@@ -768,10 +729,6 @@ namespace SearchDataSPM
                 approvechk.Visible = false;
                 Validatechk.Visible = true;
             }
-
-
-
-
 
             savebttn.Visible = true;
 
@@ -790,7 +747,7 @@ namespace SearchDataSPM
             Processsavebutton(false, "Normal");
         }
 
-        void Processsavebutton(bool validatehit, string typeofsave)
+        private void Processsavebutton(bool validatehit, string typeofsave)
         {
             try
             {
@@ -805,7 +762,6 @@ namespace SearchDataSPM
                             Application.DoEvents();
                         splashForm.Close();
                     }
-
                 });
 
                 if (typeofsave != "Papproved")
@@ -824,7 +780,6 @@ namespace SearchDataSPM
                 errorProvider1.Clear();
                 if (validatehit)
                 {
-
                     UpdateReq(Convert.ToInt32(purchreqtxt.Text), typeofsave);
                     ShowReqSearchItems(userfullname);
                     Clearaddnewtextboxes();
@@ -837,8 +792,6 @@ namespace SearchDataSPM
                     {
                         bttnneedapproval.PerformClick();
                     }
-
-
 
                     if (dataGridView.Rows.Count > 0)
                     {
@@ -854,7 +807,6 @@ namespace SearchDataSPM
                 }
                 else
                 {
-
                     if (jobnumbertxt.Text.Length > 0 && subassytxt.Text.Length > 0)
                     {
                         UpdateReq(Convert.ToInt32(purchreqtxt.Text), typeofsave);
@@ -894,8 +846,6 @@ namespace SearchDataSPM
                             errorProvider1.SetError(jobnumbertxt, "Job Number cannot be empty");
                             errorProvider1.SetError(subassytxt, "Sub Assy No cannot be empty");
                         }
-
-
                     }
                 }
 
@@ -909,9 +859,7 @@ namespace SearchDataSPM
             }
             catch
             {
-
             }
-
         }
 
         private void ecitbttn_Click(object sender, EventArgs e)
@@ -931,14 +879,11 @@ namespace SearchDataSPM
                 }
                 else
                 {
-
                 }
-
             }
-
         }
 
-        void Performdiscarditem()
+        private void Performdiscarditem()
         {
             foreach (string item in Itemstodiscard)
             {
@@ -953,7 +898,6 @@ namespace SearchDataSPM
             for (int i = 0; i < values.Length; i++)
             {
                 values[i] = values[i].Trim();
-
             }
             Removeitems(values[0], values[1]);
         }
@@ -977,10 +921,9 @@ namespace SearchDataSPM
             {
                 cn.Close();
             }
-
         }
 
-        void Processexitbutton()
+        private void Processexitbutton()
         {
             tabControl1.TabPages.Remove(PreviewTabPage);
             jobnumbertxt.ReadOnly = true;
@@ -1029,7 +972,7 @@ namespace SearchDataSPM
             }
         }
 
-        void Processdeletebttn()
+        private void Processdeletebttn()
         {
             if (MessageBox.Show("Are You Sure to Delete this Record ?", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
@@ -1049,14 +992,12 @@ namespace SearchDataSPM
             }
             else
             {
-
                 Clear();
                 Addnewbttn.Enabled = false;
             }
-
         }
 
-        void Addnewitemtoreq()
+        private void Addnewitemtoreq()
         {
             int resultqty = 0;
             //int result = 0;
@@ -1095,18 +1036,15 @@ namespace SearchDataSPM
                 Addnewbttn.Enabled = false;
                 itemsearchtxtbox.Focus();
 
-
                 string itemsonhold = model.Item + "][" + model.ReqNumber;
                 Itemstodiscard.Add(itemsonhold);
                 model.Qty = null;
                 model.Price = null;
-
             }
             else
             {
                 if (qtytxt.Text.Length > 0 && qtytxt.Text != "0")
                     errorProvider1.SetError(pricetxt, "Price cannot be null");
-
                 else if (pricetxt.Text != "$0.00" && qtytxt.Text.Length != 1)
                     errorProvider1.SetError(qtytxt, "Cannot be null");
                 else if (qtytxt.Text == "0")
@@ -1116,12 +1054,10 @@ namespace SearchDataSPM
                     errorProvider1.SetError(pricetxt, "Price cannot be null");
                     errorProvider1.SetError(qtytxt, "Cannot be null");
                 }
-
             }
-
         }
 
-        void Clear()
+        private void Clear()
         {
             itemsearchtxtbox.Clear();
             ItemTxtBox.Clear();
@@ -1136,7 +1072,7 @@ namespace SearchDataSPM
             model.ID = 0;
         }
 
-        #endregion
+        #endregion Perform CRUD Operations
 
         #region Fill Items Source for search and add
 
@@ -1154,7 +1090,6 @@ namespace SearchDataSPM
                         MyCollection.Add(reader.GetString(0));
                     }
                     itemsearchtxtbox.AutoCompleteCustomSource = MyCollection;
-
                 }
                 catch (Exception ex)
                 {
@@ -1182,7 +1117,6 @@ namespace SearchDataSPM
             catch (SqlException ex)
             {
                 MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Fill Items Details For Dropdown Selected Item", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
             }
             finally
             {
@@ -1199,7 +1133,7 @@ namespace SearchDataSPM
             oemitemnotxt.Text = r["ManufacturerItemNumber"].ToString();
         }
 
-        void Clearaddnewtextboxes()
+        private void Clearaddnewtextboxes()
         {
             ///itemsearchtxtbox.Clear();
             Descriptiontxtbox.Clear();
@@ -1210,11 +1144,11 @@ namespace SearchDataSPM
             qtytxt.Clear();
         }
 
-        #endregion
+        #endregion Fill Items Source for search and add
 
         #region Populated Details for both datagrids showing purchase req details
 
-        void Populatereqdetails(int item) // populates details of selected purchase req
+        private void Populatereqdetails(int item) // populates details of selected purchase req
         {
             if (dataGridView.Rows.Count > 0)
             {
@@ -1238,7 +1172,6 @@ namespace SearchDataSPM
                     happrovedbylbl.Text = "Approved by : " + dr[0]["HApprovedBy"].ToString();
                     happroveonlblb.Text = "Approved on : " + dr[0]["HDateApproved"].ToString();
 
-
                     purchasebylbl.Text = "Purchased by : " + dr[0]["PApprovedBy"].ToString();
                     purchaseonlbl.Text = "Purchased on : " + dr[0]["PDateApproved"].ToString();
                     ponumberlbl.Text = "PO No. : " + dr[0]["PONumber"].ToString();
@@ -1249,7 +1182,6 @@ namespace SearchDataSPM
                     {
                         Validatechk.Checked = true;
                         Validatechk.Text = "Invalidate";
-
                     }
                     else
                     {
@@ -1290,7 +1222,6 @@ namespace SearchDataSPM
 
                     if (supervisor && dr[0]["Validate"].ToString().Equals("1"))
                     {
-
                         if (dr[0]["Approved"].ToString().Equals("1"))
                         {
                             approvechk.Text = "Approved";
@@ -1301,7 +1232,6 @@ namespace SearchDataSPM
                             apprvonlabel.Visible = true;
                             Validatechk.Visible = false;
                             Validatechk.Enabled = false;
-
                         }
                         else if (dr[0]["Approved"].ToString().Equals("3"))
                         {
@@ -1339,11 +1269,7 @@ namespace SearchDataSPM
                                 approvebylabel.Visible = false;
                                 apprvonlabel.Visible = false;
                             }
-
-
                         }
-
-
                     }
                     else if (supervisor && dr[0]["Validate"].ToString().Equals("0"))
                     {
@@ -1357,7 +1283,6 @@ namespace SearchDataSPM
                     {
                         if (dr[0]["Approved"].ToString().Equals("1") && dr[0]["Validate"].ToString().Equals("1"))
                         {
-
                             if (higherauthority)
                             {
                                 if (dr[0]["Happroved"].ToString().Equals("0"))
@@ -1366,8 +1291,6 @@ namespace SearchDataSPM
                                     hauthoritygroupbox.Enabled = true;
                                     happrovechk.Text = "Final Approve";
                                     happrovechk.Checked = false;
-
-
                                 }
                                 else if (dr[0]["Happroved"].ToString().Equals("3"))
                                 {
@@ -1387,7 +1310,6 @@ namespace SearchDataSPM
                                     happrovechk.Checked = true;
                                     editbttn.Visible = false;
                                 }
-
                             }
                             else
                             {
@@ -1433,7 +1355,6 @@ namespace SearchDataSPM
                                         happrovechk.Checked = true;
                                         printbttn.Enabled = true;
                                         editbttn.Visible = false;
-
                                     }
                                     else if (dr[0]["Happroved"].ToString().Equals("3"))
                                     {
@@ -1454,11 +1375,9 @@ namespace SearchDataSPM
                                         happrovechk.Checked = false;
                                         printbttn.Enabled = false;
                                         editbttn.Visible = false;
-
                                     }
                                 }
                             }
-
                         }
                         else
                         {
@@ -1475,21 +1394,17 @@ namespace SearchDataSPM
                         hauthoritygroupbox.Enabled = false;
                         happrovechk.Text = "Final Approved";
                         happrovechk.Checked = false;
-
                     }
 
                     /// pruchasing
-                    /// 
-
+                    ///
 
                     if (dr[0]["PApproval"].ToString().Equals("1"))
                     {
                         if (dr[0]["Approved"].ToString().Equals("1") && dr[0]["Validate"].ToString().Equals("1"))
                         {
-
                             if (pbuyer)
                             {
-
                                 if (dr[0]["Papproved"].ToString().Equals("0"))
                                 {
                                     purchasegrpbox.Visible = true;
@@ -1506,7 +1421,6 @@ namespace SearchDataSPM
                                     purchasedchk.Checked = true;
                                     editbttn.Visible = false;
                                 }
-
                             }
                             else
                             {
@@ -1559,7 +1473,6 @@ namespace SearchDataSPM
                                                 editbttn.Visible = false;
                                             }
                                         }
-
                                     }
                                 }
                                 else
@@ -1572,7 +1485,6 @@ namespace SearchDataSPM
                                         purchasedchk.Checked = true;
                                         printbttn.Enabled = true;
                                         editbttn.Visible = false;
-
                                     }
                                     else
                                     {
@@ -1581,11 +1493,9 @@ namespace SearchDataSPM
                                         purchasedchk.Text = "Purchase";
                                         purchasedchk.Checked = false;
                                         // printbttn.Enabled = false;
-
                                     }
                                 }
                             }
-
                         }
                         else
                         {
@@ -1602,7 +1512,6 @@ namespace SearchDataSPM
                             {
                                 editbttn.Visible = false;
                             }
-
                         }
                     }
                     else
@@ -1611,31 +1520,25 @@ namespace SearchDataSPM
                         purchasegrpbox.Enabled = false;
                         purchasedchk.Text = "Purchase";
                         purchasedchk.Checked = false;
-
                     }
 
                     ///////////////////////////////////////
-
 
                     if (higherauthority && Getrequestname() == userfullname && happrovechk.Checked == false && dr[0]["Papproved"].ToString().Equals("0"))
                     {
                         editbttn.Visible = true;
                     }
-
-
                 }
                 catch
                 {
                     //MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Populate Req Details", MessageBoxButtons.OK);
                 }
             }
-
-
         }
 
-        string reqnumber = "";
+        private string reqnumber = "";
 
-        void PopulateDataGridView()
+        private void PopulateDataGridView()
         {
             if (dataGridView.Rows.Count > 0)
             {
@@ -1655,10 +1558,9 @@ namespace SearchDataSPM
                 UpdateFontdataitems();
                 calculatetota();
             }
-
         }
 
-        #endregion
+        #endregion Populated Details for both datagrids showing purchase req details
 
         #region Form closing
 
@@ -1677,7 +1579,6 @@ namespace SearchDataSPM
                 {
                     errorProvider1.SetError(savebttn, "Save before closing");
                 }
-
             }
         }
 
@@ -1688,7 +1589,7 @@ namespace SearchDataSPM
             this.Dispose();
         }
 
-        #endregion
+        #endregion Form closing
 
         #region Open report viewer
 
@@ -1699,10 +1600,9 @@ namespace SearchDataSPM
             form1.getreport(Reportname);
             form1.gettotal(totalvalue);
             form1.Show();
-
         }
 
-        #endregion
+        #endregion Open report viewer
 
         #region Validation Check
 
@@ -1724,20 +1624,16 @@ namespace SearchDataSPM
                     Validatechk.Checked = false;
                     Validatechk.Text = "Validate";
                     groupBox3.Visible = true;
-
                 }
-
             }
             else
             {
-
                 DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to send this purchase req for order?" + Environment.NewLine +
                     " " + Environment.NewLine +
                     "This will send email to respective supervisor for approval.", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (result == DialogResult.Yes)
                 {
-
                     if (jobnumbertxt.Text.Length > 0 && subassytxt.Text.Length > 0 && dataGridView1.Rows.Count > 0)
                     {
                         string reqno = purchreqtxt.Text;
@@ -1770,7 +1666,6 @@ namespace SearchDataSPM
                                     Application.DoEvents();
                                 splashForm.Close();
                             }
-
                         });
                         Cursor.Current = Cursors.WaitCursor;
                         this.Enabled = false;
@@ -1806,19 +1701,15 @@ namespace SearchDataSPM
                         {
                             errorProvider1.Clear();
                             MetroFramework.MetroMessageBox.Show(this, "System cannot send out this purchase req for approval as there are no items to order.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-
                         }
                         Validatechk.Checked = false;
                     }
-
                 }
                 else
                 {
                     Validatechk.Checked = false;
                 }
-
             }
-
         }
 
         private bool getapprovedstatus(int reqno)
@@ -1826,7 +1717,6 @@ namespace SearchDataSPM
             bool approved = false;
             try
             {
-
                 if (cn.State == ConnectionState.Closed)
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
@@ -1847,18 +1737,13 @@ namespace SearchDataSPM
                     else
                     {
                         approved = false;
-
                     }
-
                 }
-
             }
             catch (Exception ex)
             {
-
                 MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Get approval status", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 //Application.Exit();
-
             }
             finally
             {
@@ -1866,7 +1751,6 @@ namespace SearchDataSPM
             }
 
             return approved;
-
         }
 
         private void Validatechk_CheckedChanged(object sender, EventArgs e)
@@ -1890,14 +1774,11 @@ namespace SearchDataSPM
                         approvechk.Visible = false;
                         approvechk.Enabled = false;
                     }
-
                 }
             }
-
-
         }
 
-        #endregion
+        #endregion Validation Check
 
         #region manager approve check changed
 
@@ -1913,16 +1794,13 @@ namespace SearchDataSPM
                         approvechk.Checked = true;
                         approvechk.Text = "Approved";
                         Processexitbutton();
-
                     }
                     else
                     {
                         approvechk.Checked = false;
                         approvechk.Text = "Approve";
                         Processsavebutton(true, "ApprovedFalse");
-
                     }
-
                 }
                 else
                 {
@@ -1987,14 +1865,11 @@ namespace SearchDataSPM
 
                             approvechk.Checked = false;
                         }
-
-
                     }
                     else
                     {
                         approvechk.Checked = false;
                     }
-
                 }
             }
         }
@@ -2004,7 +1879,6 @@ namespace SearchDataSPM
             bool approved = false;
             try
             {
-
                 if (cn.State == ConnectionState.Closed)
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
@@ -2025,18 +1899,13 @@ namespace SearchDataSPM
                     else
                     {
                         approved = false;
-
                     }
-
                 }
-
             }
             catch (Exception ex)
             {
-
                 MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Get approval status", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 //Application.Exit();
-
             }
             finally
             {
@@ -2044,10 +1913,9 @@ namespace SearchDataSPM
             }
 
             return approved;
-
         }
 
-        #endregion
+        #endregion manager approve check changed
 
         #region datagridview events
 
@@ -2076,13 +1944,11 @@ namespace SearchDataSPM
         {
             if (!formloading)
             {
-
                 if (dataGridView.Rows.Count > 0 && dataGridView.SelectedCells.Count == 1)
                 {
                     try
                     {
                         // this.TopMost = false;
-
 
                         //ThreadPool.QueueUserWorkItem((x) =>
                         //{
@@ -2137,25 +2003,17 @@ namespace SearchDataSPM
 
                         //loading.Start();
 
-
                         // t.Abort();
                         //loading.Abort();
                         //this.TopMost = true;
-
-
                     }
                     //catch (ThreadAbortException)
                     //{
-
                     //}
                     catch (Exception)
                     {
-
                     }
-
-
                 }
-
             }
         }
 
@@ -2179,20 +2037,15 @@ namespace SearchDataSPM
 
             if (e.Button == MouseButtons.Right)
             {
-
                 int columnindex = e.RowIndex;
                 dataGridView1.ClearSelection();
                 dataGridView1.Rows[columnindex].Selected = true;
-
-
             }
         }
 
         private void DataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-
             Getitemsfromgrid();
-
         }
 
         private void DataGridView_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
@@ -2203,15 +2056,13 @@ namespace SearchDataSPM
 
             if (e.Button == MouseButtons.Right)
             {
-
                 int columnindex = e.RowIndex;
                 dataGridView.ClearSelection();
                 dataGridView.Rows[columnindex].Selected = true;
-
             }
         }
 
-        void Getitemsfromgrid()
+        private void Getitemsfromgrid()
         {
             if (dataGridView1.Rows.Count > 0)
             {
@@ -2231,28 +2082,23 @@ namespace SearchDataSPM
                         oemitemnotxt.Text = model.OEMItemNumber;
                         pricetxt.Text = String.Format("{0:c2}", model.Price);
                         qtytxt.Text = model.Qty.ToString();
-
                     }
                     Addnewbttn.Enabled = true;
                     Addnewbttn.Text = "Update";
                     btnDelete.Enabled = true;
                 }
             }
-
         }
 
         private void FormSelector_Opening(object sender, CancelEventArgs e)
         {
             if (dataGridView1.Rows.Count > 0 && Validatechk.Checked == false)
             {
-
                 FormSelector.Items[0].Enabled = true;
                 FormSelector.Items[1].Enabled = true;
-
             }
             else
             {
-
                 FormSelector.Items[0].Enabled = false;
                 FormSelector.Items[1].Enabled = false;
             }
@@ -2272,10 +2118,9 @@ namespace SearchDataSPM
             Getitemsfromgrid();
             qtytxt.Focus();
             qtytxt.SelectAll();
-
         }
 
-        #endregion
+        #endregion datagridview events
 
         #region save report and send email
 
@@ -2297,7 +2142,6 @@ namespace SearchDataSPM
 
         public void SaveReport(string reqno, string fileName)
         {
-
             RS2005.ReportingService2005 rs;
             RE2005.ReportExecutionService rsExec;
 
@@ -2384,10 +2228,6 @@ namespace SearchDataSPM
                 {
                     MetroFramework.MetroMessageBox.Show(this, e.Message, "SPM Connect - Save Report", MessageBoxButtons.OK);
                 }
-
-
-
-
             }
             catch (Exception ex)
             {
@@ -2395,10 +2235,7 @@ namespace SearchDataSPM
             }
             finally
             {
-
-
             }
-
         }
 
         private string Savereporttodb(Byte[] username)
@@ -2408,24 +2245,17 @@ namespace SearchDataSPM
                 if (cn.State == ConnectionState.Closed)
                     cn.Open();
 
-
                 using (SqlCommand cmd = new SqlCommand("insert into SavePDFTable " + "(PDFFile)values(@data)", cn))
 
                 {
-
                     cmd.Parameters.AddWithValue("@data", username);
 
                     cmd.ExecuteNonQuery();
-
-
                 }
             }
             catch (Exception ex)
             {
-
                 MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Error Getting Full User Name", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-
             }
             finally
             {
@@ -2434,7 +2264,7 @@ namespace SearchDataSPM
             return null;
         }
 
-        void Preparetosendemail(string reqno, bool prelim, string requestby, string fileName, bool happroval, string triggerby, bool rejected)
+        private void Preparetosendemail(string reqno, bool prelim, string requestby, string fileName, bool happroval, string triggerby, bool rejected)
         {
             if (!rejected)
             {
@@ -2450,14 +2280,12 @@ namespace SearchDataSPM
                         {
                             Sendmailforhapproval(reqno, fileName);
                         }
-
                     }
                     else
                     {
                         Sendemailtouser(reqno, fileName, requestby, triggerby, false);
                         if (triggerby == "pbuyer")
                         {
-
                         }
                         else
                         {
@@ -2465,7 +2293,6 @@ namespace SearchDataSPM
                             {
                                 Sendmailtopbuyers(reqno, "");
                             }
-
                         }
                     }
                 }
@@ -2474,10 +2301,9 @@ namespace SearchDataSPM
             {
                 Sendemailtouser(reqno, fileName, requestby, triggerby, rejected);
             }
-
         }
 
-        void Sendemailtosupervisor(string reqno, string fileName)
+        private void Sendemailtosupervisor(string reqno, string fileName)
         {
             string nameemail = Getsupervisornameandemail(supervisorid);
 
@@ -2485,7 +2311,6 @@ namespace SearchDataSPM
             for (int i = 0; i < values.Length; i++)
             {
                 values[i] = values[i].Trim();
-
             }
             string email = values[0];
             string name = values[1];
@@ -2494,13 +2319,12 @@ namespace SearchDataSPM
             for (int i = 0; i < names.Length; i++)
             {
                 names[i] = names[i].Trim();
-
             }
             name = names[0];
             Sendemail(email, reqno + " Purchase Req Approval Required - Job " + jobnumbertxt.Text, "Hello " + name + "," + Environment.NewLine + userfullname + " sent this purchase req for approval.", fileName, "");
         }
 
-        void Sendemailtouser(string reqno, string fileName, string requestby, string triggerby, bool rejected)
+        private void Sendemailtouser(string reqno, string fileName, string requestby, string triggerby, bool rejected)
         {
             string email = Getusernameandemail(requestby);
             if (!rejected)
@@ -2516,7 +2340,6 @@ namespace SearchDataSPM
                     for (int i = 0; i < values.Length; i++)
                     {
                         values[i] = values[i].Trim();
-
                     }
                     string supervisoremail = values[0];
 
@@ -2543,7 +2366,6 @@ namespace SearchDataSPM
                     for (int i = 0; i < values.Length; i++)
                     {
                         values[i] = values[i].Trim();
-
                     }
                     string supervisoremail = values[0];
 
@@ -2555,7 +2377,7 @@ namespace SearchDataSPM
             }
         }
 
-        void Sendmailforhapproval(string reqno, string fileName)
+        private void Sendmailforhapproval(string reqno, string fileName)
         {
             string[] nameemail = Gethapprovalnamesandemail().ToArray();
             for (int i = 0; i < nameemail.Length; i++)
@@ -2565,7 +2387,6 @@ namespace SearchDataSPM
                 for (int a = 0; a < values.Length; a++)
                 {
                     values[a] = values[a].Trim();
-
                 }
                 string email = values[0];
                 string name = values[1];
@@ -2574,15 +2395,13 @@ namespace SearchDataSPM
                 for (int b = 0; b < names.Length; b++)
                 {
                     names[b] = names[b].Trim();
-
                 }
                 name = names[0];
                 Sendemail(email, reqno + " Purchase Req Approval Required - 2nd Approval - Job " + jobnumbertxt.Text, "Hello " + name + "," + Environment.NewLine + userfullname + " sent this purchase req for second approval.", fileName, "");
             }
-
         }
 
-        void Sendmailtopbuyers(string reqno, string fileName)
+        private void Sendmailtopbuyers(string reqno, string fileName)
         {
             string[] nameemail = Getpbuyersnamesandemail().ToArray();
             for (int i = 0; i < nameemail.Length; i++)
@@ -2592,7 +2411,6 @@ namespace SearchDataSPM
                 for (int a = 0; a < values.Length; a++)
                 {
                     values[a] = values[a].Trim();
-
                 }
                 string email = values[0];
                 string name = values[1];
@@ -2601,12 +2419,10 @@ namespace SearchDataSPM
                 for (int b = 0; b < names.Length; b++)
                 {
                     names[b] = names[b].Trim();
-
                 }
                 name = names[0];
                 Sendemail(email, reqno + " Purchase Req needs PO - Notification - Job " + jobnumbertxt.Text, "Hello " + name + "," + Environment.NewLine + userfullname + " apporved this purchase req and on its way to be purchased. ", fileName, "");
             }
-
         }
 
         private string Getsupervisornameandemail(int id)
@@ -2628,16 +2444,11 @@ namespace SearchDataSPM
                 {
                     Email = dr["Email"].ToString();
                     name = dr["Name"].ToString();
-
-
                 }
             }
             catch (Exception ex)
             {
-
                 MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Get Supervisor Name and Email", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-
             }
             finally
             {
@@ -2655,7 +2466,6 @@ namespace SearchDataSPM
             {
                 return "][";
             }
-
         }
 
         private string Getusernameandemail(string requestby)
@@ -2675,15 +2485,11 @@ namespace SearchDataSPM
                 foreach (DataRow dr in dt.Rows)
                 {
                     Email = dr["Email"].ToString();
-
                 }
             }
             catch (Exception ex)
             {
-
                 MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Get User Name and Email", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-
             }
             finally
             {
@@ -2697,12 +2503,10 @@ namespace SearchDataSPM
             {
                 return "";
             }
-
         }
 
         private List<string> Gethapprovalnamesandemail()
         {
-
             List<string> Happrovalnames = new List<string>();
 
             try
@@ -2719,17 +2523,11 @@ namespace SearchDataSPM
                 foreach (DataRow dr in dt.Rows)
                 {
                     Happrovalnames.Add(dr["Email"].ToString() + "][" + dr["Name"].ToString());
-
                 }
-
-
             }
             catch (Exception ex)
             {
-
                 MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Get User Name and Email", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-
             }
             finally
             {
@@ -2740,7 +2538,6 @@ namespace SearchDataSPM
 
         private List<string> Getpbuyersnamesandemail()
         {
-
             List<string> Happrovalnames = new List<string>();
 
             try
@@ -2757,17 +2554,11 @@ namespace SearchDataSPM
                 foreach (DataRow dr in dt.Rows)
                 {
                     Happrovalnames.Add(dr["Email"].ToString() + "][" + dr["Name"].ToString());
-
                 }
-
-
             }
             catch (Exception ex)
             {
-
                 MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Get User Name and Email", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-
             }
             finally
             {
@@ -2776,7 +2567,7 @@ namespace SearchDataSPM
             return Happrovalnames;
         }
 
-        void Sendemail(string emailtosend, string subject, string body, string filetoattach, string cc)
+        private void Sendemail(string emailtosend, string subject, string body, string filetoattach, string cc)
         {
             if (Sendemailyesno())
             {
@@ -2789,7 +2580,6 @@ namespace SearchDataSPM
                     message.To.Add(emailtosend);
                     if (cc == "")
                     {
-
                     }
                     else
                     {
@@ -2798,19 +2588,14 @@ namespace SearchDataSPM
                     message.Subject = subject;
                     message.Body = body;
 
-
                     if (filetoattach == "")
                     {
-
                     }
                     else
                     {
-
                         attachment = new System.Net.Mail.Attachment(filetoattach);
                         message.Attachments.Add(attachment);
                     }
-
-
 
                     SmtpServer.Port = 25;
                     SmtpServer.UseDefaultCredentials = true;
@@ -2826,7 +2611,6 @@ namespace SearchDataSPM
             {
                 MessageBox.Show("Email turned off.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-
         }
 
         private bool Sendemailyesno()
@@ -2850,17 +2634,15 @@ namespace SearchDataSPM
                 {
                     cn.Close();
                 }
-
             }
             if (limit == "1")
             {
                 sendemail = true;
             }
             return sendemail;
-
         }
 
-        #endregion
+        #endregion save report and send email
 
         #region add items to purchase req button and text events groupbox 3
 
@@ -2875,7 +2657,6 @@ namespace SearchDataSPM
 
         private void Itemsearchtxtbox_KeyDown(object sender, KeyEventArgs e)
         {
-
             if (e.KeyCode == Keys.Return)
             {
                 if (itemsearchtxtbox.Text.Length >= 6)
@@ -2918,7 +2699,7 @@ namespace SearchDataSPM
             }
         }
 
-        bool dontstop = true;
+        private bool dontstop = true;
 
         private DataTable Getpriceforitem(string itemnumber)
         {
@@ -2933,7 +2714,6 @@ namespace SearchDataSPM
 
                     dt.Clear();
                     sda.Fill(dt);
-
                 }
                 catch (Exception ex)
                 {
@@ -2943,7 +2723,6 @@ namespace SearchDataSPM
                 {
                     cn.Close();
                 }
-
             }
             return dt;
         }
@@ -2975,7 +2754,6 @@ namespace SearchDataSPM
                         }
                         else
                         {
-
                         }
                     }
                 }
@@ -2994,8 +2772,6 @@ namespace SearchDataSPM
         {
             //if (System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"[0-9+\b]"))
             //{
-
-
             //}
             //else
             //{
@@ -3008,7 +2784,6 @@ namespace SearchDataSPM
             if (System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"[0-9+\b]"))
             {
                 // Stop the character from being entered into the control since it is illegal.
-
             }
             else
             {
@@ -3037,7 +2812,6 @@ namespace SearchDataSPM
             if (System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"[0-9+\b]"))
             {
                 // Stop the character from being entered into the control since it is illegal.
-
             }
             else
             {
@@ -3063,16 +2837,13 @@ namespace SearchDataSPM
             subassytxt.Text = subassytxt.Text.Trim();
         }
 
-
-        #endregion
+        #endregion add items to purchase req button and text events groupbox 3
 
         #region button click events tool bars
-
 
         private void Newbttn_Click(object sender, EventArgs e)
         {
             Createnew();
-
         }
 
         private void Printbttn_Click(object sender, EventArgs e)
@@ -3080,7 +2851,6 @@ namespace SearchDataSPM
             // this.TopMost = false;
 
             reportpurchaereq(reqnumber, "Purchasereq");
-
         }
 
         private void Bttnneedapproval_Click(object sender, EventArgs e)
@@ -3151,7 +2921,6 @@ namespace SearchDataSPM
                 }
             });
 
-
             this.Enabled = false;
             Showallapproved();
             foreach (Control c in managergroupbox.Controls)
@@ -3203,14 +2972,12 @@ namespace SearchDataSPM
             this.Focus();
             this.Activate();
             done = true;
-
         }
 
         private void Bttnshowmyreq_Click(object sender, EventArgs e)
         {
             Perfromshowmyreqbuttn();
         }
-
 
         private void Perfromshowmyreqbuttn()
         {
@@ -3249,7 +3016,7 @@ namespace SearchDataSPM
             done = true;
         }
 
-        #endregion
+        #endregion button click events tool bars
 
         #region manager commands to retrieve data
 
@@ -3269,19 +3036,15 @@ namespace SearchDataSPM
                         dt.Clear();
                         sda.Fill(dt);
                         Preparedatagrid();
-
-
                     }
                     catch (Exception)
                     {
                         MetroFramework.MetroMessageBox.Show(this, "Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect - SHow Waiting For Approval", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                     }
                     finally
                     {
                         cn.Close();
                     }
-
                 }
             }
             else if (higherauthority && supervisor)
@@ -3296,19 +3059,15 @@ namespace SearchDataSPM
                         dt.Clear();
                         sda.Fill(dt);
                         Preparedatagrid();
-
-
                     }
                     catch (Exception)
                     {
                         MetroFramework.MetroMessageBox.Show(this, "Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect - SHow Waiting For Approval", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                     }
                     finally
                     {
                         cn.Close();
                     }
-
                 }
             }
             else if (pbuyer)
@@ -3323,19 +3082,15 @@ namespace SearchDataSPM
                         dt.Clear();
                         sda.Fill(dt);
                         Preparedatagrid();
-
-
                     }
                     catch (Exception)
                     {
                         MetroFramework.MetroMessageBox.Show(this, "Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect - SHow Waiting For Approval", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                     }
                     finally
                     {
                         cn.Close();
                     }
-
                 }
             }
             else if (supervisor && !higherauthority)
@@ -3350,22 +3105,17 @@ namespace SearchDataSPM
                         dt.Clear();
                         sda.Fill(dt);
                         Preparedatagrid();
-
-
                     }
                     catch (Exception)
                     {
                         MetroFramework.MetroMessageBox.Show(this, "Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect - SHow Waiting For Approval", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                     }
                     finally
                     {
                         cn.Close();
                     }
-
                 }
             }
-
         }
 
         private void Showallapproved()
@@ -3384,20 +3134,16 @@ namespace SearchDataSPM
                         dt.Clear();
                         sda.Fill(dt);
                         Preparedatagrid();
-
                     }
                     catch (Exception)
                     {
                         MetroFramework.MetroMessageBox.Show(this, "Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect - Show All Approved", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                     }
                     finally
                     {
                         cn.Close();
                     }
-
                 }
-
             }
             else if (pbuyer)
             {
@@ -3411,20 +3157,16 @@ namespace SearchDataSPM
                         dt.Clear();
                         sda.Fill(dt);
                         Preparedatagrid();
-
                     }
                     catch (Exception)
                     {
                         MetroFramework.MetroMessageBox.Show(this, "Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect - Show All Approved", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                     }
                     finally
                     {
                         cn.Close();
                     }
-
                 }
-
             }
             else if (supervisor)
             {
@@ -3438,21 +3180,17 @@ namespace SearchDataSPM
                         dt.Clear();
                         sda.Fill(dt);
                         Preparedatagrid();
-
                     }
                     catch (Exception)
                     {
                         MetroFramework.MetroMessageBox.Show(this, "Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect - Show All Approved", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                     }
                     finally
                     {
                         cn.Close();
                     }
-
                 }
             }
-
         }
 
         private void Showmydeptreq()
@@ -3470,20 +3208,16 @@ namespace SearchDataSPM
                         dt.Clear();
                         sda.Fill(dt);
                         Preparedatagrid();
-
                     }
                     catch (Exception)
                     {
                         MetroFramework.MetroMessageBox.Show(this, "Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect-  Show All Dept)", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                     }
                     finally
                     {
                         cn.Close();
                     }
-
                 }
-
             }
             else if (pbuyer)
             {
@@ -3497,18 +3231,15 @@ namespace SearchDataSPM
                         dt.Clear();
                         sda.Fill(dt);
                         Preparedatagrid();
-
                     }
                     catch (Exception)
                     {
                         MetroFramework.MetroMessageBox.Show(this, "Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect-  Show All Dept)", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                     }
                     finally
                     {
                         cn.Close();
                     }
-
                 }
                 return;
             }
@@ -3524,25 +3255,20 @@ namespace SearchDataSPM
                         dt.Clear();
                         sda.Fill(dt);
                         Preparedatagrid();
-
                     }
                     catch (Exception)
                     {
                         MetroFramework.MetroMessageBox.Show(this, "Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect-  Show All Dept)", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                     }
                     finally
                     {
                         cn.Close();
                     }
-
                 }
-
             }
-
         }
 
-        #endregion
+        #endregion manager commands to retrieve data
 
         #region Happroval
 
@@ -3585,7 +3311,6 @@ namespace SearchDataSPM
                         }, null);
                         this.Enabled = false;
 
-
                         string filename = Makefilenameforreport(reqno, false).ToString();
                         //SaveReport(reqno, filename);
 
@@ -3597,13 +3322,11 @@ namespace SearchDataSPM
                         this.Focus();
                         this.Activate();
                         done = true;
-
                     }
                     else
                     {
                         happrovechk.Checked = false;
                     }
-
                 }
             }
         }
@@ -3629,17 +3352,15 @@ namespace SearchDataSPM
                 {
                     cn.Close();
                 }
-
             }
             if (yesno == "1")
             {
                 sendemail = true;
             }
             return sendemail;
-
         }
 
-        #endregion
+        #endregion Happroval
 
         #region Pbuyer
 
@@ -3696,7 +3417,6 @@ namespace SearchDataSPM
                     {
                         purchasedchk.Checked = false;
                     }
-
                 }
             }
         }
@@ -3722,17 +3442,15 @@ namespace SearchDataSPM
                 {
                     cn.Close();
                 }
-
             }
             if (yesno == "1")
             {
                 sendemail = true;
             }
             return sendemail;
-
         }
 
-        #endregion
+        #endregion Pbuyer
 
         #region export to excel
 
@@ -3759,7 +3477,6 @@ namespace SearchDataSPM
                 Excel.Worksheet xlWorkSheet = (Excel.Worksheet)xlWorkBook.Worksheets.get_Item(1);
 
                 // Format column D as text before pasting results, this was required for my data
-
 
                 // Paste clipboard results to worksheet range
                 Excel.Range CR = (Excel.Range)xlWorkSheet.Cells[2, 1];
@@ -3810,7 +3527,6 @@ namespace SearchDataSPM
             {
                 MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Error Saving excel file", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
 
         private void CopyAlltoClipboard()
@@ -3841,7 +3557,6 @@ namespace SearchDataSPM
 
         private string Getsupervisorsharepath(string username)
         {
-
             string path = "";
             try
             {
@@ -3857,15 +3572,11 @@ namespace SearchDataSPM
                 foreach (DataRow dr in dt.Rows)
                 {
                     path = dr["SharesFolder"].ToString();
-
                 }
             }
             catch (Exception ex)
             {
-
                 MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Error Getting share folder path", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-
             }
             finally
             {
@@ -3874,7 +3585,7 @@ namespace SearchDataSPM
             return path;
         }
 
-        #endregion
+        #endregion export to excel
 
         #region Approval Tool Menu Strip
 
@@ -3882,7 +3593,6 @@ namespace SearchDataSPM
         {
             if (dataGridView.SelectedRows.Count == 1 && showingwaitingforapproval)
             {
-
             }
             else
             {
@@ -3894,7 +3604,6 @@ namespace SearchDataSPM
         {
             if (!approvechk.Checked)
             {
-
                 if (supervisor)
                 {
                     if (approvechk.Checked)
@@ -3914,16 +3623,13 @@ namespace SearchDataSPM
                             approvechk.Checked = true;
                             approvechk.Text = "Approved";
                             Processexitbutton();
-
                         }
                         else
                         {
                             approvechk.Checked = false;
                             approvechk.Text = "Approve";
                             Processsavebutton(true, "ApprovedFalse");
-
                         }
-
                     }
                     else
                     {
@@ -3988,14 +3694,11 @@ namespace SearchDataSPM
 
                                 approvechk.Checked = false;
                             }
-
-
                         }
                         else
                         {
                             approvechk.Checked = false;
                         }
-
                     }
                 }
             }
@@ -4047,7 +3750,6 @@ namespace SearchDataSPM
                             }, null);
                             this.Enabled = false;
 
-
                             string filename = Makefilenameforreport(reqno, false).ToString();
                             //SaveReport(reqno, filename);
 
@@ -4059,18 +3761,14 @@ namespace SearchDataSPM
                             this.Focus();
                             this.Activate();
                             done = true;
-
                         }
                         else
                         {
                             happrovechk.Checked = false;
                         }
-
                     }
                 }
             }
-
-
         }
 
         private void rejecttoolstrip_Click(object sender, EventArgs e)
@@ -4096,16 +3794,13 @@ namespace SearchDataSPM
                             approvechk.Checked = true;
                             approvechk.Text = "Approved";
                             Processexitbutton();
-
                         }
                         else
                         {
                             approvechk.Checked = false;
                             approvechk.Text = "Approve";
                             Processsavebutton(true, "ApprovedFalse");
-
                         }
-
                     }
                     else
                     {
@@ -4170,14 +3865,11 @@ namespace SearchDataSPM
 
                                 approvechk.Checked = false;
                             }
-
-
                         }
                         else
                         {
                             approvechk.Checked = false;
                         }
-
                     }
                 }
             }
@@ -4229,7 +3921,6 @@ namespace SearchDataSPM
                             }, null);
                             this.Enabled = false;
 
-
                             //string filename = makefilenameforreport(reqno, false).ToString();
                             //SaveReport(reqno, filename);
 
@@ -4241,21 +3932,17 @@ namespace SearchDataSPM
                             this.Focus();
                             this.Activate();
                             done = true;
-
                         }
                         else
                         {
                             happrovechk.Checked = false;
                         }
-
                     }
                 }
-
             }
-
         }
 
-        #endregion
+        #endregion Approval Tool Menu Strip
 
         private void UIThreadException(object sender, ThreadExceptionEventArgs t)
         {

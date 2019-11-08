@@ -1,17 +1,17 @@
-﻿using System;
+﻿using SPMConnect.UserActionLog;
+using SPMConnectAPI;
+using System;
 using System.Threading;
 using System.Windows.Forms;
-using SPMConnect.UserActionLog;
-using SPMConnectAPI;
 
 namespace SearchDataSPM
 {
     public partial class ReportViewer : Form
     {
-        SPMConnectAPI.SPMSQLCommands connectapi = new SPMSQLCommands();
-        log4net.ILog log;
+        private SPMConnectAPI.SPMSQLCommands connectapi = new SPMSQLCommands();
+        private log4net.ILog log;
         private UserActions _userActions;
-        ErrorHandler errorHandler = new ErrorHandler();
+        private ErrorHandler errorHandler = new ErrorHandler();
 
         public ReportViewer()
         {
@@ -87,9 +87,9 @@ namespace SearchDataSPM
             _userActions = new UserActions(this);
         }
 
-        string itemnumber = "";
-        string reportname = "";
-        string totalvalue = "";
+        private string itemnumber = "";
+        private string reportname = "";
+        private string totalvalue = "";
 
         public string item(string item)
         {
@@ -112,7 +112,7 @@ namespace SearchDataSPM
             return null;
         }
 
-        void fillbomreport()
+        private void fillbomreport()
         {
             Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection();
             reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("pCode", itemnumber));
@@ -120,7 +120,7 @@ namespace SearchDataSPM
             this.reportViewer1.RefreshReport();
         }
 
-        void fillwrokdorderreport()
+        private void fillwrokdorderreport()
         {
             Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection();
             reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("pWorkOrder", itemnumber));
@@ -128,7 +128,7 @@ namespace SearchDataSPM
             this.reportViewer1.RefreshReport();
         }
 
-        void fillpurchasereq()
+        private void fillpurchasereq()
         {
             Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection();
             reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("pReqno", itemnumber));
@@ -136,15 +136,13 @@ namespace SearchDataSPM
             this.reportViewer1.RefreshReport();
         }
 
-        void filloneParamter()
+        private void filloneParamter()
         {
             Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection();
             reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("pInvno", itemnumber));
             this.reportViewer1.ServerReport.SetParameters(reportParameters);
             this.reportViewer1.RefreshReport();
-
         }
-
 
         private void ReportViewer_FormClosed(object sender, FormClosedEventArgs e)
         {

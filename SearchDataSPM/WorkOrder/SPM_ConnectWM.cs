@@ -13,12 +13,13 @@ namespace SearchDataSPM
     {
         #region SPM Connect Load
 
-        WorkOrder connectapi = new WorkOrder();
-        DataTable dt;
-        log4net.ILog log;
+        private WorkOrder connectapi = new WorkOrder();
+        private DataTable dt;
+        private log4net.ILog log;
         private UserActions _userActions;
-        ErrorHandler errorHandler = new ErrorHandler();
-        string jobnumber;
+        private ErrorHandler errorHandler = new ErrorHandler();
+        private string jobnumber;
+
         public SPM_ConnectWM(string jobno = "")
         {
             Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
@@ -91,25 +92,25 @@ namespace SearchDataSPM
             dataGridView.DefaultCellStyle.SelectionBackColor = Color.Black;
         }
 
-        #endregion
+        #endregion SPM Connect Load
 
         #region Public Table & variables
 
         // variables required outside the functions to perfrom
-        string fullsearch = ("FullSearch LIKE '%{0}%'");
+        private string fullsearch = ("FullSearch LIKE '%{0}%'");
+
         public static string ItemNo;
         public static string description;
         public static string Manufacturer;
         public static string oem;
         public static string family;
 
-        DataTable table0 = new DataTable();
-        DataTable table1 = new DataTable();
-        DataTable table2 = new DataTable();
-        DataTable table3 = new DataTable();
+        private DataTable table0 = new DataTable();
+        private DataTable table1 = new DataTable();
+        private DataTable table2 = new DataTable();
+        private DataTable table3 = new DataTable();
 
-
-        #endregion
+        #endregion Public Table & variables
 
         #region Search Parameters
 
@@ -122,11 +123,10 @@ namespace SearchDataSPM
                 Performjobsearch(txtSearch.Text);
                 e.Handled = true;
                 e.SuppressKeyPress = true;
-
             }
         }
 
-        void Performjobsearch(string job)
+        private void Performjobsearch(string job)
         {
             if (Descrip_txtbox.Visible == true)
             {
@@ -138,13 +138,11 @@ namespace SearchDataSPM
             {
                 Descrip_txtbox.Show();
                 SendKeys.Send("{TAB}");
-
             }
         }
 
         private void Clearandhide()
         {
-
             Descrip_txtbox.Hide();
             Descrip_txtbox.Clear();
             filteroem_txtbox.Hide();
@@ -161,7 +159,6 @@ namespace SearchDataSPM
 
         private void Mainsearch(string jobnumber)
         {
-
             DataView dv = dt.DefaultView;
 
             try
@@ -181,7 +178,6 @@ namespace SearchDataSPM
             {
                 MessageBox.Show("Invalid Search Criteria Operator.", "SPM Connect");
                 txtSearch.Clear();
-
             }
         }
 
@@ -265,7 +261,6 @@ namespace SearchDataSPM
                     SendKeys.Send("~");
                 }
 
-
                 if (filteroem_txtbox.Text.Length > 0)
                 {
                     filteroemitem_txtbox.Show();
@@ -323,7 +318,6 @@ namespace SearchDataSPM
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
-
         }
 
         private void Filter4_KeyDown(object sender, KeyEventArgs e)
@@ -360,30 +354,26 @@ namespace SearchDataSPM
             }
         }
 
+        #endregion Search Parameters
 
-        #endregion
+        #region Highlight Search Results
 
-        #region Highlight Search Results 
-
-        bool IsSelected = false;
+        private bool IsSelected = false;
 
         private void SearchStringPosition(string Searchstring)
         {
             IsSelected = true;
-
         }
-        string sw;
+
+        private string sw;
 
         private void searchtext(string searchkey)
         {
-
             sw = searchkey;
         }
 
         private void dataGridView_CellPainting_1(object sender, DataGridViewCellPaintingEventArgs e)
         {
-
-
             if (e.RowIndex >= 0 & e.ColumnIndex >= 0 & IsSelected)
             {
                 e.Handled = true;
@@ -431,15 +421,12 @@ namespace SearchDataSPM
 
                         hl_brush.Dispose();
                     }
-
                 }
                 e.PaintContent(e.CellBounds);
-
             }
-
         }
 
-        #endregion
+        #endregion Highlight Search Results
 
         #region AdminControlLabel
 
@@ -448,7 +435,7 @@ namespace SearchDataSPM
             System.Diagnostics.Process.Start("http://www.spm-automation.com/");
         }
 
-        #endregion
+        #endregion AdminControlLabel
 
         #region datagridview events
 
@@ -476,16 +463,13 @@ namespace SearchDataSPM
 
             if (e.Button == MouseButtons.Right)
             {
-
                 int columnindex = e.RowIndex;
                 dataGridView.ClearSelection();
                 dataGridView.Rows[columnindex].Selected = true;
-
             }
-
         }
 
-        #endregion
+        #endregion datagridview events
 
         private void getBOMToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -498,7 +482,6 @@ namespace SearchDataSPM
             form1.item(itemvalue);
             form1.getreport(Reportname);
             form1.Show();
-
         }
 
         private string getselectedworkorder()
@@ -539,7 +522,6 @@ namespace SearchDataSPM
             {
                 MetroFramework.MetroMessageBox.Show(this, "Your request can't be completed based on your security settings.", "SPM Connect - Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-
         }
 
         private void scanwobttn_Click(object sender, EventArgs e)
@@ -553,7 +535,6 @@ namespace SearchDataSPM
             {
                 MetroFramework.MetroMessageBox.Show(this, "Your request can't be completed based on your security settings.", "SPM Connect - Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-
         }
 
         #region Get BOM
@@ -566,7 +547,7 @@ namespace SearchDataSPM
             treeView.Show();
         }
 
-        #endregion
+        #endregion Get BOM
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -625,6 +606,162 @@ namespace SearchDataSPM
         {
             errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
         }
+
+        private void InitialReleaseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddInitialRelease();
+        }
+
+        private void AddInitialRelease()
+        {
+            DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to create an Initial release?", "SPM Connect - Create Initial Release?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                if (IsAssembly(GetSelectedAssyNo()))
+                {
+                    string rlogno = connectapi.EnterWOToReleaseLog(getselectedworkorder(), GetSelectedJobNo(), GetSelectedAssyNo(), "Initial Release", true);
+                    if (rlogno.Length > 0)
+                    {
+                        ShowReleaseLogDetails(rlogno);
+                    }
+                }
+                else
+                {
+                    MetroFramework.MetroMessageBox.Show(this, "Item family must be a \"AS\" or \"AG\" or \"ASEL\" or \"ASPN\". In order to release into the system.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                }
+            }
+        }
+
+        private void AddNewRelease()
+        {
+            DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to create a new release?", "SPM Connect - Create New Release?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                if (IsAssembly(GetSelectedAssyNo()))
+                {
+                    if (connectapi.CheckWoExistsOnReleaseLog(getselectedworkorder(), "Initial Release"))
+                    {
+                        string releasetype = "";
+                        this.Enabled = false;
+                        ReleaseType invoiceFor = new ReleaseType();
+                        if (invoiceFor.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                        {
+                            releasetype = invoiceFor.ValueIWant;
+                        }
+                        if (releasetype.Length > 0)
+                        {
+                            string rlogno = connectapi.EnterWOToReleaseLog(getselectedworkorder(), GetSelectedJobNo(), GetSelectedAssyNo(), releasetype, false);
+                            if (rlogno.Length > 1)
+                            {
+                                ShowReleaseLogDetails(rlogno);
+                            }
+                        }
+                        else
+                        {
+                            MetroFramework.MetroMessageBox.Show(this, "Release type not selected. System cannot create new Release entry.", "SPM Connect - Create New Release?", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        this.Enabled = true;
+                    }
+                    else
+                    {
+                        MetroFramework.MetroMessageBox.Show(this, "Cannot Proceed with adding new release as the initial release for this assembly has not been made. System cannot create new Release entry.\n Please create initial release in order to add new release to the system.", "SPM Connect - Create New Release?", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else
+                {
+                    MetroFramework.MetroMessageBox.Show(this, "Item family must be a \"AS\" or \"AG\" or \"ASEL\" or \"ASPN\". In order to release into the system.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                }
+            }
+        }
+
+        private void ShowReleaseLogDetails(string invoice)
+        {
+            string invoiceopen = connectapi.InvoiceOpen(invoice);
+            if (invoiceopen.Length > 0)
+            {
+                MetroFramework.MetroMessageBox.Show(this, "Inovice is opened for edit by " + invoiceopen + ". ", "SPM Connect - Open Invoice Failed", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+            else
+            {
+                if (connectapi.CheckinInvoice(invoice))
+                {
+                    using (AddRelease addrelease = new AddRelease(releaseLogNo: invoice))
+                    {
+                        addrelease.ShowDialog();
+                        this.Enabled = true;
+                        this.Show();
+                        this.Activate();
+                        this.Focus();
+                    }
+                }
+            }
+        }
+
+        private string GetSelectedJobNo()
+        {
+            string jobno = "";
+            if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
+            {
+                int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
+                DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
+                jobno = Convert.ToString(slectedrow.Cells[0].Value);
+            }
+            return jobno;
+        }
+
+        private string GetSelectedAssyNo()
+        {
+            string jobno = "";
+            if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
+            {
+                int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
+                DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
+                jobno = Convert.ToString(slectedrow.Cells[3].Value);
+            }
+            return jobno;
+        }
+
+        private void AddNewReleaseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddNewRelease();
+        }
+
+        private bool IsAssembly(string assyno)
+        {
+            bool assy = false;
+            DataTable iteminfo = new DataTable();
+            iteminfo.Clear();
+            iteminfo = connectapi.GetIteminfo(assyno);
+            DataRow ra = iteminfo.Rows[0];
+            string family = ra["FamilyCode"].ToString();
+            iteminfo.Clear();
+
+            switch (family.ToLower())
+            {
+                case "as":
+                    assy = true;
+                    break;
+
+                case "ag":
+                    assy = true;
+                    break;
+
+                case "asel":
+                    assy = true;
+                    break;
+
+                case "aspn":
+                    assy = true;
+                    break;
+
+                default:
+                    assy = false;
+                    break;
+            }
+
+            return assy;
+        }
     }
 }
-

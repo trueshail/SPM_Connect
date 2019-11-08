@@ -10,12 +10,12 @@ namespace SearchDataSPM.Admin_developer
 {
     public partial class BlockedForms : Form
     {
-        SqlConnection cn;
-        string connection;
-        DataTable dt;
-        log4net.ILog log;
+        private SqlConnection cn;
+        private string connection;
+        private DataTable dt;
+        private log4net.ILog log;
         private UserActions _userActions;
-        ErrorHandler errorHandler = new ErrorHandler();
+        private ErrorHandler errorHandler = new ErrorHandler();
 
         public BlockedForms()
         {
@@ -27,13 +27,11 @@ namespace SearchDataSPM.Admin_developer
             try
             {
                 cn = new SqlConnection(connection);
-
             }
             catch (Exception)
             {
                 MessageBox.Show("Error Connecting to SQL Server.....", "SPM Connect - ENG", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
-
             }
             dt = new DataTable();
         }
@@ -106,16 +104,13 @@ namespace SearchDataSPM.Admin_developer
                         dataGridView1.ContextMenuStrip = Listviewcontextmenu;
                         Listviewcontextmenu.Enabled = true;
                         Listviewcontextmenu.Visible = true;
-
                     }
                     else
                     {
                         dataGridView1.ContextMenuStrip = null;
                         Listviewcontextmenu.Enabled = false;
                         Listviewcontextmenu.Visible = false;
-
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -126,18 +121,14 @@ namespace SearchDataSPM.Admin_developer
                 {
                     cn.Close();
                 }
-
             }
-
         }
 
         private void freeuser_Click(object sender, EventArgs e)
         {
-
             string username = getuserselected().Trim();
 
             freeuserform(username, getapplicaitonrunning().Trim(), getItemSelected().Trim());
-
 
             try
             {
@@ -149,8 +140,6 @@ namespace SearchDataSPM.Admin_developer
             {
                 MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Delete User", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-
         }
 
         private void freeuserform(string username, string app, string itemid)
@@ -167,8 +156,6 @@ namespace SearchDataSPM.Admin_developer
                     sda.ExecuteNonQuery();
                     cn.Close();
                     // MetroFramework.MetroMessageBox.Show(this, username + " - Is removed from the system now!", "SPM Connect - Delete Item", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-
                 }
                 catch (Exception ex)
                 {
@@ -178,7 +165,6 @@ namespace SearchDataSPM.Admin_developer
                 {
                     cn.Close();
                 }
-
             }
         }
 

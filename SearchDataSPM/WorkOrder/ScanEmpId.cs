@@ -9,14 +9,14 @@ namespace SearchDataSPM
 {
     public partial class ScanEmpId : MetroFramework.Forms.MetroForm
     {
-        DateTime _lastKeystroke = new DateTime(0);
-        List<char> _barcode = new List<char>(10);
-        WorkOrder connectapi = new WorkOrder();
-        int userinputtime = 100;
-        bool developer = false;
-        log4net.ILog log;
+        private DateTime _lastKeystroke = new DateTime(0);
+        private List<char> _barcode = new List<char>(10);
+        private WorkOrder connectapi = new WorkOrder();
+        private int userinputtime = 100;
+        private bool developer = false;
+        private log4net.ILog log;
         private UserActions _userActions;
-        ErrorHandler errorHandler = new ErrorHandler();
+        private ErrorHandler errorHandler = new ErrorHandler();
 
         public ScanEmpId()
         {
@@ -39,7 +39,6 @@ namespace SearchDataSPM
             _userActions = new UserActions(this);
         }
 
-
         private void empid_txtbox_KeyPress(object sender, KeyPressEventArgs e)
         {
             // check timing (keystrokes within 100 ms)
@@ -59,7 +58,6 @@ namespace SearchDataSPM
                 _barcode.Clear();
                 if (msg != "\r" || developer)
                 {
-
                     if (e.KeyChar == 13)
                     {
                         ValueIWant = empid_txtbox.Text.Trim();
@@ -70,7 +68,6 @@ namespace SearchDataSPM
                 }
                 else
                 {
-
                     MessageBox.Show("System cannot accept keyboard inputs. Scan with barcode reader", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     empid_txtbox.Clear();
                     empid_txtbox.Focus();

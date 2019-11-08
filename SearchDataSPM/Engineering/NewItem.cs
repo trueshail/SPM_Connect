@@ -1,6 +1,8 @@
 ﻿using ExtractLargeIconFromFile;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
+using SPMConnect.UserActionLog;
+using SPMConnectAPI;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -14,28 +16,25 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using wpfPreviewFlowControl;
-using SPMConnectAPI;
-using SPMConnect.UserActionLog;
 
 namespace SearchDataSPM
 {
-
     public partial class NewItem : Form
 
     {
         #region steupvariables
 
-        string connection;
-        DataTable _acountsTb = null;
-        SqlConnection _connection;
-        SqlCommand _command;
-        SqlDataAdapter _adapter;
-        SPMConnectAPI.SPMSQLCommands connectapi = new SPMSQLCommands();
-        log4net.ILog log;
+        private string connection;
+        private DataTable _acountsTb = null;
+        private SqlConnection _connection;
+        private SqlCommand _command;
+        private SqlDataAdapter _adapter;
+        private SPMConnectAPI.SPMSQLCommands connectapi = new SPMSQLCommands();
+        private log4net.ILog log;
         private UserActions _userActions;
-        ErrorHandler errorHandler = new ErrorHandler();
+        private ErrorHandler errorHandler = new ErrorHandler();
 
-        #endregion
+        #endregion steupvariables
 
         #region form load
 
@@ -49,15 +48,11 @@ namespace SearchDataSPM
             try
             {
                 _connection = new SqlConnection(connection);
-
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show(ex.Message, "Message - New Item Initialize", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
             }
-
 
             _acountsTb = new DataTable();
             _command = new SqlCommand
@@ -65,12 +60,10 @@ namespace SearchDataSPM
                 Connection = _connection
             };
 
-
             //connectapi.SPM_Connect();
-
         }
 
-        string checkedit;
+        private string checkedit;
 
         public string editbtn(string chekedit)
         {
@@ -104,12 +97,9 @@ namespace SearchDataSPM
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Create/Edit Item " + itemnumber + " by " + System.Environment.UserName);
             _userActions = new UserActions(this);
-
-
         }
 
-
-        string itemnumber;
+        private string itemnumber;
 
         public string item(string item)
         {
@@ -123,7 +113,7 @@ namespace SearchDataSPM
             System.Diagnostics.Process.Start("http://www.spm-automation.com/");
         }
 
-        #endregion
+        #endregion form load
 
         #region Fillinformation on load
 
@@ -133,19 +123,14 @@ namespace SearchDataSPM
 
             try
             {
-
                 _connection.Open();
                 _adapter = new SqlDataAdapter(sql, _connection);
                 _adapter.Fill(_acountsTb);
                 fillinfo();
-
-
-
             }
             catch (SqlException ex)
             {
                 MessageBox.Show(ex.Message, "SPM Connect New Item - Fill Data Table", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
             }
             finally
             {
@@ -184,21 +169,17 @@ namespace SearchDataSPM
                     familycombobox.SelectedItem = "MA";
                     categorytxtbox.Text = "Manufactured";
                     rupturetextbox.Text = "ALWAYS";
-
                 }
-
 
                 if (r["Spare"].ToString().Equals("SPARE"))
                 {
                     checkBox1.Checked = true;
-
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "SPM Connect New Item - Fill Info", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
 
         private void filldescriptionsource()
@@ -251,13 +232,12 @@ namespace SearchDataSPM
             getitemstodisplay(Makepath(item), item);
         }
 
-        #endregion
+        #endregion Fillinformation on load
 
         #region listview events
 
         private static String Makepath(string itemnumber)
         {
-
             if (itemnumber.Length > 0)
             {
                 string first3char = itemnumber.Substring(0, 3) + @"\";
@@ -269,7 +249,6 @@ namespace SearchDataSPM
             {
                 return null;
             }
-
         }
 
         private void getitemstodisplay(string Pathpart, string ItemNo)
@@ -280,7 +259,6 @@ namespace SearchDataSPM
                 {
                     try
                     {
-
                         string sDocFileName = item;
                         wpfThumbnailCreator pvf;
                         pvf = new wpfThumbnailCreator();
@@ -294,7 +272,6 @@ namespace SearchDataSPM
                         imageList.Images.Add(pic);
                         //axEModelViewControl1 = new EModelViewControl();
                         //axEModelViewControl1.OpenDoc(item, false, false, true, "");
-
                     }
                     catch (Exception)
                     {
@@ -310,17 +287,14 @@ namespace SearchDataSPM
                     FileInfo fi = new FileInfo(item);
                     listFiles.Add(fi.FullName);
                     listView.Items.Add(fi.Name, imageList.Images.Count - 1);
-
-
                 }
             }
-
-
         }
 
-        List<string> listFiles = new List<string>();
+        private List<string> listFiles = new List<string>();
+
         [DllImport("shell32.dll")]
-        static extern IntPtr ExtractAssociatedIcon(IntPtr hInst,
+        private static extern IntPtr ExtractAssociatedIcon(IntPtr hInst,
         StringBuilder lpIconPath, out ushort lpiIcon);
 
         public static Icon GetIconOldSchool(string fileName)
@@ -343,7 +317,6 @@ namespace SearchDataSPM
                 ShellEx.GetBitmapFromFilePath(fileName, size);
 
                 return icon;
-
             }
             catch
             {
@@ -354,7 +327,6 @@ namespace SearchDataSPM
                 }
                 catch
                 {
-
                     return null;
                 }
             }
@@ -373,7 +345,6 @@ namespace SearchDataSPM
                 {
                     MessageBox.Show(ex.Message, "SPM Connect New Item Listview MouseClick");
                 }
-
             }
         }
 
@@ -393,7 +364,7 @@ namespace SearchDataSPM
             }
         }
 
-        #endregion
+        #endregion listview events
 
         #region SAVE ITEM
 
@@ -410,10 +381,9 @@ namespace SearchDataSPM
                     e.Cancel = (result == DialogResult.No);
                 }
             }
-
         }
 
-        List<string> list = new List<string>();
+        private List<string> list = new List<string>();
 
         private void graballinfor()
         {
@@ -446,7 +416,6 @@ namespace SearchDataSPM
             {
                 list[i] = list[i].Replace("'", "''");
             }
-
         }
 
         private void savebttn_Click(object sender, EventArgs e)
@@ -470,17 +439,16 @@ namespace SearchDataSPM
                     processsavebutton();
                 }
             }
-
         }
 
-        void splashsave()
+        private void splashsave()
         {
             Engineering.WaitFormSaving waitFormSaving = new Engineering.WaitFormSaving();
             waitFormSaving.Location = new Point(this.Location.X + (this.Width - waitFormSaving.Width) / 2, this.Location.Y + (this.Height - waitFormSaving.Height) / 2);
             Application.Run(waitFormSaving);
         }
 
-        void splashimport()
+        private void splashimport()
         {
             Engineering.WaitFormImport waitFormImport = new Engineering.WaitFormImport();
             Application.Run(waitFormImport);
@@ -520,7 +488,6 @@ namespace SearchDataSPM
                     connectapi.createmodel(filename);
                     string draw = path + (item) + ".slddrw";
                     connectapi.createdrawingpart(draw, item);
-
                 }
                 else if (category.ToLower() == "assembly")
                 {
@@ -532,7 +499,6 @@ namespace SearchDataSPM
                 }
                 else
                 {
-
                     string filename = path + (item) + ".sldprt";
                     DialogResult result = MessageBox.Show("Do you want to import model for the purchased part?", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (result == DialogResult.Yes)
@@ -559,10 +525,9 @@ namespace SearchDataSPM
 
                                 connectapi.importstepfile(impfilname, filename);
                                 t.Abort();
-                                //Engineering.WaitFormImport f = new Engineering.WaitFormImport();                                
+                                //Engineering.WaitFormImport f = new Engineering.WaitFormImport();
                                 //f = (Engineering.WaitFormImport)Application.OpenForms["WaitFormImport"];
                                 //f.Invoke(new ThreadStart(delegate { f.Close(); }));
-
                             }
                             else
                             {
@@ -570,7 +535,6 @@ namespace SearchDataSPM
                                 System.IO.Directory.CreateDirectory(path);
                                 connectapi.createmodel(filename);
                             }
-
                         }
                         else if (fileimporttype == "IGES")
                         {
@@ -578,7 +542,6 @@ namespace SearchDataSPM
                             string impfilname = importfilename(igesfilter).ToString();
                             if (Path.GetExtension(impfilname).ToLower() == ".igs" || Path.GetExtension(impfilname).ToLower() == ".iges")
                             {
-
                                 //new Thread(() => new Engineering.WaitFormImport().ShowDialog()).Start();
                                 //Thread.Sleep(3000);
                                 Thread t = new Thread(new ThreadStart(splashimport));
@@ -587,7 +550,6 @@ namespace SearchDataSPM
 
                                 if (connectapi.importigesfile(impfilname, filename) == true)
                                 {
-
                                 }
                                 else
                                 {
@@ -599,7 +561,6 @@ namespace SearchDataSPM
                                 //Engineering.WaitFormImport f = new Engineering.WaitFormImport();
                                 //f = (Engineering.WaitFormImport)Application.OpenForms["WaitFormImport"];
                                 //f.Invoke(new ThreadStart(delegate { f.Close(); }));
-
                             }
                             else
                             {
@@ -607,7 +568,6 @@ namespace SearchDataSPM
                                 System.IO.Directory.CreateDirectory(path);
                                 connectapi.createmodel(filename);
                             }
-
                         }
                         else if (fileimporttype == "PARASOLID")
                         {
@@ -623,7 +583,6 @@ namespace SearchDataSPM
 
                                 if (connectapi.importparasolidfile(impfilname, filename) == true)
                                 {
-
                                 }
                                 else
                                 {
@@ -635,7 +594,6 @@ namespace SearchDataSPM
                                 //Engineering.WaitFormImport f = new Engineering.WaitFormImport();
                                 //f = (Engineering.WaitFormImport)Application.OpenForms["WaitFormImport"];
                                 //f.Invoke(new ThreadStart(delegate { f.Close(); }));
-
                             }
                             else
                             {
@@ -643,22 +601,18 @@ namespace SearchDataSPM
                                 System.IO.Directory.CreateDirectory(path);
                                 connectapi.createmodel(filename);
                             }
-
                         }
                         else
                         {
                             System.IO.Directory.CreateDirectory(path);
                             connectapi.createmodel(filename);
                         }
-
-
                     }
                     else
                     {
                         System.IO.Directory.CreateDirectory(path);
                         connectapi.createmodel(filename);
                     }
-
                 }
             }
         }
@@ -693,7 +647,6 @@ namespace SearchDataSPM
         private void editbttn_Click(object sender, EventArgs e)
         {
             processeditbutton();
-
         }
 
         private void processeditbutton()
@@ -756,7 +709,6 @@ namespace SearchDataSPM
             oemitemtxtbox.AutoCompleteMode = AutoCompleteMode.None;
             surfacetxt.AutoCompleteMode = AutoCompleteMode.None;
             heattreat.AutoCompleteMode = AutoCompleteMode.None;
-
         }
 
         private void familycombobox_SelectedIndexChanged(object sender, EventArgs e)
@@ -767,13 +719,11 @@ namespace SearchDataSPM
                 {
                     categorytxtbox.Text = "Manufactured";
                     rupturetextbox.Text = "ALWAYS";
-
                 }
                 else if (familycombobox.Text.ToLower() == "as" || familycombobox.Text.ToLower() == "ag" || familycombobox.Text.ToLower() == "asel" || familycombobox.Text.ToLower() == "aspn")
                 {
                     categorytxtbox.Text = "Assembly";
                     rupturetextbox.Text = "ALWAYS";
-
                 }
                 else if (familycombobox.Text.ToLower() == "dr")
                 {
@@ -788,7 +738,7 @@ namespace SearchDataSPM
             }
         }
 
-        #endregion
+        #endregion SAVE ITEM
 
         #region solidworks createmodels and open models
 
@@ -806,7 +756,7 @@ namespace SearchDataSPM
             return "";
         }
 
-        #endregion
+        #endregion solidworks createmodels and open models
 
         #region solidworks custom properties
 
@@ -857,15 +807,11 @@ namespace SearchDataSPM
                 {
                     MessageBox.Show(ex.Message, "SPM Connect New Item Fill Custom Properties", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
-
-
             }
-
         }
 
         public void chekbeforefillingcustomproperties(string item)
         {
-
             if (connectapi.solidworks_running() == true)
             {
                 string getcurrentfilename = connectapi.getfilename().ToString();
@@ -873,7 +819,6 @@ namespace SearchDataSPM
                 if (getcurrentfilename == item || getcurrentfilename == olditemnumber)
                 {
                     fillcustomproperties();
-
                 }
                 else
                 {
@@ -887,12 +832,10 @@ namespace SearchDataSPM
                     string Pathassyo = Makepath(item).ToString() + ItemTxtBox.Text + "-0" + ".sldasm";
                     string Pathparto = Makepath(item).ToString() + ItemTxtBox.Text + "-0" + ".sldprt";
 
-
                     if (File.Exists(Pathassy))
                     {
                         connectapi.Open_assy(Pathassy);
                         fillcustomproperties();
-
                     }
                     else if (File.Exists(Pathpart))
                     {
@@ -908,25 +851,20 @@ namespace SearchDataSPM
                     {
                         connectapi.Open_assy(Pathassyo);
                         fillcustomproperties();
-
                     }
-
                     else
                     {
                         MessageBox.Show("Please have the active model open in order to save custom properties to the soliworks document..", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
-
                 }
-
             }
 
             //swApp.Visible = true;
             //ModelDoc2 swModel;
             //swModel = swApp.ActiveDoc;
-
         }
 
-        #endregion
+        #endregion solidworks custom properties
 
         private void UIThreadException(object sender, ThreadExceptionEventArgs t)
         {
@@ -945,5 +883,4 @@ namespace SearchDataSPM
             this.Dispose();
         }
     }
-
 }

@@ -8,18 +8,17 @@ using System.Windows.Forms;
 
 namespace SearchDataSPM
 {
-
     public partial class SPM_ConnectItems : Form
 
     {
         #region SPM Connect Load
 
-        string connection;
-        SqlConnection cn;
-        DataTable dt;
-        log4net.ILog log;
+        private string connection;
+        private SqlConnection cn;
+        private DataTable dt;
+        private log4net.ILog log;
         private UserActions _userActions;
-        ErrorHandler errorHandler = new ErrorHandler();
+        private ErrorHandler errorHandler = new ErrorHandler();
 
         public SPM_ConnectItems()
         {
@@ -31,13 +30,11 @@ namespace SearchDataSPM
             try
             {
                 cn = new SqlConnection(connection);
-
             }
             catch (Exception)
             {
                 MessageBox.Show("Error Connecting to SQL Server.....", "SPM Connect - Items", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
-
             }
             dt = new DataTable();
         }
@@ -79,18 +76,15 @@ namespace SearchDataSPM
             }
 
             //dataGridView.Location = new Point(0, 40);
-
         }
 
         private void Reload_Click(object sender, EventArgs e)
         {
-
             clearandhide();
             txtSearch.Clear();
             txtSearch.Focus();
             SendKeys.Send("~");
             dataGridView.Refresh();
-
         }
 
         private void UpdateFont()
@@ -103,26 +97,25 @@ namespace SearchDataSPM
             dataGridView.DefaultCellStyle.SelectionBackColor = Color.Black;
         }
 
-
-        #endregion
+        #endregion SPM Connect Load
 
         #region Public Table & variables
 
         // variables required outside the functions to perfrom
-        string fullsearch = ("Description LIKE '%{0}%' OR Manufacturer LIKE '%{0}%' OR ManufacturerItemNumber LIKE '%{0}%' OR ItemNumber LIKE '%{0}%'");
+        private string fullsearch = ("Description LIKE '%{0}%' OR Manufacturer LIKE '%{0}%' OR ManufacturerItemNumber LIKE '%{0}%' OR ItemNumber LIKE '%{0}%'");
+
         public static string ItemNo;
         public static string description;
         public static string Manufacturer;
         public static string oem;
         public static string family;
 
-        DataTable table0 = new DataTable();
-        DataTable table1 = new DataTable();
-        DataTable table2 = new DataTable();
-        DataTable table3 = new DataTable();
+        private DataTable table0 = new DataTable();
+        private DataTable table1 = new DataTable();
+        private DataTable table2 = new DataTable();
+        private DataTable table3 = new DataTable();
 
-
-        #endregion
+        #endregion Public Table & variables
 
         #region Search Parameters
 
@@ -142,17 +135,14 @@ namespace SearchDataSPM
                 {
                     Descrip_txtbox.Show();
                     SendKeys.Send("{TAB}");
-
                 }
                 e.Handled = true;
                 e.SuppressKeyPress = true;
-
             }
         }
 
         private void clearandhide()
         {
-
             Descrip_txtbox.Hide();
             Descrip_txtbox.Clear();
             filteroem_txtbox.Hide();
@@ -169,7 +159,6 @@ namespace SearchDataSPM
 
         private void mainsearch()
         {
-
             DataView dv = dt.DefaultView;
             string search1 = txtSearch.Text;
             try
@@ -273,7 +262,6 @@ namespace SearchDataSPM
                     SendKeys.Send("~");
                 }
 
-
                 if (filteroem_txtbox.Text.Length > 0)
                 {
                     filteroemitem_txtbox.Show();
@@ -331,7 +319,6 @@ namespace SearchDataSPM
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
-
         }
 
         private void filter4_KeyDown(object sender, KeyEventArgs e)
@@ -368,7 +355,7 @@ namespace SearchDataSPM
             }
         }
 
-        #endregion
+        #endregion Search Parameters
 
         #region ADD ITEM TO assembly - GetItemInfo and datagridview events
 
@@ -403,7 +390,6 @@ namespace SearchDataSPM
             {
                 //code for Yes
                 this.Close();
-
             }
             else if (result == DialogResult.No)
             {
@@ -411,30 +397,26 @@ namespace SearchDataSPM
             }
         }
 
+        #endregion ADD ITEM TO assembly - GetItemInfo and datagridview events
 
-        #endregion
+        #region Highlight Search Results
 
-        #region Highlight Search Results 
-
-        bool IsSelected = false;
+        private bool IsSelected = false;
 
         private void SearchStringPosition(string Searchstring)
         {
             IsSelected = true;
-
         }
-        string sw;
+
+        private string sw;
 
         private void searchtext(string searchkey)
         {
-
             sw = searchkey;
         }
 
         private void dataGridView_CellPainting_1(object sender, DataGridViewCellPaintingEventArgs e)
         {
-
-
             if (e.RowIndex >= 0 & e.ColumnIndex >= 1 & IsSelected)
             {
                 e.Handled = true;
@@ -482,15 +464,12 @@ namespace SearchDataSPM
 
                         hl_brush.Dispose();
                     }
-
                 }
                 e.PaintContent(e.CellBounds);
-
             }
-
         }
 
-        #endregion
+        #endregion Highlight Search Results
 
         #region AdminControlLabel
 
@@ -499,7 +478,7 @@ namespace SearchDataSPM
             System.Diagnostics.Process.Start("http://www.spm-automation.com/");
         }
 
-        #endregion
+        #endregion AdminControlLabel
 
         #region Closing SPMConnect
 
@@ -507,15 +486,11 @@ namespace SearchDataSPM
         {
             if (e.Alt && e.KeyCode.ToString() == "A")
             {
-
                 Reload.PerformClick();
-
             }
         }
 
-
-
-        #endregion
+        #endregion Closing SPMConnect
 
         private void SPM_ConnectItems_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -535,4 +510,3 @@ namespace SearchDataSPM
         }
     }
 }
-

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
-using System.Windows.Forms;
 using System.Reflection;
+using System.Windows.Forms;
 
 namespace SPMConnectAPI
 {
@@ -10,7 +10,7 @@ namespace SPMConnectAPI
     {
         #region Settting up Connetion and Get User
 
-        SqlConnection cn;
+        private SqlConnection cn;
 
         public Shipping()
         {
@@ -19,19 +19,15 @@ namespace SPMConnectAPI
 
         private void SPM_Connect()
         {
-
             string connection = "Data Source=spm-sql;Initial Catalog=SPM_Database;User ID=SPM_Agent;password=spm5445";
             try
             {
                 cn = new SqlConnection(connection);
-
             }
             catch (Exception)
             {
                 MessageBox.Show("Error Connecting to SQL Server.....", "SPM Connect shipping sql", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
             }
-
         }
 
         public string UserName()
@@ -45,7 +41,6 @@ namespace SPMConnectAPI
             {
                 return null;
             }
-
         }
 
         public string getuserfullname()
@@ -65,7 +60,6 @@ namespace SPMConnectAPI
                 foreach (DataRow dr in dt.Rows)
                 {
                     fullname = dr["Name"].ToString();
-
                 }
                 dt.Clear();
             }
@@ -104,7 +98,6 @@ namespace SPMConnectAPI
                 foreach (DataRow dr in dt.Rows)
                 {
                     path = dr["SharesFolder"].ToString();
-
                 }
                 dt.Clear();
             }
@@ -119,7 +112,7 @@ namespace SPMConnectAPI
             return path;
         }
 
-        #endregion
+        #endregion Settting up Connetion and Get User
 
         #region Datatables to pull out values or records
 
@@ -136,7 +129,6 @@ namespace SPMConnectAPI
 
                     dt.Clear();
                     sda.Fill(dt);
-
                 }
                 catch (Exception ex)
                 {
@@ -146,7 +138,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return dt;
         }
@@ -164,7 +155,6 @@ namespace SPMConnectAPI
 
                     dt.Clear();
                     sda.Fill(dt);
-
                 }
                 catch (Exception ex)
                 {
@@ -174,7 +164,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return dt;
         }
@@ -192,7 +181,6 @@ namespace SPMConnectAPI
 
                     dt.Clear();
                     sda.Fill(dt);
-
                 }
                 catch (Exception ex)
                 {
@@ -202,7 +190,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return dt;
         }
@@ -220,7 +207,6 @@ namespace SPMConnectAPI
 
                     dt.Clear();
                     sda.Fill(dt);
-
                 }
                 catch (Exception ex)
                 {
@@ -230,7 +216,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return dt;
         }
@@ -248,7 +233,6 @@ namespace SPMConnectAPI
 
                     dt.Clear();
                     sda.Fill(dt);
-
                 }
                 catch (Exception ex)
                 {
@@ -258,7 +242,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return dt;
         }
@@ -276,7 +259,6 @@ namespace SPMConnectAPI
 
                     dt.Clear();
                     sda.Fill(dt);
-
                 }
                 catch (Exception ex)
                 {
@@ -286,7 +268,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return dt;
         }
@@ -304,7 +285,6 @@ namespace SPMConnectAPI
 
                     dt.Clear();
                     sda.Fill(dt);
-
                 }
                 catch (Exception ex)
                 {
@@ -314,7 +294,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return dt;
         }
@@ -332,7 +311,6 @@ namespace SPMConnectAPI
 
                     dt.Clear();
                     sda.Fill(dt);
-
                 }
                 catch (Exception ex)
                 {
@@ -342,7 +320,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return dt;
         }
@@ -360,7 +337,6 @@ namespace SPMConnectAPI
 
                     dt.Clear();
                     sda.Fill(dt);
-
                 }
                 catch (Exception ex)
                 {
@@ -370,7 +346,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return dt;
         }
@@ -388,7 +363,6 @@ namespace SPMConnectAPI
 
                     dt.Clear();
                     sda.Fill(dt);
-
                 }
                 catch (Exception ex)
                 {
@@ -398,12 +372,11 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return dt;
         }
 
-        #endregion
+        #endregion Datatables to pull out values or records
 
         #region Generating New Ids
 
@@ -424,16 +397,12 @@ namespace SPMConnectAPI
                 foreach (DataRow dr in dt.Rows)
                 {
                     newincoiveno = dr["NextQuoteNo"].ToString();
-
                 }
                 dt.Clear();
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show(ex.Message, "SPM Connect - Get New Invoice Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-
             }
             finally
             {
@@ -445,9 +414,7 @@ namespace SPMConnectAPI
                 newincoiveno = "1001";
             }
 
-
             return newincoiveno;
-
         }
 
         private string getNewCustItemId(string invoiceno)
@@ -468,15 +435,12 @@ namespace SPMConnectAPI
                 foreach (DataRow dr in dt.Rows)
                 {
                     newcustitemid = dr["NextQuoteNo"].ToString();
-
                 }
                 dt.Clear();
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show(ex.Message, "SPM Connect - Get New Customer Item Id", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
             }
             finally
             {
@@ -492,10 +456,9 @@ namespace SPMConnectAPI
             }
 
             return newcustitemid;
-
         }
 
-        #endregion
+        #endregion Generating New Ids
 
         #region FillComboBoxes
 
@@ -513,7 +476,6 @@ namespace SPMConnectAPI
                     {
                         MyCollection.Add(reader.GetString(0));
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -523,11 +485,9 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
 
             return MyCollection;
-
         }
 
         public AutoCompleteStringCollection FillSoldToShip()
@@ -544,7 +504,6 @@ namespace SPMConnectAPI
                     {
                         MyCollection.Add(reader.GetString(0));
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -554,10 +513,8 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return MyCollection;
-
         }
 
         public AutoCompleteStringCollection FillCarrierShip()
@@ -574,7 +531,6 @@ namespace SPMConnectAPI
                     {
                         MyCollection.Add(reader.GetString(0));
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -584,10 +540,8 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return MyCollection;
-
         }
 
         public AutoCompleteStringCollection FillCreatedbyShip()
@@ -604,8 +558,6 @@ namespace SPMConnectAPI
                     {
                         MyCollection.Add(reader.GetString(0));
                     }
-
-
                 }
                 catch (Exception ex)
                 {
@@ -615,10 +567,8 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return MyCollection;
-
         }
 
         public AutoCompleteStringCollection FillLastSavedByShip()
@@ -635,7 +585,6 @@ namespace SPMConnectAPI
                     {
                         MyCollection.Add(reader.GetString(0));
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -645,7 +594,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return MyCollection;
         }
@@ -664,7 +612,6 @@ namespace SPMConnectAPI
                     {
                         MyCollection.Add(reader.GetString(0));
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -674,7 +621,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return MyCollection;
         }
@@ -693,7 +639,6 @@ namespace SPMConnectAPI
                     {
                         MyCollection.Add(reader.GetString(0));
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -703,7 +648,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return MyCollection;
         }
@@ -722,7 +666,6 @@ namespace SPMConnectAPI
                     {
                         MyCollection.Add(reader.GetString(0));
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -732,7 +675,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return MyCollection;
         }
@@ -751,7 +693,6 @@ namespace SPMConnectAPI
                     {
                         MyCollection.Add(reader.GetString(0));
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -761,11 +702,9 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
 
             return MyCollection;
-
         }
 
         public AutoCompleteStringCollection FillFobPoint()
@@ -782,7 +721,6 @@ namespace SPMConnectAPI
                     {
                         MyCollection.Add(reader.GetString(0));
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -792,11 +730,9 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
 
             return MyCollection;
-
         }
 
         public AutoCompleteStringCollection FillRequistioner()
@@ -813,7 +749,6 @@ namespace SPMConnectAPI
                     {
                         MyCollection.Add(reader.GetString(0));
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -823,11 +758,9 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
 
             return MyCollection;
-
         }
 
         public AutoCompleteStringCollection FillitemsShip()
@@ -844,7 +777,6 @@ namespace SPMConnectAPI
                     {
                         MyCollection.Add(reader.GetString(0));
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -854,13 +786,11 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return MyCollection;
-
         }
 
-        #endregion
+        #endregion FillComboBoxes
 
         #region Perfrom CRUD on invoice details and shipping items
 
@@ -872,7 +802,6 @@ namespace SPMConnectAPI
             string username = getuserfullname();
             string newinvoiceno = getnewinvoicenumber();
 
-
             try
             {
                 if (cn.State == ConnectionState.Closed)
@@ -883,7 +812,6 @@ namespace SPMConnectAPI
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 success = newinvoiceno;
-
             }
             catch (Exception ex)
             {
@@ -892,10 +820,8 @@ namespace SPMConnectAPI
             finally
             {
                 cn.Close();
-
             }
             return success;
-
         }
 
         public void UpdateShippingItemsOrderId(string invoicenumber)
@@ -960,7 +886,6 @@ namespace SPMConnectAPI
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "UPDATE [SPM_Database].[dbo].[ShippingBase] SET [DateLastSaved] = '" + sqlFormattedDate + "',[LastSavedBy] = '" + username + "',[JobNumber] = '" + jobnumber + "',[SalesPerson] = '" + salesperson + "',[Requistioner] = '" + requestedby + "',[Carrier] = '" + carrier + "',[Collect_Prepaid] = '" + collectprepaid + "',[FobPoint] = '" + fobpoint + "',[Terms] = '" + terms + "',[Currency] = '" + currency + "',[Total] =  '" + total + "',[SoldTo] = '" + soldto + "',[ShipTo] = '" + shipto + "',[Notes] = '" + notes + "',[CarrierCode] = '" + carriercode + "' WHERE [InvoiceNo] = '" + inovicenumber + "' ";
 
-
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 success = true;
@@ -976,7 +901,6 @@ namespace SPMConnectAPI
             return success;
         }
 
-
         public bool UpdateInvoiceDateCreatedToSql(string inovicenumber, string datecreated)
         {
             bool success = false;
@@ -990,7 +914,6 @@ namespace SPMConnectAPI
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "UPDATE [SPM_Database].[dbo].[ShippingBase] SET [DateLastSaved] = '" + sqlFormattedDate + "',[LastSavedBy] = '" + username + "',[DateCreated] = '" + datecreated + "' WHERE [InvoiceNo] = '" + inovicenumber + "' ";
-
 
                 cmd.ExecuteNonQuery();
                 cn.Close();
@@ -1019,7 +942,6 @@ namespace SPMConnectAPI
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "UPDATE [SPM_Database].[dbo].[ShippingItems] SET [Description] = '" + Description1 + "'+ CHAR(10) + '" + Description2 + "'+ CHAR(10) +'" + Description3 + "',[Origin] = '" + origin + "',[TarriffCode] = '" + tariff + "',[Qty] = '" + qty + "',[Cost] = '" + cost + "',[Total] = '" + total + "' WHERE [InvoiceNo] = '" + inovicenumber + "' AND Item = '" + itemnumber + "' ";
 
-
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 success = true;
@@ -1040,13 +962,11 @@ namespace SPMConnectAPI
             bool success = false;
             if (itemnumber.Length > 0)
             {
-
             }
             else
             {
                 itemnumber = getNewCustItemId(invoicenumber);
             }
-
 
             try
             {
@@ -1058,7 +978,6 @@ namespace SPMConnectAPI
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 success = true;
-
             }
             catch (Exception ex)
             {
@@ -1067,12 +986,11 @@ namespace SPMConnectAPI
             finally
             {
                 cn.Close();
-
             }
             return success;
         }
 
-        #endregion
+        #endregion Perfrom CRUD on invoice details and shipping items
 
         #region Perform Copy and CRUD
 
@@ -1084,7 +1002,6 @@ namespace SPMConnectAPI
             string username = getuserfullname();
             string newinvoiceno = getnewinvoicenumber();
 
-
             try
             {
                 if (cn.State == ConnectionState.Closed)
@@ -1095,7 +1012,6 @@ namespace SPMConnectAPI
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 success = newinvoiceno;
-
             }
             catch (Exception ex)
             {
@@ -1109,7 +1025,6 @@ namespace SPMConnectAPI
                 UpdateShippingItemIdCopy(newinvoiceno);
             }
             return success;
-
         }
 
         public string GetCustVend(string invoicenumber)
@@ -1126,7 +1041,6 @@ namespace SPMConnectAPI
                     {
                         vendorcust = reader["Vendor_Cust"].ToString();
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -1136,16 +1050,13 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
 
             return vendorcust;
-
         }
 
         private void copyshippingitems(string newinvoiceno, string oldinvoiceno)
         {
-
             try
             {
                 if (cn.State == ConnectionState.Closed)
@@ -1155,7 +1066,6 @@ namespace SPMConnectAPI
                 cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[ShippingItems] (OrderId,Item, Description, Origin, TarriffCode, Qty, Cost, Total, InvoiceNo)SELECT  OrderId,Item, Description, Origin, TarriffCode, Qty, Cost, Total,'" + newinvoiceno + "'FROM  [SPM_Database].[dbo].[ShippingItems] WHERE  InvoiceNo = '" + oldinvoiceno + "'";
                 cmd.ExecuteNonQuery();
                 cn.Close();
-
             }
             catch (Exception ex)
             {
@@ -1165,7 +1075,6 @@ namespace SPMConnectAPI
             {
                 cn.Close();
             }
-
         }
 
         public void UpdateShippingItemIdCopy(string newinvoicenumber)
@@ -1232,7 +1141,6 @@ namespace SPMConnectAPI
                         //MessageBox.Show(" move forward");
                         itempresent = false;
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -1241,12 +1149,9 @@ namespace SPMConnectAPI
                 finally
                 {
                     cn.Close();
-
                 }
-
             }
             return itempresent;
-
         }
 
         public int Getqty(string itemid, string invoiceno)
@@ -1263,7 +1168,6 @@ namespace SPMConnectAPI
                     {
                         qty = Convert.ToInt32(reader["Qty"]);
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -1273,13 +1177,11 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return qty;
-
         }
 
-        #endregion
+        #endregion Perform Copy and CRUD
 
         #region Checkin Checkout Check Invoice
 
@@ -1298,7 +1200,6 @@ namespace SPMConnectAPI
                     {
                         username = reader["UserName"].ToString();
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -1308,7 +1209,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
 
             return username;
@@ -1338,10 +1238,8 @@ namespace SPMConnectAPI
             finally
             {
                 cn.Close();
-
             }
             return success;
-
         }
 
         public bool CheckoutInvoice(string invoicenumber)
@@ -1366,13 +1264,10 @@ namespace SPMConnectAPI
             finally
             {
                 cn.Close();
-
             }
             return success;
-
         }
 
-        #endregion
-
+        #endregion Checkin Checkout Check Invoice
     }
 }

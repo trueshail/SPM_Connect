@@ -7,9 +7,9 @@ namespace SPMConnectAPI
 {
     public class Controls
     {
-        SqlConnection _connection;
-        SqlConnection cn;
-        SqlCommand _command;
+        private SqlConnection _connection;
+        private SqlConnection cn;
+        private SqlCommand _command;
 
         public Controls()
         {
@@ -19,7 +19,6 @@ namespace SPMConnectAPI
 
         private void SPM_Connect()
         {
-
             string connection = "Data Source=spm-sql;Initial Catalog=SPMControlCatalog;User ID=SPM_Controls;password=eyBzJehFP*uO";
             try
             {
@@ -28,31 +27,24 @@ namespace SPMConnectAPI
                 {
                     Connection = _connection
                 };
-
             }
             catch (Exception)
             {
                 MessageBox.Show("Error Connecting to SQL Server.....", "SPM Connect autocad catalog sql", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
             }
-
         }
 
         private void SPM_Connectconnectsql()
         {
-
             string connection = "Data Source=spm-sql;Initial Catalog=SPM_Database;User ID=SPM_Agent;password=spm5445";
             try
             {
                 cn = new SqlConnection(connection);
-
             }
             catch (Exception)
             {
                 MessageBox.Show("Error Connecting to SQL Server.....", "SPM Connect sql controls", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
             }
-
         }
 
         public void CheckAutoCad(string ItemNo, string description, string family, string Manufacturer, string oem)
@@ -99,7 +91,6 @@ namespace SPMConnectAPI
                     cn.Close();
                     exists = true;
                     //insert to autocad catalog
-
                 }
                 else
                 {
@@ -111,7 +102,6 @@ namespace SPMConnectAPI
                                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     exists = false;
                 }
-
             }
             return exists;
         }
@@ -125,20 +115,15 @@ namespace SPMConnectAPI
 
             try
             {
-
                 _connection.Open();
                 _command.CommandText = sql;
                 _command.ExecuteNonQuery();
                 MessageBox.Show("Item added to the catalog.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
             }
             catch (SqlException)
             {
-
                 // MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 MessageBox.Show("Technical error while inserting to autocad catalog. Please contact the admin.", "InsertToAutoCad", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-
             }
             finally
             {
@@ -155,26 +140,20 @@ namespace SPMConnectAPI
                 " WHERE [QUERY2] = '" + ItemNo.ToString() + "'";
             try
             {
-
                 _connection.Open();
                 _command.CommandText = sql;
                 _command.ExecuteNonQuery();
                 MessageBox.Show("Item already exists on the catalog." + Environment.NewLine + "Item properties updated!", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
             }
             catch (SqlException)
             {
-
                 // MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 MessageBox.Show("Incorrect Data Enrty Found While Upadting. Please contact the system Admin", "UpdateToAutoCad", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-
             }
             finally
             {
                 _connection.Close();
             }
-
         }
 
         public int CheckAutoCadforassy(string ItemNo, string description, string Manufacturer, string oem)
@@ -193,7 +172,6 @@ namespace SPMConnectAPI
                     //call for update
                     MessageBox.Show("Assembly already exists on the catalog.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     openassycatalog = 1;
-
                 }
                 else if (userCount > 1)
                 {
@@ -204,9 +182,8 @@ namespace SPMConnectAPI
                 else
                 {
                     openassycatalog = 3;
-                    //call Genius check item                    
+                    //call Genius check item
                     _connection.Close();
-
                 }
             }
             return openassycatalog;
@@ -241,7 +218,6 @@ namespace SPMConnectAPI
                                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     cn.Close();
                 }
-
             }
 
             return createasy;
@@ -260,7 +236,6 @@ namespace SPMConnectAPI
 
                     dt.Clear();
                     sda.Fill(dt);
-
                 }
                 catch (Exception ex)
                 {
@@ -270,7 +245,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return dt;
         }
@@ -321,13 +295,12 @@ namespace SPMConnectAPI
                 else
                 {
                     MessageBox.Show("Error occured while updating item properties. Please contact the admin", "SPM Connect - Update Item Properties", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                } 
+                }
             }
             else
             {
                 MessageBox.Show("Item already up to date with genius ", "SPM Connect - Items Properties", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-
         }
 
         private bool checkitemexists(string itemnumber)
@@ -345,7 +318,6 @@ namespace SPMConnectAPI
                         exists = true;
                     }
                     cn.Close();
-
                 }
                 catch (Exception ex)
                 {
@@ -355,11 +327,8 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return exists;
-
         }
-
     }
 }

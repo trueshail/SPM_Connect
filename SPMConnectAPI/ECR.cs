@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
-using System.Windows.Forms;
 using System.Reflection;
+using System.Windows.Forms;
 
 namespace SPMConnectAPI
 {
@@ -10,7 +10,7 @@ namespace SPMConnectAPI
     {
         #region Settting up Connetion and Get User
 
-        SqlConnection cn;
+        private SqlConnection cn;
 
         public ECR()
         {
@@ -19,19 +19,15 @@ namespace SPMConnectAPI
 
         private void SPM_Connect()
         {
-
             string connection = "Data Source=spm-sql;Initial Catalog=SPM_Database;User ID=SPM_Agent;password=spm5445";
             try
             {
                 cn = new SqlConnection(connection);
-
             }
             catch (Exception)
             {
                 MessageBox.Show("Error Connecting to SQL Server.....", "SPM Connect ECR sql", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
             }
-
         }
 
         public string UserName()
@@ -46,7 +42,6 @@ namespace SPMConnectAPI
             {
                 return null;
             }
-
         }
 
         public string getuserfullname()
@@ -66,7 +61,6 @@ namespace SPMConnectAPI
                 foreach (DataRow dr in dt.Rows)
                 {
                     fullname = dr["Name"].ToString();
-
                 }
                 dt.Clear();
             }
@@ -98,7 +92,6 @@ namespace SPMConnectAPI
                 foreach (DataRow dr in dt.Rows)
                 {
                     supervisorId = Convert.ToInt32(dr["Supervisor"].ToString());
-
                 }
                 dt.Clear();
             }
@@ -130,7 +123,6 @@ namespace SPMConnectAPI
                 foreach (DataRow dr in dt.Rows)
                 {
                     fullname = dr["Name"].ToString();
-
                 }
                 dt.Clear();
             }
@@ -162,7 +154,6 @@ namespace SPMConnectAPI
                 foreach (DataRow dr in dt.Rows)
                 {
                     fullname = dr["Name"].ToString();
-
                 }
                 dt.Clear();
             }
@@ -194,7 +185,6 @@ namespace SPMConnectAPI
                 foreach (DataRow dr in dt.Rows)
                 {
                     employeeId = Convert.ToInt32(dr["Emp_Id"].ToString());
-
                 }
                 dt.Clear();
             }
@@ -226,7 +216,6 @@ namespace SPMConnectAPI
                 foreach (DataRow dr in dt.Rows)
                 {
                     employeeId = Convert.ToInt32(dr["id"].ToString());
-
                 }
                 dt.Clear();
             }
@@ -265,7 +254,6 @@ namespace SPMConnectAPI
                 foreach (DataRow dr in dt.Rows)
                 {
                     path = dr["SharesFolder"].ToString();
-
                 }
                 dt.Clear();
             }
@@ -297,7 +285,6 @@ namespace SPMConnectAPI
                     {
                         ecrCreator = true;
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -307,10 +294,8 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return ecrCreator;
-
         }
 
         public bool CheckECRSupervisor()
@@ -330,7 +315,6 @@ namespace SPMConnectAPI
                     {
                         ecrSupervisor = true;
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -340,10 +324,8 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return ecrSupervisor;
-
         }
 
         public bool CheckECRApprovee()
@@ -363,7 +345,6 @@ namespace SPMConnectAPI
                     {
                         ecrApprovee = true;
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -373,10 +354,8 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return ecrApprovee;
-
         }
 
         public bool CheckECRHandler()
@@ -396,7 +375,6 @@ namespace SPMConnectAPI
                     {
                         ecrHandler = true;
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -406,13 +384,11 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return ecrHandler;
-
         }
 
-        #endregion
+        #endregion Settting up Connetion and Get User
 
         #region Datatables to pull out values or records
 
@@ -429,7 +405,6 @@ namespace SPMConnectAPI
 
                     dt.Clear();
                     sda.Fill(dt);
-
                 }
                 catch (Exception ex)
                 {
@@ -439,7 +414,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return dt;
         }
@@ -461,7 +435,6 @@ namespace SPMConnectAPI
                 foreach (DataRow dr in dt.Rows)
                 {
                     jobname = dr["Description"].ToString();
-
                 }
                 dt.Clear();
             }
@@ -493,7 +466,6 @@ namespace SPMConnectAPI
                 foreach (DataRow dr in dt.Rows)
                 {
                     subassyname = dr["Description"].ToString();
-
                 }
                 dt.Clear();
             }
@@ -508,7 +480,7 @@ namespace SPMConnectAPI
             return subassyname;
         }
 
-        #endregion
+        #endregion Datatables to pull out values or records
 
         #region Generating New Ids
 
@@ -529,16 +501,12 @@ namespace SPMConnectAPI
                 foreach (DataRow dr in dt.Rows)
                 {
                     newincoiveno = dr["NextQuoteNo"].ToString();
-
                 }
                 dt.Clear();
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show(ex.Message, "SPM Connect - Get New ECR Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-
             }
             finally
             {
@@ -550,12 +518,10 @@ namespace SPMConnectAPI
                 newincoiveno = "1001";
             }
 
-
             return newincoiveno;
-
         }
 
-        #endregion
+        #endregion Generating New Ids
 
         #region FillComboBoxes
 
@@ -573,7 +539,6 @@ namespace SPMConnectAPI
                     {
                         MyCollection.Add(reader.GetString(0));
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -583,11 +548,9 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
 
             return MyCollection;
-
         }
 
         public AutoCompleteStringCollection FillECRProjectManagers()
@@ -604,7 +567,6 @@ namespace SPMConnectAPI
                     {
                         MyCollection.Add(reader.GetString(0));
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -614,11 +576,9 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
 
             return MyCollection;
-
         }
 
         public AutoCompleteStringCollection FillECRStatus()
@@ -635,7 +595,6 @@ namespace SPMConnectAPI
                     {
                         MyCollection.Add(reader.GetString(0));
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -645,10 +604,8 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return MyCollection;
-
         }
 
         public AutoCompleteStringCollection FillECRSupervisors()
@@ -665,7 +622,6 @@ namespace SPMConnectAPI
                     {
                         MyCollection.Add(reader.GetString(0));
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -675,10 +631,8 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return MyCollection;
-
         }
 
         public AutoCompleteStringCollection FillECRJobNumber()
@@ -695,8 +649,6 @@ namespace SPMConnectAPI
                     {
                         MyCollection.Add(reader.GetString(0));
                     }
-
-
                 }
                 catch (Exception ex)
                 {
@@ -706,10 +658,8 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return MyCollection;
-
         }
 
         public AutoCompleteStringCollection FillECRApprovedBy()
@@ -726,7 +676,6 @@ namespace SPMConnectAPI
                     {
                         MyCollection.Add(reader.GetString(0));
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -736,7 +685,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return MyCollection;
         }
@@ -755,7 +703,6 @@ namespace SPMConnectAPI
                     {
                         MyCollection.Add(reader.GetString(0));
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -765,7 +712,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return MyCollection;
         }
@@ -784,7 +730,6 @@ namespace SPMConnectAPI
                     {
                         MyCollection.Add(reader.GetString(0));
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -794,11 +739,9 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
 
             return MyCollection;
-
         }
 
         public AutoCompleteStringCollection FillECRCompletedBy()
@@ -815,7 +758,6 @@ namespace SPMConnectAPI
                     {
                         MyCollection.Add(reader.GetString(0));
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -825,12 +767,11 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return MyCollection;
         }
 
-        #endregion
+        #endregion FillComboBoxes
 
         #region Perfrom CRUD on invoice details and shipping items
 
@@ -852,7 +793,6 @@ namespace SPMConnectAPI
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 success = newinvoiceno;
-
             }
             catch (Exception ex)
             {
@@ -861,10 +801,8 @@ namespace SPMConnectAPI
             finally
             {
                 cn.Close();
-
             }
             return success;
-
         }
 
         public bool UpdateECRDetsToSql(string typeofSave, string ecrno, string jobnumber,
@@ -892,7 +830,6 @@ namespace SPMConnectAPI
                    "[RequestedBy] = '" + requestedby + "',[Department] = '" + department + "',[Description] = '" + description + "'," +
                    "[SANo] =  '" + subassyno + "',[Status] = 'ECR Initiated',[PartNo] = '" + partno + "',[JobName] = '" + jobname + "',[Comments] = '" + notes + "'," +
                    "[SAName] = '" + subassyname + "' WHERE [ECRNo] = '" + ecrno + "' ";
-
                 }
                 else if (typeofSave == "Submitted")
                 {
@@ -902,7 +839,6 @@ namespace SPMConnectAPI
                    "[SANo] =  '" + subassyno + "',[Status] = 'Submitted To Supervisor',[PartNo] = '" + partno + "',[JobName] = '" + jobname + "',[Comments] = '" + notes + "'," +
                    "[Submitted] = '" + supsubmit + "',[Submittedby] =  '" + username + "',[SubmittedOn] = '" + sqlFormattedDate + "',[SupervisorId] = '" + supervisorid + "'," +
                    "[SAName] = '" + subassyname + "' WHERE [ECRNo] = '" + ecrno + "' ";
-
                 }
                 else if (typeofSave == "SubmittedFalse")
                 {
@@ -912,7 +848,6 @@ namespace SPMConnectAPI
                    "[SANo] =  '" + subassyno + "',[Status] = 'Req Supervisor Approval',[PartNo] = '" + partno + "',[JobName] = '" + jobname + "',[Comments] = '" + notes + "'," +
                    "[Submitted] = '" + supsubmit + "',[Submittedby] =  ' ',[SubmittedOn] = ' ',[SupervisorId] = ' '," +
                    "[SAName] = '" + subassyname + "' WHERE [ECRNo] = '" + ecrno + "' ";
-
                 }
                 else if (typeofSave == "Supervisor")
                 {
@@ -921,7 +856,6 @@ namespace SPMConnectAPI
                    "[RequestedBy] = '" + requestedby + "',[Department] = '" + department + "',[Description] = '" + description + "'," +
                    "[SANo] =  '" + subassyno + "',[Status] = 'Supervisor Acknowledged',[PartNo] = '" + partno + "',[JobName] = '" + jobname + "',[Comments] = '" + notes + "'," +
                    "[SAName] = '" + subassyname + "' WHERE [ECRNo] = '" + ecrno + "' ";
-
                 }
                 else if (typeofSave == "SupSubmit")
                 {
@@ -931,7 +865,6 @@ namespace SPMConnectAPI
                    "[SANo] =  '" + subassyno + "',[Status] = 'Submitted To ECR Manager',[PartNo] = '" + partno + "',[JobName] = '" + jobname + "',[Comments] = '" + notes + "'," +
                    "[SupApproval] = '" + managersubmit + "',[SupApprovalBy] =  '" + username + "',[SupApprovedOn] = '" + sqlFormattedDate + "',[SubmitToId] = '" + ecrmanagerid + "'," +
                    "[SAName] = '" + subassyname + "' WHERE [ECRNo] = '" + ecrno + "' ";
-
                 }
                 else if (typeofSave == "SupSubmitFalse")
                 {
@@ -953,8 +886,6 @@ namespace SPMConnectAPI
                        "[SupApproval] = '" + managersubmit + "',[SupApprovalBy] =  ' ',[SupApprovedOn] = ' ',[SubmitToId] = ' '," +
                        "[SAName] = '" + subassyname + "' WHERE [ECRNo] = '" + ecrno + "' ";
                     }
-
-
                 }
                 else if (typeofSave == "Manager")
                 {
@@ -962,7 +893,6 @@ namespace SPMConnectAPI
                    "[LastSavedBy] = '" + username + "',[Status] = 'ECR Manager Acknowledged'," +
                    "[Comments] = '" + notes + "'" +
                    " WHERE [ECRNo] = '" + ecrno + "' ";
-
                 }
                 else if (typeofSave == "ManagerApproved")
                 {
@@ -990,8 +920,6 @@ namespace SPMConnectAPI
                     "[Approved] = '" + ecrhandlersubmit + "',[ApprovedBy] =  ' ',[ApprovedOn] = ' ',[AssignedTo] = ' '" +
                     " WHERE [ECRNo] = '" + ecrno + "' ";
                     }
-
-
                 }
                 else if (typeofSave == "Handler")
                 {
@@ -999,7 +927,6 @@ namespace SPMConnectAPI
                     "[LastSavedBy] = '" + username + "',[Status] = 'Being Processed'," +
                     "[Comments] = '" + notes + "'" +
                     " WHERE [ECRNo] = '" + ecrno + "' ";
-
                 }
                 else if (typeofSave == "Completed")
                 {
@@ -1008,7 +935,6 @@ namespace SPMConnectAPI
                     "[Comments] = '" + notes + "'," +
                     "[Completed] = '" + completed + "',[CompletedBy] =  '" + username + "',[CompletedOn] = '" + sqlFormattedDate + "'" +
                     " WHERE [ECRNo] = '" + ecrno + "' ";
-
                 }
                 else if (typeofSave == "CompletedFalse")
                 {
@@ -1017,7 +943,6 @@ namespace SPMConnectAPI
                     "[Comments] = '" + notes + "'," +
                     "[Completed] = '" + completed + "',[CompletedBy] =  ' ',[CompletedOn] = ' '" +
                     " WHERE [ECRNo] = '" + ecrno + "' ";
-
                 }
                 cmd.ExecuteNonQuery();
                 cn.Close();
@@ -1034,7 +959,7 @@ namespace SPMConnectAPI
             return success;
         }
 
-        #endregion
+        #endregion Perfrom CRUD on invoice details and shipping items
 
         #region Checkin Checkout Check ECR
 
@@ -1053,7 +978,6 @@ namespace SPMConnectAPI
                     {
                         username = reader["UserName"].ToString();
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -1063,7 +987,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
 
             return username;
@@ -1093,10 +1016,8 @@ namespace SPMConnectAPI
             finally
             {
                 cn.Close();
-
             }
             return success;
-
         }
 
         public bool CheckoutInvoice(string invoicenumber)
@@ -1121,13 +1042,10 @@ namespace SPMConnectAPI
             finally
             {
                 cn.Close();
-
             }
             return success;
-
         }
 
-        #endregion
-
+        #endregion Checkin Checkout Check ECR
     }
 }

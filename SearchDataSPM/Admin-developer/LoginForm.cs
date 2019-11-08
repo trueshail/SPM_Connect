@@ -8,11 +8,11 @@ namespace SearchDataSPM
 {
     public partial class LoginForm : MetroFramework.Forms.MetroForm
     {
-        string connection;
-        SqlConnection cn;
-        log4net.ILog log;
+        private string connection;
+        private SqlConnection cn;
+        private log4net.ILog log;
         private UserActions _userActions;
-        ErrorHandler errorHandler = new ErrorHandler();
+        private ErrorHandler errorHandler = new ErrorHandler();
 
         public LoginForm()
         {
@@ -25,13 +25,11 @@ namespace SearchDataSPM
             try
             {
                 cn = new SqlConnection(connection);
-
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
-
             }
         }
 
@@ -42,7 +40,6 @@ namespace SearchDataSPM
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Admin Login Form on " + System.Environment.UserName + " system.");
             _userActions = new UserActions(this);
-
         }
 
         private void LoginBttn_Click(object sender, EventArgs e)
@@ -80,8 +77,6 @@ namespace SearchDataSPM
                         MetroFramework.MetroMessageBox.Show(this, "Your username and password don't match.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
-
-
             }
             catch (Exception ex)
             {

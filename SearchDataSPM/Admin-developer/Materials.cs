@@ -10,10 +10,10 @@ namespace SearchDataSPM
 {
     public partial class Materials : Form
     {
-        Material model = new Material();
-        log4net.ILog log;
+        private Material model = new Material();
+        private log4net.ILog log;
         private UserActions _userActions;
-        ErrorHandler errorHandler = new ErrorHandler();
+        private ErrorHandler errorHandler = new ErrorHandler();
 
         public Materials()
         {
@@ -27,7 +27,7 @@ namespace SearchDataSPM
             Clear();
         }
 
-        void Clear()
+        private void Clear()
         {
             custname.Text = "";
             btnSave.Text = "Save";
@@ -47,7 +47,6 @@ namespace SearchDataSPM
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-
             model.MaterialNames = custname.Text.Trim();
             using (SPM_DatabaseEntities1 db = new SPM_DatabaseEntities1())
             {
@@ -62,13 +61,12 @@ namespace SearchDataSPM
             MessageBox.Show("Submitted Successfully", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        void PopulateDataGridView()
+        private void PopulateDataGridView()
         {
             dgvCustomer.AutoGenerateColumns = false;
             using (SPM_DatabaseEntities1 db = new SPM_DatabaseEntities1())
             {
                 dgvCustomer.DataSource = db.Materials.ToList<Material>();
-
             }
         }
 

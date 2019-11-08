@@ -10,10 +10,10 @@ namespace SearchDataSPM
 {
     public partial class Customers : Form
     {
-        Customer model = new Customer();
-        log4net.ILog log;
+        private Customer model = new Customer();
+        private log4net.ILog log;
         private UserActions _userActions;
-        ErrorHandler errorHandler = new ErrorHandler();
+        private ErrorHandler errorHandler = new ErrorHandler();
 
         public Customers()
         {
@@ -27,7 +27,7 @@ namespace SearchDataSPM
             Clear();
         }
 
-        void Clear()
+        private void Clear()
         {
             custname.Text = shortname.Text = alias.Text = custidtxt.Text = "";
             btnSave.Text = "Save";
@@ -64,13 +64,12 @@ namespace SearchDataSPM
             MessageBox.Show("Submitted Successfully", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        void PopulateDataGridView()
+        private void PopulateDataGridView()
         {
             dgvCustomer.AutoGenerateColumns = false;
             using (SPM_DatabaseEntities db = new SPM_DatabaseEntities())
             {
                 dgvCustomer.DataSource = db.Customers.ToList<Customer>();
-
             }
         }
 
@@ -115,7 +114,6 @@ namespace SearchDataSPM
             if (System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"[0-9\.+\b]"))
             {
                 // Stop the character from being entered into the control since it is illegal.
-
             }
             else
             {

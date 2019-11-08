@@ -340,14 +340,14 @@
             this.AddItemToolStripMenuItem,
             this.RemoveItemToolStripMenuItem});
             this.Addremovecontextmenu.Name = "contextMenuStrip1";
-            this.Addremovecontextmenu.Size = new System.Drawing.Size(181, 70);
+            this.Addremovecontextmenu.Size = new System.Drawing.Size(145, 48);
             this.Addremovecontextmenu.Opening += new System.ComponentModel.CancelEventHandler(this.Addremovecontextmenu_Opening);
             // 
             // AddItemToolStripMenuItem
             // 
             this.AddItemToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("AddItemToolStripMenuItem.Image")));
             this.AddItemToolStripMenuItem.Name = "AddItemToolStripMenuItem";
-            this.AddItemToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.AddItemToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.AddItemToolStripMenuItem.Text = "Add Item";
             this.AddItemToolStripMenuItem.Click += new System.EventHandler(this.AddItemToolStripMenuItem_Click);
             // 
@@ -355,7 +355,7 @@
             // 
             this.RemoveItemToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("RemoveItemToolStripMenuItem.Image")));
             this.RemoveItemToolStripMenuItem.Name = "RemoveItemToolStripMenuItem";
-            this.RemoveItemToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.RemoveItemToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.RemoveItemToolStripMenuItem.Text = "Remove Item";
             this.RemoveItemToolStripMenuItem.Click += new System.EventHandler(this.removeItemToolStripMenuItem_Click);
             // 

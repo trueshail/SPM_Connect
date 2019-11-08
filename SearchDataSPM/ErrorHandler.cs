@@ -1,17 +1,16 @@
-﻿using System;
-using System.Net.Mail;
+﻿using SPMConnect;
+using SPMConnect.UserActionLog;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net.Mail;
 using System.Text;
 using System.Windows.Forms;
-using SPMConnect.UserActionLog;
-using SPMConnect;
 
 namespace SearchDataSPM
 {
-    class ErrorHandler
+    internal class ErrorHandler
     {
-
         public void EmailExceptionAndActionLogToSupport(object sender, Exception exception, UserActions _userActions, Control frm)
         {
             StringBuilder _errMsg = new StringBuilder();
@@ -48,7 +47,6 @@ namespace SearchDataSPM
             //Adding a screenshot of the broken window for support is a good touch
             _emailAttachments.Add(Screenshot.TakeScreenshotReturnFilePath());
             SendEmail("shail@spm-automation.com", "SPM CONNECT - PROBLEM CASE ID: " + Path.GetRandomFileName(), _errMsg.ToString(), _emailAttachments.ToArray());
-
         }
 
         public void SendEmail(string emailTo, string emailSubject, string emailBody, string[] emailFileAttachments)
@@ -65,7 +63,6 @@ namespace SearchDataSPM
                 {
                     message.To.Add(email);
                 }
-
             }
 
             message.Subject = emailSubject;
@@ -79,29 +76,24 @@ namespace SearchDataSPM
                         attachment = new System.Net.Mail.Attachment(fileAttachment);
                         message.Attachments.Add(attachment);
                     }
-
                 }
             }
             message.Body = emailBody;
 
-            //Save the email message to the Drafts folder (where it can be retrieved, updated, and sent at a later time). 
+            //Save the email message to the Drafts folder (where it can be retrieved, updated, and sent at a later time).
 
             try
             {
-
                 SmtpServer.Port = 25;
                 SmtpServer.UseDefaultCredentials = true;
                 SmtpServer.EnableSsl = true;
                 SmtpServer.Send(message);
-                System.Windows.Forms.MessageBox.Show("SPM Connect ran into error!! Error report has been sent - PLEASE CONTACT " + "shail@spm-automation.com" + "!", "Email sending Success", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Exclamation);
+                //System.Windows.Forms.MessageBox.Show("SPM Connect ran into error!! Error report has been sent - PLEASE CONTACT " + "shail@spm-automation.com" + "!", "Email sending Success", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Exclamation);
             }
             catch (Exception)
             {
-                System.Windows.Forms.MessageBox.Show("FAILED TO SEND EMAIL - PLEASE CONTACT " + "shail@spm-automation.com" + "!", "Email sending failed", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Exclamation);
+                //System.Windows.Forms.MessageBox.Show("FAILED TO SEND EMAIL - PLEASE CONTACT " + "shail@spm-automation.com" + "!", "Email sending failed", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Exclamation);
             }
-
-
         }
-
     }
 }

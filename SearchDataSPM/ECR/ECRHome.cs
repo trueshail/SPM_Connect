@@ -1,11 +1,11 @@
-﻿using System;
+﻿using SPMConnect.UserActionLog;
+using System;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
-using SPMConnect.UserActionLog;
 
 namespace SearchDataSPM
 {
@@ -13,19 +13,19 @@ namespace SearchDataSPM
     {
         #region Shipping Home Load
 
-        string connection;
-        SqlConnection cn;
-        DataTable dt;
-        bool formloading = false;
-        bool ecrsupervisor = false;
-        bool ecrapprovee = false;
-        bool ecrhandler = false;
-        string userfullname = "";
-        int _advcollapse = 0;
-        SPMConnectAPI.ECR connectapi = new SPMConnectAPI.ECR();
-        log4net.ILog log;
+        private string connection;
+        private SqlConnection cn;
+        private DataTable dt;
+        private bool formloading = false;
+        private bool ecrsupervisor = false;
+        private bool ecrapprovee = false;
+        private bool ecrhandler = false;
+        private string userfullname = "";
+        private int _advcollapse = 0;
+        private SPMConnectAPI.ECR connectapi = new SPMConnectAPI.ECR();
+        private log4net.ILog log;
         private UserActions _userActions;
-        ErrorHandler errorHandler = new ErrorHandler();
+        private ErrorHandler errorHandler = new ErrorHandler();
 
         public ECRHome()
         {
@@ -38,14 +38,12 @@ namespace SearchDataSPM
             try
             {
                 cn = new SqlConnection(connection);
-
             }
             catch (Exception)
             {
                 MetroFramework.MetroMessageBox.Show(this, "Error Connecting to SQL Server.....", "SPM Connect - Shipping Home Initialize", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
             }
-
         }
 
         private void SPM_Connect_Load(object sender, EventArgs e)
@@ -112,7 +110,7 @@ namespace SearchDataSPM
             Cursor.Current = Cursors.Default;
         }
 
-        void clearfilercombos()
+        private void clearfilercombos()
         {
             jobnumbercombobox.SelectedItem = null;
             ecrstatuscombobox.SelectedItem = null;
@@ -129,12 +127,10 @@ namespace SearchDataSPM
             jobnumbercombobox.Text = null;
             completedbycombobox.Text = null;
             supervicsorcomboBox.Text = null;
-
         }
 
         private void Showallitems(bool showall)
         {
-
             if (showall)
             {
                 dt.Clear();
@@ -178,7 +174,6 @@ namespace SearchDataSPM
             dataGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dataGridView.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             UpdateFont();
-
         }
 
         private void Reload_Click(object sender, EventArgs e)
@@ -186,7 +181,7 @@ namespace SearchDataSPM
             performreload();
         }
 
-        void performreload()
+        private void performreload()
         {
             clearandhide();
             txtSearch.Clear();
@@ -205,23 +200,25 @@ namespace SearchDataSPM
             dataGridView.DefaultCellStyle.SelectionBackColor = Color.Black;
         }
 
-        #endregion
+        #endregion Shipping Home Load
 
         #region Public Table & variables
 
         // variables required outside the functions to perfrom
         // string fullsearch = ("ECRNo LIKE '%{0}%' ");
-        string fullsearch = ("FullSearch LIKE '%{0}%'");
+        private string fullsearch = ("FullSearch LIKE '%{0}%'");
+
         //string ItemNo;
         //string str;
-        DataTable table0 = new DataTable();
-        DataTable table1 = new DataTable();
-        DataTable table2 = new DataTable();
-        DataTable table3 = new DataTable();
-        DataTable table4 = new DataTable();
-        DataTable dataTable = new DataTable();
+        private DataTable table0 = new DataTable();
 
-        #endregion
+        private DataTable table1 = new DataTable();
+        private DataTable table2 = new DataTable();
+        private DataTable table3 = new DataTable();
+        private DataTable table4 = new DataTable();
+        private DataTable dataTable = new DataTable();
+
+        #endregion Public Table & variables
 
         #region Search Parameters
 
@@ -239,11 +236,9 @@ namespace SearchDataSPM
                 if (jobnumbercombobox.Text == "" && approvedbycombo.Text == "" && deptrequestedcomboxbox.Text == "" && requestedbycomboxbox.Text == "" && ecrstatuscombobox.Text == "" && completedbycombobox.Text == "" && supervicsorcomboBox.Text == "")
                 {
                     Showallitems(true);
-
                 }
                 if (txtSearch.Text.Length > 0)
                 {
-
                     Descrip_txtbox.Show();
                     SendKeys.Send("{TAB}");
                     mainsearch();
@@ -331,7 +326,6 @@ namespace SearchDataSPM
 
         private void Descrip_txtbox_KeyDown(object sender, KeyEventArgs e)
         {
-
             DataView dv = table0.DefaultView;
             table0 = dv.ToTable();
 
@@ -504,7 +498,6 @@ namespace SearchDataSPM
                 e.SuppressKeyPress = true;
                 formloading = false;
             }
-
         }
 
         private void filter4_KeyDown(object sender, KeyEventArgs e)
@@ -551,7 +544,7 @@ namespace SearchDataSPM
             }
         }
 
-        #endregion
+        #endregion Search Parameters
 
         #region datagridview events
 
@@ -563,13 +556,10 @@ namespace SearchDataSPM
 
             if (e.Button == MouseButtons.Right)
             {
-
                 int columnindex = e.RowIndex;
                 dataGridView.ClearSelection();
                 dataGridView.Rows[columnindex].Selected = true;
-
             }
-
         }
 
         private void dataGridView_CellMouseMove(object sender, DataGridViewCellMouseEventArgs e)
@@ -607,29 +597,26 @@ namespace SearchDataSPM
             }
         }
 
-        #endregion
+        #endregion datagridview events
 
-        #region Highlight Search Results 
+        #region Highlight Search Results
 
-        bool IsSelected = false;
+        private bool IsSelected = false;
 
         public void SearchStringPosition(string Searchstring)
         {
             IsSelected = true;
-
         }
-        string sw;
+
+        private string sw;
 
         public void searchtext(string searchkey)
         {
-
             sw = searchkey;
         }
 
         private void dataGridView_CellPainting_1(object sender, DataGridViewCellPaintingEventArgs e)
         {
-
-
             if (e.RowIndex >= 0 & e.ColumnIndex >= 0 & IsSelected)
             {
                 e.Handled = true;
@@ -677,15 +664,12 @@ namespace SearchDataSPM
 
                         hl_brush.Dispose();
                     }
-
                 }
                 e.PaintContent(e.CellBounds);
-
             }
-
         }
 
-        #endregion
+        #endregion Highlight Search Results
 
         #region Closing SPMConnect
 
@@ -698,11 +682,9 @@ namespace SearchDataSPM
 
         private void SPM_Connect_FormClosing(object sender, FormClosingEventArgs e)
         {
-
         }
 
-
-        #endregion
+        #endregion Closing SPMConnect
 
         #region shortcuts
 
@@ -710,7 +692,6 @@ namespace SearchDataSPM
         {
             if (keyData == (Keys.Home))
             {
-
                 Reload.PerformClick();
 
                 return true;
@@ -745,15 +726,13 @@ namespace SearchDataSPM
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-
-        #endregion        
+        #endregion shortcuts
 
         #region Advance Filtersf
 
         private void advsearchbttn_Click(object sender, EventArgs e)
         {
             advsearchbttnclick();
-
         }
 
         private void advsearchbttnclick()
@@ -766,9 +745,8 @@ namespace SearchDataSPM
             collapse();
         }
 
-        void collapse()
+        private void collapse()
         {
-
             if (splitContainer1.Panel2Collapsed == true)
             {
                 advsearchbttn.Text = "<<";
@@ -791,7 +769,6 @@ namespace SearchDataSPM
         {
             if (formloading)
             {
-
             }
             else
             {
@@ -807,7 +784,6 @@ namespace SearchDataSPM
                     {
                         filter += string.Format("JobNo = '{0}'", jobnumbercombobox.Text.ToString());
                     }
-
                 }
                 if (ecrstatuscombobox.Text.Length > 0)
                 {
@@ -820,7 +796,6 @@ namespace SearchDataSPM
                     {
                         filter += string.Format("Status = '{0}'", ecrstatuscombobox.Text.ToString());
                     }
-
                 }
                 if (approvedbycombo.Text.Length > 0)
                 {
@@ -833,7 +808,6 @@ namespace SearchDataSPM
                     {
                         filter += string.Format("ApprovedBy = '{0}'", approvedbycombo.Text.ToString());
                     }
-
                 }
                 if (deptrequestedcomboxbox.Text.Length > 0)
                 {
@@ -846,7 +820,6 @@ namespace SearchDataSPM
                     {
                         filter += string.Format("Department = '{0}'", deptrequestedcomboxbox.Text.ToString());
                     }
-
                 }
                 if (requestedbycomboxbox.Text.Length > 0)
                 {
@@ -859,7 +832,6 @@ namespace SearchDataSPM
                     {
                         filter += string.Format("RequestedBy LIKE '%{0}%'", requestedbycomboxbox.Text.ToString());
                     }
-
                 }
                 if (completedbycombobox.Text.Length > 0)
                 {
@@ -872,7 +844,6 @@ namespace SearchDataSPM
                     {
                         filter += string.Format("CompletedBy  LIKE '%{0}%'", completedbycombobox.Text.ToString());
                     }
-
                 }
                 if (supervicsorcomboBox.Text.Length > 0)
                 {
@@ -885,20 +856,16 @@ namespace SearchDataSPM
                     {
                         filter += string.Format("SupApprovalBy LIKE '%{0}%'", supervicsorcomboBox.Text.ToString());
                     }
-
                 }
 
                 if (jobnumbercombobox.SelectedItem == null && approvedbycombo.SelectedItem == null && deptrequestedcomboxbox.SelectedItem == null && requestedbycomboxbox.SelectedItem == null && ecrstatuscombobox.SelectedItem == null && completedbycombobox.SelectedItem == null && supervicsorcomboBox.SelectedItem == null)
                 {
-
                 }
                 advfiltertables(filter);
             }
-
-
         }
 
-        void advfiltertables(string filter)
+        private void advfiltertables(string filter)
         {
             if (!Descrip_txtbox.Visible)
             {
@@ -908,7 +875,6 @@ namespace SearchDataSPM
                 dataTable = (dataGridView.DataSource as DataTable).DefaultView.ToTable();
                 dataGridView.DataSource = dataTable;
                 recordlabel.Text = "Found " + dataGridView.Rows.Count.ToString() + " Matching Items.";
-
             }
             if (Descrip_txtbox.Visible)
             {
@@ -919,7 +885,6 @@ namespace SearchDataSPM
                 dataTable = (dataGridView.DataSource as DataTable).DefaultView.ToTable();
                 dataGridView.DataSource = dataTable;
                 recordlabel.Text = "Found " + dataGridView.Rows.Count.ToString() + " Matching Items.";
-
             }
             if (filteroem_txtbox.Visible)
             {
@@ -929,7 +894,6 @@ namespace SearchDataSPM
                 dataTable = (dataGridView.DataSource as DataTable).DefaultView.ToTable();
                 dataGridView.DataSource = dataTable;
                 recordlabel.Text = "Found " + dataGridView.Rows.Count.ToString() + " Matching Items.";
-
             }
             if (filteroemitem_txtbox.Visible)
             {
@@ -939,7 +903,6 @@ namespace SearchDataSPM
                 dataTable = (dataGridView.DataSource as DataTable).DefaultView.ToTable();
                 dataGridView.DataSource = dataTable;
                 recordlabel.Text = "Found " + dataGridView.Rows.Count.ToString() + " Matching Items.";
-
             }
             if (filter4.Visible)
             {
@@ -949,7 +912,6 @@ namespace SearchDataSPM
                 dataTable = (dataGridView.DataSource as DataTable).DefaultView.ToTable();
                 dataGridView.DataSource = dataTable;
                 recordlabel.Text = "Found " + dataGridView.Rows.Count.ToString() + " Matching Items.";
-
             }
             else
             {
@@ -959,7 +921,6 @@ namespace SearchDataSPM
                 dataTable = (dataGridView.DataSource as DataTable).DefaultView.ToTable();
                 dataGridView.DataSource = dataTable;
                 recordlabel.Text = "Found " + dataGridView.Rows.Count.ToString() + " Matching Items.";
-
             }
         }
 
@@ -984,7 +945,6 @@ namespace SearchDataSPM
             AutoCompleteStringCollection MyCollection = connectapi.FillECRStatus();
             ecrstatuscombobox.AutoCompleteCustomSource = MyCollection;
             ecrstatuscombobox.DataSource = MyCollection;
-
         }
 
         private void fillrequestedby()
@@ -992,7 +952,6 @@ namespace SearchDataSPM
             AutoCompleteStringCollection MyCollection = connectapi.FillECRRequestedBy();
             requestedbycomboxbox.AutoCompleteCustomSource = MyCollection;
             requestedbycomboxbox.DataSource = MyCollection;
-
         }
 
         private void filldeptrequested()
@@ -1016,7 +975,7 @@ namespace SearchDataSPM
             completedbycombobox.DataSource = MyCollection;
         }
 
-        #endregion
+        #endregion fillcomboboxes
 
         #region advance filters events
 
@@ -1095,9 +1054,9 @@ namespace SearchDataSPM
             }
         }
 
-        #endregion
+        #endregion advance filters events
 
-        #endregion
+        #endregion Advance Filtersf
 
         #region Invoice
 
@@ -1114,7 +1073,6 @@ namespace SearchDataSPM
                     {
                         showecrinvoice(status);
                     }
-
                 }
                 else
                 {
@@ -1132,15 +1090,12 @@ namespace SearchDataSPM
                         {
                             showecrinvoice(status);
                         }
-
                     }
                     else
                     {
                         MetroFramework.MetroMessageBox.Show(this, "Please try again. Employee not found.", "SPM Connect - Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
-
-
             }
         }
 
@@ -1191,17 +1146,13 @@ namespace SearchDataSPM
                                 this.Focus();
                             }
                         }
-
                     }
                     else
                     {
                         MetroFramework.MetroMessageBox.Show(this, "Please try again. Employee not found.", "SPM Connect - Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
-
-
             }
-
         }
 
         private string getselectedinvoicenumber()
@@ -1232,9 +1183,7 @@ namespace SearchDataSPM
             if (!(dataGridView.Rows.Count > 0 && dataGridView.SelectedRows.Count == 1)) e.Cancel = true;
         }
 
-
-
-        #endregion
+        #endregion Invoice
 
         private void attentionbttn_Click(object sender, EventArgs e)
         {
@@ -1250,20 +1199,16 @@ namespace SearchDataSPM
 
                         dt.Clear();
                         sda.Fill(dt);
-
                     }
                     catch (Exception)
                     {
                         MetroFramework.MetroMessageBox.Show(this, "Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect - SHow Waiting For Approval", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                     }
                     finally
                     {
                         cn.Close();
                     }
-
                 }
-
             }
             else if (ecrapprovee)
             {
@@ -1276,21 +1221,16 @@ namespace SearchDataSPM
 
                         dt.Clear();
                         sda.Fill(dt);
-
-
                     }
                     catch (Exception)
                     {
                         MetroFramework.MetroMessageBox.Show(this, "Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect - SHow Waiting For Approval", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                     }
                     finally
                     {
                         cn.Close();
                     }
-
                 }
-
             }
             else if (ecrhandler)
             {
@@ -1303,22 +1243,18 @@ namespace SearchDataSPM
 
                         dt.Clear();
                         sda.Fill(dt);
-
                     }
                     catch (Exception)
                     {
                         MetroFramework.MetroMessageBox.Show(this, "Data cannot be retrieved from database server. Please contact the admin.", "SPM Connect - SHow Waiting For Approval", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                     }
                     finally
                     {
                         cn.Close();
                     }
-
                 }
             }
             Showallitems(false);
-
         }
 
         private void UIThreadException(object sender, ThreadExceptionEventArgs t)
@@ -1331,5 +1267,4 @@ namespace SearchDataSPM
             errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
         }
     }
-
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SearchDataSPM
+﻿namespace SearchDataSPM
 {
     public class Users
     {
@@ -21,6 +15,5 @@ namespace SearchDataSPM
         public int PurchaseReqBuyer { get; set; }
         public int supervisorid { get; set; }
         public string Email { get; set; }
-
     }
 }

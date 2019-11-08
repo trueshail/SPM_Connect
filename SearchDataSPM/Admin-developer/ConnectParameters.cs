@@ -12,9 +12,10 @@ namespace SearchDataSPM
     {
         private BindingSource bindingSource1 = new BindingSource();
         private SqlDataAdapter dataAdapter = new SqlDataAdapter();
-        log4net.ILog log;
+        private log4net.ILog log;
         private UserActions _userActions;
-        ErrorHandler errorHandler = new ErrorHandler();
+        private ErrorHandler errorHandler = new ErrorHandler();
+
         public ConnectParameters()
         {
             Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
@@ -49,7 +50,7 @@ namespace SearchDataSPM
                 dataAdapter = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[ConnectParamaters] ORDER BY Id", connection);
 
                 // Create a command builder to generate SQL update, insert, and
-                // delete commands based on selectCommand. 
+                // delete commands based on selectCommand.
                 SqlCommandBuilder commandBuilder = new SqlCommandBuilder(dataAdapter);
 
                 // Populate a new data table and bind it to the BindingSource.
@@ -65,7 +66,6 @@ namespace SearchDataSPM
                     DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader);
                 dataGridView1.Columns[0].ReadOnly = true;
                 dataGridView1.Columns[1].ReadOnly = true;
-
             }
             catch (SqlException)
             {

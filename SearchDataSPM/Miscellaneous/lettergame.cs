@@ -1,19 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
 {
     public partial class lettergame : Form
     {
-        Random random = new Random();
-        Stats stats = new Stats();
+        private Random random = new Random();
+        private Stats stats = new Stats();
+
         public lettergame()
         {
             InitializeComponent();
@@ -39,7 +33,6 @@ namespace SearchDataSPM
 
             if (letterBox.Items.Contains(e.KeyCode))
             {
-
                 letterBox.Items.Remove(e.KeyCode);
                 letterBox.Refresh();
                 if (timer.Interval > 400)
@@ -50,11 +43,9 @@ namespace SearchDataSPM
                     timer.Interval = timer.Interval - 2;
                 progressBar.Value = 800 - timer.Interval;
 
-
                 //User pressed a correct key, so update the stats object
                 //by calling its update() method with argument true
                 stats.Update(true);
-
             }
             else
             {
@@ -71,12 +62,10 @@ namespace SearchDataSPM
 
         private void correctLabel_Click(object sender, EventArgs e)
         {
-
         }
 
         private void statusStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-
         }
     }
 }

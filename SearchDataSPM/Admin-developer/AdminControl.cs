@@ -13,16 +13,16 @@ namespace SearchDataSPM
     {
         #region steupvariables
 
-        string connection;
-        SqlConnection cn;
-        string controluseraction;
-        int selectedindex = 0;
-        DataTable dt;
-        log4net.ILog log;
+        private string connection;
+        private SqlConnection cn;
+        private string controluseraction;
+        private int selectedindex = 0;
+        private DataTable dt;
+        private log4net.ILog log;
         private UserActions _userActions;
-        ErrorHandler errorHandler = new ErrorHandler();
+        private ErrorHandler errorHandler = new ErrorHandler();
 
-        #endregion
+        #endregion steupvariables
 
         #region loadtree
 
@@ -36,13 +36,10 @@ namespace SearchDataSPM
             try
             {
                 cn = new SqlConnection(connection);
-
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
             }
             finally
             {
@@ -85,7 +82,6 @@ namespace SearchDataSPM
                 {
                     Userlistbox.SelectedItem = Userlistbox.Items[index];
                 }
-
             }
             catch (Exception ex)
             {
@@ -94,7 +90,6 @@ namespace SearchDataSPM
             finally
             {
                 cn.Close();
-
             }
         }
 
@@ -116,7 +111,6 @@ namespace SearchDataSPM
                     ecrSupervisorcomboBox.AutoCompleteCustomSource = MyCollection;
                     supervisorcombox.DataSource = MyCollection;
                     ecrSupervisorcomboBox.DataSource = MyCollection;
-
                 }
                 catch (Exception ex)
                 {
@@ -126,9 +120,7 @@ namespace SearchDataSPM
                 {
                     cn.Close();
                 }
-
             }
-
         }
 
         private void fillECRsupervisor()
@@ -147,7 +139,6 @@ namespace SearchDataSPM
                     }
                     ecrSupervisorcomboBox.AutoCompleteCustomSource = MyCollection;
                     ecrSupervisorcomboBox.DataSource = MyCollection;
-
                 }
                 catch (Exception ex)
                 {
@@ -157,12 +148,10 @@ namespace SearchDataSPM
                 {
                     cn.Close();
                 }
-
             }
-
         }
 
-        #endregion
+        #endregion loadtree
 
         #region Fillinfo
 
@@ -175,7 +164,6 @@ namespace SearchDataSPM
         {
             try
             {
-
                 if (cn.State == ConnectionState.Closed)
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
@@ -206,7 +194,6 @@ namespace SearchDataSPM
                     }
                     else
                     {
-
                     }
 
                     if (dr["Department"].ToString().Length > 0)
@@ -217,7 +204,6 @@ namespace SearchDataSPM
                     }
                     else
                     {
-
                     }
 
                     if (dr["Admin"].ToString().Equals("1"))
@@ -227,7 +213,6 @@ namespace SearchDataSPM
                     else
                     {
                         admintoggle.Checked = false;
-
                     }
                     if (dr["Developer"].ToString().Equals("1"))
                     {
@@ -255,32 +240,26 @@ namespace SearchDataSPM
                     }
                     if (dr["PurchaseReqApproval"].ToString().Equals("1"))
                     {
-
                         papprovalchk.Checked = true;
                     }
                     else
                     {
-
                         papprovalchk.Checked = false;
                     }
                     if (dr["PurchaseReqBuyer"].ToString().Equals("1"))
                     {
-
                         pbuyerchk.Checked = true;
                     }
                     else
                     {
-
                         pbuyerchk.Checked = false;
                     }
                     if (dr["PurchaseReqApproval2"].ToString().Equals("1"))
                     {
-
                         papproval2chk.Checked = true;
                     }
                     else
                     {
-
                         papproval2chk.Checked = false;
                     }
                     if (dr["PurchaseReq"].ToString().Equals("1"))
@@ -355,55 +334,42 @@ namespace SearchDataSPM
 
                     if (dr["ECRApproval"].ToString().Equals("1"))
                     {
-
                         ecrapprovalchk.Checked = true;
                     }
                     else
                     {
-
                         ecrapprovalchk.Checked = false;
                     }
 
                     if (dr["ECRApproval2"].ToString().Equals("1"))
                     {
-
                         ecrapproval2chk.Checked = true;
                     }
                     else
                     {
-
                         ecrapproval2chk.Checked = false;
                     }
 
                     if (dr["ECRHandler"].ToString().Equals("1"))
                     {
-
                         ecrhandlerchk.Checked = true;
                     }
                     else
                     {
-
                         ecrhandlerchk.Checked = false;
                     }
 
-
                     runalltoggle();
-
-
                 }
-
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
             }
             finally
             {
                 cn.Close();
             }
-
         }
 
         private string getuserfullname(string supervisor)
@@ -427,10 +393,7 @@ namespace SearchDataSPM
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show(ex.Message, "SPM Connect - Get Full Supervisor Name", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-
             }
             finally
             {
@@ -439,7 +402,7 @@ namespace SearchDataSPM
             return null;
         }
 
-        #endregion
+        #endregion Fillinfo
 
         #region Perfrom CRUD
 
@@ -532,13 +495,11 @@ namespace SearchDataSPM
             cribshorttoggle.Enabled = false;
             ecrtoggle.Enabled = false;
             itmdeptoggle.Enabled = false;
-
         }
 
         private void delbttn_Click(object sender, EventArgs e)
         {
             performdeletebttn();
-
         }
 
         private void performdeletebttn()
@@ -591,7 +552,6 @@ namespace SearchDataSPM
                     sharepathtxt.Text = "";
                     idlabel.Text = "";
                     empidtxt.Text = "";
-
                 }
                 catch (Exception ex)
                 {
@@ -602,7 +562,6 @@ namespace SearchDataSPM
                     cn.Close();
                     Connect_SPMSQL(0);
                 }
-
             }
         }
 
@@ -613,7 +572,6 @@ namespace SearchDataSPM
 
         private void performupdateuserdet()
         {
-
             selectedindex = Userlistbox.SelectedIndex;
             nametextbox.ReadOnly = false;
             empidtxt.ReadOnly = false;
@@ -722,8 +680,6 @@ namespace SearchDataSPM
                     cmd.ExecuteNonQuery();
                     cn.Close();
                     MessageBox.Show("User credentials updated successfully", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-
                 }
                 catch (Exception ex)
                 {
@@ -734,13 +690,11 @@ namespace SearchDataSPM
                     cn.Close();
                     performcancelbutton();
                 }
-
             }
             else if (result == DialogResult.No)
             {
                 performcancelbutton();
             }
-
         }
 
         private void addnewuser()
@@ -798,7 +752,6 @@ namespace SearchDataSPM
                     cmd.ExecuteNonQuery();
                     cn.Close();
                     MessageBox.Show("New user added successfully", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                 }
                 catch (Exception ex)
                 {
@@ -809,12 +762,10 @@ namespace SearchDataSPM
                     cn.Close();
                     performcancelbutton();
                 }
-
             }
             else if (result == DialogResult.No)
             {
                 performcancelbutton();
-
             }
         }
 
@@ -837,11 +788,9 @@ namespace SearchDataSPM
             papproval2chk.Enabled = false;
             pbuyerchk.Enabled = false;
 
-
             ecrapprovalchk.Enabled = false;
             ecrapproval2chk.Enabled = false;
             ecrhandlerchk.Enabled = false;
-
 
             supervisorcombox.Enabled = false;
             deptcombobox.Enabled = false;
@@ -898,7 +847,6 @@ namespace SearchDataSPM
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 sharepathtxt.Text = Path.GetDirectoryName(openFileDialog1.FileName);
-
             }
         }
 
@@ -911,7 +859,6 @@ namespace SearchDataSPM
                     activecadblocktxt.Clear();
                 }
             }
-
         }
 
         private void activecadblocktxt_KeyPress(object sender, KeyPressEventArgs e)
@@ -922,7 +869,6 @@ namespace SearchDataSPM
                 {
                     activecadblocktxt.Clear();
                 }
-
             }
             if (activecadblocktxt.Text.Length > 1)
             {
@@ -938,10 +884,9 @@ namespace SearchDataSPM
                     activecadblocktxt.Clear();
                 }
             }
-
         }
 
-        #endregion
+        #endregion Perfrom CRUD
 
         #region Button Click Events
 
@@ -949,7 +894,6 @@ namespace SearchDataSPM
         {
             Admin_developer.UserLogs sPM_Connect = new Admin_developer.UserLogs();
             sPM_Connect.ShowDialog();
-
         }
 
         private void SPM_DoubleClick(object sender, EventArgs e)
@@ -996,7 +940,7 @@ namespace SearchDataSPM
             parameters.ShowDialog();
         }
 
-        #endregion
+        #endregion Button Click Events
 
         #region Toggle Events
 
@@ -1261,7 +1205,6 @@ namespace SearchDataSPM
         private void ecrtoggle_CheckChanged(object sender, EventArgs e)
         {
             toggleECR();
-
         }
 
         private void itmdeptoggle_CheckChanged(object sender, EventArgs e)
@@ -1269,7 +1212,7 @@ namespace SearchDataSPM
             toggleItemDependencies();
         }
 
-        #endregion
+        #endregion Toggle Events
 
         #region shortcuts
 
@@ -1314,11 +1257,10 @@ namespace SearchDataSPM
                 }
             }
 
-
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        #endregion
+        #endregion shortcuts
 
         private void spmadmin_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -1327,7 +1269,6 @@ namespace SearchDataSPM
                 DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to close without saving changes?", "SPM Connect - Save User Details", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {
-
                     this.Close();
                 }
                 else
@@ -1335,7 +1276,6 @@ namespace SearchDataSPM
                     e.Cancel = (result == DialogResult.No);
                 }
             }
-
         }
 
         private void ecrapprovalchk_CheckedChanged(object sender, EventArgs e)
@@ -1345,7 +1285,6 @@ namespace SearchDataSPM
                 ecrhandlerchk.Checked = false;
                 ecrapproval2chk.Checked = false;
             }
-
         }
 
         private void ecrhandlerchk_CheckedChanged(object sender, EventArgs e)
@@ -1375,7 +1314,5 @@ namespace SearchDataSPM
         {
             errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
         }
-
-
     }
 }

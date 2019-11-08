@@ -11,16 +11,16 @@ namespace SearchDataSPM.ECR
 {
     public partial class ECR_Users : Form
     {
-        string connection;
-        SqlConnection cn;
-        DataTable dt;
-        bool supervisor;
+        private string connection;
+        private SqlConnection cn;
+        private DataTable dt;
+        private bool supervisor;
         public string ValueIWant { get; set; }
-        SPMConnectAPI.ECR connectapi = new SPMConnectAPI.ECR();
-        string formlabel = "";
-        log4net.ILog log;
+        private SPMConnectAPI.ECR connectapi = new SPMConnectAPI.ECR();
+        private string formlabel = "";
+        private log4net.ILog log;
         private UserActions _userActions;
-        ErrorHandler errorHandler = new ErrorHandler();
+        private ErrorHandler errorHandler = new ErrorHandler();
 
         public ECR_Users()
         {
@@ -32,7 +32,6 @@ namespace SearchDataSPM.ECR
             try
             {
                 cn = new SqlConnection(connection);
-
             }
             catch (Exception)
             {
@@ -54,7 +53,6 @@ namespace SearchDataSPM.ECR
                 return formlabel = formname;
             return "ECR Select available to user";
         }
-
 
         private void dataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -91,7 +89,6 @@ namespace SearchDataSPM.ECR
 
                         dt.Clear();
                         sda.Fill(dt);
-
                     }
                     catch (Exception ex)
                     {
@@ -101,7 +98,6 @@ namespace SearchDataSPM.ECR
                     {
                         cn.Close();
                     }
-
                 }
             }
             else
@@ -116,7 +112,6 @@ namespace SearchDataSPM.ECR
 
                         dt.Clear();
                         sda.Fill(dt);
-
                     }
                     catch (Exception ex)
                     {
@@ -126,7 +121,6 @@ namespace SearchDataSPM.ECR
                     {
                         cn.Close();
                     }
-
                 }
             }
 

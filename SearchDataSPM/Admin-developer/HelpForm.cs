@@ -9,10 +9,10 @@ namespace SearchDataSPM
 {
     public partial class HelpForm : Form
     {
-        SPMSQLCommands connectapi = new SPMSQLCommands();
-        log4net.ILog log;
+        private SPMSQLCommands connectapi = new SPMSQLCommands();
+        private log4net.ILog log;
         private UserActions _userActions;
-        ErrorHandler errorHandler = new ErrorHandler();
+        private ErrorHandler errorHandler = new ErrorHandler();
 
         public HelpForm()
         {
@@ -42,7 +42,6 @@ namespace SearchDataSPM
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -50,7 +49,7 @@ namespace SearchDataSPM
             System.Diagnostics.Process.Start(@"https://github.com/spmconnect/SPM_Connect");
         }
 
-        string file = "";
+        private string file = "";
 
         private void importfilename()
         {
@@ -61,7 +60,6 @@ namespace SearchDataSPM
             if (result == DialogResult.OK) // Test result.
             {
                 file = openFileDialog1.FileName;
-
             }
         }
 
@@ -97,7 +95,7 @@ namespace SearchDataSPM
             MessageBox.Show("Email successfully sent to developer.", "SPM Connect - Developer", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        void sendemailtodevelopers(string requser, string fileName, string subject, string notes)
+        private void sendemailtodevelopers(string requser, string fileName, string subject, string notes)
         {
             //connectapi.SPM_Connect();
             string[] nameemail = connectapi.getdevelopersnamesandemail().ToArray();
@@ -108,7 +106,6 @@ namespace SearchDataSPM
                 for (int a = 0; a < values.Length; a++)
                 {
                     values[a] = values[a].Trim();
-
                 }
                 string email = values[0];
                 string name = values[1];
@@ -117,12 +114,10 @@ namespace SearchDataSPM
                 for (int b = 0; b < names.Length; b++)
                 {
                     names[b] = names[b].Trim();
-
                 }
                 name = names[0];
                 connectapi.sendemail(email, "Connect Error Occured - " + subject, "Hello " + name + "," + Environment.NewLine + requser + " sent this error report." + Environment.NewLine + notes + Environment.NewLine + "Triggered by " + connectapi.UserName(), fileName, "");
             }
-
         }
 
         private void nametxt_TextChanged(object sender, EventArgs e)

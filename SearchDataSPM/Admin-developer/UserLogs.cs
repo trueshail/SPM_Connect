@@ -7,9 +7,9 @@ namespace SearchDataSPM.Admin_developer
 {
     public partial class UserLogs : Form
     {
-        log4net.ILog log;
+        private log4net.ILog log;
         private UserActions _userActions;
-        ErrorHandler errorHandler = new ErrorHandler();
+        private ErrorHandler errorHandler = new ErrorHandler();
 
         public UserLogs()
         {

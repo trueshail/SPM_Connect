@@ -12,27 +12,28 @@ using System.Windows.Forms;
 
 namespace SearchDataSPM
 {
-
     public partial class AutocadWhereUsed : Form
 
     {
         #region setup variables
 
-        string connection;
-        string cntrlconnection;
-        DataTable _acountsTb = null;
-        DataTable _productTB;
-        SqlConnection _connection;
-        SqlCommand _command;
-        SqlDataAdapter _adapter;
-        //SqlDataAdapter _adapaterproduct;
-        TreeNode root = new TreeNode();
-        string txtvalue;
-        log4net.ILog log;
-        private UserActions _userActions;
-        ErrorHandler errorHandler = new ErrorHandler();
+        private string connection;
+        private string cntrlconnection;
+        private DataTable _acountsTb = null;
+        private DataTable _productTB;
+        private SqlConnection _connection;
+        private SqlCommand _command;
+        private SqlDataAdapter _adapter;
 
-        #endregion
+        //SqlDataAdapter _adapaterproduct;
+        private TreeNode root = new TreeNode();
+
+        private string txtvalue;
+        private log4net.ILog log;
+        private UserActions _userActions;
+        private ErrorHandler errorHandler = new ErrorHandler();
+
+        #endregion setup variables
 
         #region whereused loading
 
@@ -47,13 +48,10 @@ namespace SearchDataSPM
             try
             {
                 _connection = new SqlConnection(cntrlconnection);
-
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
             }
 
             string txtvalue = Assy_txtbox.Text;
@@ -63,10 +61,9 @@ namespace SearchDataSPM
                 Connection = _connection
             };
             _productTB = new DataTable();
-
         }
 
-        string itemnumber;
+        private string itemnumber;
 
         public string item(string item)
         {
@@ -82,7 +79,6 @@ namespace SearchDataSPM
             //Assy_txtbox.Text = SPM_ConnectControls.whereusedcontrols;
             Assy_txtbox.Text = itemnumber;
 
-
             if (Assy_txtbox.Text.Length == 5 || Assy_txtbox.Text.Length == 6)
             {
                 itemnumber = null;
@@ -93,7 +89,6 @@ namespace SearchDataSPM
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened AutoCadWhereUsed Form by " + System.Environment.UserName);
             _userActions = new UserActions(this);
-
         }
 
         private void filldatatable()
@@ -112,7 +107,6 @@ namespace SearchDataSPM
                 //_adapaterproduct.Fill(_productTB);
                 _adapter.Fill(_acountsTb);
                 fillrootnode();
-
             }
             catch (SqlException ex)
             {
@@ -124,7 +118,7 @@ namespace SearchDataSPM
             }
         }
 
-        #endregion
+        #endregion whereused loading
 
         #region assytextbox and button events
 
@@ -164,7 +158,7 @@ namespace SearchDataSPM
             qtytxtbox.Clear();
         }
 
-        string assemblycode;
+        private string assemblycode;
 
         private void Assy_txtbox_KeyDown(object sender, KeyEventArgs e)
         {
@@ -191,11 +185,9 @@ namespace SearchDataSPM
             catch (Exception)
 
             {
-
                 if (!String.IsNullOrEmpty(txtvalue) && Char.IsLetter(txtvalue[0]))
                 {
                     MessageBox.Show(" Item does not belong to any assembly in AutoCad.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-
                 }
                 else
                 {
@@ -220,7 +212,6 @@ namespace SearchDataSPM
                 //DataRow[] dr = _productTB.Select("ItemNumber = '" + txtvalue.ToString() + "'");
                 DataRow[] dr = _acountsTb.Select("QUERY2 = '" + txtvalue.ToString() + "'");
 
-
                 root.Text = dr[0]["QUERY2"].ToString() + " - " + dr[0]["DESCRIPTION"].ToString();
                 root.Tag = _acountsTb.Rows.IndexOf(dr[0]);
 
@@ -238,8 +229,6 @@ namespace SearchDataSPM
                 oemitemtxtbox.Text = dr[0]["TEXTVALUE"].ToString();
                 assemblycode = dr[0]["ASSEMBLYLIST"].ToString();
                 // PopulateTreeView(assemblycode, root);
-
-
             }
             catch
             {
@@ -262,7 +251,6 @@ namespace SearchDataSPM
 
         private void PopulateTreeView(string parentId, TreeNode parentNode)
         {
-
             TreeNode childNode;
 
             foreach (DataRow dr in _acountsTb.Select("[QUERY2] ='" + parentId.ToString() + "'"))
@@ -275,7 +263,6 @@ namespace SearchDataSPM
                 };
                 if (parentNode == null)
                 {
-
                     Font f = new Font("Arial", 10, FontStyle.Bold);
                     t.NodeFont = f;
                     t.Text = dr["AssyNo"].ToString() + " - " + dr["AssyDesc"].ToString() + " ( " + dr["AssyQty"].ToString() + " ) ";
@@ -283,7 +270,6 @@ namespace SearchDataSPM
                     t.Tag = _acountsTb.Rows.IndexOf(dr);
                     treeView1.Nodes.Add(t);
                     childNode = t;
-
                 }
                 else
                 {
@@ -291,17 +277,15 @@ namespace SearchDataSPM
                     // t.NodeFont = f;
                     parentNode.Nodes.Add(t);
                     childNode = t;
-
                 }
                 PopulateTreeView((dr["AssyNo"].ToString()), childNode);
             }
 
             treeView1.ExpandAll();
-
         }
 
-        string ItemNo;
-        string str;
+        private string ItemNo;
+        private string str;
 
         private void Expandchk_Click(object sender, EventArgs e)
         {
@@ -324,7 +308,6 @@ namespace SearchDataSPM
                     parentNode.Nodes[i].Remove();
                 }
             }
-
         }
 
         private void SPM_DoubleClick(object sender, EventArgs e)
@@ -332,14 +315,13 @@ namespace SearchDataSPM
             System.Diagnostics.Process.Start("http://www.spm-automation.com/");
         }
 
-        #endregion
+        #endregion assytextbox and button events
 
         #region open model and drawing
 
         private void checkforspmfile(string first3char)
         {
             string ItemNumbero = ItemNo + "-0";
-
 
             if (!String.IsNullOrWhiteSpace(ItemNo) && ItemNo.Length == 6)
 
@@ -354,90 +336,65 @@ namespace SearchDataSPM
                 string PathPartNo = (spmcadpath + first3char + ItemNumbero + ".sldprt");
                 string PathAssyNo = (spmcadpath + first3char + ItemNumbero + ".sldasm");
 
-
-
                 if (File.Exists(Pathassy) && File.Exists(Pathpart))
                 {
-
                     MessageBox.Show($"System has found a Part file and Assembly file with the same PartNo." + ItemNo + "." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 }
                 else if (File.Exists(PathAssyNo) && File.Exists(PathPartNo))
                 {
                     MessageBox.Show($"System has found a Part file and Assembly file with the same PartNo. " + ItemNumbero + "." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 }
                 else if (File.Exists(PathAssyNo) && File.Exists(Pathpart))
                 {
                     MessageBox.Show($"System has found a Part file " + ItemNo + "and Assembly file " + ItemNumbero + " with the same PartNo." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 }
                 else if (File.Exists(Pathassy) && File.Exists(PathPartNo))
                 {
                     MessageBox.Show($"System has found a Part file " + ItemNumbero + "and Assembly file" + ItemNo + " with the same PartNo." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 }
                 else if (File.Exists(PathPartNo) && File.Exists(Pathpart))
                 {
                     MessageBox.Show($"System has found a Part two files " + ItemNo + "," + ItemNumbero + " with the same PartNo." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 }
                 else if (File.Exists(PathAssyNo) && File.Exists(Pathassy))
                 {
                     MessageBox.Show($"System has found a assembly files " + ItemNo + "," + ItemNumbero + " with the same PartNo." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 }
-
                 else if (File.Exists(Pathassy))
                 {
-
                     Process.Start("explorer.exe", Pathassy);
-
                 }
                 else if (File.Exists(PathAssyNo))
                 {
-
                     Process.Start("explorer.exe", PathAssyNo);
-
                 }
                 else if (File.Exists(Pathpart))
                 {
-
                     Process.Start("explorer.exe", Pathpart);
-
                 }
                 else if (File.Exists(PathPartNo))
                 {
-
                     Process.Start("explorer.exe", PathPartNo);
-
                 }
                 else
                 {
-
                     MessageBox.Show($"A file with the part number" + ItemNo + " does not have Solidworks CAD Model. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 }
-
             }
             else
             {
-
-
             }
-
         }
 
         private void checkforspmdrwfile(string first3char)
         {
             string ItemNumbero = str + "-0";
-
 
             if (!String.IsNullOrWhiteSpace(str) && str.Length == 6)
 
@@ -451,40 +408,27 @@ namespace SearchDataSPM
 
                 string drawpathno = (spmcadpath + first3char + ItemNumbero + ".SLDDRW");
 
-
                 if (File.Exists(drawpathno) && File.Exists(Drawpath))
                 {
                     MessageBox.Show($"System has found a Part two files " + ItemNo + "," + ItemNumbero + " with the same PartNo." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 }
-
-
                 else if (File.Exists(Drawpath))
                 {
-
                     Process.Start("explorer.exe", Drawpath);
-
                 }
                 else if (File.Exists(drawpathno))
                 {
-
                     Process.Start("explorer.exe", drawpathno);
-
                 }
                 else
                 {
-
                     MessageBox.Show($"A file with the part number" + ItemNo + " does not have Solidworks Drawing File. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 }
-
             }
             else
             {
-
             }
-
         }
 
         private void openModelToolStripMenuItem_Click(object sender, EventArgs e)
@@ -493,7 +437,6 @@ namespace SearchDataSPM
             ItemNo = ItemNo.Substring(0, 6);
             //MessageBox.Show(ItemNo);
             checkforspmfile(ItemNo);
-
         }
 
         private void openDrawingToolStripMenuItem_Click(object sender, EventArgs e)
@@ -502,11 +445,9 @@ namespace SearchDataSPM
             str = str.Substring(0, 6);
             //MessageBox.Show(ItemNo);
             checkforspmdrwfile(str);
-
         }
 
-
-        #endregion
+        #endregion open model and drawing
 
         #region search tree
 
@@ -539,12 +480,10 @@ namespace SearchDataSPM
                 };
                 if (StartNode.Nodes.Count != 0)
                 {
-                    SearchNodes(SearchText, StartNode.Nodes[0]);//Recursive Search 
+                    SearchNodes(SearchText, StartNode.Nodes[0]);//Recursive Search
                 };
                 StartNode = StartNode.NextNode;
-
             }
-
         }
 
         private void txtSearch_KeyDown(object sender, KeyEventArgs e)
@@ -559,7 +498,6 @@ namespace SearchDataSPM
                     {
                         return;
                     };
-
 
                     if (LastSearchText != searchText)
                     {
@@ -577,7 +515,6 @@ namespace SearchDataSPM
                         this.treeView1.SelectedNode = selectedNode;
                         this.treeView1.SelectedNode.Expand();
                         this.treeView1.Select();
-
                     }
                     else
                     {
@@ -586,16 +523,11 @@ namespace SearchDataSPM
 
                     e.Handled = true;
                     e.SuppressKeyPress = true;
-
                 }
             }
-
             catch (Exception)
             {
-
             }
-
-
         }
 
         private void txtSearch_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -603,14 +535,13 @@ namespace SearchDataSPM
             txtSearch.Clear();
         }
 
-        #endregion
+        #endregion search tree
 
         #region treeview events
 
         private void treeView1_AfterExpand(object sender, TreeViewEventArgs e)
         {
             Expandchk.Checked = true;
-
         }
 
         private void treeView1_KeyDown(object sender, KeyEventArgs e)
@@ -625,7 +556,7 @@ namespace SearchDataSPM
             }
         }
 
-        string chekroot;
+        private string chekroot;
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
@@ -637,7 +568,6 @@ namespace SearchDataSPM
                 oemtxtbox.Text = r["USER3"].ToString();
                 oemitemtxtbox.Text = r["TEXTVALUE"].ToString();
                 qtytxtbox.Text = r["AssyQty"].ToString();
-
             }
             else
             {
@@ -648,12 +578,10 @@ namespace SearchDataSPM
                 oemitemtxtbox.Text = r["AssyOem"].ToString();
                 qtytxtbox.Text = r["AssyQty"].ToString();
             }
-
         }
 
         private void treeView1_KeyPress(object sender, KeyPressEventArgs e)
         {
-
             if (e.KeyChar == Convert.ToChar(Keys.Down))
             {
                 TreeNode node = new TreeNode();
@@ -661,7 +589,6 @@ namespace SearchDataSPM
                 treeView1.SelectedNode = node.NextVisibleNode;
                 node.TreeView.Focus();
             }
-
             else if (e.KeyChar == Convert.ToChar(Keys.Up))
             {
                 TreeNode node = new TreeNode();
@@ -676,7 +603,7 @@ namespace SearchDataSPM
             treeView1.SelectedNode = e.Node;
         }
 
-        #endregion
+        #endregion treeview events
 
         private void AutocadWhereUsed_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -695,5 +622,4 @@ namespace SearchDataSPM
             errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
         }
     }
-
 }

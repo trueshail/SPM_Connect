@@ -7,8 +7,8 @@ namespace SearchDataSPM.Edrawings
 {
     public partial class EModelViewer : Form
     {
-        eDrawingControl ctrl = null;
-        string filename = "";
+        private eDrawingControl ctrl = null;
+        private string filename = "";
 
         public EModelViewer()
         {
@@ -29,12 +29,11 @@ namespace SearchDataSPM.Edrawings
                 this.ctrl.Dock = DockStyle.Fill;
                 ctrl.EnableFeatures = 16;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "SPM Connect - Emodel Viewer Failed to Launch", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.Close();
             }
-            
         }
 
         public string filetoopen(string item)
@@ -44,19 +43,18 @@ namespace SearchDataSPM.Edrawings
             return null;
         }
 
-        void openfile(string filename)
+        private void openfile(string filename)
         {
             try
             {
                 if (File.Exists(filename)) { }
                 ctrl.eDrawingControlWrapper.OpenDoc(filename, false, false, true, "");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "SPM Connect - Emodel Viewer Failed to File", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.Close();
             }
-          
         }
 
         private void EModelViewer_Load(object sender, System.EventArgs e)
@@ -67,12 +65,11 @@ namespace SearchDataSPM.Edrawings
                 if (File.Exists(filename)) { }
                 ctrl.eDrawingControlWrapper.OpenDoc(filename, false, false, true, "");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "SPM Connect - Emodel Viewer Failed to Load", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.Close();
             }
-           
         }
     }
 }

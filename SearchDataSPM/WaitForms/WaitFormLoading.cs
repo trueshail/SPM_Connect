@@ -8,24 +8,19 @@ namespace SearchDataSPM.Engineering
         public WaitFormLoading()
         {
             InitializeComponent();
-
         }
-
 
         private void metroProgressSpinner1_Click(object sender, EventArgs e)
         {
-
         }
 
         private void WaitFormOpening_Load(object sender, EventArgs e)
         {
-
         }
 
         private void WaitFormOpening_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.Dispose();
         }
-
     }
 }

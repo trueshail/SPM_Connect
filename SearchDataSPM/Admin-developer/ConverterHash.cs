@@ -7,7 +7,6 @@ public class ConverterHash
 {
     public ConverterHash()
     {
-
     }
 
     public static string Decrypt(string TextToBeDecrypted)
@@ -53,7 +52,7 @@ public class ConverterHash
         byte[] PlainText = System.Text.Encoding.Unicode.GetBytes(TextToBeEncrypted);
         byte[] Salt = Encoding.ASCII.GetBytes(Password.Length.ToString());
         PasswordDeriveBytes SecretKey = new PasswordDeriveBytes(Password, Salt);
-        //Creates a symmetric encryptor object. 
+        //Creates a symmetric encryptor object.
         ICryptoTransform Encryptor = RijndaelCipher.CreateEncryptor(SecretKey.GetBytes(32), SecretKey.GetBytes(16));
         MemoryStream memoryStream = new MemoryStream();
         //Defines a stream that links data streams to cryptographic transformations

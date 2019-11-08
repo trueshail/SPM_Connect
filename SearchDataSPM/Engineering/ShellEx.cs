@@ -28,7 +28,6 @@ namespace ExtractLargeIconFromFile
             IntPtr wParam,
             IntPtr lParam);
 
-
         [DllImport("shell32.dll")]
         private static extern int SHGetImageList(
             int iImageList,
@@ -37,10 +36,10 @@ namespace ExtractLargeIconFromFile
 
         [DllImport("Shell32.dll")]
         public static extern int SHGetFileInfo(
-            string pszPath, 
-            int dwFileAttributes, 
-            ref Shell.SHFILEINFO psfi, 
-            int cbFileInfo, 
+            string pszPath,
+            int dwFileAttributes,
+            ref Shell.SHFILEINFO psfi,
+            int cbFileInfo,
             uint uFlags);
 
         [DllImport("user32")]
@@ -124,6 +123,5 @@ namespace ExtractLargeIconFromFile
             hres = iml.GetIcon(iconIndex, ILD_TRANSPARENT, ref hIcon);
             return hIcon;
         }
-
     }
 }

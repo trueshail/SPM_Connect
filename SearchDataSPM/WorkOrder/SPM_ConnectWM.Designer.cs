@@ -34,6 +34,10 @@
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.getBOMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.releaseManagementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.initialReleaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addNewReleaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewReleasesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Reload = new System.Windows.Forms.Button();
             this.Descrip_txtbox = new System.Windows.Forms.TextBox();
             this.filteroem_txtbox = new System.Windows.Forms.TextBox();
@@ -44,6 +48,8 @@
             this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.cribbttn = new System.Windows.Forms.Button();
             this.scanwobttn = new System.Windows.Forms.Button();
+            this.viewAllReleaseLogsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewCurrentJobReleaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -96,19 +102,56 @@
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.getBOMToolStripMenuItem});
+            this.getBOMToolStripMenuItem,
+            this.releaseManagementToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(161, 26);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(188, 48);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // getBOMToolStripMenuItem
             // 
             this.getBOMToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("getBOMToolStripMenuItem.Image")));
             this.getBOMToolStripMenuItem.Name = "getBOMToolStripMenuItem";
-            this.getBOMToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.getBOMToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
             this.getBOMToolStripMenuItem.Text = "View WorkOrder";
             this.getBOMToolStripMenuItem.ToolTipText = "Preview Work Order Details";
             this.getBOMToolStripMenuItem.Click += new System.EventHandler(this.getBOMToolStripMenuItem_Click);
+            // 
+            // releaseManagementToolStripMenuItem
+            // 
+            this.releaseManagementToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.initialReleaseToolStripMenuItem,
+            this.addNewReleaseToolStripMenuItem,
+            this.viewReleasesToolStripMenuItem,
+            this.viewCurrentJobReleaseToolStripMenuItem,
+            this.viewAllReleaseLogsToolStripMenuItem});
+            this.releaseManagementToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("releaseManagementToolStripMenuItem.Image")));
+            this.releaseManagementToolStripMenuItem.Name = "releaseManagementToolStripMenuItem";
+            this.releaseManagementToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.releaseManagementToolStripMenuItem.Text = "Release Management";
+            // 
+            // initialReleaseToolStripMenuItem
+            // 
+            this.initialReleaseToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("initialReleaseToolStripMenuItem.Image")));
+            this.initialReleaseToolStripMenuItem.Name = "initialReleaseToolStripMenuItem";
+            this.initialReleaseToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.initialReleaseToolStripMenuItem.Text = "Initial Release";
+            this.initialReleaseToolStripMenuItem.Click += new System.EventHandler(this.InitialReleaseToolStripMenuItem_Click);
+            // 
+            // addNewReleaseToolStripMenuItem
+            // 
+            this.addNewReleaseToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("addNewReleaseToolStripMenuItem.Image")));
+            this.addNewReleaseToolStripMenuItem.Name = "addNewReleaseToolStripMenuItem";
+            this.addNewReleaseToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.addNewReleaseToolStripMenuItem.Text = "Add New Release";
+            this.addNewReleaseToolStripMenuItem.Click += new System.EventHandler(this.AddNewReleaseToolStripMenuItem_Click);
+            // 
+            // viewReleasesToolStripMenuItem
+            // 
+            this.viewReleasesToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("viewReleasesToolStripMenuItem.Image")));
+            this.viewReleasesToolStripMenuItem.Name = "viewReleasesToolStripMenuItem";
+            this.viewReleasesToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.viewReleasesToolStripMenuItem.Text = "View Assy Releases";
             // 
             // Reload
             // 
@@ -278,6 +321,20 @@
             this.scanwobttn.UseVisualStyleBackColor = false;
             this.scanwobttn.Click += new System.EventHandler(this.scanwobttn_Click);
             // 
+            // viewAllReleaseLogsToolStripMenuItem
+            // 
+            this.viewAllReleaseLogsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("viewAllReleaseLogsToolStripMenuItem.Image")));
+            this.viewAllReleaseLogsToolStripMenuItem.Name = "viewAllReleaseLogsToolStripMenuItem";
+            this.viewAllReleaseLogsToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.viewAllReleaseLogsToolStripMenuItem.Text = "View All Release Logs";
+            // 
+            // viewCurrentJobReleaseToolStripMenuItem
+            // 
+            this.viewCurrentJobReleaseToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("viewCurrentJobReleaseToolStripMenuItem.Image")));
+            this.viewCurrentJobReleaseToolStripMenuItem.Name = "viewCurrentJobReleaseToolStripMenuItem";
+            this.viewCurrentJobReleaseToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.viewCurrentJobReleaseToolStripMenuItem.Text = "View Current Job Releases";
+            // 
             // SPM_ConnectWM
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -325,6 +382,12 @@
         private System.Windows.Forms.ToolStripMenuItem getBOMToolStripMenuItem;
         private System.Windows.Forms.Button cribbttn;
         private System.Windows.Forms.Button scanwobttn;
+        private System.Windows.Forms.ToolStripMenuItem releaseManagementToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem initialReleaseToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addNewReleaseToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewReleasesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewCurrentJobReleaseToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewAllReleaseLogsToolStripMenuItem;
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member 'SPM_Connect.txtSearch'
     }
 }

@@ -9,9 +9,10 @@ namespace SearchDataSPM
 {
     public partial class SPM_ConnectHome : Form
     {
-        log4net.ILog log;
+        private log4net.ILog log;
         private UserActions _userActions;
-        ErrorHandler errorHandler = new ErrorHandler();
+        private ErrorHandler errorHandler = new ErrorHandler();
+
         public SPM_ConnectHome()
         {
             Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
@@ -19,10 +20,10 @@ namespace SearchDataSPM
             InitializeComponent();
         }
 
-        int time = 0;
+        private int time = 0;
 
-        string connection;
-        SqlConnection cn;
+        private string connection;
+        private SqlConnection cn;
 
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -58,11 +59,9 @@ namespace SearchDataSPM
             {
                 cn = new SqlConnection(connection);
                 cn.Open();
-
             }
             catch (Exception)
             {
-
                 MetroFramework.MetroMessageBox.Show(this, "Cannot connect through the server. Please check the network connection.", "SPM Connect Home - SQL Server Connection Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.ExitThread();
                 System.Environment.Exit(0);
@@ -121,14 +120,12 @@ namespace SearchDataSPM
                 {
                     cn.Close();
                 }
-
             }
             if (limit == "1")
             {
                 maintenance = true;
             }
             return maintenance;
-
         }
 
         public bool Checkdeveloper()
@@ -148,7 +145,6 @@ namespace SearchDataSPM
                     {
                         developer = true;
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -158,10 +154,8 @@ namespace SearchDataSPM
                 {
                     cn.Close();
                 }
-
             }
             return developer;
-
         }
 
         private bool userexists(string username)
@@ -187,7 +181,6 @@ namespace SearchDataSPM
                 finally
                 {
                     cn.Close();
-
                 }
             }
             return userpresent;

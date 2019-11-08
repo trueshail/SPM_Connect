@@ -10,29 +10,29 @@ using System.Windows.Forms;
 
 namespace SearchDataSPM
 {
-
     public partial class CreateAssyToCatalog : Form
 
     {
         #region steupvariables
-        string connection;
-        string cntrlconnection;
-        SqlConnection _connection;
-        SqlConnection cn;
-        SqlCommand _command;
-        TreeNode root = new TreeNode();
 
-        string ItemNo;
-        string Description;
-        string OEM;
-        string manufacturer;
-        string family;
+        private string connection;
+        private string cntrlconnection;
+        private SqlConnection _connection;
+        private SqlConnection cn;
+        private SqlCommand _command;
+        private TreeNode root = new TreeNode();
 
-        log4net.ILog log;
+        private string ItemNo;
+        private string Description;
+        private string OEM;
+        private string manufacturer;
+        private string family;
+
+        private log4net.ILog log;
         private UserActions _userActions;
-        ErrorHandler errorHandler = new ErrorHandler();
+        private ErrorHandler errorHandler = new ErrorHandler();
 
-        #endregion
+        #endregion steupvariables
 
         #region loadtree
 
@@ -53,13 +53,10 @@ namespace SearchDataSPM
                 {
                     Connection = _connection
                 };
-
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
             }
         }
 
@@ -81,7 +78,7 @@ namespace SearchDataSPM
             family = familyimp;
         }
 
-        #endregion
+        #endregion loadtree
 
         #region assytextbox and button events
 
@@ -105,7 +102,6 @@ namespace SearchDataSPM
                     for (int i = 0; i < values.Length; i++)
                     {
                         values[i] = values[i].Trim();
-
                     }
                     //MessageBox.Show(values[0]);
                     //MessageBox.Show(root.Tag.ToString());
@@ -117,7 +113,6 @@ namespace SearchDataSPM
                     oemtxtbox.Text = values[3];
                     oemitemtxtbox.Text = values[4];
                     familytxtbox.Text = values[2];
-
                 }
                 catch
                 {
@@ -125,15 +120,12 @@ namespace SearchDataSPM
                     RemoveChildNodes(root);
                     treeView1.ResetText();
                     Expandchk.Checked = false;
-
                 }
-
             }
             catch (Exception)
 
             {
                 MessageBox.Show("Invalid Search Parameter / Item Not Found On Genius.", "SPM Connect");
-
             }
         }
 
@@ -146,7 +138,6 @@ namespace SearchDataSPM
                     parentNode.Nodes[i].Remove();
                 }
             }
-
         }
 
         private void Expandchk_Click(object sender, EventArgs e)
@@ -166,14 +157,13 @@ namespace SearchDataSPM
             System.Diagnostics.Process.Start("http://www.spm-automation.com/");
         }
 
-        #endregion
+        #endregion assytextbox and button events
 
         #region treeview events
 
         private void treeView1_AfterExpand(object sender, TreeViewEventArgs e)
         {
             Expandchk.Checked = true;
-
         }
 
         private void treeView1_AfterCollapse(object sender, TreeViewEventArgs e)
@@ -181,7 +171,7 @@ namespace SearchDataSPM
             Expandchk.Checked = true;
         }
 
-        string chekroot;
+        private string chekroot;
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
@@ -189,7 +179,6 @@ namespace SearchDataSPM
             {
                 qtylbl.Visible = false;
                 qtytxtbox.Visible = false;
-
 
                 qtytxtbox.ReadOnly = true;
 
@@ -199,7 +188,6 @@ namespace SearchDataSPM
                 for (int i = 0; i < values.Length; i++)
                 {
                     values[i] = values[i].Trim();
-
                 }
 
                 ItemTxtBox.Text = values[0];
@@ -208,9 +196,7 @@ namespace SearchDataSPM
                 oemitemtxtbox.Text = values[4];
                 familytxtbox.Text = values[2];
                 qtytxtbox.Text = "";
-
             }
-
             else
             {
                 qtylbl.Visible = true;
@@ -224,7 +210,6 @@ namespace SearchDataSPM
                 for (int i = 0; i < values.Length; i++)
                 {
                     values[i] = values[i].Trim();
-
                 }
 
                 ItemTxtBox.Text = values[0];
@@ -234,12 +219,10 @@ namespace SearchDataSPM
                 familytxtbox.Text = values[2];
                 qtytxtbox.Text = values[5];
             }
-
         }
 
         private void treeView1_KeyPress(object sender, KeyPressEventArgs e)
         {
-
             if (e.KeyChar == Convert.ToChar(Keys.Down))
             {
                 TreeNode node = new TreeNode();
@@ -247,7 +230,6 @@ namespace SearchDataSPM
                 treeView1.SelectedNode = node.NextVisibleNode;
                 node.TreeView.Focus();
             }
-
             else if (e.KeyChar == Convert.ToChar(Keys.Up))
             {
                 TreeNode node = new TreeNode();
@@ -262,7 +244,7 @@ namespace SearchDataSPM
             treeView1.SelectedNode = e.Node;
         }
 
-        #endregion
+        #endregion treeview events
 
         #region add item or remove item
 
@@ -270,7 +252,6 @@ namespace SearchDataSPM
         {
             //MessageBox.Show(treeView1.SelectedNode.Index.ToString());
             doadditemoepration();
-
         }
 
         private void Additembttn_Click(object sender, EventArgs e)
@@ -323,8 +304,6 @@ namespace SearchDataSPM
                     return;
                     //MessageBox.Show(ex.Message);
                 }
-
-
             }
             else
             {
@@ -361,11 +340,8 @@ namespace SearchDataSPM
                     {
                         //code for No
                     }
-
                 }
             }
-
-
         }
 
         private void save_Click(object sender, EventArgs e)
@@ -375,16 +351,12 @@ namespace SearchDataSPM
 
         private void PrintRecursive(TreeNode treeNode)
         {
-
             saveeachnode(treeNode);
             foreach (TreeNode tn in treeNode.Nodes)
             {
-
                 // MessageBox.Show(treeNode.Text);
                 PrintRecursive(tn);
-
             }
-
         }
 
         private void CallRecursive()
@@ -398,7 +370,8 @@ namespace SearchDataSPM
 
             lockdownsave();
         }
-        string parentchild;
+
+        private string parentchild;
 
         private void saveeachnode(TreeNode treeNode)
         {
@@ -407,10 +380,8 @@ namespace SearchDataSPM
                 parentchild = "parent";
                 string parentnode = treeNode.Tag.ToString();
 
-
                 //MessageBox.Show(parentnode);
                 splittagtovariables(parentnode);
-
             }
             else
             {
@@ -418,9 +389,9 @@ namespace SearchDataSPM
                 string childnode = treeNode.Tag.ToString();
                 splittagtovariables(childnode);
             }
-
         }
-        string assemblylist;
+
+        private string assemblylist;
 
         private void splittagtovariables(string s)
         {
@@ -429,7 +400,6 @@ namespace SearchDataSPM
             for (int i = 0; i < values.Length; i++)
             {
                 values[i] = values[i].Trim();
-
             }
             if (parentchild == "parent")
             {
@@ -440,9 +410,6 @@ namespace SearchDataSPM
             {
                 InsertToAutocadAssyList(values[0], values[1], values[3], values[4], values[5], assemblylist);
             }
-
-
-
         }
 
         private void InsertToAutocadAssy(string itemno, string description, string manufacturer, string manufactureritemnumber, string qty)
@@ -454,27 +421,20 @@ namespace SearchDataSPM
 
             try
             {
-
                 _connection.Open();
                 _command.CommandText = sql;
                 _command.ExecuteNonQuery();
                 // MessageBox.Show("Item added to the catalog.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
             }
             catch (SqlException)
             {
-
                 // MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 MessageBox.Show("Technical error while inserting to autocad catalog. Please contact the admin.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-
             }
             finally
             {
                 _connection.Close();
             }
-
-
         }
 
         private void InsertToAutocadAssyList(string itemno, string description, string manufacturer, string manufactureritemnumber, string qty, string assemblylist)
@@ -486,26 +446,20 @@ namespace SearchDataSPM
 
             try
             {
-
                 _connection.Open();
                 _command.CommandText = sql;
                 _command.ExecuteNonQuery();
                 // MessageBox.Show("Item added to the catalog.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
             }
             catch (SqlException)
             {
-
                 // MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 MessageBox.Show("Technical error while inserting to autocad catalog. Please contact the admin.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-
             }
             finally
             {
                 _connection.Close();
             }
-
         }
 
         private void lockdownsave()
@@ -517,7 +471,6 @@ namespace SearchDataSPM
             treeView1.Enabled = false;
             Additembttn.Enabled = false;
             MessageBox.Show("Assembly created successfully on the Autocad Catalog.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
         }
 
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
@@ -532,7 +485,6 @@ namespace SearchDataSPM
                 contextMenuStrip1.Items[1].Enabled = true;
                 contextMenuStrip1.Items[0].Enabled = false;
             }
-
         }
 
         private void qtytxtbox_KeyDown(object sender, KeyEventArgs e)
@@ -552,10 +504,9 @@ namespace SearchDataSPM
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
-
         }
 
-        #endregion
+        #endregion add item or remove item
 
         #region search tree
 
@@ -565,7 +516,7 @@ namespace SearchDataSPM
 
         private string LastSearchText;
 
-        string itemexists;
+        private string itemexists;
 
         private void SearchNodes(string SearchText, TreeNode StartNode)
         {
@@ -581,24 +532,18 @@ namespace SearchDataSPM
                 };
                 if (StartNode.Nodes.Count != 0)
                 {
-                    SearchNodes(SearchText, StartNode.Nodes[0]);//Recursive Search 
-
+                    SearchNodes(SearchText, StartNode.Nodes[0]);//Recursive Search
                 };
                 StartNode = StartNode.NextNode;
-
-
             }
-
         }
 
         private void searchnode(string searchText)
         {
-
             if (String.IsNullOrEmpty(searchText))
             {
                 return;
             };
-
 
             if (LastSearchText != searchText)
             {
@@ -617,9 +562,7 @@ namespace SearchDataSPM
                 this.treeView1.SelectedNode = selectedNode;
                 this.treeView1.SelectedNode.Expand();
                 this.treeView1.Select();
-
             }
-
         }
 
         private void qtytxtbox_KeyPress(object sender, KeyPressEventArgs e)
@@ -627,7 +570,6 @@ namespace SearchDataSPM
             if (System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"[0-9+\b]"))
             {
                 // Stop the character from being entered into the control since it is illegal.
-
             }
             else
             {
@@ -635,9 +577,7 @@ namespace SearchDataSPM
             }
         }
 
-
-
-        #endregion
+        #endregion search tree
 
         private void CreateAssyToCatalog_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -656,5 +596,4 @@ namespace SearchDataSPM
             errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
         }
     }
-
 }

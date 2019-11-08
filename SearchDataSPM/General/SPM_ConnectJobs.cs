@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SPMConnect.UserActionLog;
+using SPMConnectAPI;
+using System;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
@@ -9,8 +11,6 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
-using SPMConnect.UserActionLog;
-using SPMConnectAPI;
 
 namespace SearchDataSPM
 {
@@ -18,14 +18,14 @@ namespace SearchDataSPM
     {
         #region SPM Connect Load
 
-        string connection;
-        SqlConnection cn;
-        DataTable dt;
-        SqlCommand _command;
-        SPMSQLCommands connectapi = new SPMSQLCommands();
-        log4net.ILog log;
+        private string connection;
+        private SqlConnection cn;
+        private DataTable dt;
+        private SqlCommand _command;
+        private SPMSQLCommands connectapi = new SPMSQLCommands();
+        private log4net.ILog log;
         private UserActions _userActions;
-        ErrorHandler errorHandler = new ErrorHandler();
+        private ErrorHandler errorHandler = new ErrorHandler();
 
         public SPM_ConnectJobs()
 
@@ -38,11 +38,9 @@ namespace SearchDataSPM
             {
                 cn = new SqlConnection(connection);
                 cn.Open();
-
             }
             catch (Exception)
             {
-
                 // MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 MessageBox.Show("Error Connecting to SQL Server.....", "SPM Connect - Job Module", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.Close();
@@ -87,7 +85,6 @@ namespace SearchDataSPM
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened SPM Connect Jobs by " + System.Environment.UserName);
             _userActions = new UserActions(this);
-
         }
 
         private void Showallitems()
@@ -137,13 +134,11 @@ namespace SearchDataSPM
 
         private void Reload_Click(object sender, EventArgs e)
         {
-
             clearandhide();
             txtSearch.Clear();
             txtSearch.Focus();
             SendKeys.Send("~");
             dataGridView.Refresh();
-
         }
 
         private void UpdateFont()
@@ -156,25 +151,26 @@ namespace SearchDataSPM
             dataGridView.DefaultCellStyle.SelectionBackColor = Color.Black;
         }
 
-        #endregion
+        #endregion SPM Connect Load
 
         #region Public Table & variables
 
         // variables required outside the functions to perfrom
-        string fullsearch = ("FullSearch LIKE '%{0}%'");
+        private string fullsearch = ("FullSearch LIKE '%{0}%'");
+
         //public static string ItemNo;
         public static string description;
+
         public static string Manufacturer;
         public static string oem;
         public static string family;
 
-        DataTable table0 = new DataTable();
-        DataTable table1 = new DataTable();
-        DataTable table2 = new DataTable();
-        DataTable table3 = new DataTable();
+        private DataTable table0 = new DataTable();
+        private DataTable table1 = new DataTable();
+        private DataTable table2 = new DataTable();
+        private DataTable table3 = new DataTable();
 
-
-        #endregion
+        #endregion Public Table & variables
 
         #region Search Parameters
 
@@ -194,17 +190,14 @@ namespace SearchDataSPM
                 {
                     Descrip_txtbox.Show();
                     SendKeys.Send("{TAB}");
-
                 }
                 e.Handled = true;
                 e.SuppressKeyPress = true;
-
             }
         }
 
         private void clearandhide()
         {
-
             Descrip_txtbox.Hide();
             Descrip_txtbox.Clear();
             filteroem_txtbox.Hide();
@@ -221,7 +214,6 @@ namespace SearchDataSPM
 
         private void mainsearch()
         {
-
             DataView dv = dt.DefaultView;
             string search1 = txtSearch.Text;
             try
@@ -241,7 +233,6 @@ namespace SearchDataSPM
             {
                 MessageBox.Show("Invalid Search Criteria Operator.", "SPM Connect");
                 txtSearch.Clear();
-
             }
         }
 
@@ -325,7 +316,6 @@ namespace SearchDataSPM
                     SendKeys.Send("~");
                 }
 
-
                 if (filteroem_txtbox.Text.Length > 0)
                 {
                     filteroemitem_txtbox.Show();
@@ -383,7 +373,6 @@ namespace SearchDataSPM
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
-
         }
 
         private void filter4_KeyDown(object sender, KeyEventArgs e)
@@ -420,29 +409,26 @@ namespace SearchDataSPM
             }
         }
 
-        #endregion
+        #endregion Search Parameters
 
-        #region Highlight Search Results 
+        #region Highlight Search Results
 
-        bool IsSelected = false;
+        private bool IsSelected = false;
 
         private void SearchStringPosition(string Searchstring)
         {
             IsSelected = true;
-
         }
-        string sw;
+
+        private string sw;
 
         private void searchtext(string searchkey)
         {
-
             sw = searchkey;
         }
 
         private void dataGridView_CellPainting_1(object sender, DataGridViewCellPaintingEventArgs e)
         {
-
-
             if (e.RowIndex >= 0 & e.ColumnIndex >= 0 & IsSelected)
             {
                 e.Handled = true;
@@ -490,15 +476,12 @@ namespace SearchDataSPM
 
                         hl_brush.Dispose();
                     }
-
                 }
                 e.PaintContent(e.CellBounds);
-
             }
-
         }
 
-        #endregion
+        #endregion Highlight Search Results
 
         #region AdminControlLabel
 
@@ -507,7 +490,7 @@ namespace SearchDataSPM
             System.Diagnostics.Process.Start("http://www.spm-automation.com/");
         }
 
-        #endregion
+        #endregion AdminControlLabel
 
         #region datagridview events
 
@@ -535,16 +518,13 @@ namespace SearchDataSPM
 
             if (e.Button == MouseButtons.Right)
             {
-
                 int columnindex = e.RowIndex;
                 dataGridView.ClearSelection();
                 dataGridView.Rows[columnindex].Selected = true;
-
             }
-
         }
 
-        #endregion
+        #endregion datagridview events
 
         #region Get BOM
 
@@ -557,7 +537,6 @@ namespace SearchDataSPM
                 DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
                 item = Convert.ToString(slectedrow.Cells[3].Value);
                 //MessageBox.Show(ItemNo);
-
             }
             else
             {
@@ -575,14 +554,13 @@ namespace SearchDataSPM
             treeView.Show();
         }
 
-        #endregion
+        #endregion Get BOM
 
         #region GetProjectEng
 
         private void projectEngineeringToolStripMenuItem_Click(object sender, EventArgs e)
         {
             checksqltable(getjob(), getbomitem());
-
         }
 
         private string getjob()
@@ -596,7 +574,6 @@ namespace SearchDataSPM
                 job = Convert.ToString(slectedrow.Cells[0].Value);
                 //MessageBox.Show(job);
                 return job;
-
             }
             return null;
         }
@@ -626,10 +603,8 @@ namespace SearchDataSPM
                 int userCount = (int)sqlCommand.ExecuteScalar();
                 if (userCount > 0)
                 {
-
                     cn.Close();
                     grabpathfromtable(job, bom);
-
                 }
                 else
                 {
@@ -645,10 +620,8 @@ namespace SearchDataSPM
                     {
                         //code for No
                     }
-
                 }
             }
-
         }
 
         private void createnewpath(string job, string bom)
@@ -686,7 +659,6 @@ namespace SearchDataSPM
 
             try
             {
-
                 cn.Open();
                 _command = new SqlCommand
                 {
@@ -695,15 +667,11 @@ namespace SearchDataSPM
                 };
                 _command.ExecuteNonQuery();
                 // MessageBox.Show("Item added to the catalog.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
             }
             catch (SqlException)
             {
-
                 // MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 MessageBox.Show("Technical error occured while saving the path. Please contact the admin.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-
             }
             finally
             {
@@ -713,8 +681,6 @@ namespace SearchDataSPM
             {
                 openprojecteng(folderPath);
             }
-
-
         }
 
         private void grabpathfromtable(string job, string bom)
@@ -722,7 +688,6 @@ namespace SearchDataSPM
             DataTable _acountsTb = new DataTable();
             try
             {
-
                 if (cn.State == ConnectionState.Closed)
                     cn.Open();
 
@@ -731,21 +696,15 @@ namespace SearchDataSPM
                 sda.Fill(_acountsTb);
                 string path = _acountsTb.Rows[0]["Path"].ToString();
                 openprojecteng(path);
-
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-
             }
             finally
             {
                 cn.Close();
             }
-
-
         }
 
         private void openprojecteng(string folderPath)
@@ -753,7 +712,7 @@ namespace SearchDataSPM
             Process.Start(folderPath);
         }
 
-        #endregion
+        #endregion GetProjectEng
 
         #region RemapFolderPath
 
@@ -777,7 +736,6 @@ namespace SearchDataSPM
             string bom = getbomitem();
             deleterecord(job, bom);
             checksqltable(job, bom);
-
         }
 
         private void deleterecord(string job, string bom)
@@ -787,7 +745,6 @@ namespace SearchDataSPM
 
             try
             {
-
                 cn.Open();
                 _command = new SqlCommand
                 {
@@ -796,15 +753,11 @@ namespace SearchDataSPM
                 };
                 _command.ExecuteNonQuery();
                 // MessageBox.Show("Item added to the catalog.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
             }
             catch (SqlException)
             {
-
                 // MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 MessageBox.Show("Technical error while updating to autocad catalog. Please contact the admin.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-
             }
             finally
             {
@@ -812,7 +765,7 @@ namespace SearchDataSPM
             }
         }
 
-        #endregion
+        #endregion RemapFolderPath
 
         #region CreateFolders
 
@@ -886,7 +839,6 @@ namespace SearchDataSPM
                     }
                 }
             }
-
         }
 
         private void CreateFolderButton_Click(object sender, EventArgs e)
@@ -894,7 +846,7 @@ namespace SearchDataSPM
             createfolders();
         }
 
-        void createfolders()
+        private void createfolders()
         {
             try
             {
@@ -917,7 +869,6 @@ namespace SearchDataSPM
             {
                 MessageBox.Show("Customer short name not found. Error with customer alias.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
 
         private void createjobfolders(string jobnumber, string customer, string jobdescription, string salesorder)
@@ -976,15 +927,12 @@ namespace SearchDataSPM
                 MetroFramework.MetroMessageBox.Show(this, "Job type selection was not made. System cannot create folders for the selected job.", "SPM Connect - Create New Folders", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-
-
             Cursor.Current = Cursors.Default;
             this.Enabled = true;
         }
 
         private string getjobnumber()
         {
-
             string jobnumber;
             if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
             {
@@ -1003,7 +951,6 @@ namespace SearchDataSPM
 
         private string getsalesorder()
         {
-
             string jobnumber;
             if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
             {
@@ -1022,7 +969,6 @@ namespace SearchDataSPM
 
         private string getjobdescription()
         {
-
             string jobdescription;
             if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
             {
@@ -1045,7 +991,6 @@ namespace SearchDataSPM
 
         private string getcutomerid()
         {
-
             string customer;
             if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
             {
@@ -1067,7 +1012,7 @@ namespace SearchDataSPM
             createfolders();
         }
 
-        #endregion
+        #endregion CreateFolders
 
         private void purchasereq_Click(object sender, EventArgs e)
         {
@@ -1079,7 +1024,6 @@ namespace SearchDataSPM
 
                 foreach (Form frm in Application.OpenForms)
                 {
-
                     if (frm.Name.ToString() == "PurchaseReqform")
                     {
                         purchasereqopen = true;
@@ -1103,13 +1047,10 @@ namespace SearchDataSPM
                             MetroFramework.MetroMessageBox.Show(this, "SPM Connect puchase req module is under maintenance. Please check back soon. Sorry for the inconvenience.", "Purhase Req Under Maintenance", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             break;
                         }
-
                     }
-
                 }
                 if (purchasereqopen)
                 {
-
                 }
                 else
                 {
@@ -1117,7 +1058,6 @@ namespace SearchDataSPM
                     {
                         PurchaseReqform purchaseReq = new PurchaseReqform();
                         purchaseReq.Show();
-
                     }
                     else if (checkmaintenance && connectapi.Checkdeveloper())
                     {
@@ -1128,7 +1068,6 @@ namespace SearchDataSPM
                     {
                         MetroFramework.MetroMessageBox.Show(this, "SPM Connect puchase req module is under maintenance. Please check back soon. Sorry for the inconvenience.", "Purhase Req Under Maintenance", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-
                 }
             }
         }
@@ -1158,7 +1097,7 @@ namespace SearchDataSPM
             sPM_ConnectWM.Show();
         }
 
-        #endregion
+        #endregion GetWorkorder
 
         #region FormCLosing
 
@@ -1169,7 +1108,7 @@ namespace SearchDataSPM
             this.Dispose();
         }
 
-        #endregion
+        #endregion FormCLosing
 
         #region Quotes
 
@@ -1179,7 +1118,7 @@ namespace SearchDataSPM
             quoteTracking.Show();
         }
 
-        #endregion
+        #endregion Quotes
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -1232,7 +1171,6 @@ namespace SearchDataSPM
                 return true;
             }
 
-
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
@@ -1253,7 +1191,6 @@ namespace SearchDataSPM
                 item = Convert.ToString(slectedrow.Cells[3].Value);
                 estid = Convert.ToString(slectedrow.Cells[1].Value);
                 //MessageBox.Show(ItemNo);
-
             }
             else
             {
@@ -1262,7 +1199,6 @@ namespace SearchDataSPM
             }
 
             ProcessbomEstimate(item, estid);
-
         }
 
         private void ProcessbomEstimate(string itemvalue, string estid)
@@ -1290,4 +1226,3 @@ namespace SearchDataSPM
         }
     }
 }
-

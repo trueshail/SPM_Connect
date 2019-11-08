@@ -13,30 +13,29 @@ using System.Windows.Forms;
 
 namespace SearchDataSPM
 {
-
     public partial class ItemInfo : Form
     {
         #region steupvariables
 
-        string connection;
-        DataTable _acountsTb;
-        DataTable _treeTB;
-        DataTable dt = new DataTable();
-        DataTable PO;
-        SqlConnection _connection;
-        SqlCommand _command;
-        SqlDataAdapter _adapter;
-        TreeNode root = new TreeNode();
-        string iteminfo2;
-        int PW;
-        bool hiden;
-        bool rootnodedone = false;
+        private string connection;
+        private DataTable _acountsTb;
+        private DataTable _treeTB;
+        private DataTable dt = new DataTable();
+        private DataTable PO;
+        private SqlConnection _connection;
+        private SqlCommand _command;
+        private SqlDataAdapter _adapter;
+        private TreeNode root = new TreeNode();
+        private string iteminfo2;
+        private int PW;
+        private bool hiden;
+        private bool rootnodedone = false;
 
-        log4net.ILog log;
+        private log4net.ILog log;
         private UserActions _userActions;
-        ErrorHandler errorHandler = new ErrorHandler();
+        private ErrorHandler errorHandler = new ErrorHandler();
 
-        #endregion
+        #endregion steupvariables
 
         public ItemInfo(string itemno = "")
         {
@@ -52,15 +51,11 @@ namespace SearchDataSPM
             try
             {
                 _connection = new SqlConnection(connection);
-
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
             }
-
 
             _acountsTb = new DataTable();
             _treeTB = new DataTable();
@@ -81,7 +76,6 @@ namespace SearchDataSPM
             if (yesmanagement)
             {
                 Showitemstogridview(iteminfo2);
-
             }
             if (pricerights)
             {
@@ -96,12 +90,10 @@ namespace SearchDataSPM
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Item Details " + iteminfo2 + " by " + System.Environment.UserName);
             _userActions = new UserActions(this);
-
-
         }
 
-        bool yesmanagement = false;
-        bool pricerights = false;
+        private bool yesmanagement = false;
+        private bool pricerights = false;
 
         private void CheckManagement()
         {
@@ -117,15 +109,12 @@ namespace SearchDataSPM
                     int userCount = (int)sqlCommand.ExecuteScalar();
                     if (userCount == 1)
                     {
-
                         panel1.Visible = true;
                         yesmanagement = true;
                         groupBox2.Size = new Size(505, 480);
                         notestxt.Size = new Size(450, 55);
 
                         //checkBox1.Visible = true;
-
-
                     }
                     else
                     {
@@ -136,7 +125,6 @@ namespace SearchDataSPM
                         notestxt.Size = new Size(480, 55);
                         //checkBox1.Visible = false;
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -147,7 +135,6 @@ namespace SearchDataSPM
                 {
                     _connection.Close();
                 }
-
             }
         }
 
@@ -165,7 +152,6 @@ namespace SearchDataSPM
                     int userCount = (int)sqlCommand.ExecuteScalar();
                     if (userCount == 1)
                     {
-
                         itemupdatetools.Visible = true;
                         itemupdatetools.Enabled = true;
                         treeView1.ContextMenuStrip = Addremovecontextmenu;
@@ -174,7 +160,6 @@ namespace SearchDataSPM
                         else
                             treeView1.Size = new Size(524, 324);
                         treeView1.AllowDrop = true;
-
                     }
                     else
                     {
@@ -187,7 +172,6 @@ namespace SearchDataSPM
                             treeView1.Size = new Size(524, 458);
                         treeView1.AllowDrop = false;
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -198,7 +182,6 @@ namespace SearchDataSPM
                 {
                     _connection.Close();
                 }
-
             }
         }
 
@@ -216,12 +199,9 @@ namespace SearchDataSPM
                     int userCount = (int)sqlCommand.ExecuteScalar();
                     if (userCount == 1)
                     {
-
                         //panel1.Visible = true;
                         pricerights = true;
                         checkBox1.Visible = true;
-
-
                     }
                     else
                     {
@@ -229,7 +209,6 @@ namespace SearchDataSPM
                         pricerights = false;
                         checkBox1.Visible = false;
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -240,7 +219,6 @@ namespace SearchDataSPM
                 {
                     _connection.Close();
                 }
-
             }
         }
 
@@ -281,7 +259,6 @@ namespace SearchDataSPM
             }
 
             //dataGridView.Location = new Point(0, 40);
-
         }
 
         private void SHOWITEMPRICE(string itemnumber)
@@ -301,23 +278,19 @@ namespace SearchDataSPM
                 dataGridView2.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 dataGridView2.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 dataGridView2.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
             }
             finally
             {
                 _connection.Close();
             }
-
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-
             if (keyData == (Keys.Control | Keys.W))
             {
                 this.Close();
@@ -339,21 +312,17 @@ namespace SearchDataSPM
 
         private void Checkfordata(string itemnumber)
         {
-
             using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Inventory] WHERE [ItemNumber]='" + itemnumber.ToString() + "'", _connection))
             {
                 try
                 {
                     _connection.Open();
 
-
                     int userCount = (int)sqlCommand.ExecuteScalar();
                     if (userCount > 0)
                     {
-
                         _connection.Close();
                         Filldatatable(iteminfo2);
-
                     }
                     else
                     {
@@ -365,7 +334,6 @@ namespace SearchDataSPM
                         //MessageBox.Show("Data not found on SPM Connect server.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         //this.Close();
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -377,10 +345,7 @@ namespace SearchDataSPM
                 {
                     _connection.Close();
                 }
-
-
             }
-
         }
 
         private void Filldatatable(string itemnumber)
@@ -395,14 +360,10 @@ namespace SearchDataSPM
                 _adapter = new SqlDataAdapter(sql, _connection);
                 _adapter.Fill(_acountsTb);
                 Fillinfo();
-
-
-
             }
             catch (SqlException ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
             }
             finally
             {
@@ -417,27 +378,29 @@ namespace SearchDataSPM
 
         private void Fillinfo()
         {
-            DataRow r = _acountsTb.Rows[0];
-            ItemTxtBox.Text = r["ItemNumber"].ToString();
-            Descriptiontxtbox.Text = r["Description"].ToString();
-            oemtxtbox.Text = r["Manufacturer"].ToString();
-            oemitemtxtbox.Text = r["ManufacturerItemNumber"].ToString();
-            familytxtbox.Text = r["FamilyCode"].ToString();
-            sparetxtbox.Text = r["Spare"].ToString();
-            mattxt.Text = r["Material"].ToString();
-            designbytxt.Text = r["DesignedBy"].ToString();
-            categorytxtbox.Text = r["FamilyType"].ToString();
-            surfacetxt.Text = r["SurfaceProtection"].ToString();
-            heattreat.Text = r["HeatTreatment"].ToString();
-            datecreatedtxt.Text = r["DateCreated"].ToString();
-            dateeditxt.Text = r["LastEdited"].ToString();
-            Lastsavedtxtbox.Text = r["LastSavedBy"].ToString();
-            notestxt.Text = r["Notes"].ToString();
+            if (_acountsTb.Rows.Count > 0)
+            {
+                DataRow r = _acountsTb.Rows[0];
+                ItemTxtBox.Text = r["ItemNumber"].ToString();
+                Descriptiontxtbox.Text = r["Description"].ToString();
+                oemtxtbox.Text = r["Manufacturer"].ToString();
+                oemitemtxtbox.Text = r["ManufacturerItemNumber"].ToString();
+                familytxtbox.Text = r["FamilyCode"].ToString();
+                sparetxtbox.Text = r["Spare"].ToString();
+                mattxt.Text = r["Material"].ToString();
+                designbytxt.Text = r["DesignedBy"].ToString();
+                categorytxtbox.Text = r["FamilyType"].ToString();
+                surfacetxt.Text = r["SurfaceProtection"].ToString();
+                heattreat.Text = r["HeatTreatment"].ToString();
+                datecreatedtxt.Text = r["DateCreated"].ToString();
+                dateeditxt.Text = r["LastEdited"].ToString();
+                Lastsavedtxtbox.Text = r["LastSavedBy"].ToString();
+                notestxt.Text = r["Notes"].ToString();
+            }
         }
 
         private void Button1_Click(object sender, EventArgs e)
         {
-
             if (!hiden)
             {
                 button1.Text = "S\nH\nO\nW\nA\nD\nV\nA\nN\nC\nE\nO\nP\nT\nI\nO\nN\nS";
@@ -445,7 +408,6 @@ namespace SearchDataSPM
             else
             {
                 button1.Text = "H\nI\nD\nE\nA\nD\nV\nA\nN\nC\nE\nO\nP\nT\nI\nO\nN\nS";
-
             }
             timer1.Start();
         }
@@ -495,10 +457,7 @@ namespace SearchDataSPM
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-
             }
             finally
             {
@@ -525,7 +484,6 @@ namespace SearchDataSPM
                 errorProvider1.SetError(salepricetext, "Cannot be null");
                 MessageBox.Show("SalesPrice and quantity cannot be empty in order to add new entry.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-
         }
 
         private void Createnewentry(string itemnumber, string user)
@@ -543,7 +501,6 @@ namespace SearchDataSPM
                 cmd.ExecuteNonQuery();
                 _connection.Close();
                 //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
             }
             catch (Exception ex)
             {
@@ -553,7 +510,6 @@ namespace SearchDataSPM
             {
                 _connection.Close();
             }
-
         }
 
         private void Clearalltextboxes()
@@ -562,7 +518,6 @@ namespace SearchDataSPM
             salepricetext.Clear();
             qtytxt.Clear();
             NotesCosttxt.Clear();
-
         }
 
         private void Qtytxt_KeyPress(object sender, KeyPressEventArgs e)
@@ -570,7 +525,6 @@ namespace SearchDataSPM
             if (System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"[0-9+\b]"))
             {
                 // Stop the character from being entered into the control since it is illegal.
-
             }
             else
             {
@@ -583,7 +537,6 @@ namespace SearchDataSPM
             if (System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"[0-9\.+\b]"))
             {
                 // Stop the character from being entered into the control since it is illegal.
-
             }
             else
             {
@@ -596,7 +549,6 @@ namespace SearchDataSPM
             if (System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"[0-9\.+\b]"))
             {
                 // Stop the character from being entered into the control since it is illegal.
-
             }
             else
             {
@@ -614,7 +566,6 @@ namespace SearchDataSPM
 
         private void Salepricetext_Leave(object sender, EventArgs e)
         {
-
             if (Double.TryParse(salepricetext.Text, NumberStyles.Currency, null, out double amount))
             {
                 salepricetext.Text = amount.ToString("C");
@@ -622,9 +573,7 @@ namespace SearchDataSPM
 
             if (salepricetext.Text.Length == 0)
             {
-
             }
-
         }
 
         private void ItemInfo_FormClosed(object sender, FormClosedEventArgs e)
@@ -683,7 +632,6 @@ namespace SearchDataSPM
 
         private void Fetchitemdetails(string itemno)
         {
-
             if (itemno.Length == 6)
             {
                 Fillselectediteminfo(itemno);
@@ -703,10 +651,13 @@ namespace SearchDataSPM
             DataTable iteminfo = new DataTable();
             iteminfo.Clear();
             iteminfo = connectapi.GetIteminfo(item);
-            DataRow r = iteminfo.Rows[0];
-            itmdeslbl.Text = "Description : " + r["Description"].ToString();
-            itmoemlbl.Text = "Manufacturer : " + r["Manufacturer"].ToString();
-            itemoemitmlbl.Text = "OEM Item No : " + r["ManufacturerItemNumber"].ToString();
+            if (iteminfo.Rows.Count > 0)
+            {
+                DataRow r = iteminfo.Rows[0];
+                itmdeslbl.Text = "Description : " + r["Description"].ToString();
+                itmoemlbl.Text = "Manufacturer : " + r["Manufacturer"].ToString();
+                itemoemitmlbl.Text = "OEM Item No : " + r["ManufacturerItemNumber"].ToString();
+            }
         }
 
         private void Cleanup()
@@ -715,14 +666,12 @@ namespace SearchDataSPM
             treeView1.ResetText();
             RemoveChildNodes(root);
             _treeTB.Clear();
-
         }
 
         private void Fillrootnode()
         {
             try
             {
-
                 treeView1.Nodes.Clear();
                 RemoveChildNodes(root);
                 treeView1.ResetText();
@@ -734,7 +683,6 @@ namespace SearchDataSPM
                 treeView1.Nodes.Add(root);
 
                 PopulateTreeView(iteminfo2, root);
-
             }
             catch
             {
@@ -742,14 +690,11 @@ namespace SearchDataSPM
                 treeView1.Nodes.Clear();
                 RemoveChildNodes(root);
                 treeView1.ResetText();
-
             }
-
         }
 
         private void Filldatatabletreeview()
         {
-
             //string sql = "SELECT *  FROM [SPM_Database].[dbo].[ItemDependencies]";
             string sql = "SELECT *  FROM [SPM_Database].[dbo].[ItemsDependenciesBOM]";
             try
@@ -760,7 +705,6 @@ namespace SearchDataSPM
                 _adapter.Fill(_treeTB);
                 _connection.Close();
                 Fillrootnode();
-
             }
             catch (SqlException ex)
             {
@@ -770,7 +714,6 @@ namespace SearchDataSPM
 
         private void Startprocessfortreeview()
         {
-
             try
             {
                 treeView1.Nodes.Clear();
@@ -778,7 +721,6 @@ namespace SearchDataSPM
                 treeView1.ResetText();
                 Filldatatabletreeview();
                 //CallRecursive();
-
             }
             catch (Exception)
             {
@@ -787,7 +729,6 @@ namespace SearchDataSPM
 
         private void PopulateTreeView(string parentId, TreeNode parentNode)
         {
-
             TreeNode childNode;
 
             foreach (DataRow dr in _treeTB.Select("[AssyNo] ='" + parentId.ToString() + "'"))
@@ -797,11 +738,9 @@ namespace SearchDataSPM
                     Text = dr["ItemNumber"].ToString() + " - " + dr["Description"].ToString() + " (" + dr["QuantityPerAssembly"].ToString() + ") ",
                     Name = dr["ItemNumber"].ToString(),
                     Tag = dr["ItemNumber"].ToString() + "][" + dr["Description"].ToString() + "][" + dr["ItemFamily"].ToString() + "][" + dr["Manufacturer"].ToString() + "][" + dr["ManufacturerItemNumber"].ToString() + "][" + dr["QuantityPerAssembly"].ToString()
-
                 };
                 if (parentNode == null)
                 {
-
                     Font f = new Font("Arial", 10, FontStyle.Bold);
                     t.NodeFont = f;
                     t.Text = dr["AssyNo"].ToString() + " - " + dr["AssyDescription"].ToString() + " (" + dr["QuantityPerAssembly"].ToString() + ") ";
@@ -810,7 +749,6 @@ namespace SearchDataSPM
 
                     treeView1.Nodes.Add(t);
                     childNode = t;
-
                 }
                 else
                 {
@@ -818,13 +756,11 @@ namespace SearchDataSPM
                     // t.NodeFont = f;
                     parentNode.Nodes.Add(t);
                     childNode = t;
-
                 }
                 //MessageBox.Show((dr["ItemNumber"].ToString()) + "Parent " + (dr["AssyNo"].ToString()));
                 //PopulateTreeView((dr["ItemNumber"].ToString()), childNode);
             }
             // treeView1.SelectedNode = treeView1.Nodes[0];
-
         }
 
         private void RemoveChildNodes(TreeNode parentNode)
@@ -836,7 +772,6 @@ namespace SearchDataSPM
                     parentNode.Nodes[i].Remove();
                 }
             }
-
         }
 
         private void TreeView1_BeforeCollapse(object sender, TreeViewCancelEventArgs e)
@@ -857,12 +792,11 @@ namespace SearchDataSPM
                 e.Node.SelectedImageIndex = 1;
                 e.Node.ImageIndex = 1;
             }
-
         }
 
         private void PrintRecursive(TreeNode treeNode)
         {
-            // Print the node.  
+            // Print the node.
             if (treeNode.Nodes.Count == 0)
             {
             }
@@ -877,7 +811,6 @@ namespace SearchDataSPM
                 for (int i = 0; i < values.Length; i++)
                 {
                     values[i] = values[i].Trim();
-
                 }
                 //DataRow r = _treeTB.Rows[int.Parse(treeNode.Tag.ToString())];
                 //string family = r["ItemFamily"].ToString();
@@ -885,7 +818,7 @@ namespace SearchDataSPM
                 Setimageaccordingtofamily(family, treeNode);
             }
 
-            // Print each node recursively.  
+            // Print each node recursively.
             foreach (TreeNode tn in treeNode.Nodes)
             {
                 PrintRecursive(tn);
@@ -946,7 +879,7 @@ namespace SearchDataSPM
 
         private void CallRecursive()
         {
-            // Print each node recursively.  
+            // Print each node recursively.
             TreeNodeCollection nodes = treeView1.Nodes;
             foreach (TreeNode n in nodes)
             {
@@ -954,7 +887,6 @@ namespace SearchDataSPM
                 {
                     PrintRecursive(n);
                 }
-
             }
         }
 
@@ -966,50 +898,62 @@ namespace SearchDataSPM
                     e.Node.SelectedImageIndex = 1;
                     e.Node.ImageIndex = 1;
                     break;
+
                 case 2:
                     e.Node.SelectedImageIndex = 2;
                     e.Node.ImageIndex = 2;
                     break;
+
                 case 3:
                     e.Node.SelectedImageIndex = 3;
                     e.Node.ImageIndex = 3;
                     break;
+
                 case 4:
                     e.Node.SelectedImageIndex = 4;
                     e.Node.ImageIndex = 4;
                     break;
+
                 case 5:
                     e.Node.SelectedImageIndex = 5;
                     e.Node.ImageIndex = 5;
                     break;
+
                 case 6:
                     e.Node.SelectedImageIndex = 6;
                     e.Node.ImageIndex = 6;
                     break;
+
                 case 7:
                     e.Node.SelectedImageIndex = 7;
                     e.Node.ImageIndex = 7;
                     break;
+
                 case 8:
                     e.Node.SelectedImageIndex = 8;
                     e.Node.ImageIndex = 8;
                     break;
+
                 case 9:
                     e.Node.SelectedImageIndex = 9;
                     e.Node.ImageIndex = 9;
                     break;
+
                 case 10:
                     e.Node.SelectedImageIndex = 10;
                     e.Node.ImageIndex = 10;
                     break;
+
                 case 11:
                     e.Node.SelectedImageIndex = 11;
                     e.Node.ImageIndex = 11;
                     break;
+
                 case 12:
                     e.Node.SelectedImageIndex = 12;
                     e.Node.ImageIndex = 12;
                     break;
+
                 default:
                     e.Node.SelectedImageIndex = 0;
                     e.Node.ImageIndex = 0;
@@ -1019,7 +963,6 @@ namespace SearchDataSPM
 
         private void TreeView1_KeyPress(object sender, KeyPressEventArgs e)
         {
-
             if (e.KeyChar == Convert.ToChar(Keys.Down))
             {
                 TreeNode node = new TreeNode();
@@ -1027,7 +970,6 @@ namespace SearchDataSPM
                 treeView1.SelectedNode = node.NextVisibleNode;
                 node.TreeView.Focus();
             }
-
             else if (e.KeyChar == Convert.ToChar(Keys.Up))
             {
                 TreeNode node = new TreeNode();
@@ -1047,7 +989,6 @@ namespace SearchDataSPM
             if (System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"[0-9+\b]"))
             {
                 // Stop the character from being entered into the control since it is illegal.
-
             }
             else
             {
@@ -1062,7 +1003,6 @@ namespace SearchDataSPM
                 errorProvider1.Clear();
                 if (qtytxtbox.Text.Length > 0 && qtytxtbox.Text != "0")
                 {
-
                     Shipping connectapi = new Shipping();
                     DataTable iteminfo = new DataTable();
                     iteminfo.Clear();
@@ -1076,11 +1016,9 @@ namespace SearchDataSPM
                     string _manufacturer = r["ManufacturerItemNumber"].ToString();
                     string qty = qtytxtbox.Text;
 
-
                     _SearchNodes(_itemno, treeView1.Nodes[0]);
                     if (itemexists != "yes")
                     {
-
                         TreeNode child = new TreeNode
                         {
                             Text = _itemno.ToString() + " - " + _description.ToString() + " (" + qty.ToString() + ")",
@@ -1107,22 +1045,19 @@ namespace SearchDataSPM
                 else
                 {
                     errorProvider1.SetError(qtytxtbox, "Cannot be null");
-
                 }
-
             }
             catch
             {
                 return;
             }
-
         }
 
         #region search before addding item
 
         private List<TreeNode> _CurrentNodeMatches = new List<TreeNode>();
 
-        string itemexists;
+        private string itemexists;
 
         private void _SearchNodes(string SearchText, TreeNode StartNode)
         {
@@ -1139,15 +1074,13 @@ namespace SearchDataSPM
 
                 if (StartNode.Nodes.Count != 0)
                 {
-                    _SearchNodes(SearchText, StartNode.Nodes[0]);//Recursive Search 
-
+                    _SearchNodes(SearchText, StartNode.Nodes[0]);//Recursive Search
                 }
                 StartNode = StartNode.NextNode;
             }
-
         }
 
-        #endregion
+        #endregion search before addding item
 
         private void TreeView1_DragDrop(object sender, DragEventArgs e)
         {
@@ -1162,7 +1095,6 @@ namespace SearchDataSPM
 
             if (itemexists != "yes")
             {
-
                 TreeNode child = new TreeNode
                 {
                     Text = itemnumber + " - " + description + " (1)",
@@ -1177,13 +1109,11 @@ namespace SearchDataSPM
                     treeView1.ExpandAll();
                 }
                 savbttn.Visible = true;
-
             }
             else
             {
                 itemexists = null;
             }
-
         }
 
         private void TreeView1_DragEnter(object sender, DragEventArgs e)
@@ -1194,7 +1124,6 @@ namespace SearchDataSPM
         private void Savbttn_Click(object sender, EventArgs e)
         {
             ProcessSaveButton();
-
         }
 
         private void ProcessSaveButton()
@@ -1212,7 +1141,6 @@ namespace SearchDataSPM
 
                 if (myNodeCount > 0)
                 {
-
                     Deleteassy(ItemTxtBox.Text.ToString());
                     AddItems();
                 }
@@ -1222,7 +1150,6 @@ namespace SearchDataSPM
                     Lockdownsave();
                     //MessageBox.Show("Assembly list cannot be empty in order to save to AutoCad Catalog.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 }
-
             }
         }
 
@@ -1233,26 +1160,20 @@ namespace SearchDataSPM
 
             try
             {
-
                 _connection.Open();
                 _command.CommandText = sql;
                 _command.ExecuteNonQuery();
                 // MessageBox.Show("Item added to the catalog.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
             }
             catch (SqlException)
             {
-
                 // MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 MessageBox.Show("Technical error while updating to autocad catalog. Please contact the admin.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-
             }
             finally
             {
                 _connection.Close();
             }
-
         }
 
         private void AddItems()
@@ -1269,17 +1190,11 @@ namespace SearchDataSPM
 
         private void Lockdownsave()
         {
-
             treeView1.SelectedNode = root;
             savbttn.Visible = false;
-            qtytxtbox.ReadOnly = true;
-            //qtytxtbox.Enabled = false;
-            qtytxtbox.BackColor = Color.White;
             treeView1.ContextMenuStrip = null;
-            //treeView1.Enabled = false;
             MessageBox.Show("Assembly updated successfully.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
             addbutton.Visible = true;
-
         }
 
         private void SaveEachnode(TreeNode treeNode)
@@ -1290,26 +1205,22 @@ namespace SearchDataSPM
 
                 ////MessageBox.Show(parentnode);
                 //Splittagtovariables(parentnode);
-
             }
             else
             {
                 string childnode = treeNode.Tag.ToString();
                 Splittagtovariables(childnode);
             }
-
         }
 
         private void SaveRecursive(TreeNode treeNode)
         {
-
             SaveEachnode(treeNode);
             foreach (TreeNode tn in treeNode.Nodes)
             {
                 // MessageBox.Show(treeNode.Text);
                 SaveRecursive(tn);
             }
-
         }
 
         private void Splittagtovariables(string s)
@@ -1320,7 +1231,6 @@ namespace SearchDataSPM
             for (int i = 0; i < values.Length; i++)
             {
                 values[i] = values[i].Trim();
-
             }
 
             AddItemToAssy(values[0], values[5], ItemTxtBox.Text);
@@ -1344,7 +1254,6 @@ namespace SearchDataSPM
                     " VALUES('" + assyno + "','" + itemno + "','" + qty + "','" + sqlFormattedDatetime + "','" + username + "','" + sqlFormattedDatetime + "','" + username + "')";
                 cmd.ExecuteNonQuery();
                 _connection.Close();
-
             }
             catch (Exception ex)
             {
@@ -1353,16 +1262,13 @@ namespace SearchDataSPM
             finally
             {
                 _connection.Close();
-
             }
-
         }
 
         private void Qtytxtbox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
-
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
@@ -1414,7 +1320,6 @@ namespace SearchDataSPM
                     {
                         //code for No
                     }
-
                 }
             }
         }
@@ -1445,12 +1350,10 @@ namespace SearchDataSPM
                     for (int i = 0; i < values.Length; i++)
                     {
                         values[i] = values[i].Trim();
-
                     }
 
                     itemnotxt.Text = values[0];
                     qtytxtbox.Text = values[5];
-
                 }
         }
 
@@ -1466,11 +1369,8 @@ namespace SearchDataSPM
                 }
                 else
                 {
-
                 }
-
             }
         }
     }
-
 }

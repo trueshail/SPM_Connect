@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SearchDataSPM
+﻿namespace SearchDataSPM
 {
     public class PurhcaseReqSQL
     {
@@ -17,6 +11,5 @@ namespace SearchDataSPM
         public int papproval { get; set; }
         public int papproved { get; set; }
         public int supervisorid { get; set; }
-
     }
 }

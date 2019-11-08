@@ -1,5 +1,4 @@
-﻿
-namespace SearchDataSPM
+﻿namespace SearchDataSPM
 {
     public class UserControl
     {

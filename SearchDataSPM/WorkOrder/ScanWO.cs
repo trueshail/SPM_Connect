@@ -11,14 +11,14 @@ namespace SearchDataSPM
 {
     public partial class ScanWO : Form
     {
-        WorkOrder connectapi = new WorkOrder();
-        DateTime _lastKeystroke = new DateTime(0);
-        List<char> _barcode = new List<char>(10);
-        int userinputtime = 100;
-        bool developer = false;
-        log4net.ILog log;
+        private WorkOrder connectapi = new WorkOrder();
+        private DateTime _lastKeystroke = new DateTime(0);
+        private List<char> _barcode = new List<char>(10);
+        private int userinputtime = 100;
+        private bool developer = false;
+        private log4net.ILog log;
         private UserActions _userActions;
-        ErrorHandler errorHandler = new ErrorHandler();
+        private ErrorHandler errorHandler = new ErrorHandler();
 
         public ScanWO()
         {
@@ -57,7 +57,6 @@ namespace SearchDataSPM
             dtb1 = connectapi.ShowWOTrackingStatus(woid_txtbox.Text.Trim());
             dataGridView1.DataSource = dtb1;
             dataGridView1.Update();
-
         }
 
         private void timer3_Tick(object sender, EventArgs e)
@@ -65,8 +64,8 @@ namespace SearchDataSPM
             dataGridView1.Visible = false;
         }
 
-        Point myOriginalLocation;
-        bool positionLocked = false;
+        private Point myOriginalLocation;
+        private bool positionLocked = false;
 
         private void ScanWO_Move(object sender, EventArgs e)
         {
@@ -104,7 +103,6 @@ namespace SearchDataSPM
                 _barcode.Clear();
                 if (msg != "\r" || developer)
                 {
-
                     if (e.KeyChar == 13)
                     {
                         if (connectapi.WOReleased(woid_txtbox.Text.Trim()))
@@ -126,7 +124,6 @@ namespace SearchDataSPM
                 }
                 else
                 {
-
                     MessageBox.Show("System cannot accept keyboard inputs. Scan with barcode reader", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     woid_txtbox.Clear();
                     woid_txtbox.Focus();
@@ -152,4 +149,3 @@ namespace SearchDataSPM
         }
     }
 }
-

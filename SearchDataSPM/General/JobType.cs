@@ -1,16 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace SearchDataSPM
 {
-    public partial class JobType:MetroFramework.Forms.MetroForm
+    public partial class JobType : MetroFramework.Forms.MetroForm
     {
         public JobType()
         {
@@ -18,7 +10,6 @@ namespace SearchDataSPM
         }
 
         public string ValueIWant { get; set; }
-
 
         private void metroTile2_Click(object sender, EventArgs e)
         {
@@ -43,12 +34,10 @@ namespace SearchDataSPM
 
         private void metroTile4_Click(object sender, EventArgs e)
         {
-
         }
 
         private void label1_Click(object sender, EventArgs e)
         {
-
         }
 
         private void JobType_Load(object sender, EventArgs e)

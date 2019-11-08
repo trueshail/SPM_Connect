@@ -9,11 +9,11 @@ namespace SearchDataSPM.General
         {
             InitializeComponent();
         }
+
         public string podate { get; set; }
 
         private void ImportFileSelector_Load(object sender, EventArgs e)
         {
-
         }
 
         private void savebttn_Click(object sender, EventArgs e)
@@ -23,11 +23,8 @@ namespace SearchDataSPM.General
             Close();
         }
 
-
-
         private void dateTimePicker1_KeyDown(object sender, KeyEventArgs e)
         {
-
         }
 
         private void PODetails_FormClosing(object sender, FormClosingEventArgs e)

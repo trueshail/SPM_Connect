@@ -13,17 +13,17 @@ namespace SearchDataSPM
 {
     public partial class InvoiceAddItem : Form
     {
-        string connection;
-        SqlConnection cn;
-        SqlCommand _command;
-        string Invoice_Number = "";
-        string custvendor = "";
-        string _operation = "";
-        string _itemnumber = "";
-        SPMConnectAPI.Shipping connectapi = new Shipping();
-        log4net.ILog log;
+        private string connection;
+        private SqlConnection cn;
+        private SqlCommand _command;
+        private string Invoice_Number = "";
+        private string custvendor = "";
+        private string _operation = "";
+        private string _itemnumber = "";
+        private SPMConnectAPI.Shipping connectapi = new Shipping();
+        private log4net.ILog log;
         private UserActions _userActions;
-        ErrorHandler errorHandler = new ErrorHandler();
+        private ErrorHandler errorHandler = new ErrorHandler();
 
         public InvoiceAddItem()
         {
@@ -40,7 +40,6 @@ namespace SearchDataSPM
                 MessageBox.Show(ex.Message, "SPM Connect - SQL Connection Error Invoice Add items", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             // connectapi.SPM_Connect();
-
 
             _command = new SqlCommand();
         }
@@ -75,11 +74,10 @@ namespace SearchDataSPM
             return null;
         }
 
-        #endregion
+        #endregion Setting Parameters
 
         private void QuoteDetails_Load(object sender, EventArgs e)
         {
-
             this.Text = _operation + " Item - " + Invoice_Number;
             //clearaddnewtextboxes();
             if (custvendor == "0")
@@ -106,7 +104,6 @@ namespace SearchDataSPM
 
                     showspmchk.Visible = true;
                     ItemTxtBox.Text = "New item id will be generated on save";
-
                 }
             }
             else
@@ -125,7 +122,6 @@ namespace SearchDataSPM
                 {
                     showspmchk.Visible = true;
                     ItemTxtBox.Text = "New item id will be generated on save";
-
                 }
             }
             Cursor.Current = Cursors.Default;
@@ -172,8 +168,6 @@ namespace SearchDataSPM
             origintxt.Text = r["Origin"].ToString();
             tarifftxt.Text = r["TarriffCode"].ToString();
             totaltxt.Text = string.Format("{0:c2}", Convert.ToDecimal(r["Total"].ToString()));
-
-
         }
 
         private void FillOriginTarriff(string item)
@@ -202,7 +196,6 @@ namespace SearchDataSPM
                         }
                         else
                         {
-
                         }
                     }
                 }
@@ -230,25 +223,20 @@ namespace SearchDataSPM
                             }
                             else
                             {
-
                             }
                         }
-
                     }
-
                 }
             }
             dontstop = true;
-
         }
 
-        #endregion
+        #endregion Fill information on controls
 
         #region shortcuts
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-
             if (keyData == (Keys.Control | Keys.W))
             {
                 this.Close();
@@ -259,8 +247,7 @@ namespace SearchDataSPM
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-
-        #endregion        
+        #endregion shortcuts
 
         private void QuoteDetails_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -268,7 +255,6 @@ namespace SearchDataSPM
             {
                 if (_operation == "Update")
                 {
-
                 }
                 else
                 {
@@ -282,16 +268,13 @@ namespace SearchDataSPM
                         e.Cancel = (result == DialogResult.No);
                     }
                 }
-
             }
-
         }
 
         #region Calculate Total
 
-        void calculatetotal()
+        private void calculatetotal()
         {
-
             if (qtytxt.Text.Length > 0 && pricetxt.Text != "0.00")
             {
                 decimal total = 0.00m;
@@ -307,7 +290,6 @@ namespace SearchDataSPM
 
                     totaltxt.Text = string.Format("{0:#.00}", total.ToString());
                 }
-
                 catch (Exception ex)
                 {
                     MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect -  Error Getting Total", MessageBoxButtons.OK);
@@ -317,7 +299,6 @@ namespace SearchDataSPM
             {
                 totaltxt.Text = "";
             }
-
         }
 
         private decimal calculatetotal(int qty)
@@ -337,9 +318,9 @@ namespace SearchDataSPM
             return total;
         }
 
-        #endregion
+        #endregion Calculate Total
 
-        void clearaddnewtextboxes()
+        private void clearaddnewtextboxes()
         {
             ItemTxtBox.Clear();
             Descriptiontxtbox.Clear();
@@ -358,10 +339,9 @@ namespace SearchDataSPM
             {
                 ItemTxtBox.Text = "New item id will be generated on save";
             }
-
         }
 
-        bool dontstop = true;
+        private bool dontstop = true;
 
         private void pricetxt_TextChanged(object sender, EventArgs e)
         {
@@ -426,7 +406,6 @@ namespace SearchDataSPM
             if (System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"[0-9+\b]"))
             {
                 // Stop the character from being entered into the control since it is illegal.
-
             }
             else
             {
@@ -448,7 +427,6 @@ namespace SearchDataSPM
                     {
                         this.Close();
                     }
-
                 }
                 else
                 {
@@ -474,7 +452,6 @@ namespace SearchDataSPM
                                     perfromcancel();
                                 }
                             }
-
                         }
                         else
                         {
@@ -483,7 +460,6 @@ namespace SearchDataSPM
                                 if (connectapi.InsertShippingItems(Invoice_Number, ItemTxtBox.Text.Trim(), Descriptiontxtbox.Text.Trim(), oemtxt.Text.Trim(), oemitemnotxt.Text.Trim(), origintxt.Text.Trim(), tarifftxt.Text.Trim(), qtytxt.Text.Trim(), result12, result11))
                                 {
                                     perfromcancel();
-
                                 }
                             }
                             else
@@ -494,18 +470,14 @@ namespace SearchDataSPM
                                     ItemTxtBox.Text = "New item id will be generated on save";
                                 }
                             }
-
                         }
-
                     }
-
                 }
             }
             else
             {
                 if (qtytxt.Text.Length > 0 && qtytxt.Text != "0")
                     errorProvider1.SetError(pricetxt, "Price cannot be null");
-
                 else if (pricetxt.Text != "$0.00" && qtytxt.Text.Length != 1)
                     errorProvider1.SetError(qtytxt, "Cannot be null");
                 else if (qtytxt.Text == "0")
@@ -518,7 +490,7 @@ namespace SearchDataSPM
             }
         }
 
-        void cleantextboxesdata()
+        private void cleantextboxesdata()
         {
             Regex reg = new Regex("[*'\",_&#^@]");
             ItemTxtBox.Text = reg.Replace(ItemTxtBox.Text, "''");
@@ -535,7 +507,7 @@ namespace SearchDataSPM
             else perfromcancel();
         }
 
-        void perfromcancel()
+        private void perfromcancel()
         {
             clearaddnewtextboxes();
             ItemsCombobox.Text = null;
@@ -543,7 +515,6 @@ namespace SearchDataSPM
             {
                 ItemTxtBox.Text = "New item id will be generated on save";
             }
-
         }
 
         private void ItemsCombobox_KeyDown(object sender, KeyEventArgs e)
@@ -563,7 +534,6 @@ namespace SearchDataSPM
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
-
         }
 
         private void Descriptiontxtbox_TextChanged(object sender, EventArgs e)

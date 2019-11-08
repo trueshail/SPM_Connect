@@ -7,15 +7,17 @@ namespace SearchDataSPM.General
 {
     public partial class PODetails : Form
     {
-        log4net.ILog log;
+        private log4net.ILog log;
         private UserActions _userActions;
-        ErrorHandler errorHandler = new ErrorHandler();
+        private ErrorHandler errorHandler = new ErrorHandler();
+
         public PODetails()
         {
             Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
         }
+
         public string ValueIWant { get; set; }
         public string podate { get; set; }
 
@@ -45,7 +47,6 @@ namespace SearchDataSPM.General
 
         private void dateTimePicker1_KeyDown(object sender, KeyEventArgs e)
         {
-
         }
 
         private void PODetails_FormClosing(object sender, FormClosingEventArgs e)

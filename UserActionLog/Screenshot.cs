@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Windows.Forms;
 using System.IO;
+using System.Windows.Forms;
 
 namespace SPMConnect
 {
@@ -37,6 +37,5 @@ namespace SPMConnect
                 return uniqueFileName;
             }
         }
-
     }
 }

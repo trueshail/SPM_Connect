@@ -15,7 +15,7 @@ namespace SPMConnectAPI
 {
     public class SPMSQLCommands
     {
-        SqlConnection cn;
+        private SqlConnection cn;
 
         public SPMSQLCommands()
         {
@@ -28,12 +28,10 @@ namespace SPMConnectAPI
             try
             {
                 cn = new SqlConnection(connection);
-
             }
             catch (Exception)
             {
                 MessageBox.Show("Error Connecting to SQL Server.....", "SPM Connect Sql Commands", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
             }
         }
 
@@ -48,7 +46,6 @@ namespace SPMConnectAPI
             {
                 return null;
             }
-
         }
 
         public string getassyversionnumber()
@@ -75,7 +72,6 @@ namespace SPMConnectAPI
                 foreach (DataRow dr in dt.Rows)
                 {
                     fullname = dr["Name"].ToString();
-
                 }
                 dt.Clear();
             }
@@ -107,7 +103,6 @@ namespace SPMConnectAPI
                 foreach (DataRow dr in dt.Rows)
                 {
                     Department = dr["Department"].ToString();
-
                 }
             }
             catch (Exception ex)
@@ -138,8 +133,6 @@ namespace SPMConnectAPI
                         sda.ExecuteNonQuery();
                         cn.Close();
                         MessageBox.Show(_itemno + " - Is removed from the system now!", "SPM Connect - Delete Item", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-
                     }
                     catch (Exception ex)
                     {
@@ -149,10 +142,8 @@ namespace SPMConnectAPI
                     {
                         cn.Close();
                     }
-
                 }
             }
-
         }
 
         public bool ReadWhatsNew()
@@ -173,7 +164,6 @@ namespace SPMConnectAPI
                 foreach (DataRow dr in dt.Rows)
                 {
                     readnew = dr["ReadWhatsNew"].ToString();
-
                 }
                 dt.Clear();
             }
@@ -186,14 +176,12 @@ namespace SPMConnectAPI
                 cn.Close();
             }
             return read;
-
         }
 
         #region UserRights
 
         public bool CheckAdmin()
         {
-
             bool admin = false;
             string useradmin = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
 
@@ -209,7 +197,6 @@ namespace SPMConnectAPI
                     {
                         admin = true;
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -219,7 +206,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return admin;
         }
@@ -241,7 +227,6 @@ namespace SPMConnectAPI
                     {
                         developer = true;
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -251,10 +236,8 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return developer;
-
         }
 
         public bool CheckManagement()
@@ -271,20 +254,16 @@ namespace SPMConnectAPI
                     if (userCount == 1)
                     {
                         management = true;
-
                     }
-
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "SPM Connect - Check management rights", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 }
                 finally
                 {
                     cn.Close();
                 }
-
             }
             return management;
         }
@@ -303,20 +282,16 @@ namespace SPMConnectAPI
                     if (userCount == 1)
                     {
                         purchasereq = true;
-
-
                     }
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "SPM Connect - Check purchase rights", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 }
                 finally
                 {
                     cn.Close();
                 }
-
             }
             return purchasereq;
         }
@@ -336,20 +311,16 @@ namespace SPMConnectAPI
                     if (userCount == 1)
                     {
                         quoterights = true;
-
-
                     }
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "SPM Connect - Check quote rights", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 }
                 finally
                 {
                     cn.Close();
                 }
-
             }
             return quoterights;
         }
@@ -369,25 +340,21 @@ namespace SPMConnectAPI
                     if (userCount == 1)
                     {
                         quoterights = true;
-
-
                     }
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "SPM Connect - Check Shipping rights", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 }
                 finally
                 {
                     cn.Close();
                 }
-
             }
             return quoterights;
         }
 
-        #endregion
+        #endregion UserRights
 
         public void chekin(string applicationname)
         {
@@ -405,7 +372,6 @@ namespace SPMConnectAPI
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
             }
             catch (Exception ex)
             {
@@ -415,7 +381,6 @@ namespace SPMConnectAPI
             {
                 cn.Close();
             }
-
         }
 
         public void checkout()
@@ -428,7 +393,6 @@ namespace SPMConnectAPI
                 SqlCommand sda = new SqlCommand(query, cn);
                 sda.ExecuteNonQuery();
                 cn.Close();
-
             }
             catch (Exception ex)
             {
@@ -438,7 +402,6 @@ namespace SPMConnectAPI
             {
                 cn.Close();
             }
-
         }
 
         public DataTable Showallitems()
@@ -454,7 +417,6 @@ namespace SPMConnectAPI
 
                     dt.Clear();
                     sda.Fill(dt);
-
                 }
                 catch (Exception ex)
                 {
@@ -464,7 +426,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return dt;
         }
@@ -482,7 +443,6 @@ namespace SPMConnectAPI
 
                     dt.Clear();
                     sda.Fill(dt);
-
                 }
                 catch (Exception ex)
                 {
@@ -492,10 +452,8 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return dt;
-
         }
 
         public DataTable ShowDuplicates()
@@ -511,7 +469,6 @@ namespace SPMConnectAPI
 
                     dt.Clear();
                     sda.Fill(dt);
-
                 }
                 catch (Exception ex)
                 {
@@ -521,7 +478,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return dt;
         }
@@ -539,7 +495,6 @@ namespace SPMConnectAPI
 
                     dt.Clear();
                     sda.Fill(dt);
-
                 }
                 catch (Exception ex)
                 {
@@ -549,7 +504,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return dt;
         }
@@ -570,8 +524,6 @@ namespace SPMConnectAPI
                 swModel = swApp.ActiveDoc as ModelDoc2;
 
                 filename = swModel.GetTitle();
-
-
             }
             return filename;
         }
@@ -582,20 +534,15 @@ namespace SPMConnectAPI
             var progId = "SldWorks.Application";
             SldWorks swApp = System.Runtime.InteropServices.Marshal.GetActiveObject(progId.ToString()) as SolidWorks.Interop.sldworks.SldWorks;
 
-
             int count;
             string pathName = "";
             count = swApp.GetDocumentCount();
 
             if (count > 0)
             {
-
                 swModel = swApp.ActiveDoc as ModelDoc2;
 
                 pathName = swModel.GetPathName();
-
-
-
             }
             return pathName;
         }
@@ -618,15 +565,11 @@ namespace SPMConnectAPI
                 {
                     category = dr["Category"].ToString();
                     //MessageBox.Show(category);
-
                 }
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show(ex.Message, "SPM Connect - Get Family Category", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-
             }
             finally
             {
@@ -644,7 +587,6 @@ namespace SPMConnectAPI
                 string first3char = itemnumber.Substring(0, 3) + @"\";
                 string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
                 Pathpart = (spmcadpath + first3char);
-
             }
             return Pathpart;
         }
@@ -663,7 +605,6 @@ namespace SPMConnectAPI
             }
 
             return notreadonly;
-
         }
 
         public string getcustomeralias(string customerid)
@@ -683,15 +624,11 @@ namespace SPMConnectAPI
                 foreach (DataRow dr in dt.Rows)
                 {
                     customername = dr["Alias"].ToString();
-
                 }
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show(ex.Message, "SPM Connect - Get Customer Alias", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-
             }
             finally
             {
@@ -708,7 +645,6 @@ namespace SPMConnectAPI
 
             try
             {
-
                 if (cn.State == ConnectionState.Closed)
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
@@ -727,16 +663,12 @@ namespace SPMConnectAPI
                         MessageBox.Show("User has not been assigned a block number. Please contact the admin.", "SPM Connect - Get Active Block Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
                     }
-
                 }
-
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show(ex.Message, "SPM Connect - Get User Active Block", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 //Application.Exit();
-
             }
             finally
             {
@@ -744,7 +676,6 @@ namespace SPMConnectAPI
             }
 
             return useractiveblock;
-
         }
 
         public string Getlastnumber()
@@ -753,7 +684,6 @@ namespace SPMConnectAPI
 
             if (blocknumber == "")
             {
-
                 return "";
             }
             else
@@ -761,7 +691,6 @@ namespace SPMConnectAPI
                 string lastnumber = "";
                 try
                 {
-
                     if (cn.State == ConnectionState.Closed)
                         cn.Open();
                     SqlCommand cmd = cn.CreateCommand();
@@ -778,25 +707,18 @@ namespace SPMConnectAPI
                         {
                             lastnumber = blocknumber.Substring(1) + "000";
                         }
-
-
                     }
                 }
                 catch (Exception ex)
                 {
-
                     MessageBox.Show(ex.Message, "SPM Connect - Get Last Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-
                 }
                 finally
                 {
                     cn.Close();
-
                 }
                 return lastnumber;
             }
-
         }
 
         public bool CheckBaseBlockNumberTaken()
@@ -805,7 +727,6 @@ namespace SPMConnectAPI
             bool taken = false;
             if (blocknumber == "")
             {
-
                 return taken;
             }
             else
@@ -813,7 +734,6 @@ namespace SPMConnectAPI
                 string lastnumber = "";
                 try
                 {
-
                     if (cn.State == ConnectionState.Closed)
                         cn.Open();
                     SqlCommand cmd = cn.CreateCommand();
@@ -834,24 +754,18 @@ namespace SPMConnectAPI
                         {
                             taken = true;
                         }
-
                     }
                 }
                 catch (Exception ex)
                 {
-
                     MessageBox.Show(ex.Message, "SPM Connect - Get Last Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-
                 }
                 finally
                 {
                     cn.Close();
-
                 }
                 return taken;
             }
-
         }
 
         public string Spmnew_idincrement(string lastnumber, string blocknumber)
@@ -870,7 +784,6 @@ namespace SPMConnectAPI
                 string newid = lastnumbergrp + lastnumbers.ToString();
                 return newid;
             }
-
         }
 
         public bool Validnumber(string lastnumber)
@@ -883,7 +796,6 @@ namespace SPMConnectAPI
                     MessageBox.Show("User block number limit has reached. Please ask the admin to assign a new block number.", "SPM Connect - Valid Number Limit", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     valid = false;
                 }
-
             }
             else
             {
@@ -912,7 +824,6 @@ namespace SPMConnectAPI
                         //MessageBox.Show(" move forward");
                         itempresent = false;
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -921,17 +832,13 @@ namespace SPMConnectAPI
                 finally
                 {
                     cn.Close();
-
                 }
-
             }
             return itempresent;
-
         }
 
         public void Addcpoieditemtosqltablefromgenius(string newid, string activeid)
         {
-
             try
             {
                 if (cn.State == ConnectionState.Closed)
@@ -942,7 +849,6 @@ namespace SPMConnectAPI
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
             }
             catch (Exception ex)
             {
@@ -952,7 +858,6 @@ namespace SPMConnectAPI
             {
                 cn.Close();
             }
-
         }
 
         public void Addcpoieditemtosqltable(string selecteditem, string uniqueid)
@@ -970,7 +875,6 @@ namespace SPMConnectAPI
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
             }
             catch (Exception ex)
             {
@@ -980,10 +884,9 @@ namespace SPMConnectAPI
             {
                 cn.Close();
             }
-
         }
 
-        #endregion
+        #endregion GetNewItemNumber or copy items
 
         #region Advance Search Fill Comboxes
 
@@ -1010,7 +913,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
 
             return MyCollection;
@@ -1030,7 +932,6 @@ namespace SPMConnectAPI
                     {
                         MyCollection.Add(reader.GetString(0));
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -1040,11 +941,9 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
 
             return MyCollection;
-
         }
 
         public AutoCompleteStringCollection filldesignedby()
@@ -1061,7 +960,6 @@ namespace SPMConnectAPI
                     {
                         MyCollection.Add(reader.GetString(0));
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -1071,10 +969,8 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return MyCollection;
-
         }
 
         public AutoCompleteStringCollection filllastsavedby()
@@ -1091,7 +987,6 @@ namespace SPMConnectAPI
                     {
                         MyCollection.Add(reader.GetString(0));
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -1101,10 +996,8 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return MyCollection;
-
         }
 
         public AutoCompleteStringCollection fillmanufacturers()
@@ -1121,8 +1014,6 @@ namespace SPMConnectAPI
                     {
                         MyCollection.Add(reader.GetString(0));
                     }
-
-
                 }
                 catch (Exception ex)
                 {
@@ -1132,10 +1023,8 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return MyCollection;
-
         }
 
         public AutoCompleteStringCollection filloem()
@@ -1152,7 +1041,6 @@ namespace SPMConnectAPI
                     {
                         MyCollection.Add(reader.GetString(0));
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -1162,7 +1050,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return MyCollection;
         }
@@ -1181,7 +1068,6 @@ namespace SPMConnectAPI
                     {
                         MyCollection.Add(reader.GetString(0));
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -1191,7 +1077,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return MyCollection;
         }
@@ -1210,7 +1095,6 @@ namespace SPMConnectAPI
                     {
                         MyCollection.Add(reader.GetString(0));
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -1220,7 +1104,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return MyCollection;
         }
@@ -1239,7 +1122,6 @@ namespace SPMConnectAPI
                     {
                         MyCollection.Add(reader.GetString(0));
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -1249,10 +1131,8 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return MyCollection;
-
         }
 
         public AutoCompleteStringCollection fillsurface()
@@ -1269,7 +1149,6 @@ namespace SPMConnectAPI
                     {
                         MyCollection.Add(reader.GetString(0));
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -1279,10 +1158,8 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return MyCollection;
-
         }
 
         public AutoCompleteStringCollection filldescriptionsource()
@@ -1299,7 +1176,6 @@ namespace SPMConnectAPI
                     {
                         MyCollection.Add(reader.GetString(0));
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -1309,13 +1185,11 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             return MyCollection;
-
         }
 
-        #endregion
+        #endregion Advance Search Fill Comboxes
 
         #region OpenModel & Drawing
 
@@ -1336,46 +1210,36 @@ namespace SPMConnectAPI
                 string PathPartNo = (spmcadpath + first3char + ItemNumbero + ".sldprt");
                 string PathAssyNo = (spmcadpath + first3char + ItemNumbero + ".sldasm");
 
-
-
                 if (File.Exists(Pathassy) && File.Exists(Pathpart))
                 {
-
                     MessageBox.Show($"System has found a Part file and Assembly file with the same PartNo." + Item_No + "." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 }
                 else if (File.Exists(PathAssyNo) && File.Exists(PathPartNo))
                 {
                     MessageBox.Show($"System has found a Part file and Assembly file with the same PartNo. " + ItemNumbero + "." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 }
                 else if (File.Exists(PathAssyNo) && File.Exists(Pathpart))
                 {
                     MessageBox.Show($"System has found a Part file " + Item_No + "and Assembly file " + ItemNumbero + " with the same PartNo." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 }
                 else if (File.Exists(Pathassy) && File.Exists(PathPartNo))
                 {
                     MessageBox.Show($"System has found a Part file " + ItemNumbero + "and Assembly file" + Item_No + " with the same PartNo." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 }
                 else if (File.Exists(PathPartNo) && File.Exists(Pathpart))
                 {
                     MessageBox.Show($"System has found a Part two files " + Item_No + "," + ItemNumbero + " with the same PartNo." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 }
                 else if (File.Exists(PathAssyNo) && File.Exists(Pathassy))
                 {
                     MessageBox.Show($"System has found a assembly files " + Item_No + "," + ItemNumbero + " with the same PartNo." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 }
-
                 else if (File.Exists(Pathassy))
                 {
                     //Process.Start("explorer.exe", Pathassy);
@@ -1384,22 +1248,18 @@ namespace SPMConnectAPI
                     {
                         Open_assy(Pathassy);
                     }
-
                 }
                 else if (File.Exists(PathAssyNo))
                 {
-
                     //Process.Start("explorer.exe", PathAssyNo);
                     // fName = PathAssyNo;
                     if (solidworks_running() == true)
                     {
                         Open_assy(PathAssyNo);
                     }
-
                 }
                 else if (File.Exists(Pathpart))
                 {
-
                     //Process.Start("explorer.exe", Pathpart);
                     //fName = Pathpart;
                     if (solidworks_running() == true)
@@ -1409,29 +1269,24 @@ namespace SPMConnectAPI
                 }
                 else if (File.Exists(PathPartNo))
                 {
-
                     //Process.Start("explorer.exe", PathPartNo);
                     //fName = PathPartNo;
                     if (solidworks_running() == true)
                     {
                         Open_model(PathPartNo);
                     }
-
                 }
                 else
                 {
                     MessageBox.Show($"A file with the part number " + Item_No + " does not have Solidworks CAD Model. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     //fName = "";
                 }
-
             }
-
         }
 
         public void checkforspmdrwfile(string Item_No)
         {
             string ItemNumbero = Item_No + "-0";
-
 
             if (!String.IsNullOrWhiteSpace(Item_No) && Item_No.Length == 6)
 
@@ -1445,48 +1300,35 @@ namespace SPMConnectAPI
 
                 string drawpathno = (spmcadpath + first3char + ItemNumbero + ".SLDDRW");
 
-
                 if (File.Exists(drawpathno) && File.Exists(Drawpath))
                 {
                     MessageBox.Show($"System has found a Part two files " + Item_No + "," + ItemNumbero + " with the same PartNo." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 }
-
-
                 else if (File.Exists(Drawpath))
                 {
-
                     //Process.Start("explorer.exe", Drawpath);
                     if (solidworks_running() == true)
                     {
                         Open_drw(Drawpath);
                     }
-
                 }
                 else if (File.Exists(drawpathno))
                 {
-
                     //Process.Start("explorer.exe", drawpathno);
                     if (solidworks_running() == true)
                     {
                         Open_drw(drawpathno);
                     }
-
                 }
                 else
                 {
-
                     MessageBox.Show($"A file with the part number" + Item_No + " does not have Solidworks Drawing File. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 }
-
             }
             else
             {
-
             }
-
         }
 
         public void checkforspmfileprod(string ItemNo)
@@ -1507,90 +1349,65 @@ namespace SPMConnectAPI
                 string PathPartNo = (spmcadpath + first3char + ItemNumbero + ".sldprt");
                 string PathAssyNo = (spmcadpath + first3char + ItemNumbero + ".sldasm");
 
-
-
                 if (File.Exists(Pathassy) && File.Exists(Pathpart))
                 {
-
                     MessageBox.Show($"System has found a Part file and Assembly file with the same PartNo." + ItemNo + "." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 }
                 else if (File.Exists(PathAssyNo) && File.Exists(PathPartNo))
                 {
                     MessageBox.Show($"System has found a Part file and Assembly file with the same PartNo. " + ItemNumbero + "." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 }
                 else if (File.Exists(PathAssyNo) && File.Exists(Pathpart))
                 {
                     MessageBox.Show($"System has found a Part file " + ItemNo + "and Assembly file " + ItemNumbero + " with the same PartNo." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 }
                 else if (File.Exists(Pathassy) && File.Exists(PathPartNo))
                 {
                     MessageBox.Show($"System has found a Part file " + ItemNumbero + "and Assembly file" + ItemNo + " with the same PartNo." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 }
                 else if (File.Exists(PathPartNo) && File.Exists(Pathpart))
                 {
                     MessageBox.Show($"System has found a Part two files " + ItemNo + "," + ItemNumbero + " with the same PartNo." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 }
                 else if (File.Exists(PathAssyNo) && File.Exists(Pathassy))
                 {
                     MessageBox.Show($"System has found a assembly files " + ItemNo + "," + ItemNumbero + " with the same PartNo." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 }
-
                 else if (File.Exists(Pathassy))
                 {
                     Process.Start("explorer.exe", Pathassy);
-
-
                 }
                 else if (File.Exists(PathAssyNo))
                 {
-
                     Process.Start("explorer.exe", PathAssyNo);
-
-
                 }
                 else if (File.Exists(Pathpart))
                 {
-
                     Process.Start("explorer.exe", Pathpart);
-
                 }
                 else if (File.Exists(PathPartNo))
                 {
-
                     Process.Start("explorer.exe", PathPartNo);
-
-
                 }
                 else
                 {
                     MessageBox.Show($"A file with the part number" + ItemNo + " does not have Solidworks CAD Model. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 }
-
             }
             else
             {
-
             }
-
         }
 
         public void checkforspmdrwfileprod(string str)
         {
             string ItemNumbero = str + "-0";
-
 
             if (!String.IsNullOrWhiteSpace(str) && str.Length == 6)
 
@@ -1604,45 +1421,31 @@ namespace SPMConnectAPI
 
                 string drawpathno = (spmcadpath + first3char + ItemNumbero + ".SLDDRW");
 
-
                 if (File.Exists(drawpathno) && File.Exists(Drawpath))
                 {
                     MessageBox.Show($"System has found a Part two files " + str + "," + ItemNumbero + " with the same PartNo." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 }
-
-
                 else if (File.Exists(Drawpath))
                 {
-
                     Process.Start("explorer.exe", Drawpath);
-
                 }
                 else if (File.Exists(drawpathno))
                 {
-
                     Process.Start("explorer.exe", drawpathno);
-
                 }
                 else
                 {
-
                     MessageBox.Show($"A file with the part number" + str + " does not have Solidworks Drawing File. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 }
-
             }
             else
             {
-
             }
-
         }
 
         public bool solidworks_running()
         {
-
             if (Process.GetProcessesByName("SLDWORKS").Length >= 1)
             {
                 //mysolidworks.ActiveModelDocChangeNotify += this.mysolidworks_activedocchange;
@@ -1650,7 +1453,6 @@ namespace SPMConnectAPI
             }
             else if ((Process.GetProcessesByName("SLDWORKS").Length == 0))
             {
-
                 MessageBox.Show("Soliworks application needs to be running in order for SPM Connect to perform. Thank you.", "SPM Connect - Solidworks Running", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
@@ -1678,7 +1480,6 @@ namespace SPMConnectAPI
 
         public void Open_assy(string filename)
         {
-
             var progId = "SldWorks.Application";
             SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
             swApp.Visible = true;
@@ -1689,12 +1490,10 @@ namespace SPMConnectAPI
             swModel = swApp.ActiveDoc as ModelDoc2;
             //swAssembly = (AssemblyDoc)swModel;
             //AttachEventHandlers();
-
         }
 
         public void Open_drw(string filename)
         {
-
             var progId = "SldWorks.Application";
             SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
             swApp.Visible = true;
@@ -1705,7 +1504,7 @@ namespace SPMConnectAPI
             swModel = swApp.ActiveDoc as ModelDoc2;
         }
 
-        #endregion
+        #endregion OpenModel & Drawing
 
         #region solidworks createmodels and open models
 
@@ -1732,7 +1531,6 @@ namespace SPMConnectAPI
                     //MessageBox.Show("new part created");
                     get_pathname();
                     getfilename();
-
                 }
                 else
                 {
@@ -1771,7 +1569,6 @@ namespace SPMConnectAPI
                     //MessageBox.Show("part not saved");
                 }
             }
-
         }
 
         public void createdrawingpart(string filename, string _itemnumber)
@@ -1800,7 +1597,7 @@ namespace SPMConnectAPI
                 //double sheetwidth = 0;
                 //double sheethieght = 0;
                 //int lRetVal;
-                //lRetVal= cursheet.GetSize(sheetwidth,sheethieght);                
+                //lRetVal= cursheet.GetSize(sheetwidth,sheethieght);
                 //SolidWorks.Interop.sldworks.View swView;
 
                 //swView = (SolidWorks.Interop.sldworks.View)swDrawing.CreateDrawViewFromModelView3(Pathpart, "*Isometric",sheetwidth, sheethieght, 0);
@@ -1811,25 +1608,21 @@ namespace SPMConnectAPI
                 //double viewweidth = 0;
                 //double viewheight = 0;
 
-
                 //Voutline(nNumView) = swView.GetOutline();
                 //Vpostion(nNumView) = swView.Position();
                 //viewweidth = Voutline(2) - Voutline(0);
 
                 //swView.Position(6, 5);
 
-
                 bool boolstatus = false;
                 boolstatus = swModelDocExt.SaveAs(filename, 0, (int)swSaveAsOptions_e.swSaveAsOptions_Silent, 0, 0, 0);
                 swApp.QuitDoc(swModel.GetTitle());
-
 
                 if (boolstatus == true)
                 {
                     //MessageBox.Show("new part created");
                     //get_pathname();
                     //getfilename();
-
                 }
                 else
                 {
@@ -1864,7 +1657,7 @@ namespace SPMConnectAPI
                 //double sheetwidth = 0;
                 //double sheethieght = 0;
                 //int lRetVal;
-                //lRetVal= cursheet.GetSize(sheetwidth,sheethieght);                
+                //lRetVal= cursheet.GetSize(sheetwidth,sheethieght);
                 //SolidWorks.Interop.sldworks.View swView;
 
                 //swView = (SolidWorks.Interop.sldworks.View)swDrawing.CreateDrawViewFromModelView3(Pathpart, "*Isometric",sheetwidth, sheethieght, 0);
@@ -1875,25 +1668,21 @@ namespace SPMConnectAPI
                 //double viewweidth = 0;
                 //double viewheight = 0;
 
-
                 //Voutline(nNumView) = swView.GetOutline();
                 //Vpostion(nNumView) = swView.Position();
                 //viewweidth = Voutline(2) - Voutline(0);
 
                 //swView.Position(6, 5);
 
-
                 bool boolstatus = false;
                 boolstatus = swModelDocExt.SaveAs(filename, 0, (int)swSaveAsOptions_e.swSaveAsOptions_Silent, 0, 0, 0);
                 swApp.QuitDoc(swModel.GetTitle());
-
 
                 if (boolstatus == true)
                 {
                     //MessageBox.Show("new part created");
                     //get_pathname();
                     //getfilename();
-
                 }
                 else
                 {
@@ -1935,7 +1724,6 @@ namespace SPMConnectAPI
                 }
                 catch
                 {
-
                 }
                 try
                 {
@@ -1946,12 +1734,9 @@ namespace SPMConnectAPI
                 }
                 catch
                 {
-
                 }
 
                 return status;
-
-
             }
             return false;
         }
@@ -1981,7 +1766,6 @@ namespace SPMConnectAPI
                 }
                 catch
                 {
-
                 }
                 try
                 {
@@ -1989,11 +1773,9 @@ namespace SPMConnectAPI
                     swModel = (ModelDoc2)swassy;
                     swModelDocExt = (ModelDocExtension)swModel.Extension;
                     status = swModelDocExt.SaveAs(savefilename, 0, (int)swSaveAsOptions_e.swSaveAsOptions_Silent, 0, 0, 0);
-
                 }
                 catch
                 {
-
                 }
 
                 return status;
@@ -2012,7 +1794,6 @@ namespace SPMConnectAPI
                 ModelDoc2 swModel = default(ModelDoc2);
                 ModelDocExtension swModelDocExt = default(ModelDocExtension);
 
-
                 bool status = false;
                 int errors = 0;
                 try
@@ -2021,11 +1802,9 @@ namespace SPMConnectAPI
                     swModel = (ModelDoc2)swPart;
                     swModelDocExt = (ModelDocExtension)swModel.Extension;
                     status = swModelDocExt.SaveAs(savefilename, 0, (int)swSaveAsOptions_e.swSaveAsOptions_Silent, 0, 0, 0);
-
                 }
                 catch
                 {
-
                 }
                 try
                 {
@@ -2033,11 +1812,9 @@ namespace SPMConnectAPI
                     swModel = (ModelDoc2)swassy;
                     swModelDocExt = (ModelDocExtension)swModel.Extension;
                     status = swModelDocExt.SaveAs(savefilename, 0, (int)swSaveAsOptions_e.swSaveAsOptions_Silent, 0, 0, 0);
-
                 }
                 catch
                 {
-
                 }
 
                 return status;
@@ -2045,7 +1822,7 @@ namespace SPMConnectAPI
             return false;
         }
 
-        #endregion
+        #endregion solidworks createmodels and open models
 
         #region GetConnectParameters
 
@@ -2070,14 +1847,12 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             if (limit == "1")
             {
                 maintenance = true;
             }
             return maintenance;
-
         }
 
         #region GetFolderPaths for Connect Job Module
@@ -2102,7 +1877,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
 
             return path;
@@ -2128,7 +1902,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
 
             return path;
@@ -2154,7 +1927,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
 
             return path;
@@ -2180,7 +1952,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
 
             return path;
@@ -2206,7 +1977,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
 
             return path;
@@ -2232,7 +2002,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
 
             return path;
@@ -2260,7 +2029,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
 
             return path;
@@ -2286,7 +2054,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
 
             return path;
@@ -2312,7 +2079,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
 
             return path;
@@ -2338,7 +2104,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
 
             return path;
@@ -2364,7 +2129,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
 
             return path;
@@ -2390,13 +2154,12 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
 
             return path;
         }
 
-        #endregion
+        #endregion GetFolderPaths for Connect Job Module
 
         #region ReportViewer Paths
 
@@ -2420,7 +2183,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
 
             return report;
@@ -2446,7 +2208,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
 
             return report;
@@ -2472,7 +2233,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
 
             return report;
@@ -2498,7 +2258,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
 
             return report;
@@ -2524,7 +2283,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
 
             return report;
@@ -2550,7 +2308,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
 
             return report;
@@ -2576,7 +2333,6 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
 
             return report;
@@ -2602,15 +2358,14 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
 
             return report;
         }
 
-        #endregion
+        #endregion ReportViewer Paths
 
-        #endregion
+        #endregion GetConnectParameters
 
         #region Favorites
 
@@ -2624,7 +2379,6 @@ namespace SPMConnectAPI
                 {
                     string newuseradded = usernamesfromitem + UserName() + ",";
                     updateusernametoitemonfavorites(itemid, newuseradded);
-
                 }
                 else
                 {
@@ -2649,7 +2403,6 @@ namespace SPMConnectAPI
 
             MessageBox.Show("Item no " + itemid + " has been removed from your favorite list.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-
             return completed;
         }
 
@@ -2673,7 +2426,6 @@ namespace SPMConnectAPI
                         //MessageBox.Show(" move forward");
                         itempresent = false;
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -2682,12 +2434,9 @@ namespace SPMConnectAPI
                 finally
                 {
                     cn.Close();
-
                 }
-
             }
             return itempresent;
-
         }
 
         private void additemtofavoritessql(string itemid)
@@ -2704,7 +2453,6 @@ namespace SPMConnectAPI
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 MessageBox.Show("Item no " + itemid + " has been added to your favorites.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
             }
             catch (Exception ex)
             {
@@ -2714,7 +2462,6 @@ namespace SPMConnectAPI
             {
                 cn.Close();
             }
-
         }
 
         private void updateusernametoitemonfavorites(string itemid, string updatedusername)
@@ -2737,7 +2484,6 @@ namespace SPMConnectAPI
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
             }
             catch (Exception ex)
             {
@@ -2747,7 +2493,6 @@ namespace SPMConnectAPI
             {
                 cn.Close();
             }
-
         }
 
         private string Getusernamesfromfavorites(string itemid)
@@ -2767,7 +2512,6 @@ namespace SPMConnectAPI
                 foreach (DataRow dr in dt.Rows)
                 {
                     usersfav = dr["UserName"].ToString();
-
                 }
             }
             catch (Exception ex)
@@ -2806,7 +2550,6 @@ namespace SPMConnectAPI
             {
                 if (word.Trim() == userid)
                 {
-
                 }
                 else
                 {
@@ -2818,11 +2561,10 @@ namespace SPMConnectAPI
             return removedusername.Trim();
         }
 
-        #endregion
+        #endregion Favorites
 
         public void sendemail(string emailtosend, string subject, string body, string filetoattach, string cc)
         {
-
             try
             {
                 MailMessage message = new MailMessage();
@@ -2832,7 +2574,6 @@ namespace SPMConnectAPI
                 message.To.Add(emailtosend);
                 if (cc == "")
                 {
-
                 }
                 else
                 {
@@ -2841,14 +2582,11 @@ namespace SPMConnectAPI
                 message.Subject = subject;
                 message.Body = body;
 
-
                 if (filetoattach == "")
                 {
-
                 }
                 else
                 {
-
                     attachment = new System.Net.Mail.Attachment(filetoattach);
                     message.Attachments.Add(attachment);
                 }
@@ -2861,13 +2599,10 @@ namespace SPMConnectAPI
             {
                 MessageBox.Show(ex.Message, "SPM Connect - Send Email", MessageBoxButtons.OK);
             }
-
-
         }
 
         public List<string> getdevelopersnamesandemail()
         {
-
             List<string> Happrovalnames = new List<string>();
 
             try
@@ -2884,17 +2619,11 @@ namespace SPMConnectAPI
                 foreach (DataRow dr in dt.Rows)
                 {
                     Happrovalnames.Add(dr["Email"].ToString() + "][" + dr["Name"].ToString());
-
                 }
-
-
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show(ex.Message, "SPM Connect - Get User Name and Email", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-
             }
             finally
             {
@@ -2924,15 +2653,12 @@ namespace SPMConnectAPI
                 {
                     cn.Close();
                 }
-
             }
             if (result == "1")
             {
                 maintenance = true;
             }
             return maintenance;
-
         }
     }
 }
-

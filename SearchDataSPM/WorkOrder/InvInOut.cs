@@ -10,15 +10,15 @@ namespace SearchDataSPM
 {
     public partial class InvInOut : Form
     {
-        WorkOrder connectapi = new WorkOrder();
-        bool credentialsverified = false;
-        DateTime _lastKeystroke = new DateTime(0);
-        List<char> _barcode = new List<char>(10);
-        int userinputtime = 100;
-        bool developer = false;
-        log4net.ILog log;
+        private WorkOrder connectapi = new WorkOrder();
+        private bool credentialsverified = false;
+        private DateTime _lastKeystroke = new DateTime(0);
+        private List<char> _barcode = new List<char>(10);
+        private int userinputtime = 100;
+        private bool developer = false;
+        private log4net.ILog log;
         private UserActions _userActions;
-        ErrorHandler errorHandler = new ErrorHandler();
+        private ErrorHandler errorHandler = new ErrorHandler();
 
         public InvInOut()
         {
@@ -53,7 +53,6 @@ namespace SearchDataSPM
             {
                 empid_txtbox.Focus();
             }
-
         }
 
         private void woid_txtbox_Click(object sender, EventArgs e)
@@ -81,13 +80,11 @@ namespace SearchDataSPM
             dtb1 = connectapi.ShowWOInOutStatus(woid_txtbox.Text.Trim());
             dataGridView1.DataSource = dtb1;
             dataGridView1.Update();
-
         }
 
         private void timer3_Tick(object sender, EventArgs e)
         {
             dataGridView1.Visible = false;
-
         }
 
         private void apprvlidtxt_Click(object sender, EventArgs e)
@@ -186,7 +183,6 @@ namespace SearchDataSPM
                         toolStripDropDownButton1.DropDownItems[1].Enabled = true;
                         toolStripDropDownButton1.DropDownItems[2].Enabled = true;
                         toolStripDropDownButton1.DropDownItems[3].Enabled = true;
-
                     }
                     else
                     {
@@ -198,7 +194,6 @@ namespace SearchDataSPM
                     MetroFramework.MetroMessageBox.Show(this, "Please try again. Employee not found.", "SPM Connect - Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 this.Enabled = true;
-
             }
         }
 
@@ -215,7 +210,6 @@ namespace SearchDataSPM
         {
             BinLog binLog = new BinLog();
             binLog.Show();
-
         }
 
         private void empid_txtbox_KeyPress(object sender, KeyPressEventArgs e)
@@ -237,10 +231,8 @@ namespace SearchDataSPM
                 _barcode.Clear();
                 if (msg != "\r" || developer)
                 {
-
                     if (e.KeyChar == 13)
                     {
-
                         //empid_txtbox.Text = empid_txtbox.Text.Substring(empid_txtbox.Text.Length - 2);
                         if (connectapi.EmployeeExits(empid_txtbox.Text.Trim()))
                         {
@@ -254,14 +246,12 @@ namespace SearchDataSPM
                             empid_txtbox.Clear();
                             empid_txtbox.Focus();
                             woid_txtbox.Enabled = false;
-
                         }
                         e.Handled = true;
                     }
                 }
                 else
                 {
-
                     MessageBox.Show("System cannot accept keyboard inputs. Scan with barcode reader", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     empid_txtbox.Clear();
                     empid_txtbox.Focus();
@@ -288,7 +278,6 @@ namespace SearchDataSPM
                 _barcode.Clear();
                 if (msg != "\r" || developer)
                 {
-
                     if (e.KeyChar == 13)
                     {
                         if (connectapi.WOReleased(woid_txtbox.Text.Trim()))
@@ -310,7 +299,6 @@ namespace SearchDataSPM
                 }
                 else
                 {
-
                     MessageBox.Show("System cannot accept keyboard inputs. Scan with barcode reader", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     woid_txtbox.Clear();
                     woid_txtbox.Focus();
@@ -338,17 +326,14 @@ namespace SearchDataSPM
                 _barcode.Clear();
                 if (msg != "\r" || developer)
                 {
-
                     if (e.KeyChar == 13)
                     {
-
                         performapprovedbutton();
                         e.Handled = true;
                     }
                 }
                 else
                 {
-
                     MessageBox.Show("System cannot accept keyboard inputs. Scan with barcode reader", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     apprvlidtxt.Clear();
                     apprvlidtxt.Focus();
@@ -461,5 +446,3 @@ namespace SearchDataSPM
         }
     }
 }
-
-

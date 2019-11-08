@@ -11,12 +11,12 @@ namespace SearchDataSPM.General
 {
     public partial class SPM_ConnectQuoteManagement : MetroFramework.Forms.MetroForm
     {
-        string connection;
-        SqlConnection cn;
-        DataTable dt;
-        log4net.ILog log;
+        private string connection;
+        private SqlConnection cn;
+        private DataTable dt;
+        private log4net.ILog log;
         private UserActions _userActions;
-        ErrorHandler errorHandler = new ErrorHandler();
+        private ErrorHandler errorHandler = new ErrorHandler();
 
         public SPM_ConnectQuoteManagement()
         {
@@ -28,13 +28,11 @@ namespace SearchDataSPM.General
             {
                 cn = new SqlConnection(connection);
                 cn.Open();
-
             }
             catch (Exception)
             {
                 MessageBox.Show("Error Connecting to SQL Server.....", "SPM Connect - ENG", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
-
             }
             finally
             {
@@ -73,8 +71,6 @@ namespace SearchDataSPM.General
                 dt.Clear();
                 sda.Fill(dt);
                 dataGridView.DataSource = dt;
-
-
             }
             catch (Exception)
             {
@@ -99,31 +95,29 @@ namespace SearchDataSPM.General
 
         private void Reload_Click(object sender, EventArgs e)
         {
-
             clearandhide();
             txtSearch.Clear();
             txtSearch.Focus();
             SendKeys.Send("~");
             dataGridView.Refresh();
-
         }
 
         #region Public Table & variables
 
         // variables required outside the functions to perfrom
-        string fullsearch = ("FullSearch LIKE '%{0}%'");
+        private string fullsearch = ("FullSearch LIKE '%{0}%'");
+
         public static string description;
         public static string Manufacturer;
         public static string oem;
         public static string family;
 
-        DataTable table0 = new DataTable();
-        DataTable table1 = new DataTable();
-        DataTable table2 = new DataTable();
-        DataTable table3 = new DataTable();
+        private DataTable table0 = new DataTable();
+        private DataTable table1 = new DataTable();
+        private DataTable table2 = new DataTable();
+        private DataTable table3 = new DataTable();
 
-
-        #endregion
+        #endregion Public Table & variables
 
         #region Search Parameters
 
@@ -143,17 +137,14 @@ namespace SearchDataSPM.General
                 {
                     Descrip_txtbox.Show();
                     SendKeys.Send("{TAB}");
-
                 }
                 e.Handled = true;
                 e.SuppressKeyPress = true;
-
             }
         }
 
         private void clearandhide()
         {
-
             Descrip_txtbox.Hide();
             Descrip_txtbox.Clear();
             filteroem_txtbox.Hide();
@@ -170,7 +161,6 @@ namespace SearchDataSPM.General
 
         private void mainsearch()
         {
-
             DataView dv = dt.DefaultView;
             string search1 = txtSearch.Text;
             try
@@ -190,7 +180,6 @@ namespace SearchDataSPM.General
             {
                 MessageBox.Show("Invalid Search Criteria Operator.", "SPM Connect");
                 txtSearch.Clear();
-
             }
         }
 
@@ -274,7 +263,6 @@ namespace SearchDataSPM.General
                     SendKeys.Send("~");
                 }
 
-
                 if (filteroem_txtbox.Text.Length > 0)
                 {
                     filteroemitem_txtbox.Show();
@@ -332,7 +320,6 @@ namespace SearchDataSPM.General
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
-
         }
 
         private void filter4_KeyDown(object sender, KeyEventArgs e)
@@ -368,22 +355,22 @@ namespace SearchDataSPM.General
                 e.SuppressKeyPress = true;
             }
         }
-        #endregion
 
-        #region Highlight Search Results 
+        #endregion Search Parameters
 
-        bool IsSelected = false;
+        #region Highlight Search Results
+
+        private bool IsSelected = false;
 
         private void SearchStringPosition(string Searchstring)
         {
             IsSelected = true;
-
         }
-        string sw;
+
+        private string sw;
 
         private void searchtext(string searchkey)
         {
-
             sw = searchkey;
         }
 
@@ -436,15 +423,12 @@ namespace SearchDataSPM.General
 
                         hl_brush.Dispose();
                     }
-
                 }
                 e.PaintContent(e.CellBounds);
-
             }
-
         }
 
-        #endregion
+        #endregion Highlight Search Results
 
         #region AdminControlLabel
 
@@ -453,7 +437,7 @@ namespace SearchDataSPM.General
             System.Diagnostics.Process.Start("http://www.spm-automation.com/");
         }
 
-        #endregion
+        #endregion AdminControlLabel
 
         #region datagridview events
 
@@ -481,13 +465,10 @@ namespace SearchDataSPM.General
 
             if (e.Button == MouseButtons.Right)
             {
-
                 int columnindex = e.RowIndex;
                 dataGridView.ClearSelection();
                 dataGridView.Rows[columnindex].Selected = true;
-
             }
-
         }
 
         private void SPM_ConnectJobs_FormClosed(object sender, FormClosedEventArgs e)
@@ -507,18 +488,15 @@ namespace SearchDataSPM.General
 
         private void dataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
             if (e.ColumnIndex == 0 && dataGridView.SelectedCells.Count == 1)
             {
-
                 showquotedetails(getselectedjobnumber());
             }
-
         }
 
-        #endregion
+        #endregion datagridview events
 
-        void showquotedetails(string quotenumber)
+        private void showquotedetails(string quotenumber)
         {
             using (QuoteDetails quoteDetails = new QuoteDetails())
             {
@@ -530,7 +508,6 @@ namespace SearchDataSPM.General
                 this.Activate();
                 this.Focus();
             }
-
         }
 
         private String getselectedjobnumber()
@@ -566,7 +543,6 @@ namespace SearchDataSPM.General
             {
                 return null;
             }
-
         }
 
         private string getuserfullname(string username)
@@ -590,10 +566,7 @@ namespace SearchDataSPM.General
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show(ex.Message, "SPM Connect - Get Full User Name", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-
             }
             finally
             {
@@ -619,15 +592,11 @@ namespace SearchDataSPM.General
                 foreach (DataRow dr in dt.Rows)
                 {
                     lastnumber = dr["NextQuoteNo"].ToString();
-
                 }
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show(ex.Message, "SPM Connect - Get Last Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-
             }
             finally
             {
@@ -635,12 +604,10 @@ namespace SearchDataSPM.General
             }
 
             return lastnumber;
-
         }
 
         private void addnewbttn_Click(object sender, EventArgs e)
         {
-
             DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to create a new quote?", "SPM Connect - Create New Quote?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result == DialogResult.Yes)
@@ -653,7 +620,6 @@ namespace SearchDataSPM.General
                     //createfolders(newnunber);
                     showquotedetails(newnunber);
                 }
-
             }
         }
 
@@ -681,7 +647,6 @@ namespace SearchDataSPM.General
                 cn.Close();
                 success = true;
                 //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
             }
             catch (Exception ex)
             {
@@ -690,10 +655,8 @@ namespace SearchDataSPM.General
             finally
             {
                 cn.Close();
-
             }
             return success;
-
         }
 
         private static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs)
@@ -766,10 +729,9 @@ namespace SearchDataSPM.General
                     }
                 }
             }
-
         }
 
-        void createfolders(string quotenumber)
+        private void createfolders(string quotenumber)
         {
             string destpaths300 = @"\\spm-adfs\SPM\S300 Sales and Project Management\Sales\Opportunities\Q" + quotenumber;
             string sourcepaths300 = @"\\spm-adfs\SPM\S300 Sales and Project Management\Sales\Opportunities\#### Sample Opportunity";
