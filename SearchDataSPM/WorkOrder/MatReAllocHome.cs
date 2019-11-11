@@ -53,7 +53,7 @@ namespace SearchDataSPM
             collapse();
             dt = new DataTable();
             checkdeptsandrights();
-            userfullname = connectapi.getuserfullname();
+            userfullname = connectapi.Getuserfullname();
 
             Showallitems();
             txtSearch.Focus();
@@ -67,7 +67,7 @@ namespace SearchDataSPM
         private void checkdeptsandrights()
         {
             string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-            versionlabel.Text = connectapi.getassyversionnumber();
+            versionlabel.Text = connectapi.Getassyversionnumber();
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
         }
 

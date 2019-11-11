@@ -111,6 +111,8 @@ namespace SearchDataSPM
             this.ecrtoggle = new ToggleSlider.ToggleSliderComponent();
             this.label17 = new System.Windows.Forms.Label();
             this.itmdeptoggle = new ToggleSlider.ToggleSliderComponent();
+            this.label22 = new System.Windows.Forms.Label();
+            this.woreleasetoggle = new ToggleSlider.ToggleSliderComponent();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -194,7 +196,7 @@ namespace SearchDataSPM
             // 
             // addnewbttn
             // 
-            this.addnewbttn.Location = new System.Drawing.Point(286, 624);
+            this.addnewbttn.Location = new System.Drawing.Point(283, 657);
             this.addnewbttn.Name = "addnewbttn";
             this.addnewbttn.Size = new System.Drawing.Size(87, 23);
             this.addnewbttn.TabIndex = 23;
@@ -205,7 +207,7 @@ namespace SearchDataSPM
             // 
             // updatebttn
             // 
-            this.updatebttn.Location = new System.Drawing.Point(393, 624);
+            this.updatebttn.Location = new System.Drawing.Point(390, 657);
             this.updatebttn.Name = "updatebttn";
             this.updatebttn.Size = new System.Drawing.Size(79, 23);
             this.updatebttn.TabIndex = 24;
@@ -216,7 +218,7 @@ namespace SearchDataSPM
             // 
             // delbttn
             // 
-            this.delbttn.Location = new System.Drawing.Point(491, 624);
+            this.delbttn.Location = new System.Drawing.Point(488, 657);
             this.delbttn.Name = "delbttn";
             this.delbttn.Size = new System.Drawing.Size(75, 23);
             this.delbttn.TabIndex = 25;
@@ -227,7 +229,7 @@ namespace SearchDataSPM
             // 
             // updatesavebttn
             // 
-            this.updatesavebttn.Location = new System.Drawing.Point(337, 656);
+            this.updatesavebttn.Location = new System.Drawing.Point(334, 689);
             this.updatesavebttn.Name = "updatesavebttn";
             this.updatesavebttn.Size = new System.Drawing.Size(79, 23);
             this.updatesavebttn.TabIndex = 21;
@@ -239,7 +241,7 @@ namespace SearchDataSPM
             // 
             // cnclbttn
             // 
-            this.cnclbttn.Location = new System.Drawing.Point(430, 656);
+            this.cnclbttn.Location = new System.Drawing.Point(427, 689);
             this.cnclbttn.Name = "cnclbttn";
             this.cnclbttn.Size = new System.Drawing.Size(72, 23);
             this.cnclbttn.TabIndex = 22;
@@ -251,7 +253,7 @@ namespace SearchDataSPM
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(242, 697);
+            this.button1.Location = new System.Drawing.Point(238, 732);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(115, 30);
             this.button1.TabIndex = 26;
@@ -262,7 +264,7 @@ namespace SearchDataSPM
             // 
             // reluanchbttn
             // 
-            this.reluanchbttn.Location = new System.Drawing.Point(372, 742);
+            this.reluanchbttn.Location = new System.Drawing.Point(368, 777);
             this.reluanchbttn.Name = "reluanchbttn";
             this.reluanchbttn.Size = new System.Drawing.Size(117, 30);
             this.reluanchbttn.TabIndex = 30;
@@ -273,7 +275,7 @@ namespace SearchDataSPM
             // 
             // UserStats
             // 
-            this.UserStats.Location = new System.Drawing.Point(240, 742);
+            this.UserStats.Location = new System.Drawing.Point(236, 777);
             this.UserStats.Name = "UserStats";
             this.UserStats.Size = new System.Drawing.Size(115, 30);
             this.UserStats.TabIndex = 29;
@@ -284,7 +286,7 @@ namespace SearchDataSPM
             // 
             // custbttn
             // 
-            this.custbttn.Location = new System.Drawing.Point(372, 697);
+            this.custbttn.Location = new System.Drawing.Point(368, 732);
             this.custbttn.Name = "custbttn";
             this.custbttn.Size = new System.Drawing.Size(115, 30);
             this.custbttn.TabIndex = 27;
@@ -295,7 +297,7 @@ namespace SearchDataSPM
             // 
             // matbttn
             // 
-            this.matbttn.Location = new System.Drawing.Point(502, 697);
+            this.matbttn.Location = new System.Drawing.Point(498, 732);
             this.matbttn.Name = "matbttn";
             this.matbttn.Size = new System.Drawing.Size(115, 30);
             this.matbttn.TabIndex = 28;
@@ -336,7 +338,7 @@ namespace SearchDataSPM
             // 
             // parametersbttn
             // 
-            this.parametersbttn.Location = new System.Drawing.Point(500, 742);
+            this.parametersbttn.Location = new System.Drawing.Point(496, 777);
             this.parametersbttn.Name = "parametersbttn";
             this.parametersbttn.Size = new System.Drawing.Size(117, 30);
             this.parametersbttn.TabIndex = 30;
@@ -354,7 +356,7 @@ namespace SearchDataSPM
             this.Userlistbox.ItemHeight = 20;
             this.Userlistbox.Location = new System.Drawing.Point(0, 105);
             this.Userlistbox.Name = "Userlistbox";
-            this.Userlistbox.Size = new System.Drawing.Size(220, 664);
+            this.Userlistbox.Size = new System.Drawing.Size(220, 704);
             this.Userlistbox.TabIndex = 0;
             this.Userlistbox.SelectedIndexChanged += new System.EventHandler(this.Userlistbox_SelectedIndexChanged);
             // 
@@ -478,7 +480,7 @@ namespace SearchDataSPM
             // 
             this.papproval2chk.AutoSize = true;
             this.papproval2chk.Enabled = false;
-            this.papproval2chk.Location = new System.Drawing.Point(531, 434);
+            this.papproval2chk.Location = new System.Drawing.Point(531, 485);
             this.papproval2chk.Name = "papproval2chk";
             this.papproval2chk.Size = new System.Drawing.Size(15, 14);
             this.papproval2chk.TabIndex = 1;
@@ -489,7 +491,7 @@ namespace SearchDataSPM
             // 
             this.pbuyerchk.AutoSize = true;
             this.pbuyerchk.Enabled = false;
-            this.pbuyerchk.Location = new System.Drawing.Point(356, 472);
+            this.pbuyerchk.Location = new System.Drawing.Point(356, 523);
             this.pbuyerchk.Name = "pbuyerchk";
             this.pbuyerchk.Size = new System.Drawing.Size(15, 14);
             this.pbuyerchk.TabIndex = 1;
@@ -501,7 +503,7 @@ namespace SearchDataSPM
             this.papprovalchk.AutoSize = true;
             this.papprovalchk.Enabled = false;
             this.papprovalchk.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.papprovalchk.Location = new System.Drawing.Point(357, 434);
+            this.papprovalchk.Location = new System.Drawing.Point(357, 485);
             this.papprovalchk.Name = "papprovalchk";
             this.papprovalchk.Size = new System.Drawing.Size(15, 14);
             this.papprovalchk.TabIndex = 0;
@@ -515,7 +517,7 @@ namespace SearchDataSPM
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label4.Location = new System.Drawing.Point(248, 426);
+            this.label4.Location = new System.Drawing.Point(248, 477);
             this.label4.MaximumSize = new System.Drawing.Size(150, 30);
             this.label4.Name = "label4";
             this.label4.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -559,7 +561,7 @@ namespace SearchDataSPM
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label6.Location = new System.Drawing.Point(248, 464);
+            this.label6.Location = new System.Drawing.Point(248, 515);
             this.label6.MaximumSize = new System.Drawing.Size(150, 30);
             this.label6.Name = "label6";
             this.label6.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -592,7 +594,7 @@ namespace SearchDataSPM
             this.lineShape3,
             this.lineShape2,
             this.lineShape1});
-            this.shapeContainer1.Size = new System.Drawing.Size(625, 775);
+            this.shapeContainer1.Size = new System.Drawing.Size(625, 810);
             this.shapeContainer1.TabIndex = 84;
             this.shapeContainer1.TabStop = false;
             // 
@@ -605,8 +607,8 @@ namespace SearchDataSPM
             this.lineShape5.SelectionColor = System.Drawing.Color.White;
             this.lineShape5.X1 = 221;
             this.lineShape5.X2 = 620;
-            this.lineShape5.Y1 = 612;
-            this.lineShape5.Y2 = 612;
+            this.lineShape5.Y1 = 644;
+            this.lineShape5.Y2 = 644;
             // 
             // lineShape4
             // 
@@ -617,8 +619,8 @@ namespace SearchDataSPM
             this.lineShape4.SelectionColor = System.Drawing.Color.White;
             this.lineShape4.X1 = 222;
             this.lineShape4.X2 = 621;
-            this.lineShape4.Y1 = 689;
-            this.lineShape4.Y2 = 689;
+            this.lineShape4.Y1 = 722;
+            this.lineShape4.Y2 = 722;
             // 
             // lineShape3
             // 
@@ -629,8 +631,8 @@ namespace SearchDataSPM
             this.lineShape3.SelectionColor = System.Drawing.Color.White;
             this.lineShape3.X1 = 222;
             this.lineShape3.X2 = 621;
-            this.lineShape3.Y1 = 515;
-            this.lineShape3.Y2 = 515;
+            this.lineShape3.Y1 = 557;
+            this.lineShape3.Y2 = 557;
             // 
             // lineShape2
             // 
@@ -639,10 +641,10 @@ namespace SearchDataSPM
             this.lineShape2.Cursor = System.Windows.Forms.Cursors.Default;
             this.lineShape2.Name = "lineShape1";
             this.lineShape2.SelectionColor = System.Drawing.Color.White;
-            this.lineShape2.X1 = 225;
-            this.lineShape2.X2 = 624;
-            this.lineShape2.Y1 = 418;
-            this.lineShape2.Y2 = 418;
+            this.lineShape2.X1 = 226;
+            this.lineShape2.X2 = 625;
+            this.lineShape2.Y1 = 465;
+            this.lineShape2.Y2 = 465;
             // 
             // lineShape1
             // 
@@ -662,7 +664,7 @@ namespace SearchDataSPM
             this.supervisorcombox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.supervisorcombox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.supervisorcombox.FormattingEnabled = true;
-            this.supervisorcombox.Location = new System.Drawing.Point(412, 477);
+            this.supervisorcombox.Location = new System.Drawing.Point(412, 528);
             this.supervisorcombox.Name = "supervisorcombox";
             this.supervisorcombox.Size = new System.Drawing.Size(165, 23);
             this.supervisorcombox.TabIndex = 20;
@@ -674,7 +676,7 @@ namespace SearchDataSPM
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label7.Location = new System.Drawing.Point(459, 459);
+            this.label7.Location = new System.Drawing.Point(459, 510);
             this.label7.MaximumSize = new System.Drawing.Size(90, 15);
             this.label7.Name = "label7";
             this.label7.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -689,7 +691,7 @@ namespace SearchDataSPM
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label9.Location = new System.Drawing.Point(418, 422);
+            this.label9.Location = new System.Drawing.Point(418, 473);
             this.label9.MaximumSize = new System.Drawing.Size(150, 30);
             this.label9.Name = "label9";
             this.label9.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -1047,7 +1049,7 @@ namespace SearchDataSPM
             this.ecrapproval2chklbl.AutoSize = true;
             this.ecrapproval2chklbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ecrapproval2chklbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.ecrapproval2chklbl.Location = new System.Drawing.Point(415, 531);
+            this.ecrapproval2chklbl.Location = new System.Drawing.Point(418, 567);
             this.ecrapproval2chklbl.MaximumSize = new System.Drawing.Size(150, 30);
             this.ecrapproval2chklbl.Name = "ecrapproval2chklbl";
             this.ecrapproval2chklbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -1062,7 +1064,7 @@ namespace SearchDataSPM
             this.label18.AutoSize = true;
             this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label18.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label18.Location = new System.Drawing.Point(440, 558);
+            this.label18.Location = new System.Drawing.Point(443, 594);
             this.label18.MaximumSize = new System.Drawing.Size(150, 15);
             this.label18.Name = "label18";
             this.label18.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -1078,7 +1080,7 @@ namespace SearchDataSPM
             this.label19.AutoSize = true;
             this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label19.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label19.Location = new System.Drawing.Point(232, 531);
+            this.label19.Location = new System.Drawing.Point(235, 567);
             this.label19.MaximumSize = new System.Drawing.Size(150, 30);
             this.label19.Name = "label19";
             this.label19.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -1093,7 +1095,7 @@ namespace SearchDataSPM
             this.label20.AutoSize = true;
             this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label20.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label20.Location = new System.Drawing.Point(249, 568);
+            this.label20.Location = new System.Drawing.Point(252, 604);
             this.label20.MaximumSize = new System.Drawing.Size(150, 30);
             this.label20.Name = "label20";
             this.label20.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -1108,7 +1110,7 @@ namespace SearchDataSPM
             this.ecrSupervisorcomboBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.ecrSupervisorcomboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ecrSupervisorcomboBox.FormattingEnabled = true;
-            this.ecrSupervisorcomboBox.Location = new System.Drawing.Point(413, 576);
+            this.ecrSupervisorcomboBox.Location = new System.Drawing.Point(416, 612);
             this.ecrSupervisorcomboBox.Name = "ecrSupervisorcomboBox";
             this.ecrSupervisorcomboBox.Size = new System.Drawing.Size(165, 23);
             this.ecrSupervisorcomboBox.TabIndex = 105;
@@ -1119,7 +1121,7 @@ namespace SearchDataSPM
             this.ecrapprovalchk.AutoSize = true;
             this.ecrapprovalchk.Enabled = false;
             this.ecrapprovalchk.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ecrapprovalchk.Location = new System.Drawing.Point(358, 533);
+            this.ecrapprovalchk.Location = new System.Drawing.Point(361, 569);
             this.ecrapprovalchk.Name = "ecrapprovalchk";
             this.ecrapprovalchk.Size = new System.Drawing.Size(15, 14);
             this.ecrapprovalchk.TabIndex = 99;
@@ -1130,7 +1132,7 @@ namespace SearchDataSPM
             // 
             this.ecrapproval2chk.AutoSize = true;
             this.ecrapproval2chk.Enabled = false;
-            this.ecrapproval2chk.Location = new System.Drawing.Point(525, 533);
+            this.ecrapproval2chk.Location = new System.Drawing.Point(528, 569);
             this.ecrapproval2chk.Name = "ecrapproval2chk";
             this.ecrapproval2chk.Size = new System.Drawing.Size(15, 14);
             this.ecrapproval2chk.TabIndex = 100;
@@ -1141,7 +1143,7 @@ namespace SearchDataSPM
             // 
             this.ecrhandlerchk.AutoSize = true;
             this.ecrhandlerchk.Enabled = false;
-            this.ecrhandlerchk.Location = new System.Drawing.Point(357, 571);
+            this.ecrhandlerchk.Location = new System.Drawing.Point(360, 607);
             this.ecrhandlerchk.Name = "ecrhandlerchk";
             this.ecrhandlerchk.Size = new System.Drawing.Size(15, 14);
             this.ecrhandlerchk.TabIndex = 101;
@@ -1212,17 +1214,67 @@ namespace SearchDataSPM
             this.itmdeptoggle.ToggleColorBar = System.Drawing.Color.LightGray;
             this.itmdeptoggle.CheckChanged += new System.EventHandler(this.itmdeptoggle_CheckChanged);
             // 
+            // label22
+            // 
+            this.label22.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label22.AutoSize = true;
+            this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label22.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label22.Location = new System.Drawing.Point(228, 422);
+            this.label22.MaximumSize = new System.Drawing.Size(100, 30);
+            this.label22.Name = "label22";
+            this.label22.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label22.Size = new System.Drawing.Size(68, 30);
+            this.label22.TabIndex = 111;
+            this.label22.Text = "   WO \r\nRelease :";
+            // 
+            // woreleasetoggle
+            // 
+            this.woreleasetoggle.AutoSize = true;
+            this.woreleasetoggle.Checked = false;
+            this.woreleasetoggle.Enabled = false;
+            this.woreleasetoggle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.woreleasetoggle.Location = new System.Drawing.Point(304, 430);
+            this.woreleasetoggle.MaximumSize = new System.Drawing.Size(70, 25);
+            this.woreleasetoggle.MinimumSize = new System.Drawing.Size(70, 25);
+            this.woreleasetoggle.Name = "woreleasetoggle";
+            this.woreleasetoggle.Size = new System.Drawing.Size(70, 25);
+            this.woreleasetoggle.TabIndex = 112;
+            this.woreleasetoggle.ToggleBarText = "No";
+            this.woreleasetoggle.ToggleCircleColor = System.Drawing.Color.Red;
+            this.woreleasetoggle.ToggleColorBar = System.Drawing.Color.LightGray;
+            this.woreleasetoggle.CheckChanged += new System.EventHandler(this.woreleasetoggle_CheckChanged);
+            // 
             // spmadmin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(69)))), ((int)(((byte)(76)))));
-            this.ClientSize = new System.Drawing.Size(625, 775);
+            this.ClientSize = new System.Drawing.Size(625, 810);
+            this.Controls.Add(this.label22);
+            this.Controls.Add(this.woreleasetoggle);
+            this.Controls.Add(this.ecrSupervisorcomboBox);
+            this.Controls.Add(this.ecrhandlerchk);
+            this.Controls.Add(this.ecrapproval2chk);
+            this.Controls.Add(this.ecrapprovalchk);
+            this.Controls.Add(this.label20);
+            this.Controls.Add(this.label19);
+            this.Controls.Add(this.ecrapproval2chklbl);
+            this.Controls.Add(this.label18);
+            this.Controls.Add(this.cnclbttn);
+            this.Controls.Add(this.updatebttn);
+            this.Controls.Add(this.delbttn);
+            this.Controls.Add(this.addnewbttn);
+            this.Controls.Add(this.updatesavebttn);
+            this.Controls.Add(this.parametersbttn);
+            this.Controls.Add(this.matbttn);
+            this.Controls.Add(this.custbttn);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.UserStats);
+            this.Controls.Add(this.reluanchbttn);
             this.Controls.Add(this.label17);
             this.Controls.Add(this.itmdeptoggle);
-            this.Controls.Add(this.label18);
-            this.Controls.Add(this.ecrapproval2chklbl);
-            this.Controls.Add(this.label19);
             this.Controls.Add(this.label21);
             this.Controls.Add(this.ecrtoggle);
             this.Controls.Add(this.supervisorcombox);
@@ -1233,22 +1285,6 @@ namespace SearchDataSPM
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label9);
-            this.Controls.Add(this.label20);
-            this.Controls.Add(this.ecrSupervisorcomboBox);
-            this.Controls.Add(this.ecrapprovalchk);
-            this.Controls.Add(this.ecrapproval2chk);
-            this.Controls.Add(this.ecrhandlerchk);
-            this.Controls.Add(this.cnclbttn);
-            this.Controls.Add(this.updatesavebttn);
-            this.Controls.Add(this.addnewbttn);
-            this.Controls.Add(this.delbttn);
-            this.Controls.Add(this.updatebttn);
-            this.Controls.Add(this.reluanchbttn);
-            this.Controls.Add(this.parametersbttn);
-            this.Controls.Add(this.UserStats);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.custbttn);
-            this.Controls.Add(this.matbttn);
             this.Controls.Add(this.label16);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.cribshorttoggle);
@@ -1385,5 +1421,7 @@ namespace SearchDataSPM
         private ToggleSlider.ToggleSliderComponent ecrtoggle;
         private System.Windows.Forms.Label label17;
         private ToggleSlider.ToggleSliderComponent itmdeptoggle;
+        private System.Windows.Forms.Label label22;
+        private ToggleSlider.ToggleSliderComponent woreleasetoggle;
     }
 }

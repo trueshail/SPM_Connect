@@ -100,7 +100,7 @@
             this.releasenotestxt.Size = new System.Drawing.Size(330, 256);
             this.releasenotestxt.TabIndex = 14;
             this.LabelTooltips.SetToolTip(this.releasenotestxt, "General Notes");
-            this.releasenotestxt.TextChanged += new System.EventHandler(this.releasenotestxt_TextChanged);
+            this.releasenotestxt.TextChanged += new System.EventHandler(this.Releasenotestxt_TextChanged);
             // 
             // createdbytxt
             // 

@@ -80,7 +80,7 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>B15D9D8AC550F392E83F6EC2CFAF7F24B2634697</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>E976629586D2BE00CBC13CBCEA70077A31515517</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>
@@ -472,17 +472,17 @@
     <Compile Include="WorkOrder\InvInOut.Designer.cs">
       <DependentUpon>InvInOut.cs</DependentUpon>
     </Compile>
-    <Compile Include="WorkOrder\AddRelease.cs">
+    <Compile Include="WorkOrder\ReleaseManagement\AddRelease.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WorkOrder\AddRelease.Designer.cs">
+    <Compile Include="WorkOrder\ReleaseManagement\AddRelease.Designer.cs">
       <DependentUpon>AddRelease.cs</DependentUpon>
     </Compile>
-    <Compile Include="WorkOrder\ReleaseType.cs">
+    <Compile Include="WorkOrder\ReleaseManagement\ReleaseLogs.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WorkOrder\ReleaseType.Designer.cs">
-      <DependentUpon>ReleaseType.cs</DependentUpon>
+    <Compile Include="WorkOrder\ReleaseManagement\ReleaseLogs.Designer.cs">
+      <DependentUpon>ReleaseLogs.cs</DependentUpon>
     </Compile>
     <Compile Include="WorkOrder\ScanEmpId.cs">
       <SubType>Form</SubType>
@@ -803,11 +803,11 @@
     <EmbeddedResource Include="WorkOrder\InvInOut.resx">
       <DependentUpon>InvInOut.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="WorkOrder\AddRelease.resx">
+    <EmbeddedResource Include="WorkOrder\ReleaseManagement\AddRelease.resx">
       <DependentUpon>AddRelease.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="WorkOrder\ReleaseType.resx">
-      <DependentUpon>ReleaseType.cs</DependentUpon>
+    <EmbeddedResource Include="WorkOrder\ReleaseManagement\ReleaseLogs.resx">
+      <DependentUpon>ReleaseLogs.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WorkOrder\ScanEmpId.resx">
       <DependentUpon>ScanEmpId.cs</DependentUpon>

@@ -32,7 +32,7 @@ namespace SearchDataSPM
         {
             timer1.Start();
             woid_txtbox.Focus();
-            userinputtime = connectapi.getuserinputtime();
+            userinputtime = connectapi.Getuserinputtime();
             developer = connectapi.Checkdeveloper();
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -107,7 +107,7 @@ namespace SearchDataSPM
                     {
                         if (connectapi.WOReleased(woid_txtbox.Text.Trim()))
                         {
-                            connectapi.scanworkorder(woid_txtbox.Text.Trim());
+                            connectapi.Scanworkorder(woid_txtbox.Text.Trim());
                             showaddedtodg();
                             woid_txtbox.Clear();
                             ScanWO.ActiveForm.Refresh();

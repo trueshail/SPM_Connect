@@ -50,7 +50,7 @@ namespace SearchDataSPM
                 FillInfo();
                 processeditbutton();
                 developer = connectapi.Checkdeveloper();
-                userinputtime = connectapi.getuserinputtime();
+                userinputtime = connectapi.Getuserinputtime();
             }
             else
             {
@@ -399,7 +399,7 @@ namespace SearchDataSPM
                     names[b] = names[b].Trim();
                 }
                 name = names[0];
-                connectapi.sendemail(email, reqno + " Material Re-Allocation", "Hello " + name + "," + Environment.NewLine + " Please see attached invoice regarding crib shortage", fileName, "");
+                connectapi.Sendemail(email, reqno + " Material Re-Allocation", "Hello " + name + "," + Environment.NewLine + " Please see attached invoice regarding crib shortage", fileName, "");
             }
         }
 
@@ -464,7 +464,7 @@ namespace SearchDataSPM
                     {
                         if (connectapi.EmployeeExits(empidtxt.Text.Trim()))
                         {
-                            empname.Text = connectapi.getuserfullname(empidtxt.Text.Trim());
+                            empname.Text = connectapi.Getuserfullname(empidtxt.Text.Trim());
                             empname.Text = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(empname.Text.ToLower());
                             appidtxt.Focus();
                         }
@@ -519,7 +519,7 @@ namespace SearchDataSPM
                     {
                         if (connectapi.EmployeeExitsWithCribRights(appidtxt.Text.Trim()))
                         {
-                            appnametxt.Text = connectapi.getuserfullname(appidtxt.Text.Trim());
+                            appnametxt.Text = connectapi.Getuserfullname(appidtxt.Text.Trim());
                             appnametxt.Text = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(appnametxt.Text.ToLower());
                             jobreqtxt.Focus();
                         }

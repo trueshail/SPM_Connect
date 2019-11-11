@@ -45,14 +45,14 @@ namespace SPMConnectAPI
             }
         }
 
-        public string getassyversionnumber()
+        public string Getassyversionnumber()
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
             string version = "V" + assembly.GetName().Version.ToString(3);
             return version;
         }
 
-        public string getuserfullname()
+        public string Getuserfullname()
         {
             string fullname = "";
             try
@@ -83,7 +83,7 @@ namespace SPMConnectAPI
             return fullname;
         }
 
-        public string getempid()
+        public string Getempid()
         {
             string empid = "";
             try
@@ -114,7 +114,7 @@ namespace SPMConnectAPI
             return empid;
         }
 
-        public string getdepartment()
+        public string Getdepartment()
         {
             string Department = "";
             try
@@ -174,7 +174,7 @@ namespace SPMConnectAPI
             return yeswoscan;
         }
 
-        public string getsharesfolder()
+        public string Getsharesfolder()
         {
             string path = "";
             try
@@ -205,7 +205,7 @@ namespace SPMConnectAPI
             return path;
         }
 
-        public string getuserfullname(string empid)
+        public string Getuserfullname(string empid)
         {
             string fullname = "";
             try
@@ -236,7 +236,7 @@ namespace SPMConnectAPI
             return fullname;
         }
 
-        public int getuserinputtime()
+        public int Getuserinputtime()
         {
             int timer = 0;
             string limit = "";
@@ -371,9 +371,9 @@ namespace SPMConnectAPI
             return status;
         }
 
-        public void scanworkorder(string wo)
+        public void Scanworkorder(string wo)
         {
-            string department = getdepartment();
+            string department = Getdepartment();
             if (WoExistsOnWotrack(wo))
             {
                 if (department == "Eng" || department == "Controls")
@@ -474,7 +474,7 @@ namespace SPMConnectAPI
         {
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-            string username = getuserfullname();
+            string username = Getuserfullname();
             try
             {
                 if (cn.State == ConnectionState.Closed)
@@ -500,7 +500,7 @@ namespace SPMConnectAPI
         {
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-            string username = getuserfullname();
+            string username = Getuserfullname();
             try
             {
                 if (cn.State == ConnectionState.Closed)
@@ -587,35 +587,35 @@ namespace SPMConnectAPI
             string Purout = r["Purout"].ToString();
             string Cribin = r["Cribin"].ToString();
             string Cribout = r["Cribout"].ToString();
-            findwhatstagetoinsert(engin, Prodin, Prodout, Purin, Purout, Cribin, Cribout, department, wo);
+            Findwhatstagetoinsert(engin, Prodin, Prodout, Purin, Purout, Cribin, Cribout, department, wo);
         }
 
-        private void findwhatstagetoinsert(string engin, string prodin, string prodout, string purin, string purout, string cribin, string cribout, string department, string wo)
+        private void Findwhatstagetoinsert(string engin, string prodin, string prodout, string purin, string purout, string cribin, string cribout, string department, string wo)
         {
             switch (department)
             {
                 case "Production":
-                    checkprodtrack(engin, prodin, prodout, wo);
+                    Checkprodtrack(engin, prodin, prodout, wo);
                     break;
 
                 case "Purchasing":
-                    checkpurtrack(prodout, purin, purout, wo);
+                    Checkpurtrack(prodout, purin, purout, wo);
                     break;
 
                 case "Crib":
-                    checkCribtrack(prodout, cribin, cribout, purout, wo);
+                    CheckCribtrack(prodout, cribin, cribout, purout, wo);
                     break;
             }
         }
 
-        private void checkprodtrack(string engin, string prodin, string prodout, string wo)
+        private void Checkprodtrack(string engin, string prodin, string prodout, string wo)
         {
             if (engin == "1")
             {
                 if (prodin == "0")
                 {
                     // insert into production
-                    if (UpdateWOTracking(wo, "Prodin", "ProdinWho", "ProdinWhen", "1", getuserfullname(), "InProduction"))
+                    if (UpdateWOTracking(wo, "Prodin", "ProdinWho", "ProdinWhen", "1", Getuserfullname(), "InProduction"))
                         MessageBox.Show("Work Order Checked into Production.", "SPM Connect  - Work Order In Production", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     else MessageBox.Show("Error Updating WO Tracking. Please contact the admin for line 385", "SPM Connect - Error Work Order In Production", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -627,9 +627,9 @@ namespace SPMConnectAPI
                         DialogResult result = MessageBox.Show("Check out this work order from production?", "Check Out WO?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                         if (result == DialogResult.Yes)
                         {
-                            if (UpdateWOTracking(wo, "Prodout", "ProdoutWho", "ProdoutWhen", "1", getuserfullname(), "OutProduction"))
+                            if (UpdateWOTracking(wo, "Prodout", "ProdoutWho", "ProdoutWhen", "1", Getuserfullname(), "OutProduction"))
                             {
-                                string timespan = calculatetimedifference(fetchdatetime("ProdoutWhen", wo), fetchdatetime("ProdinWhen", wo));
+                                string timespan = Calculatetimedifference(Fetchdatetime("ProdoutWhen", wo), Fetchdatetime("ProdinWhen", wo));
                                 UpdateWOTrackingTimeSpan(wo, "TimeInProd", timespan);
                                 MessageBox.Show("Work Order Checked out of Production.", "SPM Connect  - Work Order out Production", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             }
@@ -653,7 +653,7 @@ namespace SPMConnectAPI
             }
         }
 
-        private void checkpurtrack(string prodout, string purin, string purout, string wo)
+        private void Checkpurtrack(string prodout, string purin, string purout, string wo)
         {
             string status = "";
             status = WOStatustostring(wo);
@@ -663,7 +663,7 @@ namespace SPMConnectAPI
                 {
                     // insert into purchasing
 
-                    if (UpdateWOTracking(wo, "Purin", "PurinWho", "PurinWhen", "1", getuserfullname(), status == "" ? "In Purchasing" : status + " & In Purchasing"))
+                    if (UpdateWOTracking(wo, "Purin", "PurinWho", "PurinWhen", "1", Getuserfullname(), status == "" ? "In Purchasing" : status + " & In Purchasing"))
                     {
                         MessageBox.Show("Work Order Checked into Purchasing.", "SPM Connect  - Work Order In Purchasing", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
@@ -681,9 +681,9 @@ namespace SPMConnectAPI
                         if (result == DialogResult.Yes)
                         {
                             status = RemoveStatus(status, "In Purchasing");
-                            if (UpdateWOTracking(wo, "Purout", "PuroutWho", "PuroutWhen", "1", getuserfullname(), status == "" || status == "In Purchasing" ? "Out Purchasing" : status + " & Out Purchasing"))
+                            if (UpdateWOTracking(wo, "Purout", "PuroutWho", "PuroutWhen", "1", Getuserfullname(), status == "" || status == "In Purchasing" ? "Out Purchasing" : status + " & Out Purchasing"))
                             {
-                                string timespan = calculatetimedifference(fetchdatetime("PuroutWhen", wo), fetchdatetime("PurinWhen", wo));
+                                string timespan = Calculatetimedifference(Fetchdatetime("PuroutWhen", wo), Fetchdatetime("PurinWhen", wo));
                                 UpdateWOTrackingTimeSpan(wo, "TimeInPur", timespan);
                                 MessageBox.Show("Work Order Checked out of Purchasing.", "SPM Connect  - Work Order out Purchasing", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             }
@@ -707,7 +707,7 @@ namespace SPMConnectAPI
             }
         }
 
-        private void checkCribtrack(string prodout, string cribin, string cribout, string purout, string wo)
+        private void CheckCribtrack(string prodout, string cribin, string cribout, string purout, string wo)
         {
             string status = "";
             status = WOStatustostring(wo);
@@ -716,7 +716,7 @@ namespace SPMConnectAPI
                 if (cribin == "0")
                 {
                     // insert into crib
-                    if (UpdateWOTracking(wo, "Cribin", "CribinWho", "CribinWhen", "1", getuserfullname(), status == "" ? "In Crib" : status + " & In Crib"))
+                    if (UpdateWOTracking(wo, "Cribin", "CribinWho", "CribinWhen", "1", Getuserfullname(), status == "" ? "In Crib" : status + " & In Crib"))
                     {
                         MessageBox.Show("Work Order Checked into Crib.", "SPM Connect  - Work Order In Crib", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
@@ -740,13 +740,13 @@ namespace SPMConnectAPI
                                 {
                                     if (IsCompletedInvInOut(wo))
                                     {
-                                        if (UpdateWOTracking(wo, "Cribout", "CriboutWho", "CriboutWhen", "1", getuserfullname(), "Completed"))
+                                        if (UpdateWOTracking(wo, "Cribout", "CriboutWho", "CriboutWhen", "1", Getuserfullname(), "Completed"))
                                         {
                                             //status = RemoveStatus(status, "In Crib");
                                             // UpdateWOTracking(wo, "Cribout", "CriboutWho", "CriboutWhen", "1", getuserfullname(), status == "" ? "Out Crib" : status + " & Out Crib");
-                                            string timespan = calculatetimedifference(fetchdatetime("CriboutWhen", wo), fetchdatetime("CribinWhen", wo));
+                                            string timespan = Calculatetimedifference(Fetchdatetime("CriboutWhen", wo), Fetchdatetime("CribinWhen", wo));
                                             UpdateWOTrackingTimeSpan(wo, "TimeInCrib", timespan);
-                                            timespan = calculatetimedifference(fetchdatetime("CriboutWhen", wo), fetchdatetime("EngWhen", wo));
+                                            timespan = Calculatetimedifference(Fetchdatetime("CriboutWhen", wo), Fetchdatetime("EngWhen", wo));
                                             UpdateWOTrackingTimeSpan(wo, "TotalTimeSpent", timespan);
                                             MessageBox.Show("Work Order Checked out of Crib.", "SPM Connect  - Work Order out Crib", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                         }
@@ -806,7 +806,7 @@ namespace SPMConnectAPI
             return setstatus.Trim();
         }
 
-        private DateTime fetchdatetime(string columname, string wo)
+        private DateTime Fetchdatetime(string columname, string wo)
         {
             DateTime dateTime;
 
@@ -830,7 +830,7 @@ namespace SPMConnectAPI
             return dateTime;
         }
 
-        private string calculatetimedifference(DateTime A, DateTime B)
+        private string Calculatetimedifference(DateTime A, DateTime B)
         {
             string timediff;
             TimeSpan span = (A - B);
@@ -1039,7 +1039,7 @@ namespace SPMConnectAPI
         {
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-            string username = getuserfullname();
+            string username = Getuserfullname();
             try
             {
                 if (cn.State == ConnectionState.Closed)
@@ -1065,7 +1065,7 @@ namespace SPMConnectAPI
         {
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-            string username = getuserfullname();
+            string username = Getuserfullname();
             try
             {
                 if (cn.State == ConnectionState.Closed)
@@ -1119,7 +1119,7 @@ namespace SPMConnectAPI
 
         #region Material ReAllocation
 
-        private string getnewinvoicenumber()
+        private string Getnewinvoicenumber()
         {
             string newincoiveno = "";
             try
@@ -1161,8 +1161,8 @@ namespace SPMConnectAPI
             string success = "";
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-            string username = getuserfullname();
-            string newinvoiceno = getnewinvoicenumber();
+            string username = Getuserfullname();
+            string newinvoiceno = Getnewinvoicenumber();
             try
             {
                 if (cn.State == ConnectionState.Closed)
@@ -1214,7 +1214,7 @@ namespace SPMConnectAPI
         public bool UpdateInvoiceDetsToSql(string inovicenumber, string notes, string itemid, string description, string oem, string oemitem, string empid, string empname, string appid, string appname, string jobreq, string woreq, string jobtaken, string wotaken, string qty)
         {
             bool success = false;
-            string username = getuserfullname();
+            string username = Getuserfullname();
             DateTime dateedited = DateTime.Now;
             string sqlFormattedDate = dateedited.ToString("yyyy-MM-dd HH:mm:ss");
             if (cn.State == ConnectionState.Closed)
@@ -1598,7 +1598,7 @@ namespace SPMConnectAPI
 
         #endregion BinStatusLog
 
-        public void sendemail(string emailtosend, string subject, string body, string filetoattach, string cc)
+        public void Sendemail(string emailtosend, string subject, string body, string filetoattach, string cc)
         {
             try
             {
@@ -1706,6 +1706,59 @@ namespace SPMConnectAPI
             return newincoiveno;
         }
 
+        private int GetNextReleaseNo(string wo)
+        {
+            int nextreleaseno = 0;
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT MAX([NxtReleaseNo])+1 as NextQuoteNo FROM [SPM_Database].[dbo].[WOReleaseLog] WHERE WO = '" + wo + "'";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        if (!(dr["NextQuoteNo"] is DBNull))
+                            nextreleaseno = Convert.ToInt32(dr["NextQuoteNo"]);
+                    }
+                }
+
+                dt.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Get New Release Log Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+
+            return nextreleaseno;
+        }
+
+        private string GetNextReleaseLabel(int nxtrelno)
+        {
+            string nextreleaseno = "";
+
+            if (nxtrelno == 0)
+            {
+                nextreleaseno = "Initial Release";
+            }
+            else
+            {
+                nextreleaseno = "Release " + nxtrelno;
+            }
+
+            return nextreleaseno;
+        }
+
         public bool CheckWoExistsOnReleaseLog(string wo, string releasetype)
         {
             bool wopresent = false;
@@ -1734,13 +1787,16 @@ namespace SPMConnectAPI
             return wopresent;
         }
 
-        public string EnterWOToReleaseLog(string wo, string jobno, string assyno, string releasetype, bool initialrelease)
+        public string EnterWOToReleaseLog(string wo, string jobno, string assyno)
         {
             string success = "";
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-            string username = getuserfullname();
+            string username = Getuserfullname();
             string releaselogno = GetNewReleaseLogNo();
+            int nxtreaseno = GetNextReleaseNo(wo);
+
+            string releasetype = GetNextReleaseLabel(nxtreaseno);
 
             if (!(CheckWoExistsOnReleaseLog(wo, releasetype)))
             {
@@ -1750,8 +1806,8 @@ namespace SPMConnectAPI
                         cn.Open();
                     SqlCommand cmd = cn.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[WOReleaseLog] (RlogNo, WO,JobNo, AssyNo, ReleaseType, CreatedBy, CreatedOn, LastSavedBy, LastSaved)" +
-                        " VALUES('" + releaselogno + "','" + wo + "','" + jobno + "','" + assyno + "','" + releasetype + "','" + username + "','" + sqlFormattedDatetime + "','" + username + "','" + sqlFormattedDatetime + "')";
+                    cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[WOReleaseLog] (RlogNo, WO,JobNo, AssyNo, ReleaseType, CreatedBy, CreatedOn, LastSavedBy, LastSaved, NxtReleaseNo)" +
+                        " VALUES('" + releaselogno + "','" + wo + "','" + jobno + "','" + assyno + "','" + releasetype + "','" + username + "','" + sqlFormattedDatetime + "','" + username + "','" + sqlFormattedDatetime + "','" + nxtreaseno + "')";
                     cmd.ExecuteNonQuery();
                     MessageBox.Show("Work Order Checked in for new release.", "SPM Connect  - Work Order Release Log", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     cn.Close();
@@ -1832,7 +1888,7 @@ namespace SPMConnectAPI
         {
             DataTable dt = new DataTable();
 
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[WOReleaseLog] ORDER BY WO DESC", cn))
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[VReleaseLogs] ORDER BY WO DESC", cn))
             {
                 try
                 {
@@ -1858,7 +1914,7 @@ namespace SPMConnectAPI
         {
             DataTable dt = new DataTable();
 
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[WOReleaseDetails] WHERE [WO] = '" + wo + "' AND [RlogNo] = '" + rlogno + "'", cn))
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[VWOReleaseDetails] WHERE [WO] = '" + wo + "' AND [RlogNo] = '" + rlogno + "'", cn))
             {
                 try
                 {
@@ -1936,7 +1992,7 @@ namespace SPMConnectAPI
         public bool UpdateReleaseLogNotes(string rlogno, string notes)
         {
             bool success = false;
-            string username = getuserfullname();
+            string username = Getuserfullname();
             DateTime dateedited = DateTime.Now;
             string sqlFormattedDate = dateedited.ToString("yyyy-MM-dd HH:mm:ss");
             if (cn.State == ConnectionState.Closed)

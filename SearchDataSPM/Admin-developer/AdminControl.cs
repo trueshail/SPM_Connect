@@ -323,6 +323,15 @@ namespace SearchDataSPM
                         ecrtoggle.Checked = false;
                     }
 
+                    if (dr["WORelease"].ToString().Equals("1"))
+                    {
+                        woreleasetoggle.Checked = true;
+                    }
+                    else
+                    {
+                        woreleasetoggle.Checked = false;
+                    }
+
                     if (dr["ItemDependencies"].ToString().Equals("1"))
                     {
                         itmdeptoggle.Checked = true;
@@ -478,6 +487,7 @@ namespace SearchDataSPM
             scanwotoggle.Enabled = true;
             cribshorttoggle.Enabled = true;
             ecrtoggle.Enabled = true;
+            woreleasetoggle.Enabled = true;
             itmdeptoggle.Enabled = true;
         }
 
@@ -494,6 +504,7 @@ namespace SearchDataSPM
             scanwotoggle.Enabled = false;
             cribshorttoggle.Enabled = false;
             ecrtoggle.Enabled = false;
+            woreleasetoggle.Enabled = false;
             itmdeptoggle.Enabled = false;
         }
 
@@ -523,6 +534,7 @@ namespace SearchDataSPM
                  "CribShortNotfi = " + (cribshorttoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                  "Scan WorkOrder = " + (scanwotoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                  "ECR Access = " + (ecrtoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+                 "WO Release Access = " + (woreleasetoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                  "Item Dependencies Access = " + (itmdeptoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                  "ECR Supervisor = " + (ecrapprovalchk.Checked ? "Yes" : "No") + Environment.NewLine +
                  "ECR Approval = " + (ecrapproval2chk.Checked ? "Yes" : "No") + Environment.NewLine +
@@ -644,6 +656,7 @@ namespace SearchDataSPM
                "CribShortNotif = " + (cribshorttoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                "Scan WorkOrder = " + (scanwotoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                "ECR Access = " + (ecrtoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+               "WO Release Access = " + (woreleasetoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                "Item Dependencies Access = " + (itmdeptoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                "ECR Supervisor = " + (ecrapprovalchk.Checked ? "Yes" : "No") + Environment.NewLine +
                "ECR Approval = " + (ecrapproval2chk.Checked ? "Yes" : "No") + Environment.NewLine +
@@ -673,7 +686,7 @@ namespace SearchDataSPM
                         "PurchaseReqBuyer = '" + (pbuyerchk.Checked ? "1" : "0") + "',Supervisor = '" + supervisorcombox.SelectedItem.ToString().Substring(0, 2) + "'," +
                         "Email = '" + useremailtxt.Text + "',PriceRight = '" + (pricetoggle.Checked ? "1" : "0") + "',Shipping = '" + (shiptoggle.Checked ? "1" : "0") + "'," +
                         "CribCheckout = '" + (cribouttoggle.Checked ? "1" : "0") + "',CribShort = '" + (cribshorttoggle.Checked ? "1" : "0") + "'," +
-                        "ECR = '" + (ecrtoggle.Checked ? "1" : "0") + "',ItemDependencies = '" + (itmdeptoggle.Checked ? "1" : "0") + "',ECRApproval = '" + (ecrapprovalchk.Checked ? "1" : "0") + "',ECRApproval2 = '" + (ecrapproval2chk.Checked ? "1" : "0") + "',ECRHandler = '" + (ecrhandlerchk.Checked ? "1" : "0") + "'," +
+                        "ECR = '" + (ecrtoggle.Checked ? "1" : "0") + "',WORelease = '" + (woreleasetoggle.Checked ? "1" : "0") + "',ItemDependencies = '" + (itmdeptoggle.Checked ? "1" : "0") + "',ECRApproval = '" + (ecrapprovalchk.Checked ? "1" : "0") + "',ECRApproval2 = '" + (ecrapproval2chk.Checked ? "1" : "0") + "',ECRHandler = '" + (ecrhandlerchk.Checked ? "1" : "0") + "'," +
                         "WOScan = '" + (scanwotoggle.Checked ? "1" : "0") + "',SharesFolder = '" + sharepathtxt.Text.Trim() + "'," +
                         "Emp_Id = '" + empidtxt.Text.Trim() + "' WHERE UserName = '" + domaintxtbox.Text + "' ";
 
@@ -718,6 +731,7 @@ namespace SearchDataSPM
                "CribShortNotif = " + (cribshorttoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                "Scan WorkOrder = " + (scanwotoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                "ECR Access = " + (ecrtoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+               "WO Release Access = " + (woreleasetoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                "Item Dependencies Access = " + (itmdeptoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                "ECR Supervisor = " + (ecrapprovalchk.Checked ? "Yes" : "No") + Environment.NewLine +
                "ECR Approval = " + (ecrapproval2chk.Checked ? "Yes" : "No") + Environment.NewLine +
@@ -741,14 +755,14 @@ namespace SearchDataSPM
                     cmd.CommandType = CommandType.Text;
                     cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Users]([Emp_Id], [UserName], [Department], [Name],[ActiveBlockNumber],[Admin],[Developer],[Management]," +
                         "[Quote],[PurchaseReq],[PurchaseReqApproval],[PurchaseReqApproval2],[PurchaseReqBuyer],[PriceRight],[CribCheckout],[CribShort],[WOScan],[Shipping],[Supervisor]," +
-                        "[Email],[SharesFolder],[ECR],[ItemDependencies],[ECRApproval],[ECRApproval2],[ECRHandler]) " +
+                        "[Email],[SharesFolder],[ECR],[WORelease],[ItemDependencies],[ECRApproval],[ECRApproval2],[ECRHandler]) " +
                         "VALUES('" + empidtxt.Text.Trim() + "','" + domaintxtbox.Text.Trim() + "','" + deptcombobox.SelectedItem.ToString() + "'," +
                         "'" + nametextbox.Text.Trim() + "','" + activeblocknumber + "','" + (admintoggle.Checked ? "1" : "0") + "','" + (developertoggle.Checked ? "1" : "0") + "'," +
                         "'" + (managementtoggle.Checked ? "1" : "0") + "','" + (quotetoggle.Checked ? "1" : "0") + "','" + (purchasereqtoggle.Checked ? "1" : "0") + "'," +
                         "'" + (papprovalchk.Checked ? "1" : "0") + "','" + (papproval2chk.Checked ? "1" : "0") + "','" + (pbuyerchk.Checked ? "1" : "0") + "'," +
                         "'" + (pricetoggle.Checked ? "1" : "0") + "','" + (cribouttoggle.Checked ? "1" : "0") + "','" + (cribshorttoggle.Checked ? "1" : "0") + "','" + (scanwotoggle.Checked ? "1" : "0") + "','" + (shiptoggle.Checked ? "1" : "0") + "'," +
                         "'" + supervisorcombox.SelectedItem.ToString().Substring(0, 2).TrimEnd() + "','" + useremailtxt.Text + "','" + sharepathtxt.Text + "'," +
-                        "'" + (ecrtoggle.Checked ? "1" : "0") + "','" + (itmdeptoggle.Checked ? "1" : "0") + "','" + (ecrapprovalchk.Checked ? "1" : "0") + "','" + (ecrapproval2chk.Checked ? "1" : "0") + "','" + (ecrhandlerchk.Checked ? "1" : "0") + "')";
+                        "'" + (ecrtoggle.Checked ? "1" : "0") + "','" + (woreleasetoggle.Checked ? "1" : "0") + "','" + (itmdeptoggle.Checked ? "1" : "0") + "','" + (ecrapprovalchk.Checked ? "1" : "0") + "','" + (ecrapproval2chk.Checked ? "1" : "0") + "','" + (ecrhandlerchk.Checked ? "1" : "0") + "')";
                     cmd.ExecuteNonQuery();
                     cn.Close();
                     MessageBox.Show("New user added successfully", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -962,6 +976,7 @@ namespace SearchDataSPM
             toggleScanwo();
             toggleCribShort();
             toggleECR();
+            toggleWORelease();
             toggleItemDependencies();
         }
 
@@ -1141,6 +1156,22 @@ namespace SearchDataSPM
             }
         }
 
+        private void toggleWORelease()
+        {
+            if (woreleasetoggle.Checked)
+            {
+                woreleasetoggle.ToggleBarText = "Yes";
+                woreleasetoggle.ToggleCircleColor = Color.Green;
+                woreleasetoggle.ToggleColorBar = Color.White;
+            }
+            else
+            {
+                woreleasetoggle.ToggleBarText = "No";
+                woreleasetoggle.ToggleCircleColor = Color.Red;
+                woreleasetoggle.ToggleColorBar = Color.LightGray;
+            }
+        }
+
         private void toggleItemDependencies()
         {
             if (itmdeptoggle.Checked)
@@ -1210,6 +1241,11 @@ namespace SearchDataSPM
         private void itmdeptoggle_CheckChanged(object sender, EventArgs e)
         {
             toggleItemDependencies();
+        }
+
+        private void woreleasetoggle_CheckChanged(object sender, EventArgs e)
+        {
+            toggleWORelease();
         }
 
         #endregion Toggle Events

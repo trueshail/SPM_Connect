@@ -16,7 +16,6 @@ namespace SearchDataSPM
         #region steupvariables
 
         private string connection;
-        private DataTable releaseDetailsTb;
         private DataTable treeTB;
         private SqlConnection _connection;
         private SqlCommand command;
@@ -48,7 +47,6 @@ namespace SearchDataSPM
                 MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            releaseDetailsTb = new DataTable();
             treeTB = new DataTable();
 
             command = new SqlCommand
@@ -63,8 +61,7 @@ namespace SearchDataSPM
             Text = "Release Log Details - SPM Connect (" + releaseLogNumber + ")";
             FillReleaseinfo(connectapi.GrabReleaseLogDetails(releaseLogNumber));
             Startprocessfortreeview();
-            // CallRecursive();
-            // Treeview.ExpandAll();
+            Treeview.ExpandAll();
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Item Details " + releaseLogNumber + " by " + System.Environment.UserName);
@@ -85,54 +82,26 @@ namespace SearchDataSPM
         private void FillReleaseinfo(DataTable releaseLogDetails)
         {
             var r = releaseLogDetails.Rows[0];
-            releaselognotxt.Text = r["RlogNo"].ToString();
-            jobnotxt.Text = r["JobNo"].ToString();
-            wotxt.Text = r["WO"].ToString();
-            assynotxt.Text = r["AssyNo"].ToString();
-            createdbytxt.Text = r["CreatedBy"].ToString();
-            datecreatedtxt.Text = r["CreatedOn"].ToString();
-            dateeditxt.Text = r["LastSaved"].ToString();
-            Lastsavedtxtbox.Text = r["LastSavedBy"].ToString();
-            releasenotestxt.Text = r["ReleaseNotes"].ToString();
-            releasetypetxt.Text = r["ReleaseType"].ToString();
-
-            var iteminfo = new DataTable();
-            iteminfo.Clear();
-            iteminfo = connectapi.GetIteminfo(assynotxt.Text);
-            var ra = iteminfo.Rows[0];
-            assydesctxt.Text = ra["Description"].ToString();
-            iteminfo.Clear();
-        }
-
-        private string Getuserfullname(string username)
-        {
-            try
+            if (releaseLogDetails.Rows.Count > 0)
             {
-                if (_connection.State == ConnectionState.Closed)
-                    _connection.Open();
-                var cmd = _connection.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + username.ToString() + "' ";
-                cmd.ExecuteNonQuery();
-                var dt = new DataTable();
-                var da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    var fullname = dr["Name"].ToString();
-                    return fullname;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                _connection.Close();
-            }
+                releaselognotxt.Text = r["RlogNo"].ToString();
+                jobnotxt.Text = r["JobNo"].ToString();
+                wotxt.Text = r["WO"].ToString();
+                assynotxt.Text = r["AssyNo"].ToString();
+                createdbytxt.Text = r["CreatedBy"].ToString();
+                datecreatedtxt.Text = r["CreatedOn"].ToString();
+                dateeditxt.Text = r["LastSaved"].ToString();
+                Lastsavedtxtbox.Text = r["LastSavedBy"].ToString();
+                releasenotestxt.Text = r["ReleaseNotes"].ToString();
+                releasetypetxt.Text = r["ReleaseType"].ToString();
 
-            return null;
+                var iteminfo = new DataTable();
+                iteminfo.Clear();
+                iteminfo = connectapi.GetIteminfo(assynotxt.Text);
+                var ra = iteminfo.Rows[0];
+                assydesctxt.Text = ra["Description"].ToString();
+                iteminfo.Clear();
+            }
         }
 
         private void ItemInfo_FormClosed(object sender, FormClosedEventArgs e)
@@ -245,9 +214,9 @@ namespace SearchDataSPM
                 RemoveChildNodes(root);
                 Treeview.ResetText();
                 treeTB.Clear();
-                treeTB = connectapi.GrabReleaseLogItemDetails(wotxt.Text, releaseLogNumber);
+                treeTB = connectapi.GrabReleaseLogItemDetails(wotxt.Text.Trim(), releaseLogNumber.Trim());
                 Fillrootnode();
-                // CallRecursive();
+                CallRecursive();
             }
             catch (Exception)
             {
@@ -262,9 +231,9 @@ namespace SearchDataSPM
             {
                 var t = new TreeNode
                 {
-                    Text = dr["ItemId"].ToString() + " - " + dr["ItemId"].ToString() + " (" + dr["ItemQty"].ToString() + ") ",
-                    Name = dr["ItemId"].ToString(),
-                    Tag = dr["ItemId"].ToString() + "][" + dr["ItemId"].ToString() + "][" + dr["ItemId"].ToString() + "][" + dr["ItemId"].ToString() + "][" + dr["ItemId"].ToString() + "][" + dr["ItemQty"].ToString()
+                    Text = dr["ItemNumber"].ToString() + " - " + dr["Description"].ToString() + " (" + dr["QuantityPerAssembly"].ToString() + ") ",
+                    Name = dr["ItemNumber"].ToString(),
+                    Tag = dr["ItemNumber"].ToString() + "][" + dr["Description"].ToString() + "][" + dr["ItemFamily"].ToString() + "][" + dr["Manufacturer"].ToString() + "][" + dr["ManufacturerItemNumber"].ToString() + "][" + dr["QuantityPerAssembly"].ToString() + "][" + dr["ItemNotes"].ToString()
                 };
                 if (parentNode == null)
                 {
@@ -749,7 +718,7 @@ namespace SearchDataSPM
                 iteminfo = connectapi.GetIteminfo(itemnotxt.Text);
                 var r = iteminfo.Rows[0];
                 Treeview.SelectedNode.Text = itemnotxt.Text + " - " + r["Description"].ToString() + " (" + qtytxtbox.Text + ")";
-                Treeview.SelectedNode.Tag = itemnotxt.Text + "][" + r["Description"].ToString() + "][" + r["FamilyCode"].ToString() + "][" + r["Manufacturer"].ToString() + "][" + r["ManufacturerItemNumber"].ToString() + "][" + qtytxtbox.Text;
+                Treeview.SelectedNode.Tag = itemnotxt.Text + "][" + r["Description"].ToString() + "][" + r["FamilyCode"].ToString() + "][" + r["Manufacturer"].ToString() + "][" + r["ManufacturerItemNumber"].ToString() + "][" + qtytxtbox.Text + "][" + itemnotestxt.Text;
                 itemnotxt.Clear();
                 savbttn.Visible = true;
                 addbutton.Visible = true;
@@ -812,6 +781,7 @@ namespace SearchDataSPM
 
                     itemnotxt.Text = values[0];
                     qtytxtbox.Text = values[5];
+                    itemnotestxt.Text = values[6];
                 }
         }
 
@@ -824,17 +794,16 @@ namespace SearchDataSPM
                 if (result == DialogResult.Yes)
                 {
                     ProcessSaveButton();
-                    connectapi.CheckoutInvoice(releaseLogNumber);
                 }
                 else
                 {
-                    connectapi.CheckoutInvoice(releaseLogNumber);
                 }
             }
+            connectapi.CheckoutInvoice(releaseLogNumber);
         }
 
         #endregion Treeview
 
-        private void releasenotestxt_TextChanged(object sender, EventArgs e) => savbttn.Visible = true;
+        private void Releasenotestxt_TextChanged(object sender, EventArgs e) => savbttn.Visible = true;
     }
 }

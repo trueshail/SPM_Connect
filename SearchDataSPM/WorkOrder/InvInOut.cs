@@ -27,13 +27,13 @@ namespace SearchDataSPM
             InitializeComponent();
             timer1.Start();
             //connectapi.SPM_Connect();
-            userinputtime = connectapi.getuserinputtime();
+            userinputtime = connectapi.Getuserinputtime();
         }
 
         private void Home_Load(object sender, EventArgs e)
         {
             empid_txtbox.Focus();
-            versionlabel.Text = connectapi.getassyversionnumber();
+            versionlabel.Text = connectapi.Getassyversionnumber();
             developer = connectapi.Checkdeveloper();
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -349,8 +349,8 @@ namespace SearchDataSPM
                 {
                     if (empid_txtbox.Text.Trim() == apprvlidtxt.Text.Trim())
                     {
-                        if (connectapi.getdepartment() == "Crib")
-                            connectapi.scanworkorder(woid_txtbox.Text.Trim());
+                        if (connectapi.Getdepartment() == "Crib")
+                            connectapi.Scanworkorder(woid_txtbox.Text.Trim());
                         else MessageBox.Show("Please ask the admin to set you up on Department == Crib", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     else
@@ -371,7 +371,7 @@ namespace SearchDataSPM
                                         if (result == DialogResult.Yes)
                                         {
                                             connectapi.CheckWOInFromBuilt(woid_txtbox.Text.Trim(), empid_txtbox.Text.Trim(), apprvlidtxt.Text.Trim(), "1");
-                                            connectapi.scanworkorder(woid_txtbox.Text.Trim());
+                                            connectapi.Scanworkorder(woid_txtbox.Text.Trim());
                                             showaddedtodg();
                                         }
                                         else if (result == DialogResult.No)

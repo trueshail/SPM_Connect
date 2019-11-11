@@ -1,6 +1,6 @@
 ﻿namespace SearchDataSPM
 {
-    partial class SPM_ConnectWM
+    partial class ReleaseLogs
     {
         /// <summary>
         /// Required designer variable.
@@ -29,16 +29,13 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SPM_ConnectWM));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ReleaseLogs));
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.getWOToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.releaseManagementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addNewReleaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewReleasesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewCurrentJobReleaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewAllReleaseLogsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.getWoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewReleaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.getBOMToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.Reload = new System.Windows.Forms.Button();
             this.Descrip_txtbox = new System.Windows.Forms.TextBox();
             this.filteroem_txtbox = new System.Windows.Forms.TextBox();
@@ -47,9 +44,6 @@
             this.versionlabel = new System.Windows.Forms.Label();
             this.filter4 = new System.Windows.Forms.TextBox();
             this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.cribbttn = new System.Windows.Forms.Button();
-            this.scanwobttn = new System.Windows.Forms.Button();
-            this.getBOMToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -66,7 +60,7 @@
             this.txtSearch.MaximumSize = new System.Drawing.Size(32767, 25);
             this.txtSearch.MinimumSize = new System.Drawing.Size(4, 23);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(516, 26);
+            this.txtSearch.Size = new System.Drawing.Size(583, 26);
             this.txtSearch.TabIndex = 1;
             this.TreeViewToolTip.SetToolTip(this.txtSearch, "Enter Search Keyword.\r\n(Double click to reset)");
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtSearch_KeyDown);
@@ -81,11 +75,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView.BackgroundColor = System.Drawing.Color.Tan;
+            this.dataGridView.BackgroundColor = System.Drawing.Color.Brown;
             this.dataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
-            this.dataGridView.ColumnHeadersHeight = 50;
-            this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.ContextMenuStrip = this.contextMenuStrip1;
             this.dataGridView.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(237)))), ((int)(((byte)(237)))));
             this.dataGridView.Location = new System.Drawing.Point(2, 100);
@@ -94,6 +87,7 @@
             this.dataGridView.RowHeadersVisible = false;
             this.dataGridView.Size = new System.Drawing.Size(980, 559);
             this.dataGridView.TabIndex = 6;
+            this.dataGridView.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseDoubleClick);
             this.dataGridView.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseDown);
             this.dataGridView.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellMouseLeave);
             this.dataGridView.CellMouseMove += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseMove);
@@ -102,65 +96,37 @@
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.getWOToolStripMenuItem,
-            this.releaseManagementToolStripMenuItem,
+            this.getWoToolStripMenuItem,
+            this.viewReleaseToolStripMenuItem,
             this.getBOMToolStripMenuItem1});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(188, 70);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 92);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
-            // getWOToolStripMenuItem
+            // getWoToolStripMenuItem
             // 
-            this.getWOToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("getWOToolStripMenuItem.Image")));
-            this.getWOToolStripMenuItem.Name = "getWOToolStripMenuItem";
-            this.getWOToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
-            this.getWOToolStripMenuItem.Text = "View WorkOrder";
-            this.getWOToolStripMenuItem.ToolTipText = "Preview Work Order Details";
-            this.getWOToolStripMenuItem.Click += new System.EventHandler(this.getWOToolStripMenuItem_Click);
+            this.getWoToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("getWoToolStripMenuItem.Image")));
+            this.getWoToolStripMenuItem.Name = "getWoToolStripMenuItem";
+            this.getWoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.getWoToolStripMenuItem.Text = "View WorkOrder";
+            this.getWoToolStripMenuItem.ToolTipText = "Preview Work Order Details";
+            this.getWoToolStripMenuItem.Click += new System.EventHandler(this.getWoToolStripMenuItem_Click);
             // 
-            // releaseManagementToolStripMenuItem
+            // viewReleaseToolStripMenuItem
             // 
-            this.releaseManagementToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addNewReleaseToolStripMenuItem,
-            this.viewReleasesToolStripMenuItem,
-            this.viewCurrentJobReleaseToolStripMenuItem,
-            this.viewAllReleaseLogsToolStripMenuItem});
-            this.releaseManagementToolStripMenuItem.Enabled = false;
-            this.releaseManagementToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("releaseManagementToolStripMenuItem.Image")));
-            this.releaseManagementToolStripMenuItem.Name = "releaseManagementToolStripMenuItem";
-            this.releaseManagementToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
-            this.releaseManagementToolStripMenuItem.Text = "Release Management";
-            this.releaseManagementToolStripMenuItem.Visible = false;
+            this.viewReleaseToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("viewReleaseToolStripMenuItem.Image")));
+            this.viewReleaseToolStripMenuItem.Name = "viewReleaseToolStripMenuItem";
+            this.viewReleaseToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.viewReleaseToolStripMenuItem.Text = "View Release";
+            this.viewReleaseToolStripMenuItem.Click += new System.EventHandler(this.viewReleaseToolStripMenuItem_Click);
             // 
-            // addNewReleaseToolStripMenuItem
+            // getBOMToolStripMenuItem1
             // 
-            this.addNewReleaseToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("addNewReleaseToolStripMenuItem.Image")));
-            this.addNewReleaseToolStripMenuItem.Name = "addNewReleaseToolStripMenuItem";
-            this.addNewReleaseToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
-            this.addNewReleaseToolStripMenuItem.Text = "Add Release";
-            this.addNewReleaseToolStripMenuItem.Click += new System.EventHandler(this.AddNewReleaseToolStripMenuItem_Click);
-            // 
-            // viewReleasesToolStripMenuItem
-            // 
-            this.viewReleasesToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("viewReleasesToolStripMenuItem.Image")));
-            this.viewReleasesToolStripMenuItem.Name = "viewReleasesToolStripMenuItem";
-            this.viewReleasesToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
-            this.viewReleasesToolStripMenuItem.Text = "View Assy Releases";
-            // 
-            // viewCurrentJobReleaseToolStripMenuItem
-            // 
-            this.viewCurrentJobReleaseToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("viewCurrentJobReleaseToolStripMenuItem.Image")));
-            this.viewCurrentJobReleaseToolStripMenuItem.Name = "viewCurrentJobReleaseToolStripMenuItem";
-            this.viewCurrentJobReleaseToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
-            this.viewCurrentJobReleaseToolStripMenuItem.Text = "View Current Job Releases";
-            // 
-            // viewAllReleaseLogsToolStripMenuItem
-            // 
-            this.viewAllReleaseLogsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("viewAllReleaseLogsToolStripMenuItem.Image")));
-            this.viewAllReleaseLogsToolStripMenuItem.Name = "viewAllReleaseLogsToolStripMenuItem";
-            this.viewAllReleaseLogsToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
-            this.viewAllReleaseLogsToolStripMenuItem.Text = "View All Release Logs";
-            this.viewAllReleaseLogsToolStripMenuItem.Click += new System.EventHandler(this.ViewAllReleaseLogsToolStripMenuItem_Click);
+            this.getBOMToolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("getBOMToolStripMenuItem1.Image")));
+            this.getBOMToolStripMenuItem1.Name = "getBOMToolStripMenuItem1";
+            this.getBOMToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.getBOMToolStripMenuItem1.Text = "Get BOM";
+            this.getBOMToolStripMenuItem1.Click += new System.EventHandler(this.getBOMToolStripMenuItem_Click);
             // 
             // Reload
             // 
@@ -168,7 +134,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Reload.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.Reload.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Reload.Location = new System.Drawing.Point(735, 16);
+            this.Reload.Location = new System.Drawing.Point(799, 16);
             this.Reload.MaximumSize = new System.Drawing.Size(140, 30);
             this.Reload.MinimumSize = new System.Drawing.Size(140, 30);
             this.Reload.Name = "Reload";
@@ -250,7 +216,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.versionlabel.AutoSize = true;
             this.versionlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.versionlabel.ForeColor = System.Drawing.Color.Black;
+            this.versionlabel.ForeColor = System.Drawing.Color.White;
             this.versionlabel.Location = new System.Drawing.Point(955, 2);
             this.versionlabel.MaximumSize = new System.Drawing.Size(26, 8);
             this.versionlabel.MinimumSize = new System.Drawing.Size(26, 8);
@@ -284,68 +250,12 @@
             this.TreeViewToolTip.InitialDelay = 500;
             this.TreeViewToolTip.ReshowDelay = 100;
             // 
-            // cribbttn
-            // 
-            this.cribbttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cribbttn.BackColor = System.Drawing.Color.Transparent;
-            this.cribbttn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
-            this.cribbttn.FlatAppearance.BorderSize = 0;
-            this.cribbttn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.cribbttn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.cribbttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cribbttn.ForeColor = System.Drawing.Color.Transparent;
-            this.cribbttn.Image = ((System.Drawing.Image)(resources.GetObject("cribbttn.Image")));
-            this.cribbttn.Location = new System.Drawing.Point(886, 15);
-            this.cribbttn.MaximumSize = new System.Drawing.Size(35, 35);
-            this.cribbttn.MinimumSize = new System.Drawing.Size(35, 35);
-            this.cribbttn.Name = "cribbttn";
-            this.cribbttn.Size = new System.Drawing.Size(35, 35);
-            this.cribbttn.TabIndex = 15;
-            this.cribbttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.TreeViewToolTip.SetToolTip(this.cribbttn, "Crib Management");
-            this.cribbttn.UseVisualStyleBackColor = false;
-            this.cribbttn.Click += new System.EventHandler(this.cribbttn_Click);
-            // 
-            // scanwobttn
-            // 
-            this.scanwobttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.scanwobttn.BackColor = System.Drawing.Color.Transparent;
-            this.scanwobttn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
-            this.scanwobttn.FlatAppearance.BorderSize = 0;
-            this.scanwobttn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.scanwobttn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.scanwobttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.scanwobttn.ForeColor = System.Drawing.Color.Transparent;
-            this.scanwobttn.Image = ((System.Drawing.Image)(resources.GetObject("scanwobttn.Image")));
-            this.scanwobttn.Location = new System.Drawing.Point(937, 15);
-            this.scanwobttn.MaximumSize = new System.Drawing.Size(35, 35);
-            this.scanwobttn.MinimumSize = new System.Drawing.Size(35, 35);
-            this.scanwobttn.Name = "scanwobttn";
-            this.scanwobttn.Size = new System.Drawing.Size(35, 35);
-            this.scanwobttn.TabIndex = 15;
-            this.scanwobttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.TreeViewToolTip.SetToolTip(this.scanwobttn, "Scan Work Order");
-            this.scanwobttn.UseVisualStyleBackColor = false;
-            this.scanwobttn.Click += new System.EventHandler(this.scanwobttn_Click);
-            // 
-            // getBOMToolStripMenuItem1
-            // 
-            this.getBOMToolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("getBOMToolStripMenuItem1.Image")));
-            this.getBOMToolStripMenuItem1.Name = "getBOMToolStripMenuItem1";
-            this.getBOMToolStripMenuItem1.Size = new System.Drawing.Size(187, 22);
-            this.getBOMToolStripMenuItem1.Text = "Get BOM";
-            this.getBOMToolStripMenuItem1.Click += new System.EventHandler(this.getBOMToolStripMenuItem_Click);
-            // 
-            // SPM_ConnectWM
+            // ReleaseLogs
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Tan;
+            this.BackColor = System.Drawing.Color.Brown;
             this.ClientSize = new System.Drawing.Size(984, 661);
-            this.Controls.Add(this.scanwobttn);
-            this.Controls.Add(this.cribbttn);
             this.Controls.Add(this.versionlabel);
             this.Controls.Add(this.SPM);
             this.Controls.Add(this.dataGridView);
@@ -357,9 +267,9 @@
             this.Controls.Add(this.Descrip_txtbox);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(500, 500);
-            this.Name = "SPM_ConnectWM";
+            this.Name = "ReleaseLogs";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "SPM Connect - Work Order Management";
+            this.Text = "SPM Connect - Release Logs";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SPM_ConnectWM_FormClosed);
             this.Load += new System.EventHandler(this.SPM_Connect_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
@@ -382,14 +292,8 @@
         public System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.ToolTip TreeViewToolTip;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem getWOToolStripMenuItem;
-        private System.Windows.Forms.Button cribbttn;
-        private System.Windows.Forms.Button scanwobttn;
-        private System.Windows.Forms.ToolStripMenuItem releaseManagementToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem addNewReleaseToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem viewReleasesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem viewCurrentJobReleaseToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem viewAllReleaseLogsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem getWoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewReleaseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem getBOMToolStripMenuItem1;
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member 'SPM_Connect.txtSearch'
     }

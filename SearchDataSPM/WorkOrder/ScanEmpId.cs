@@ -31,7 +31,7 @@ namespace SearchDataSPM
         private void JobType_Load(object sender, EventArgs e)
         {
             empid_txtbox.Focus();
-            userinputtime = connectapi.getuserinputtime();
+            userinputtime = connectapi.Getuserinputtime();
             developer = connectapi.Checkdeveloper();
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);

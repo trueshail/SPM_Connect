@@ -3064,14 +3064,14 @@ namespace SearchDataSPM
             if (openforms >= 2)
             {
                 ListOpenWindows frm2 = new ListOpenWindows();
-                bool purchasereqopen = false;
+                bool allowdragdrop = false;
 
                 foreach (Form frm in Application.OpenForms)
                 {
-                    if (frm.Name.ToString() == "ItemInfo")
-                        purchasereqopen = true;
+                    if (frm.Name.ToString() == "ItemInfo" || frm.Name.ToString() == "AddRelease")
+                        allowdragdrop = true;
                 }
-                if (purchasereqopen)
+                if (allowdragdrop)
                 {
                     if (e.Button == MouseButtons.Left)
                     {

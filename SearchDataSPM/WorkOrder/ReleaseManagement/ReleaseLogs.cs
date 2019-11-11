@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace SearchDataSPM
 {
-    public partial class SPM_ConnectWM : Form
+    public partial class ReleaseLogs : Form
     {
         #region SPM Connect Load
 
@@ -18,41 +18,30 @@ namespace SearchDataSPM
         private log4net.ILog log;
         private UserActions _userActions;
         private ErrorHandler errorHandler = new ErrorHandler();
-        private string jobnumber;
 
-        public SPM_ConnectWM(string jobno = "")
+        public ReleaseLogs()
         {
             Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
             //connectapi.SPM_Connect();
             dt = new DataTable();
-            this.jobnumber = jobno;
         }
 
         private void SPM_Connect_Load(object sender, EventArgs e)
         {
             Showallitems();
-            txtSearch.Text = jobnumber;
-            if (txtSearch.Text.Trim().Length > 0)
-                SendKeys.Send("~");
-            Checkdeptsandrights();
+            GetVersionLabel();
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened Work Order Management by " + System.Environment.UserName);
+            log.Info("Opened Work Order Release Log by " + System.Environment.UserName);
             _userActions = new UserActions(this);
         }
 
-        private void Checkdeptsandrights()
+        private void GetVersionLabel()
         {
             versionlabel.Text = connectapi.Getassyversionnumber();
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
-            if (connectapi.CheckRights("WORelease"))
-            {
-                contextMenuStrip1.Items[1].Enabled = true;
-                contextMenuStrip1.Items[1].Visible = true;
-            }
-
         }
 
         private void Showallitems()
@@ -60,21 +49,33 @@ namespace SearchDataSPM
             try
             {
                 dt.Clear();
-                dt = connectapi.ShowAllWorkOrders();
+                dt = connectapi.ShowAllReleaseLogs();
                 dataGridView.DataSource = dt;
                 dataGridView.Sort(dataGridView.Columns[0], ListSortDirection.Descending);
-                dataGridView.Columns[0].Width = 60;
-                dataGridView.Columns[1].Width = 60;
-                dataGridView.Columns[2].Width = 60;
-                dataGridView.Columns[3].Width = 60;
-                dataGridView.Columns[4].Width = 180;
-                dataGridView.Columns[5].Width = 60;
-                dataGridView.Columns[6].Visible = false;
+                //dataGridView.Columns[0].Width = 60;
+                //dataGridView.Columns[1].Width = 60;
+                //dataGridView.Columns[2].Width = 150;
+                //dataGridView.Columns[3].Width = 60;
+                //dataGridView.Columns[4].Width = 60;
+                //dataGridView.Columns[5].Width = 120;
+                //dataGridView.Columns[6].Width = 80;
+                //dataGridView.Columns[7].Width = 100;
+                //dataGridView.Columns[8].Width = 100;
+                dataGridView.Columns[9].Visible = false;
+                dataGridView.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                dataGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                dataGridView.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                dataGridView.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                dataGridView.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                dataGridView.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                dataGridView.Columns[7].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                dataGridView.Columns[8].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 UpdateFont();
             }
             catch (Exception)
             {
-                MessageBox.Show("Data cannot be retrieved from server. Please contact the admin.", "SPM Connect - SQL SERVER WM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Data cannot be retrieved from server. Please contact the admin.", "SPM Connect - SQL SERVER Release logs", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.Close();
             }
         }
@@ -484,7 +485,7 @@ namespace SearchDataSPM
             {
                 int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                 DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-                item = Convert.ToString(slectedrow.Cells[2].Value);
+                item = Convert.ToString(slectedrow.Cells[4].Value);
             }
             else
             {
@@ -508,7 +509,7 @@ namespace SearchDataSPM
             {
                 int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                 DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-                wo = Convert.ToString(slectedrow.Cells[1].Value);
+                wo = Convert.ToString(slectedrow.Cells[3].Value);
             }
             return wo;
         }
@@ -516,7 +517,7 @@ namespace SearchDataSPM
         private void SPM_ConnectWM_FormClosed(object sender, FormClosedEventArgs e)
         {
             _userActions.FinishLoggingUserActions(this);
-            log.Info("Closed Work Order Management by " + System.Environment.UserName);
+            log.Info("Closed Work Order Release Logs by " + System.Environment.UserName);
             this.Dispose();
         }
 
@@ -525,32 +526,6 @@ namespace SearchDataSPM
             if (!(dataGridView.SelectedRows.Count == 1))
             {
                 e.Cancel = true;
-            }
-        }
-
-        private void cribbttn_Click(object sender, EventArgs e)
-        {
-            if (connectapi.EmployeeExitsWithCribRights(connectapi.Getempid()))
-            {
-                InvInOut invInOut = new InvInOut();
-                invInOut.Show();
-            }
-            else
-            {
-                MetroFramework.MetroMessageBox.Show(this, "Your request can't be completed based on your security settings.", "SPM Connect - Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
-
-        private void scanwobttn_Click(object sender, EventArgs e)
-        {
-            if (connectapi.CheckRights("[WOScan]"))
-            {
-                ScanWO scanWO = new ScanWO();
-                scanWO.Show();
-            }
-            else
-            {
-                MetroFramework.MetroMessageBox.Show(this, "Your request can't be completed based on your security settings.", "SPM Connect - Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -581,14 +556,13 @@ namespace SearchDataSPM
                 {
                     int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                     DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-                    item = Convert.ToString(slectedrow.Cells[2].Value);
+                    item = Convert.ToString(slectedrow.Cells[4].Value);
                 }
                 else
                 {
                     item = "";
                 }
                 Processbom(item);
-
                 return true;
             }
 
@@ -624,31 +598,6 @@ namespace SearchDataSPM
             errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
         }
 
-        private void AddNewRelease()
-        {
-            DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to create a new release?", "SPM Connect - Create New Release?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (result == DialogResult.Yes)
-            {
-                if (IsAssembly(GetSelectedAssyNo()))
-                {
-                    this.Enabled = false;
-
-                    string rlogno = connectapi.EnterWOToReleaseLog(Getselectedworkorder(), GetSelectedJobNo(), GetSelectedAssyNo());
-                    if (rlogno.Length > 1)
-                    {
-                        ShowReleaseLogDetails(rlogno);
-                    }
-
-                    this.Enabled = true;
-                }
-                else
-                {
-                    MetroFramework.MetroMessageBox.Show(this, "Item family must be a \"AS\" or \"AG\" or \"ASEL\" or \"ASPN\". In order to release into the system.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                }
-            }
-        }
-
         private void ShowReleaseLogDetails(string invoice)
         {
             string invoiceopen = connectapi.InvoiceOpen(invoice);
@@ -666,78 +615,32 @@ namespace SearchDataSPM
             }
         }
 
-        private string GetSelectedJobNo()
+        private string GetSelectedRlogNo()
         {
-            string jobno = "";
+            string rlogno = "";
             if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
             {
                 int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                 DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-                jobno = Convert.ToString(slectedrow.Cells[0].Value);
+                rlogno = Convert.ToString(slectedrow.Cells[0].Value);
             }
-            return jobno;
+            return rlogno;
         }
 
-        private string GetSelectedAssyNo()
+        private void viewReleaseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string jobno = "";
-            if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
+            ShowReleaseLogDetails(GetSelectedRlogNo());
+        }
+
+        private void dataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (dataGridView.SelectedCells.Count == 1)
             {
-                int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
-                DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-                jobno = Convert.ToString(slectedrow.Cells[3].Value);
+                ShowReleaseLogDetails(GetSelectedRlogNo());
             }
-            return jobno;
         }
 
-        private void AddNewReleaseToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AddNewRelease();
-        }
-
-        private bool IsAssembly(string assyno)
-        {
-            bool assy = false;
-            DataTable iteminfo = new DataTable();
-            iteminfo.Clear();
-            iteminfo = connectapi.GetIteminfo(assyno);
-            DataRow ra = iteminfo.Rows[0];
-            string family = ra["FamilyCode"].ToString();
-            iteminfo.Clear();
-
-            switch (family.ToLower())
-            {
-                case "as":
-                    assy = true;
-                    break;
-
-                case "ag":
-                    assy = true;
-                    break;
-
-                case "asel":
-                    assy = true;
-                    break;
-
-                case "aspn":
-                    assy = true;
-                    break;
-
-                default:
-                    assy = false;
-                    break;
-            }
-
-            return assy;
-        }
-
-        private void ViewAllReleaseLogsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ReleaseLogs releaseLogs = new ReleaseLogs();
-            releaseLogs.Show();
-        }
-
-        private void getWOToolStripMenuItem_Click(object sender, EventArgs e)
+        private void getWoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ProrcessreportWorkOrder(Getselectedworkorder(), "WorkOrder");
         }
