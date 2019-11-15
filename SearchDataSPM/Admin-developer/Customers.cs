@@ -1,5 +1,4 @@
-﻿using SPMConnect.UserActionLog;
-using System;
+﻿using System;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
@@ -12,7 +11,7 @@ namespace SearchDataSPM
     {
         private Customer model = new Customer();
         private log4net.ILog log;
-        private UserActions _userActions;
+
         private ErrorHandler errorHandler = new ErrorHandler();
 
         public Customers()
@@ -42,7 +41,6 @@ namespace SearchDataSPM
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Manage Customers by " + System.Environment.UserName);
-            _userActions = new UserActions(this);
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -129,12 +127,12 @@ namespace SearchDataSPM
 
         private void UIThreadException(object sender, ThreadExceptionEventArgs t)
         {
-            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+            log.Error(sender, t.Exception); errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, this);
         }
 
         private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
+            log.Error(sender, (Exception)e.ExceptionObject); errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, this);
         }
     }
 }

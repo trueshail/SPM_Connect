@@ -1,5 +1,4 @@
 ﻿using SPMConnect;
-using SPMConnect.UserActionLog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,7 +10,7 @@ namespace SearchDataSPM
 {
     internal class ErrorHandler
     {
-        public void EmailExceptionAndActionLogToSupport(object sender, Exception exception, UserActions _userActions, Control frm)
+        public void EmailExceptionAndActionLogToSupport(object sender, Exception exception, Control frm)
         {
             StringBuilder _errMsg = new StringBuilder();
             List<string> _emailAttachments = new List<string>();
@@ -40,7 +39,6 @@ namespace SearchDataSPM
             }
 
             //Write out the logs in memory to file
-            _userActions.FinishLoggingUserActions(frm);
 
             //Get list of today's log files
 

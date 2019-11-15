@@ -1,5 +1,4 @@
-﻿using SPMConnect.UserActionLog;
-using SPMConnectAPI;
+﻿using SPMConnectAPI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -32,7 +31,7 @@ namespace SearchDataSPM
         private bool rootnodedone = false;
 
         private log4net.ILog log;
-        private UserActions _userActions;
+
         private ErrorHandler errorHandler = new ErrorHandler();
 
         #endregion steupvariables
@@ -89,7 +88,6 @@ namespace SearchDataSPM
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Item Details " + iteminfo2 + " by " + System.Environment.UserName);
-            _userActions = new UserActions(this);
         }
 
         private bool yesmanagement = false;
@@ -578,7 +576,6 @@ namespace SearchDataSPM
 
         private void ItemInfo_FormClosed(object sender, FormClosedEventArgs e)
         {
-            _userActions.FinishLoggingUserActions(this);
             log.Info("Closed Item Details " + iteminfo2 + " by " + System.Environment.UserName);
             this.Dispose();
         }
@@ -599,12 +596,12 @@ namespace SearchDataSPM
 
         private void UIThreadException(object sender, ThreadExceptionEventArgs t)
         {
-            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+            log.Error(sender, t.Exception); errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, this);
         }
 
         private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
+            log.Error(sender, (Exception)e.ExceptionObject); errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, this);
         }
 
         private void Itemnotxt_KeyPress(object sender, KeyPressEventArgs e)

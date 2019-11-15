@@ -1,5 +1,4 @@
-﻿using SPMConnect.UserActionLog;
-using SPMConnectAPI;
+﻿using SPMConnectAPI;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -15,7 +14,7 @@ namespace SearchDataSPM
         private int userinputtime = 100;
         private bool developer = false;
         private log4net.ILog log;
-        private UserActions _userActions;
+
         private ErrorHandler errorHandler = new ErrorHandler();
 
         public ScanEmpId()
@@ -36,7 +35,6 @@ namespace SearchDataSPM
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Scan Emp ID by " + System.Environment.UserName);
-            _userActions = new UserActions(this);
         }
 
         private void empid_txtbox_KeyPress(object sender, KeyPressEventArgs e)
@@ -85,19 +83,18 @@ namespace SearchDataSPM
 
         private void ScanEmpId_FormClosed(object sender, FormClosedEventArgs e)
         {
-            _userActions.FinishLoggingUserActions(this);
             log.Info("Closed Scan Emp ID by " + System.Environment.UserName);
             this.Dispose();
         }
 
         private void UIThreadException(object sender, ThreadExceptionEventArgs t)
         {
-            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+            log.Error(sender, t.Exception); errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, this);
         }
 
         private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
+            log.Error(sender, (Exception)e.ExceptionObject); errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, this);
         }
     }
 }

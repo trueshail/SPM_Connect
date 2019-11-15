@@ -39,6 +39,7 @@
             this.viewReleasesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewCurrentJobReleaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewAllReleaseLogsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.getBOMToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.Reload = new System.Windows.Forms.Button();
             this.Descrip_txtbox = new System.Windows.Forms.TextBox();
             this.filteroem_txtbox = new System.Windows.Forms.TextBox();
@@ -49,7 +50,6 @@
             this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.cribbttn = new System.Windows.Forms.Button();
             this.scanwobttn = new System.Windows.Forms.Button();
-            this.getBOMToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -106,7 +106,7 @@
             this.releaseManagementToolStripMenuItem,
             this.getBOMToolStripMenuItem1});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(188, 70);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(188, 92);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // getWOToolStripMenuItem
@@ -146,6 +146,7 @@
             this.viewReleasesToolStripMenuItem.Name = "viewReleasesToolStripMenuItem";
             this.viewReleasesToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
             this.viewReleasesToolStripMenuItem.Text = "View Assy Releases";
+            this.viewReleasesToolStripMenuItem.Click += new System.EventHandler(this.viewReleasesToolStripMenuItem_Click);
             // 
             // viewCurrentJobReleaseToolStripMenuItem
             // 
@@ -153,6 +154,7 @@
             this.viewCurrentJobReleaseToolStripMenuItem.Name = "viewCurrentJobReleaseToolStripMenuItem";
             this.viewCurrentJobReleaseToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
             this.viewCurrentJobReleaseToolStripMenuItem.Text = "View Current Job Releases";
+            this.viewCurrentJobReleaseToolStripMenuItem.Click += new System.EventHandler(this.viewCurrentJobReleaseToolStripMenuItem_Click);
             // 
             // viewAllReleaseLogsToolStripMenuItem
             // 
@@ -161,6 +163,14 @@
             this.viewAllReleaseLogsToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
             this.viewAllReleaseLogsToolStripMenuItem.Text = "View All Release Logs";
             this.viewAllReleaseLogsToolStripMenuItem.Click += new System.EventHandler(this.ViewAllReleaseLogsToolStripMenuItem_Click);
+            // 
+            // getBOMToolStripMenuItem1
+            // 
+            this.getBOMToolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("getBOMToolStripMenuItem1.Image")));
+            this.getBOMToolStripMenuItem1.Name = "getBOMToolStripMenuItem1";
+            this.getBOMToolStripMenuItem1.Size = new System.Drawing.Size(187, 22);
+            this.getBOMToolStripMenuItem1.Text = "Get BOM";
+            this.getBOMToolStripMenuItem1.Click += new System.EventHandler(this.getBOMToolStripMenuItem_Click);
             // 
             // Reload
             // 
@@ -329,14 +339,6 @@
             this.TreeViewToolTip.SetToolTip(this.scanwobttn, "Scan Work Order");
             this.scanwobttn.UseVisualStyleBackColor = false;
             this.scanwobttn.Click += new System.EventHandler(this.scanwobttn_Click);
-            // 
-            // getBOMToolStripMenuItem1
-            // 
-            this.getBOMToolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("getBOMToolStripMenuItem1.Image")));
-            this.getBOMToolStripMenuItem1.Name = "getBOMToolStripMenuItem1";
-            this.getBOMToolStripMenuItem1.Size = new System.Drawing.Size(187, 22);
-            this.getBOMToolStripMenuItem1.Text = "Get BOM";
-            this.getBOMToolStripMenuItem1.Click += new System.EventHandler(this.getBOMToolStripMenuItem_Click);
             // 
             // SPM_ConnectWM
             // 

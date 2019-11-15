@@ -1,5 +1,4 @@
-﻿using SPMConnect.UserActionLog;
-using System;
+﻿using System;
 using System.Data.SqlClient;
 using System.Threading;
 using System.Windows.Forms;
@@ -11,7 +10,7 @@ namespace SearchDataSPM
         private string connection;
         private SqlConnection cn;
         private log4net.ILog log;
-        private UserActions _userActions;
+
         private ErrorHandler errorHandler = new ErrorHandler();
 
         public LoginForm()
@@ -39,7 +38,6 @@ namespace SearchDataSPM
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Admin Login Form on " + System.Environment.UserName + " system.");
-            _userActions = new UserActions(this);
         }
 
         private void LoginBttn_Click(object sender, EventArgs e)
@@ -106,17 +104,16 @@ namespace SearchDataSPM
 
         private void UIThreadException(object sender, ThreadExceptionEventArgs t)
         {
-            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+            log.Error(sender, t.Exception); errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, this);
         }
 
         private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
+            log.Error(sender, (Exception)e.ExceptionObject); errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, this);
         }
 
         private void LoginForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            _userActions.FinishLoggingUserActions(this);
             log.Info("Closed Admin Login Form on " + System.Environment.UserName + " system.");
             this.Dispose();
         }

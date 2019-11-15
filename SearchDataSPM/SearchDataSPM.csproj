@@ -104,6 +104,9 @@
       <HintPath>..\packages\ADGV.0.1.0.10\lib\net40\AdvancedDataGridView.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
+    <Reference Include="Bunifu_UI_v1.5.3">
+      <HintPath>C:\Users\spatel.SPM\Downloads\Bunifu_UI_v1.5.3\Bunifu_UI_v1.5.3.dll</HintPath>
+    </Reference>
     <Reference Include="eDrawingHostControl">
       <HintPath>Resources\eDrawingHostControl.dll</HintPath>
     </Reference>
@@ -399,41 +402,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SPM_DatabaseDataSet1.xsd</DependentUpon>
     </Compile>
-    <Compile Include="WaitForms\WaitFormLoading.cs">
+    <Compile Include="WaitForms\Dialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WaitForms\WaitFormLoading.Designer.cs">
-      <DependentUpon>WaitFormLoading.cs</DependentUpon>
-    </Compile>
-    <Compile Include="WaitForms\WaitFormOpening.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="WaitForms\WaitFormOpening.Designer.cs">
-      <DependentUpon>WaitFormOpening.cs</DependentUpon>
-    </Compile>
-    <Compile Include="WaitForms\WaitFormEmail.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="WaitForms\WaitFormEmail.Designer.cs">
-      <DependentUpon>WaitFormEmail.cs</DependentUpon>
-    </Compile>
-    <Compile Include="WaitForms\WaitFormSaving.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="WaitForms\WaitFormSaving.Designer.cs">
-      <DependentUpon>WaitFormSaving.cs</DependentUpon>
-    </Compile>
-    <Compile Include="WaitForms\WaitFormCopying.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="WaitForms\WaitFormCopying.Designer.cs">
-      <DependentUpon>WaitFormCopying.cs</DependentUpon>
-    </Compile>
-    <Compile Include="WaitForms\WaitFormImport.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="WaitForms\WaitFormImport.Designer.cs">
-      <DependentUpon>WaitFormImport.cs</DependentUpon>
+    <Compile Include="WaitForms\Dialog.Designer.cs">
+      <DependentUpon>Dialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Purchasing\InvoiceDateChange.cs">
       <SubType>Form</SubType>
@@ -471,6 +444,12 @@
     </Compile>
     <Compile Include="WorkOrder\InvInOut.Designer.cs">
       <DependentUpon>InvInOut.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WorkOrder\ReleaseManagement\ViewRelease.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WorkOrder\ReleaseManagement\ViewRelease.Designer.cs">
+      <DependentUpon>ViewRelease.cs</DependentUpon>
     </Compile>
     <Compile Include="WorkOrder\ReleaseManagement\AddRelease.cs">
       <SubType>Form</SubType>
@@ -574,12 +553,6 @@
     </Compile>
     <Compile Include="General\JobType.Designer.cs">
       <DependentUpon>JobType.cs</DependentUpon>
-    </Compile>
-    <Compile Include="WaitForms\WaitFormCreatingFolders.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="WaitForms\WaitFormCreatingFolders.Designer.cs">
-      <DependentUpon>WaitFormCreatingFolders.cs</DependentUpon>
     </Compile>
     <Compile Include="Purchasing\PurchaseReq.cs">
       <SubType>Form</SubType>
@@ -761,23 +734,8 @@
     <EmbeddedResource Include="Engineering\EstimateBOM.resx">
       <DependentUpon>EstimateBOM.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="WaitForms\WaitFormLoading.resx">
-      <DependentUpon>WaitFormLoading.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WaitForms\WaitFormOpening.resx">
-      <DependentUpon>WaitFormOpening.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WaitForms\WaitFormEmail.resx">
-      <DependentUpon>WaitFormEmail.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WaitForms\WaitFormSaving.resx">
-      <DependentUpon>WaitFormSaving.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WaitForms\WaitFormCopying.resx">
-      <DependentUpon>WaitFormCopying.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WaitForms\WaitFormImport.resx">
-      <DependentUpon>WaitFormImport.cs</DependentUpon>
+    <EmbeddedResource Include="WaitForms\Dialog.resx">
+      <DependentUpon>Dialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Engineering\WhereUsed.resx">
       <DependentUpon>WhereUsed.cs</DependentUpon>
@@ -802,6 +760,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="WorkOrder\InvInOut.resx">
       <DependentUpon>InvInOut.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WorkOrder\ReleaseManagement\ViewRelease.resx">
+      <DependentUpon>ViewRelease.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WorkOrder\ReleaseManagement\AddRelease.resx">
       <DependentUpon>AddRelease.cs</DependentUpon>
@@ -853,9 +814,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="General\JobType.resx">
       <DependentUpon>JobType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WaitForms\WaitFormCreatingFolders.resx">
-      <DependentUpon>WaitFormCreatingFolders.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -1,5 +1,4 @@
-﻿using SPMConnect.UserActionLog;
-using SPMConnectAPI;
+﻿using SPMConnectAPI;
 using System;
 using System.ComponentModel;
 using System.Data;
@@ -24,7 +23,7 @@ namespace SearchDataSPM
         private SqlCommand _command;
         private SPMSQLCommands connectapi = new SPMSQLCommands();
         private log4net.ILog log;
-        private UserActions _userActions;
+
         private ErrorHandler errorHandler = new ErrorHandler();
 
         public SPM_ConnectJobs()
@@ -84,7 +83,6 @@ namespace SearchDataSPM
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened SPM Connect Jobs by " + System.Environment.UserName);
-            _userActions = new UserActions(this);
         }
 
         private void Showallitems()
@@ -884,8 +882,8 @@ namespace SearchDataSPM
 
             if (ValueIWantFromProptForm.Length > 0)
             {
-                new Thread(() => new Engineering.WaitFormCreatingFolders().ShowDialog()).Start();
-                Thread.Sleep(2000);
+                Thread t = new Thread(new ThreadStart(splashsave));
+                t.Start();
                 string destpatheng = "";
                 string destpaths300 = "";
                 string sourcepathseng = "";
@@ -917,9 +915,8 @@ namespace SearchDataSPM
                     DirectoryCopy(sourcepathseng, destpatheng, true);
                     DirectoryCopy(sourcepaths300, destpaths300, true);
                 }
-                Engineering.WaitFormCreatingFolders f = new Engineering.WaitFormCreatingFolders();
-                f = (Engineering.WaitFormCreatingFolders)Application.OpenForms["WaitFormCreatingFolders"];
-                f.Invoke(new ThreadStart(delegate { f.Close(); }));
+                t.Abort();
+
                 MessageBox.Show("Job folders created sucessfully!.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
@@ -929,6 +926,17 @@ namespace SearchDataSPM
 
             Cursor.Current = Cursors.Default;
             this.Enabled = true;
+        }
+
+        private void splashsave()
+        {
+            Dialog waitFormSaving = new Dialog
+            {
+                Message = "Creating Folders.....",
+                TopMost = true
+            };
+            waitFormSaving.Location = new Point(this.Location.X + (this.Width - waitFormSaving.Width) / 2, this.Location.Y + (this.Height - waitFormSaving.Height) / 2);
+            Application.Run(waitFormSaving);
         }
 
         private string getjobnumber()
@@ -1103,7 +1111,6 @@ namespace SearchDataSPM
 
         private void SPM_ConnectJobs_FormClosed(object sender, FormClosedEventArgs e)
         {
-            _userActions.FinishLoggingUserActions(this);
             log.Info("Closed SPM Connect Jobs by " + System.Environment.UserName);
             this.Dispose();
         }
@@ -1217,12 +1224,12 @@ namespace SearchDataSPM
 
         private void UIThreadException(object sender, ThreadExceptionEventArgs t)
         {
-            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+            log.Error(sender, t.Exception); errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, this);
         }
 
         private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
+            log.Error(sender, (Exception)e.ExceptionObject); errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, this);
         }
     }
 }

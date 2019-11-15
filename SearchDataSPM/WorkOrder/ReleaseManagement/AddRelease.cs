@@ -1,5 +1,4 @@
-﻿using SPMConnect.UserActionLog;
-using SPMConnectAPI;
+﻿using SPMConnectAPI;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -23,9 +22,8 @@ namespace SearchDataSPM
         private string releaseLogNumber;
         private bool rootnodedone;
         private WorkOrder connectapi = new WorkOrder();
-
+        private List<string> Itemstodiscard = new List<string>();
         private log4net.ILog log;
-        private UserActions userActions;
         private ErrorHandler errorHandler = new ErrorHandler();
 
         #endregion steupvariables
@@ -65,7 +63,6 @@ namespace SearchDataSPM
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Item Details " + releaseLogNumber + " by " + System.Environment.UserName);
-            userActions = new UserActions(this);
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -106,19 +103,18 @@ namespace SearchDataSPM
 
         private void ItemInfo_FormClosed(object sender, FormClosedEventArgs e)
         {
-            userActions.FinishLoggingUserActions(this);
             log.Info("Closed Item Details " + releaseLogNumber + " by " + System.Environment.UserName);
             Dispose();
         }
 
         private void UIThreadException(object sender, ThreadExceptionEventArgs t)
         {
-            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, userActions, this);
+            log.Error(sender, t.Exception); errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, this);
         }
 
         private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, userActions, this);
+            log.Error(sender, (Exception)e.ExceptionObject); errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, this);
         }
 
         #region Treeview
@@ -143,6 +139,7 @@ namespace SearchDataSPM
                 itmdeslbl.Text = "Description : ";
                 itmoemlbl.Text = "Manufacturer : ";
                 itemoemitmlbl.Text = "OEM Item No : ";
+                itemnotestxt.Text = "";
             }
         }
 
@@ -191,7 +188,7 @@ namespace SearchDataSPM
                 RemoveChildNodes(root);
                 Treeview.ResetText();
 
-                root.Text = "Job " + jobnotxt.Text + " - WO " + wotxt.Text + " - " + releasetypetxt.Text;
+                root.Text = assydesctxt.Text + " - " + releasetypetxt.Text;
                 root.Tag = jobnotxt.Text + "][" + wotxt.Text + "][" + releaselognotxt.Text + "][" + releasetypetxt.Text;
                 Setimageaccordingtofamily("AS", root);
                 Treeview.Nodes.Add(root);
@@ -630,15 +627,53 @@ namespace SearchDataSPM
                 if (myNodeCount > 0)
                 {
                     connectapi.Deleteassy(releaseLogNumber);
+                    if (Itemstodiscard.Count > 0)
+                    {
+                        Performdiscarditem();
+                    }
+
                     AddItems();
                 }
                 else
                 {
                     connectapi.Deleteassy(releaseLogNumber);
+                    if (Itemstodiscard.Count > 0)
+                    {
+                        Performdiscarditem();
+                    }
+
                     Lockdownsave();
                     // MessageBox.Show("Assembly list cannot be empty in order to save to AutoCad Catalog.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 }
             }
+            Itemstodiscard.Clear();
+        }
+
+
+        private void Performdiscarditem()
+        {
+            foreach (string item in Itemstodiscard)
+            {
+                getItemNoFromTag(item);
+            }
+        }
+
+        private void getItemNoFromTag(string s)
+        {
+            string[] values = s.Replace("][", "~").Split('~');
+            //string[] values = s.Split('][');
+            for (int i = 0; i < values.Length; i++)
+            {
+                values[i] = values[i].Trim();
+            }
+            UpdateRemoveitemsBallon(values[0]);
+
+        }
+
+        private void UpdateRemoveitemsBallon(string itemno)
+        {
+            connectapi.UpdateBallonRefToEst(itemno, "", jobnotxt.Text, assynotxt.Text);
+            connectapi.UpdateBallonRefToWorkOrder(itemno, "", jobnotxt.Text, assynotxt.Text, wotxt.Text);
         }
 
         private void AddItems()
@@ -693,6 +728,8 @@ namespace SearchDataSPM
                 values[i] = values[i].Trim();
 
             connectapi.AddItemToReleaseLog(wotxt.Text, assynotxt.Text, releaseLogNumber, values[0], values[5], values[6]);
+            connectapi.UpdateBallonRefToEst(values[0], releasetypetxt.Text, jobnotxt.Text, assynotxt.Text);
+            connectapi.UpdateBallonRefToWorkOrder(values[0], releasetypetxt.Text, jobnotxt.Text, assynotxt.Text, wotxt.Text);
         }
 
         private void Qtytxtbox_KeyDown(object sender, KeyEventArgs e)
@@ -742,8 +779,14 @@ namespace SearchDataSPM
                     var result = MessageBox.Show("Remove item from the dependency list?", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (result == DialogResult.Yes)
                     {
+                        var s = Treeview.SelectedNode.Tag.ToString();
+                        string[] values = s.Replace("][", "~").Split('~');
+                        for (int i = 0; i < values.Length; i++)
+                            values[i] = values[i].Trim();
+                        Itemstodiscard.Add(values[0]);
                         Treeview.SelectedNode.Parent.Nodes.Remove(Treeview.SelectedNode);
                         savbttn.Visible = true;
+
                     }
                     else if (result == DialogResult.No)
                     {

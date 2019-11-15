@@ -1,5 +1,4 @@
-﻿using SPMConnect.UserActionLog;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,6 +12,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 
@@ -39,8 +39,9 @@ namespace SearchDataSPM
         private int supervisoridfromreq = 0;
         private bool showingwaitingforapproval = false;
         private log4net.ILog log;
-        private UserActions _userActions;
         private ErrorHandler errorHandler = new ErrorHandler();
+
+        private bool splashWorkDone = false;
 
         #endregion Setting up Various Variables to Store information
 
@@ -115,7 +116,6 @@ namespace SearchDataSPM
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Purchase Req by " + System.Environment.UserName);
-            _userActions = new UserActions(this);
         }
 
         private void Changecontrolbuttonnames()
@@ -747,22 +747,12 @@ namespace SearchDataSPM
             Processsavebutton(false, "Normal");
         }
 
-        private void Processsavebutton(bool validatehit, string typeofsave)
+        private async void Processsavebutton(bool validatehit, string typeofsave)
         {
             try
             {
-                bool done = false;
-                ThreadPool.QueueUserWorkItem((x) =>
-                {
-                    using (var splashForm = new Engineering.WaitFormSaving())
-                    {
-                        splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
-                        splashForm.Show();
-                        while (!done)
-                            Application.DoEvents();
-                        splashForm.Close();
-                    }
-                });
+                await Task.Run(() => SplashDialog("Saving Data..."));
+                Thread.Sleep(1500);
 
                 if (typeofsave != "Papproved")
                 {
@@ -855,7 +845,7 @@ namespace SearchDataSPM
                 this.Enabled = true;
                 this.Focus();
                 this.Activate();
-                done = true;
+                splashWorkDone = true;
             }
             catch
             {
@@ -1112,7 +1102,6 @@ namespace SearchDataSPM
                 _adapter = new SqlDataAdapter(sql, cn);
                 itemstable.Clear();
                 _adapter.Fill(itemstable);
-                Fillinfo();
             }
             catch (SqlException ex)
             {
@@ -1126,11 +1115,18 @@ namespace SearchDataSPM
 
         private void Fillinfo()
         {
-            DataRow r = itemstable.Rows[0];
-            ItemTxtBox.Text = r["ItemNumber"].ToString();
-            Descriptiontxtbox.Text = r["Description"].ToString();
-            oemtxt.Text = r["Manufacturer"].ToString();
-            oemitemnotxt.Text = r["ManufacturerItemNumber"].ToString();
+            if (itemstable.Rows.Count > 0)
+            {
+                DataRow r = itemstable.Rows[0];
+                ItemTxtBox.Text = r["ItemNumber"].ToString();
+                Descriptiontxtbox.Text = r["Description"].ToString();
+                oemtxt.Text = r["Manufacturer"].ToString();
+                oemitemnotxt.Text = r["ManufacturerItemNumber"].ToString();
+            }
+            else
+            {
+                MessageBox.Show("Item Not found!!", "SPM Connect", MessageBoxButtons.OK);
+            }
         }
 
         private void Clearaddnewtextboxes()
@@ -1584,7 +1580,6 @@ namespace SearchDataSPM
 
         private void PurchaseReqform_FormClosed(object sender, FormClosedEventArgs e)
         {
-            _userActions.FinishLoggingUserActions(this);
             log.Info("Closed Purchase Req by " + System.Environment.UserName);
             this.Dispose();
         }
@@ -1606,7 +1601,7 @@ namespace SearchDataSPM
 
         #region Validation Check
 
-        private void Validatechk_Click(object sender, EventArgs e)
+        private async void Validatechk_Click(object sender, EventArgs e)
         {
             if (Validatechk.Checked == false)
             {
@@ -1639,47 +1634,17 @@ namespace SearchDataSPM
                         string reqno = purchreqtxt.Text;
                         Processsavebutton(true, "Validated");
                         Validatechk.Text = "Invalidate";
-                        //this.TopMost = false;
-
-                        //Thread t = new Thread(new ThreadStart(Splashemail));
-                        //t.Start();
-
-                        bool done = false;
-                        //ThreadPool.QueueUserWorkItem(delegate
-                        //{
-                        //    using (var splashForm = new Engineering.WaitFormEmail())
-                        //    {
-                        //        splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
-                        //        splashForm.Show();
-                        //        while (!done)
-                        //            Application.DoEvents();
-                        //        splashForm.Close();
-                        //    }
-                        //}, null);
-                        ThreadPool.QueueUserWorkItem((x) =>
-                        {
-                            using (var splashForm = new Engineering.WaitFormEmail())
-                            {
-                                splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
-                                splashForm.Show();
-                                while (!done)
-                                    Application.DoEvents();
-                                splashForm.Close();
-                            }
-                        });
+                        await Task.Run(() => SplashDialog("Sending Email..."));
                         Cursor.Current = Cursors.WaitCursor;
                         this.Enabled = false;
                         string filename = Makefilenameforreport(reqno, true);
                         SaveReport(reqno, filename);
                         Preparetosendemail(reqno, true, "", filename, false, "user", false);
-                        //t.Abort();
-
-                        // this.TopMost = true;
                         Cursor.Current = Cursors.Default;
                         this.Enabled = true;
                         this.Focus();
                         this.Activate();
-                        done = true;
+                        splashWorkDone = true;
                     }
                     else
                     {
@@ -1710,6 +1675,24 @@ namespace SearchDataSPM
                     Validatechk.Checked = false;
                 }
             }
+        }
+
+        private void SplashDialog(string message)
+        {
+            splashWorkDone = false;
+            ThreadPool.QueueUserWorkItem((x) =>
+           {
+               using (var splashForm = new Dialog())
+               {
+                   splashForm.TopMost = true;
+                   splashForm.Message = message;
+                   splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
+                   splashForm.Show();
+                   while (!splashWorkDone)
+                       Application.DoEvents();
+                   splashForm.Close();
+               }
+           });
         }
 
         private bool getapprovedstatus(int reqno)
@@ -1782,7 +1765,7 @@ namespace SearchDataSPM
 
         #region manager approve check changed
 
-        private void approvechk_Click(object sender, EventArgs e)
+        private async void approvechk_Click(object sender, EventArgs e)
         {
             if (supervisor)
             {
@@ -1817,34 +1800,17 @@ namespace SearchDataSPM
 
                             Processsavebutton(true, "Approved");
                             approvechk.Checked = true;
-                            // this.TopMost = false;
-
-                            //Thread t = new Thread(new ThreadStart(Splashemail));
-                            //t.Start();
-                            bool done = false;
-                            ThreadPool.QueueUserWorkItem(delegate
-                            {
-                                using (var splashForm = new Engineering.WaitFormEmail())
-                                {
-                                    splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
-                                    splashForm.Show();
-                                    while (!done)
-                                        Application.DoEvents();
-                                    splashForm.Close();
-                                }
-                            }, null);
+                            await Task.Run(() => SplashDialog("Sending Email..."));
                             this.Enabled = false;
 
                             string filename = Makefilenameforreport(reqno, false).ToString();
                             SaveReport(reqno, filename);
                             Preparetosendemail(reqno, false, requestby, filename, Happroval(), "supervisor", false);
                             Exporttoexcel();
-                            //t.Abort();
-                            //this.TopMost = true;
                             this.Enabled = true;
                             this.Focus();
                             this.Activate();
-                            done = true;
+                            splashWorkDone = true;
                         }
                         else
                         {
@@ -1940,7 +1906,7 @@ namespace SearchDataSPM
             dataGridView1.Columns["Price"].DefaultCellStyle.Format = "n2";
         }
 
-        private void DataGridView_SelectionChanged(object sender, EventArgs e)
+        private async void DataGridView_SelectionChanged(object sender, EventArgs e)
         {
             if (!formloading)
             {
@@ -1948,33 +1914,7 @@ namespace SearchDataSPM
                 {
                     try
                     {
-                        // this.TopMost = false;
-
-                        //ThreadPool.QueueUserWorkItem((x) =>
-                        //{
-                        //    using (var splashForm = new Engineering.WaitFormLoading())
-                        //    {
-                        //        splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
-                        //        splashForm.Show();
-                        //        while (!done)
-                        //            Application.DoEvents();
-                        //        splashForm.Close();
-                        //    }
-
-                        //});
-                        bool done = false;
-                        ThreadPool.QueueUserWorkItem(delegate
-                        {
-                            using (var splashForm = new Engineering.WaitFormLoading())
-                            {
-                                splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
-                                splashForm.Show();
-                                while (!done)
-                                    Application.DoEvents();
-                                splashForm.Close();
-                            }
-                        }, null);
-
+                        await Task.Run(() => SplashDialog("Loading Data..."));
                         Cursor.Current = Cursors.WaitCursor;
                         this.Enabled = false;
                         dataGridView1.AutoGenerateColumns = false;
@@ -1995,21 +1935,8 @@ namespace SearchDataSPM
                         this.Focus();
                         this.Activate();
                         this.Enabled = true;
-                        done = true;
-
-                        //Thread t = new Thread(new ThreadStart(Splashopening));
-                        //t.Start();
-                        //loading = new Thread(new ThreadStart(Splashopening));
-
-                        //loading.Start();
-
-                        // t.Abort();
-                        //loading.Abort();
-                        //this.TopMost = true;
+                        splashWorkDone = true;
                     }
-                    //catch (ThreadAbortException)
-                    //{
-                    //}
                     catch (Exception)
                     {
                     }
@@ -2569,7 +2496,7 @@ namespace SearchDataSPM
 
         private void Sendemail(string emailtosend, string subject, string body, string filetoattach, string cc)
         {
-            if (Sendemailyesno())
+            if (!Sendemailyesno())
             {
                 try
                 {
@@ -2609,7 +2536,7 @@ namespace SearchDataSPM
             }
             else
             {
-                MessageBox.Show("Email turned off.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Emails are turned off.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -2664,8 +2591,16 @@ namespace SearchDataSPM
                     string item = itemsearchtxtbox.Text.Trim().Substring(0, 6).ToString();
                     Clearaddnewtextboxes();
                     filldatatable(item);
-                    Addnewbttn.Enabled = true;
-                    FillPrice(item);
+                    if (itemstable.Rows.Count > 0)
+                    {
+                        Fillinfo();
+                        Addnewbttn.Enabled = true;
+                        FillPrice(item);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Item Not found!!", "SPM Connect", MessageBoxButtons.OK);
+                    }
                 }
 
                 e.Handled = true;
@@ -2853,36 +2788,9 @@ namespace SearchDataSPM
             reportpurchaereq(reqnumber, "Purchasereq");
         }
 
-        private void Bttnneedapproval_Click(object sender, EventArgs e)
+        private async void Bttnneedapproval_Click(object sender, EventArgs e)
         {
-            //this.TopMost = false;
-
-            //Thread t = new Thread(new ThreadStart(Splashopening));
-            //t.Start();
-            bool done = false;
-            //ThreadPool.QueueUserWorkItem((x) =>
-            //{
-            //    using (var splashForm = new Engineering.WaitFormLoading())
-            //    {
-            //        splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
-            //        splashForm.Show();
-            //        while (!done)
-            //            Application.DoEvents();
-            //        splashForm.Close();
-            //    }
-            //});
-
-            ThreadPool.QueueUserWorkItem(delegate
-            {
-                using (var splashForm = new Engineering.WaitFormLoading())
-                {
-                    splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
-                    splashForm.Show();
-                    while (!done)
-                        Application.DoEvents();
-                    splashForm.Close();
-                }
-            }, null);
+            await Task.Run(() => SplashDialog("Loading Data..."));
 
             this.Enabled = false;
             Showwaitingonapproval();
@@ -2899,28 +2807,12 @@ namespace SearchDataSPM
             this.Focus();
             this.Activate();
 
-            done = true;
+            splashWorkDone = true;
         }
 
-        private void Bttnshowapproved_Click(object sender, EventArgs e)
+        private async void Bttnshowapproved_Click(object sender, EventArgs e)
         {
-            // this.TopMost = false;
-            //Thread t = new Thread(new ThreadStart(Splashopening));
-            //t.Start();
-
-            bool done = false;
-            ThreadPool.QueueUserWorkItem((x) =>
-            {
-                using (var splashForm = new Engineering.WaitFormLoading())
-                {
-                    splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
-                    splashForm.Show();
-                    while (!done)
-                        Application.DoEvents();
-                    splashForm.Close();
-                }
-            });
-
+            await Task.Run(() => SplashDialog("Loading Data..."));
             this.Enabled = false;
             Showallapproved();
             foreach (Control c in managergroupbox.Controls)
@@ -2935,28 +2827,12 @@ namespace SearchDataSPM
             this.Enabled = true;
             this.Focus();
             this.Activate();
-            done = true;
+            splashWorkDone = true;
         }
 
-        private void bttnshowmydept_Click(object sender, EventArgs e)
+        private async void bttnshowmydept_Click(object sender, EventArgs e)
         {
-            //this.TopMost = false;
-            //Thread t = new Thread(new ThreadStart(Splashopening));
-            //t.Start();
-
-            bool done = false;
-            ThreadPool.QueueUserWorkItem((x) =>
-            {
-                using (var splashForm = new Engineering.WaitFormLoading())
-                {
-                    splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
-                    splashForm.Show();
-                    while (!done)
-                        Application.DoEvents();
-                    splashForm.Close();
-                }
-            });
-
+            await Task.Run(() => SplashDialog("Loading Data..."));
             this.Enabled = false;
             Showmydeptreq();
             foreach (Control c in managergroupbox.Controls)
@@ -2971,7 +2847,7 @@ namespace SearchDataSPM
             this.Enabled = true;
             this.Focus();
             this.Activate();
-            done = true;
+            splashWorkDone = true;
         }
 
         private void Bttnshowmyreq_Click(object sender, EventArgs e)
@@ -2979,25 +2855,9 @@ namespace SearchDataSPM
             Perfromshowmyreqbuttn();
         }
 
-        private void Perfromshowmyreqbuttn()
+        private async void Perfromshowmyreqbuttn()
         {
-            //this.TopMost = false;
-            //Thread t = new Thread(new ThreadStart(Splashopening));
-
-            //t.Start();
-
-            bool done = false;
-            ThreadPool.QueueUserWorkItem((x) =>
-            {
-                using (var splashForm = new Engineering.WaitFormLoading())
-                {
-                    splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
-                    splashForm.Show();
-                    while (!done)
-                        Application.DoEvents();
-                    splashForm.Close();
-                }
-            });
+            await Task.Run(() => SplashDialog("Loading Data..."));
 
             this.Enabled = false;
             ShowReqSearchItems(userfullname);
@@ -3013,7 +2873,7 @@ namespace SearchDataSPM
             this.Enabled = true;
             this.Focus();
             this.Activate();
-            done = true;
+            splashWorkDone = true;
         }
 
         #endregion button click events tool bars
@@ -3272,7 +3132,7 @@ namespace SearchDataSPM
 
         #region Happroval
 
-        private void happrovechk_Click(object sender, EventArgs e)
+        private async void happrovechk_Click(object sender, EventArgs e)
         {
             if (higherauthority)
             {
@@ -3293,22 +3153,7 @@ namespace SearchDataSPM
 
                         Processsavebutton(true, "Happroved");
                         happrovechk.Checked = true;
-                        //this.TopMost = false;
-
-                        //Thread t = new Thread(new ThreadStart(Splashemail));
-                        //t.Start();
-                        bool done = false;
-                        ThreadPool.QueueUserWorkItem(delegate
-                        {
-                            using (var splashForm = new Engineering.WaitFormEmail())
-                            {
-                                splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
-                                splashForm.Show();
-                                while (!done)
-                                    Application.DoEvents();
-                                splashForm.Close();
-                            }
-                        }, null);
+                        await Task.Run(() => SplashDialog("Sending Email..."));
                         this.Enabled = false;
 
                         string filename = Makefilenameforreport(reqno, false).ToString();
@@ -3316,12 +3161,10 @@ namespace SearchDataSPM
 
                         Preparetosendemail(reqno, false, requestby, filename, false, "highautority", false);
 
-                        // t.Abort();
-                        // this.TopMost = true;
                         this.Enabled = true;
                         this.Focus();
                         this.Activate();
-                        done = true;
+                        splashWorkDone = true;
                     }
                     else
                     {
@@ -3364,7 +3207,7 @@ namespace SearchDataSPM
 
         #region Pbuyer
 
-        private void purchasedchk_Click(object sender, EventArgs e)
+        private async void purchasedchk_Click(object sender, EventArgs e)
         {
             if (pbuyer)
             {
@@ -3389,18 +3232,7 @@ namespace SearchDataSPM
 
                         //Thread t = new Thread(new ThreadStart(Splashemail));
                         //t.Start();
-                        bool done = false;
-                        ThreadPool.QueueUserWorkItem(delegate
-                        {
-                            using (var splashForm = new Engineering.WaitFormEmail())
-                            {
-                                splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
-                                splashForm.Show();
-                                while (!done)
-                                    Application.DoEvents();
-                                splashForm.Close();
-                            }
-                        }, null);
+                        await Task.Run(() => SplashDialog("Sending Email..."));
                         this.Enabled = false;
                         purchasedchk.Checked = true;
 
@@ -3411,7 +3243,7 @@ namespace SearchDataSPM
                         this.Enabled = true;
                         this.Focus();
                         this.Activate();
-                        done = true;
+                        splashWorkDone = true;
                     }
                     else
                     {
@@ -3600,7 +3432,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void Approvetoolstrip_Click(object sender, EventArgs e)
+        private async void Approvetoolstrip_Click(object sender, EventArgs e)
         {
             if (!approvechk.Checked)
             {
@@ -3646,34 +3478,17 @@ namespace SearchDataSPM
 
                                 Processsavebutton(true, "Approved");
                                 approvechk.Checked = true;
-                                // this.TopMost = false;
-
-                                //Thread t = new Thread(new ThreadStart(Splashemail));
-                                //t.Start();
-                                bool done = false;
-                                ThreadPool.QueueUserWorkItem(delegate
-                                {
-                                    using (var splashForm = new Engineering.WaitFormEmail())
-                                    {
-                                        splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
-                                        splashForm.Show();
-                                        while (!done)
-                                            Application.DoEvents();
-                                        splashForm.Close();
-                                    }
-                                }, null);
+                                await Task.Run(() => SplashDialog("Sending Email..."));
                                 this.Enabled = false;
 
                                 string filename = Makefilenameforreport(reqno, false).ToString();
                                 SaveReport(reqno, filename);
                                 Preparetosendemail(reqno, false, requestby, filename, Happroval(), "supervisor", false);
                                 Exporttoexcel();
-                                //t.Abort();
-                                //this.TopMost = true;
                                 this.Enabled = true;
                                 this.Focus();
                                 this.Activate();
-                                done = true;
+                                splashWorkDone = true;
                             }
                             else
                             {
@@ -3732,22 +3547,7 @@ namespace SearchDataSPM
 
                             Processsavebutton(true, "Happroved");
                             happrovechk.Checked = true;
-                            //this.TopMost = false;
-
-                            //Thread t = new Thread(new ThreadStart(Splashemail));
-                            //t.Start();
-                            bool done = false;
-                            ThreadPool.QueueUserWorkItem(delegate
-                            {
-                                using (var splashForm = new Engineering.WaitFormEmail())
-                                {
-                                    splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
-                                    splashForm.Show();
-                                    while (!done)
-                                        Application.DoEvents();
-                                    splashForm.Close();
-                                }
-                            }, null);
+                            await Task.Run(() => SplashDialog("Sending Email..."));
                             this.Enabled = false;
 
                             string filename = Makefilenameforreport(reqno, false).ToString();
@@ -3760,7 +3560,7 @@ namespace SearchDataSPM
                             this.Enabled = true;
                             this.Focus();
                             this.Activate();
-                            done = true;
+                            splashWorkDone = true;
                         }
                         else
                         {
@@ -3771,7 +3571,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void rejecttoolstrip_Click(object sender, EventArgs e)
+        private async void rejecttoolstrip_Click(object sender, EventArgs e)
         {
             if (!approvechk.Checked)
             {
@@ -3817,22 +3617,7 @@ namespace SearchDataSPM
 
                                 Processsavebutton(true, "Rejected");
                                 approvechk.Checked = true;
-                                // this.TopMost = false;
-
-                                //Thread t = new Thread(new ThreadStart(Splashemail));
-                                //t.Start();
-                                bool done = false;
-                                ThreadPool.QueueUserWorkItem(delegate
-                                {
-                                    using (var splashForm = new Engineering.WaitFormEmail())
-                                    {
-                                        splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
-                                        splashForm.Show();
-                                        while (!done)
-                                            Application.DoEvents();
-                                        splashForm.Close();
-                                    }
-                                }, null);
+                                await Task.Run(() => SplashDialog("Sending Email..."));
                                 this.Enabled = false;
 
                                 //string filename = makefilenameforreport(reqno, false).ToString();
@@ -3844,7 +3629,7 @@ namespace SearchDataSPM
                                 this.Enabled = true;
                                 this.Focus();
                                 this.Activate();
-                                done = true;
+                                splashWorkDone = true;
                             }
                             else
                             {
@@ -3903,35 +3688,17 @@ namespace SearchDataSPM
 
                             Processsavebutton(true, "HRejected");
                             happrovechk.Checked = true;
-                            //this.TopMost = false;
-
-                            //Thread t = new Thread(new ThreadStart(Splashemail));
-                            //t.Start();
-                            bool done = false;
-                            ThreadPool.QueueUserWorkItem(delegate
-                            {
-                                using (var splashForm = new Engineering.WaitFormEmail())
-                                {
-                                    splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
-                                    splashForm.Show();
-                                    while (!done)
-                                        Application.DoEvents();
-                                    splashForm.Close();
-                                }
-                            }, null);
+                            await Task.Run(() => SplashDialog("Sending Email..."));
                             this.Enabled = false;
 
                             //string filename = makefilenameforreport(reqno, false).ToString();
                             //SaveReport(reqno, filename);
 
                             Preparetosendemail(reqno, false, requestby, "", false, "highautority", true);
-
-                            // t.Abort();
-                            // this.TopMost = true;
                             this.Enabled = true;
                             this.Focus();
                             this.Activate();
-                            done = true;
+                            splashWorkDone = true;
                         }
                         else
                         {
@@ -3946,12 +3713,12 @@ namespace SearchDataSPM
 
         private void UIThreadException(object sender, ThreadExceptionEventArgs t)
         {
-            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+            log.Error(sender, t.Exception); errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, this);
         }
 
         private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
+            log.Error(sender, (Exception)e.ExceptionObject); errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, this);
         }
     }
 }

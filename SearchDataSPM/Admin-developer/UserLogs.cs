@@ -1,5 +1,4 @@
-﻿using SPMConnect.UserActionLog;
-using System;
+﻿using System;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -8,7 +7,7 @@ namespace SearchDataSPM.Admin_developer
     public partial class UserLogs : Form
     {
         private log4net.ILog log;
-        private UserActions _userActions;
+
         private ErrorHandler errorHandler = new ErrorHandler();
 
         public UserLogs()
@@ -25,7 +24,6 @@ namespace SearchDataSPM.Admin_developer
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened User Action Logs by " + System.Environment.UserName);
-            _userActions = new UserActions(this);
         }
 
         private void advancedDataGridView_SortStringChanged(object sender, EventArgs e)
@@ -40,17 +38,16 @@ namespace SearchDataSPM.Admin_developer
 
         private void UIThreadException(object sender, ThreadExceptionEventArgs t)
         {
-            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+            log.Error(sender, t.Exception); errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, this);
         }
 
         private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
+            log.Error(sender, (Exception)e.ExceptionObject); errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, this);
         }
 
         private void UserLogs_FormClosed(object sender, FormClosedEventArgs e)
         {
-            _userActions.FinishLoggingUserActions(this);
             log.Info("Closed User Actions Log by " + System.Environment.UserName);
             this.Dispose();
         }

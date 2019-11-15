@@ -1,5 +1,5 @@
 ﻿using ExtractLargeIconFromFile;
-using SPMConnect.UserActionLog;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -34,7 +34,7 @@ namespace SearchDataSPM
         private bool rootnodedone = false;
         private SPMConnectAPI.SPMSQLCommands connectapi = new SPMConnectAPI.SPMSQLCommands();
         private log4net.ILog log;
-        private UserActions _userActions;
+
         private ErrorHandler errorHandler = new ErrorHandler();
         private string itemnumber;
 
@@ -85,7 +85,6 @@ namespace SearchDataSPM
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Engineering BOM " + itemnumber + " by " + System.Environment.UserName);
-            _userActions = new UserActions(this);
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -547,10 +546,10 @@ namespace SearchDataSPM
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
             string ItemNo;
-            if (n != null)
+            if (publicnode != null)
             {
-                n.BackColor = treeView1.BackColor;
-                n.ForeColor = treeView1.ForeColor;
+                publicnode.BackColor = treeView1.BackColor;
+                publicnode.ForeColor = treeView1.ForeColor;
             }
             if (root.IsSelected && chekroot == "Assy")
             {
@@ -655,14 +654,14 @@ namespace SearchDataSPM
             //DragDropEffects eff = DoDragDrop(dataObj, DragDropEffects.Link | DragDropEffects.Copy);
         }
 
-        public TreeNode n;
+        public TreeNode publicnode;
 
         private void treeView1_Leave(object sender, EventArgs e)
         {
             if (treeView1.Nodes.Count > 0)
             {
-                n = treeView1.SelectedNode;
-                n.BackColor = Color.LightBlue;
+                publicnode = treeView1.SelectedNode;
+                publicnode.BackColor = Color.LightBlue;
             }
         }
 
@@ -836,7 +835,6 @@ namespace SearchDataSPM
 
         private void TreeView_FormClosed(object sender, FormClosedEventArgs e)
         {
-            _userActions.FinishLoggingUserActions(this);
             log.Info("Closed Engineering BOM " + itemnumber + " by " + System.Environment.UserName);
             this.Dispose();
         }
@@ -1121,12 +1119,12 @@ namespace SearchDataSPM
 
         private void UIThreadException(object sender, ThreadExceptionEventArgs t)
         {
-            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+            log.Error(sender, t.Exception); errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, this);
         }
 
         private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
+            log.Error(sender, (Exception)e.ExceptionObject); errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, this);
         }
     }
 }

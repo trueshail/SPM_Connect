@@ -1,5 +1,4 @@
-﻿using SPMConnect.UserActionLog;
-using SPMConnectAPI;
+﻿using SPMConnectAPI;
 using System;
 using System.ComponentModel;
 using System.Data;
@@ -16,7 +15,6 @@ namespace SearchDataSPM
         private WorkOrder connectapi = new WorkOrder();
         private DataTable dt;
         private log4net.ILog log;
-        private UserActions _userActions;
         private ErrorHandler errorHandler = new ErrorHandler();
         private string jobnumber;
 
@@ -40,7 +38,6 @@ namespace SearchDataSPM
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Work Order Management by " + System.Environment.UserName);
-            _userActions = new UserActions(this);
         }
 
         private void Checkdeptsandrights()
@@ -52,7 +49,6 @@ namespace SearchDataSPM
                 contextMenuStrip1.Items[1].Enabled = true;
                 contextMenuStrip1.Items[1].Visible = true;
             }
-
         }
 
         private void Showallitems()
@@ -515,7 +511,6 @@ namespace SearchDataSPM
 
         private void SPM_ConnectWM_FormClosed(object sender, FormClosedEventArgs e)
         {
-            _userActions.FinishLoggingUserActions(this);
             log.Info("Closed Work Order Management by " + System.Environment.UserName);
             this.Dispose();
         }
@@ -616,12 +611,12 @@ namespace SearchDataSPM
 
         private void UIThreadException(object sender, ThreadExceptionEventArgs t)
         {
-            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+            log.Error(sender, t.Exception); errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, this);
         }
 
         private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
+            log.Error(sender, (Exception)e.ExceptionObject); errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, this);
         }
 
         private void AddNewRelease()
@@ -680,14 +675,14 @@ namespace SearchDataSPM
 
         private string GetSelectedAssyNo()
         {
-            string jobno = "";
+            string assyno = "";
             if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
             {
                 int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                 DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-                jobno = Convert.ToString(slectedrow.Cells[3].Value);
+                assyno = Convert.ToString(slectedrow.Cells[3].Value);
             }
-            return jobno;
+            return assyno;
         }
 
         private void AddNewReleaseToolStripMenuItem_Click(object sender, EventArgs e)
@@ -740,6 +735,18 @@ namespace SearchDataSPM
         private void getWOToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ProrcessreportWorkOrder(Getselectedworkorder(), "WorkOrder");
+        }
+
+        private void viewCurrentJobReleaseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ViewRelease viewRelease = new ViewRelease(wrkorder: GetSelectedJobNo(), job: true);
+            viewRelease.Show();
+        }
+
+        private void viewReleasesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ViewRelease viewRelease = new ViewRelease(wrkorder: Getselectedworkorder());
+            viewRelease.Show();
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using ExtractLargeIconFromFile;
 using SolidWorks.Interop.sldworks;
-using SPMConnect.UserActionLog;
 using SPMConnectAPI;
 using System;
 using System.Collections.Generic;
@@ -14,6 +13,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using TableDependency.SqlClient;
 using TableDependency.SqlClient.Base;
@@ -25,7 +25,6 @@ namespace SearchDataSPM
     {
         #region SPM Connect Load
 
-        private UserActions _userActions;
         private ErrorHandler errorHandler = new ErrorHandler();
         private log4net.ILog log;
         private string connection;
@@ -40,6 +39,8 @@ namespace SearchDataSPM
         private bool controls = false;
         private int _advcollapse = 0;
         private bool showingduplicates = false;
+        private bool doneshowingSplash = false;
+
 
         //bool purchasereqnotification = false;
         private bool showingfavorites = false;
@@ -48,7 +49,6 @@ namespace SearchDataSPM
         private SPMSQLCommands connectapi = new SPMSQLCommands();
 
         private Controls connectapicntrls = new Controls();
-        //AutoCompleteStringCollection autoComplete = new AutoCompleteStringCollection();
 
         public SPM_Connect()
         {
@@ -85,15 +85,25 @@ namespace SearchDataSPM
             //    watchpreqtable();
             //    purchaseReq.currentusercreds();
             //}
-            //assignhistory();
             Showallitems();
             txtSearch.Focus();
+            string startDate = "01-11-";
+            string endDate = "01-01-";
+            startDate = startDate + DateTime.Now.Year + " 12:00 AM";
+            endDate = endDate + DateTime.Now.Year + " 12:00 AM";
+            if (DateTime.Now > Convert.ToDateTime(startDate) && DateTime.Now < Convert.ToDateTime(endDate))
+            {
+                pictureBox1.Visible = true;
+            }
+            else
+            {
+                pictureBox1.Visible = false;
+            }
             formloading = false;
             this.Show();
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened SPM Connect Eng by " + System.Environment.UserName);
-            _userActions = new UserActions(this);
         }
 
         private void Checkdeptsandrights()
@@ -263,25 +273,6 @@ namespace SearchDataSPM
             dataGridView.DefaultCellStyle.SelectionForeColor = Color.Yellow;
             dataGridView.DefaultCellStyle.SelectionBackColor = Color.Black;
         }
-
-        //private void assignhistory()
-        //{
-        //    txtSearch.AutoCompleteMode = AutoCompleteMode.Suggest;
-        //    txtSearch.AutoCompleteSource = AutoCompleteSource.CustomSource;
-        //    txtSearch.AutoCompleteCustomSource = autoComplete;
-        //    Descrip_txtbox.AutoCompleteMode = AutoCompleteMode.Suggest;
-        //    Descrip_txtbox.AutoCompleteSource = AutoCompleteSource.CustomSource;
-        //    Descrip_txtbox.AutoCompleteCustomSource = autoComplete;
-        //    filteroem_txtbox.AutoCompleteMode = AutoCompleteMode.Suggest;
-        //    filteroem_txtbox.AutoCompleteSource = AutoCompleteSource.CustomSource;
-        //    filteroem_txtbox.AutoCompleteCustomSource = autoComplete;
-        //    filteroemitem_txtbox.AutoCompleteMode = AutoCompleteMode.Suggest;
-        //    filteroemitem_txtbox.AutoCompleteSource = AutoCompleteSource.CustomSource;
-        //    filteroemitem_txtbox.AutoCompleteCustomSource = autoComplete;
-        //    filter4.AutoCompleteMode = AutoCompleteMode.Suggest;
-        //    filter4.AutoCompleteSource = AutoCompleteSource.CustomSource;
-        //    filter4.AutoCompleteCustomSource = autoComplete;
-        //}
 
         #endregion SPM Connect Load
 
@@ -1193,7 +1184,6 @@ namespace SearchDataSPM
 
         private void SPM_Connect_FormClosed(object sender, FormClosedEventArgs e)
         {
-            _userActions.FinishLoggingUserActions(this);
             log.Info("Closed SPM Connect Eng by " + System.Environment.UserName);
             this.Dispose();
         }
@@ -1819,38 +1809,59 @@ namespace SearchDataSPM
             }
         }
 
-        private void Getitemopenforedit(string item)
+        private async void Getitemopenforedit(string item)
         {
-            //new Thread(() => new Engineering.WaitFormOpening().ShowDialog()).Start();
-            Thread t = new Thread(new ThreadStart(Splashopening));
-            t.Start();
-
+            await Task.Run(() => SplashDialog("Opening Model...."));
+            Thread.Sleep(2000);
             if (connectapi.getfilename().ToString() != item)
             {
                 connectapi.checkforspmfile(item);
                 if (Checkforreadonly() == true)
                 {
                     chekeditbutton = "yes";
-                    //Thread.Sleep(3000);
-                    t.Abort();
+                    doneshowingSplash = true;
                     Openiteminfo(item);
                 }
             }
             else
             {
-                //timer1.Start();
-                //Thread.Sleep(3000);
                 if (Checkforreadonly() == true)
                 {
-                    t.Abort();
+                    doneshowingSplash = true;
                     Openiteminfo(item);
                 }
             }
         }
 
+        private void SplashDialog(string message)
+        {
+            doneshowingSplash = false;
+            ThreadPool.QueueUserWorkItem((x) =>
+            {
+                using (var splashForm = new Dialog())
+                {
+                    splashForm.TopMost = true;
+                    splashForm.Focus();
+                    splashForm.Activate();
+                    splashForm.Message = message;
+                    splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
+                    splashForm.Show();
+                    while (!doneshowingSplash)
+                        Application.DoEvents();
+                    splashForm.Close();
+                }
+            });
+        }
+
         private void Splashopening()
         {
-            Engineering.WaitFormOpening waitFormOpening = new Engineering.WaitFormOpening();
+            Dialog waitFormOpening = new Dialog
+            {
+                Message = "Loading Data....",
+                TopMost = true
+            };
+            waitFormOpening.Location = new Point(this.Location.X + (this.Width - waitFormOpening.Width) / 2, this.Location.Y + (this.Height - waitFormOpening.Height) / 2);
+
             Application.Run(waitFormOpening);
         }
 
@@ -1890,9 +1901,7 @@ namespace SearchDataSPM
                 if (swModel.IsOpenedReadOnly())
                 {
                     MessageBox.Show("Model is open read only. Please get write access from the associated user in order to edit the properties.", "SPM Connect - Check For Read Only", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                    Engineering.WaitFormOpening f = new Engineering.WaitFormOpening();
-                    f = (Engineering.WaitFormOpening)Application.OpenForms["WaitFormOpening"];
-                    f.Invoke(new ThreadStart(delegate { f.Close(); }));
+
                     return false;
                 }
                 else
@@ -2054,7 +2063,7 @@ namespace SearchDataSPM
             perfomcopybuttonclick(Getitemnumberselected().ToString());
         }
 
-        private void perfomcopybuttonclick(string item)
+        private async void perfomcopybuttonclick(string item)
         {
             DialogResult result = MessageBox.Show("Are you sure want to copy item no. " + item + " to a new item?", "SPM Connect - Copy Item?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
@@ -2069,8 +2078,8 @@ namespace SearchDataSPM
                     {
                         if (connectapi.Validnumber(lastnumber.ToString()) == true)
                         {
-                            new Thread(() => new Engineering.WaitFormCopying().ShowDialog()).Start();
-                            //Thread.Sleep(3000);
+                            await Task.Run(() => SplashDialog("Copying Model....."));
+                            Thread.Sleep(3000);
                             Prepareforcopy(activeblock.ToString(), item, lastnumber);
                         }
                     }
@@ -2126,9 +2135,7 @@ namespace SearchDataSPM
                     connectapi.Addcpoieditemtosqltablefromgenius(uniqueid, selecteditem);
                     Updateitemtosqlinventory(uniqueid);
                 }
-                Engineering.WaitFormCopying f = new Engineering.WaitFormCopying();
-                f = (Engineering.WaitFormCopying)Application.OpenForms["WaitFormCopying"];
-                f.Invoke(new ThreadStart(delegate { f.Close(); }));
+                doneshowingSplash = true;
                 Getitemopenforedit(uniqueid);
                 //NewItem newItem = new NewItem();
                 //newItem.chekbeforefillingcustomproperties(uniqueid);
@@ -2146,9 +2153,7 @@ namespace SearchDataSPM
                     connectapi.Addcpoieditemtosqltablefromgenius(uniqueid, selecteditem);
                     Updateitemtosqlinventory(uniqueid);
                 }
-                Engineering.WaitFormCopying f = new Engineering.WaitFormCopying();
-                f = (Engineering.WaitFormCopying)Application.OpenForms["WaitFormCopying"];
-                f.Invoke(new ThreadStart(delegate { f.Close(); }));
+                doneshowingSplash = true;
                 Getitemopenforedit(uniqueid);
             }
         }
@@ -3032,12 +3037,12 @@ namespace SearchDataSPM
 
         private void UIThreadException(object sender, ThreadExceptionEventArgs t)
         {
-            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+            log.Error(sender, t.Exception); errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, this);
         }
 
         private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
+            log.Error(sender, (Exception)e.ExceptionObject); errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, this);
         }
 
         private void Showduplicates()

@@ -1,5 +1,4 @@
-﻿using SPMConnect.UserActionLog;
-using SPMConnectAPI;
+﻿using SPMConnectAPI;
 using System;
 using System.ComponentModel;
 using System.Data;
@@ -16,7 +15,7 @@ namespace SearchDataSPM
         private WorkOrder connectapi = new WorkOrder();
         private DataTable dt;
         private log4net.ILog log;
-        private UserActions _userActions;
+
         private ErrorHandler errorHandler = new ErrorHandler();
 
         public ReleaseLogs()
@@ -35,7 +34,6 @@ namespace SearchDataSPM
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Work Order Release Log by " + System.Environment.UserName);
-            _userActions = new UserActions(this);
         }
 
         private void GetVersionLabel()
@@ -516,7 +514,6 @@ namespace SearchDataSPM
 
         private void SPM_ConnectWM_FormClosed(object sender, FormClosedEventArgs e)
         {
-            _userActions.FinishLoggingUserActions(this);
             log.Info("Closed Work Order Release Logs by " + System.Environment.UserName);
             this.Dispose();
         }
@@ -590,12 +587,12 @@ namespace SearchDataSPM
 
         private void UIThreadException(object sender, ThreadExceptionEventArgs t)
         {
-            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+            log.Error(sender, t.Exception); errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, this);
         }
 
         private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
+            log.Error(sender, (Exception)e.ExceptionObject); errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, this);
         }
 
         private void ShowReleaseLogDetails(string invoice)
@@ -640,9 +637,33 @@ namespace SearchDataSPM
             }
         }
 
+        private string GetSelectedJobNo()
+        {
+            string jobno = "";
+            if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
+            {
+                int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
+                DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
+                jobno = Convert.ToString(slectedrow.Cells[1].Value);
+            }
+            return jobno;
+        }
+
         private void getWoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ProrcessreportWorkOrder(Getselectedworkorder(), "WorkOrder");
+        }
+
+        private void viewCurrentJobReleaseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ViewRelease viewRelease = new ViewRelease(wrkorder: GetSelectedJobNo(), job: true);
+            viewRelease.Show();
+        }
+
+        private void viewAssyReleasesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ViewRelease viewRelease = new ViewRelease(wrkorder: Getselectedworkorder());
+            viewRelease.Show();
         }
     }
 }

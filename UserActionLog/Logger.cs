@@ -82,11 +82,6 @@ namespace SPMConnect.UserActionLog
                 }
             }
 
-            //SqlTransaction trans = _connection.BeginTransaction();
-
-            //_connection.Execute(@"insert Member(Username, IsActive)values(@Username, @IsActive)", _theUserActions, transaction: trans);
-
-            //trans.Commit();
             _theUserActions = new List<string>();
             dt.Clear();
         }

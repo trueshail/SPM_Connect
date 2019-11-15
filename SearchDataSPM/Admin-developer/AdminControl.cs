@@ -1,5 +1,4 @@
-﻿using SPMConnect.UserActionLog;
-using System;
+﻿using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
@@ -19,7 +18,6 @@ namespace SearchDataSPM
         private int selectedindex = 0;
         private DataTable dt;
         private log4net.ILog log;
-        private UserActions _userActions;
         private ErrorHandler errorHandler = new ErrorHandler();
 
         #endregion steupvariables
@@ -55,7 +53,6 @@ namespace SearchDataSPM
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Admin Control by " + System.Environment.UserName);
-            _userActions = new UserActions(this);
         }
 
         private void Connect_SPMSQL(int index)
@@ -943,7 +940,6 @@ namespace SearchDataSPM
 
         private void spmadmin_FormClosed(object sender, FormClosedEventArgs e)
         {
-            _userActions.FinishLoggingUserActions(this);
             log.Info("Closed Admin Control by " + System.Environment.UserName);
             this.Dispose();
         }
@@ -1343,12 +1339,14 @@ namespace SearchDataSPM
 
         private void UIThreadException(object sender, ThreadExceptionEventArgs t)
         {
-            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+            log.Error(sender, t.Exception);
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, this);
         }
 
         private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
+            log.Error(sender, (Exception)e.ExceptionObject);
+            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, this);
         }
     }
 }

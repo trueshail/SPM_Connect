@@ -91,6 +91,7 @@
             // releasenotestxt
             // 
             this.releasenotestxt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.releasenotestxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.releasenotestxt.Location = new System.Drawing.Point(6, 248);
             this.releasenotestxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.releasenotestxt.Multiline = true;
@@ -183,6 +184,7 @@
             // itemnotestxt
             // 
             this.itemnotestxt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.itemnotestxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.itemnotestxt.Location = new System.Drawing.Point(94, 118);
             this.itemnotestxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.itemnotestxt.Multiline = true;

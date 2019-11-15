@@ -33,17 +33,19 @@
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.getWoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewReleaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.getBOMToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.Reload = new System.Windows.Forms.Button();
             this.Descrip_txtbox = new System.Windows.Forms.TextBox();
             this.filteroem_txtbox = new System.Windows.Forms.TextBox();
             this.filteroemitem_txtbox = new System.Windows.Forms.TextBox();
-            this.SPM = new System.Windows.Forms.Label();
             this.versionlabel = new System.Windows.Forms.Label();
             this.filter4 = new System.Windows.Forms.TextBox();
             this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.SPM = new System.Windows.Forms.Label();
+            this.getWoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewReleaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.getBOMToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewAssyReleasesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewCurrentJobReleaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -98,35 +100,12 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.getWoToolStripMenuItem,
             this.viewReleaseToolStripMenuItem,
+            this.viewAssyReleasesToolStripMenuItem,
+            this.viewCurrentJobReleaseToolStripMenuItem,
             this.getBOMToolStripMenuItem1});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 92);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(211, 136);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
-            // 
-            // getWoToolStripMenuItem
-            // 
-            this.getWoToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("getWoToolStripMenuItem.Image")));
-            this.getWoToolStripMenuItem.Name = "getWoToolStripMenuItem";
-            this.getWoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.getWoToolStripMenuItem.Text = "View WorkOrder";
-            this.getWoToolStripMenuItem.ToolTipText = "Preview Work Order Details";
-            this.getWoToolStripMenuItem.Click += new System.EventHandler(this.getWoToolStripMenuItem_Click);
-            // 
-            // viewReleaseToolStripMenuItem
-            // 
-            this.viewReleaseToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("viewReleaseToolStripMenuItem.Image")));
-            this.viewReleaseToolStripMenuItem.Name = "viewReleaseToolStripMenuItem";
-            this.viewReleaseToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.viewReleaseToolStripMenuItem.Text = "View Release";
-            this.viewReleaseToolStripMenuItem.Click += new System.EventHandler(this.viewReleaseToolStripMenuItem_Click);
-            // 
-            // getBOMToolStripMenuItem1
-            // 
-            this.getBOMToolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("getBOMToolStripMenuItem1.Image")));
-            this.getBOMToolStripMenuItem1.Name = "getBOMToolStripMenuItem1";
-            this.getBOMToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.getBOMToolStripMenuItem1.Text = "Get BOM";
-            this.getBOMToolStripMenuItem1.Click += new System.EventHandler(this.getBOMToolStripMenuItem_Click);
             // 
             // Reload
             // 
@@ -196,20 +175,6 @@
             this.filteroemitem_txtbox.Visible = false;
             this.filteroemitem_txtbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Filteroemitem_txtbox_KeyDown);
             // 
-            // SPM
-            // 
-            this.SPM.BackColor = System.Drawing.Color.Transparent;
-            this.SPM.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SPM.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.SPM.Image = ((System.Drawing.Image)(resources.GetObject("SPM.Image")));
-            this.SPM.Location = new System.Drawing.Point(0, 6);
-            this.SPM.Name = "SPM";
-            this.SPM.Size = new System.Drawing.Size(200, 85);
-            this.SPM.TabIndex = 10;
-            this.SPM.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.TreeViewToolTip.SetToolTip(this.SPM, "SPM Automation Inc.");
-            this.SPM.DoubleClick += new System.EventHandler(this.SPM_DoubleClick);
-            // 
             // versionlabel
             // 
             this.versionlabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -249,6 +214,61 @@
             this.TreeViewToolTip.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.TreeViewToolTip.InitialDelay = 500;
             this.TreeViewToolTip.ReshowDelay = 100;
+            // 
+            // SPM
+            // 
+            this.SPM.BackColor = System.Drawing.Color.Transparent;
+            this.SPM.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SPM.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.SPM.Image = ((System.Drawing.Image)(resources.GetObject("SPM.Image")));
+            this.SPM.Location = new System.Drawing.Point(0, 6);
+            this.SPM.Name = "SPM";
+            this.SPM.Size = new System.Drawing.Size(200, 85);
+            this.SPM.TabIndex = 10;
+            this.SPM.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.TreeViewToolTip.SetToolTip(this.SPM, "SPM Automation Inc.");
+            this.SPM.DoubleClick += new System.EventHandler(this.SPM_DoubleClick);
+            // 
+            // getWoToolStripMenuItem
+            // 
+            this.getWoToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("getWoToolStripMenuItem.Image")));
+            this.getWoToolStripMenuItem.Name = "getWoToolStripMenuItem";
+            this.getWoToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.getWoToolStripMenuItem.Text = "View WorkOrder";
+            this.getWoToolStripMenuItem.ToolTipText = "Preview Work Order Details";
+            this.getWoToolStripMenuItem.Click += new System.EventHandler(this.getWoToolStripMenuItem_Click);
+            // 
+            // viewReleaseToolStripMenuItem
+            // 
+            this.viewReleaseToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("viewReleaseToolStripMenuItem.Image")));
+            this.viewReleaseToolStripMenuItem.Name = "viewReleaseToolStripMenuItem";
+            this.viewReleaseToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.viewReleaseToolStripMenuItem.Text = "View Selected Release";
+            this.viewReleaseToolStripMenuItem.Click += new System.EventHandler(this.viewReleaseToolStripMenuItem_Click);
+            // 
+            // getBOMToolStripMenuItem1
+            // 
+            this.getBOMToolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("getBOMToolStripMenuItem1.Image")));
+            this.getBOMToolStripMenuItem1.Name = "getBOMToolStripMenuItem1";
+            this.getBOMToolStripMenuItem1.Size = new System.Drawing.Size(210, 22);
+            this.getBOMToolStripMenuItem1.Text = "Get BOM";
+            this.getBOMToolStripMenuItem1.Click += new System.EventHandler(this.getBOMToolStripMenuItem_Click);
+            // 
+            // viewAssyReleasesToolStripMenuItem
+            // 
+            this.viewAssyReleasesToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("viewAssyReleasesToolStripMenuItem.Image")));
+            this.viewAssyReleasesToolStripMenuItem.Name = "viewAssyReleasesToolStripMenuItem";
+            this.viewAssyReleasesToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.viewAssyReleasesToolStripMenuItem.Text = "View Assy Releases";
+            this.viewAssyReleasesToolStripMenuItem.Click += new System.EventHandler(this.viewAssyReleasesToolStripMenuItem_Click);
+            // 
+            // viewCurrentJobReleaseToolStripMenuItem
+            // 
+            this.viewCurrentJobReleaseToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("viewCurrentJobReleaseToolStripMenuItem.Image")));
+            this.viewCurrentJobReleaseToolStripMenuItem.Name = "viewCurrentJobReleaseToolStripMenuItem";
+            this.viewCurrentJobReleaseToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.viewCurrentJobReleaseToolStripMenuItem.Text = "View Current Job Releases";
+            this.viewCurrentJobReleaseToolStripMenuItem.Click += new System.EventHandler(this.viewCurrentJobReleaseToolStripMenuItem_Click);
             // 
             // ReleaseLogs
             // 
@@ -295,6 +315,8 @@
         private System.Windows.Forms.ToolStripMenuItem getWoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem viewReleaseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem getBOMToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem viewAssyReleasesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewCurrentJobReleaseToolStripMenuItem;
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member 'SPM_Connect.txtSearch'
     }
 }

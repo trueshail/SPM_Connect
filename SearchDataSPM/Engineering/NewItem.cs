@@ -1,7 +1,7 @@
 ﻿using ExtractLargeIconFromFile;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
-using SPMConnect.UserActionLog;
+
 using SPMConnectAPI;
 using System;
 using System.Collections.Generic;
@@ -31,7 +31,7 @@ namespace SearchDataSPM
         private SqlDataAdapter _adapter;
         private SPMConnectAPI.SPMSQLCommands connectapi = new SPMSQLCommands();
         private log4net.ILog log;
-        private UserActions _userActions;
+
         private ErrorHandler errorHandler = new ErrorHandler();
 
         #endregion steupvariables
@@ -96,7 +96,6 @@ namespace SearchDataSPM
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Create/Edit Item " + itemnumber + " by " + System.Environment.UserName);
-            _userActions = new UserActions(this);
         }
 
         private string itemnumber;
@@ -443,14 +442,22 @@ namespace SearchDataSPM
 
         private void splashsave()
         {
-            Engineering.WaitFormSaving waitFormSaving = new Engineering.WaitFormSaving();
+            Dialog waitFormSaving = new Dialog
+            {
+                Message = "Saving Data.....",
+                TopMost = true
+            };
             waitFormSaving.Location = new Point(this.Location.X + (this.Width - waitFormSaving.Width) / 2, this.Location.Y + (this.Height - waitFormSaving.Height) / 2);
             Application.Run(waitFormSaving);
         }
 
         private void splashimport()
         {
-            Engineering.WaitFormImport waitFormImport = new Engineering.WaitFormImport();
+            Dialog waitFormImport = new Dialog
+            {
+                Message = "Importing Model.....",
+                TopMost = true
+            };
             Application.Run(waitFormImport);
         }
 
@@ -868,17 +875,16 @@ namespace SearchDataSPM
 
         private void UIThreadException(object sender, ThreadExceptionEventArgs t)
         {
-            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+            log.Error(sender, t.Exception); errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, this);
         }
 
         private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
+            log.Error(sender, (Exception)e.ExceptionObject); errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, this);
         }
 
         private void NewItem_FormClosed(object sender, FormClosedEventArgs e)
         {
-            _userActions.FinishLoggingUserActions(this);
             log.Info("Closed Create/Edit Item " + itemnumber + " by " + System.Environment.UserName);
             this.Dispose();
         }

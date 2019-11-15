@@ -1,5 +1,4 @@
-﻿using SPMConnect.UserActionLog;
-using SPMConnectAPI;
+﻿using SPMConnectAPI;
 using System;
 using System.Configuration;
 using System.Data;
@@ -22,7 +21,7 @@ namespace SearchDataSPM
         private string _itemnumber = "";
         private SPMConnectAPI.Shipping connectapi = new Shipping();
         private log4net.ILog log;
-        private UserActions _userActions;
+
         private ErrorHandler errorHandler = new ErrorHandler();
 
         public InvoiceAddItem()
@@ -128,7 +127,6 @@ namespace SearchDataSPM
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Shipping Invoice Add Item " + Invoice_Number + " by " + System.Environment.UserName);
-            _userActions = new UserActions(this);
         }
 
         #region Fill information on controls
@@ -140,16 +138,22 @@ namespace SearchDataSPM
             ItemsCombobox.DataSource = MyCollection;
         }
 
-        private void fillselectediteminfo(string item)
+        private bool fillselectediteminfo(string item)
         {
             DataTable iteminfo = new DataTable();
             iteminfo.Clear();
             iteminfo = connectapi.GetIteminfo(item);
-            DataRow r = iteminfo.Rows[0];
-            ItemTxtBox.Text = r["ItemNumber"].ToString();
-            Descriptiontxtbox.Text = r["Description"].ToString();
-            oemtxt.Text = r["Manufacturer"].ToString();
-            oemitemnotxt.Text = r["ManufacturerItemNumber"].ToString();
+            if (iteminfo.Rows.Count > 0)
+            {
+                DataRow r = iteminfo.Rows[0];
+                ItemTxtBox.Text = r["ItemNumber"].ToString();
+                Descriptiontxtbox.Text = r["Description"].ToString();
+                oemtxt.Text = r["Manufacturer"].ToString();
+                oemitemnotxt.Text = r["ManufacturerItemNumber"].ToString();
+                return true;
+            }
+            else
+                return false;
         }
 
         private void FillShippingItemInfo(string item, string invoicenumber, bool vendor)
@@ -525,11 +529,13 @@ namespace SearchDataSPM
                 {
                     clearaddnewtextboxes();
                     string item = ItemsCombobox.Text.Trim().Substring(0, 6);
-                    fillselectediteminfo(item);
-                    FillOriginTarriff(item);
-                    Addnewbttn.Enabled = true;
-                    this.Focus();
-                    this.Activate();
+                    if (fillselectediteminfo(item))
+                    {
+                        FillOriginTarriff(item);
+                        Addnewbttn.Enabled = true;
+                        this.Focus();
+                        this.Activate();
+                    }
                 }
                 e.Handled = true;
                 e.SuppressKeyPress = true;
@@ -641,27 +647,28 @@ namespace SearchDataSPM
             {
                 clearaddnewtextboxes();
                 string item = ItemsCombobox.Text.Trim().Substring(0, 6);
-                fillselectediteminfo(item);
-                FillOriginTarriff(item);
-                Addnewbttn.Enabled = true;
-                this.Focus();
-                this.Activate();
+                if (fillselectediteminfo(item))
+                {
+                    FillOriginTarriff(item);
+                    Addnewbttn.Enabled = true;
+                    this.Focus();
+                    this.Activate();
+                }
             }
         }
 
         private void UIThreadException(object sender, ThreadExceptionEventArgs t)
         {
-            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, _userActions, this);
+            log.Error(sender, t.Exception); errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, this);
         }
 
         private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, _userActions, this);
+            log.Error(sender, (Exception)e.ExceptionObject); errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, this);
         }
 
         private void InvoiceAddItem_FormClosed(object sender, FormClosedEventArgs e)
         {
-            _userActions.FinishLoggingUserActions(this);
             log.Info("Closed Shipping Invoice Add Item " + Invoice_Number + " by " + System.Environment.UserName);
             this.Dispose();
         }

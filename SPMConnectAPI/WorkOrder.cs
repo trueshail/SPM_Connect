@@ -1858,11 +1858,37 @@ namespace SPMConnectAPI
             return dt;
         }
 
+        public DataTable GrabReleaseLogsBOM()
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[VReleaseBOM]", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Work Order Release Logs BIG BOM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return dt;
+        }
+
         public DataTable GrabReleaseLogs(string wo)
         {
             DataTable dt = new DataTable();
 
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[WOReleaseLog] WHERE [WO] = '" + wo + "'", cn))
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[VReleaseLogs] WHERE [WO] = '" + wo + "'", cn))
             {
                 try
                 {
@@ -2017,6 +2043,97 @@ namespace SPMConnectAPI
             }
             return success;
         }
+
+        public bool UpdateBallonRefToEst(string itemId, string ballonref, string job, string assy)
+        {
+            bool success = false;
+            string estId = GetEstId(job);
+
+            if (cn.State == ConnectionState.Closed)
+                cn.Open();
+            try
+            {
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "UPDATE [SPMDB].[dbo].[tcBomItemVersion] SET [Ballon] = '" + ballonref + "' WHERE [Item] = '" + itemId + "' AND [BomVersionId]  = '" + estId + "' AND [Produit] = '" + assy + "'";
+
+                cmd.ExecuteNonQuery();
+                cn.Close();
+                success = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect Update Ballon Ref To Estimate", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return success;
+        }
+
+        public bool UpdateBallonRefToWorkOrder(string itemId, string ballonref, string job, string assy, string wo)
+        {
+            bool success = false;
+
+            if (cn.State == ConnectionState.Closed)
+                cn.Open();
+            try
+            {
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "UPDATE [SPMDB].[dbo].[Mrpres] SET [Ballon] = '" + ballonref + "' WHERE [Item] = '" + itemId + "' AND [Job]  = '" + job + "' AND [Piece] = '" + assy + "' AND [Woprec]  = '" + wo + "'";
+
+                cmd.ExecuteNonQuery();
+                cn.Close();
+                success = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect Update Ballon Ref To Work Order", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return success;
+        }
+
+        public string GetEstId(string job)
+        {
+            string estId = "";
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[SPMJobs] WHERE [Job]='" + job + "' ";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        estId = dr["EstId"].ToString();
+                    }
+                }
+
+                dt.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve Job Est Id", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return estId;
+        }
+
 
         #endregion WorkOrderRelease
 
