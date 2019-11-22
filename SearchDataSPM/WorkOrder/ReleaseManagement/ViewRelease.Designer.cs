@@ -47,6 +47,8 @@
             this.itemdestxt = new System.Windows.Forms.TextBox();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.Expandchk = new System.Windows.Forms.CheckBox();
+            this.woexpand = new System.Windows.Forms.CheckBox();
+            this.woserchtxt = new System.Windows.Forms.TextBox();
             this.Costlbl = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -63,10 +65,12 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.reloadconnectbttn = new System.Windows.Forms.Button();
             this.Treeview = new System.Windows.Forms.TreeView();
             this.Addremovecontextmenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.RemoveItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.foundlabel = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
@@ -76,13 +80,22 @@
             this.label15 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.foundlabel = new System.Windows.Forms.Label();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.reloadwobttn = new System.Windows.Forms.Button();
+            this.woTreeview = new System.Windows.Forms.TreeView();
+            this.wosearchlabel = new System.Windows.Forms.Label();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.Addremovecontextmenu.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // LabelTooltips
@@ -335,11 +348,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSearch.BackColor = System.Drawing.SystemColors.MenuBar;
             this.txtSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSearch.Location = new System.Drawing.Point(6, 704);
+            this.txtSearch.Location = new System.Drawing.Point(6, 711);
             this.txtSearch.MaximumSize = new System.Drawing.Size(32767, 25);
             this.txtSearch.MinimumSize = new System.Drawing.Size(25, 25);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(502, 26);
+            this.txtSearch.Size = new System.Drawing.Size(411, 26);
             this.txtSearch.TabIndex = 76;
             this.LabelTooltips.SetToolTip(this.txtSearch, "Enter Search Keyword");
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
@@ -350,17 +363,50 @@
             this.Expandchk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.Expandchk.AutoSize = true;
             this.Expandchk.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.Expandchk.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Expandchk.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Expandchk.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.Expandchk.Location = new System.Drawing.Point(456, 663);
+            this.Expandchk.Location = new System.Drawing.Point(378, 672);
             this.Expandchk.MinimumSize = new System.Drawing.Size(30, 0);
             this.Expandchk.Name = "Expandchk";
-            this.Expandchk.Size = new System.Drawing.Size(49, 28);
+            this.Expandchk.Size = new System.Drawing.Size(40, 20);
             this.Expandchk.TabIndex = 78;
             this.Expandchk.Text = "+/-";
             this.LabelTooltips.SetToolTip(this.Expandchk, "Expand/Collapse Tree");
             this.Expandchk.UseVisualStyleBackColor = true;
             this.Expandchk.Click += new System.EventHandler(this.Expandchk_Click);
+            // 
+            // woexpand
+            // 
+            this.woexpand.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.woexpand.AutoSize = true;
+            this.woexpand.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.woexpand.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.woexpand.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.woexpand.Location = new System.Drawing.Point(355, 672);
+            this.woexpand.Name = "woexpand";
+            this.woexpand.Size = new System.Drawing.Size(40, 20);
+            this.woexpand.TabIndex = 78;
+            this.woexpand.Text = "+/-";
+            this.LabelTooltips.SetToolTip(this.woexpand, "Expand/Collapse Tree");
+            this.woexpand.UseVisualStyleBackColor = true;
+            this.woexpand.Click += new System.EventHandler(this.woexpand_Click);
+            // 
+            // woserchtxt
+            // 
+            this.woserchtxt.AccessibleName = "";
+            this.woserchtxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.woserchtxt.BackColor = System.Drawing.SystemColors.MenuBar;
+            this.woserchtxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.woserchtxt.Location = new System.Drawing.Point(6, 711);
+            this.woserchtxt.MaximumSize = new System.Drawing.Size(32767, 25);
+            this.woserchtxt.MinimumSize = new System.Drawing.Size(25, 25);
+            this.woserchtxt.Name = "woserchtxt";
+            this.woserchtxt.Size = new System.Drawing.Size(388, 26);
+            this.woserchtxt.TabIndex = 76;
+            this.LabelTooltips.SetToolTip(this.woserchtxt, "Enter Search Keyword");
+            this.woserchtxt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.woserchtxt_KeyDown);
+            this.woserchtxt.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.woserchtxt_MouseDoubleClick);
             // 
             // Costlbl
             // 
@@ -447,7 +493,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.BackColor = System.Drawing.Color.DarkGoldenrod;
+            this.groupBox1.BackColor = System.Drawing.Color.DarkGray;
             this.groupBox1.Controls.Add(this.familylbl);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.releasetypetxt);
@@ -610,25 +656,46 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.BackColor = System.Drawing.Color.DarkGoldenrod;
+            this.groupBox2.BackColor = System.Drawing.Color.SteelBlue;
+            this.groupBox2.Controls.Add(this.reloadconnectbttn);
             this.groupBox2.Controls.Add(this.Treeview);
-            this.groupBox2.ForeColor = System.Drawing.Color.DarkSlateBlue;
-            this.groupBox2.Location = new System.Drawing.Point(6, 0);
+            this.groupBox2.Controls.Add(this.Expandchk);
+            this.groupBox2.Controls.Add(this.txtSearch);
+            this.groupBox2.Controls.Add(this.foundlabel);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox2.ForeColor = System.Drawing.Color.Yellow;
+            this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(502, 657);
+            this.groupBox2.Size = new System.Drawing.Size(423, 740);
             this.groupBox2.TabIndex = 70;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Release Log";
+            this.groupBox2.Text = "SPM Connect WO Release Log";
+            // 
+            // reloadconnectbttn
+            // 
+            this.reloadconnectbttn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.reloadconnectbttn.BackColor = System.Drawing.Color.Transparent;
+            this.reloadconnectbttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.reloadconnectbttn.ForeColor = System.Drawing.Color.White;
+            this.reloadconnectbttn.Image = ((System.Drawing.Image)(resources.GetObject("reloadconnectbttn.Image")));
+            this.reloadconnectbttn.Location = new System.Drawing.Point(348, 672);
+            this.reloadconnectbttn.MaximumSize = new System.Drawing.Size(20, 20);
+            this.reloadconnectbttn.MinimumSize = new System.Drawing.Size(20, 20);
+            this.reloadconnectbttn.Name = "reloadconnectbttn";
+            this.reloadconnectbttn.Size = new System.Drawing.Size(20, 20);
+            this.reloadconnectbttn.TabIndex = 124;
+            this.reloadconnectbttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.reloadconnectbttn.UseVisualStyleBackColor = false;
+            this.reloadconnectbttn.Click += new System.EventHandler(this.reloadconnectbttn_Click);
             // 
             // Treeview
             // 
             this.Treeview.AllowDrop = true;
+            this.Treeview.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.Treeview.BackColor = System.Drawing.Color.White;
             this.Treeview.ContextMenuStrip = this.Addremovecontextmenu;
-            this.Treeview.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Treeview.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Treeview.HotTracking = true;
             this.Treeview.ImageIndex = 0;
@@ -638,13 +705,15 @@
             this.Treeview.Name = "Treeview";
             this.Treeview.SelectedImageIndex = 0;
             this.Treeview.ShowNodeToolTips = true;
-            this.Treeview.Size = new System.Drawing.Size(496, 638);
+            this.Treeview.Size = new System.Drawing.Size(417, 653);
             this.Treeview.TabIndex = 72;
             this.Treeview.BeforeCollapse += new System.Windows.Forms.TreeViewCancelEventHandler(this.TreeView1_BeforeCollapse);
             this.Treeview.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.TreeView1_BeforeExpand);
             this.Treeview.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.Treeview_AfterExpand);
             this.Treeview.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.TreeView1_BeforeSelect);
             this.Treeview.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.Treeview_AfterSelect);
+            this.Treeview.DragDrop += new System.Windows.Forms.DragEventHandler(this.Treeview_DragDrop);
+            this.Treeview.DragOver += new System.Windows.Forms.DragEventHandler(this.Treeview_DragOver);
             this.Treeview.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Treeview_KeyDown);
             this.Treeview.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TreeView1_KeyPress);
             this.Treeview.Leave += new System.EventHandler(this.Treeview_Leave);
@@ -683,9 +752,23 @@
             this.imageList1.Images.SetKeyName(11, "icons8_Design_32.png");
             this.imageList1.Images.SetKeyName(12, "icons8_Repository_32.png");
             // 
+            // foundlabel
+            // 
+            this.foundlabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.foundlabel.AutoSize = true;
+            this.foundlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.foundlabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.foundlabel.Location = new System.Drawing.Point(6, 693);
+            this.foundlabel.Name = "foundlabel";
+            this.foundlabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.foundlabel.Size = new System.Drawing.Size(49, 15);
+            this.foundlabel.TabIndex = 77;
+            this.foundlabel.Text = "Search:";
+            // 
             // groupBox3
             // 
-            this.groupBox3.BackColor = System.Drawing.Color.DarkGoldenrod;
+            this.groupBox3.BackColor = System.Drawing.Color.DarkGray;
             this.groupBox3.Controls.Add(this.label11);
             this.groupBox3.Controls.Add(this.itemdestxt);
             this.groupBox3.Controls.Add(this.label12);
@@ -825,56 +908,145 @@
             this.panel1.Controls.Add(this.groupBox3);
             this.panel1.Controls.Add(this.groupBox1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(514, 0);
+            this.panel1.Location = new System.Drawing.Point(834, 0);
             this.panel1.MinimumSize = new System.Drawing.Size(350, 740);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(350, 741);
             this.panel1.TabIndex = 75;
             // 
-            // foundlabel
+            // groupBox4
             // 
-            this.foundlabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.groupBox4.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.groupBox4.Controls.Add(this.reloadwobttn);
+            this.groupBox4.Controls.Add(this.woTreeview);
+            this.groupBox4.Controls.Add(this.woexpand);
+            this.groupBox4.Controls.Add(this.woserchtxt);
+            this.groupBox4.Controls.Add(this.wosearchlabel);
+            this.groupBox4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox4.ForeColor = System.Drawing.Color.White;
+            this.groupBox4.Location = new System.Drawing.Point(0, 0);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(400, 740);
+            this.groupBox4.TabIndex = 76;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Genius Work Order";
+            // 
+            // reloadwobttn
+            // 
+            this.reloadwobttn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.reloadwobttn.BackColor = System.Drawing.Color.Transparent;
+            this.reloadwobttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.reloadwobttn.ForeColor = System.Drawing.Color.White;
+            this.reloadwobttn.Image = ((System.Drawing.Image)(resources.GetObject("reloadwobttn.Image")));
+            this.reloadwobttn.Location = new System.Drawing.Point(326, 672);
+            this.reloadwobttn.MaximumSize = new System.Drawing.Size(20, 20);
+            this.reloadwobttn.MinimumSize = new System.Drawing.Size(20, 20);
+            this.reloadwobttn.Name = "reloadwobttn";
+            this.reloadwobttn.Size = new System.Drawing.Size(20, 20);
+            this.reloadwobttn.TabIndex = 125;
+            this.reloadwobttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.reloadwobttn.UseVisualStyleBackColor = false;
+            this.reloadwobttn.Click += new System.EventHandler(this.reloadwobttn_Click);
+            // 
+            // woTreeview
+            // 
+            this.woTreeview.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.foundlabel.AutoSize = true;
-            this.foundlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.foundlabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.foundlabel.Location = new System.Drawing.Point(11, 684);
-            this.foundlabel.Name = "foundlabel";
-            this.foundlabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.foundlabel.Size = new System.Drawing.Size(49, 15);
-            this.foundlabel.TabIndex = 77;
-            this.foundlabel.Text = "Search:";
+            this.woTreeview.BackColor = System.Drawing.Color.White;
+            this.woTreeview.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.woTreeview.HotTracking = true;
+            this.woTreeview.ImageIndex = 0;
+            this.woTreeview.ImageList = this.imageList1;
+            this.woTreeview.Location = new System.Drawing.Point(3, 16);
+            this.woTreeview.MinimumSize = new System.Drawing.Size(100, 100);
+            this.woTreeview.Name = "woTreeview";
+            this.woTreeview.SelectedImageIndex = 0;
+            this.woTreeview.ShowNodeToolTips = true;
+            this.woTreeview.Size = new System.Drawing.Size(394, 653);
+            this.woTreeview.TabIndex = 72;
+            this.woTreeview.BeforeCollapse += new System.Windows.Forms.TreeViewCancelEventHandler(this.woTreeview_BeforeCollapse);
+            this.woTreeview.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.woTreeview_BeforeExpand);
+            this.woTreeview.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.woTreeview_AfterExpand);
+            this.woTreeview.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.woTreeview_BeforeSelect);
+            this.woTreeview.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.woTreeview_AfterSelect);
+            this.woTreeview.KeyDown += new System.Windows.Forms.KeyEventHandler(this.woTreeview_KeyDown);
+            this.woTreeview.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.woTreeview_KeyPress);
+            this.woTreeview.Leave += new System.EventHandler(this.woTreeview_Leave);
+            this.woTreeview.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Tree_MouseDown);
+            // 
+            // wosearchlabel
+            // 
+            this.wosearchlabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.wosearchlabel.AutoSize = true;
+            this.wosearchlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.wosearchlabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.wosearchlabel.Location = new System.Drawing.Point(6, 693);
+            this.wosearchlabel.Name = "wosearchlabel";
+            this.wosearchlabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.wosearchlabel.Size = new System.Drawing.Size(49, 15);
+            this.wosearchlabel.TabIndex = 77;
+            this.wosearchlabel.Text = "Search:";
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer1.BackColor = System.Drawing.Color.DarkBlue;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.BackColor = System.Drawing.Color.Orange;
+            this.splitContainer1.Panel1.Controls.Add(this.groupBox4);
+            this.splitContainer1.Panel1MinSize = 300;
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.BackColor = System.Drawing.Color.SteelBlue;
+            this.splitContainer1.Panel2.Controls.Add(this.groupBox2);
+            this.splitContainer1.Panel2MinSize = 300;
+            this.splitContainer1.Size = new System.Drawing.Size(828, 740);
+            this.splitContainer1.SplitterDistance = 400;
+            this.splitContainer1.SplitterWidth = 5;
+            this.splitContainer1.TabIndex = 76;
             // 
             // ViewRelease
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.DarkGoldenrod;
-            this.ClientSize = new System.Drawing.Size(864, 741);
-            this.Controls.Add(this.Expandchk);
-            this.Controls.Add(this.foundlabel);
-            this.Controls.Add(this.txtSearch);
+            this.BackColor = System.Drawing.Color.DarkGray;
+            this.ClientSize = new System.Drawing.Size(1184, 741);
+            this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.groupBox2);
             this.ForeColor = System.Drawing.Color.DarkRed;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(880, 780);
+            this.MinimumSize = new System.Drawing.Size(1200, 780);
             this.Name = "ViewRelease";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "View Releases - SPM Connect";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ItemInfo_FormClosing);
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ItemInfo_FormClosed);
             this.Load += new System.EventHandler(this.ParentView_Load);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.Addremovecontextmenu.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.panel1.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -926,5 +1098,13 @@
         private System.Windows.Forms.Label foundlabel;
         public System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.CheckBox Expandchk;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.TreeView woTreeview;
+        private System.Windows.Forms.CheckBox woexpand;
+        public System.Windows.Forms.TextBox woserchtxt;
+        private System.Windows.Forms.Label wosearchlabel;
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.Button reloadconnectbttn;
+        private System.Windows.Forms.Button reloadwobttn;
     }
 }

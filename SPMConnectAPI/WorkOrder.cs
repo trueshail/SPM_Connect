@@ -1821,6 +1821,10 @@ namespace SPMConnectAPI
                 finally
                 {
                     cn.Close();
+                    if (releasetype == "Initial Release")
+                    {
+                        CopyInitialItems(wo, assyno, releaselogno, jobno, releasetype);
+                    }
                 }
                 return success;
             }
@@ -1858,11 +1862,11 @@ namespace SPMConnectAPI
             return dt;
         }
 
-        public DataTable GrabReleaseLogsBOM()
+        public DataTable GrabReleaseLogsBOM(string job)
         {
             DataTable dt = new DataTable();
 
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[VReleaseBOM]", cn))
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[VReleaseBOM] WHERE [JobNo]= '" + job + "' ORDER BY CreatedOn DESC", cn))
             {
                 try
                 {
@@ -1962,7 +1966,33 @@ namespace SPMConnectAPI
             return dt;
         }
 
-        public void AddItemToReleaseLog(string wo, string assyno, string rlogno, string itemno, string qty, string itemnotes)
+        public DataTable GrabJobWOBOM(string jobno)
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[SPMConnectWOBOM] WHERE Job = '" + jobno + "' ", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Work Order BIG BOM by Job", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return dt;
+        }
+
+        public void AddItemToReleaseLog(string wo, string assyno, string rlogno, string itemno, string qty, string itemnotes, string jobno, string releasetype, string isrevised)
         {
             SPMSQLCommands connectAPI = new SPMSQLCommands();
             DateTime datecreated = DateTime.Now;
@@ -1974,9 +2004,9 @@ namespace SPMConnectAPI
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[WOReleaseDetails] ([RlogNo],[WO],[AssyNo],[ItemId],[ItemQty],[ItemNotes]," +
-                    "[ItemCreatedOn], [ItemCreatedBy], [ItemLastSaved], [ItemLastSavedBy])" +
-                    " VALUES('" + rlogno + "','" + wo + "','" + assyno + "','" + itemno + "','" + qty + "','" + itemnotes + "','" + sqlFormattedDatetime + "','" + username + "','" + sqlFormattedDatetime + "','" + username + "')";
+                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[WOReleaseDetails] ([RlogNo],[ReleaseType], [JobNo],[WO],[AssyNo],[ItemId],[ItemQty],[ItemNotes]," +
+                    "[IsRevised],[ItemCreatedOn], [ItemCreatedBy], [ItemLastSaved], [ItemLastSavedBy])" +
+                    " VALUES('" + rlogno + "','" + releasetype + "','" + jobno + "','" + wo + "','" + assyno + "','" + itemno + "','" + qty + "','" + itemnotes + "','" + isrevised + "','" + sqlFormattedDatetime + "','" + username + "','" + sqlFormattedDatetime + "','" + username + "')";
                 cmd.ExecuteNonQuery();
                 cn.Close();
             }
@@ -2134,6 +2164,99 @@ namespace SPMConnectAPI
             return estId;
         }
 
+        public void CopyInitialItems(string wo, string assyno, string rlogno, string jobno, string releasetype)
+        {
+            SPMSQLCommands connectAPI = new SPMSQLCommands();
+            DateTime datecreated = DateTime.Now;
+            string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
+            string username = connectAPI.getuserfullname();
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[WOReleaseDetails] ([RlogNo],[WO],[ReleaseType], [JobNo], [AssyNo],[ItemId],[ItemQty],[ItemNotes],[IsRevised]," +
+                    "[ItemCreatedOn], [ItemCreatedBy], [ItemLastSaved], [ItemLastSavedBy])" +
+                    "SELECT'" + rlogno + "' as RlogNo,[Woprec],'" + releasetype + "' as ReleaseType,'" + jobno + "' as JobNo,[Piece],[Item],[Qte_Ass],'' as Notes,'3' as IsRevised,'" + sqlFormattedDatetime + "' as CreatedOn," +
+                    "'" + username + "' as CreatedBy,'" + sqlFormattedDatetime + "' as LastSaved,'" + username + "' as LastSavedBy " +
+                    "FROM [SPMDB].[dbo].[Mrpres] where Piece = '" + assyno + "' and Job = '" + jobno + "' and Woprec = '" + wo + "' and RML_Active = '1'";
+                cmd.ExecuteNonQuery();
+                cn.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Error on Copy Initial Items", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+        }
+
+        public string GetJobAssyNo(string jobno)
+        {
+            string assnyno = "";
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[SPMJobs] WHERE [Job]  = '" + jobno + "'";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    assnyno = dr["BOMItem"].ToString();
+                }
+                dt.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Get Job Assy Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+
+            return assnyno;
+        }
+
+        public string GetJobNoFromWO(string wo)
+        {
+            string assnyno = "";
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[SPMConnectWOBOM] WHERE [WO]  = '" + wo + "'";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    assnyno = dr["Job"].ToString();
+                }
+                dt.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Get Job Number from WO", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+
+            return assnyno;
+        }
 
         #endregion WorkOrderRelease
 

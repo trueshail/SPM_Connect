@@ -528,20 +528,7 @@ namespace SearchDataSPM
 
         private void getBOMToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string item;
-            if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
-            {
-                int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
-                DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-                item = Convert.ToString(slectedrow.Cells[3].Value);
-                //MessageBox.Show(ItemNo);
-            }
-            else
-            {
-                item = "";
-            }
-
-            processbom(item);
+            processbom(GetAssynumber());
         }
 
         // public static string jobtree;
@@ -848,7 +835,7 @@ namespace SearchDataSPM
         {
             try
             {
-                string jobnumber = getjobnumber().ToString();
+                string jobnumber = Getjobnumber().ToString();
                 string salesorder = getsalesorder().ToString();
                 string jobdescription = getjobdescription().ToString();
                 string customer = connectapi.getcustomeralias(getcutomerid().ToString()).ToString();
@@ -899,9 +886,9 @@ namespace SearchDataSPM
                 else if (ValueIWantFromProptForm == "spare")
                 {
                     sourcepathseng = connectapi.GetSpareEngSp();
-                    destpatheng = connectapi.GetSpareEngDp() + jobnumber + "_" + customer + "_Spare Parts" + "_" + jobdescription;
+                    destpatheng = connectapi.GetSpareEngDp() + jobnumber + "_" + customer + "_Spare Parts";
                     sourcepaths300 = connectapi.GetSpareSalesSp();
-                    destpaths300 = connectapi.GetSpareSalesDp() + salesorder + "_" + customer + "_Spare Parts" + "_" + jobdescription;
+                    destpaths300 = connectapi.GetSpareSalesDp() + salesorder + "_" + customer + "_Spare Parts";
                 }
                 else if (ValueIWantFromProptForm == "service")
                 {
@@ -939,7 +926,7 @@ namespace SearchDataSPM
             Application.Run(waitFormSaving);
         }
 
-        private string getjobnumber()
+        private string Getjobnumber()
         {
             string jobnumber;
             if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
@@ -954,6 +941,24 @@ namespace SearchDataSPM
             {
                 jobnumber = "";
                 return jobnumber;
+            }
+        }
+
+        private string GetAssynumber()
+        {
+            string assyno;
+            if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
+            {
+                int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
+                DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
+                assyno = Convert.ToString(slectedrow.Cells[3].Value);
+                //MessageBox.Show(ItemNo);
+                return assyno;
+            }
+            else
+            {
+                assyno = "";
+                return assyno;
             }
         }
 
@@ -1230,6 +1235,12 @@ namespace SearchDataSPM
         private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             log.Error(sender, (Exception)e.ExceptionObject); errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, this);
+        }
+
+        private void viewCurrentJobReleaseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ViewRelease viewRelease = new ViewRelease(wrkorder: Getjobnumber(), job: true, jobassyno: GetAssynumber(), jobno: Getjobnumber());
+            viewRelease.Show();
         }
     }
 }

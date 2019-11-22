@@ -739,13 +739,13 @@ namespace SearchDataSPM
 
         private void viewCurrentJobReleaseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ViewRelease viewRelease = new ViewRelease(wrkorder: GetSelectedJobNo(), job: true);
+            ViewRelease viewRelease = new ViewRelease(wrkorder: GetSelectedJobNo(), job: true, jobassyno: connectapi.GetJobAssyNo(GetSelectedJobNo()), jobno: GetSelectedJobNo());
             viewRelease.Show();
         }
 
         private void viewReleasesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ViewRelease viewRelease = new ViewRelease(wrkorder: Getselectedworkorder());
+            ViewRelease viewRelease = new ViewRelease(wrkorder: Getselectedworkorder(), job: false, jobassyno: GetSelectedAssyNo(), jobno: GetSelectedJobNo());
             viewRelease.Show();
         }
     }

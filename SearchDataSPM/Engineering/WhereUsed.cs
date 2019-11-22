@@ -195,14 +195,15 @@ namespace SearchDataSPM
                 treeView1.Nodes.Clear();
                 RemoveChildNodes(root);
                 treeView1.ResetText();
-                filldatatable();
+                Filldatatable();
+                Fillrootnode();
             }
             catch (Exception)
 
             {
                 if (!String.IsNullOrEmpty(txtvalue) && Char.IsLetter(txtvalue[0]))
                 {
-                    MessageBox.Show(" Item does not belong to any assembly in Genius.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show(" Item does not belong to any assembly on Genius.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
                 else
                 {
@@ -213,21 +214,15 @@ namespace SearchDataSPM
             }
         }
 
-        private void filldatatable()
+        private void Filldatatable()
         {
             String sql = "SELECT *  FROM [SPM_Database].[dbo].[SPMConnectBOM] ORDER BY [AssyNo] DESC";
-
-            // String sql2 = "SELECT *  FROM [SPM_Database].[dbo].[UnionInventory]";
 
             try
             {
                 _acountsTb.Clear();
                 _connection.Open();
                 _adapter = new SqlDataAdapter(sql, _connection);
-
-                // _adapaterproduct = new SqlDataAdapter(sql2, _connection);
-
-                //_adapaterproduct.Fill(_productTB);
 
                 _adapter.Fill(_acountsTb);
             }
@@ -239,25 +234,23 @@ namespace SearchDataSPM
             {
                 _connection.Close();
             }
-            fillrootnode();
         }
 
-        private void fillrootnode()
+        private void Fillrootnode()
         {
             //if (Assy_txtbox.Text.Length == 6)
             //{
             Assy_txtbox.BackColor = Color.White; //to add high light
             try
             {
-                try
+                treeView1.Nodes.Clear();
+                RemoveChildNodes(root);
+                treeView1.ResetText();
+                Expandchk.Checked = false;
+                //DataRow[] dr = _productTB.Select("ItemNumber = '" + txtvalue.ToString() + "'");
+                DataRow[] dr = _acountsTb.Select("ItemNumber = '" + txtvalue.ToString() + "'");
+                if (dr.Length > 0)
                 {
-                    treeView1.Nodes.Clear();
-                    RemoveChildNodes(root);
-                    treeView1.ResetText();
-                    Expandchk.Checked = false;
-                    //DataRow[] dr = _productTB.Select("ItemNumber = '" + txtvalue.ToString() + "'");
-                    DataRow[] dr = _acountsTb.Select("ItemNumber = '" + txtvalue.ToString() + "'");
-
                     root.Text = dr[0]["ItemNumber"].ToString() + " - " + dr[0]["Description"].ToString();
                     root.Tag = _acountsTb.Rows.IndexOf(dr[0]);
                     Setimageaccordingtofamily(dr[0]["ItemFamily"].ToString(), root);
@@ -277,32 +270,39 @@ namespace SearchDataSPM
                     familytxtbox.Text = dr[0]["ItemFamily"].ToString();
                     sparetxtbox.Text = dr[0]["Spare"].ToString();
                 }
-                catch
+                else
                 {
                     treeView1.Nodes.Clear();
                     RemoveChildNodes(root);
                     treeView1.ResetText();
                     Expandchk.Checked = false;
                     //DataRow[] dr = _productTB.Select("ItemNumber = '" + txtvalue.ToString() + "'");
-                    DataRow[] dr = _acountsTb.Select("AssyNo = '" + txtvalue.ToString() + "'");
+                    dr = _acountsTb.Select("AssyNo = '" + txtvalue.ToString() + "'");
 
-                    root.Text = dr[0]["AssyNo"].ToString() + " - " + dr[0]["AssyDescription"].ToString();
-                    root.Tag = _acountsTb.Rows.IndexOf(dr[0]);
-                    Setimageaccordingtofamily(dr[0]["AssyFamily"].ToString(), root);
-                    //Font f = FontStyle.Bold);
-                    // root.NodeFont = f;
+                    if (dr.Length > 0)
+                    {
+                        root.Text = dr[0]["AssyNo"].ToString() + " - " + dr[0]["AssyDescription"].ToString();
+                        root.Tag = _acountsTb.Rows.IndexOf(dr[0]);
+                        Setimageaccordingtofamily(dr[0]["AssyFamily"].ToString(), root);
+                        //Font f = FontStyle.Bold);
+                        // root.NodeFont = f;
 
-                    treeView1.Nodes.Add(root);
-                    PopulateTreeView(Assy_txtbox.Text, root);
-                    chekroot = "Assy";
-                    treeView1.SelectedNode = treeView1.Nodes[0];
+                        treeView1.Nodes.Add(root);
+                        PopulateTreeView(Assy_txtbox.Text, root);
+                        chekroot = "Assy";
+                        treeView1.SelectedNode = treeView1.Nodes[0];
 
-                    ItemTxtBox.Text = dr[0]["AssyNo"].ToString();
-                    Descriptiontxtbox.Text = dr[0]["AssyDescription"].ToString();
-                    oemtxtbox.Text = dr[0]["AssyManufacturer"].ToString();
-                    oemitemtxtbox.Text = dr[0]["AssyManufacturerItemNumber"].ToString();
-                    familytxtbox.Text = dr[0]["AssyFamily"].ToString();
-                    sparetxtbox.Text = dr[0]["AssySpare"].ToString();
+                        ItemTxtBox.Text = dr[0]["AssyNo"].ToString();
+                        Descriptiontxtbox.Text = dr[0]["AssyDescription"].ToString();
+                        oemtxtbox.Text = dr[0]["AssyManufacturer"].ToString();
+                        oemitemtxtbox.Text = dr[0]["AssyManufacturerItemNumber"].ToString();
+                        familytxtbox.Text = dr[0]["AssyFamily"].ToString();
+                        sparetxtbox.Text = dr[0]["AssySpare"].ToString();
+                    }
+                    else
+                    {
+                        MessageBox.Show(" Item does not belong to any assembly on Genius.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
                 }
             }
             catch
@@ -313,15 +313,6 @@ namespace SearchDataSPM
                 treeView1.ResetText();
                 Expandchk.Checked = false;
             }
-            //}
-            //else
-            //{
-            //    if (Assy_txtbox.Text.Length == 5)
-            //    {
-            //        cleaup2();
-            //        Assy_txtbox.BackColor = Color.IndianRed; //to add high light
-            //    }
-            //}
         }
 
         private void PopulateTreeView(string parentId, TreeNode parentNode)

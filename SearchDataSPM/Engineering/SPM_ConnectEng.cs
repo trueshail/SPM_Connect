@@ -41,7 +41,6 @@ namespace SearchDataSPM
         private bool showingduplicates = false;
         private bool doneshowingSplash = false;
 
-
         //bool purchasereqnotification = false;
         private bool showingfavorites = false;
 
@@ -86,6 +85,21 @@ namespace SearchDataSPM
             //    purchaseReq.currentusercreds();
             //}
             Showallitems();
+            dataGridView.Columns[5].Visible = false;
+            dataGridView.Columns[6].Visible = false;
+            dataGridView.Columns[7].Visible = false;
+            dataGridView.Columns[8].Visible = false;
+            dataGridView.Columns[9].Visible = false;
+            dataGridView.Columns[10].Visible = false;
+            dataGridView.Columns[11].Visible = false;
+            dataGridView.Columns[12].Visible = false;
+            dataGridView.Columns[13].Visible = false;
+            dataGridView.Columns[0].Width = 60;
+            dataGridView.Columns[2].Width = 55;
+            dataGridView.Columns[1].Width = 300;
+            dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridView.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridView.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             txtSearch.Focus();
             string startDate = "01-11-";
             string endDate = "01-01-";
@@ -241,7 +255,9 @@ namespace SearchDataSPM
             dt = connectapi.Showallitems();
             dataGridView.DataSource = dt;
             DataView dv = dt.DefaultView;
-            dataGridView.Sort(itemNumberDataGridViewTextBoxColumn, ListSortDirection.Descending);
+            //dataGridView.Sort(itemNumberDataGridViewTextBoxColumn, ListSortDirection.Descending);
+            dataGridView.Sort(dataGridView.Columns[0], ListSortDirection.Descending);
+
             UpdateFont();
             showingfavorites = false;
             showingduplicates = false;
@@ -425,6 +441,7 @@ namespace SearchDataSPM
         {
             if (e.KeyCode == Keys.Return)
             {
+                Cursor.Current = Cursors.WaitCursor;
                 string searchtexttxt = txtSearch.Text;
                 formloading = true;
                 //autoComplete.Add(txtSearch.Text);
@@ -485,6 +502,7 @@ namespace SearchDataSPM
                 e.SuppressKeyPress = true;
 
                 formloading = false;
+                Cursor.Current = Cursors.Default;
             }
         }
 
@@ -1522,24 +1540,27 @@ namespace SearchDataSPM
             {
                 listFiles.Clear();
                 listView.Clear();
-                int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
-                DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-                string item = Convert.ToString(slectedrow.Cells[0].Value);
-                // MessageBox.Show(ItemNo);
-                //getfilepathname(ItemNo);
-                string first3char = item.Substring(0, 3) + @"\";
-                //MessageBox.Show(first3char);
-
-                string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
-
-                string Pathpart = (spmcadpath + first3char);
-                System.IO.Directory.CreateDirectory(Pathpart);
-                var fileCount = (from file in Directory.EnumerateFiles(Pathpart, "*" + item.ToString() + "*", SearchOption.AllDirectories)
-                                 select file).Count();
-
-                if (fileCount > 0)
+                if (dataGridView.SelectedCells.Count == 1)
                 {
-                    getitemstodisplay(Pathpart, item);
+                    int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
+                    DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
+                    string item = Convert.ToString(slectedrow.Cells[0].Value);
+                    // MessageBox.Show(ItemNo);
+                    //getfilepathname(ItemNo);
+                    string first3char = item.Substring(0, 3) + @"\";
+                    //MessageBox.Show(first3char);
+
+                    string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
+
+                    string Pathpart = (spmcadpath + first3char);
+                    System.IO.Directory.CreateDirectory(Pathpart);
+                    var fileCount = (from file in Directory.EnumerateFiles(Pathpart, "*" + item.ToString() + "*", SearchOption.AllDirectories)
+                                     select file).Count();
+
+                    if (fileCount > 0)
+                    {
+                        getitemstodisplay(Pathpart, item);
+                    }
                 }
             }
             catch
@@ -2971,7 +2992,7 @@ namespace SearchDataSPM
             dt = connectapi.ShowFavorites();
             dataGridView.DataSource = dt;
             DataView dv = dt.DefaultView;
-            dataGridView.Sort(itemNumberDataGridViewTextBoxColumn, ListSortDirection.Descending);
+            dataGridView.Sort(dataGridView.Columns[0], ListSortDirection.Descending);
             UpdateFont();
             showingfavorites = true;
             recordlabel.Text = "Showing " + dataGridView.Rows.Count + " favorite items.";

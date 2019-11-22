@@ -124,7 +124,6 @@ namespace SearchDataSPM
                 _connection.Open();
                 _adapter = new SqlDataAdapter(sql, _connection);
                 _adapter.Fill(_acountsTb);
-                fillrootnode();
             }
             catch (SqlException ex)
             {
@@ -155,6 +154,7 @@ namespace SearchDataSPM
                 RemoveChildNodes(root);
                 treeView1.ResetText();
                 filldatatable();
+                Fillrootnode();
             }
             catch (Exception)
 
@@ -203,10 +203,8 @@ namespace SearchDataSPM
             qtytxtbox.Clear();
         }
 
-        private void fillrootnode()
+        private void Fillrootnode()
         {
-            //if (Assy_txtbox.Text.Length == 6)
-            //{
             Assy_txtbox.BackColor = Color.White; //to add high light
             try
             {
@@ -214,26 +212,22 @@ namespace SearchDataSPM
                 RemoveChildNodes(root);
                 treeView1.ResetText();
                 Expandchk.Checked = false;
-                //DataRow[] dr = _productTB.Select("ItemNumber = '" + txtvalue.ToString() + "'");
                 DataRow[] dr = _acountsTb.Select("AssyNo = '" + txtvalue.ToString() + "'");
+                if (dr.Length > 0)
+                {
+                    root.Text = dr[0]["AssyNo"].ToString() + " - " + dr[0]["AssyDesc"].ToString();
+                    root.Tag = dr[0]["AssyNo"].ToString() + "][" + dr[0]["AssyDesc"].ToString() + "][" + dr[0]["AssyNo"].ToString() + "][" + dr[0]["AssyManufacturer"].ToString() + "][" + dr[0]["AssyOem"].ToString() + "][" + "1";
 
-                root.Text = dr[0]["AssyNo"].ToString() + " - " + dr[0]["AssyDesc"].ToString();
-                root.Tag = dr[0]["AssyNo"].ToString() + "][" + dr[0]["AssyDesc"].ToString() + "][" + dr[0]["AssyNo"].ToString() + "][" + dr[0]["AssyManufacturer"].ToString() + "][" + dr[0]["AssyOem"].ToString() + "][" + "1";
+                    treeView1.Nodes.Add(root);
 
-                //Font f = FontStyle.Bold);
-                // root.NodeFont = f;
+                    PopulateTreeView(Assy_txtbox.Text, root);
 
-                treeView1.Nodes.Add(root);
-
-                PopulateTreeView(Assy_txtbox.Text, root);
-
-                chekroot = "Assy";
-                ItemTxtBox.Text = dr[0]["AssyNo"].ToString();
-                Descriptiontxtbox.Text = dr[0]["AssyDesc"].ToString();
-                oemtxtbox.Text = dr[0]["AssyManufacturer"].ToString();
-                oemitemtxtbox.Text = dr[0]["AssyOem"].ToString();
-                //familytxtbox.Text = dr[0]["AssyFamily"].ToString();
-                // sparetxtbox.Text = dr[0]["AssySpare"].ToString();
+                    chekroot = "Assy";
+                    ItemTxtBox.Text = dr[0]["AssyNo"].ToString();
+                    Descriptiontxtbox.Text = dr[0]["AssyDesc"].ToString();
+                    oemtxtbox.Text = dr[0]["AssyManufacturer"].ToString();
+                    oemitemtxtbox.Text = dr[0]["AssyOem"].ToString();
+                }
             }
             catch
             {
@@ -243,14 +237,6 @@ namespace SearchDataSPM
                 treeView1.ResetText();
                 Expandchk.Checked = false;
             }
-            //}
-            //else
-            //{
-            //    if (Assy_txtbox.Text.Length == 5)
-            //    {
-            //        Assy_txtbox.BackColor = Color.IndianRed; //to add high light
-            //    }
-            //}
         }
 
         private void PopulateTreeView(string parentId, TreeNode parentNode)

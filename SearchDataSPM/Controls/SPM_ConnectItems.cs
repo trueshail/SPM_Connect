@@ -41,6 +41,20 @@ namespace SearchDataSPM
         private void SPM_Connect_Load(object sender, EventArgs e)
         {
             Showallitems();
+            dataGridView.Columns[5].Visible = false;
+            dataGridView.Columns[6].Visible = false;
+            dataGridView.Columns[7].Visible = false;
+            dataGridView.Columns[8].Visible = false;
+            dataGridView.Columns[9].Visible = false;
+            dataGridView.Columns[10].Visible = false;
+            dataGridView.Columns[11].Visible = false;
+            dataGridView.Columns[12].Visible = false;
+            dataGridView.Columns[13].Visible = false;
+            dataGridView.Columns[0].Width = 60;
+            dataGridView.Columns[2].Width = 55;
+            dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridView.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridView.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
             this.Text = "SPM Connect Engineering - " + userName.ToString().Substring(4);
             log4net.Config.XmlConfigurator.Configure();
@@ -60,6 +74,7 @@ namespace SearchDataSPM
                 dt.Clear();
                 sda.Fill(dt);
                 dataGridView.DataSource = dt;
+
                 UpdateFont();
             }
             catch (Exception)
@@ -100,7 +115,8 @@ namespace SearchDataSPM
         #region Public Table & variables
 
         // variables required outside the functions to perfrom
-        private string fullsearch = ("Description LIKE '%{0}%' OR Manufacturer LIKE '%{0}%' OR ManufacturerItemNumber LIKE '%{0}%' OR ItemNumber LIKE '%{0}%'");
+        //private string fullsearch = ("Description LIKE '%{0}%' OR Manufacturer LIKE '%{0}%' OR ManufacturerItemNumber LIKE '%{0}%' OR ItemNumber LIKE '%{0}%'");
+        private string fullsearch = ("FullSearch LIKE '%{0}%'");
 
         public static string ItemNo;
         public static string description;

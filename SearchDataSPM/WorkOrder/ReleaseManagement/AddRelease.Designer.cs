@@ -170,9 +170,9 @@
             // qtytxtbox
             // 
             this.qtytxtbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.qtytxtbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.qtytxtbox.Location = new System.Drawing.Point(276, 19);
+            this.qtytxtbox.Location = new System.Drawing.Point(283, 19);
             this.qtytxtbox.Name = "qtytxtbox";
             this.qtytxtbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.qtytxtbox.Size = new System.Drawing.Size(99, 22);
@@ -183,22 +183,23 @@
             // 
             // itemnotestxt
             // 
-            this.itemnotestxt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.itemnotestxt.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.itemnotestxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.itemnotestxt.Location = new System.Drawing.Point(94, 118);
+            this.itemnotestxt.Location = new System.Drawing.Point(100, 118);
             this.itemnotestxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.itemnotestxt.Multiline = true;
             this.itemnotestxt.Name = "itemnotestxt";
             this.itemnotestxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.itemnotestxt.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.itemnotestxt.Size = new System.Drawing.Size(534, 42);
+            this.itemnotestxt.Size = new System.Drawing.Size(535, 42);
             this.itemnotestxt.TabIndex = 119;
             this.LabelTooltips.SetToolTip(this.itemnotestxt, "General Notes");
             // 
             // assydesctxt
             // 
-            this.assydesctxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.assydesctxt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.assydesctxt.Enabled = false;
             this.assydesctxt.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.assydesctxt.Location = new System.Drawing.Point(124, 134);
@@ -206,7 +207,7 @@
             this.assydesctxt.Name = "assydesctxt";
             this.assydesctxt.ReadOnly = true;
             this.assydesctxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.assydesctxt.Size = new System.Drawing.Size(212, 59);
+            this.assydesctxt.Size = new System.Drawing.Size(212, 66);
             this.assydesctxt.TabIndex = 66;
             this.LabelTooltips.SetToolTip(this.assydesctxt, "Last Saved at");
             // 
@@ -361,10 +362,11 @@
             this.groupBox1.Controls.Add(this.Lastsavedtxtbox);
             this.groupBox1.Controls.Add(this.createdbytxt);
             this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Right;
             this.groupBox1.ForeColor = System.Drawing.Color.White;
-            this.groupBox1.Location = new System.Drawing.Point(649, 3);
+            this.groupBox1.Location = new System.Drawing.Point(655, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(344, 627);
+            this.groupBox1.Size = new System.Drawing.Size(344, 636);
             this.groupBox1.TabIndex = 69;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Release Details : ";
@@ -404,7 +406,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.releasetypetxt.Enabled = false;
             this.releasetypetxt.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.releasetypetxt.Location = new System.Drawing.Point(125, 202);
+            this.releasetypetxt.Location = new System.Drawing.Point(124, 204);
             this.releasetypetxt.MaximumSize = new System.Drawing.Size(250, 20);
             this.releasetypetxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.releasetypetxt.Name = "releasetypetxt";
@@ -490,12 +492,15 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.Treeview);
             this.groupBox2.Controls.Add(this.itemupdatetools);
             this.groupBox2.ForeColor = System.Drawing.Color.White;
-            this.groupBox2.Location = new System.Drawing.Point(3, 3);
+            this.groupBox2.Location = new System.Drawing.Point(3, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(640, 627);
+            this.groupBox2.Size = new System.Drawing.Size(646, 636);
             this.groupBox2.TabIndex = 70;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Release Log";
@@ -517,7 +522,7 @@
             this.Treeview.Name = "Treeview";
             this.Treeview.SelectedImageIndex = 0;
             this.Treeview.ShowNodeToolTips = true;
-            this.Treeview.Size = new System.Drawing.Size(626, 400);
+            this.Treeview.Size = new System.Drawing.Size(632, 409);
             this.Treeview.TabIndex = 72;
             this.Treeview.BeforeCollapse += new System.Windows.Forms.TreeViewCancelEventHandler(this.TreeView1_BeforeCollapse);
             this.Treeview.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.TreeView1_BeforeExpand);
@@ -562,6 +567,8 @@
             // 
             // itemupdatetools
             // 
+            this.itemupdatetools.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.itemupdatetools.BackColor = System.Drawing.Color.DarkSlateGray;
             this.itemupdatetools.Controls.Add(this.itemnotestxt);
             this.itemupdatetools.Controls.Add(this.cancelbutton);
@@ -576,16 +583,16 @@
             this.itemupdatetools.Controls.Add(this.itmoemlbl);
             this.itemupdatetools.Controls.Add(this.itemoemitmlbl);
             this.itemupdatetools.Controls.Add(this.savbttn);
-            this.itemupdatetools.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.itemupdatetools.Location = new System.Drawing.Point(3, 425);
+            this.itemupdatetools.Location = new System.Drawing.Point(3, 434);
             this.itemupdatetools.Name = "itemupdatetools";
-            this.itemupdatetools.Size = new System.Drawing.Size(634, 199);
+            this.itemupdatetools.Size = new System.Drawing.Size(640, 199);
             this.itemupdatetools.TabIndex = 118;
             this.itemupdatetools.TabStop = false;
             // 
             // cancelbutton
             // 
-            this.cancelbutton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cancelbutton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.cancelbutton.BackColor = System.Drawing.Color.Transparent;
             this.cancelbutton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cancelbutton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -606,11 +613,11 @@
             // label2
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label2.Location = new System.Drawing.Point(5, 131);
+            this.label2.Location = new System.Drawing.Point(12, 131);
             this.label2.Name = "label2";
             this.label2.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label2.Size = new System.Drawing.Size(82, 15);
@@ -619,7 +626,8 @@
             // 
             // updatebttn
             // 
-            this.updatebttn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.updatebttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.updatebttn.BackColor = System.Drawing.Color.Transparent;
             this.updatebttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.updatebttn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -655,11 +663,11 @@
             // qtylbl
             // 
             this.qtylbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.qtylbl.AutoSize = true;
             this.qtylbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.qtylbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.qtylbl.Location = new System.Drawing.Point(192, 20);
+            this.qtylbl.Location = new System.Drawing.Point(199, 20);
             this.qtylbl.Name = "qtylbl";
             this.qtylbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.qtylbl.Size = new System.Drawing.Size(78, 15);
@@ -668,7 +676,8 @@
             // 
             // addbutton
             // 
-            this.addbutton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.addbutton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.addbutton.BackColor = System.Drawing.Color.Transparent;
             this.addbutton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.addbutton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -749,7 +758,8 @@
             // 
             // savbttn
             // 
-            this.savbttn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.savbttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.savbttn.BackColor = System.Drawing.Color.Transparent;
             this.savbttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.savbttn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -772,14 +782,12 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkSlateGray;
-            this.ClientSize = new System.Drawing.Size(1000, 634);
+            this.ClientSize = new System.Drawing.Size(999, 636);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox2);
             this.ForeColor = System.Drawing.Color.LightSeaGreen;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(750, 500);
+            this.MinimumSize = new System.Drawing.Size(1015, 675);
             this.Name = "AddRelease";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Release Log Details - SPM Connect";

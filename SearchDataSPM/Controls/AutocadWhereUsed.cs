@@ -92,19 +92,12 @@ namespace SearchDataSPM
         private void filldatatable()
         {
             String sql = "SELECT *  FROM [SPMControlCatalog].[dbo].[ControlsBOM] ORDER BY [QUERY2]";
-
-            // String sql2 = "SELECT *  FROM [SPM_Database].[dbo].[UnionInventory]";
             try
             {
                 _acountsTb.Clear();
                 _connection.Open();
                 _adapter = new SqlDataAdapter(sql, _connection);
-
-                // _adapaterproduct = new SqlDataAdapter(sql2, _connection);
-
-                //_adapaterproduct.Fill(_productTB);
                 _adapter.Fill(_acountsTb);
-                fillrootnode();
             }
             catch (SqlException ex)
             {
@@ -179,6 +172,7 @@ namespace SearchDataSPM
                 RemoveChildNodes(root);
                 treeView1.ResetText();
                 filldatatable();
+                fillrootnode();
             }
             catch (Exception)
 
@@ -198,8 +192,6 @@ namespace SearchDataSPM
 
         private void fillrootnode()
         {
-            //if (Assy_txtbox.Text.Length == 6)
-            // {
             Assy_txtbox.BackColor = Color.White; //to add high light
             try
             {
@@ -209,24 +201,26 @@ namespace SearchDataSPM
                 Expandchk.Checked = false;
                 //DataRow[] dr = _productTB.Select("ItemNumber = '" + txtvalue.ToString() + "'");
                 DataRow[] dr = _acountsTb.Select("QUERY2 = '" + txtvalue.ToString() + "'");
+                if (dr.Length > 0)
+                {
+                    root.Text = dr[0]["QUERY2"].ToString() + " - " + dr[0]["DESCRIPTION"].ToString();
+                    root.Tag = _acountsTb.Rows.IndexOf(dr[0]);
 
-                root.Text = dr[0]["QUERY2"].ToString() + " - " + dr[0]["DESCRIPTION"].ToString();
-                root.Tag = _acountsTb.Rows.IndexOf(dr[0]);
+                    //Font f = FontStyle.Bold);
+                    // root.NodeFont = f;
 
-                //Font f = FontStyle.Bold);
-                // root.NodeFont = f;
+                    treeView1.Nodes.Add(root);
+                    PopulateTreeView(Assy_txtbox.Text, root);
 
-                treeView1.Nodes.Add(root);
-                PopulateTreeView(Assy_txtbox.Text, root);
+                    chekroot = "Item";
 
-                chekroot = "Item";
-
-                ItemTxtBox.Text = dr[0]["QUERY2"].ToString();
-                Descriptiontxtbox.Text = dr[0]["DESCRIPTION"].ToString();
-                oemtxtbox.Text = dr[0]["USER3"].ToString();
-                oemitemtxtbox.Text = dr[0]["TEXTVALUE"].ToString();
-                assemblycode = dr[0]["ASSEMBLYLIST"].ToString();
-                // PopulateTreeView(assemblycode, root);
+                    ItemTxtBox.Text = dr[0]["QUERY2"].ToString();
+                    Descriptiontxtbox.Text = dr[0]["DESCRIPTION"].ToString();
+                    oemtxtbox.Text = dr[0]["USER3"].ToString();
+                    oemitemtxtbox.Text = dr[0]["TEXTVALUE"].ToString();
+                    assemblycode = dr[0]["ASSEMBLYLIST"].ToString();
+                    // PopulateTreeView(assemblycode, root);
+                }
             }
             catch
             {
@@ -236,15 +230,6 @@ namespace SearchDataSPM
                 treeView1.ResetText();
                 Expandchk.Checked = false;
             }
-            //}
-            //else
-            //{
-            //    if (Assy_txtbox.Text.Length == 5)
-            //    {
-            //        cleanup2();
-            //        Assy_txtbox.BackColor = Color.IndianRed; //to add high light
-            //    }
-            //}
         }
 
         private void PopulateTreeView(string parentId, TreeNode parentNode)

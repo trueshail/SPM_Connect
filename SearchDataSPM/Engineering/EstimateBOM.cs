@@ -215,14 +215,15 @@ namespace SearchDataSPM
                 treeView1.Nodes.Clear();
                 RemoveChildNodes(root);
                 treeView1.ResetText();
-                filldatatable();
+                Filldatatable();
+                Fillrootnode();
             }
             catch (Exception)
 
             {
                 if (!String.IsNullOrEmpty(txtvalue) && Char.IsLetter(txtvalue[0]))
                 {
-                    MessageBox.Show(" Item does not contain a Bill OF Material on Genius.", "SPM Connect - Bill Of Manufacturing", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show(" Item does not contain a Estimate Bill Of Material on Genius.", "SPM Connect - Estimate Bill Of Manufacturing", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
                 else
                 {
@@ -234,20 +235,14 @@ namespace SearchDataSPM
             }
         }
 
-        private void filldatatable()
+        private void Filldatatable()
         {
             String sql = "SELECT *  FROM [SPM_Database].[dbo].[SPMConnectEstimate] ORDER BY [ItemNumber]";
-
-            // String sql2 = "SELECT *  FROM [SPM_Database].[dbo].[UnionInventory]";
             try
             {
                 _acountsTb.Clear();
                 _connection.Open();
                 _adapter = new SqlDataAdapter(sql, _connection);
-
-                // _adapaterproduct = new SqlDataAdapter(sql2, _connection);
-
-                //_adapaterproduct.Fill(_productTB);
 
                 _adapter.Fill(_acountsTb);
             }
@@ -259,26 +254,23 @@ namespace SearchDataSPM
             {
                 _connection.Close();
             }
-
-            fillrootnode();
         }
 
-        private void fillrootnode()
+        private void Fillrootnode()
         {
             //if (Assy_txtbox.Text.Length == 6)
             //{
             Assy_txtbox.BackColor = Color.White; //to add high light
             try
             {
-                try
+                treeView1.Nodes.Clear();
+                RemoveChildNodes(root);
+                treeView1.ResetText();
+                Expandchk.Checked = false;
+                //DataRow[] dr = _productTB.Select("ItemNumber = '" + txtvalue.ToString() + "'");
+                DataRow[] dr = _acountsTb.Select("AssyNo = '" + txtvalue.ToString() + "'");
+                if (dr.Length > 0)
                 {
-                    treeView1.Nodes.Clear();
-                    RemoveChildNodes(root);
-                    treeView1.ResetText();
-                    Expandchk.Checked = false;
-                    //DataRow[] dr = _productTB.Select("ItemNumber = '" + txtvalue.ToString() + "'");
-                    DataRow[] dr = _acountsTb.Select("AssyNo = '" + txtvalue.ToString() + "'");
-
                     root.Text = dr[0]["AssyNo"].ToString() + " - " + dr[0]["AssyDescription"].ToString();
                     root.Tag = _acountsTb.Rows.IndexOf(dr[0]);
                     setimageaccordingtofamily(dr[0]["AssyFamily"].ToString(), root);
@@ -299,32 +291,38 @@ namespace SearchDataSPM
                     familytxtbox.Text = dr[0]["AssyFamily"].ToString();
                     sparetxtbox.Text = dr[0]["AssySpare"].ToString();
                 }
-                catch
+                else
                 {
                     treeView1.Nodes.Clear();
                     RemoveChildNodes(root);
                     treeView1.ResetText();
                     Expandchk.Checked = false;
                     //DataRow[] dr = _productTB.Select("ItemNumber = '" + txtvalue.ToString() + "'");
-                    DataRow[] dr = _acountsTb.Select("ItemNumber = '" + txtvalue.ToString() + "'");
+                    dr = _acountsTb.Select("ItemNumber = '" + txtvalue.ToString() + "'");
+                    if (dr.Length > 0)
+                    {
+                        root.Text = dr[0]["ItemNumber"].ToString() + " - " + dr[0]["Description"].ToString();
+                        root.Tag = _acountsTb.Rows.IndexOf(dr[0]);
+                        setimageaccordingtofamily(dr[0]["ItemFamily"].ToString(), root);
+                        //Font f = FontStyle.Bold);
+                        // root.NodeFont = f;
 
-                    root.Text = dr[0]["ItemNumber"].ToString() + " - " + dr[0]["Description"].ToString();
-                    root.Tag = _acountsTb.Rows.IndexOf(dr[0]);
-                    setimageaccordingtofamily(dr[0]["ItemFamily"].ToString(), root);
-                    //Font f = FontStyle.Bold);
-                    // root.NodeFont = f;
+                        treeView1.Nodes.Add(root);
 
-                    treeView1.Nodes.Add(root);
-
-                    PopulateTreeView(Assy_txtbox.Text, root);
-                    chekroot = "Item";
-                    treeView1.SelectedNode = treeView1.Nodes[0];
-                    ItemTxtBox.Text = dr[0]["ItemNumber"].ToString();
-                    Descriptiontxtbox.Text = dr[0]["Description"].ToString();
-                    oemtxtbox.Text = dr[0]["Manufacturer"].ToString();
-                    oemitemtxtbox.Text = dr[0]["ManufacturerItemNumber"].ToString();
-                    familytxtbox.Text = dr[0]["ItemFamily"].ToString();
-                    sparetxtbox.Text = dr[0]["Spare"].ToString();
+                        PopulateTreeView(Assy_txtbox.Text, root);
+                        chekroot = "Item";
+                        treeView1.SelectedNode = treeView1.Nodes[0];
+                        ItemTxtBox.Text = dr[0]["ItemNumber"].ToString();
+                        Descriptiontxtbox.Text = dr[0]["Description"].ToString();
+                        oemtxtbox.Text = dr[0]["Manufacturer"].ToString();
+                        oemitemtxtbox.Text = dr[0]["ManufacturerItemNumber"].ToString();
+                        familytxtbox.Text = dr[0]["ItemFamily"].ToString();
+                        sparetxtbox.Text = dr[0]["Spare"].ToString();
+                    }
+                    else
+                    {
+                        MessageBox.Show(" Item does not contain a Estimate Bill Of Material on Genius.", "SPM Connect - Estimate Bill Of Manufacturing", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
                 }
             }
             catch

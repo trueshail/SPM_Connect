@@ -38,12 +38,13 @@ namespace SearchDataSPM
             this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
             this.rectangleShape2 = new Microsoft.VisualBasic.PowerPacks.RectangleShape();
             this.rectangleShape1 = new Microsoft.VisualBasic.PowerPacks.RectangleShape();
+            this.bunifuElipse1 = new Bunifu.Framework.UI.BunifuElipse(this.components);
             this.SuspendLayout();
             // 
             // metroProgressSpinner1
             // 
             this.metroProgressSpinner1.CustomBackground = true;
-            this.metroProgressSpinner1.Location = new System.Drawing.Point(291, 12);
+            this.metroProgressSpinner1.Location = new System.Drawing.Point(285, 7);
             this.metroProgressSpinner1.Maximum = 100;
             this.metroProgressSpinner1.Name = "metroProgressSpinner1";
             this.metroProgressSpinner1.Size = new System.Drawing.Size(37, 36);
@@ -114,6 +115,11 @@ namespace SearchDataSPM
             this.rectangleShape1.Size = new System.Drawing.Size(300, 18);
             this.rectangleShape1.UseWaitCursor = true;
             // 
+            // bunifuElipse1
+            // 
+            this.bunifuElipse1.ElipseRadius = 25;
+            this.bunifuElipse1.TargetControl = this;
+            // 
             // SPM_ConnectHome
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -143,5 +149,6 @@ namespace SearchDataSPM
         private ShapeContainer shapeContainer1;
         private RectangleShape rectangleShape2;
         private RectangleShape rectangleShape1;
+        private Bunifu.Framework.UI.BunifuElipse bunifuElipse1;
     }
 }

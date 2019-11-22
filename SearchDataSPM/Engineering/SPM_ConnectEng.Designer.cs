@@ -2,39 +2,36 @@
 
 namespace SearchDataSPM
 {
-	partial class SPM_Connect
-	{
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.IContainer components = null;
+    partial class SPM_Connect
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
 
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing && (components != null))
-			{
-				components.Dispose();
-			}
-			base.Dispose(disposing);
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
 
-		#region Windows Form Designer generated code
+        #region Windows Form Designer generated code
 
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SPM_Connect));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.FormSelectorEng = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.bOMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.whereUsedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -87,13 +84,11 @@ namespace SearchDataSPM
             this.recordlabel = new System.Windows.Forms.Label();
             this.listView = new System.Windows.Forms.ListView();
             this.dataGridView = new System.Windows.Forms.DataGridView();
-            this.itemNumberDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.descriptionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.familyCodeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.manufacturerDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.manufacturerItemNumberDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.inventoryBindingSource3 = new System.Windows.Forms.BindingSource(this.components);
-            this.sPM_DatabaseDataSet = new SearchDataSPM.SPM_DatabaseDataSet();
+            this.ItemNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Family = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Manufacturer = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ManufacturerItemNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.matlbl = new System.Windows.Forms.Label();
             this.clrfiltersbttn = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
@@ -131,8 +126,6 @@ namespace SearchDataSPM
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.inventoryBindingSource3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.sPM_DatabaseDataSet)).BeginInit();
             this.trayiconstrip.SuspendLayout();
             this.FormSelectorControls.SuspendLayout();
             this.SuspendLayout();
@@ -442,7 +435,7 @@ namespace SearchDataSPM
             this.Manufactureritemcomboxbox.FormattingEnabled = true;
             this.Manufactureritemcomboxbox.Location = new System.Drawing.Point(6, 376);
             this.Manufactureritemcomboxbox.Name = "Manufactureritemcomboxbox";
-            this.Manufactureritemcomboxbox.Size = new System.Drawing.Size(156, 21);
+            this.Manufactureritemcomboxbox.Size = new System.Drawing.Size(158, 21);
             this.Manufactureritemcomboxbox.TabIndex = 125;
             this.TreeViewToolTip.SetToolTip(this.Manufactureritemcomboxbox, "Filter by OEM item number");
             this.Manufactureritemcomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Manufactureritemcomboxbox_KeyDown);
@@ -458,7 +451,7 @@ namespace SearchDataSPM
             this.familycomboxbox.FormattingEnabled = true;
             this.familycomboxbox.Location = new System.Drawing.Point(6, 227);
             this.familycomboxbox.Name = "familycomboxbox";
-            this.familycomboxbox.Size = new System.Drawing.Size(156, 21);
+            this.familycomboxbox.Size = new System.Drawing.Size(158, 21);
             this.familycomboxbox.TabIndex = 123;
             this.TreeViewToolTip.SetToolTip(this.familycomboxbox, "Filter by family type");
             this.familycomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.familycomboxbox_KeyDown);
@@ -474,7 +467,7 @@ namespace SearchDataSPM
             this.lastsavedbycombo.FormattingEnabled = true;
             this.lastsavedbycombo.Location = new System.Drawing.Point(6, 520);
             this.lastsavedbycombo.Name = "lastsavedbycombo";
-            this.lastsavedbycombo.Size = new System.Drawing.Size(156, 21);
+            this.lastsavedbycombo.Size = new System.Drawing.Size(158, 21);
             this.lastsavedbycombo.TabIndex = 127;
             this.TreeViewToolTip.SetToolTip(this.lastsavedbycombo, "Filter by last saved");
             this.lastsavedbycombo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lastsavedbycombo_KeyDown);
@@ -493,7 +486,7 @@ namespace SearchDataSPM
             "SPM AUTOMATION (Canada) INC."});
             this.oemitemcombobox.Location = new System.Drawing.Point(6, 301);
             this.oemitemcombobox.Name = "oemitemcombobox";
-            this.oemitemcombobox.Size = new System.Drawing.Size(156, 21);
+            this.oemitemcombobox.Size = new System.Drawing.Size(158, 21);
             this.oemitemcombobox.TabIndex = 124;
             this.TreeViewToolTip.SetToolTip(this.oemitemcombobox, "Filter by manufacture");
             this.oemitemcombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.oemitemcombobox_KeyDown);
@@ -509,7 +502,7 @@ namespace SearchDataSPM
             this.ActiveCadblockcombobox.FormattingEnabled = true;
             this.ActiveCadblockcombobox.Location = new System.Drawing.Point(6, 601);
             this.ActiveCadblockcombobox.Name = "ActiveCadblockcombobox";
-            this.ActiveCadblockcombobox.Size = new System.Drawing.Size(156, 21);
+            this.ActiveCadblockcombobox.Size = new System.Drawing.Size(158, 21);
             this.ActiveCadblockcombobox.TabIndex = 128;
             this.TreeViewToolTip.SetToolTip(this.ActiveCadblockcombobox, "Filter by current cad block number");
             this.ActiveCadblockcombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ActiveCadblockcombobox_KeyDown);
@@ -529,7 +522,7 @@ namespace SearchDataSPM
             "Joel Goldsmith"});
             this.designedbycombobox.Location = new System.Drawing.Point(6, 150);
             this.designedbycombobox.Name = "designedbycombobox";
-            this.designedbycombobox.Size = new System.Drawing.Size(156, 21);
+            this.designedbycombobox.Size = new System.Drawing.Size(158, 21);
             this.designedbycombobox.TabIndex = 122;
             this.TreeViewToolTip.SetToolTip(this.designedbycombobox, "Filter Designed by");
             this.designedbycombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.designedbycombobox_KeyDown);
@@ -545,7 +538,7 @@ namespace SearchDataSPM
             this.MaterialcomboBox.FormattingEnabled = true;
             this.MaterialcomboBox.Location = new System.Drawing.Point(6, 447);
             this.MaterialcomboBox.Name = "MaterialcomboBox";
-            this.MaterialcomboBox.Size = new System.Drawing.Size(156, 21);
+            this.MaterialcomboBox.Size = new System.Drawing.Size(158, 21);
             this.MaterialcomboBox.TabIndex = 126;
             this.TreeViewToolTip.SetToolTip(this.MaterialcomboBox, "Filter by Material");
             this.MaterialcomboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MaterialcomboBox_KeyDown);
@@ -892,20 +885,18 @@ namespace SearchDataSPM
             this.dataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridView.AutoGenerateColumns = false;
             this.dataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
             this.dataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
-            this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView.ColumnHeadersHeight = 30;
             this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.itemNumberDataGridViewTextBoxColumn,
-            this.descriptionDataGridViewTextBoxColumn,
-            this.familyCodeDataGridViewTextBoxColumn,
-            this.manufacturerDataGridViewTextBoxColumn,
-            this.manufacturerItemNumberDataGridViewTextBoxColumn});
+            this.ItemNumber,
+            this.Description,
+            this.Family,
+            this.Manufacturer,
+            this.ManufacturerItemNumber});
             this.dataGridView.ContextMenuStrip = this.FormSelectorEng;
-            this.dataGridView.DataSource = this.inventoryBindingSource3;
             this.dataGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dataGridView.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(237)))), ((int)(((byte)(237)))));
             this.dataGridView.Location = new System.Drawing.Point(1, 98);
@@ -925,69 +916,47 @@ namespace SearchDataSPM
             this.dataGridView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.DataGridView_MouseDoubleClick);
             this.dataGridView.MouseMove += new System.Windows.Forms.MouseEventHandler(this.DataGridView_MouseMove);
             // 
-            // itemNumberDataGridViewTextBoxColumn
+            // ItemNumber
             // 
-            this.itemNumberDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.itemNumberDataGridViewTextBoxColumn.DataPropertyName = "ItemNumber";
-            this.itemNumberDataGridViewTextBoxColumn.FillWeight = 152.2843F;
-            this.itemNumberDataGridViewTextBoxColumn.HeaderText = "Item No.";
-            this.itemNumberDataGridViewTextBoxColumn.MinimumWidth = 85;
-            this.itemNumberDataGridViewTextBoxColumn.Name = "itemNumberDataGridViewTextBoxColumn";
-            this.itemNumberDataGridViewTextBoxColumn.ReadOnly = true;
-            this.itemNumberDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.itemNumberDataGridViewTextBoxColumn.Width = 85;
+            this.ItemNumber.DataPropertyName = "ItemNumber";
+            this.ItemNumber.FillWeight = 15F;
+            this.ItemNumber.HeaderText = "ItemNo";
+            this.ItemNumber.Name = "ItemNumber";
+            this.ItemNumber.ReadOnly = true;
+            this.ItemNumber.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             // 
-            // descriptionDataGridViewTextBoxColumn
+            // Description
             // 
-            this.descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
-            dataGridViewCellStyle1.NullValue = null;
-            this.descriptionDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle1;
-            this.descriptionDataGridViewTextBoxColumn.FillWeight = 86.92893F;
-            this.descriptionDataGridViewTextBoxColumn.HeaderText = "Description";
-            this.descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
-            this.descriptionDataGridViewTextBoxColumn.ReadOnly = true;
+            this.Description.DataPropertyName = "Description";
+            this.Description.FillWeight = 61.54822F;
+            this.Description.HeaderText = "Description";
+            this.Description.Name = "Description";
+            this.Description.ReadOnly = true;
             // 
-            // familyCodeDataGridViewTextBoxColumn
+            // Family
             // 
-            this.familyCodeDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.familyCodeDataGridViewTextBoxColumn.DataPropertyName = "FamilyCode";
-            this.familyCodeDataGridViewTextBoxColumn.FillWeight = 86.92893F;
-            this.familyCodeDataGridViewTextBoxColumn.HeaderText = "Family Code";
-            this.familyCodeDataGridViewTextBoxColumn.MinimumWidth = 50;
-            this.familyCodeDataGridViewTextBoxColumn.Name = "familyCodeDataGridViewTextBoxColumn";
-            this.familyCodeDataGridViewTextBoxColumn.ReadOnly = true;
-            this.familyCodeDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.familyCodeDataGridViewTextBoxColumn.Width = 50;
+            this.Family.DataPropertyName = "FamilyCode";
+            this.Family.FillWeight = 50F;
+            this.Family.HeaderText = "Family";
+            this.Family.Name = "Family";
+            this.Family.ReadOnly = true;
+            this.Family.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             // 
-            // manufacturerDataGridViewTextBoxColumn
+            // Manufacturer
             // 
-            this.manufacturerDataGridViewTextBoxColumn.DataPropertyName = "Manufacturer";
-            dataGridViewCellStyle2.NullValue = null;
-            this.manufacturerDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle2;
-            this.manufacturerDataGridViewTextBoxColumn.FillWeight = 86.92893F;
-            this.manufacturerDataGridViewTextBoxColumn.HeaderText = "Manufacturer";
-            this.manufacturerDataGridViewTextBoxColumn.Name = "manufacturerDataGridViewTextBoxColumn";
-            this.manufacturerDataGridViewTextBoxColumn.ReadOnly = true;
+            this.Manufacturer.DataPropertyName = "Manufacturer";
+            this.Manufacturer.FillWeight = 61.54822F;
+            this.Manufacturer.HeaderText = "Manufacturer";
+            this.Manufacturer.Name = "Manufacturer";
+            this.Manufacturer.ReadOnly = true;
             // 
-            // manufacturerItemNumberDataGridViewTextBoxColumn
+            // ManufacturerItemNumber
             // 
-            this.manufacturerItemNumberDataGridViewTextBoxColumn.DataPropertyName = "ManufacturerItemNumber";
-            dataGridViewCellStyle3.NullValue = null;
-            this.manufacturerItemNumberDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle3;
-            this.manufacturerItemNumberDataGridViewTextBoxColumn.FillWeight = 86.92893F;
-            this.manufacturerItemNumberDataGridViewTextBoxColumn.HeaderText = "Manufacturer Item Number";
-            this.manufacturerItemNumberDataGridViewTextBoxColumn.Name = "manufacturerItemNumberDataGridViewTextBoxColumn";
-            this.manufacturerItemNumberDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // inventoryBindingSource3
-            // 
-            this.inventoryBindingSource3.DataMember = "Inventory";
-            this.inventoryBindingSource3.DataSource = this.sPM_DatabaseDataSet;
-            // 
-            // sPM_DatabaseDataSet
-            // 
-            this.sPM_DatabaseDataSet.DataSetName = "SPM_DatabaseDataSet";
-            this.sPM_DatabaseDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            this.ManufacturerItemNumber.DataPropertyName = "ManufacturerItemNumber";
+            this.ManufacturerItemNumber.FillWeight = 61.54822F;
+            this.ManufacturerItemNumber.HeaderText = "Manufacturer Item No.";
+            this.ManufacturerItemNumber.Name = "ManufacturerItemNumber";
+            this.ManufacturerItemNumber.ReadOnly = true;
             // 
             // matlbl
             // 
@@ -1326,19 +1295,15 @@ namespace SearchDataSPM
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.inventoryBindingSource3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.sPM_DatabaseDataSet)).EndInit();
             this.trayiconstrip.ResumeLayout(false);
             this.FormSelectorControls.ResumeLayout(false);
             this.ResumeLayout(false);
 
-		}
+        }
 
-        
+
 
         #endregion
-		private SPM_DatabaseDataSet sPM_DatabaseDataSet;
-		private System.Windows.Forms.BindingSource inventoryBindingSource3;
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member 'SPM_Connect.txtSearch'
         private System.Windows.Forms.ToolTip TreeViewToolTip;
         private System.Windows.Forms.ContextMenuStrip FormSelectorEng;
@@ -1367,11 +1332,6 @@ namespace SearchDataSPM
         private System.Windows.Forms.ListView listView;
         private System.Windows.Forms.Button admin_bttn;
         private System.Windows.Forms.Label versionlabel;
-        private System.Windows.Forms.DataGridViewTextBoxColumn itemNumberDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn descriptionDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn familyCodeDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn manufacturerDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn manufacturerItemNumberDataGridViewTextBoxColumn;
         private System.Windows.Forms.Button Reload;
         public System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.TextBox filter4;
@@ -1426,6 +1386,11 @@ namespace SearchDataSPM
         private System.Windows.Forms.ToolStripMenuItem revelInExplorerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dELETEToolStripMenuItem;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ItemNumber;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Description;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Family;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Manufacturer;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ManufacturerItemNumber;
 
 
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member 'SPM_Connect.txtSearch'

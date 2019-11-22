@@ -656,13 +656,25 @@ namespace SearchDataSPM
 
         private void viewCurrentJobReleaseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ViewRelease viewRelease = new ViewRelease(wrkorder: GetSelectedJobNo(), job: true);
+            ViewRelease viewRelease = new ViewRelease(wrkorder: GetSelectedJobNo(), job: true, jobassyno: connectapi.GetJobAssyNo(GetSelectedJobNo()), jobno: GetSelectedJobNo());
             viewRelease.Show();
+        }
+
+        private string GetselectedAssyno()
+        {
+            string wo = "";
+            if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
+            {
+                int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
+                DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
+                wo = Convert.ToString(slectedrow.Cells[4].Value);
+            }
+            return wo;
         }
 
         private void viewAssyReleasesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ViewRelease viewRelease = new ViewRelease(wrkorder: Getselectedworkorder());
+            ViewRelease viewRelease = new ViewRelease(wrkorder: Getselectedworkorder(), job: false, jobassyno: GetselectedAssyno(), jobno: GetSelectedJobNo());
             viewRelease.Show();
         }
     }

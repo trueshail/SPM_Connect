@@ -25,6 +25,7 @@ namespace SearchDataSPM
         private List<string> Itemstodiscard = new List<string>();
         private log4net.ILog log;
         private ErrorHandler errorHandler = new ErrorHandler();
+        private string revised = "";
 
         #endregion steupvariables
 
@@ -230,7 +231,7 @@ namespace SearchDataSPM
                 {
                     Text = dr["ItemNumber"].ToString() + " - " + dr["Description"].ToString() + " (" + dr["QuantityPerAssembly"].ToString() + ") ",
                     Name = dr["ItemNumber"].ToString(),
-                    Tag = dr["ItemNumber"].ToString() + "][" + dr["Description"].ToString() + "][" + dr["ItemFamily"].ToString() + "][" + dr["Manufacturer"].ToString() + "][" + dr["ManufacturerItemNumber"].ToString() + "][" + dr["QuantityPerAssembly"].ToString() + "][" + dr["ItemNotes"].ToString()
+                    Tag = dr["ItemNumber"].ToString() + "][" + dr["Description"].ToString() + "][" + dr["ItemFamily"].ToString() + "][" + dr["Manufacturer"].ToString() + "][" + dr["ManufacturerItemNumber"].ToString() + "][" + dr["QuantityPerAssembly"].ToString() + "][" + dr["ItemNotes"].ToString() + "][" + dr["IsRevised"].ToString()
                 };
                 if (parentNode == null)
                 {
@@ -244,6 +245,14 @@ namespace SearchDataSPM
                 else
                 {
                     var f = new Font("Arial", 10, FontStyle.Bold);
+                    if (dr["IsRevised"].ToString() == "1")
+                    {
+                        t.BackColor = Color.LightYellow;
+                    }
+                    else if (dr["IsRevised"].ToString() == "0")
+                    {
+                        t.BackColor = Color.LightGreen;
+                    }
                     // t.NodeFont = f;
                     parentNode.Nodes.Add(t);
                     childNode = t;
@@ -486,51 +495,72 @@ namespace SearchDataSPM
             try
             {
                 errorProvider1.Clear();
-                if (qtytxtbox.Text.Length > 0 && qtytxtbox.Text != "0")
+                if (qtytxtbox.Text.Length > 0 && qtytxtbox.Text != "0" && itemnotxt.Text.Length > 0)
                 {
+                    if (itemnotxt.Text == assynotxt.Text)
+                    {
+                        MessageBox.Show("Cannot add parent item as child", "SPM Conect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        itemnotxt.Clear();
+                        return;
+                    }
                     var iteminfo = new DataTable();
                     iteminfo.Clear();
                     iteminfo = connectapi.GetIteminfo(itemnotxt.Text);
                     var r = iteminfo.Rows[0];
-
-                    var _itemno = itemnotxt.Text;
-                    var _description = r["Description"].ToString();
-                    var _family = r["FamilyCode"].ToString();
-                    var _oem = r["Manufacturer"].ToString();
-                    var _manufacturer = r["ManufacturerItemNumber"].ToString();
-                    var qty = qtytxtbox.Text;
-                    var notes = itemnotestxt.Text;
-
-                    _SearchNodes(_itemno, Treeview.Nodes[0]);
-                    if (itemexists != "yes")
+                    if (iteminfo.Rows.Count > 0)
                     {
-                        var child = new TreeNode
-                        {
-                            Text = _itemno.ToString() + " - " + _description.ToString() + " (" + qty.ToString() + ")",
-                            Tag = _itemno + "][" + _description + "][" + _family + "][" + _manufacturer + "][" + _oem + "][" + qty + "][" + notes
-                        };
+                        var _itemno = itemnotxt.Text;
+                        var _description = r["Description"].ToString();
+                        var _family = r["FamilyCode"].ToString();
+                        var _oem = r["Manufacturer"].ToString();
+                        var _manufacturer = r["ManufacturerItemNumber"].ToString();
+                        var qty = qtytxtbox.Text;
+                        var notes = itemnotestxt.Text;
 
-                        Treeview.SelectedNode = Treeview.Nodes[0];
-                        root.Nodes.Add(child);
-                        CallRecursive();
-                        if (!(root.IsExpanded))
+                        _SearchNodes(_itemno, Treeview.Nodes[0]);
+
+                        if (itemexists != "yes")
                         {
-                            Treeview.ExpandAll();
+                            bool isrevised = IsRevised();
+                            var child = new TreeNode
+                            {
+                                Text = _itemno.ToString() + " - " + _description.ToString() + " (" + qty.ToString() + ")",
+                                Tag = _itemno + "][" + _description + "][" + _family + "][" + _manufacturer + "][" + _oem + "][" + qty + "][" + notes + "][" + (isrevised ? "1" : "0")
+                            };
+
+                            Treeview.SelectedNode = Treeview.Nodes[0];
+                            if (isrevised)
+                            {
+                                child.BackColor = Color.LightYellow;
+                            }
+                            else
+                            {
+                                child.BackColor = Color.LightGreen;
+                            }
+                            root.Nodes.Add(child);
+                            CallRecursive();
+                            if (!(root.IsExpanded))
+                            {
+                                Treeview.ExpandAll();
+                            }
+
+                            savbttn.Visible = true;
+                            itemnotxt.Clear();
                         }
-
-                        savbttn.Visible = true;
-                        itemnotxt.Clear();
-                    }
-                    else
-                    {
-                        savbttn.Visible = false;
-                        itemexists = null;
-                        itemnotxt.Clear();
+                        else
+                        {
+                            savbttn.Visible = false;
+                            itemexists = null;
+                            itemnotxt.Clear();
+                        }
                     }
                 }
                 else
                 {
-                    errorProvider1.SetError(qtytxtbox, "Cannot be null");
+                    if (itemnotxt.Text.Length > 0)
+                        errorProvider1.SetError(qtytxtbox, "Qty cannot be null");
+                    else
+                        errorProvider1.SetError(itemnotxt, "ItemNo cannot be null");
                 }
             }
             catch
@@ -573,6 +603,12 @@ namespace SearchDataSPM
         {
             var rowToMove = e.Data.GetData(typeof(DataGridViewRow)) as DataGridViewRow;
             var itemnumber = Convert.ToString(rowToMove.Cells[0].Value);
+            if (itemnumber == assynotxt.Text)
+            {
+                MessageBox.Show("Cannot add parent item as child", "SPM Conect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                itemnotxt.Clear();
+                return;
+            }
             var description = Convert.ToString(rowToMove.Cells[1].Value);
             var family = Convert.ToString(rowToMove.Cells[2].Value);
             var oem = Convert.ToString(rowToMove.Cells[3].Value);
@@ -582,12 +618,20 @@ namespace SearchDataSPM
 
             if (itemexists != "yes")
             {
+                bool isrevised = IsRevised();
                 var child = new TreeNode
                 {
                     Text = itemnumber + " - " + description + " (1)",
-                    Tag = itemnumber + "][" + description + "][" + family + "][" + oem + "][" + oemitem + "][" + "1" + "][" + " "
+                    Tag = itemnumber + "][" + description + "][" + family + "][" + oem + "][" + oemitem + "][" + "1" + "][" + " " + "][" + (isrevised ? "1" : "0")
                 };
-
+                if (isrevised)
+                {
+                    child.BackColor = Color.LightYellow;
+                }
+                else
+                {
+                    child.BackColor = Color.LightGreen;
+                }
                 root.Nodes.Add(child);
 
                 CallRecursive();
@@ -602,6 +646,25 @@ namespace SearchDataSPM
             {
                 itemexists = null;
             }
+        }
+
+        private bool IsRevised()
+        {
+            bool revised = false;
+
+            DialogResult dialogResult = MessageBox.Show("Are you revising this part?", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.Yes)
+            {
+                //do something
+                revised = true;
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                //do something else
+                revised = false;
+            }
+
+            return revised;
         }
 
         private void TreeView1_DragEnter(object sender, DragEventArgs e)
@@ -649,7 +712,6 @@ namespace SearchDataSPM
             Itemstodiscard.Clear();
         }
 
-
         private void Performdiscarditem()
         {
             foreach (string item in Itemstodiscard)
@@ -667,7 +729,6 @@ namespace SearchDataSPM
                 values[i] = values[i].Trim();
             }
             UpdateRemoveitemsBallon(values[0]);
-
         }
 
         private void UpdateRemoveitemsBallon(string itemno)
@@ -690,7 +751,6 @@ namespace SearchDataSPM
         {
             Treeview.SelectedNode = root;
             savbttn.Visible = false;
-            Treeview.ContextMenuStrip = null;
             connectapi.UpdateReleaseLogNotes(releaseLogNumber, releasenotestxt.Text);
             MessageBox.Show("Release log saved successfully.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
             addbutton.Visible = true;
@@ -727,7 +787,7 @@ namespace SearchDataSPM
             for (int i = 0; i < values.Length; i++)
                 values[i] = values[i].Trim();
 
-            connectapi.AddItemToReleaseLog(wotxt.Text, assynotxt.Text, releaseLogNumber, values[0], values[5], values[6]);
+            connectapi.AddItemToReleaseLog(wotxt.Text, assynotxt.Text, releaseLogNumber, values[0], values[5], values[6], jobnotxt.Text, releasetypetxt.Text, values[7]);
             connectapi.UpdateBallonRefToEst(values[0], releasetypetxt.Text, jobnotxt.Text, assynotxt.Text);
             connectapi.UpdateBallonRefToWorkOrder(values[0], releasetypetxt.Text, jobnotxt.Text, assynotxt.Text, wotxt.Text);
         }
@@ -755,7 +815,7 @@ namespace SearchDataSPM
                 iteminfo = connectapi.GetIteminfo(itemnotxt.Text);
                 var r = iteminfo.Rows[0];
                 Treeview.SelectedNode.Text = itemnotxt.Text + " - " + r["Description"].ToString() + " (" + qtytxtbox.Text + ")";
-                Treeview.SelectedNode.Tag = itemnotxt.Text + "][" + r["Description"].ToString() + "][" + r["FamilyCode"].ToString() + "][" + r["Manufacturer"].ToString() + "][" + r["ManufacturerItemNumber"].ToString() + "][" + qtytxtbox.Text + "][" + itemnotestxt.Text;
+                Treeview.SelectedNode.Tag = itemnotxt.Text + "][" + r["Description"].ToString() + "][" + r["FamilyCode"].ToString() + "][" + r["Manufacturer"].ToString() + "][" + r["ManufacturerItemNumber"].ToString() + "][" + qtytxtbox.Text + "][" + itemnotestxt.Text + "][" + revised;
                 itemnotxt.Clear();
                 savbttn.Visible = true;
                 addbutton.Visible = true;
@@ -763,6 +823,7 @@ namespace SearchDataSPM
                 cancelbutton.Visible = false;
                 Treeview.AllowDrop = true;
                 Addremovecontextmenu.Enabled = true;
+                revised = "";
             }
         }
 
@@ -786,7 +847,6 @@ namespace SearchDataSPM
                         Itemstodiscard.Add(values[0]);
                         Treeview.SelectedNode.Parent.Nodes.Remove(Treeview.SelectedNode);
                         savbttn.Visible = true;
-
                     }
                     else if (result == DialogResult.No)
                     {
@@ -825,6 +885,7 @@ namespace SearchDataSPM
                     itemnotxt.Text = values[0];
                     qtytxtbox.Text = values[5];
                     itemnotestxt.Text = values[6];
+                    revised = values[7];
                 }
         }
 
