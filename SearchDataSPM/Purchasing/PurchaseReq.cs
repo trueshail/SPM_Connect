@@ -97,7 +97,8 @@ namespace SearchDataSPM
 
             if (higherauthority || supervisor || pbuyer)
             {
-                bttnneedapproval.PerformClick();
+                //bttnneedapproval.PerformClick();
+                PerformNeedApproval(bttnneedapproval);
             }
             else
             {
@@ -334,7 +335,8 @@ namespace SearchDataSPM
                     dataGridView.Refresh();
                     if (managergroupbox.Visible)
                     {
-                        bttnshowapproved.PerformClick();
+                        //bttnshowapproved.PerformClick();
+                        ProcessShowApprovedBttn(bttnshowapproved);
                     }
                     else
                     {
@@ -398,16 +400,21 @@ namespace SearchDataSPM
         private void Selectrowbeforeediting(string searchValue)
         {
             int rowIndex = -1;
-            foreach (DataGridViewRow row in dataGridView.Rows)
+            if (dataGridView.Rows.Count > 0)
             {
-                if (row.Cells[0].Value.ToString().Equals(searchValue))
+                foreach (DataGridViewRow row in dataGridView.Rows)
                 {
-                    rowIndex = row.Index;
-                    dataGridView.Rows[rowIndex].Selected = true;
+                    if (row.Cells[0].Value.ToString().Equals(searchValue))
+                    {
+                        rowIndex = row.Index;
+                        dataGridView.Rows[rowIndex].Selected = true;
 
-                    break;
+                        break;
+                    }
                 }
+
             }
+
         }
 
         private void Clearitemsbeforenewreq()
@@ -423,7 +430,6 @@ namespace SearchDataSPM
             editbttn.Visible = false;
             dataGridView.Enabled = false;
             dataGridView1.Enabled = true;
-
             dataGridView1.DataSource = null;
             dataGridView1.Rows.Clear();
             ecitbttn.Visible = true;
@@ -741,18 +747,18 @@ namespace SearchDataSPM
             dateTimePicker1.MinDate = DateTime.Today;
         }
 
-        private void savebttn_Click(object sender, EventArgs e)
+        private async void savebttn_Click(object sender, EventArgs e)
         {
             Itemstodiscard.Clear();
-            Processsavebutton(false, "Normal");
+            await Processsavebutton(false, "Normal");
         }
 
-        private async void Processsavebutton(bool validatehit, string typeofsave)
+        private async Task Processsavebutton(bool validatehit, string typeofsave)
         {
             try
             {
+
                 await Task.Run(() => SplashDialog("Saving Data..."));
-                Thread.Sleep(1500);
 
                 if (typeofsave != "Papproved")
                 {
@@ -771,23 +777,27 @@ namespace SearchDataSPM
                 if (validatehit)
                 {
                     UpdateReq(Convert.ToInt32(purchreqtxt.Text), typeofsave);
-                    ShowReqSearchItems(userfullname);
+                    if (!(higherauthority || supervisor || pbuyer))
+                    {
+                        ShowReqSearchItems(userfullname);
+                    }
                     Clearaddnewtextboxes();
                     Processexitbutton();
                     if (typeofsave == "Approved" || typeofsave == "Papproved" || typeofsave == "Happroved" || typeofsave == "Rejected" || typeofsave == "HRejected")
                     {
-                        bttnshowapproved.PerformClick();
+                        // bttnshowapproved.PerformClick();
+                        ProcessShowApprovedBttn(bttnshowapproved);
                     }
                     if (typeofsave == "ApprovedFalse" || typeofsave == "HapprovedFalse" || typeofsave == "PapprovedFalse")
                     {
-                        bttnneedapproval.PerformClick();
+                        //bttnneedapproval.PerformClick();
+                        PerformNeedApproval(bttnneedapproval);
                     }
 
                     if (dataGridView.Rows.Count > 0)
                     {
                         dataGridView.ClearSelection();
                         Selectrowbeforeediting(reqnumber);
-                        //selectrowbeforeediting(reqnumber);
                         Populatereqdetails(Convert.ToInt32(reqnumber));
                         PopulateDataGridView();
                     }
@@ -1151,6 +1161,10 @@ namespace SearchDataSPM
                 try
                 {
                     DataRow[] dr = dt.Select("ReqNumber = '" + item + "'");
+                    if (!(dr.Length > 0))
+                    {
+                        return;
+                    }
                     purchreqtxt.Text = dr[0]["ReqNumber"].ToString();
                     requestbytxt.Text = dr[0]["RequestedBy"].ToString();
                     datecreatedtxt.Text = dr[0]["DateCreated"].ToString();
@@ -1536,7 +1550,7 @@ namespace SearchDataSPM
 
         private void PopulateDataGridView()
         {
-            if (dataGridView.Rows.Count > 0)
+            if (dataGridView.Rows.Count > 0 && dataGridView.SelectedCells.Count > 0)
             {
                 int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                 DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
@@ -1632,7 +1646,7 @@ namespace SearchDataSPM
                     if (jobnumbertxt.Text.Length > 0 && subassytxt.Text.Length > 0 && dataGridView1.Rows.Count > 0)
                     {
                         string reqno = purchreqtxt.Text;
-                        Processsavebutton(true, "Validated");
+                        await Processsavebutton(true, "Validated");
                         Validatechk.Text = "Invalidate";
                         await Task.Run(() => SplashDialog("Sending Email..."));
                         Cursor.Current = Cursors.WaitCursor;
@@ -1782,7 +1796,7 @@ namespace SearchDataSPM
                     {
                         approvechk.Checked = false;
                         approvechk.Text = "Approve";
-                        Processsavebutton(true, "ApprovedFalse");
+                        await Processsavebutton(true, "ApprovedFalse");
                     }
                 }
                 else
@@ -1798,7 +1812,7 @@ namespace SearchDataSPM
                             string reqno = purchreqtxt.Text;
                             string requestby = requestbytxt.Text;
 
-                            Processsavebutton(true, "Approved");
+                            await Processsavebutton(true, "Approved");
                             approvechk.Checked = true;
                             await Task.Run(() => SplashDialog("Sending Email..."));
                             this.Enabled = false;
@@ -1910,7 +1924,7 @@ namespace SearchDataSPM
         {
             if (!formloading)
             {
-                if (dataGridView.Rows.Count > 0 && dataGridView.SelectedCells.Count == 1)
+                if (dataGridView.Rows.Count > 0 && dataGridView.SelectedCells.Count != 0)
                 {
                     try
                     {
@@ -1918,6 +1932,10 @@ namespace SearchDataSPM
                         Cursor.Current = Cursors.WaitCursor;
                         this.Enabled = false;
                         dataGridView1.AutoGenerateColumns = false;
+                        if (dataGridView.SelectedCells[0].RowIndex < 0 || dataGridView.SelectedCells[0] == null)
+                        {
+                            return;
+                        }
                         int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                         DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
                         int item = Convert.ToInt32(slectedrow.Cells[0].Value);
@@ -2496,7 +2514,7 @@ namespace SearchDataSPM
 
         private void Sendemail(string emailtosend, string subject, string body, string filetoattach, string cc)
         {
-            if (!Sendemailyesno())
+            if (Sendemailyesno())
             {
                 try
                 {
@@ -2536,7 +2554,7 @@ namespace SearchDataSPM
             }
             else
             {
-                MessageBox.Show("Emails are turned off.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MetroFramework.MetroMessageBox.Show(this, "Emails are turned off.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -2788,7 +2806,12 @@ namespace SearchDataSPM
             reportpurchaereq(reqnumber, "Purchasereq");
         }
 
-        private async void Bttnneedapproval_Click(object sender, EventArgs e)
+        private void Bttnneedapproval_Click(object sender, EventArgs e)
+        {
+            PerformNeedApproval(sender);
+        }
+
+        private async void PerformNeedApproval(object sender)
         {
             await Task.Run(() => SplashDialog("Loading Data..."));
 
@@ -2810,7 +2833,12 @@ namespace SearchDataSPM
             splashWorkDone = true;
         }
 
-        private async void Bttnshowapproved_Click(object sender, EventArgs e)
+        private void Bttnshowapproved_Click(object sender, EventArgs e)
+        {
+            ProcessShowApprovedBttn(sender);
+        }
+
+        private async void ProcessShowApprovedBttn(object sender)
         {
             await Task.Run(() => SplashDialog("Loading Data..."));
             this.Enabled = false;
@@ -3138,7 +3166,7 @@ namespace SearchDataSPM
             {
                 if (happrovechk.Checked == false)
                 {
-                    Processsavebutton(true, "Happrovedfalse");
+                    await Processsavebutton(true, "Happrovedfalse");
                 }
                 else
                 {
@@ -3151,7 +3179,7 @@ namespace SearchDataSPM
                         string reqno = purchreqtxt.Text;
                         string requestby = requestbytxt.Text;
 
-                        Processsavebutton(true, "Happroved");
+                        await Processsavebutton(true, "Happroved");
                         happrovechk.Checked = true;
                         await Task.Run(() => SplashDialog("Sending Email..."));
                         this.Enabled = false;
@@ -3213,7 +3241,7 @@ namespace SearchDataSPM
             {
                 if (purchasedchk.Checked == false)
                 {
-                    Processsavebutton(true, "Papprovedfalse");
+                    await Processsavebutton(true, "Papprovedfalse");
                 }
                 else
                 {
@@ -3226,7 +3254,7 @@ namespace SearchDataSPM
                         string reqno = purchreqtxt.Text;
                         string requestby = requestbytxt.Text;
 
-                        Processsavebutton(true, "Papproved");
+                        await Processsavebutton(true, "Papproved");
                         DataGridView_SelectionChanged(sender, e);
                         //this.TopMost = false;
 
@@ -3460,7 +3488,7 @@ namespace SearchDataSPM
                         {
                             approvechk.Checked = false;
                             approvechk.Text = "Approve";
-                            Processsavebutton(true, "ApprovedFalse");
+                            await Processsavebutton(true, "ApprovedFalse");
                         }
                     }
                     else
@@ -3476,7 +3504,7 @@ namespace SearchDataSPM
                                 string reqno = purchreqtxt.Text;
                                 string requestby = requestbytxt.Text;
 
-                                Processsavebutton(true, "Approved");
+                                await Processsavebutton(true, "Approved");
                                 approvechk.Checked = true;
                                 await Task.Run(() => SplashDialog("Sending Email..."));
                                 this.Enabled = false;
@@ -3532,7 +3560,7 @@ namespace SearchDataSPM
 
                     if (happrovechk.Checked == false)
                     {
-                        Processsavebutton(true, "Happrovedfalse");
+                        await Processsavebutton(true, "Happrovedfalse");
                     }
                     else
                     {
@@ -3545,7 +3573,7 @@ namespace SearchDataSPM
                             string reqno = purchreqtxt.Text;
                             string requestby = requestbytxt.Text;
 
-                            Processsavebutton(true, "Happroved");
+                            await Processsavebutton(true, "Happroved");
                             happrovechk.Checked = true;
                             await Task.Run(() => SplashDialog("Sending Email..."));
                             this.Enabled = false;
@@ -3599,7 +3627,7 @@ namespace SearchDataSPM
                         {
                             approvechk.Checked = false;
                             approvechk.Text = "Approve";
-                            Processsavebutton(true, "ApprovedFalse");
+                            await Processsavebutton(true, "ApprovedFalse");
                         }
                     }
                     else
@@ -3615,7 +3643,7 @@ namespace SearchDataSPM
                                 string reqno = purchreqtxt.Text;
                                 string requestby = requestbytxt.Text;
 
-                                Processsavebutton(true, "Rejected");
+                                await Processsavebutton(true, "Rejected");
                                 approvechk.Checked = true;
                                 await Task.Run(() => SplashDialog("Sending Email..."));
                                 this.Enabled = false;
@@ -3673,7 +3701,7 @@ namespace SearchDataSPM
 
                     if (happrovechk.Checked == false)
                     {
-                        Processsavebutton(true, "Happrovedfalse");
+                        await Processsavebutton(true, "Happrovedfalse");
                     }
                     else
                     {
@@ -3686,7 +3714,7 @@ namespace SearchDataSPM
                             string reqno = purchreqtxt.Text;
                             string requestby = requestbytxt.Text;
 
-                            Processsavebutton(true, "HRejected");
+                            await Processsavebutton(true, "HRejected");
                             happrovechk.Checked = true;
                             await Task.Run(() => SplashDialog("Sending Email..."));
                             this.Enabled = false;

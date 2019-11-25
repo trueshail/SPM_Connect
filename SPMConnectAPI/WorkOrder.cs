@@ -2102,6 +2102,41 @@ namespace SPMConnectAPI
             return success;
         }
 
+        public bool CheckItemExistsOnEst(string itemId, string job, string assy)
+        {
+            bool success = false;
+            string estId = GetEstId(job);
+
+            if (cn.State == ConnectionState.Closed)
+                cn.Open();
+            try
+            {
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM [SPMDB].[dbo].[tcBomItemVersion]  WHERE [Item] = '" + itemId + "' AND [BomVersionId]  = '" + estId + "' AND [Produit] = '" + assy + "'";
+
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                if (dt.Rows.Count > 0)
+                {
+                    success = true;
+                }
+                dt.Clear();
+                cn.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect Check item exists on Estimate", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return success;
+        }
+
         public bool UpdateBallonRefToWorkOrder(string itemId, string ballonref, string job, string assy, string wo)
         {
             bool success = false;
@@ -2113,10 +2148,44 @@ namespace SPMConnectAPI
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "UPDATE [SPMDB].[dbo].[Mrpres] SET [Ballon] = '" + ballonref + "' WHERE [Item] = '" + itemId + "' AND [Job]  = '" + job + "' AND [Piece] = '" + assy + "' AND [Woprec]  = '" + wo + "'";
-
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 success = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect Update Ballon Ref To Work Order", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return success;
+        }
+
+        public bool CheckItemExistsOnWorkOrder(string itemId, string job, string assy, string wo)
+        {
+            bool success = false;
+
+            if (cn.State == ConnectionState.Closed)
+                cn.Open();
+            try
+            {
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM [SPMDB].[dbo].[Mrpres] WHERE [Item] = '" + itemId + "' AND [Job]  = '" + job + "' AND [Piece] = '" + assy + "' AND [Woprec]  = '" + wo + "'";
+
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                if (dt.Rows.Count > 0)
+                {
+                    success = true;
+                }
+                dt.Clear();
+                cn.Close();
+
             }
             catch (Exception ex)
             {

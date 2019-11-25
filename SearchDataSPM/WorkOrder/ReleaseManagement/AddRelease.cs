@@ -26,6 +26,7 @@ namespace SearchDataSPM
         private log4net.ILog log;
         private ErrorHandler errorHandler = new ErrorHandler();
         private string revised = "";
+        private bool itemcleartosave = false;
 
         #endregion steupvariables
 
@@ -694,8 +695,9 @@ namespace SearchDataSPM
                     {
                         Performdiscarditem();
                     }
-
-                    AddItems();
+                    CheckItems();
+                    if (itemcleartosave)
+                        AddItems();
                 }
                 else
                 {
@@ -751,7 +753,8 @@ namespace SearchDataSPM
         {
             Treeview.SelectedNode = root;
             savbttn.Visible = false;
-            connectapi.UpdateReleaseLogNotes(releaseLogNumber, releasenotestxt.Text);
+            string releasenotes = releasenotestxt.Text.Replace("'", "''");
+            connectapi.UpdateReleaseLogNotes(releaseLogNumber, releasenotes);
             MessageBox.Show("Release log saved successfully.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
             addbutton.Visible = true;
         }
@@ -786,6 +789,11 @@ namespace SearchDataSPM
             // string[] values = s.Split(',');
             for (int i = 0; i < values.Length; i++)
                 values[i] = values[i].Trim();
+
+            for (int i = 0; i < values.Length; i++)
+            {
+                values[i] = values[i].Replace("'", "''");
+            }
 
             connectapi.AddItemToReleaseLog(wotxt.Text, assynotxt.Text, releaseLogNumber, values[0], values[5], values[6], jobnotxt.Text, releasetypetxt.Text, values[7]);
             connectapi.UpdateBallonRefToEst(values[0], releasetypetxt.Text, jobnotxt.Text, assynotxt.Text);
@@ -909,5 +917,76 @@ namespace SearchDataSPM
         #endregion Treeview
 
         private void Releasenotestxt_TextChanged(object sender, EventArgs e) => savbttn.Visible = true;
+
+        #region CheckItemAddedOnGenius
+
+        private void CheckItems()
+        {
+            // Print each node recursively.
+            var nodes = Treeview.Nodes;
+            foreach (TreeNode n in nodes)
+                CheckRecursive(n);
+        }
+
+        private void CheckRecursive(TreeNode treeNode)
+        {
+            CheckEachnode(treeNode);
+            foreach (TreeNode tn in treeNode.Nodes)
+                // MessageBox.Show(treeNode.Text);
+                CheckRecursive(tn);
+        }
+
+        private void CheckEachnode(TreeNode treeNode)
+        {
+            if (treeNode.Parent == null)
+            {
+            }
+            else
+            {
+                var childnode = treeNode.Tag.ToString();
+                CheckSplittagtovariables(childnode);
+            }
+        }
+
+        private void CheckSplittagtovariables(string s)
+        {
+            string[] values = s.Replace("][", "~").Split('~');
+
+            // string[] values = s.Split(',');
+            for (int i = 0; i < values.Length; i++)
+                values[i] = values[i].Trim();
+
+            if (!(connectapi.CheckItemExistsOnEst(values[0], jobnotxt.Text, assynotxt.Text)))
+            {
+                MetroFramework.MetroMessageBox.Show(this,
+               "Item = " + values[0] + Environment.NewLine +
+               "Assy No = " + assynotxt.Text + Environment.NewLine +
+               "Job No = " + jobnotxt.Text + Environment.NewLine +
+               "Work Order = " + wotxt.Text + Environment.NewLine +
+               "Please remove the item from the release log in order to save or add the item on Genius Estimate to prevent this error.",
+               "SPM Connect - Item Not found on Genius Estimates.",
+                                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                itemcleartosave = false;
+            }
+            if (!(connectapi.CheckItemExistsOnWorkOrder(values[0], jobnotxt.Text, assynotxt.Text, wotxt.Text)))
+            {
+                MetroFramework.MetroMessageBox.Show(this,
+               "Item = " + values[0] + Environment.NewLine +
+               "Assy No = " + assynotxt.Text + Environment.NewLine +
+               "Job No = " + jobnotxt.Text + Environment.NewLine +
+               "Work Order = " + wotxt.Text + Environment.NewLine +
+               "Please remove the item from the release log in order to save or add the item on Genius WorkOrder to prevent this error.",
+               "SPM Connect - Item Not found on work order as released.",
+                                               MessageBoxButtons.OK, MessageBoxIcon.Error);
+                itemcleartosave = false;
+            }
+            else
+            {
+                itemcleartosave = true;
+            }
+
+        }
+
+        #endregion
     }
 }

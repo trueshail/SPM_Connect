@@ -6,5 +6,5 @@
     cause the file to be unrecognizable by the program.
 -->
 <GenericObjectDataSource DisplayName="ExecutionSettingEnum" Version="1.0" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
-   <TypeInfo>SearchDataSPM.RS2005.ExecutionSettingEnum</TypeInfo>
+   <TypeInfo>SearchDataSPM.RS2005.ExecutionSettingEnum, Web References.RS2005.Reference.cs.dll, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</TypeInfo>
 </GenericObjectDataSource>
