@@ -672,5 +672,13 @@ namespace SearchDataSPM
             log.Info("Closed Shipping Invoice Add Item " + Invoice_Number + " by " + System.Environment.UserName);
             this.Dispose();
         }
+
+        private void ItemsCombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                ItemsCombobox.Focus();
+            }
+        }
     }
 }

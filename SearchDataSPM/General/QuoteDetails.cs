@@ -23,7 +23,7 @@ namespace SearchDataSPM.General
 
         private ErrorHandler errorHandler = new ErrorHandler();
 
-        public QuoteDetails()
+        public QuoteDetails(string quoteno)
         {
             Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
@@ -38,22 +38,15 @@ namespace SearchDataSPM.General
             {
                 MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
+            this.quoteno2 = quoteno;
             dt = new DataTable();
             _command = new SqlCommand();
-        }
 
-        public string quotenubmber(string quoteno)
-        {
-            if (quoteno.Length > 0)
-                return quoteno2 = quoteno;
-            return null;
         }
 
         private void QuoteDetails_Load(object sender, EventArgs e)
         {
             this.Text = "Quote Details - " + quoteno2;
-
             Fillcustomers();
             HowFound();
             Rating();
@@ -63,6 +56,8 @@ namespace SearchDataSPM.General
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Quote Details " + quoteno2 + " by " + System.Environment.UserName);
+            if (!(dt.Rows.Count > 0))
+                this.Close();
         }
 
         private void filldatatable(string quotenumber)
@@ -89,90 +84,94 @@ namespace SearchDataSPM.General
 
         private void fillinfo()
         {
-            DataRow r = dt.Rows[0];
-            ItemTxtBox.Text = r["Quote"].ToString();
-            Descriptiontxtbox.Text = r["Title"].ToString();
-            notestxt.Text = r["Comments"].ToString();
-            textBox1.Text = r["Est_Revenue"].ToString();
-            txtPath.Text = r["FolderPath"].ToString();
-            if (txtPath.Text.Length > 0)
+            if (dt.Rows.Count > 0)
             {
-                webBrowser1.Url = new Uri(txtPath.Text);
+                DataRow r = dt.Rows[0];
+                ItemTxtBox.Text = r["Quote"].ToString();
+                Descriptiontxtbox.Text = r["Title"].ToString();
+                notestxt.Text = r["Comments"].ToString();
+                textBox1.Text = r["Est_Revenue"].ToString();
+                txtPath.Text = r["FolderPath"].ToString();
+                if (txtPath.Text.Length > 0)
+                {
+                    webBrowser1.Url = new Uri(txtPath.Text);
+                }
+
+                string quoteddate = r["Quote_Date"].ToString();
+                string quotedby = r["Employee"].ToString();
+                string lastsavedby = r["LastSavedby"].ToString();
+                string lastsaved = r["Lastsaved"].ToString();
+                if (quoteddate.Length > 0)
+                {
+                    quotedatelbl.Text = "Quote Date : " + quoteddate.Substring(0, 10);
+                    quotedatelbl.Text = "Quote Date : " + quoteddate.Substring(0, 10);
+                }
+
+                Quotedbylbl.Text = "Quoted By : " + quotedby;
+                Lsatsavedbylbl.Text = "Last Saved By : " + lastsavedby;
+                Lastsavedlbl.Text = "Last Saved : " + lastsaved;
+
+                string category = r["Category"].ToString();
+                if (category.Length > 0)
+                {
+                    Categorycombox.SelectedItem = category;
+                }
+
+                string customer = r["Company_Name"].ToString();
+                if (customer.Length > 0)
+                {
+                    familycombobox.SelectedItem = customer;
+                }
+
+                string rating = r["Rating"].ToString();
+                if (rating.Length > 0)
+                {
+                    Ratingcombobox.SelectedItem = rating;
+                }
+
+                string howfound = r["How_Found"].ToString();
+                if (howfound.Length > 0)
+                {
+                    Howfndcombox.SelectedItem = howfound;
+                }
+
+                string currency = r["Currency"].ToString();
+                if (currency.Length > 0)
+                {
+                    currencycombox.SelectedItem = currency;
+                }
+
+                //if (r["Converted_to_Job"].ToString().Equals("1"))
+                //{
+                //    cvttojobchkbox.Checked = true;
+
+                //}
+
+                //if (r["Closed"].ToString().Equals("1"))
+                //{
+                //    closedchkbox.Checked = true;
+
+                //}
+
+                if (r["Converted_to_Job"].ToString().Equals("1") && r["Closed"].ToString().Equals("0"))
+                {
+                    cvttojobchkbox.Checked = true;
+                    cvttojobchkbox.Enabled = false;
+                    closedchkbox.Visible = false;
+                }
+                else if (r["Closed"].ToString().Equals("1") && r["Converted_to_Job"].ToString().Equals("0"))
+                {
+                    closedchkbox.Enabled = false;
+                    closedchkbox.Checked = true;
+                    cvttojobchkbox.Visible = false;
+                }
             }
 
-            string quoteddate = r["Quote_Date"].ToString();
-            string quotedby = r["Employee"].ToString();
-            string lastsavedby = r["LastSavedby"].ToString();
-            string lastsaved = r["Lastsaved"].ToString();
-            if (quoteddate.Length > 0)
-            {
-                quotedatelbl.Text = "Quote Date : " + quoteddate.Substring(0, 10);
-                quotedatelbl.Text = "Quote Date : " + quoteddate.Substring(0, 10);
-            }
-
-            Quotedbylbl.Text = "Quoted By : " + quotedby;
-            Lsatsavedbylbl.Text = "Last Saved By : " + lastsavedby;
-            Lastsavedlbl.Text = "Last Saved : " + lastsaved;
-
-            string category = r["Category"].ToString();
-            if (category.Length > 0)
-            {
-                Categorycombox.SelectedItem = category;
-            }
-
-            string customer = r["Company_Name"].ToString();
-            if (customer.Length > 0)
-            {
-                familycombobox.SelectedItem = customer;
-            }
-
-            string rating = r["Rating"].ToString();
-            if (rating.Length > 0)
-            {
-                Ratingcombobox.SelectedItem = rating;
-            }
-
-            string howfound = r["How_Found"].ToString();
-            if (howfound.Length > 0)
-            {
-                Howfndcombox.SelectedItem = howfound;
-            }
-
-            string currency = r["Currency"].ToString();
-            if (currency.Length > 0)
-            {
-                currencycombox.SelectedItem = currency;
-            }
-
-            //if (r["Converted_to_Job"].ToString().Equals("1"))
-            //{
-            //    cvttojobchkbox.Checked = true;
-
-            //}
-
-            //if (r["Closed"].ToString().Equals("1"))
-            //{
-            //    closedchkbox.Checked = true;
-
-            //}
-
-            if (r["Converted_to_Job"].ToString().Equals("1") && r["Closed"].ToString().Equals("0"))
-            {
-                cvttojobchkbox.Checked = true;
-                cvttojobchkbox.Enabled = false;
-                closedchkbox.Visible = false;
-            }
-            else if (r["Closed"].ToString().Equals("1") && r["Converted_to_Job"].ToString().Equals("0"))
-            {
-                closedchkbox.Enabled = false;
-                closedchkbox.Checked = true;
-                cvttojobchkbox.Visible = false;
-            }
         }
 
         private void Fillcustomers()
         {
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM [SPM_Database].[dbo].[Customersmerged]", cn))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM [SPM_Database].[dbo].[Customersmerged] ORDER BY Customers", cn))
             {
                 try
                 {
@@ -197,6 +196,7 @@ namespace SearchDataSPM.General
                     cn.Close();
                 }
             }
+            familycombobox.SelectedItem = null;
         }
 
         private void HowFound()
@@ -708,7 +708,7 @@ namespace SearchDataSPM.General
 
         private void createfolders(string quotenumber)
         {
-            Regex reg = new Regex("[*'\"/,_&#^@]");
+            Regex reg = new Regex("[?<>|:*'\"/,_&#^@]");
             string jobdescription = reg.Replace(Descriptiontxtbox.Text, "");
             jobdescription = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(jobdescription.ToLower());
 
@@ -742,6 +742,15 @@ namespace SearchDataSPM.General
         {
             log.Info("Closed Quote Details " + quoteno2 + " by " + System.Environment.UserName);
             this.Dispose();
+        }
+
+        private void familycombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                //familycombobox = this.familycombobox.Text;
+                familycombobox.Focus();
+            }
         }
     }
 }

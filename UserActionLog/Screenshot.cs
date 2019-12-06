@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
 using System.Windows.Forms;
+using System.IO;
+
 
 namespace SPMConnect
 {
@@ -23,9 +27,7 @@ namespace SPMConnect
                 {
                     g.CopyFromScreen(screenLeft, screenTop, 0, 0, bitmap.Size);
                 }
-                DateTime datecreated = DateTime.Now;
-                string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd");
-                var uniqueFileName = @"\\spm-adfs\SDBASE\SPMConnectLogs\" + System.Environment.UserName + "\\" + sqlFormattedDatetime + "\\" + Path.GetRandomFileName().Replace(".", string.Empty) + ".jpeg";
+                var uniqueFileName = Path.Combine(System.IO.Path.GetTempPath() + "Logs\\", Path.GetRandomFileName().Replace(".", string.Empty) + ".jpeg");
                 try
                 {
                     bitmap.Save(uniqueFileName, ImageFormat.Jpeg);
@@ -37,5 +39,7 @@ namespace SPMConnect
                 return uniqueFileName;
             }
         }
+
+
     }
 }

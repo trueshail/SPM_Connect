@@ -495,9 +495,8 @@ namespace SearchDataSPM.General
 
         private void showquotedetails(string quotenumber)
         {
-            using (QuoteDetails quoteDetails = new QuoteDetails())
+            using (QuoteDetails quoteDetails = new QuoteDetails(quotenumber))
             {
-                quoteDetails.quotenubmber(quotenumber);
                 quoteDetails.ShowDialog();
                 quoteDetails.Dispose();
                 Showallitems();
@@ -507,7 +506,7 @@ namespace SearchDataSPM.General
             }
         }
 
-        private String getselectedjobnumber()
+        private string getselectedjobnumber()
         {
             int selectedclmindex = dataGridView.SelectedCells[0].ColumnIndex;
             DataGridViewColumn columnchk = dataGridView.Columns[selectedclmindex];
@@ -529,7 +528,7 @@ namespace SearchDataSPM.General
             }
         }
 
-        private static String get_username()
+        private static string get_username()
         {
             string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
             if (userName.Length > 0)

@@ -126,6 +126,17 @@
   <metadata name="Addremovecontextmenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>623, 17</value>
   </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="RemoveItemToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAR9JREFUWEdj
+        GAWjgBQQm3UwKCb7wEcg/o8FX0vMPSQKVUobEJu1fwXQooNxuftd0DHIESAHQpVSB0Rn7reIzTkQCsPR
+        2QeOgTCyGAyDHZBzoA9ZLDp3vwzUKPIA0NDVIIPJxSBHQI0iHYA0JxQcuoLNYGJxUuGhWaBQhBpJGsBm
+        IJl4NdRI0gAWg8jF5DkAFAXN/eePdU65+B+EG3rP/S+oPQ5mE8MH4fLm031kRwEIzF9xaxUQ/wfhSXOv
+        /q9sOw1mE8OH4NvkJ0IQABoy6oBRB4w6YNQBow4YdcB8mGGzl94AW0IsH4yX3fGAGkUemL/iZgSKgaTh
+        t0uXPhSEGkU+mLfyZiXQIc+xWIAL/wPis/OX37SFGjEKRgEewMAAAEHRW1UX8FD7AAAAAElFTkSuQmCC
+</value>
+  </data>
   <metadata name="imageList1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>513, 17</value>
   </metadata>
@@ -134,7 +145,7 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAACu
-        GAAAAk1TRnQBSQFMAgEBDQEAAdgBAQHYAQEBFAEAARQBAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
+        GAAAAk1TRnQBSQFMAgEBDQEAAeABAQHgAQEBFAEAARQBAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
         AwABUAMAAVADAAEBAQABCAYAARkYAAGAAgABgAMAAoABAAGAAwABgAEAAYABAAKAAgADwAEAAcAB3AHA
         AQAB8AHKAaYBAAEzBQABMwEAATMBAAEzAQACMwIAAxYBAAMcAQADIgEAAykBAANVAQADTQEAA0IBAAM5
         AQABgAF8Af8BAAJQAf8BAAGTAQAB1gEAAf8B7AHMAQABxgHWAe8BAAHWAucBAAGQAakBrQIAAf8BMwMA
@@ -242,7 +253,6 @@
         Af8B/AEfAgAF/wHAAQMD/wIACv8CAAs=
 </value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="cancelbutton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAANpJREFUOE9j
@@ -567,16 +577,6 @@
         AAAAAAH//4AAAAAAAf//gAAAAAAB//+AAAAAAAH//4AAAAAAAf//gAAAAAAB//+AAAAAAAH//4AAAAAA
         Af//gAAAAAAB//+AAAAAAAH//4AAAAAAAf//gAAAAAAB//+AAAAAAAH//4AAAAAAAf//wAAAAAAD////
         //////////////////////////////////////////////////8=
-</value>
-  </data>
-  <data name="RemoveItemToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAR9JREFUWEdj
-        GAWjgBQQm3UwKCb7wEcg/o8FX0vMPSQKVUobEJu1fwXQooNxuftd0DHIESAHQpVSB0Rn7reIzTkQCsPR
-        2QeOgTCyGAyDHZBzoA9ZLDp3vwzUKPIA0NDVIIPJxSBHQI0iHYA0JxQcuoLNYGJxUuGhWaBQhBpJGsBm
-        IJl4NdRI0gAWg8jF5DkAFAXN/eePdU65+B+EG3rP/S+oPQ5mE8MH4fLm031kRwEIzF9xaxUQ/wfhSXOv
-        /q9sOw1mE8OH4NvkJ0IQABoy6oBRB4w6YNQBow4YdcB8mGGzl94AW0IsH4yX3fGAGkUemL/iZgSKgaTh
-        t0uXPhSEGkU+mLfyZiXQIc+xWIAL/wPis/OX37SFGjEKRgEewMAAAEHRW1UX8FD7AAAAAElFTkSuQmCC
 </value>
   </data>
 </root>

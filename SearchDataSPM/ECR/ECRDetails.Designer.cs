@@ -142,6 +142,7 @@
             this.departmentcomboBox.Size = new System.Drawing.Size(202, 24);
             this.departmentcomboBox.TabIndex = 4;
             this.TreeViewToolTip.SetToolTip(this.departmentcomboBox, "Select Department");
+            this.departmentcomboBox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.departmentcomboBox_PreviewKeyDown);
             // 
             // projectmanagercombobox
             // 
@@ -158,6 +159,7 @@
             this.projectmanagercombobox.Size = new System.Drawing.Size(202, 24);
             this.projectmanagercombobox.TabIndex = 3;
             this.TreeViewToolTip.SetToolTip(this.projectmanagercombobox, "Project Manager");
+            this.projectmanagercombobox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.projectmanagercombobox_PreviewKeyDown);
             // 
             // label3
             // 
@@ -228,6 +230,7 @@
             this.requestedbycombobox.Size = new System.Drawing.Size(202, 24);
             this.requestedbycombobox.TabIndex = 5;
             this.TreeViewToolTip.SetToolTip(this.requestedbycombobox, "Requested by");
+            this.requestedbycombobox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.requestedbycombobox_PreviewKeyDown);
             // 
             // jobtxt
             // 
@@ -289,7 +292,7 @@
             this.savbttn.ForeColor = System.Drawing.Color.White;
             this.savbttn.Image = ((System.Drawing.Image)(resources.GetObject("savbttn.Image")));
             this.savbttn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.savbttn.Location = new System.Drawing.Point(906, 690);
+            this.savbttn.Location = new System.Drawing.Point(906, 709);
             this.savbttn.Name = "savbttn";
             this.savbttn.Size = new System.Drawing.Size(78, 27);
             this.savbttn.TabIndex = 3;
@@ -310,7 +313,7 @@
             this.editbttn.ForeColor = System.Drawing.Color.White;
             this.editbttn.Image = ((System.Drawing.Image)(resources.GetObject("editbttn.Image")));
             this.editbttn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.editbttn.Location = new System.Drawing.Point(803, 690);
+            this.editbttn.Location = new System.Drawing.Point(803, 709);
             this.editbttn.Name = "editbttn";
             this.editbttn.Size = new System.Drawing.Size(78, 27);
             this.editbttn.TabIndex = 13;
@@ -699,6 +702,7 @@
             // 
             // listView
             // 
+            this.listView.AllowDrop = true;
             this.listView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.listView.HideSelection = false;
             this.listView.LargeImageList = this.imageList;
@@ -711,6 +715,8 @@
             this.listView.UseCompatibleStateImageBehavior = false;
             this.listView.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.listView_ItemDrag);
             this.listView.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.listView_ItemSelectionChanged);
+            this.listView.DragDrop += new System.Windows.Forms.DragEventHandler(this.listView_DragDrop);
+            this.listView.DragEnter += new System.Windows.Forms.DragEventHandler(this.listView_DragEnter);
             this.listView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.listView_KeyDown);
             this.listView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView_MouseDoubleClick);
             // 

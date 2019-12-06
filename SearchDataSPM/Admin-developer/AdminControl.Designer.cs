@@ -668,6 +668,7 @@ namespace SearchDataSPM
             this.supervisorcombox.Name = "supervisorcombox";
             this.supervisorcombox.Size = new System.Drawing.Size(165, 23);
             this.supervisorcombox.TabIndex = 20;
+            this.supervisorcombox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.supervisorcombox_PreviewKeyDown);
             // 
             // label7
             // 
@@ -1115,6 +1116,7 @@ namespace SearchDataSPM
             this.ecrSupervisorcomboBox.Size = new System.Drawing.Size(165, 23);
             this.ecrSupervisorcomboBox.TabIndex = 105;
             this.ecrSupervisorcomboBox.Visible = false;
+            this.ecrSupervisorcomboBox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.ecrSupervisorcomboBox_PreviewKeyDown);
             // 
             // ecrapprovalchk
             // 

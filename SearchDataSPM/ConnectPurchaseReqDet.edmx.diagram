@@ -5,7 +5,7 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="b20c9e6230a04bb9addb919194c6637f" Name="Diagram1">
-        <EntityTypeShape EntityType="SearchDataSPM.PurchaseReq" Width="1.5" PointX="3.25" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SearchDataSPM.PurchaseReq" Width="3" PointX="2.25" PointY="3.125" IsExpanded="true" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -208,6 +208,7 @@
             this.TreeViewToolTip.SetToolTip(this.ItemsCombobox, "Select Sold to Customer/Vendor");
             this.ItemsCombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ItemsCombobox_KeyDown);
             this.ItemsCombobox.Leave += new System.EventHandler(this.ItemsCombobox_Leave);
+            this.ItemsCombobox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.ItemsCombobox_PreviewKeyDown);
             // 
             // ItemsGrpBox
             // 

@@ -591,7 +591,7 @@ namespace SearchDataSPM
         {
             if (dataGridView.SelectedCells.Count == 1)
             {
-                showecrinvoice(getselectedinvoicenumber());
+                showecrinvoice(getselectedinvoicenumber(), false, connectapi.getEmployeeId().ToString());
             }
         }
 
@@ -1068,7 +1068,7 @@ namespace SearchDataSPM
                     string status = connectapi.CreatenewECR(connectapi.getEmployeeId().ToString());
                     if (status.Length > 1)
                     {
-                        showecrinvoice(status);
+                        showecrinvoice(status, true, connectapi.getEmployeeId().ToString());
                     }
                 }
                 else
@@ -1082,10 +1082,17 @@ namespace SearchDataSPM
                     }
                     if (scanEmployeeId.Length > 0)
                     {
-                        string status = connectapi.CreatenewECR(scanEmployeeId);
-                        if (status.Length > 1)
+                        if (connectapi.EmployeeExits(scanEmployeeId))
                         {
-                            showecrinvoice(status);
+                            string status = connectapi.CreatenewECR(scanEmployeeId);
+                            if (status.Length > 1)
+                            {
+                                showecrinvoice(status, true, scanEmployeeId);
+                            }
+                        }
+                        else
+                        {
+                            MetroFramework.MetroMessageBox.Show(this, "Employee not found. Please contact the admin", "SPM Connect - Employee Not Found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         }
                     }
                     else
@@ -1096,7 +1103,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void showecrinvoice(string invoice)
+        private void showecrinvoice(string invoice, bool newcreated, string empid)
         {
             string invoiceopen = connectapi.InvoiceOpen(invoice);
             if (invoiceopen.Length > 0)
@@ -1124,11 +1131,19 @@ namespace SearchDataSPM
                 {
                     // scan the employee barcode and grab the user name
                     string scanEmployeeId = "";
-                    ScanEmpId invoiceFor = new ScanEmpId();
-                    if (invoiceFor.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    if (!(newcreated))
                     {
-                        scanEmployeeId = invoiceFor.ValueIWant;
+                        ScanEmpId invoiceFor = new ScanEmpId();
+                        if (invoiceFor.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                        {
+                            scanEmployeeId = invoiceFor.ValueIWant;
+                        }
                     }
+                    else
+                    {
+                        scanEmployeeId = empid;
+                    }
+
                     if (scanEmployeeId.Length > 0)
                     {
                         if (connectapi.CheckinInvoice(invoice))
@@ -1172,7 +1187,7 @@ namespace SearchDataSPM
 
         private void invoiceinfostripmenu_Click(object sender, EventArgs e)
         {
-            showecrinvoice(getselectedinvoicenumber());
+            showecrinvoice(getselectedinvoicenumber(), false, connectapi.getEmployeeId().ToString());
         }
 
         private void ContextMenuStripShipping_Opening(object sender, CancelEventArgs e)
@@ -1262,6 +1277,62 @@ namespace SearchDataSPM
         private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             log.Error(sender, (Exception)e.ExceptionObject); errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, this);
+        }
+
+        private void jobnumbercombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                jobnumbercombobox.Focus();
+            }
+        }
+
+        private void deptrequestedcomboxbox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                deptrequestedcomboxbox.Focus();
+            }
+        }
+
+        private void ecrstatuscombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                ecrstatuscombobox.Focus();
+            }
+        }
+
+        private void requestedbycomboxbox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                requestedbycomboxbox.Focus();
+            }
+        }
+
+        private void supervicsorcomboBox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                supervicsorcomboBox.Focus();
+            }
+        }
+
+        private void approvedbycombo_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                approvedbycombo.Focus();
+            }
+        }
+
+        private void completedbycombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                completedbycombobox.Focus();
+            }
         }
     }
 }

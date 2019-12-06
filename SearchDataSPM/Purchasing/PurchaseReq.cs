@@ -40,7 +40,6 @@ namespace SearchDataSPM
         private bool showingwaitingforapproval = false;
         private log4net.ILog log;
         private ErrorHandler errorHandler = new ErrorHandler();
-
         private bool splashWorkDone = false;
 
         #endregion Setting up Various Variables to Store information
@@ -390,7 +389,7 @@ namespace SearchDataSPM
                     Selectrowbeforeediting(lastreq.ToString());
                     Populatereqdetails(lastreq);
                     PopulateDataGridView();
-                    processeditbutton(false);
+                    processeditbutton(true);
                     jobnumbertxt.Text = jobnumbertxt.Text.TrimStart();
                     subassytxt.Text = subassytxt.Text.TrimStart();
                 }
@@ -412,9 +411,7 @@ namespace SearchDataSPM
                         break;
                     }
                 }
-
             }
-
         }
 
         private void Clearitemsbeforenewreq()
@@ -508,15 +505,15 @@ namespace SearchDataSPM
                 decimal price = 0.00m;
                 foreach (DataGridViewRow row in dataGridView1.Rows)
                 {
-                    if (row.Cells[3].Value.ToString().Length > 0 && row.Cells[3].Value.ToString() != null)
+                    if (row.Cells[4].Value.ToString().Length > 0 && row.Cells[4].Value.ToString() != null)
                     {
-                        qty = Convert.ToInt32(row.Cells[3].Value.ToString());
+                        qty = Convert.ToInt32(row.Cells[4].Value.ToString());
                     }
                     try
                     {
-                        if (row.Cells[7].Value.ToString() != null && row.Cells[7].Value.ToString().Length > 0)
+                        if (row.Cells[8].Value.ToString() != null && row.Cells[8].Value.ToString().Length > 0)
                         {
-                            price = Convert.ToDecimal(row.Cells[7].Value.ToString());
+                            price = Convert.ToDecimal(row.Cells[8].Value.ToString());
                         }
                         else
                         {
@@ -757,7 +754,6 @@ namespace SearchDataSPM
         {
             try
             {
-
                 await Task.Run(() => SplashDialog("Saving Data..."));
 
                 if (typeofsave != "Papproved")
@@ -999,61 +995,68 @@ namespace SearchDataSPM
 
         private void Addnewitemtoreq()
         {
-            int resultqty = 0;
-            //int result = 0;
-            //double price12 = 0.00;
-            errorProvider1.Clear();
-            if (qtytxt.Text.Length > 0 && qtytxt.Text != "0" && pricetxt.Text != "$0.00")
+            try
             {
-                int maxSlNo = dataGridView1.Rows.Count;
-                maxSlNo++;
-                //int selectedrowindex = dataGridView1.SelectedCells[0].RowIndex;
-                //MessageBox.Show(this.dataGridView1.Rows[selectedrowindex].HeaderCell.Value.ToString());
-                model.OrderId = maxSlNo;
-                model.Item = ItemTxtBox.Text.Trim();
-                model.Description = Descriptiontxtbox.Text.Trim();
-                model.Manufacturer = oemtxt.Text.Trim();
-                model.OEMItemNumber = oemitemnotxt.Text.Trim();
-
-                if (int.TryParse(qtytxt.Text, out resultqty))
-                    model.Qty = resultqty;
-                model.ReqNumber = Convert.ToInt32(purchreqtxt.Text);
-                if (decimal.TryParse(pricetxt.Text.Replace(",", "").Replace("$", ""), out decimal result12))
-                    model.Price = result12;
-                model.Notes = "";
-                using (SPM_DatabaseEntitiesPurchase db = new SPM_DatabaseEntitiesPurchase())
+                int resultqty = 0;
+                //int result = 0;
+                //double price12 = 0.00;
+                errorProvider1.Clear();
+                if (qtytxt.Text.Length > 0 && qtytxt.Text != "0" && pricetxt.Text != "$0.00")
                 {
-                    if (model.ID == 0)//Insert
-                        db.PurchaseReqs.Add(model);
-                    else //Update
-                        db.Entry(model).State = EntityState.Modified;
-                    db.SaveChanges();
+                    int maxSlNo = dataGridView1.Rows.Count;
+                    maxSlNo++;
+                    //int selectedrowindex = dataGridView1.SelectedCells[0].RowIndex;
+                    //MessageBox.Show(this.dataGridView1.Rows[selectedrowindex].HeaderCell.Value.ToString());
+                    model.OrderId = maxSlNo;
+                    model.Item = ItemTxtBox.Text.Trim();
+                    model.Description = Descriptiontxtbox.Text.Trim();
+                    model.Manufacturer = oemtxt.Text.Trim();
+                    model.OEMItemNumber = oemitemnotxt.Text.Trim();
+
+                    if (int.TryParse(qtytxt.Text, out resultqty))
+                        model.Qty = resultqty;
+                    model.ReqNumber = Convert.ToInt32(purchreqtxt.Text);
+                    if (decimal.TryParse(pricetxt.Text.Replace(",", "").Replace("$", ""), out decimal result12))
+                        model.Price = result12;
+                    model.Notes = "";
+                    using (SPM_DatabaseEntitiesPurchase db = new SPM_DatabaseEntitiesPurchase())
+                    {
+                        if (model.ID == 0)//Insert
+                            db.PurchaseReqs.Add(model);
+                        else //Update
+                            db.Entry(model).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+
+                    Clear();
+                    Updateorderid(Convert.ToInt32(purchreqtxt.Text));
+                    PopulateDataGridView();
+                    Addnewbttn.Enabled = false;
+                    itemsearchtxtbox.Focus();
+
+                    string itemsonhold = model.Item + "][" + model.ReqNumber;
+                    Itemstodiscard.Add(itemsonhold);
+                    model.Qty = null;
+                    model.Price = null;
                 }
-
-                Clear();
-                Updateorderid(Convert.ToInt32(purchreqtxt.Text));
-                PopulateDataGridView();
-                Addnewbttn.Enabled = false;
-                itemsearchtxtbox.Focus();
-
-                string itemsonhold = model.Item + "][" + model.ReqNumber;
-                Itemstodiscard.Add(itemsonhold);
-                model.Qty = null;
-                model.Price = null;
-            }
-            else
-            {
-                if (qtytxt.Text.Length > 0 && qtytxt.Text != "0")
-                    errorProvider1.SetError(pricetxt, "Price cannot be null");
-                else if (pricetxt.Text != "$0.00" && qtytxt.Text.Length != 1)
-                    errorProvider1.SetError(qtytxt, "Cannot be null");
-                else if (qtytxt.Text == "0")
-                    errorProvider1.SetError(qtytxt, "Qty cannot be zero");
                 else
                 {
-                    errorProvider1.SetError(pricetxt, "Price cannot be null");
-                    errorProvider1.SetError(qtytxt, "Cannot be null");
+                    if (qtytxt.Text.Length > 0 && qtytxt.Text != "0")
+                        errorProvider1.SetError(pricetxt, "Price cannot be null");
+                    else if (pricetxt.Text != "$0.00" && qtytxt.Text.Length != 1)
+                        errorProvider1.SetError(qtytxt, "Cannot be null");
+                    else if (qtytxt.Text == "0")
+                        errorProvider1.SetError(qtytxt, "Qty cannot be zero");
+                    else
+                    {
+                        errorProvider1.SetError(pricetxt, "Price cannot be null");
+                        errorProvider1.SetError(qtytxt, "Cannot be null");
+                    }
                 }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
@@ -1544,13 +1547,15 @@ namespace SearchDataSPM
                     //MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Populate Req Details", MessageBoxButtons.OK);
                 }
             }
+            if (savebttn.Visible && ecitbttn.Visible)
+                editbttn.Visible = false;
         }
 
         private string reqnumber = "";
 
         private void PopulateDataGridView()
         {
-            if (dataGridView.Rows.Count > 0 && dataGridView.SelectedCells.Count > 0)
+            if (dataGridView.Rows.Count > 0)
             {
                 int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                 DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
@@ -1563,6 +1568,9 @@ namespace SearchDataSPM
                 //{
                 //row.HeaderCell.Value = String.Format("{0}", row.Index + 1);
                 //}
+                //dataGridView1.Columns[0].Visible = false;
+                //dataGridView1.Columns[9].Visible = false;
+                //dataGridView1.Columns[8].Visible = false;
                 reqnumber = item.ToString();
                 PreviewTabPage.Text = "ReqNo : " + item;
                 UpdateFontdataitems();
@@ -3747,6 +3755,14 @@ namespace SearchDataSPM
         private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             log.Error(sender, (Exception)e.ExceptionObject); errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, this);
+        }
+
+        private void itemsearchtxtbox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                itemsearchtxtbox.Focus();
+            }
         }
     }
 }

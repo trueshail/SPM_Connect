@@ -196,6 +196,7 @@
             this.soldtocombobox.TabIndex = 2;
             this.TreeViewToolTip.SetToolTip(this.soldtocombobox, "Select Sold to Customer/Vendor");
             this.soldtocombobox.SelectedIndexChanged += new System.EventHandler(this.soldtocombobox_SelectedIndexChanged);
+            this.soldtocombobox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.soldtocombobox_PreviewKeyDown);
             // 
             // shippinggroupBox
             // 
@@ -261,6 +262,7 @@
             this.FOBPointcombox.Size = new System.Drawing.Size(226, 21);
             this.FOBPointcombox.TabIndex = 8;
             this.TreeViewToolTip.SetToolTip(this.FOBPointcombox, "FOB Point");
+            this.FOBPointcombox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.FOBPointcombox_PreviewKeyDown);
             // 
             // currencycombox
             // 
@@ -295,6 +297,7 @@
             this.Termscombobox.Size = new System.Drawing.Size(226, 21);
             this.Termscombobox.TabIndex = 5;
             this.TreeViewToolTip.SetToolTip(this.Termscombobox, "Terms or conditions");
+            this.Termscombobox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.Termscombobox_PreviewKeyDown);
             // 
             // requestcomboBox
             // 
@@ -311,6 +314,7 @@
             this.requestcomboBox.Size = new System.Drawing.Size(202, 21);
             this.requestcomboBox.TabIndex = 7;
             this.TreeViewToolTip.SetToolTip(this.requestcomboBox, "Requested by");
+            this.requestcomboBox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.requestcomboBox_PreviewKeyDown);
             // 
             // Salespersoncombobox
             // 
@@ -327,6 +331,7 @@
             this.Salespersoncombobox.Size = new System.Drawing.Size(202, 21);
             this.Salespersoncombobox.TabIndex = 6;
             this.TreeViewToolTip.SetToolTip(this.Salespersoncombobox, "Sales Person");
+            this.Salespersoncombobox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.Salespersoncombobox_PreviewKeyDown);
             // 
             // Carriercombox
             // 
@@ -342,6 +347,7 @@
             this.Carriercombox.Size = new System.Drawing.Size(234, 21);
             this.Carriercombox.TabIndex = 4;
             this.TreeViewToolTip.SetToolTip(this.Carriercombox, "How it\'s getting shipped");
+            this.Carriercombox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.Carriercombox_PreviewKeyDown);
             // 
             // foblabel
             // 
@@ -612,6 +618,7 @@
             this.shiptocombobox.TabIndex = 3;
             this.TreeViewToolTip.SetToolTip(this.shiptocombobox, "Select Ship to Customer/Vendor");
             this.shiptocombobox.SelectedIndexChanged += new System.EventHandler(this.shiptocombobox_SelectedIndexChanged);
+            this.shiptocombobox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.shiptocombobox_PreviewKeyDown);
             // 
             // ship2fax
             // 

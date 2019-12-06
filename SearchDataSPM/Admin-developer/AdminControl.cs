@@ -1348,5 +1348,21 @@ namespace SearchDataSPM
             log.Error(sender, (Exception)e.ExceptionObject);
             errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, this);
         }
+
+        private void supervisorcombox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                supervisorcombox.Focus();
+            }
+        }
+
+        private void ecrSupervisorcomboBox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                ecrSupervisorcomboBox.Focus();
+            }
+        }
     }
 }

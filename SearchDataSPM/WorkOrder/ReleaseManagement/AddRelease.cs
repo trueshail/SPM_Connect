@@ -984,9 +984,8 @@ namespace SearchDataSPM
             {
                 itemcleartosave = true;
             }
-
         }
 
-        #endregion
+        #endregion CheckItemAddedOnGenius
     }
 }

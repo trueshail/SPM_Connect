@@ -998,5 +998,61 @@ namespace SearchDataSPM
         {
             log.Error(sender, (Exception)e.ExceptionObject); errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, this);
         }
+
+        private void soldtocombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                soldtocombobox.Focus();
+            }
+        }
+
+        private void shiptocombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                shiptocombobox.Focus();
+            }
+        }
+
+        private void Carriercombox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                Carriercombox.Focus();
+            }
+        }
+
+        private void Termscombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                Termscombobox.Focus();
+            }
+        }
+
+        private void Salespersoncombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                Salespersoncombobox.Focus();
+            }
+        }
+
+        private void requestcomboBox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                requestcomboBox.Focus();
+            }
+        }
+
+        private void FOBPointcombox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                FOBPointcombox.Focus();
+            }
+        }
     }
 }

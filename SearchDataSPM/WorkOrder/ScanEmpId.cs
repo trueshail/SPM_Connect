@@ -40,9 +40,9 @@ namespace SearchDataSPM
         private void empid_txtbox_KeyPress(object sender, KeyPressEventArgs e)
         {
             // check timing (keystrokes within 100 ms)
-            TimeSpan elapsed = (DateTime.Now - _lastKeystroke);
-            if (elapsed.TotalMilliseconds > userinputtime)
-                _barcode.Clear();
+            //TimeSpan elapsed = (DateTime.Now - _lastKeystroke);
+            //if (elapsed.TotalMilliseconds > userinputtime)
+            //    _barcode.Clear();
 
             // record keystroke & timestamp
             _barcode.Add(e.KeyChar);

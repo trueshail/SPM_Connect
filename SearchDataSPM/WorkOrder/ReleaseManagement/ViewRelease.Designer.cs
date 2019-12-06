@@ -83,6 +83,8 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.reloadwobttn = new System.Windows.Forms.Button();
             this.woTreeview = new System.Windows.Forms.TreeView();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.wosearchlabel = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
@@ -92,6 +94,7 @@
             this.groupBox3.SuspendLayout();
             this.panel1.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -954,6 +957,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.woTreeview.BackColor = System.Drawing.Color.White;
+            this.woTreeview.ContextMenuStrip = this.contextMenuStrip1;
             this.woTreeview.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.woTreeview.HotTracking = true;
             this.woTreeview.ImageIndex = 0;
@@ -969,11 +973,28 @@
             this.woTreeview.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.woTreeview_BeforeExpand);
             this.woTreeview.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.woTreeview_AfterExpand);
             this.woTreeview.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.woTreeview_BeforeSelect);
-            this.woTreeview.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.woTreeview_AfterSelect);
+            this.woTreeview.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.woTreeview_NodeMouseClick);
             this.woTreeview.KeyDown += new System.Windows.Forms.KeyEventHandler(this.woTreeview_KeyDown);
             this.woTreeview.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.woTreeview_KeyPress);
             this.woTreeview.Leave += new System.EventHandler(this.woTreeview_Leave);
             this.woTreeview.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Tree_MouseDown);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem2});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(161, 26);
+            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem2.Image")));
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(160, 22);
+            this.toolStripMenuItem2.Text = "View WorkOrder";
+            this.toolStripMenuItem2.ToolTipText = "Preview Work Order Details";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.getWOToolStripMenuItem_Click);
             // 
             // wosearchlabel
             // 
@@ -1042,6 +1063,7 @@
             this.panel1.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
@@ -1106,5 +1128,7 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Button reloadconnectbttn;
         private System.Windows.Forms.Button reloadwobttn;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
     }
 }

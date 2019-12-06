@@ -1,6 +1,5 @@
 ﻿using ExtractLargeIconFromFile;
 using SearchDataSPM.ECR;
-
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -1776,6 +1775,67 @@ namespace SearchDataSPM
         {
             log.Info("Closed ECR Detail " + Invoice_Number + " by " + System.Environment.UserName);
             this.Dispose();
+        }
+
+        private void listView_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Copy;
+        }
+
+        private void listView_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (files.Length > 0)
+            {
+                Cursor.Current = Cursors.WaitCursor;
+                var failedToUploads = new List<string>();
+                var uploads = new List<string>();
+                string str = @"\\spm-adfs\SDBASE\Reports\ECR_Attachments\" + ecrnotxtbox.Text + "\\";
+                if (!Directory.Exists(str))
+                {
+                    Directory.CreateDirectory(str);
+                }
+
+                foreach (string file in files)
+                {
+                    if (copyFile(file, str + Path.GetRandomFileName().Replace(".", string.Empty) + Path.GetExtension(file)))
+                        uploads.Add(file);
+                    else
+                        failedToUploads.Add(file);
+                }
+                var message = string.Format("Files Attached: \n {0}", string.Join("\n", uploads.ToArray()));
+                if (failedToUploads.Count > 0)
+                {
+                    message += string.Format("\nFailed to Attach: \n {0}", string.Join("\n", failedToUploads.ToArray()));
+                    MessageBox.Show(message);
+                }
+                filllistview(ecrnotxtbox.Text);
+                Cursor.Current = Cursors.Default;
+            }
+        }
+
+        private void projectmanagercombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                projectmanagercombobox.Focus();
+            }
+        }
+
+        private void departmentcomboBox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                departmentcomboBox.Focus();
+            }
+        }
+
+        private void requestedbycombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                requestedbycombobox.Focus();
+            }
         }
     }
 }

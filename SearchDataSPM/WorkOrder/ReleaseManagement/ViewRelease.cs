@@ -76,11 +76,12 @@ namespace SearchDataSPM
             {
                 Treeview.ContextMenuStrip = null;
                 Treeview.AllowDrop = false;
-
             }
             Text = "Release Log Details - SPM Connect (" + workOrder + ")";
             Startprocessfortreeview();
             WOStartprocessfortreeview();
+            woroot.Expand();
+            root.Expand();
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened View WorkOrder Release " + workOrder + " by " + System.Environment.UserName);
@@ -885,15 +886,6 @@ namespace SearchDataSPM
             }
         }
 
-        private void woTreeview_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            if (genpublicnode != null)
-            {
-                genpublicnode.BackColor = woTreeview.BackColor;
-                genpublicnode.ForeColor = woTreeview.ForeColor;
-            }
-        }
-
         private void woTreeview_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
@@ -1046,7 +1038,7 @@ namespace SearchDataSPM
                     woroot.Tag = woTB.Rows.IndexOf(dr[0]);
                     Setimageaccordingtofamily(dr[0]["AssyFamily"].ToString(), woroot);
                     woTreeview.Nodes.Add(woroot);
-                    WOPopulateTreeView(assyNumber, woroot);
+                    WOPopulateTreeView(assyNumber, woroot, connectapi.GrabWOfromAssy(dr[0]["Job"].ToString(), dr[0]["AssyNo"].ToString()));
                 }
             }
             catch (Exception ex)
@@ -1076,11 +1068,11 @@ namespace SearchDataSPM
             }
         }
 
-        private void WOPopulateTreeView(string parentId, TreeNode parentNode)
+        private void WOPopulateTreeView(string parentId, TreeNode parentNode, string wo)
         {
             TreeNode childNode;
 
-            foreach (DataRow dr in woTB.Select("[AssyNo] = '" + parentId.ToString() + "'"))
+            foreach (DataRow dr in woTB.Select("[AssyNo] = '" + parentId.ToString() + "' AND [Woprec] = '" + wo.ToString() + "'"))
             {
                 TreeNode t = new TreeNode
                 {
@@ -1105,7 +1097,9 @@ namespace SearchDataSPM
                     parentNode.Nodes.Add(t);
                     childNode = t;
                 }
-                WOPopulateTreeView(dr["ItemNumber"].ToString(), childNode);
+                if (dr["ItemNumber"].ToString() != dr["AssyNo"].ToString())
+                    WOPopulateTreeView(dr["ItemNumber"].ToString(), childNode, dr["Wo"].ToString());
+                //WOPopulateTreeView(dr["ItemNumber"].ToString(), childNode);
             }
             // treeView1.SelectedNode = treeView1.Nodes[0];
         }
@@ -1163,6 +1157,7 @@ namespace SearchDataSPM
             rootnodedone = false;
             Startprocessfortreeview();
             doneshowingSplash = true;
+            root.Expand();
         }
 
         private async void reloadwobttn_Click(object sender, EventArgs e)
@@ -1174,6 +1169,7 @@ namespace SearchDataSPM
             worootnodedone = false;
             WOStartprocessfortreeview();
             doneshowingSplash = true;
+            woroot.Expand();
         }
 
         private void SplashDialog(string message)
@@ -1358,6 +1354,47 @@ namespace SearchDataSPM
                     }
                 }
             }
+        }
+
+        private void getWOToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ProrcessreportWorkOrder(Getselectedworkorder(woTreeview.SelectedNode), "WorkOrder");
+        }
+
+        private void ProrcessreportWorkOrder(string itemvalue, string Reportname)
+        {
+            ReportViewer form1 = new ReportViewer();
+            form1.item(itemvalue);
+            form1.getreport(Reportname);
+            form1.Show();
+        }
+
+        private string Getselectedworkorder(TreeNode treeNode)
+        {
+            string wo = "";
+            if (treeNode != null)
+            {
+                DataRow r = woTB.Rows[int.Parse(treeNode.Tag.ToString())];
+                wo = r["WO"].ToString();
+            }
+
+            return wo;
+        }
+
+        private void contextMenuStrip1_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            //if (woTreeview.SelectedNode != null)
+            //{
+            //}
+            //else
+            //{
+            //    e.Cancel = true;
+            //}
+        }
+
+        private void woTreeview_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            woTreeview.SelectedNode = e.Node;
         }
     }
 }

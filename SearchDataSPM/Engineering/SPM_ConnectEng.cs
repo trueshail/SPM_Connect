@@ -85,26 +85,12 @@ namespace SearchDataSPM
             //    purchaseReq.currentusercreds();
             //}
             Showallitems();
-            dataGridView.Columns[5].Visible = false;
-            dataGridView.Columns[6].Visible = false;
-            dataGridView.Columns[7].Visible = false;
-            dataGridView.Columns[8].Visible = false;
-            dataGridView.Columns[9].Visible = false;
-            dataGridView.Columns[10].Visible = false;
-            dataGridView.Columns[11].Visible = false;
-            dataGridView.Columns[12].Visible = false;
-            dataGridView.Columns[13].Visible = false;
-            dataGridView.Columns[0].Width = 60;
-            dataGridView.Columns[2].Width = 55;
-            dataGridView.Columns[1].Width = 300;
-            dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridView.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridView.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
             txtSearch.Focus();
-            string startDate = "01-11-";
+            string startDate = "01-12-";
             string endDate = "01-01-";
             startDate = startDate + DateTime.Now.Year + " 12:00 AM";
-            endDate = endDate + DateTime.Now.Year + " 12:00 AM";
+            endDate = endDate + (DateTime.Now.Year + 1) + " 12:00 AM";
             if (DateTime.Now > Convert.ToDateTime(startDate) && DateTime.Now < Convert.ToDateTime(endDate))
             {
                 pictureBox1.Visible = true;
@@ -257,7 +243,21 @@ namespace SearchDataSPM
             DataView dv = dt.DefaultView;
             //dataGridView.Sort(itemNumberDataGridViewTextBoxColumn, ListSortDirection.Descending);
             dataGridView.Sort(dataGridView.Columns[0], ListSortDirection.Descending);
-
+            dataGridView.Columns[5].Visible = false;
+            dataGridView.Columns[6].Visible = false;
+            dataGridView.Columns[7].Visible = false;
+            dataGridView.Columns[8].Visible = false;
+            dataGridView.Columns[9].Visible = false;
+            dataGridView.Columns[10].Visible = false;
+            dataGridView.Columns[11].Visible = false;
+            dataGridView.Columns[12].Visible = false;
+            dataGridView.Columns[13].Visible = false;
+            dataGridView.Columns[0].Width = 60;
+            dataGridView.Columns[2].Width = 55;
+            dataGridView.Columns[1].Width = 300;
+            dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridView.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridView.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             UpdateFont();
             showingfavorites = false;
             showingduplicates = false;
@@ -1342,7 +1342,7 @@ namespace SearchDataSPM
 
                 return true;
             }
-            if (keyData == (Keys.Shift | Keys.F))
+            if (keyData == (Keys.Alt | Keys.F))
             {
                 if (showingfavorites)
                 {
@@ -1531,17 +1531,18 @@ namespace SearchDataSPM
 
         private void DataGridView_SelectionChanged(object sender, EventArgs e)
         {
-            Showfilesonlistview();
+            if (!formloading)
+                Showfilesonlistview();
         }
 
         private void Showfilesonlistview()
         {
             try
             {
-                listFiles.Clear();
-                listView.Clear();
-                if (dataGridView.SelectedCells.Count == 1)
+                if (dataGridView.SelectedCells.Count == 1 || dataGridView.SelectedCells.Count == 14)
                 {
+                    listFiles.Clear();
+                    listView.Clear();
                     int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                     DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
                     string item = Convert.ToString(slectedrow.Cells[0].Value);
@@ -3115,6 +3116,62 @@ namespace SearchDataSPM
         private void ListView_DragOver(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.All;
+        }
+
+        private void designedbycombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                designedbycombobox.Focus();
+            }
+        }
+
+        private void familycomboxbox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                familycomboxbox.Focus();
+            }
+        }
+
+        private void oemitemcombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                oemitemcombobox.Focus();
+            }
+        }
+
+        private void Manufactureritemcomboxbox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                Manufactureritemcomboxbox.Focus();
+            }
+        }
+
+        private void MaterialcomboBox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                MaterialcomboBox.Focus();
+            }
+        }
+
+        private void lastsavedbycombo_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                lastsavedbycombo.Focus();
+            }
+        }
+
+        private void ActiveCadblockcombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                ActiveCadblockcombobox.Focus();
+            }
         }
     }
 }
