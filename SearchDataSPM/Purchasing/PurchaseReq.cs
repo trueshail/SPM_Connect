@@ -116,6 +116,8 @@ namespace SearchDataSPM
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Purchase Req by " + System.Environment.UserName);
+            this.BringToFront();
+            this.Focus();
         }
 
         private void Changecontrolbuttonnames()
@@ -598,7 +600,8 @@ namespace SearchDataSPM
                     string ponumber = "";
                     string pdate = "";
                     General.PODetails pODetails = new SearchDataSPM.General.PODetails();
-
+                    pODetails.TopMost = true;
+                    pODetails.Focus();
                     if (pODetails.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {
                         ponumber = pODetails.ValueIWant;

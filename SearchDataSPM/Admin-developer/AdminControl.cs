@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace SearchDataSPM
 {
-    public partial class spmadmin : Form
+    public partial class Spmadmin : Form
     {
         #region steupvariables
 
@@ -24,7 +24,7 @@ namespace SearchDataSPM
 
         #region loadtree
 
-        public spmadmin()
+        public Spmadmin()
         {
             Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
@@ -48,7 +48,9 @@ namespace SearchDataSPM
 
         private void ParentView_Load(object sender, EventArgs e)
         {
-            fillsupervisor();
+            Fillsupervisor();
+            FillECRsupervisor();
+            FillShippingsupervisor();
             Connect_SPMSQL(0);
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -90,7 +92,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void fillsupervisor()
+        private void Fillsupervisor()
         {
             using (SqlCommand sqlCommand = new SqlCommand("SELECT CONCAT(id, ' ', Name) as Supervisors  FROM [SPM_Database].[dbo].[Users]  WHERE PurchaseReqApproval = '1'  OR PurchaseReqApproval2 ='1'", cn))
             {
@@ -120,7 +122,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void fillECRsupervisor()
+        private void FillECRsupervisor()
         {
             using (SqlCommand sqlCommand = new SqlCommand("SELECT CONCAT(id, ' ', Name) as ECRSupervisors  FROM [SPM_Database].[dbo].[Users]  WHERE [ECRApproval] = '1'  OR [ECRApproval2] ='1'", cn))
             {
@@ -148,16 +150,44 @@ namespace SearchDataSPM
             }
         }
 
+        private void FillShippingsupervisor()
+        {
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT CONCAT(id, ' ', Name) as ShipSupervisors  FROM [SPM_Database].[dbo].[Users]  WHERE [ShipSupervisor] = '1'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+                    AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
+                    while (reader.Read())
+                    {
+                        MyCollection.Add(reader.GetString(0));
+                    }
+                    shippingSupervisorcomboBox.AutoCompleteCustomSource = MyCollection;
+                    shippingSupervisorcomboBox.DataSource = MyCollection;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Fill Shipping supervisors", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+        }
+
         #endregion loadtree
 
         #region Fillinfo
 
         private void Userlistbox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            selectionchanged(selectedindex);
+            Selectionchanged(selectedindex);
         }
 
-        private void selectionchanged(int index)
+        private void Selectionchanged(int index)
         {
             try
             {
@@ -187,7 +217,29 @@ namespace SearchDataSPM
                         MyString += " ";
                         MyString += getuserfullname(dr["Supervisor"].ToString());
                         supervisorcombox.SelectedItem = MyString;
+                    }
+                    else
+                    {
+                    }
+
+                    if (dr["ECRSup"].ToString().Length > 0)
+                    {
+                        string MyString = dr["ECRSup"].ToString();
+                        MyString += " ";
+                        MyString += getuserfullname(dr["ECRSup"].ToString());
                         ecrSupervisorcomboBox.SelectedItem = MyString;
+                    }
+                    else
+                    {
+                    }
+
+
+                    if (dr["ShipSup"].ToString().Length > 0)
+                    {
+                        string MyString = dr["ShipSup"].ToString();
+                        MyString += " ";
+                        MyString += getuserfullname(dr["ShipSup"].ToString());
+                        shippingSupervisorcomboBox.SelectedItem = MyString;
                     }
                     else
                     {
@@ -283,6 +335,26 @@ namespace SearchDataSPM
                     {
                         shiptoggle.Checked = false;
                     }
+
+                    if (dr["ShipSupervisor"].ToString().Equals("1"))
+                    {
+                        shippingsupchk.Checked = true;
+                    }
+                    else
+                    {
+                        shippingsupchk.Checked = false;
+                    }
+
+                    if (dr["ShippingManager"].ToString().Equals("1"))
+                    {
+                        shippingmanagerchk.Checked = true;
+                    }
+                    else
+                    {
+                        shippingmanagerchk.Checked = false;
+                    }
+
+
 
                     if (dr["CribCheckout"].ToString().Equals("1"))
                     {
@@ -414,10 +486,10 @@ namespace SearchDataSPM
 
         private void addnewbttn_Click(object sender, EventArgs e)
         {
-            performaddnewbutton();
+            Performaddnewbutton();
         }
 
-        private void performaddnewbutton()
+        private void Performaddnewbutton()
         {
             selectedindex = Userlistbox.SelectedIndex;
             nametextbox.ReadOnly = false;
@@ -441,6 +513,10 @@ namespace SearchDataSPM
             papproval2chk.Enabled = true;
             pbuyerchk.Enabled = true;
 
+            shippingSupervisorcomboBox.Enabled = true;
+            shippingsupchk.Enabled = true;
+            shippingmanagerchk.Enabled = true;
+
             supervisorcombox.Enabled = true;
             deptcombobox.Enabled = true;
             nametextbox.Text = "";
@@ -462,16 +538,19 @@ namespace SearchDataSPM
             papprovalchk.Checked = false;
             pbuyerchk.Checked = false;
 
+            shippingsupchk.Checked = false;
+            shippingmanagerchk.Checked = false;
+
             ecrapprovalchk.Enabled = true;
             ecrapproval2chk.Enabled = true;
             ecrhandlerchk.Enabled = true;
             ecrapprovalchk.Checked = false;
             ecrapproval2chk.Checked = false;
             ecrhandlerchk.Checked = false;
-            enablealltoggles();
+            Enablealltoggles();
         }
 
-        private void enablealltoggles()
+        private void Enablealltoggles()
         {
             admintoggle.Enabled = true;
             quotetoggle.Enabled = true;
@@ -488,7 +567,7 @@ namespace SearchDataSPM
             itmdeptoggle.Enabled = true;
         }
 
-        private void disablealltoggles()
+        private void Disablealltoggles()
         {
             admintoggle.Enabled = false;
             quotetoggle.Enabled = false;
@@ -505,12 +584,12 @@ namespace SearchDataSPM
             itmdeptoggle.Enabled = false;
         }
 
-        private void delbttn_Click(object sender, EventArgs e)
+        private void Delbttn_Click(object sender, EventArgs e)
         {
-            performdeletebttn();
+            Performdeletebttn();
         }
 
-        private void performdeletebttn()
+        private void Performdeletebttn()
         {
             DialogResult result = MessageBox.Show(
                  "Name = " + nametextbox.Text + Environment.NewLine +
@@ -536,6 +615,8 @@ namespace SearchDataSPM
                  "ECR Supervisor = " + (ecrapprovalchk.Checked ? "Yes" : "No") + Environment.NewLine +
                  "ECR Approval = " + (ecrapproval2chk.Checked ? "Yes" : "No") + Environment.NewLine +
                  "ECR Handler = " + (ecrhandlerchk.Checked ? "Yes" : "No") + Environment.NewLine +
+                 "Shipping Supervisor = " + (shippingsupchk.Checked ? "Yes" : "No") + Environment.NewLine +
+                 "Shipping Manager = " + (shippingmanagerchk.Checked ? "Yes" : "No") + Environment.NewLine +
                  "Management = " + (managementtoggle.Checked ? "Yes" : "No"), "Remove user from system?",
                                                  MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
@@ -574,12 +655,12 @@ namespace SearchDataSPM
             }
         }
 
-        private void updatebttn_Click(object sender, EventArgs e)
+        private void Updatebttn_Click(object sender, EventArgs e)
         {
-            performupdateuserdet();
+            Performupdateuserdet();
         }
 
-        private void performupdateuserdet()
+        private void Performupdateuserdet()
         {
             selectedindex = Userlistbox.SelectedIndex;
             nametextbox.ReadOnly = false;
@@ -595,7 +676,11 @@ namespace SearchDataSPM
             ecrapproval2chk.Enabled = true;
             ecrhandlerchk.Enabled = true;
 
-            enablealltoggles();
+            Enablealltoggles();
+
+            shippingSupervisorcomboBox.Enabled = true;
+            shippingsupchk.Enabled = true;
+            shippingmanagerchk.Enabled = true;
 
             supervisorcombox.Enabled = true;
             deptcombobox.Enabled = true;
@@ -615,24 +700,24 @@ namespace SearchDataSPM
             UserStats.Enabled = false;
         }
 
-        private void updatesavebttn_Click(object sender, EventArgs e)
+        private void Updatesavebttn_Click(object sender, EventArgs e)
         {
-            saveuserdetails();
+            Saveuserdetails();
         }
 
-        private void saveuserdetails()
+        private void Saveuserdetails()
         {
             if (controluseraction == "update")
             {
-                updateuser();
+                Updateuser();
             }
             else
             {
-                addnewuser();
+                Addnewuser();
             }
         }
 
-        private void updateuser()
+        private void Updateuser()
         {
             DialogResult result = MessageBox.Show(
                "Name = " + nametextbox.Text + Environment.NewLine +
@@ -658,6 +743,8 @@ namespace SearchDataSPM
                "ECR Supervisor = " + (ecrapprovalchk.Checked ? "Yes" : "No") + Environment.NewLine +
                "ECR Approval = " + (ecrapproval2chk.Checked ? "Yes" : "No") + Environment.NewLine +
                "ECR Handler = " + (ecrhandlerchk.Checked ? "Yes" : "No") + Environment.NewLine +
+               "Shipping Supervisor = " + (shippingsupchk.Checked ? "Yes" : "No") + Environment.NewLine +
+               "Shipping Manager = " + (shippingmanagerchk.Checked ? "Yes" : "No") + Environment.NewLine +
                "Management = " + (managementtoggle.Checked ? "Yes" : "No"), "Update User Information?",
                                                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
@@ -682,8 +769,8 @@ namespace SearchDataSPM
                         "PurchaseReqApproval = '" + (papprovalchk.Checked ? "1" : "0") + "',PurchaseReqApproval2 = '" + (papproval2chk.Checked ? "1" : "0") + "'," +
                         "PurchaseReqBuyer = '" + (pbuyerchk.Checked ? "1" : "0") + "',Supervisor = '" + supervisorcombox.SelectedItem.ToString().Substring(0, 2) + "'," +
                         "Email = '" + useremailtxt.Text + "',PriceRight = '" + (pricetoggle.Checked ? "1" : "0") + "',Shipping = '" + (shiptoggle.Checked ? "1" : "0") + "'," +
-                        "CribCheckout = '" + (cribouttoggle.Checked ? "1" : "0") + "',CribShort = '" + (cribshorttoggle.Checked ? "1" : "0") + "'," +
-                        "ECR = '" + (ecrtoggle.Checked ? "1" : "0") + "',WORelease = '" + (woreleasetoggle.Checked ? "1" : "0") + "',ItemDependencies = '" + (itmdeptoggle.Checked ? "1" : "0") + "',ECRApproval = '" + (ecrapprovalchk.Checked ? "1" : "0") + "',ECRApproval2 = '" + (ecrapproval2chk.Checked ? "1" : "0") + "',ECRHandler = '" + (ecrhandlerchk.Checked ? "1" : "0") + "'," +
+                        "CribCheckout = '" + (cribouttoggle.Checked ? "1" : "0") + "',ShipSup = '" + shippingSupervisorcomboBox.SelectedItem.ToString().Substring(0, 2) + "',CribShort = '" + (cribshorttoggle.Checked ? "1" : "0") + "'," +
+                        "ECR = '" + (ecrtoggle.Checked ? "1" : "0") + "',ShipSupervisor = '" + (shippingsupchk.Checked ? "1" : "0") + "',ShippingManager = '" + (shippingmanagerchk.Checked ? "1" : "0") + "',WORelease = '" + (woreleasetoggle.Checked ? "1" : "0") + "',ItemDependencies = '" + (itmdeptoggle.Checked ? "1" : "0") + "',ECRApproval = '" + (ecrapprovalchk.Checked ? "1" : "0") + "',ECRApproval2 = '" + (ecrapproval2chk.Checked ? "1" : "0") + "',ECRHandler = '" + (ecrhandlerchk.Checked ? "1" : "0") + "'," +
                         "WOScan = '" + (scanwotoggle.Checked ? "1" : "0") + "',SharesFolder = '" + sharepathtxt.Text.Trim() + "'," +
                         "Emp_Id = '" + empidtxt.Text.Trim() + "' WHERE UserName = '" + domaintxtbox.Text + "' ";
 
@@ -698,16 +785,16 @@ namespace SearchDataSPM
                 finally
                 {
                     cn.Close();
-                    performcancelbutton();
+                    Performcancelbutton();
                 }
             }
             else if (result == DialogResult.No)
             {
-                performcancelbutton();
+                Performcancelbutton();
             }
         }
 
-        private void addnewuser()
+        private void Addnewuser()
         {
             DialogResult result = MessageBox.Show(
                "Name = " + nametextbox.Text + Environment.NewLine +
@@ -733,6 +820,8 @@ namespace SearchDataSPM
                "ECR Supervisor = " + (ecrapprovalchk.Checked ? "Yes" : "No") + Environment.NewLine +
                "ECR Approval = " + (ecrapproval2chk.Checked ? "Yes" : "No") + Environment.NewLine +
                "ECR Handler = " + (ecrhandlerchk.Checked ? "Yes" : "No") + Environment.NewLine +
+               "Shipping Supervisor = " + (shippingsupchk.Checked ? "Yes" : "No") + Environment.NewLine +
+               "Shipping Manager = " + (shippingmanagerchk.Checked ? "Yes" : "No") + Environment.NewLine +
                "Management = " + (managementtoggle.Checked ? "Yes" : "No"), "Update User Information?",
                                                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
@@ -751,13 +840,13 @@ namespace SearchDataSPM
                     SqlCommand cmd = cn.CreateCommand();
                     cmd.CommandType = CommandType.Text;
                     cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Users]([Emp_Id], [UserName], [Department], [Name],[ActiveBlockNumber],[Admin],[Developer],[Management]," +
-                        "[Quote],[PurchaseReq],[PurchaseReqApproval],[PurchaseReqApproval2],[PurchaseReqBuyer],[PriceRight],[CribCheckout],[CribShort],[WOScan],[Shipping],[Supervisor]," +
+                        "[Quote],[PurchaseReq],[PurchaseReqApproval],[PurchaseReqApproval2],[PurchaseReqBuyer],[PriceRight],[ShipSupervisor],[ShipSup],[ShippingManager],[CribCheckout],[CribShort],[WOScan],[Shipping],[Supervisor]," +
                         "[Email],[SharesFolder],[ECR],[WORelease],[ItemDependencies],[ECRApproval],[ECRApproval2],[ECRHandler]) " +
                         "VALUES('" + empidtxt.Text.Trim() + "','" + domaintxtbox.Text.Trim() + "','" + deptcombobox.SelectedItem.ToString() + "'," +
                         "'" + nametextbox.Text.Trim() + "','" + activeblocknumber + "','" + (admintoggle.Checked ? "1" : "0") + "','" + (developertoggle.Checked ? "1" : "0") + "'," +
                         "'" + (managementtoggle.Checked ? "1" : "0") + "','" + (quotetoggle.Checked ? "1" : "0") + "','" + (purchasereqtoggle.Checked ? "1" : "0") + "'," +
                         "'" + (papprovalchk.Checked ? "1" : "0") + "','" + (papproval2chk.Checked ? "1" : "0") + "','" + (pbuyerchk.Checked ? "1" : "0") + "'," +
-                        "'" + (pricetoggle.Checked ? "1" : "0") + "','" + (cribouttoggle.Checked ? "1" : "0") + "','" + (cribshorttoggle.Checked ? "1" : "0") + "','" + (scanwotoggle.Checked ? "1" : "0") + "','" + (shiptoggle.Checked ? "1" : "0") + "'," +
+                        "'" + (pricetoggle.Checked ? "1" : "0") + "','" + shippingSupervisorcomboBox.SelectedItem.ToString().Substring(0, 2).TrimEnd() + "','" + (shippingmanagerchk.Checked ? "1" : "0") + "','" + (cribouttoggle.Checked ? "1" : "0") + "','" + (cribouttoggle.Checked ? "1" : "0") + "','" + (cribshorttoggle.Checked ? "1" : "0") + "','" + (scanwotoggle.Checked ? "1" : "0") + "','" + (shiptoggle.Checked ? "1" : "0") + "'," +
                         "'" + supervisorcombox.SelectedItem.ToString().Substring(0, 2).TrimEnd() + "','" + useremailtxt.Text + "','" + sharepathtxt.Text + "'," +
                         "'" + (ecrtoggle.Checked ? "1" : "0") + "','" + (woreleasetoggle.Checked ? "1" : "0") + "','" + (itmdeptoggle.Checked ? "1" : "0") + "','" + (ecrapprovalchk.Checked ? "1" : "0") + "','" + (ecrapproval2chk.Checked ? "1" : "0") + "','" + (ecrhandlerchk.Checked ? "1" : "0") + "')";
                     cmd.ExecuteNonQuery();
@@ -771,23 +860,23 @@ namespace SearchDataSPM
                 finally
                 {
                     cn.Close();
-                    performcancelbutton();
+                    Performcancelbutton();
                 }
             }
             else if (result == DialogResult.No)
             {
-                performcancelbutton();
+                Performcancelbutton();
             }
         }
 
         private void cnclbttn_Click(object sender, EventArgs e)
         {
-            performcancelbutton();
+            Performcancelbutton();
         }
 
-        private void performcancelbutton()
+        private void Performcancelbutton()
         {
-            disablealltoggles();
+            Disablealltoggles();
             selectfolder.Enabled = false;
             domaintxtbox.Text = "";
             useremailtxt.Text = "";
@@ -802,6 +891,10 @@ namespace SearchDataSPM
             ecrapprovalchk.Enabled = false;
             ecrapproval2chk.Enabled = false;
             ecrhandlerchk.Enabled = false;
+
+            shippingSupervisorcomboBox.Enabled = false;
+            shippingsupchk.Enabled = false;
+            shippingmanagerchk.Enabled = false;
 
             supervisorcombox.Enabled = false;
             deptcombobox.Enabled = false;
@@ -1252,13 +1345,13 @@ namespace SearchDataSPM
         {
             if (keyData == (Keys.Control | Keys.S))
             {
-                saveuserdetails();
+                Saveuserdetails();
                 return true;
             }
 
             if (keyData == (Keys.Alt | Keys.X))
             {
-                performcancelbutton();
+                Performcancelbutton();
                 return true;
             }
 
@@ -1270,13 +1363,13 @@ namespace SearchDataSPM
 
             if (keyData == (Keys.Alt | Keys.A))
             {
-                performaddnewbutton();
+                Performaddnewbutton();
                 return true;
             }
 
             if (keyData == (Keys.Control | Keys.E))
             {
-                performupdateuserdet();
+                Performupdateuserdet();
                 return true;
             }
 
@@ -1284,7 +1377,7 @@ namespace SearchDataSPM
             {
                 if (updatebttn.Visible)
                 {
-                    performdeletebttn();
+                    Performdeletebttn();
                     return true;
                 }
             }
@@ -1301,7 +1394,8 @@ namespace SearchDataSPM
                 DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to close without saving changes?", "SPM Connect - Save User Details", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {
-                    this.Close();
+                    //this.Close();
+                    e.Cancel = false;
                 }
                 else
                 {
@@ -1362,6 +1456,27 @@ namespace SearchDataSPM
             if (e.KeyCode == Keys.Return)
             {
                 ecrSupervisorcomboBox.Focus();
+            }
+        }
+
+        private void managementtoggle_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void shippingmanagerchk_CheckedChanged(object sender, EventArgs e)
+        {
+            if (shippingmanagerchk.Checked)
+            {
+                shippingsupchk.Checked = false;
+            }
+        }
+
+        private void shippingsupchk_CheckedChanged(object sender, EventArgs e)
+        {
+            if (shippingsupchk.Checked)
+            {
+                shippingmanagerchk.Checked = false;
             }
         }
     }

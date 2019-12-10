@@ -736,7 +736,6 @@
     <EmbeddedResource Include="Engineering\EstimateBOM.resx">
       <DependentUpon>EstimateBOM.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="WaitForms\Dialog.resx">
       <DependentUpon>Dialog.cs</DependentUpon>
     </EmbeddedResource>

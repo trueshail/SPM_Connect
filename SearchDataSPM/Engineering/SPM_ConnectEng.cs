@@ -1078,7 +1078,7 @@ namespace SearchDataSPM
 
         private void admin_bttn_Click(object sender, EventArgs e)
         {
-            spmadmin spmadmin = new spmadmin();
+            Spmadmin spmadmin = new Spmadmin();
             spmadmin.Show();
         }
 

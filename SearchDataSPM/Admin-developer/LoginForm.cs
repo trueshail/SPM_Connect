@@ -62,7 +62,7 @@ namespace SearchDataSPM
                     int userCount = (int)sqlCommand.ExecuteScalar();
                     if (userCount == 1)
                     {
-                        using (spmadmin frm = new spmadmin())//Open main form and hide login form
+                        using (Spmadmin frm = new Spmadmin())//Open main form and hide login form
                         {
                             this.Hide();
                             frm.ShowDialog();
