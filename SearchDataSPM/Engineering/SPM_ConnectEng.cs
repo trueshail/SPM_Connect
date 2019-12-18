@@ -1531,8 +1531,8 @@ namespace SearchDataSPM
 
         private void DataGridView_SelectionChanged(object sender, EventArgs e)
         {
-            if (!formloading)
-                Showfilesonlistview();
+            //if (!formloading)
+            Showfilesonlistview();
         }
 
         private void Showfilesonlistview()

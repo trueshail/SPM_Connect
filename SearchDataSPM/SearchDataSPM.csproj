@@ -401,6 +401,7 @@
     <Compile Include="Engineering\EstimateBOM.Designer.cs">
       <DependentUpon>EstimateBOM.cs</DependentUpon>
     </Compile>
+    <Compile Include="ServiceReportCreation.cs" />
     <Compile Include="SPM_DatabaseDataSet1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

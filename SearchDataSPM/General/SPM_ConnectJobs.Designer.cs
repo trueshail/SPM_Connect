@@ -113,7 +113,7 @@
             this.getEstimateBOMToolStripMenuItem,
             this.viewCurrentJobReleaseToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(211, 158);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(211, 136);
             // 
             // getBOMToolStripMenuItem
             // 
