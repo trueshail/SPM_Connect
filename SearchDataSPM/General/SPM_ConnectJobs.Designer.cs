@@ -50,10 +50,10 @@
             this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.purchasereq = new System.Windows.Forms.Button();
             this.quotebttn = new System.Windows.Forms.Button();
-            this.CreateFolderBttn = new System.Windows.Forms.Button();
             this.shippingbttn = new System.Windows.Forms.Button();
             this.ecrbutton = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.CreateFolderBttn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -346,30 +346,6 @@
             this.quotebttn.UseVisualStyleBackColor = false;
             this.quotebttn.Click += new System.EventHandler(this.quotebttn_Click_1);
             // 
-            // CreateFolderBttn
-            // 
-            this.CreateFolderBttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.CreateFolderBttn.BackColor = System.Drawing.Color.Transparent;
-            this.CreateFolderBttn.Enabled = false;
-            this.CreateFolderBttn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
-            this.CreateFolderBttn.FlatAppearance.BorderSize = 0;
-            this.CreateFolderBttn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.CreateFolderBttn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.CreateFolderBttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.CreateFolderBttn.ForeColor = System.Drawing.Color.Transparent;
-            this.CreateFolderBttn.Image = ((System.Drawing.Image)(resources.GetObject("CreateFolderBttn.Image")));
-            this.CreateFolderBttn.Location = new System.Drawing.Point(761, 10);
-            this.CreateFolderBttn.MaximumSize = new System.Drawing.Size(35, 35);
-            this.CreateFolderBttn.MinimumSize = new System.Drawing.Size(35, 35);
-            this.CreateFolderBttn.Name = "CreateFolderBttn";
-            this.CreateFolderBttn.Size = new System.Drawing.Size(35, 35);
-            this.CreateFolderBttn.TabIndex = 14;
-            this.CreateFolderBttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.TreeViewToolTip.SetToolTip(this.CreateFolderBttn, "Create folders for selected job");
-            this.CreateFolderBttn.UseVisualStyleBackColor = false;
-            this.CreateFolderBttn.Click += new System.EventHandler(this.CreateFolderButton_Click);
-            // 
             // shippingbttn
             // 
             this.shippingbttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -426,6 +402,29 @@
             this.openFileDialog1.Title = "Assign Folder Path";
             this.openFileDialog1.ValidateNames = false;
             // 
+            // CreateFolderBttn
+            // 
+            this.CreateFolderBttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.CreateFolderBttn.BackColor = System.Drawing.Color.Transparent;
+            this.CreateFolderBttn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
+            this.CreateFolderBttn.FlatAppearance.BorderSize = 0;
+            this.CreateFolderBttn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.CreateFolderBttn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.CreateFolderBttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CreateFolderBttn.ForeColor = System.Drawing.Color.Transparent;
+            this.CreateFolderBttn.Image = ((System.Drawing.Image)(resources.GetObject("CreateFolderBttn.Image")));
+            this.CreateFolderBttn.Location = new System.Drawing.Point(761, 9);
+            this.CreateFolderBttn.MaximumSize = new System.Drawing.Size(35, 35);
+            this.CreateFolderBttn.MinimumSize = new System.Drawing.Size(35, 35);
+            this.CreateFolderBttn.Name = "CreateFolderBttn";
+            this.CreateFolderBttn.Size = new System.Drawing.Size(35, 35);
+            this.CreateFolderBttn.TabIndex = 14;
+            this.CreateFolderBttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.TreeViewToolTip.SetToolTip(this.CreateFolderBttn, "View Service Reports");
+            this.CreateFolderBttn.UseVisualStyleBackColor = false;
+            this.CreateFolderBttn.Click += new System.EventHandler(this.CreateFolderButton_Click);
+            // 
             // SPM_ConnectJobs
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -481,11 +480,11 @@
         private System.Windows.Forms.ToolStripMenuItem getWorkOrderToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem createFoldersToolStripMenuItem;
         private System.Windows.Forms.Button quotebttn;
-        private System.Windows.Forms.Button CreateFolderBttn;
         private System.Windows.Forms.Button shippingbttn;
         private System.Windows.Forms.ToolStripMenuItem getEstimateBOMToolStripMenuItem;
         private System.Windows.Forms.Button ecrbutton;
         private System.Windows.Forms.ToolStripMenuItem viewCurrentJobReleaseToolStripMenuItem;
+        private System.Windows.Forms.Button CreateFolderBttn;
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member 'SPM_Connect.txtSearch'
     }
 }

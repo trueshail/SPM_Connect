@@ -732,9 +732,7 @@ namespace SearchDataSPM
 
         private void toolStripSplitButton1_ButtonClick(object sender, EventArgs e)
         {
-            ReportViewer form1 = new ReportViewer();
-            form1.item(ecrnotxtbox.Text);
-            form1.getreport("ECR");
+            ReportViewer form1 = new ReportViewer("ECR", ecrnotxtbox.Text);
             form1.Show();
         }
 

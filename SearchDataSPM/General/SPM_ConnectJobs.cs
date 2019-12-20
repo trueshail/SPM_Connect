@@ -62,7 +62,6 @@ namespace SearchDataSPM
 
             if (connectapi.CheckManagement())
             {
-                CreateFolderBttn.Enabled = true;
                 contextMenuStrip1.Items[3].Enabled = true;
                 contextMenuStrip1.Items[3].Visible = true;
             }
@@ -828,7 +827,8 @@ namespace SearchDataSPM
 
         private void CreateFolderButton_Click(object sender, EventArgs e)
         {
-            createfolders();
+            ServiceReportHome ecr = new ServiceReportHome();
+            ecr.Show();
         }
 
         private void createfolders()
@@ -1176,12 +1176,7 @@ namespace SearchDataSPM
                 return true;
             }
 
-            if (keyData == (Keys.Control | Keys.Shift | Keys.C))
-            {
-                if (CreateFolderBttn.Enabled)
-                    createfolders();
-                return true;
-            }
+
 
             return base.ProcessCmdKey(ref msg, keyData);
         }

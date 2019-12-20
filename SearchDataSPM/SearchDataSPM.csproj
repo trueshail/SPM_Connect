@@ -31,11 +31,11 @@
     <ErrorReportUrl>http://www.spm-automation.com/contact.php</ErrorReportUrl>
     <ProductName>SPM Connect</ProductName>
     <PublisherName>SPM Automation</PublisherName>
-    <MinimumRequiredVersion>7.19.12.7</MinimumRequiredVersion>
+    <MinimumRequiredVersion>7.19.12.20</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>8</ApplicationRevision>
+    <ApplicationRevision>21</ApplicationRevision>
     <ApplicationVersion>7.19.12.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -401,6 +401,12 @@
     <Compile Include="Engineering\EstimateBOM.Designer.cs">
       <DependentUpon>EstimateBOM.cs</DependentUpon>
     </Compile>
+    <Compile Include="General\ServiceReportHome.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="General\ServiceReportHome.Designer.cs">
+      <DependentUpon>ServiceReportHome.cs</DependentUpon>
+    </Compile>
     <Compile Include="ServiceReportCreation.cs" />
     <Compile Include="SPM_DatabaseDataSet1.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -736,6 +742,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Engineering\EstimateBOM.resx">
       <DependentUpon>EstimateBOM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="General\ServiceReportHome.resx">
+      <DependentUpon>ServiceReportHome.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WaitForms\Dialog.resx">
       <DependentUpon>Dialog.cs</DependentUpon>

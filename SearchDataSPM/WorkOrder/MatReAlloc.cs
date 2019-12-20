@@ -276,17 +276,13 @@ namespace SearchDataSPM
 
         private void print1ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ReportViewer form1 = new ReportViewer();
-            form1.item(invoicetxtbox.Text);
-            form1.getreport("ShippingInvPack");
+            ReportViewer form1 = new ReportViewer("ShippingInvPack", invoicetxtbox.Text);
             form1.Show();
         }
 
         private void print2ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ReportViewer form1 = new ReportViewer();
-            form1.item(invoicetxtbox.Text);
-            form1.getreport("ShippingInvCom");
+            ReportViewer form1 = new ReportViewer("ShippingInvCom", invoicetxtbox.Text);
             form1.Show();
         }
 
@@ -608,9 +604,7 @@ namespace SearchDataSPM
 
         private void reportpurchaereq(string itemvalue, string Reportname)
         {
-            ReportViewer form1 = new ReportViewer();
-            form1.item(itemvalue);
-            form1.getreport(Reportname);
+            ReportViewer form1 = new ReportViewer(Reportname, itemvalue);
             form1.Show();
         }
 

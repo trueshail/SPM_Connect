@@ -491,9 +491,7 @@ namespace SearchDataSPM
 
         private void ProrcessreportWorkOrder(string itemvalue, string Reportname)
         {
-            ReportViewer form1 = new ReportViewer();
-            form1.item(itemvalue);
-            form1.getreport(Reportname);
+            ReportViewer form1 = new ReportViewer(Reportname, itemvalue);
             form1.Show();
         }
 

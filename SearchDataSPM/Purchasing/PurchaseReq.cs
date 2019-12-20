@@ -1615,10 +1615,7 @@ namespace SearchDataSPM
 
         private void reportpurchaereq(string itemvalue, string Reportname)
         {
-            ReportViewer form1 = new ReportViewer();
-            form1.item(itemvalue);
-            form1.getreport(Reportname);
-            form1.gettotal(totalvalue);
+            ReportViewer form1 = new ReportViewer(Reportname, itemvalue, totalvalue);
             form1.Show();
         }
 

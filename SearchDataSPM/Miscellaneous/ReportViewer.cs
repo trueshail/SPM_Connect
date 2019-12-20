@@ -9,16 +9,22 @@ namespace SearchDataSPM
     {
         private SPMConnectAPI.SPMSQLCommands connectapi = new SPMSQLCommands();
         private log4net.ILog log;
+        private string reportname = "";
+        private string itemnumber = "";
+        private string totalvalue = "";
 
         private ErrorHandler errorHandler = new ErrorHandler();
 
-        public ReportViewer()
+        public ReportViewer(string _reportname, string _item, string _total = "")
         {
             Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
             string connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
             // connectapi.SPM_Connect();
+            this.reportname = _reportname;
+            this.itemnumber = _item;
+            this.totalvalue = _total;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -28,56 +34,63 @@ namespace SearchDataSPM
                 this.Text = "Bills of Manufacturing - " + itemnumber;
                 reportViewer1.ServerReport.ReportPath = connectapi.GetReportBOM();
                 this.reportViewer1.RefreshReport();
-                fillbomreport();
+                Fillbomreport();
             }
             else if (reportname == "SPAREPARTS")
             {
                 this.Text = "Spare Parts - " + itemnumber;
                 reportViewer1.ServerReport.ReportPath = connectapi.GetReportSpareParts();
                 this.reportViewer1.RefreshReport();
-                fillbomreport();
+                Fillbomreport();
             }
             else if (reportname == "WorkOrder")
             {
                 this.Text = "Work Order - " + itemnumber;
                 reportViewer1.ServerReport.ReportPath = connectapi.GetReportWorkOrder();
                 this.reportViewer1.RefreshReport();
-                fillwrokdorderreport();
+                Fillwrokdorderreport();
             }
             else if (reportname == "Purchasereq")
             {
                 this.Text = "Purchase Requisition - " + itemnumber;
                 reportViewer1.ServerReport.ReportPath = connectapi.GetReportPurchaseReq();
                 this.reportViewer1.RefreshReport();
-                fillpurchasereq();
+                Fillpurchasereq();
             }
             else if (reportname == "ShippingInvCom")
             {
                 this.Text = "Shipping Invoice - " + itemnumber;
                 reportViewer1.ServerReport.ReportPath = connectapi.GetReportShippingInvCom();
                 this.reportViewer1.RefreshReport();
-                filloneParamter();
+                FilloneParamter();
             }
             else if (reportname == "ShippingInvPack")
             {
                 this.Text = "Shipping Invoice - " + itemnumber;
                 reportViewer1.ServerReport.ReportPath = connectapi.GetReportShippingInvPack();
                 this.reportViewer1.RefreshReport();
-                filloneParamter();
+                FilloneParamter();
             }
             else if (reportname == "MatReAloc")
             {
                 this.Text = "Material Re-Allocation Invoice - " + itemnumber;
                 reportViewer1.ServerReport.ReportPath = connectapi.GetReportMatReAloc();
                 this.reportViewer1.RefreshReport();
-                filloneParamter();
+                FilloneParamter();
             }
             else if (reportname == "ECR")
             {
                 this.Text = "ECR Invoice - " + itemnumber;
                 reportViewer1.ServerReport.ReportPath = connectapi.GetReportECR();
                 this.reportViewer1.RefreshReport();
-                filloneParamter();
+                FilloneParamter();
+            }
+            else if (reportname == "Service")
+            {
+                this.Text = "Service Report - " + itemnumber;
+                reportViewer1.ServerReport.ReportPath = connectapi.GetReportService();
+                this.reportViewer1.RefreshReport();
+                FillServiceReportParamter();
             }
 
             log4net.Config.XmlConfigurator.Configure();
@@ -85,32 +98,8 @@ namespace SearchDataSPM
             log.Info("Opened ReportViewer, ReportName : " + reportname + ", ItemNumber : " + itemnumber + " by " + System.Environment.UserName);
         }
 
-        private string itemnumber = "";
-        private string reportname = "";
-        private string totalvalue = "";
 
-        public string item(string item)
-        {
-            if (item.Length > 0)
-                return itemnumber = item;
-            return null;
-        }
-
-        public string getreport(string report)
-        {
-            if (report.Length > 0)
-                return reportname = report;
-            return null;
-        }
-
-        public string gettotal(string total)
-        {
-            if (total.Length > 0)
-                return totalvalue = total;
-            return null;
-        }
-
-        private void fillbomreport()
+        private void Fillbomreport()
         {
             Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection();
             reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("pCode", itemnumber));
@@ -118,7 +107,7 @@ namespace SearchDataSPM
             this.reportViewer1.RefreshReport();
         }
 
-        private void fillwrokdorderreport()
+        private void Fillwrokdorderreport()
         {
             Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection();
             reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("pWorkOrder", itemnumber));
@@ -126,7 +115,7 @@ namespace SearchDataSPM
             this.reportViewer1.RefreshReport();
         }
 
-        private void fillpurchasereq()
+        private void Fillpurchasereq()
         {
             Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection();
             reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("pReqno", itemnumber));
@@ -134,10 +123,18 @@ namespace SearchDataSPM
             this.reportViewer1.RefreshReport();
         }
 
-        private void filloneParamter()
+        private void FilloneParamter()
         {
             Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection();
             reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("pInvno", itemnumber));
+            this.reportViewer1.ServerReport.SetParameters(reportParameters);
+            this.reportViewer1.RefreshReport();
+        }
+
+        private void FillServiceReportParamter()
+        {
+            Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection();
+            reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("ReqNumber", itemnumber));
             this.reportViewer1.ServerReport.SetParameters(reportParameters);
             this.reportViewer1.RefreshReport();
         }
