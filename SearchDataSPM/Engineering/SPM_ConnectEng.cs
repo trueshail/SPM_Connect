@@ -1532,14 +1532,20 @@ namespace SearchDataSPM
         private void DataGridView_SelectionChanged(object sender, EventArgs e)
         {
             //if (!formloading)
-            Showfilesonlistview();
+            if (dataGridView.Rows.Count > 0)
+                Showfilesonlistview();
+            else
+            {
+                listFiles.Clear();
+                listView.Clear();
+            }
         }
 
         private void Showfilesonlistview()
         {
             try
             {
-                if (dataGridView.SelectedCells.Count == 1 || dataGridView.SelectedCells.Count == 14)
+                if (dataGridView.SelectedCells.Count == 1)
                 {
                     listFiles.Clear();
                     listView.Clear();

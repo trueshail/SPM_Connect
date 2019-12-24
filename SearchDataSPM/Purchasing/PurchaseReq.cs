@@ -600,6 +600,7 @@ namespace SearchDataSPM
                     string ponumber = "";
                     string pdate = "";
                     General.PODetails pODetails = new SearchDataSPM.General.PODetails();
+                    pODetails.BringToFront();
                     pODetails.TopMost = true;
                     pODetails.Focus();
                     if (pODetails.ShowDialog() == System.Windows.Forms.DialogResult.OK)
