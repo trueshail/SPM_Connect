@@ -497,7 +497,7 @@ namespace SearchDataSPM
 
         private string totalvalue = "";
 
-        private void calculatetota()
+        private decimal Calculatetotal()
         {
             totalvalue = "";
             if (dataGridView1.Rows.Count > 0)
@@ -531,11 +531,13 @@ namespace SearchDataSPM
                         MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect -  Error Getting Total", MessageBoxButtons.OK);
                     }
                 }
+                return total;
             }
             else
             {
                 totalcostlbl.Text = "";
             }
+            return 0.00m;
         }
 
         #endregion Calculate Total
@@ -642,12 +644,20 @@ namespace SearchDataSPM
         private bool Happroval()
         {
             bool req = false;
-            if (totalcostlbl.Text.Length > 0)
+            //if (totalcostlbl.Text.Length > 0)
+            //{
+            //    MessageBox.Show(Convert.ToInt32(Convert.ToDecimal(totalvalue.TrimEnd())).ToString());
+            //    MessageBox.Show(Convert.ToInt64(Convert.ToDecimal(Gethapporvallimit())).ToString());
+            //    if (Convert.ToInt64(Convert.ToDecimal(totalvalue.TrimEnd())) > Convert.ToInt64(Convert.ToDecimal(Gethapporvallimit())))
+            //    {
+            //        req = true;
+            //    }
+            //}
+            //MessageBox.Show("calculate total" + Calculatetotal());
+            //MessageBox.Show(Convert.ToDecimal(Gethapporvallimit()).ToString());
+            if (Calculatetotal() > Convert.ToDecimal(Gethapporvallimit()))
             {
-                if (Convert.ToInt32(Convert.ToDecimal(totalvalue.TrimEnd())) > Convert.ToInt32(Convert.ToDecimal(Gethapporvallimit())))
-                {
-                    req = true;
-                }
+                req = true;
             }
 
             return req;
@@ -1578,7 +1588,7 @@ namespace SearchDataSPM
                 reqnumber = item.ToString();
                 PreviewTabPage.Text = "ReqNo : " + item;
                 UpdateFontdataitems();
-                calculatetota();
+                Calculatetotal();
             }
         }
 

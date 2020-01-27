@@ -11,6 +11,7 @@ namespace SearchDataSPM
 {
     public partial class ShippingHome : Form
     {
+
         #region Shipping Home Load
 
         private string connection;
@@ -23,9 +24,10 @@ namespace SearchDataSPM
         private int _advcollapse = 0;
         private SPMConnectAPI.Shipping connectapi = new Shipping();
         private log4net.ILog log;
-
+        private bool shipsupervisor = false;
+        private bool shipmanager = false;
         private ErrorHandler errorHandler = new ErrorHandler();
-
+        string datarequest = "normal";
         public ShippingHome()
         {
             Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
@@ -52,12 +54,12 @@ namespace SearchDataSPM
             formloading = true;
             collapse();
             dt = new DataTable();
-            checkdeptsandrights();
+            Checkdeptsandrights();
             userfullname = connectapi.getuserfullname();
 
             invoiceitemsdataGridView2.DataSource = temptable;
             FillInvoiceItems();
-            Showallitems();
+            Showallitems("normal");
             txtSearch.Focus();
             formloading = false;
 
@@ -66,14 +68,24 @@ namespace SearchDataSPM
             log.Info("Opened Shipping Home by " + System.Environment.UserName);
         }
 
-        private void checkdeptsandrights()
+        private void Checkdeptsandrights()
         {
             string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
             versionlabel.Text = connectapi.getassyversionnumber();
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
+            if (connectapi.CheckShipSup())
+            {
+                shipsupervisor = true;
+                attnbttn.Visible = true;
+            }
+            else if (connectapi.CheckShipManager())
+            {
+                shipmanager = true;
+                attnbttn.Visible = true;
+            }
         }
 
-        private void fillinfo()
+        private void Fillinfo()
         {
             Cursor.Current = Cursors.WaitCursor;
             formloading = true;
@@ -83,12 +95,12 @@ namespace SearchDataSPM
             fillcreatedbyship();
             filllastsavedbyship();
             fillcarriersship();
-            clearfilercombos();
+            Clearfilercombos();
             formloading = false;
             Cursor.Current = Cursors.Default;
         }
 
-        private void clearfilercombos()
+        private void Clearfilercombos()
         {
             Createdbycombobox.SelectedItem = null;
             Soldtocombobox.SelectedItem = null;
@@ -107,10 +119,11 @@ namespace SearchDataSPM
             CarrierscomboBox.Text = null;
         }
 
-        private void Showallitems()
+        private void Showallitems(string showdatafor)
         {
             dt.Clear();
-            dt = connectapi.ShowshippingHomeData();
+            datarequest = showdatafor;
+            dt = showdatafor == "normal" ? connectapi.ShowshippingHomeData() : showdatafor == "supervisor" ? connectapi.ShowshippingHomeDataforSupervisors(connectapi.getConnectEmployeeId().ToString()) : connectapi.ShowshippingHomeDataforManagers();
             dataGridView.DataSource = dt;
             DataView dv = dt.DefaultView;
             dataGridView.Sort(dataGridView.Columns[0], ListSortDirection.Descending);
@@ -131,6 +144,9 @@ namespace SearchDataSPM
             dataGridView.Columns[17].Visible = false;
             dataGridView.Columns[18].Visible = false;
             dataGridView.Columns[21].Visible = false;
+            dataGridView.Columns[22].Visible = false;
+            dataGridView.Columns[23].Visible = false;
+            dataGridView.Columns[24].Visible = false;
             dataGridView.Columns[0].Width = 80;
             dataGridView.Columns[1].Width = 250;
             dataGridView.Columns[5].Width = 120;
@@ -149,12 +165,13 @@ namespace SearchDataSPM
 
         private void Reload_Click(object sender, EventArgs e)
         {
-            performreload();
+            Performreload();
         }
 
-        private void performreload()
+        private void Performreload()
         {
             clearandhide();
+            datarequest = "normal";
             txtSearch.Clear();
             txtSearch.Focus();
             SendKeys.Send("~");
@@ -206,7 +223,7 @@ namespace SearchDataSPM
 
                 if (Createdbycombobox.Text == "" && lastsavedbycombo.Text == "" && Salespersoncomboxbox.Text == "" && Shiptocomboxbox.Text == "" && Soldtocombobox.Text == "" && custvendcombobox.Text == "" && CarrierscomboBox.Text == "")
                 {
-                    Showallitems();
+                    Showallitems(datarequest);
                     FillInvoiceItems();
                 }
                 if (txtSearch.Text.Length > 0)
@@ -231,7 +248,7 @@ namespace SearchDataSPM
         private void clearandhide()
         {
             formloading = true;
-            clearfilercombos();
+            Clearfilercombos();
 
             Descrip_txtbox.Hide();
             Descrip_txtbox.Clear();
@@ -565,7 +582,7 @@ namespace SearchDataSPM
         {
             if (dataGridView.SelectedCells.Count == 1)
             {
-                showshippinginvoice(getselectedinvoicenumber(), "1");
+                Showshippinginvoice(getselectedinvoicenumber());
             }
         }
 
@@ -750,7 +767,7 @@ namespace SearchDataSPM
         {
             if (_advcollapse == 0)
             {
-                fillinfo();
+                Fillinfo();
                 _advcollapse = 1;
             }
             collapse();
@@ -985,7 +1002,7 @@ namespace SearchDataSPM
 
         private void clrfiltersbttn_Click(object sender, EventArgs e)
         {
-            performreload();
+            Performreload();
         }
 
         private void ActiveCadblockcombobox_KeyDown(object sender, KeyEventArgs e)
@@ -1087,7 +1104,7 @@ namespace SearchDataSPM
                     string status = connectapi.Createnewshippinginvoice(vendorcust);
                     if (status.Length > 1)
                     {
-                        showshippinginvoice(status, vendorcust);
+                        Showshippinginvoice(status);
                     }
                 }
                 else
@@ -1097,7 +1114,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void showshippinginvoice(string invoice, string vendorcust)
+        private void Showshippinginvoice(string invoice)
         {
             string invoiceopen = connectapi.InvoiceOpen(invoice);
             if (invoiceopen.Length > 0)
@@ -1108,13 +1125,11 @@ namespace SearchDataSPM
             {
                 if (connectapi.CheckinInvoice(invoice))
                 {
-                    using (InvoiceDetails invoiceDetails = new InvoiceDetails())
+                    using (InvoiceDetails invoiceDetails = new InvoiceDetails(invoice))
                     {
-                        invoiceDetails.invoicenumber(invoice);
-                        invoiceDetails.setcustvendor(vendorcust);
                         invoiceDetails.ShowDialog();
                         this.Enabled = true;
-                        performreload();
+                        Performreload();
                         this.Show();
                         this.Activate();
                         this.Focus();
@@ -1141,7 +1156,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void copyshippinginvoice()
+        private void Copyshippinginvoice()
         {
             DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to copy this invoice to a new shipping invoice?", "SPM Connect - Copy Invoice?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
@@ -1152,19 +1167,19 @@ namespace SearchDataSPM
 
                 if (status.Length > 1)
                 {
-                    showshippinginvoice(status, "1");
+                    Showshippinginvoice(status);
                 }
             }
         }
 
         private void invoiceinfostripmenu_Click(object sender, EventArgs e)
         {
-            showshippinginvoice(getselectedinvoicenumber(), "1");
+            Showshippinginvoice(getselectedinvoicenumber());
         }
 
         private void copyinvoicestrip_Click(object sender, EventArgs e)
         {
-            copyshippinginvoice();
+            Copyshippinginvoice();
         }
 
         private void ContextMenuStripShipping_Opening(object sender, CancelEventArgs e)
@@ -1182,6 +1197,22 @@ namespace SearchDataSPM
         private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             log.Error(sender, (Exception)e.ExceptionObject); errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, this);
+        }
+
+        private void attnbttn_Click(object sender, EventArgs e)
+        {
+
+            if (shipsupervisor)
+            {
+
+                Showallitems("supervisor");
+            }
+            else if (shipmanager)
+            {
+                Showallitems("manager");
+            }
+
+
         }
     }
 }

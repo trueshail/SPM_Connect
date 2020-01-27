@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Reflection;
@@ -43,6 +44,37 @@ namespace SPMConnectAPI
             }
         }
 
+        public string getNameByConnectEmpId(string empid)
+        {
+            string fullname = "";
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [id]='" + empid + "' ";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    fullname = dr["Name"].ToString();
+                }
+                dt.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve user full name", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return fullname;
+        }
+
         public string getuserfullname()
         {
             string fullname = "";
@@ -72,6 +104,128 @@ namespace SPMConnectAPI
                 cn.Close();
             }
             return fullname;
+        }
+
+        public bool CheckShipManager()
+        {
+            bool ecrSupervisor = false;
+            string useradmin = UserName();
+
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND [ShippingManager] = '1'", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    sqlCommand.Parameters.AddWithValue("@username", useradmin);
+
+                    int userCount = (int)sqlCommand.ExecuteScalar();
+                    if (userCount == 1)
+                    {
+                        ecrSupervisor = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve Shipping Manager rights", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return ecrSupervisor;
+        }
+
+        public bool CheckShipSup()
+        {
+            bool ecrApprovee = false;
+            string useradmin = UserName();
+
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND [ShipSupervisor] = '1'", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    sqlCommand.Parameters.AddWithValue("@username", useradmin);
+
+                    int userCount = (int)sqlCommand.ExecuteScalar();
+                    if (userCount == 1)
+                    {
+                        ecrApprovee = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve Shipping Supervisor rights", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return ecrApprovee;
+        }
+
+        public int getsupervisorId()
+        {
+            int supervisorId = 0;
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + UserName().ToString() + "' ";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    supervisorId = Convert.ToInt32(dr["ShipSup"].ToString());
+                }
+                dt.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve user shipping supervisor id", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return supervisorId;
+        }
+
+        public List<string> GetManagersNameandEmail()
+        {
+            List<string> Happrovalnames = new List<string>();
+
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [ShippingManager] = '1' ";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    Happrovalnames.Add(dr["Email"].ToString() + "][" + dr["Name"].ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Get Shipping Manager User Name and Email", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return Happrovalnames;
         }
 
         public string getassyversionnumber()
@@ -112,6 +266,37 @@ namespace SPMConnectAPI
             return path;
         }
 
+        public int getConnectEmployeeId()
+        {
+            int employeeId = 0;
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + UserName().ToString() + "' ";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    employeeId = Convert.ToInt32(dr["id"].ToString());
+                }
+                dt.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve user employee id", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return employeeId;
+        }
+
         #endregion Settting up Connetion and Get User
 
         #region Datatables to pull out values or records
@@ -121,6 +306,58 @@ namespace SPMConnectAPI
             DataTable dt = new DataTable();
 
             using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[ShippingBaseWithNames]", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Show all shipping Home", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return dt;
+        }
+
+        public DataTable ShowshippingHomeDataforSupervisors(string myid)
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[ShippingBaseWithNames]WHERE [IsSubmitted] = '1' AND [SubmittedTo] = '" + myid + "'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Show all shipping Home", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return dt;
+        }
+
+        public DataTable ShowshippingHomeDataforManagers()
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[ShippingBaseWithNames] WHERE [IsApproved] = '1' AND [IsSubmitted] = '1'", cn))
             {
                 try
                 {
@@ -922,6 +1159,58 @@ namespace SPMConnectAPI
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "SPM Connect Invoice DateCreated - Update", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return success;
+        }
+
+        public bool UpdateInvoiceDetsToSqlforAuthorisation(string inovicenumber, string typeofsave, int supervisorid)
+        {
+            bool success = false;
+            string username = getuserfullname();
+            DateTime dateedited = DateTime.Now;
+            string sqlFormattedDate = dateedited.ToString("yyyy-MM-dd HH:mm:ss");
+            if (cn.State == ConnectionState.Closed)
+                cn.Open();
+            try
+            {
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                if (typeofsave == "Submitted")
+                {
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[ShippingBase] SET [DateLastSaved] = '" + sqlFormattedDate + "',[LastSavedBy] = '" + username + "',[IsSubmitted] = '1',[SubmittedBy] = '" + username + "',[SubmittedOn] = '" + sqlFormattedDate + "', [SubmittedTo] = '" + supervisorid + "' WHERE [InvoiceNo] = '" + inovicenumber + "' ";
+                }
+                else if (typeofsave == "SubmittedFalse")
+                {
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[ShippingBase] SET [DateLastSaved] = '" + sqlFormattedDate + "',[LastSavedBy] = '" + username + "',[IsSubmitted] = '0',[SubmittedBy] = '',[SubmittedOn] = '',[SubmittedTo] = '0'  WHERE [InvoiceNo] = '" + inovicenumber + "' ";
+                }
+                else if (typeofsave == "SupSubmit")
+                {
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[ShippingBase] SET [DateLastSaved] = '" + sqlFormattedDate + "',[LastSavedBy] = '" + username + "',[IsApproved] = '1',[ApprovedBy] = '" + username + "',[ApprovedOn] = '" + sqlFormattedDate + "'WHERE [InvoiceNo] = '" + inovicenumber + "' ";
+                }
+                else if (typeofsave == "SupSubmitFalse")
+                {
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[ShippingBase] SET [DateLastSaved] = '" + sqlFormattedDate + "',[LastSavedBy] = '" + username + "',[IsApproved] = '0',[ApprovedBy] = '',[ApprovedOn] = '' WHERE [InvoiceNo] = '" + inovicenumber + "' ";
+                }
+                else if (typeofsave == "Completed")
+                {
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[ShippingBase] SET [DateLastSaved] = '" + sqlFormattedDate + "',[LastSavedBy] = '" + username + "',[ShippedOn] = '" + sqlFormattedDate + "',[IsShipped] = '1',[ShippedBy] = '" + username + "' WHERE [InvoiceNo] = '" + inovicenumber + "' ";
+                }
+                else if (typeofsave == "CompletedFalse")
+                {
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[ShippingBase] SET [DateLastSaved] = '" + sqlFormattedDate + "',[LastSavedBy] = '" + username + "',[ShippedOn] = '',[IsShipped] = '0',[ShippedBy] = '' WHERE [InvoiceNo] = '" + inovicenumber + "' ";
+                }
+
+                cmd.ExecuteNonQuery();
+                cn.Close();
+                success = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect Invoice Details - Update Authorizations", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {

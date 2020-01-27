@@ -87,11 +87,11 @@ namespace SearchDataSPM
             Showallitems();
 
             txtSearch.Focus();
-            string startDate = "01-12-";
-            string endDate = "01-01-";
-            startDate = startDate + DateTime.Now.Year + " 12:00 AM";
-            endDate = endDate + (DateTime.Now.Year + 1) + " 12:00 AM";
-            if (DateTime.Now > Convert.ToDateTime(startDate) && DateTime.Now < Convert.ToDateTime(endDate))
+            //string startDate = "01-12-";
+            //string endDate = "01-01-";
+            //startDate = startDate + DateTime.Now.Year + " 12:00 AM";
+            //endDate = endDate + (DateTime.Now.Year + 1) + " 12:00 AM";
+            if (DateTime.Now.Month == 12)
             {
                 pictureBox1.Visible = true;
             }
@@ -1079,6 +1079,7 @@ namespace SearchDataSPM
         private void admin_bttn_Click(object sender, EventArgs e)
         {
             Spmadmin spmadmin = new Spmadmin();
+            spmadmin.Owner = this;
             spmadmin.Show();
         }
 

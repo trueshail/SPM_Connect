@@ -13,7 +13,6 @@ namespace SearchDataSPM.Admin_developer
         private string connection;
         private DataTable dt;
         private log4net.ILog log;
-
         private ErrorHandler errorHandler = new ErrorHandler();
 
         public UserStatus()

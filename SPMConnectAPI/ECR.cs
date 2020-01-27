@@ -199,7 +199,6 @@ namespace SPMConnectAPI
             return employeeId;
         }
 
-
         public bool EmployeeExits(string empid)
         {
             bool empexists = false;

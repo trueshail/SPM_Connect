@@ -30,8 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InvoiceDetails));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.commentslbl = new System.Windows.Forms.Label();
             this.notestxt = new System.Windows.Forms.TextBox();
             this.invoicelbl = new System.Windows.Forms.Label();
@@ -114,12 +114,17 @@
             this.deleteItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SPM = new System.Windows.Forms.Label();
             this.carriercodelbl = new System.Windows.Forms.Label();
+            this.submissiongroupBox = new System.Windows.Forms.GroupBox();
+            this.shipmanagercheckBox = new System.Windows.Forms.CheckBox();
+            this.shipsupervisorheckBox = new System.Windows.Forms.CheckBox();
+            this.supcheckBox = new System.Windows.Forms.CheckBox();
             this.shippinggroupBox.SuspendLayout();
             this.soldtogroupBox.SuspendLayout();
             this.ShiptogroupBox.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.FormSelector.SuspendLayout();
+            this.submissiongroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // commentslbl
@@ -129,7 +134,7 @@
             this.commentslbl.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.commentslbl.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.commentslbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.commentslbl.Location = new System.Drawing.Point(6, 608);
+            this.commentslbl.Location = new System.Drawing.Point(6, 618);
             this.commentslbl.Name = "commentslbl";
             this.commentslbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.commentslbl.Size = new System.Drawing.Size(92, 15);
@@ -142,14 +147,14 @@
             this.notestxt.BackColor = System.Drawing.Color.White;
             this.notestxt.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.notestxt.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.notestxt.Location = new System.Drawing.Point(3, 623);
+            this.notestxt.Location = new System.Drawing.Point(3, 633);
             this.notestxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.notestxt.Multiline = true;
             this.notestxt.Name = "notestxt";
             this.notestxt.ReadOnly = true;
             this.notestxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.notestxt.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.notestxt.Size = new System.Drawing.Size(593, 63);
+            this.notestxt.Size = new System.Drawing.Size(623, 71);
             this.notestxt.TabIndex = 12;
             this.TreeViewToolTip.SetToolTip(this.notestxt, "Notes or comments for invoice");
             // 
@@ -452,7 +457,7 @@
             this.totalcostlbl.AutoSize = true;
             this.totalcostlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.totalcostlbl.ForeColor = System.Drawing.Color.White;
-            this.totalcostlbl.Location = new System.Drawing.Point(831, 663);
+            this.totalcostlbl.Location = new System.Drawing.Point(432, 715);
             this.totalcostlbl.Name = "totalcostlbl";
             this.totalcostlbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.totalcostlbl.Size = new System.Drawing.Size(91, 15);
@@ -791,7 +796,7 @@
             this.savbttn.ForeColor = System.Drawing.Color.White;
             this.savbttn.Image = ((System.Drawing.Image)(resources.GetObject("savbttn.Image")));
             this.savbttn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.savbttn.Location = new System.Drawing.Point(706, 651);
+            this.savbttn.Location = new System.Drawing.Point(268, 710);
             this.savbttn.Name = "savbttn";
             this.savbttn.Size = new System.Drawing.Size(78, 27);
             this.savbttn.TabIndex = 14;
@@ -812,7 +817,7 @@
             this.editbttn.ForeColor = System.Drawing.Color.White;
             this.editbttn.Image = ((System.Drawing.Image)(resources.GetObject("editbttn.Image")));
             this.editbttn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.editbttn.Location = new System.Drawing.Point(609, 651);
+            this.editbttn.Location = new System.Drawing.Point(171, 710);
             this.editbttn.Name = "editbttn";
             this.editbttn.Size = new System.Drawing.Size(78, 27);
             this.editbttn.TabIndex = 13;
@@ -821,6 +826,7 @@
             this.editbttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.TreeViewToolTip.SetToolTip(this.editbttn, "Edit Invoice Details");
             this.editbttn.UseVisualStyleBackColor = false;
+            this.editbttn.Visible = false;
             this.editbttn.Click += new System.EventHandler(this.editbttn_Click);
             // 
             // carrriercodetxt
@@ -1221,7 +1227,7 @@
             this.VendorCust,
             this.PrintToolStrip});
             this.statusStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
-            this.statusStrip1.Location = new System.Drawing.Point(0, 689);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 741);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
             this.statusStrip1.Size = new System.Drawing.Size(1009, 22);
@@ -1305,29 +1311,29 @@
             this.dataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dataGridView1.BackgroundColor = System.Drawing.Color.Azure;
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.ContextMenuStrip = this.FormSelector;
             this.dataGridView1.Location = new System.Drawing.Point(5, 332);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.Size = new System.Drawing.Size(998, 274);
+            this.dataGridView1.Size = new System.Drawing.Size(998, 284);
             this.dataGridView1.TabIndex = 15;
             this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
             this.dataGridView1.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDown);
@@ -1401,12 +1407,66 @@
             this.carriercodelbl.Text = "Carrier Code :";
             this.carriercodelbl.Visible = false;
             // 
+            // submissiongroupBox
+            // 
+            this.submissiongroupBox.Controls.Add(this.shipmanagercheckBox);
+            this.submissiongroupBox.Controls.Add(this.shipsupervisorheckBox);
+            this.submissiongroupBox.Controls.Add(this.supcheckBox);
+            this.submissiongroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.submissiongroupBox.ForeColor = System.Drawing.Color.White;
+            this.submissiongroupBox.Location = new System.Drawing.Point(632, 618);
+            this.submissiongroupBox.Name = "submissiongroupBox";
+            this.submissiongroupBox.Size = new System.Drawing.Size(371, 119);
+            this.submissiongroupBox.TabIndex = 106;
+            this.submissiongroupBox.TabStop = false;
+            this.submissiongroupBox.Text = "Submission Logs";
+            // 
+            // shipmanagercheckBox
+            // 
+            this.shipmanagercheckBox.AutoSize = true;
+            this.shipmanagercheckBox.Enabled = false;
+            this.shipmanagercheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.shipmanagercheckBox.Location = new System.Drawing.Point(10, 85);
+            this.shipmanagercheckBox.Name = "shipmanagercheckBox";
+            this.shipmanagercheckBox.Size = new System.Drawing.Size(211, 19);
+            this.shipmanagercheckBox.TabIndex = 3;
+            this.shipmanagercheckBox.Text = "Mark Shipping Request Complete";
+            this.shipmanagercheckBox.UseVisualStyleBackColor = true;
+            this.shipmanagercheckBox.Click += new System.EventHandler(this.ecrhandlercheckBox_Click);
+            // 
+            // shipsupervisorheckBox
+            // 
+            this.shipsupervisorheckBox.AutoSize = true;
+            this.shipsupervisorheckBox.Enabled = false;
+            this.shipsupervisorheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.shipsupervisorheckBox.Location = new System.Drawing.Point(10, 52);
+            this.shipsupervisorheckBox.Name = "shipsupervisorheckBox";
+            this.shipsupervisorheckBox.Size = new System.Drawing.Size(183, 19);
+            this.shipsupervisorheckBox.TabIndex = 1;
+            this.shipsupervisorheckBox.Text = "Submit to Shipping Manager";
+            this.shipsupervisorheckBox.UseVisualStyleBackColor = true;
+            this.shipsupervisorheckBox.Click += new System.EventHandler(this.managercheckBox_Click);
+            // 
+            // supcheckBox
+            // 
+            this.supcheckBox.AutoSize = true;
+            this.supcheckBox.Enabled = false;
+            this.supcheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.supcheckBox.Location = new System.Drawing.Point(10, 21);
+            this.supcheckBox.Name = "supcheckBox";
+            this.supcheckBox.Size = new System.Drawing.Size(139, 19);
+            this.supcheckBox.TabIndex = 0;
+            this.supcheckBox.Text = "Submit to Supervisor";
+            this.supcheckBox.UseVisualStyleBackColor = true;
+            this.supcheckBox.Click += new System.EventHandler(this.supcheckBox_Click);
+            // 
             // InvoiceDetails
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(69)))), ((int)(((byte)(76)))));
-            this.ClientSize = new System.Drawing.Size(1009, 711);
+            this.ClientSize = new System.Drawing.Size(1009, 763);
+            this.Controls.Add(this.submissiongroupBox);
             this.Controls.Add(this.carriercodelbl);
             this.Controls.Add(this.carrriercodetxt);
             this.Controls.Add(this.totalcostlbl);
@@ -1443,6 +1503,8 @@
             this.statusStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.FormSelector.ResumeLayout(false);
+            this.submissiongroupBox.ResumeLayout(false);
+            this.submissiongroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1531,5 +1593,9 @@
         private System.Windows.Forms.TextBox sld2add2;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox ship2add2;
+        private System.Windows.Forms.GroupBox submissiongroupBox;
+        private System.Windows.Forms.CheckBox shipmanagercheckBox;
+        private System.Windows.Forms.CheckBox shipsupervisorheckBox;
+        private System.Windows.Forms.CheckBox supcheckBox;
     }
 }

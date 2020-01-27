@@ -327,7 +327,7 @@ namespace SearchDataSPM
             {
                 supcheckBox.Enabled = true;
             }
-            else if (supervisorid == myid && ecrsup && !submitecrhandlercheckBox.Checked)
+            if (supervisorid == myid && ecrsup && !submitecrhandlercheckBox.Checked)
             {
                 managercheckBox.Enabled = true;
                 if (managercheckBox.Checked)
@@ -1204,7 +1204,7 @@ namespace SearchDataSPM
         {
             bool sendemail = false;
             string limit = "";
-            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'EmailReq'", cn))
+            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'EmailECR'", cn))
             {
                 try
                 {
@@ -1428,7 +1428,7 @@ namespace SearchDataSPM
             }
             name = names[0];
 
-            sendemail(manageremail, ecrnotxtbox.Text.Trim() + " ECR Complettion Required", "Hello " + name + "," + Environment.NewLine + r["ApprovedBy"].ToString() + " sent this engineering change request for completion and changes to be made.", fileName, "", "");
+            sendemail(manageremail, ecrnotxtbox.Text.Trim() + " ECR Completion Required", "Hello " + name + "," + Environment.NewLine + r["ApprovedBy"].ToString() + " sent this engineering change request for completion and changes to be made.", fileName, "", "");
         }
 
         private void sendemailtouser(string fileName, string triggerby, bool rejected)

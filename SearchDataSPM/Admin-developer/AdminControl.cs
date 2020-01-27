@@ -769,7 +769,7 @@ namespace SearchDataSPM
                         "PurchaseReqApproval = '" + (papprovalchk.Checked ? "1" : "0") + "',PurchaseReqApproval2 = '" + (papproval2chk.Checked ? "1" : "0") + "'," +
                         "PurchaseReqBuyer = '" + (pbuyerchk.Checked ? "1" : "0") + "',Supervisor = '" + supervisorcombox.SelectedItem.ToString().Substring(0, 2) + "'," +
                         "Email = '" + useremailtxt.Text + "',PriceRight = '" + (pricetoggle.Checked ? "1" : "0") + "',Shipping = '" + (shiptoggle.Checked ? "1" : "0") + "'," +
-                        "CribCheckout = '" + (cribouttoggle.Checked ? "1" : "0") + "',ShipSup = '" + shippingSupervisorcomboBox.SelectedItem.ToString().Substring(0, 2) + "',CribShort = '" + (cribshorttoggle.Checked ? "1" : "0") + "'," +
+                        "CribCheckout = '" + (cribouttoggle.Checked ? "1" : "0") + "',ShipSup = '" + (shippingSupervisorcomboBox.SelectedItem != null ? shippingSupervisorcomboBox.SelectedItem.ToString().Substring(0, 2) : "") + "',CribShort = '" + (cribshorttoggle.Checked ? "1" : "0") + "'," +
                         "ECR = '" + (ecrtoggle.Checked ? "1" : "0") + "',ShipSupervisor = '" + (shippingsupchk.Checked ? "1" : "0") + "',ShippingManager = '" + (shippingmanagerchk.Checked ? "1" : "0") + "',WORelease = '" + (woreleasetoggle.Checked ? "1" : "0") + "',ItemDependencies = '" + (itmdeptoggle.Checked ? "1" : "0") + "',ECRApproval = '" + (ecrapprovalchk.Checked ? "1" : "0") + "',ECRApproval2 = '" + (ecrapproval2chk.Checked ? "1" : "0") + "',ECRHandler = '" + (ecrhandlerchk.Checked ? "1" : "0") + "'," +
                         "WOScan = '" + (scanwotoggle.Checked ? "1" : "0") + "',SharesFolder = '" + sharepathtxt.Text.Trim() + "'," +
                         "Emp_Id = '" + empidtxt.Text.Trim() + "' WHERE UserName = '" + domaintxtbox.Text + "' ";
@@ -846,7 +846,7 @@ namespace SearchDataSPM
                         "'" + nametextbox.Text.Trim() + "','" + activeblocknumber + "','" + (admintoggle.Checked ? "1" : "0") + "','" + (developertoggle.Checked ? "1" : "0") + "'," +
                         "'" + (managementtoggle.Checked ? "1" : "0") + "','" + (quotetoggle.Checked ? "1" : "0") + "','" + (purchasereqtoggle.Checked ? "1" : "0") + "'," +
                         "'" + (papprovalchk.Checked ? "1" : "0") + "','" + (papproval2chk.Checked ? "1" : "0") + "','" + (pbuyerchk.Checked ? "1" : "0") + "'," +
-                        "'" + (pricetoggle.Checked ? "1" : "0") + "','" + shippingSupervisorcomboBox.SelectedItem.ToString().Substring(0, 2).TrimEnd() + "','" + (shippingmanagerchk.Checked ? "1" : "0") + "','" + (cribouttoggle.Checked ? "1" : "0") + "','" + (cribouttoggle.Checked ? "1" : "0") + "','" + (cribshorttoggle.Checked ? "1" : "0") + "','" + (scanwotoggle.Checked ? "1" : "0") + "','" + (shiptoggle.Checked ? "1" : "0") + "'," +
+                        "'" + (pricetoggle.Checked ? "1" : "0") + "','" + (shippingSupervisorcomboBox.SelectedItem != null ? shippingSupervisorcomboBox.SelectedItem.ToString().Substring(0, 2).TrimEnd() : "") + "','" + (shippingmanagerchk.Checked ? "1" : "0") + "','" + (cribouttoggle.Checked ? "1" : "0") + "','" + (cribouttoggle.Checked ? "1" : "0") + "','" + (cribshorttoggle.Checked ? "1" : "0") + "','" + (scanwotoggle.Checked ? "1" : "0") + "','" + (shiptoggle.Checked ? "1" : "0") + "'," +
                         "'" + supervisorcombox.SelectedItem.ToString().Substring(0, 2).TrimEnd() + "','" + useremailtxt.Text + "','" + sharepathtxt.Text + "'," +
                         "'" + (ecrtoggle.Checked ? "1" : "0") + "','" + (woreleasetoggle.Checked ? "1" : "0") + "','" + (itmdeptoggle.Checked ? "1" : "0") + "','" + (ecrapprovalchk.Checked ? "1" : "0") + "','" + (ecrapproval2chk.Checked ? "1" : "0") + "','" + (ecrhandlerchk.Checked ? "1" : "0") + "')";
                     cmd.ExecuteNonQuery();
@@ -997,6 +997,7 @@ namespace SearchDataSPM
         private void button1_Click(object sender, EventArgs e)
         {
             Admin_developer.UserLogs sPM_Connect = new Admin_developer.UserLogs();
+            sPM_Connect.Owner = this;
             sPM_Connect.ShowDialog();
         }
 
@@ -1008,6 +1009,7 @@ namespace SearchDataSPM
         private void reluanchbttn_Click(object sender, EventArgs e)
         {
             Admin_developer.BlockedForms userStatus = new Admin_developer.BlockedForms();
+            userStatus.Owner = this;
             userStatus.ShowDialog();
             //Application.Restart();
             //Environment.Exit(0);
@@ -1016,18 +1018,22 @@ namespace SearchDataSPM
         private void UserStats_Click(object sender, EventArgs e)
         {
             Admin_developer.UserStatus userStatus = new Admin_developer.UserStatus();
-            userStatus.ShowDialog();
+            userStatus.Owner = this;
+            userStatus.ShowDialog(this);
+
         }
 
         private void custbttn_Click(object sender, EventArgs e)
         {
             Customers customers = new Customers();
+            customers.Owner = this;
             customers.Show();
         }
 
         private void matbttn_Click(object sender, EventArgs e)
         {
             Materials materials = new Materials();
+            materials.Owner = this;
             materials.Show();
         }
 

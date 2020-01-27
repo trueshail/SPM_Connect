@@ -1321,7 +1321,6 @@ namespace SearchDataSPM
             this.label24.Size = new System.Drawing.Size(136, 15);
             this.label24.TabIndex = 106;
             this.label24.Text = "Shipping Supervisor";
-            this.label24.Visible = false;
             // 
             // label25
             // 
@@ -1388,7 +1387,7 @@ namespace SearchDataSPM
             this.shippingmanagerchk.UseVisualStyleBackColor = true;
             this.shippingmanagerchk.CheckedChanged += new System.EventHandler(this.shippingmanagerchk_CheckedChanged);
             // 
-            // spmadmin
+            // Spmadmin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -1432,7 +1431,7 @@ namespace SearchDataSPM
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(600, 600);
-            this.Name = "spmadmin";
+            this.Name = "Spmadmin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Amin Control";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.spmadmin_FormClosing);
