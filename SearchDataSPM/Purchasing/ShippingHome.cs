@@ -121,40 +121,57 @@ namespace SearchDataSPM
 
         private void Showallitems(string showdatafor)
         {
-            dt.Clear();
-            datarequest = showdatafor;
-            dt = showdatafor == "normal" ? connectapi.ShowshippingHomeData() : showdatafor == "supervisor" ? connectapi.ShowshippingHomeDataforSupervisors(connectapi.getConnectEmployeeId().ToString()) : connectapi.ShowshippingHomeDataforManagers();
-            dataGridView.DataSource = dt;
-            DataView dv = dt.DefaultView;
-            dataGridView.Sort(dataGridView.Columns[0], ListSortDirection.Descending);
-            dataGridView.Columns[2].Visible = false;
-            dataGridView.Columns[3].Visible = false;
-            dataGridView.Columns[4].Visible = false;
-            dataGridView.Columns[6].Visible = false;
-            dataGridView.Columns[7].Visible = false;
-            dataGridView.Columns[8].Visible = false;
-            dataGridView.Columns[9].Visible = false;
-            dataGridView.Columns[10].Visible = false;
-            dataGridView.Columns[11].Visible = false;
-            dataGridView.Columns[12].Visible = false;
-            dataGridView.Columns[13].Visible = false;
-            dataGridView.Columns[14].Visible = false;
-            dataGridView.Columns[15].Visible = false;
-            dataGridView.Columns[16].Visible = false;
-            dataGridView.Columns[17].Visible = false;
-            dataGridView.Columns[18].Visible = false;
-            dataGridView.Columns[21].Visible = false;
-            dataGridView.Columns[22].Visible = false;
-            dataGridView.Columns[23].Visible = false;
-            dataGridView.Columns[24].Visible = false;
-            dataGridView.Columns[0].Width = 80;
-            dataGridView.Columns[1].Width = 250;
-            dataGridView.Columns[5].Width = 120;
-            dataGridView.Columns[19].Width = 280;
-            dataGridView.Columns[20].Width = 280;
-            dataGridView.Columns[19].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridView.Columns[20].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            UpdateFont();
+            try
+            {
+                dt.Clear();
+                datarequest = showdatafor;
+                dt = showdatafor == "normal" ? connectapi.ShowshippingHomeData() : showdatafor == "supervisor" ? connectapi.ShowshippingHomeDataforSupervisors(connectapi.getConnectEmployeeId().ToString()) : connectapi.ShowshippingHomeDataforManagers();
+                if (dt.Rows.Count > 0)
+                {
+                    dataGridView.DataSource = dt;
+                    DataView dv = dt.DefaultView;
+                    dataGridView.Sort(dataGridView.Columns[0], ListSortDirection.Descending);
+                    dataGridView.Columns[2].Visible = false;
+                    dataGridView.Columns[3].Visible = false;
+                    dataGridView.Columns[4].Visible = false;
+                    dataGridView.Columns[6].Visible = false;
+                    dataGridView.Columns[7].Visible = false;
+                    dataGridView.Columns[8].Visible = false;
+                    dataGridView.Columns[9].Visible = false;
+                    dataGridView.Columns[10].Visible = false;
+                    dataGridView.Columns[11].Visible = false;
+                    dataGridView.Columns[12].Visible = false;
+                    dataGridView.Columns[13].Visible = false;
+                    dataGridView.Columns[14].Visible = false;
+                    dataGridView.Columns[15].Visible = false;
+                    dataGridView.Columns[16].Visible = false;
+                    dataGridView.Columns[17].Visible = false;
+                    dataGridView.Columns[18].Visible = false;
+                    dataGridView.Columns[21].Visible = false;
+                    dataGridView.Columns[22].Visible = false;
+                    dataGridView.Columns[23].Visible = false;
+                    dataGridView.Columns[24].Visible = false;
+                    dataGridView.Columns[25].Visible = false;
+                    dataGridView.Columns[0].Width = 80;
+                    dataGridView.Columns[1].Width = 250;
+                    dataGridView.Columns[5].Width = 120;
+                    dataGridView.Columns[19].Width = 280;
+                    dataGridView.Columns[20].Width = 280;
+                    dataGridView.Columns[19].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    dataGridView.Columns[20].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    UpdateFont();
+                }
+                else
+                {
+                    return;
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
         }
 
         private void FillInvoiceItems()

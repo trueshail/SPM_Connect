@@ -75,7 +75,6 @@ namespace SearchDataSPM
             if (GetShippingBaseInfo(Invoice_Number))
             {
                 // processeditbutton();
-
                 FillShippingBaseInfo();
                 PopulateDataGridView(Invoice_Number);
                 Perfromlockdown();
@@ -571,8 +570,7 @@ namespace SearchDataSPM
             ShiptogroupBox.Enabled = false;
             shippinggroupBox.Enabled = false;
             submissiongroupBox.Enabled = false;
-            if (ecrcreator)
-                editbttn.Visible = true;
+
         }
 
         private List<string> list = new List<string>();
@@ -1094,15 +1092,15 @@ namespace SearchDataSPM
                 {
                     File.WriteAllBytes(fileName, results);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    throw e;
+                    //throw e;
                     // MessageBox.Show(e.Message, "SPM Connect - Save Report", MessageBoxButtons.OK);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                //throw ex;
             }
             finally
             {
@@ -1196,18 +1194,23 @@ namespace SearchDataSPM
             if (ecrcreator && !shipsupervisorheckBox.Checked)
             {
                 supcheckBox.Enabled = true;
+                editbttn.Visible = true;
             }
             else
             {
                 supcheckBox.Enabled = false;
+                editbttn.Visible = false;
             }
             if (shippingsup && mine && supcheckBox.Checked && !shipmanagercheckBox.Checked)
             {
                 shipsupervisorheckBox.Enabled = true;
+                editbttn.Visible = true;
             }
             else if (shippingmanager && shipsupervisorheckBox.Checked)
             {
                 shipmanagercheckBox.Enabled = true;
+                editbttn.Visible = true;
+
             }
             else
             {
@@ -1220,10 +1223,7 @@ namespace SearchDataSPM
                 Perfromlockdown();
                 editbttn.Visible = false;
             }
-            if (shippingmanager && supcheckBox.Checked)
-            {
-                editbttn.Visible = true;
-            }
+
         }
 
         private async void managercheckBox_Click(object sender, EventArgs e)

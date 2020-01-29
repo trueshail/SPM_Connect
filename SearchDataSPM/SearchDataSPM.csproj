@@ -31,11 +31,11 @@
     <ErrorReportUrl>http://www.spm-automation.com/contact.php</ErrorReportUrl>
     <ProductName>SPM Connect</ProductName>
     <PublisherName>SPM Automation</PublisherName>
-    <MinimumRequiredVersion>7.20.01.25</MinimumRequiredVersion>
+    <MinimumRequiredVersion>7.20.01.29</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>26</ApplicationRevision>
+    <ApplicationRevision>30</ApplicationRevision>
     <ApplicationVersion>7.20.01.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -99,9 +99,9 @@
   <PropertyGroup />
   <PropertyGroup />
   <PropertyGroup />
-  <PropertyGroup>
-    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
-  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
   <ItemGroup>
     <Reference Include="AdvancedDataGridView, Version=0.1.0.10, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ADGV.0.1.0.10\lib\net40\AdvancedDataGridView.dll</HintPath>
