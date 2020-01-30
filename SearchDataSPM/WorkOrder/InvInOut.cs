@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
@@ -21,8 +20,6 @@ namespace SearchDataSPM
 
         public InvInOut()
         {
-            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
             timer1.Start();
             //connectapi.SPM_Connect();
@@ -430,16 +427,6 @@ namespace SearchDataSPM
         {
             log.Info("Closed Crib Management by " + System.Environment.UserName);
             this.Dispose();
-        }
-
-        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
-        {
-            log.Error(sender, t.Exception); errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, this);
-        }
-
-        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            log.Error(sender, (Exception)e.ExceptionObject); errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, this);
         }
     }
 }

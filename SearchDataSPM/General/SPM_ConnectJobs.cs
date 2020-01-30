@@ -29,8 +29,6 @@ namespace SearchDataSPM
         public SPM_ConnectJobs()
 
         {
-            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
             connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
             try
@@ -1176,8 +1174,6 @@ namespace SearchDataSPM
                 return true;
             }
 
-
-
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
@@ -1220,16 +1216,6 @@ namespace SearchDataSPM
         {
             ECRHome ecr = new ECRHome();
             ecr.Show();
-        }
-
-        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
-        {
-            log.Error(sender, t.Exception); errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, this);
-        }
-
-        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            log.Error(sender, (Exception)e.ExceptionObject); errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, this);
         }
 
         private void viewCurrentJobReleaseToolStripMenuItem_Click(object sender, EventArgs e)

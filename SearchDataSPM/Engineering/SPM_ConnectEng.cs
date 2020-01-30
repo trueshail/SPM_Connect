@@ -51,8 +51,6 @@ namespace SearchDataSPM
 
         public SPM_Connect()
         {
-            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
             formloading = true;
 
@@ -3060,16 +3058,6 @@ namespace SearchDataSPM
                     MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-        }
-
-        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
-        {
-            log.Error(sender, t.Exception); errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, this);
-        }
-
-        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            log.Error(sender, (Exception)e.ExceptionObject); errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, this);
         }
 
         private void Showduplicates()

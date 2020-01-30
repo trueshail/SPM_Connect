@@ -6,7 +6,6 @@ using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace SearchDataSPM.General
@@ -25,8 +24,6 @@ namespace SearchDataSPM.General
 
         public QuoteDetails(string quoteno)
         {
-            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
             connection = ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
 
@@ -41,7 +38,6 @@ namespace SearchDataSPM.General
             this.quoteno2 = quoteno;
             dt = new DataTable();
             _command = new SqlCommand();
-
         }
 
         private void QuoteDetails_Load(object sender, EventArgs e)
@@ -166,7 +162,6 @@ namespace SearchDataSPM.General
                     cvttojobchkbox.Visible = false;
                 }
             }
-
         }
 
         private void Fillcustomers()
@@ -726,16 +721,6 @@ namespace SearchDataSPM.General
                 DirectoryCopy(sourcepaths300, destpaths300, true);
                 txtPath.Text = destpaths300 + @"\";
             }
-        }
-
-        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
-        {
-            log.Error(sender, t.Exception); errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, this);
-        }
-
-        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            log.Error(sender, (Exception)e.ExceptionObject); errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, this);
         }
 
         private void QuoteDetails_FormClosed(object sender, FormClosedEventArgs e)

@@ -40,8 +40,6 @@ namespace SearchDataSPM
 
         public NewItem()
         {
-            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
             connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
 
@@ -872,16 +870,6 @@ namespace SearchDataSPM
         }
 
         #endregion solidworks custom properties
-
-        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
-        {
-            log.Error(sender, t.Exception); errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, this);
-        }
-
-        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            log.Error(sender, (Exception)e.ExceptionObject); errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, this);
-        }
 
         private void NewItem_FormClosed(object sender, FormClosedEventArgs e)
         {

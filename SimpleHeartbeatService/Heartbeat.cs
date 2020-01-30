@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net.Mail;
-using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using TableDependency.SqlClient;
@@ -16,6 +13,7 @@ namespace ServiceReport
     {
         private readonly Timer _timer;
         private SqlTableDependency<ServiceReport> _serviceDependency;
+
         public Heartbeat()
         {
             _timer = new Timer(1000) { AutoReset = true };
@@ -39,6 +37,7 @@ namespace ServiceReport
             // _timer.Stop();
             _serviceDependency.Stop();
         }
+
         public void Servicesqlnotifier()
         {
             var mapper = new ModelToTableMapper<ServiceReport>();
@@ -49,8 +48,8 @@ namespace ServiceReport
             _serviceDependency.OnChanged += _serviceDependency_OnChanged;
             _serviceDependency.OnError += _serviceDependency_OnError;
             _serviceDependency.Start();
-
         }
+
         private void _serviceDependency_OnChanged(object sender, TableDependency.SqlClient.Base.EventArgs.RecordChangedEventArgs<ServiceReport> e)
         {
             var changedEntity = e.Entity;
@@ -69,7 +68,6 @@ namespace ServiceReport
                 //fileName = filepath + changedEntity.Title + ".pdf";
 
                 //SendEmail("shail@spm-automation.com", "SPM CONNECT - PROBLEM CASE ID: " + Path.GetRandomFileName(), changedEntity.Title, "");
-
             }
         }
 
@@ -97,7 +95,6 @@ namespace ServiceReport
             System.IO.Directory.CreateDirectory(filepath);
             fileName = filepath + invoiceno + ".pdf";
             SaveReport(invoiceno, fileName);
-
         }
 
         public void SaveReport(string invoiceno, string fileName)
@@ -174,11 +171,9 @@ namespace ServiceReport
             Console.WriteLine("Report Creation completed successfully");
             Console.WriteLine("Sending email out");
             SendEmail("shail@spm-automation.com", "New Service Report " + invoiceno, invoiceno, fileName);
-
         }
 
         #endregion Save Report
-
 
         public void SendEmail(string emailTo, string emailSubject, string emailBody, string emailFileAttachments)
         {
@@ -205,7 +200,6 @@ namespace ServiceReport
                 attachment = new System.Net.Mail.Attachment(emailFileAttachments);
                 message.Attachments.Add(attachment);
             }
-
 
             message.Body = emailBody;
 

@@ -4,14 +4,12 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
 {
     public partial class ShippingHome : Form
     {
-
         #region Shipping Home Load
 
         private string connection;
@@ -27,11 +25,10 @@ namespace SearchDataSPM
         private bool shipsupervisor = false;
         private bool shipmanager = false;
         private ErrorHandler errorHandler = new ErrorHandler();
-        string datarequest = "normal";
+        private string datarequest = "normal";
+
         public ShippingHome()
         {
-            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
             formloading = true;
 
@@ -165,13 +162,11 @@ namespace SearchDataSPM
                 {
                     return;
                 }
-
             }
             catch (Exception)
             {
                 throw;
             }
-
         }
 
         private void FillInvoiceItems()
@@ -1206,30 +1201,16 @@ namespace SearchDataSPM
 
         #endregion Invoice
 
-        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
-        {
-            log.Error(sender, t.Exception); errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, this);
-        }
-
-        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            log.Error(sender, (Exception)e.ExceptionObject); errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, this);
-        }
-
         private void attnbttn_Click(object sender, EventArgs e)
         {
-
             if (shipsupervisor)
             {
-
                 Showallitems("supervisor");
             }
             else if (shipmanager)
             {
                 Showallitems("manager");
             }
-
-
         }
     }
 }

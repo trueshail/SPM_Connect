@@ -5,7 +5,6 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
@@ -27,8 +26,6 @@ namespace SearchDataSPM
 
         public MatReAlloc()
         {
-            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
 
             //connectapi.SPM_Connect();
@@ -606,16 +603,6 @@ namespace SearchDataSPM
         {
             ReportViewer form1 = new ReportViewer(Reportname, itemvalue);
             form1.Show();
-        }
-
-        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
-        {
-            log.Error(sender, t.Exception); errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, this);
-        }
-
-        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            log.Error(sender, (Exception)e.ExceptionObject); errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, this);
         }
 
         private void MatReAlloc_FormClosed(object sender, FormClosedEventArgs e)

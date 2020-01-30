@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
@@ -25,8 +24,6 @@ namespace SearchDataSPM
 
         public ServiceReportHome()
         {
-            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
             formloading = true;
 
@@ -1017,7 +1014,6 @@ namespace SearchDataSPM
             ReportViewer form1 = new ReportViewer(_reportname: "Service", _item: report);
 
             form1.Show();
-
         }
 
         private string getselectedinvoicenumber()
@@ -1044,16 +1040,6 @@ namespace SearchDataSPM
         }
 
         #endregion Invoice
-
-        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
-        {
-            log.Error(sender, t.Exception); errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, this);
-        }
-
-        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            log.Error(sender, (Exception)e.ExceptionObject); errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, this);
-        }
 
         private void jobnumbercombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {

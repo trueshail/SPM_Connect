@@ -3,7 +3,6 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
@@ -26,8 +25,6 @@ namespace SearchDataSPM
 
         public Spmadmin()
         {
-            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
 
             connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
@@ -233,7 +230,6 @@ namespace SearchDataSPM
                     {
                     }
 
-
                     if (dr["ShipSup"].ToString().Length > 0)
                     {
                         string MyString = dr["ShipSup"].ToString();
@@ -353,8 +349,6 @@ namespace SearchDataSPM
                     {
                         shippingmanagerchk.Checked = false;
                     }
-
-
 
                     if (dr["CribCheckout"].ToString().Equals("1"))
                     {
@@ -1020,7 +1014,6 @@ namespace SearchDataSPM
             Admin_developer.UserStatus userStatus = new Admin_developer.UserStatus();
             userStatus.Owner = this;
             userStatus.ShowDialog(this);
-
         }
 
         private void custbttn_Click(object sender, EventArgs e)
@@ -1437,18 +1430,6 @@ namespace SearchDataSPM
             }
         }
 
-        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
-        {
-            log.Error(sender, t.Exception);
-            errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, this);
-        }
-
-        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            log.Error(sender, (Exception)e.ExceptionObject);
-            errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, this);
-        }
-
         private void supervisorcombox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
@@ -1467,7 +1448,6 @@ namespace SearchDataSPM
 
         private void managementtoggle_Load(object sender, EventArgs e)
         {
-
         }
 
         private void shippingmanagerchk_CheckedChanged(object sender, EventArgs e)

@@ -45,8 +45,6 @@ namespace SearchDataSPM
 
         public InvoiceDetails(string number)
         {
-            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
             connection = ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
             try
@@ -310,7 +308,6 @@ namespace SearchDataSPM
                     sld2phone.Text = r["Telephone"].ToString();
                     sld2fax.Text = r["Fax"].ToString();
                 }
-
             }
             else
             {
@@ -331,7 +328,6 @@ namespace SearchDataSPM
                     sld2phone.Text = r["Phone"].ToString();
                     sld2fax.Text = r["Fax"].ToString();
                 }
-
             }
         }
 
@@ -356,7 +352,6 @@ namespace SearchDataSPM
                     ship2phone.Text = r["Telephone"].ToString();
                     ship2fax.Text = r["Fax"].ToString();
                 }
-
             }
             else
             {
@@ -377,7 +372,6 @@ namespace SearchDataSPM
                     ship2phone.Text = r["Phone"].ToString();
                     ship2fax.Text = r["Fax"].ToString();
                 }
-
             }
         }
 
@@ -396,7 +390,6 @@ namespace SearchDataSPM
             {
                 string rw = r["Nom"].ToString();
                 soldtocombobox.AutoCompleteCustomSource.Add(rw);
-
             }
         }
 
@@ -411,7 +404,6 @@ namespace SearchDataSPM
             {
                 string rw = r["Nom"].ToString();
                 shiptocombobox.AutoCompleteCustomSource.Add(rw);
-
             }
         }
 
@@ -426,7 +418,6 @@ namespace SearchDataSPM
             {
                 string rw = r["Name"].ToString();
                 soldtocombobox.AutoCompleteCustomSource.Add(rw);
-
             }
         }
 
@@ -441,7 +432,6 @@ namespace SearchDataSPM
             {
                 string rw = r["Name"].ToString();
                 shiptocombobox.AutoCompleteCustomSource.Add(rw);
-
             }
         }
 
@@ -620,7 +610,6 @@ namespace SearchDataSPM
             ShiptogroupBox.Enabled = false;
             shippinggroupBox.Enabled = false;
             submissiongroupBox.Enabled = false;
-
         }
 
         private List<string> list = new List<string>();
@@ -803,10 +792,8 @@ namespace SearchDataSPM
 
         private void soldtocombobox_SelectedIndexChanged(object sender, EventArgs e)
         {
-
             if (custvendor == "1")
             {
-
                 if (dtsoldtoCust.Rows.Count > 0)
                 {
                     sld2name.Text = dtsoldtoCust.Rows[soldtocombobox.SelectedIndex]["Nom"].ToString();
@@ -820,7 +807,6 @@ namespace SearchDataSPM
                     sld2fax.Text = dtsoldtoCust.Rows[soldtocombobox.SelectedIndex]["Fax"].ToString();
                     soldtoid = dtsoldtoCust.Rows[soldtocombobox.SelectedIndex]["C_No"].ToString();
                 }
-
             }
             else
             {
@@ -837,16 +823,13 @@ namespace SearchDataSPM
                     sld2fax.Text = dtsoldtoVend.Rows[soldtocombobox.SelectedIndex]["Fax"].ToString();
                     soldtoid = dtsoldtoVend.Rows[soldtocombobox.SelectedIndex]["Code"].ToString();
                 }
-
             }
-
         }
 
         private void shiptocombobox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (!formloading)
             {
-
                 if (custvendor == "1")
                 {
                     if (dtsoldtoCust.Rows.Count > 0)
@@ -861,18 +844,12 @@ namespace SearchDataSPM
                         ship2phone.Text = dtsoldtoCust.Rows[shiptocombobox.SelectedIndex]["Telephone"].ToString();
                         ship2fax.Text = dtsoldtoCust.Rows[shiptocombobox.SelectedIndex]["Fax"].ToString();
                         shiptoid = dtsoldtoCust.Rows[shiptocombobox.SelectedIndex]["C_No"].ToString();
-
-
                     }
-
                 }
                 else
                 {
-
                     if (dtsoldtoVend.Rows.Count > 0)
                     {
-
-
                         ship2name.Text = dtsoldtoVend.Rows[shiptocombobox.SelectedIndex]["Name"].ToString();
                         shiptocombobox.SelectedItem = dtsoldtoVend.Rows[shiptocombobox.SelectedIndex]["Name"].ToString();
                         ship2add.Text = dtsoldtoVend.Rows[shiptocombobox.SelectedIndex]["Address1"].ToString();
@@ -883,11 +860,7 @@ namespace SearchDataSPM
                         ship2phone.Text = dtsoldtoVend.Rows[shiptocombobox.SelectedIndex]["Phone"].ToString();
                         ship2fax.Text = dtsoldtoVend.Rows[shiptocombobox.SelectedIndex]["Fax"].ToString();
                         shiptoid = dtsoldtoVend.Rows[shiptocombobox.SelectedIndex]["Code"].ToString();
-
-
                     }
-
-
                 }
             }
         }
@@ -947,6 +920,7 @@ namespace SearchDataSPM
                 FOBPointcombox.Focus();
             }
         }
+
         #endregion Events
 
         #region ContextMenuStrip
@@ -1195,16 +1169,6 @@ namespace SearchDataSPM
             this.Dispose();
         }
 
-        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
-        {
-            log.Error(sender, t.Exception); errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, this);
-        }
-
-        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            log.Error(sender, (Exception)e.ExceptionObject); errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, this);
-        }
-
         private void handleCheckBoxes(string submittedtosup, string sumbittedtomanager, string complete,
             string createdby, string approvedby, string completedby, string submittedon, string SupApprovedOn, string completedon)
         {
@@ -1263,7 +1227,6 @@ namespace SearchDataSPM
             {
                 shipmanagercheckBox.Enabled = true;
                 editbttn.Visible = true;
-
             }
             else
             {
@@ -1276,7 +1239,6 @@ namespace SearchDataSPM
                 Perfromlockdown();
                 editbttn.Visible = false;
             }
-
         }
 
         private async void managercheckBox_Click(object sender, EventArgs e)
@@ -1409,7 +1371,6 @@ namespace SearchDataSPM
                 supcheckBox.Checked = false;
                 supcheckBox.Text = "Submit to Supervisor";
                 MetroFramework.MetroMessageBox.Show(this, "Job number and ShipTo fields need to be filled in before submitting the shipping request.", "SPM Connect?", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
             }
         }
 

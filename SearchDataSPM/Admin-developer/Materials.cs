@@ -2,7 +2,6 @@
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
@@ -16,8 +15,6 @@ namespace SearchDataSPM
 
         public Materials()
         {
-            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
         }
 
@@ -105,16 +102,6 @@ namespace SearchDataSPM
         {
             log.Info("Closed Manage Materials by " + System.Environment.UserName);
             this.Dispose();
-        }
-
-        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
-        {
-            log.Error(sender, t.Exception); errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, this);
-        }
-
-        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            log.Error(sender, (Exception)e.ExceptionObject); errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, this);
         }
     }
 }

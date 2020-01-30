@@ -12,8 +12,6 @@ namespace SearchDataSPM.Admin_developer
 
         public UserLogs()
         {
-            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
         }
 
@@ -34,16 +32,6 @@ namespace SearchDataSPM.Admin_developer
         private void advancedDataGridView_FilterStringChanged(object sender, EventArgs e)
         {
             this.unionLogsBindingSource.Filter = this.advancedDataGridView1.FilterString;
-        }
-
-        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
-        {
-            log.Error(sender, t.Exception); errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, this);
-        }
-
-        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            log.Error(sender, (Exception)e.ExceptionObject); errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, this);
         }
 
         private void UserLogs_FormClosed(object sender, FormClosedEventArgs e)

@@ -1,6 +1,5 @@
 ﻿using SPMConnectAPI;
 using System;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
@@ -17,8 +16,6 @@ namespace SearchDataSPM
 
         public ReportViewer(string _reportname, string _item, string _total = "")
         {
-            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
             string connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
             // connectapi.SPM_Connect();
@@ -98,7 +95,6 @@ namespace SearchDataSPM
             log.Info("Opened ReportViewer, ReportName : " + reportname + ", ItemNumber : " + itemnumber + " by " + System.Environment.UserName);
         }
 
-
         private void Fillbomreport()
         {
             Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection();
@@ -158,16 +154,6 @@ namespace SearchDataSPM
                 return true;
             }
             return base.ProcessCmdKey(ref msg, keyData);
-        }
-
-        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
-        {
-            log.Error(sender, t.Exception); errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, this);
-        }
-
-        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            log.Error(sender, (Exception)e.ExceptionObject); errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, this);
         }
     }
 }

@@ -3,7 +3,6 @@ using System;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
@@ -20,8 +19,6 @@ namespace SearchDataSPM
 
         public ReleaseLogs()
         {
-            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
             //connectapi.SPM_Connect();
             dt = new DataTable();
@@ -581,16 +578,6 @@ namespace SearchDataSPM
             }
 
             return base.ProcessCmdKey(ref msg, keyData);
-        }
-
-        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
-        {
-            log.Error(sender, t.Exception); errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, this);
-        }
-
-        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            log.Error(sender, (Exception)e.ExceptionObject); errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, this);
         }
 
         private void ShowReleaseLogDetails(string invoice)

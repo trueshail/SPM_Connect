@@ -1,16 +1,16 @@
-﻿using SPMConnect;
+﻿using Microsoft.Exchange.WebServices.Data;
+using SPMConnect;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Mail;
 using System.Text;
-using System.Windows.Forms;
 
 namespace SearchDataSPM
 {
     internal class ErrorHandler
     {
-        public void EmailExceptionAndActionLogToSupport(object sender, Exception exception, Control frm)
+        public void EmailExceptionAndActionLogToSupport(object sender, Exception exception)
         {
             StringBuilder _errMsg = new StringBuilder();
             List<string> _emailAttachments = new List<string>();
@@ -76,6 +76,7 @@ namespace SearchDataSPM
                     }
                 }
             }
+
             message.Body = emailBody;
 
             //Save the email message to the Drafts folder (where it can be retrieved, updated, and sent at a later time).
@@ -93,5 +94,6 @@ namespace SearchDataSPM
                 //System.Windows.Forms.MessageBox.Show("FAILED TO SEND EMAIL - PLEASE CONTACT " + "shail@spm-automation.com" + "!", "Email sending failed", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Exclamation);
             }
         }
+
     }
 }

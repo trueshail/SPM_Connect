@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace SearchDataSPM.General
@@ -12,8 +11,6 @@ namespace SearchDataSPM.General
 
         public PODetails()
         {
-            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
         }
 
@@ -50,16 +47,6 @@ namespace SearchDataSPM.General
         private void PODetails_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (!(ponumbertxt.Text.Length > 0)) e.Cancel = true;
-        }
-
-        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
-        {
-            log.Error(sender, t.Exception); errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, this);
-        }
-
-        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            log.Error(sender, (Exception)e.ExceptionObject); errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, this);
         }
 
         private void PODetails_FormClosed(object sender, FormClosedEventArgs e)

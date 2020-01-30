@@ -7,7 +7,6 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Globalization;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
@@ -38,8 +37,6 @@ namespace SearchDataSPM
 
         public ItemInfo(string itemno = "")
         {
-            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
             PW = 515;
             hiden = true;
@@ -592,16 +589,6 @@ namespace SearchDataSPM
                 this.Size = new Size(900, 600);
                 dataGridView2.Visible = false;
             }
-        }
-
-        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
-        {
-            log.Error(sender, t.Exception); errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, this);
-        }
-
-        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            log.Error(sender, (Exception)e.ExceptionObject); errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, this);
         }
 
         private void Itemnotxt_KeyPress(object sender, KeyPressEventArgs e)

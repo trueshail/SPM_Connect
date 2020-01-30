@@ -2,7 +2,6 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
@@ -17,8 +16,6 @@ namespace SearchDataSPM
 
         public ConnectParameters()
         {
-            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
             InitializeComponent();
         }
 
@@ -99,16 +96,6 @@ namespace SearchDataSPM
                         MessageBox.Show("Not allowed to edit parameters name as they are being used by the program.", "SPM Connect - Allow Edit", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
-        }
-
-        private void UIThreadException(object sender, ThreadExceptionEventArgs t)
-        {
-            log.Error(sender, t.Exception); errorHandler.EmailExceptionAndActionLogToSupport(sender, t.Exception, this);
-        }
-
-        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            log.Error(sender, (Exception)e.ExceptionObject); errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)e.ExceptionObject, this);
         }
 
         private void ConnectParameters_FormClosed(object sender, FormClosedEventArgs e)
