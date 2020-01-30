@@ -21,6 +21,8 @@ namespace SearchDataSPM
 
         private string connection;
         private DataTable dt = new DataTable();
+        private DataTable dtsoldtoCust = new DataTable();
+        private DataTable dtsoldtoVend = new DataTable();
         private SqlConnection cn;
         private SqlCommand _command;
         private SqlDataAdapter _adapter;
@@ -56,6 +58,8 @@ namespace SearchDataSPM
                 MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             dt = new DataTable();
+            dtsoldtoCust = new DataTable();
+            dtsoldtoVend = new DataTable();
             _command = new SqlCommand();
             this.Invoice_Number = number;
         }
@@ -71,6 +75,8 @@ namespace SearchDataSPM
             FillCarriers();
             FillTerms();
             FillRequistioners();
+            dtsoldtoCust = connectapi.GetCustomerSoldShipToData();
+            dtsoldtoVend = connectapi.GetVendorShipSoldToData();
 
             if (GetShippingBaseInfo(Invoice_Number))
             {
@@ -287,39 +293,45 @@ namespace SearchDataSPM
         {
             if (vendorcust == "1")
             {
-                DataTable dtsoldto = new DataTable();
-                dtsoldto.Clear();
-                dtsoldto = connectapi.GetCustomerSoldShipToInfo(custid);
-                DataRow r = dtsoldto.Rows[0];
+                string searchExpression = "C_No = " + custid;
+                DataRow[] foundRows = dtsoldtoCust.Select(searchExpression);
+                if (foundRows.Length > 0)
+                {
+                    DataRow r = foundRows[0];
 
-                sld2name.Text = r["Nom"].ToString();
-                soldtocombobox.SelectedItem = r["Nom"].ToString();
-                sld2add.Text = r["Adresse"].ToString();
-                sld2add2.Text = r["CTR_Address2"].ToString();
-                sld2city.Text = r["Ville"].ToString();
-                sld2province.Text = r["Province"].ToString();
-                sld2country.Text = r["Pays"].ToString();
-                sld2zip.Text = r["Codepostal"].ToString();
-                sld2phone.Text = r["Telephone"].ToString();
-                sld2fax.Text = r["Fax"].ToString();
+                    sld2name.Text = r["Nom"].ToString();
+                    soldtocombobox.Text = r["Nom"].ToString();
+                    sld2add.Text = r["Adresse"].ToString();
+                    sld2add2.Text = r["CTR_Address2"].ToString();
+                    sld2city.Text = r["Ville"].ToString();
+                    sld2province.Text = r["Province"].ToString();
+                    sld2country.Text = r["Pays"].ToString();
+                    sld2zip.Text = r["Codepostal"].ToString();
+                    sld2phone.Text = r["Telephone"].ToString();
+                    sld2fax.Text = r["Fax"].ToString();
+                }
+
             }
             else
             {
-                DataTable dtsoldto = new DataTable();
-                dtsoldto.Clear();
-                dtsoldto = connectapi.GetVendorShipSoldToInfo(custid);
-                DataRow r = dtsoldto.Rows[0];
+                string searchExpression = "Code = " + custid;
+                DataRow[] foundRows = dtsoldtoVend.Select(searchExpression);
+                if (foundRows.Length > 0)
+                {
+                    DataRow r = foundRows[0];
 
-                sld2name.Text = r["Name"].ToString();
-                soldtocombobox.SelectedItem = r["Name"].ToString();
-                sld2add.Text = r["Address1"].ToString();
-                sld2add2.Text = r["Address2"].ToString();
-                sld2city.Text = r["City"].ToString();
-                sld2province.Text = r["Province"].ToString();
-                sld2country.Text = r["Country"].ToString();
-                sld2zip.Text = r["ZipCode"].ToString();
-                sld2phone.Text = r["Phone"].ToString();
-                sld2fax.Text = r["Fax"].ToString();
+                    sld2name.Text = r["Name"].ToString();
+                    soldtocombobox.Text = r["Name"].ToString();
+                    sld2add.Text = r["Address1"].ToString();
+                    sld2add2.Text = r["Address2"].ToString();
+                    sld2city.Text = r["City"].ToString();
+                    sld2province.Text = r["Province"].ToString();
+                    sld2country.Text = r["Country"].ToString();
+                    sld2zip.Text = r["ZipCode"].ToString();
+                    sld2phone.Text = r["Phone"].ToString();
+                    sld2fax.Text = r["Fax"].ToString();
+                }
+
             }
         }
 
@@ -327,39 +339,45 @@ namespace SearchDataSPM
         {
             if (vendorcust == "1")
             {
-                DataTable dtsoldto = new DataTable();
-                dtsoldto.Clear();
-                dtsoldto = connectapi.GetCustomerSoldShipToInfo(custid);
-                DataRow r = dtsoldto.Rows[0];
+                string searchExpression = "C_No = " + custid;
+                DataRow[] foundRows = dtsoldtoCust.Select(searchExpression);
+                if (foundRows.Length > 0)
+                {
+                    DataRow r = foundRows[0];
 
-                ship2name.Text = r["Nom"].ToString();
-                shiptocombobox.SelectedItem = r["Nom"].ToString();
-                ship2add.Text = r["Adresse"].ToString();
-                ship2add2.Text = r["CTR_Address2"].ToString();
-                ship2city.Text = r["Ville"].ToString();
-                ship2province.Text = r["Province"].ToString();
-                ship2country.Text = r["Pays"].ToString();
-                ship2zip.Text = r["Codepostal"].ToString();
-                ship2phone.Text = r["Telephone"].ToString();
-                ship2fax.Text = r["Fax"].ToString();
+                    ship2name.Text = r["Nom"].ToString();
+                    shiptocombobox.Text = r["Nom"].ToString();
+                    ship2add.Text = r["Adresse"].ToString();
+                    ship2add2.Text = r["CTR_Address2"].ToString();
+                    ship2city.Text = r["Ville"].ToString();
+                    ship2province.Text = r["Province"].ToString();
+                    ship2country.Text = r["Pays"].ToString();
+                    ship2zip.Text = r["Codepostal"].ToString();
+                    ship2phone.Text = r["Telephone"].ToString();
+                    ship2fax.Text = r["Fax"].ToString();
+                }
+
             }
             else
             {
-                DataTable dtsoldto = new DataTable();
-                dtsoldto.Clear();
-                dtsoldto = connectapi.GetVendorShipSoldToInfo(custid);
-                DataRow r = dtsoldto.Rows[0];
+                string searchExpression = "Code = " + custid;
+                DataRow[] foundRows = dtsoldtoVend.Select(searchExpression);
+                if (foundRows.Length > 0)
+                {
+                    DataRow r = foundRows[0];
 
-                ship2name.Text = r["Name"].ToString();
-                shiptocombobox.SelectedItem = r["Name"].ToString();
-                ship2add.Text = r["Address1"].ToString();
-                ship2add2.Text = r["Address2"].ToString();
-                ship2city.Text = r["City"].ToString();
-                ship2province.Text = r["Province"].ToString();
-                ship2country.Text = r["Country"].ToString();
-                ship2zip.Text = r["ZipCode"].ToString();
-                ship2phone.Text = r["Phone"].ToString();
-                ship2fax.Text = r["Fax"].ToString();
+                    ship2name.Text = r["Name"].ToString();
+                    shiptocombobox.Text = r["Name"].ToString();
+                    ship2add.Text = r["Address1"].ToString();
+                    ship2add2.Text = r["Address2"].ToString();
+                    ship2city.Text = r["City"].ToString();
+                    ship2province.Text = r["Province"].ToString();
+                    ship2country.Text = r["Country"].ToString();
+                    ship2zip.Text = r["ZipCode"].ToString();
+                    ship2phone.Text = r["Phone"].ToString();
+                    ship2fax.Text = r["Fax"].ToString();
+                }
+
             }
         }
 
@@ -369,30 +387,62 @@ namespace SearchDataSPM
 
         private void FillcustomersSoldto()
         {
-            AutoCompleteStringCollection MyCollection = connectapi.FillShipToSoldToCustomers();
-            soldtocombobox.AutoCompleteCustomSource = MyCollection;
-            soldtocombobox.DataSource = MyCollection;
+            soldtocombobox.BindingContext = new BindingContext();   //create a new context
+            soldtocombobox.DataSource = dtsoldtoCust;
+            soldtocombobox.DisplayMember = "Nom";
+            soldtocombobox.ValueMember = "C_No";
+
+            foreach (DataRow r in dtsoldtoCust.Rows)
+            {
+                string rw = r["Nom"].ToString();
+                soldtocombobox.AutoCompleteCustomSource.Add(rw);
+
+            }
         }
 
         private void FillcustomersShipto()
         {
-            AutoCompleteStringCollection MyCollection = connectapi.FillShipToSoldToCustomers();
-            shiptocombobox.AutoCompleteCustomSource = MyCollection;
-            shiptocombobox.DataSource = MyCollection;
+            shiptocombobox.BindingContext = new BindingContext();   //create a new context
+            shiptocombobox.DataSource = dtsoldtoCust;
+            shiptocombobox.DisplayMember = "Nom";
+            shiptocombobox.ValueMember = "C_No";
+
+            foreach (DataRow r in dtsoldtoCust.Rows)
+            {
+                string rw = r["Nom"].ToString();
+                shiptocombobox.AutoCompleteCustomSource.Add(rw);
+
+            }
         }
 
         private void FillVendorsSoldto()
         {
-            AutoCompleteStringCollection MyCollection = connectapi.FillShipToSoldToVendors();
-            soldtocombobox.AutoCompleteCustomSource = MyCollection;
-            soldtocombobox.DataSource = MyCollection;
+            soldtocombobox.BindingContext = new BindingContext();   //create a new context
+            soldtocombobox.DataSource = dtsoldtoVend;
+            soldtocombobox.DisplayMember = "Name";
+            soldtocombobox.ValueMember = "Code";
+
+            foreach (DataRow r in dtsoldtoVend.Rows)
+            {
+                string rw = r["Name"].ToString();
+                soldtocombobox.AutoCompleteCustomSource.Add(rw);
+
+            }
         }
 
         private void FillVendorsShipto()
         {
-            AutoCompleteStringCollection MyCollection = connectapi.FillShipToSoldToVendors();
-            shiptocombobox.AutoCompleteCustomSource = MyCollection;
-            shiptocombobox.DataSource = MyCollection;
+            shiptocombobox.BindingContext = new BindingContext();   //create a new context
+            shiptocombobox.DataSource = dtsoldtoVend;
+            shiptocombobox.DisplayMember = "Name";
+            shiptocombobox.ValueMember = "Code";
+
+            foreach (DataRow r in dtsoldtoVend.Rows)
+            {
+                string rw = r["Name"].ToString();
+                shiptocombobox.AutoCompleteCustomSource.Add(rw);
+
+            }
         }
 
         private void FillFobPoint()
@@ -753,88 +803,91 @@ namespace SearchDataSPM
 
         private void soldtocombobox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (!formloading)
+
+            if (custvendor == "1")
             {
-                string soldtoname = soldtocombobox.Text;
 
-                if (custvendor == "1")
+                if (dtsoldtoCust.Rows.Count > 0)
                 {
-                    DataTable dtsoldto = new DataTable();
-                    dtsoldto.Clear();
-                    dtsoldto = connectapi.GetCustomerSoldShipToInfoname(soldtoname);
-                    DataRow r = dtsoldto.Rows[0];
-                    sld2name.Text = r["Nom"].ToString();
-                    soldtocombobox.SelectedItem = r["Nom"].ToString();
-                    sld2add.Text = r["Adresse"].ToString();
-                    sld2city.Text = r["Ville"].ToString();
-                    sld2province.Text = r["Province"].ToString();
-                    sld2country.Text = r["Pays"].ToString();
-                    sld2zip.Text = r["Codepostal"].ToString();
-                    sld2phone.Text = r["Telephone"].ToString();
-                    sld2fax.Text = r["Fax"].ToString();
-                    soldtoid = r["C_No"].ToString();
+                    sld2name.Text = dtsoldtoCust.Rows[soldtocombobox.SelectedIndex]["Nom"].ToString();
+                    soldtocombobox.SelectedItem = dtsoldtoCust.Rows[soldtocombobox.SelectedIndex]["Nom"].ToString();
+                    sld2add.Text = dtsoldtoCust.Rows[soldtocombobox.SelectedIndex]["Adresse"].ToString();
+                    sld2city.Text = dtsoldtoCust.Rows[soldtocombobox.SelectedIndex]["Ville"].ToString();
+                    sld2province.Text = dtsoldtoCust.Rows[soldtocombobox.SelectedIndex]["Province"].ToString();
+                    sld2country.Text = dtsoldtoCust.Rows[soldtocombobox.SelectedIndex]["Pays"].ToString();
+                    sld2zip.Text = dtsoldtoCust.Rows[soldtocombobox.SelectedIndex]["Codepostal"].ToString();
+                    sld2phone.Text = dtsoldtoCust.Rows[soldtocombobox.SelectedIndex]["Telephone"].ToString();
+                    sld2fax.Text = dtsoldtoCust.Rows[soldtocombobox.SelectedIndex]["Fax"].ToString();
+                    soldtoid = dtsoldtoCust.Rows[soldtocombobox.SelectedIndex]["C_No"].ToString();
                 }
-                else
-                {
-                    DataTable dtsoldto = new DataTable();
-                    dtsoldto.Clear();
-                    dtsoldto = connectapi.GetVendorShipSoldToInfoname(soldtoname);
-                    DataRow r = dtsoldto.Rows[0];
 
-                    sld2name.Text = r["Name"].ToString();
-                    soldtocombobox.SelectedItem = r["Name"].ToString();
-                    sld2add.Text = r["Address1"].ToString();
-                    sld2city.Text = r["City"].ToString();
-                    sld2province.Text = r["Province"].ToString();
-                    sld2country.Text = r["Country"].ToString();
-                    sld2zip.Text = r["ZipCode"].ToString();
-                    sld2phone.Text = r["Phone"].ToString();
-                    sld2fax.Text = r["Fax"].ToString();
-                    soldtoid = r["Code"].ToString();
-                }
             }
+            else
+            {
+                if (dtsoldtoVend.Rows.Count > 0)
+                {
+                    sld2name.Text = dtsoldtoVend.Rows[soldtocombobox.SelectedIndex]["Name"].ToString();
+                    soldtocombobox.SelectedItem = dtsoldtoVend.Rows[soldtocombobox.SelectedIndex]["Name"].ToString();
+                    sld2add.Text = dtsoldtoVend.Rows[soldtocombobox.SelectedIndex]["Address1"].ToString();
+                    sld2city.Text = dtsoldtoVend.Rows[soldtocombobox.SelectedIndex]["City"].ToString();
+                    sld2province.Text = dtsoldtoVend.Rows[soldtocombobox.SelectedIndex]["Province"].ToString();
+                    sld2country.Text = dtsoldtoVend.Rows[soldtocombobox.SelectedIndex]["Country"].ToString();
+                    sld2zip.Text = dtsoldtoVend.Rows[soldtocombobox.SelectedIndex]["ZipCode"].ToString();
+                    sld2phone.Text = dtsoldtoVend.Rows[soldtocombobox.SelectedIndex]["Phone"].ToString();
+                    sld2fax.Text = dtsoldtoVend.Rows[soldtocombobox.SelectedIndex]["Fax"].ToString();
+                    soldtoid = dtsoldtoVend.Rows[soldtocombobox.SelectedIndex]["Code"].ToString();
+                }
+
+            }
+
         }
 
         private void shiptocombobox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (!formloading)
             {
-                string shiptoname = shiptocombobox.Text;
+
                 if (custvendor == "1")
                 {
-                    DataTable dtsoldto = new DataTable();
-                    dtsoldto.Clear();
-                    dtsoldto = connectapi.GetCustomerSoldShipToInfoname(shiptoname);
-                    DataRow r = dtsoldto.Rows[0];
+                    if (dtsoldtoCust.Rows.Count > 0)
+                    {
+                        ship2name.Text = dtsoldtoCust.Rows[shiptocombobox.SelectedIndex]["Nom"].ToString();
+                        shiptocombobox.SelectedItem = dtsoldtoCust.Rows[shiptocombobox.SelectedIndex]["Nom"].ToString();
+                        ship2add.Text = dtsoldtoCust.Rows[shiptocombobox.SelectedIndex]["Adresse"].ToString();
+                        ship2city.Text = dtsoldtoCust.Rows[shiptocombobox.SelectedIndex]["Ville"].ToString();
+                        ship2province.Text = dtsoldtoCust.Rows[shiptocombobox.SelectedIndex]["Province"].ToString();
+                        ship2country.Text = dtsoldtoCust.Rows[shiptocombobox.SelectedIndex]["Pays"].ToString();
+                        ship2zip.Text = dtsoldtoCust.Rows[shiptocombobox.SelectedIndex]["Codepostal"].ToString();
+                        ship2phone.Text = dtsoldtoCust.Rows[shiptocombobox.SelectedIndex]["Telephone"].ToString();
+                        ship2fax.Text = dtsoldtoCust.Rows[shiptocombobox.SelectedIndex]["Fax"].ToString();
+                        shiptoid = dtsoldtoCust.Rows[shiptocombobox.SelectedIndex]["C_No"].ToString();
 
-                    ship2name.Text = r["Nom"].ToString();
-                    shiptocombobox.SelectedItem = r["Nom"].ToString();
-                    ship2add.Text = r["Adresse"].ToString();
-                    ship2city.Text = r["Ville"].ToString();
-                    ship2province.Text = r["Province"].ToString();
-                    ship2country.Text = r["Pays"].ToString();
-                    ship2zip.Text = r["Codepostal"].ToString();
-                    ship2phone.Text = r["Telephone"].ToString();
-                    ship2fax.Text = r["Fax"].ToString();
-                    shiptoid = r["C_No"].ToString();
+
+                    }
+
                 }
                 else
                 {
-                    DataTable dtsoldto = new DataTable();
-                    dtsoldto.Clear();
-                    dtsoldto = connectapi.GetVendorShipSoldToInfoname(shiptoname);
-                    DataRow r = dtsoldto.Rows[0];
 
-                    ship2name.Text = r["Name"].ToString();
-                    shiptocombobox.SelectedItem = r["Name"].ToString();
-                    ship2add.Text = r["Address1"].ToString();
-                    ship2city.Text = r["City"].ToString();
-                    ship2province.Text = r["Province"].ToString();
-                    ship2country.Text = r["Country"].ToString();
-                    ship2zip.Text = r["ZipCode"].ToString();
-                    ship2phone.Text = r["Phone"].ToString();
-                    ship2fax.Text = r["Fax"].ToString();
-                    shiptoid = r["Code"].ToString();
+                    if (dtsoldtoVend.Rows.Count > 0)
+                    {
+
+
+                        ship2name.Text = dtsoldtoVend.Rows[shiptocombobox.SelectedIndex]["Name"].ToString();
+                        shiptocombobox.SelectedItem = dtsoldtoVend.Rows[shiptocombobox.SelectedIndex]["Name"].ToString();
+                        ship2add.Text = dtsoldtoVend.Rows[shiptocombobox.SelectedIndex]["Address1"].ToString();
+                        ship2city.Text = dtsoldtoVend.Rows[shiptocombobox.SelectedIndex]["City"].ToString();
+                        ship2province.Text = dtsoldtoVend.Rows[shiptocombobox.SelectedIndex]["Province"].ToString();
+                        ship2country.Text = dtsoldtoVend.Rows[shiptocombobox.SelectedIndex]["Country"].ToString();
+                        ship2zip.Text = dtsoldtoVend.Rows[shiptocombobox.SelectedIndex]["ZipCode"].ToString();
+                        ship2phone.Text = dtsoldtoVend.Rows[shiptocombobox.SelectedIndex]["Phone"].ToString();
+                        ship2fax.Text = dtsoldtoVend.Rows[shiptocombobox.SelectedIndex]["Fax"].ToString();
+                        shiptoid = dtsoldtoVend.Rows[shiptocombobox.SelectedIndex]["Code"].ToString();
+
+
+                    }
+
+
                 }
             }
         }

@@ -457,11 +457,11 @@ namespace SPMConnectAPI
             return dt;
         }
 
-        public DataTable GetCustomerSoldShipToInfoname(string name)
+        public DataTable GetCustomerSoldShipToInfoname(string custId)
         {
             DataTable dt = new DataTable();
 
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[CustomersShipTo] WHERE [Nom] = '" + name.Replace("'", "''") + "'", cn))
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[CustomersShipTo] WHERE [C_No] = '" + custId.Replace("'", "''") + "'", cn))
             {
                 try
                 {
@@ -699,6 +699,58 @@ namespace SPMConnectAPI
 
         #region FillComboBoxes
 
+        public DataTable GetCustomerSoldShipToData()
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[CustomersShipTo] where [Nom] is not null order by [Nom]", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Customer Sold - Ship to Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return dt;
+        }
+
+        public DataTable GetVendorShipSoldToData()
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[VendorsShipTo] order by [Name]", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Vendor Sold - Ship to Information", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return dt;
+        }
+
         public AutoCompleteStringCollection FillShipToShip()
         {
             AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
@@ -892,7 +944,7 @@ namespace SPMConnectAPI
         public AutoCompleteStringCollection FillShipToSoldToVendors()
         {
             AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT Name FROM[SPM_Database].[dbo].[VendorsShipTo]", cn))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT Name FROM [SPM_Database].[dbo].[VendorsShipTo]", cn))
             {
                 try
                 {
