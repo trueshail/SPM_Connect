@@ -1330,7 +1330,15 @@ namespace SearchDataSPM
                                 else
                                 {
                                     hauthoritygroupbox.Visible = true;
-                                    hauthoritygroupbox.Enabled = false;
+                                    if (dr[0]["Papproved"].ToString().Equals("1"))
+                                    {
+                                        hauthoritygroupbox.Enabled = false;
+                                    }
+                                    else
+                                    {
+                                        hauthoritygroupbox.Enabled = true;
+                                    }
+
                                     happrovechk.Text = "Final Approved";
                                     happrovechk.Checked = true;
                                     editbttn.Visible = false;

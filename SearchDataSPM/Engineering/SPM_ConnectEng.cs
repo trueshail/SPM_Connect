@@ -404,7 +404,18 @@ namespace SearchDataSPM
             {
                 //MessageBox.Show(this,"Developer has kicked you out due to maintenance issues.");
                 _dependency.Stop();
-                System.Environment.Exit(0);
+                try
+                {
+                    System.Diagnostics.Process.Start(Application.ExecutablePath);
+                    System.Environment.Exit(0);
+
+                }
+                catch (Exception ex)
+                {
+
+                    throw ex;
+                }
+
             }
         }
 
