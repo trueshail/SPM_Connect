@@ -291,7 +291,7 @@ namespace SearchDataSPM
         {
             if (vendorcust == "1")
             {
-                string searchExpression = "C_No = " + custid;
+                string searchExpression = "C_No = '" + custid + "'";
                 DataRow[] foundRows = dtsoldtoCust.Select(searchExpression);
                 if (foundRows.Length > 0)
                 {
@@ -311,7 +311,7 @@ namespace SearchDataSPM
             }
             else
             {
-                string searchExpression = "Code = " + custid;
+                string searchExpression = "Code = '" + custid + "'";
                 DataRow[] foundRows = dtsoldtoVend.Select(searchExpression);
                 if (foundRows.Length > 0)
                 {
@@ -335,7 +335,7 @@ namespace SearchDataSPM
         {
             if (vendorcust == "1")
             {
-                string searchExpression = "C_No = " + custid;
+                string searchExpression = "C_No = '" + custid + "'";
                 DataRow[] foundRows = dtsoldtoCust.Select(searchExpression);
                 if (foundRows.Length > 0)
                 {
@@ -355,7 +355,7 @@ namespace SearchDataSPM
             }
             else
             {
-                string searchExpression = "Code = " + custid;
+                string searchExpression = "Code = '" + custid + "'";
                 DataRow[] foundRows = dtsoldtoVend.Select(searchExpression);
                 if (foundRows.Length > 0)
                 {
@@ -1223,14 +1223,22 @@ namespace SearchDataSPM
                 shipsupervisorheckBox.Enabled = true;
                 editbttn.Visible = true;
             }
-            else if (shippingmanager && shipsupervisorheckBox.Checked)
+
+
+
+            if (shippingmanager && shipsupervisorheckBox.Checked)
             {
                 shipmanagercheckBox.Enabled = true;
                 editbttn.Visible = true;
             }
             else
             {
+
                 shipsupervisorheckBox.Enabled = false;
+                if (shippingmanager && supcheckBox.Checked)
+                {
+                    shipsupervisorheckBox.Enabled = true;
+                }
                 shipmanagercheckBox.Enabled = false;
             }
 

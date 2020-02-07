@@ -71,6 +71,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.custname.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.custname.Location = new System.Drawing.Point(130, 217);
+            this.custname.MaxLength = 60;
             this.custname.Name = "custname";
             this.custname.Size = new System.Drawing.Size(250, 31);
             this.custname.TabIndex = 2;
@@ -180,6 +181,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.shortname.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.shortname.Location = new System.Drawing.Point(130, 255);
+            this.shortname.MaxLength = 50;
             this.shortname.Name = "shortname";
             this.shortname.Size = new System.Drawing.Size(250, 31);
             this.shortname.TabIndex = 3;
@@ -206,6 +208,7 @@
             this.alias.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.alias.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.alias.Location = new System.Drawing.Point(130, 294);
+            this.alias.MaxLength = 40;
             this.alias.Name = "alias";
             this.alias.Size = new System.Drawing.Size(250, 31);
             this.alias.TabIndex = 4;
@@ -263,6 +266,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.custidtxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.custidtxt.Location = new System.Drawing.Point(130, 180);
+            this.custidtxt.MaxLength = 5;
             this.custidtxt.Name = "custidtxt";
             this.custidtxt.Size = new System.Drawing.Size(250, 31);
             this.custidtxt.TabIndex = 1;

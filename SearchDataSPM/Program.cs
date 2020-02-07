@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ExceptionReporting;
+using System;
+using System.IO;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
@@ -20,17 +22,69 @@ namespace SearchDataSPM
             {
                 log.Error(sender, args.Exception);
                 errorHandler.EmailExceptionAndActionLogToSupport(sender, args.Exception);
-            };
+                ExceptionReporter er = new ExceptionReporter
+                {
+                    Config =
+                       {
+                         AppName = "SPM Connect",
+                         ShowFullDetail =false,
+                         CompanyName = "SPM Automation",
+                         TitleText = "SPM Connect Error Report",
+                         EmailReportAddress = "shail@spm-automation.com",
+                         TakeScreenshot = true,   // attached if sending email
+                         SendMethod = ReportSendMethod.SMTP,  // also WebService/SimpleMAPI
+                         SmtpServer = "spmautomation-com0i.mail.protection.outlook.com",
+                         SmtpPort = 25,
+                         SmtpUseDefaultCredentials = true,
+                         SmtpFromAddress = "connect@spm-automation.com",
+                         ReportTemplateFormat = TemplateFormat.Markdown,
+                         SmtpUseSsl = true,
+                         UserName = System.Security.Principal.WindowsIdentity.GetCurrent().Name,
+                         RegionInfo = "Windsor",
+                         ShowAssembliesTab =false,
+                         TopMost = true,
 
-            AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
-            {
-                log.Error(sender, (Exception)args.ExceptionObject);
-                errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)args.ExceptionObject);
+                       }
+                };
+                er.Show(args.Exception);
+                er.Send();
             };
+            AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
+                    {
+                        log.Error(sender, (Exception)args.ExceptionObject);
+                        errorHandler.EmailExceptionAndActionLogToSupport(sender, (Exception)args.ExceptionObject);
+                        ExceptionReporter er = new ExceptionReporter
+                        {
+                            Config =
+                       {
+                         AppName = "SPM Connect",
+                         ShowFullDetail =false,
+                         CompanyName = "SPM Automation",
+                         TitleText = "SPM Connect Error Report",
+                         EmailReportAddress = "shail@spm-automation.com",
+                         TakeScreenshot = true,   // attached if sending email
+                         SendMethod = ReportSendMethod.SMTP,  // also WebService/SimpleMAPI
+                         SmtpServer = "spmautomation-com0i.mail.protection.outlook.com",
+                         SmtpPort = 25,
+                         SmtpUseDefaultCredentials = true,
+                         SmtpFromAddress = "connect@spm-automation.com",
+                         ReportTemplateFormat = TemplateFormat.Markdown,
+                         SmtpUseSsl = true,
+                         UserName = System.Security.Principal.WindowsIdentity.GetCurrent().Name,
+                         RegionInfo = "Windsor",
+                         ShowAssembliesTab =false,
+                         TopMost = true,
+
+                       }
+                        };
+                        er.Show((Exception)args.ExceptionObject);
+                        er.Send();
+                    };
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new SPM_ConnectHome());
         }
+
     }
 }

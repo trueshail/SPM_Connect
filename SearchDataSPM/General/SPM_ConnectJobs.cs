@@ -829,7 +829,7 @@ namespace SearchDataSPM
             ecr.Show();
         }
 
-        private void createfolders()
+        private void Createfolders()
         {
             try
             {
@@ -837,16 +837,24 @@ namespace SearchDataSPM
                 string salesorder = getsalesorder().ToString();
                 string jobdescription = getjobdescription().ToString();
                 string customer = connectapi.getcustomeralias(getcutomerid().ToString()).ToString();
-                DialogResult result = MessageBox.Show(
-                   "JobNumber = " + jobnumber + Environment.NewLine +
-                   "SalesOrder = " + salesorder + Environment.NewLine +
-                   "Job Description = " + jobdescription + Environment.NewLine +
-                   "Customer = " + customer, "Create Job Folders?",
-                                                   MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (result == DialogResult.Yes)
+                if (customer.Length > 1)
                 {
-                    createjobfolders(jobnumber, customer, jobdescription, salesorder);
+                    DialogResult result = MessageBox.Show(
+                 "JobNumber = " + jobnumber + Environment.NewLine +
+                 "SalesOrder = " + salesorder + Environment.NewLine +
+                 "Job Description = " + jobdescription + Environment.NewLine +
+                 "Customer = " + customer, "Create Job Folders?",
+                                                 MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (result == DialogResult.Yes)
+                    {
+                        Createjobfolders(jobnumber, customer, jobdescription, salesorder);
+                    }
                 }
+                else
+                {
+                    MetroFramework.MetroMessageBox.Show(this, "Customer short name not found. Error with customer alias. Please contact admin.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                }
+
             }
             catch (Exception)
             {
@@ -854,7 +862,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void createjobfolders(string jobnumber, string customer, string jobdescription, string salesorder)
+        private void Createjobfolders(string jobnumber, string customer, string jobdescription, string salesorder)
         {
             this.Enabled = false;
             Cursor.Current = Cursors.WaitCursor;
@@ -867,7 +875,7 @@ namespace SearchDataSPM
 
             if (ValueIWantFromProptForm.Length > 0)
             {
-                Thread t = new Thread(new ThreadStart(splashsave));
+                Thread t = new Thread(new ThreadStart(Splashsave));
                 t.Start();
                 string destpatheng = "";
                 string destpaths300 = "";
@@ -913,7 +921,7 @@ namespace SearchDataSPM
             this.Enabled = true;
         }
 
-        private void splashsave()
+        private void Splashsave()
         {
             Dialog waitFormSaving = new Dialog
             {
@@ -1020,7 +1028,7 @@ namespace SearchDataSPM
 
         private void createFoldersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            createfolders();
+            Createfolders();
         }
 
         #endregion CreateFolders
