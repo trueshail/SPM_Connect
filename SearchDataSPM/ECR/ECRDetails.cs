@@ -323,6 +323,7 @@ namespace SearchDataSPM
             if (ecrcreator && !managercheckBox.Checked)
             {
                 supcheckBox.Enabled = true;
+                return;
             }
             if (supervisorid == myid && ecrsup && !submitecrhandlercheckBox.Checked)
             {
