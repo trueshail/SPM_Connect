@@ -408,14 +408,11 @@ namespace SearchDataSPM
                 {
                     System.Diagnostics.Process.Start(Application.ExecutablePath);
                     System.Environment.Exit(0);
-
                 }
                 catch (Exception ex)
                 {
-
                     throw ex;
                 }
-
             }
         }
 
@@ -3026,8 +3023,56 @@ namespace SearchDataSPM
             Showhelp();
         }
 
+        //public string getcustomproperties(string filename, string configname, string FieldName)
+        //{
+        //    SwDMClassFactory swCf = new SwDMClassFactory();
+        //    SwDMApplication swDocMgr;
+        //    SwDMDocument10 swDoc12;
+        //    SwDmDocumentType dt;
+        //    ISwDMConfiguration5 activeConfig;
+        //    swDocMgr = swCf.GetApplication("SPMAutomationCanadaInc:swdocmgr_general-11785-02051-00064-01025-08567-34307-00007-51296-06983-58295-08079-08260-59507-48091-55300-35256-58158-03544-34582-20709-37723-23578-16716-01333-53717-46525-53637-48549-03513-47493-37253-09605-36281-14337-27748-52314-50378-25690-25696-966");
+        //    SwDmDocumentOpenError res;
+        //    dt = SwDmDocumentType.swDmDocumentPart;
+        //    try
+        //    {
+        //        swDoc12 = swDocMgr.GetDocument(filename, dt, false, out res) as SwDMDocument10;
+
+        //        CustomPropertyManager configMgr;
+        //        // Will open the configuation
+        //        try
+        //        {
+        //            //activeConfig = (ISwDMConfiguration5)configMgr.GetConfigurationByName(configname);
+
+        //            string linkedTo;
+        //            SwDmCustomInfoType customtype;
+        //            string cpValue;
+        //            try
+        //            {
+        //                cpValue = swDoc12.GetCustomPropertyValues(FieldName, out customtype, out linkedTo);
+        //                return cpValue;
+        //            }
+        //            catch
+        //            {
+        //                return "FieldName dose not exist";
+        //            }
+        //        }
+        //        catch
+        //        {
+        //            return "Config dose not exist";
+        //        }
+        //    }
+        //    catch
+        //    {
+        //        return "File dose not exist";
+        //    }
+        //}
+
         private void Showhelp()
         {
+            //SwDMDocument12 swDoc = (SwDMDocument12)swDM.GetDocument("", SwDmDocumentType.swDmDocumentDrawing, false, out mOpenErrors);
+            //swDoc.AddCustomProperty("FieldName", SwDmCustomInfoType.swDmCustomInfoText, "the value");
+            //swDoc.CloseDoc();
+            //MessageBox.Show(getcustomproperties(@"\\spm-adfs\CAD Data\AAACAD\A80\A80482.sldprt", "Default", "Description"));
             HelpForm helpForm = new HelpForm();
             helpForm.ShowDialog();
         }

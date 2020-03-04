@@ -119,6 +119,10 @@ namespace SearchDataSPM
             this.label26 = new System.Windows.Forms.Label();
             this.shippingsupchk = new System.Windows.Forms.CheckBox();
             this.shippingmanagerchk = new System.Windows.Forms.CheckBox();
+            this.chkdrwtoggle = new ToggleSlider.ToggleSliderComponent();
+            this.label23 = new System.Windows.Forms.Label();
+            this.appdrwtoggle = new ToggleSlider.ToggleSliderComponent();
+            this.label27 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -181,7 +185,7 @@ namespace SearchDataSPM
             // 
             // addnewbttn
             // 
-            this.addnewbttn.Location = new System.Drawing.Point(256, 519);
+            this.addnewbttn.Location = new System.Drawing.Point(256, 528);
             this.addnewbttn.Name = "addnewbttn";
             this.addnewbttn.Size = new System.Drawing.Size(87, 23);
             this.addnewbttn.TabIndex = 23;
@@ -192,7 +196,7 @@ namespace SearchDataSPM
             // 
             // updatebttn
             // 
-            this.updatebttn.Location = new System.Drawing.Point(363, 519);
+            this.updatebttn.Location = new System.Drawing.Point(363, 528);
             this.updatebttn.Name = "updatebttn";
             this.updatebttn.Size = new System.Drawing.Size(79, 23);
             this.updatebttn.TabIndex = 24;
@@ -203,7 +207,7 @@ namespace SearchDataSPM
             // 
             // delbttn
             // 
-            this.delbttn.Location = new System.Drawing.Point(461, 519);
+            this.delbttn.Location = new System.Drawing.Point(461, 528);
             this.delbttn.Name = "delbttn";
             this.delbttn.Size = new System.Drawing.Size(75, 23);
             this.delbttn.TabIndex = 25;
@@ -214,7 +218,7 @@ namespace SearchDataSPM
             // 
             // updatesavebttn
             // 
-            this.updatesavebttn.Location = new System.Drawing.Point(307, 551);
+            this.updatesavebttn.Location = new System.Drawing.Point(307, 568);
             this.updatesavebttn.Name = "updatesavebttn";
             this.updatesavebttn.Size = new System.Drawing.Size(79, 23);
             this.updatesavebttn.TabIndex = 21;
@@ -226,7 +230,7 @@ namespace SearchDataSPM
             // 
             // cnclbttn
             // 
-            this.cnclbttn.Location = new System.Drawing.Point(400, 551);
+            this.cnclbttn.Location = new System.Drawing.Point(400, 568);
             this.cnclbttn.Name = "cnclbttn";
             this.cnclbttn.Size = new System.Drawing.Size(72, 23);
             this.cnclbttn.TabIndex = 22;
@@ -238,7 +242,7 @@ namespace SearchDataSPM
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(583, 511);
+            this.button1.Location = new System.Drawing.Point(583, 522);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(115, 30);
             this.button1.TabIndex = 26;
@@ -249,7 +253,7 @@ namespace SearchDataSPM
             // 
             // reluanchbttn
             // 
-            this.reluanchbttn.Location = new System.Drawing.Point(713, 556);
+            this.reluanchbttn.Location = new System.Drawing.Point(713, 567);
             this.reluanchbttn.Name = "reluanchbttn";
             this.reluanchbttn.Size = new System.Drawing.Size(117, 30);
             this.reluanchbttn.TabIndex = 30;
@@ -260,7 +264,7 @@ namespace SearchDataSPM
             // 
             // UserStats
             // 
-            this.UserStats.Location = new System.Drawing.Point(581, 556);
+            this.UserStats.Location = new System.Drawing.Point(581, 567);
             this.UserStats.Name = "UserStats";
             this.UserStats.Size = new System.Drawing.Size(115, 30);
             this.UserStats.TabIndex = 29;
@@ -271,7 +275,7 @@ namespace SearchDataSPM
             // 
             // custbttn
             // 
-            this.custbttn.Location = new System.Drawing.Point(713, 511);
+            this.custbttn.Location = new System.Drawing.Point(713, 522);
             this.custbttn.Name = "custbttn";
             this.custbttn.Size = new System.Drawing.Size(115, 30);
             this.custbttn.TabIndex = 27;
@@ -282,7 +286,7 @@ namespace SearchDataSPM
             // 
             // matbttn
             // 
-            this.matbttn.Location = new System.Drawing.Point(843, 511);
+            this.matbttn.Location = new System.Drawing.Point(843, 522);
             this.matbttn.Name = "matbttn";
             this.matbttn.Size = new System.Drawing.Size(115, 30);
             this.matbttn.TabIndex = 28;
@@ -323,7 +327,7 @@ namespace SearchDataSPM
             // 
             // parametersbttn
             // 
-            this.parametersbttn.Location = new System.Drawing.Point(841, 556);
+            this.parametersbttn.Location = new System.Drawing.Point(841, 567);
             this.parametersbttn.Name = "parametersbttn";
             this.parametersbttn.Size = new System.Drawing.Size(117, 30);
             this.parametersbttn.TabIndex = 30;
@@ -341,7 +345,7 @@ namespace SearchDataSPM
             this.Userlistbox.ItemHeight = 20;
             this.Userlistbox.Location = new System.Drawing.Point(0, 105);
             this.Userlistbox.Name = "Userlistbox";
-            this.Userlistbox.Size = new System.Drawing.Size(220, 484);
+            this.Userlistbox.Size = new System.Drawing.Size(220, 504);
             this.Userlistbox.TabIndex = 0;
             this.Userlistbox.SelectedIndexChanged += new System.EventHandler(this.Userlistbox_SelectedIndexChanged);
             // 
@@ -381,7 +385,7 @@ namespace SearchDataSPM
             this.admin.AutoSize = true;
             this.admin.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.admin.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.admin.Location = new System.Drawing.Point(20, 28);
+            this.admin.Location = new System.Drawing.Point(20, 13);
             this.admin.MaximumSize = new System.Drawing.Size(90, 15);
             this.admin.Name = "admin";
             this.admin.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -424,7 +428,7 @@ namespace SearchDataSPM
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label1.Location = new System.Drawing.Point(186, 28);
+            this.label1.Location = new System.Drawing.Point(186, 13);
             this.label1.MaximumSize = new System.Drawing.Size(100, 15);
             this.label1.Name = "label1";
             this.label1.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -439,7 +443,7 @@ namespace SearchDataSPM
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label2.Location = new System.Drawing.Point(207, 108);
+            this.label2.Location = new System.Drawing.Point(207, 93);
             this.label2.MaximumSize = new System.Drawing.Size(90, 15);
             this.label2.Name = "label2";
             this.label2.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -454,7 +458,7 @@ namespace SearchDataSPM
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label3.Location = new System.Drawing.Point(20, 60);
+            this.label3.Location = new System.Drawing.Point(20, 45);
             this.label3.Name = "label3";
             this.label3.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label3.Size = new System.Drawing.Size(59, 30);
@@ -578,7 +582,7 @@ namespace SearchDataSPM
             this.lineShape5,
             this.lineShape4,
             this.lineShape1});
-            this.shapeContainer1.Size = new System.Drawing.Size(974, 594);
+            this.shapeContainer1.Size = new System.Drawing.Size(974, 609);
             this.shapeContainer1.TabIndex = 84;
             this.shapeContainer1.TabStop = false;
             // 
@@ -600,10 +604,10 @@ namespace SearchDataSPM
             this.lineShape5.Cursor = System.Windows.Forms.Cursors.Default;
             this.lineShape5.Name = "lineShape5";
             this.lineShape5.SelectionColor = System.Drawing.Color.White;
-            this.lineShape5.X1 = 214;
+            this.lineShape5.X1 = 213;
             this.lineShape5.X2 = 976;
-            this.lineShape5.Y1 = 493;
-            this.lineShape5.Y2 = 493;
+            this.lineShape5.Y1 = 506;
+            this.lineShape5.Y2 = 506;
             // 
             // lineShape4
             // 
@@ -612,10 +616,10 @@ namespace SearchDataSPM
             this.lineShape4.Cursor = System.Windows.Forms.Cursors.Default;
             this.lineShape4.Name = "lineShape1";
             this.lineShape4.SelectionColor = System.Drawing.Color.White;
-            this.lineShape4.X1 = 561;
+            this.lineShape4.X1 = 560;
             this.lineShape4.X2 = 561;
-            this.lineShape4.Y1 = 492;
-            this.lineShape4.Y2 = 593;
+            this.lineShape4.Y1 = 507;
+            this.lineShape4.Y2 = 606;
             // 
             // lineShape1
             // 
@@ -678,7 +682,7 @@ namespace SearchDataSPM
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label8.Location = new System.Drawing.Point(183, 68);
+            this.label8.Location = new System.Drawing.Point(183, 53);
             this.label8.Name = "label8";
             this.label8.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label8.Size = new System.Drawing.Size(105, 15);
@@ -692,7 +696,7 @@ namespace SearchDataSPM
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label10.Location = new System.Drawing.Point(21, 99);
+            this.label10.Location = new System.Drawing.Point(21, 84);
             this.label10.MaximumSize = new System.Drawing.Size(90, 30);
             this.label10.Name = "label10";
             this.label10.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -745,7 +749,7 @@ namespace SearchDataSPM
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label12.Location = new System.Drawing.Point(8, 143);
+            this.label12.Location = new System.Drawing.Point(8, 128);
             this.label12.MaximumSize = new System.Drawing.Size(90, 15);
             this.label12.Name = "label12";
             this.label12.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -805,7 +809,7 @@ namespace SearchDataSPM
             this.admintoggle.Checked = false;
             this.admintoggle.Enabled = false;
             this.admintoggle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.admintoggle.Location = new System.Drawing.Point(90, 28);
+            this.admintoggle.Location = new System.Drawing.Point(90, 13);
             this.admintoggle.MaximumSize = new System.Drawing.Size(70, 25);
             this.admintoggle.MinimumSize = new System.Drawing.Size(70, 25);
             this.admintoggle.Name = "admintoggle";
@@ -822,7 +826,7 @@ namespace SearchDataSPM
             this.quotetoggle.Checked = false;
             this.quotetoggle.Enabled = false;
             this.quotetoggle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.quotetoggle.Location = new System.Drawing.Point(90, 69);
+            this.quotetoggle.Location = new System.Drawing.Point(90, 54);
             this.quotetoggle.MaximumSize = new System.Drawing.Size(70, 25);
             this.quotetoggle.MinimumSize = new System.Drawing.Size(70, 25);
             this.quotetoggle.Name = "quotetoggle";
@@ -839,7 +843,7 @@ namespace SearchDataSPM
             this.pricetoggle.Checked = false;
             this.pricetoggle.Enabled = false;
             this.pricetoggle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.pricetoggle.Location = new System.Drawing.Point(90, 108);
+            this.pricetoggle.Location = new System.Drawing.Point(90, 93);
             this.pricetoggle.MaximumSize = new System.Drawing.Size(70, 25);
             this.pricetoggle.MinimumSize = new System.Drawing.Size(70, 25);
             this.pricetoggle.Name = "pricetoggle";
@@ -856,7 +860,7 @@ namespace SearchDataSPM
             this.shiptoggle.Checked = false;
             this.shiptoggle.Enabled = false;
             this.shiptoggle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.shiptoggle.Location = new System.Drawing.Point(90, 143);
+            this.shiptoggle.Location = new System.Drawing.Point(90, 128);
             this.shiptoggle.MaximumSize = new System.Drawing.Size(70, 25);
             this.shiptoggle.MinimumSize = new System.Drawing.Size(70, 25);
             this.shiptoggle.Name = "shiptoggle";
@@ -873,7 +877,7 @@ namespace SearchDataSPM
             this.managementtoggle.Checked = false;
             this.managementtoggle.Enabled = false;
             this.managementtoggle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.managementtoggle.Location = new System.Drawing.Point(293, 28);
+            this.managementtoggle.Location = new System.Drawing.Point(293, 13);
             this.managementtoggle.MaximumSize = new System.Drawing.Size(70, 25);
             this.managementtoggle.MinimumSize = new System.Drawing.Size(70, 25);
             this.managementtoggle.Name = "managementtoggle";
@@ -891,7 +895,7 @@ namespace SearchDataSPM
             this.purchasereqtoggle.Checked = false;
             this.purchasereqtoggle.Enabled = false;
             this.purchasereqtoggle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.purchasereqtoggle.Location = new System.Drawing.Point(293, 65);
+            this.purchasereqtoggle.Location = new System.Drawing.Point(293, 50);
             this.purchasereqtoggle.MaximumSize = new System.Drawing.Size(70, 25);
             this.purchasereqtoggle.MinimumSize = new System.Drawing.Size(70, 25);
             this.purchasereqtoggle.Name = "purchasereqtoggle";
@@ -908,7 +912,7 @@ namespace SearchDataSPM
             this.developertoggle.Checked = false;
             this.developertoggle.Enabled = false;
             this.developertoggle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.developertoggle.Location = new System.Drawing.Point(293, 104);
+            this.developertoggle.Location = new System.Drawing.Point(293, 89);
             this.developertoggle.MaximumSize = new System.Drawing.Size(70, 25);
             this.developertoggle.MinimumSize = new System.Drawing.Size(70, 25);
             this.developertoggle.Name = "developertoggle";
@@ -926,7 +930,7 @@ namespace SearchDataSPM
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label14.Location = new System.Drawing.Point(201, 180);
+            this.label14.Location = new System.Drawing.Point(201, 165);
             this.label14.MaximumSize = new System.Drawing.Size(90, 15);
             this.label14.Name = "label14";
             this.label14.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -940,7 +944,7 @@ namespace SearchDataSPM
             this.cribouttoggle.Checked = false;
             this.cribouttoggle.Enabled = false;
             this.cribouttoggle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.cribouttoggle.Location = new System.Drawing.Point(293, 180);
+            this.cribouttoggle.Location = new System.Drawing.Point(293, 165);
             this.cribouttoggle.MaximumSize = new System.Drawing.Size(70, 25);
             this.cribouttoggle.MinimumSize = new System.Drawing.Size(70, 25);
             this.cribouttoggle.Name = "cribouttoggle";
@@ -958,7 +962,7 @@ namespace SearchDataSPM
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label15.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label15.Location = new System.Drawing.Point(219, 143);
+            this.label15.Location = new System.Drawing.Point(219, 128);
             this.label15.MaximumSize = new System.Drawing.Size(90, 15);
             this.label15.Name = "label15";
             this.label15.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -972,7 +976,7 @@ namespace SearchDataSPM
             this.scanwotoggle.Checked = false;
             this.scanwotoggle.Enabled = false;
             this.scanwotoggle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.scanwotoggle.Location = new System.Drawing.Point(293, 143);
+            this.scanwotoggle.Location = new System.Drawing.Point(293, 128);
             this.scanwotoggle.MaximumSize = new System.Drawing.Size(70, 25);
             this.scanwotoggle.MinimumSize = new System.Drawing.Size(70, 25);
             this.scanwotoggle.Name = "scanwotoggle";
@@ -989,7 +993,7 @@ namespace SearchDataSPM
             this.cribshorttoggle.Checked = false;
             this.cribshorttoggle.Enabled = false;
             this.cribshorttoggle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.cribshorttoggle.Location = new System.Drawing.Point(91, 178);
+            this.cribshorttoggle.Location = new System.Drawing.Point(91, 163);
             this.cribshorttoggle.MaximumSize = new System.Drawing.Size(70, 25);
             this.cribshorttoggle.MinimumSize = new System.Drawing.Size(70, 25);
             this.cribshorttoggle.Name = "cribshorttoggle";
@@ -1007,7 +1011,7 @@ namespace SearchDataSPM
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label16.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label16.Location = new System.Drawing.Point(9, 181);
+            this.label16.Location = new System.Drawing.Point(9, 166);
             this.label16.MaximumSize = new System.Drawing.Size(90, 30);
             this.label16.Name = "label16";
             this.label16.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -1130,7 +1134,7 @@ namespace SearchDataSPM
             this.label21.AutoSize = true;
             this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label21.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label21.Location = new System.Drawing.Point(31, 214);
+            this.label21.Location = new System.Drawing.Point(31, 199);
             this.label21.MaximumSize = new System.Drawing.Size(90, 30);
             this.label21.Name = "label21";
             this.label21.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -1144,7 +1148,7 @@ namespace SearchDataSPM
             this.ecrtoggle.Checked = false;
             this.ecrtoggle.Enabled = false;
             this.ecrtoggle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.ecrtoggle.Location = new System.Drawing.Point(91, 213);
+            this.ecrtoggle.Location = new System.Drawing.Point(91, 198);
             this.ecrtoggle.MaximumSize = new System.Drawing.Size(70, 25);
             this.ecrtoggle.MinimumSize = new System.Drawing.Size(70, 25);
             this.ecrtoggle.Name = "ecrtoggle";
@@ -1162,7 +1166,7 @@ namespace SearchDataSPM
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label17.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label17.Location = new System.Drawing.Point(184, 203);
+            this.label17.Location = new System.Drawing.Point(184, 188);
             this.label17.MaximumSize = new System.Drawing.Size(150, 30);
             this.label17.Name = "label17";
             this.label17.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -1176,7 +1180,7 @@ namespace SearchDataSPM
             this.itmdeptoggle.Checked = false;
             this.itmdeptoggle.Enabled = false;
             this.itmdeptoggle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.itmdeptoggle.Location = new System.Drawing.Point(294, 212);
+            this.itmdeptoggle.Location = new System.Drawing.Point(294, 197);
             this.itmdeptoggle.MaximumSize = new System.Drawing.Size(70, 25);
             this.itmdeptoggle.MinimumSize = new System.Drawing.Size(70, 25);
             this.itmdeptoggle.Name = "itmdeptoggle";
@@ -1194,7 +1198,7 @@ namespace SearchDataSPM
             this.label22.AutoSize = true;
             this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label22.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label22.Location = new System.Drawing.Point(14, 240);
+            this.label22.Location = new System.Drawing.Point(14, 225);
             this.label22.MaximumSize = new System.Drawing.Size(100, 30);
             this.label22.Name = "label22";
             this.label22.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -1208,7 +1212,7 @@ namespace SearchDataSPM
             this.woreleasetoggle.Checked = false;
             this.woreleasetoggle.Enabled = false;
             this.woreleasetoggle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.woreleasetoggle.Location = new System.Drawing.Point(90, 248);
+            this.woreleasetoggle.Location = new System.Drawing.Point(90, 233);
             this.woreleasetoggle.MaximumSize = new System.Drawing.Size(70, 25);
             this.woreleasetoggle.MinimumSize = new System.Drawing.Size(70, 25);
             this.woreleasetoggle.Name = "woreleasetoggle";
@@ -1221,6 +1225,10 @@ namespace SearchDataSPM
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.appdrwtoggle);
+            this.groupBox1.Controls.Add(this.label27);
+            this.groupBox1.Controls.Add(this.chkdrwtoggle);
+            this.groupBox1.Controls.Add(this.label23);
             this.groupBox1.Controls.Add(this.admin);
             this.groupBox1.Controls.Add(this.label22);
             this.groupBox1.Controls.Add(this.label1);
@@ -1250,7 +1258,7 @@ namespace SearchDataSPM
             this.groupBox1.ForeColor = System.Drawing.Color.White;
             this.groupBox1.Location = new System.Drawing.Point(224, 206);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(400, 280);
+            this.groupBox1.Size = new System.Drawing.Size(400, 293);
             this.groupBox1.TabIndex = 113;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "General Rights";
@@ -1387,12 +1395,76 @@ namespace SearchDataSPM
             this.shippingmanagerchk.UseVisualStyleBackColor = true;
             this.shippingmanagerchk.CheckedChanged += new System.EventHandler(this.shippingmanagerchk_CheckedChanged);
             // 
+            // chkdrwtoggle
+            // 
+            this.chkdrwtoggle.AutoSize = true;
+            this.chkdrwtoggle.Checked = false;
+            this.chkdrwtoggle.Enabled = false;
+            this.chkdrwtoggle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.chkdrwtoggle.Location = new System.Drawing.Point(293, 233);
+            this.chkdrwtoggle.MaximumSize = new System.Drawing.Size(70, 25);
+            this.chkdrwtoggle.MinimumSize = new System.Drawing.Size(70, 25);
+            this.chkdrwtoggle.Name = "chkdrwtoggle";
+            this.chkdrwtoggle.Size = new System.Drawing.Size(70, 25);
+            this.chkdrwtoggle.TabIndex = 113;
+            this.chkdrwtoggle.ToggleBarText = "No";
+            this.chkdrwtoggle.ToggleCircleColor = System.Drawing.Color.Red;
+            this.chkdrwtoggle.ToggleColorBar = System.Drawing.Color.LightGray;
+            this.chkdrwtoggle.CheckChanged += new System.EventHandler(this.chkdrwtoggle_CheckChanged);
+            // 
+            // label23
+            // 
+            this.label23.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label23.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label23.Location = new System.Drawing.Point(200, 235);
+            this.label23.MaximumSize = new System.Drawing.Size(90, 15);
+            this.label23.Name = "label23";
+            this.label23.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label23.Size = new System.Drawing.Size(87, 15);
+            this.label23.TabIndex = 114;
+            this.label23.Text = "Check Draw:";
+            // 
+            // appdrwtoggle
+            // 
+            this.appdrwtoggle.AutoSize = true;
+            this.appdrwtoggle.Checked = false;
+            this.appdrwtoggle.Enabled = false;
+            this.appdrwtoggle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.appdrwtoggle.Location = new System.Drawing.Point(294, 263);
+            this.appdrwtoggle.MaximumSize = new System.Drawing.Size(70, 25);
+            this.appdrwtoggle.MinimumSize = new System.Drawing.Size(70, 25);
+            this.appdrwtoggle.Name = "appdrwtoggle";
+            this.appdrwtoggle.Size = new System.Drawing.Size(70, 25);
+            this.appdrwtoggle.TabIndex = 115;
+            this.appdrwtoggle.ToggleBarText = "No";
+            this.appdrwtoggle.ToggleCircleColor = System.Drawing.Color.Red;
+            this.appdrwtoggle.ToggleColorBar = System.Drawing.Color.LightGray;
+            this.appdrwtoggle.CheckChanged += new System.EventHandler(this.appdrwtoggle_CheckChanged);
+            // 
+            // label27
+            // 
+            this.label27.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.label27.AutoSize = true;
+            this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label27.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label27.Location = new System.Drawing.Point(201, 265);
+            this.label27.MaximumSize = new System.Drawing.Size(90, 15);
+            this.label27.Name = "label27";
+            this.label27.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label27.Size = new System.Drawing.Size(83, 15);
+            this.label27.TabIndex = 116;
+            this.label27.Text = "Apprv Draw:";
+            // 
             // Spmadmin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(69)))), ((int)(((byte)(76)))));
-            this.ClientSize = new System.Drawing.Size(974, 594);
+            this.ClientSize = new System.Drawing.Size(974, 609);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -1539,5 +1611,9 @@ namespace SearchDataSPM
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.CheckBox shippingsupchk;
         private System.Windows.Forms.CheckBox shippingmanagerchk;
+        private ToggleSlider.ToggleSliderComponent appdrwtoggle;
+        private System.Windows.Forms.Label label27;
+        private ToggleSlider.ToggleSliderComponent chkdrwtoggle;
+        private System.Windows.Forms.Label label23;
     }
 }

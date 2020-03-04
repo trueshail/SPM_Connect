@@ -1117,7 +1117,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void filldatatable(string itemnumber)
+        private void Filldatatable(string itemnumber)
         {
             string sql = "SELECT *  FROM [SPM_Database].[dbo].[UnionInventory] WHERE [ItemNumber]='" + itemnumber.ToString() + "'";
             try
@@ -1836,6 +1836,7 @@ namespace SearchDataSPM
                         {
                             string reqno = purchreqtxt.Text;
                             string requestby = requestbytxt.Text;
+                            bool happroval = Happroval();
 
                             await Processsavebutton(true, "Approved");
                             approvechk.Checked = true;
@@ -1844,7 +1845,7 @@ namespace SearchDataSPM
 
                             string filename = Makefilenameforreport(reqno, false).ToString();
                             SaveReport(reqno, filename);
-                            Preparetosendemail(reqno, false, requestby, filename, Happroval(), "supervisor", false);
+                            Preparetosendemail(reqno, false, requestby, filename, happroval, "supervisor", false);
                             Exporttoexcel();
                             this.Enabled = true;
                             this.Focus();
@@ -2632,23 +2633,64 @@ namespace SearchDataSPM
                 if (itemsearchtxtbox.Text.Length >= 6)
                 {
                     string item = itemsearchtxtbox.Text.Trim().Substring(0, 6).ToString();
-                    Clearaddnewtextboxes();
-                    filldatatable(item);
-                    if (itemstable.Rows.Count > 0)
+                    if (CheckItemPresentOnGenius(item))
                     {
-                        Fillinfo();
-                        Addnewbttn.Enabled = true;
-                        FillPrice(item);
+                        Clearaddnewtextboxes();
+                        Filldatatable(item);
+                        if (itemstable.Rows.Count > 0)
+                        {
+                            Fillinfo();
+                            Addnewbttn.Enabled = true;
+                            FillPrice(item);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Item Not found!!", "SPM Connect", MessageBoxButtons.OK);
+                        }
                     }
                     else
                     {
-                        MessageBox.Show("Item Not found!!", "SPM Connect", MessageBoxButtons.OK);
+                        MessageBox.Show("Item Not found on Genius.!! Please make sure to the item you are trying to add exists on Genius in order to be purchased.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+
                     }
                 }
 
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
+        }
+
+        public bool CheckItemPresentOnGenius(string itemid)
+        {
+            bool itempresent = false;
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPMDB].[dbo].[Edb] WHERE [Item]='" + itemid.ToString() + "'", cn))
+            {
+                try
+                {
+                    cn.Open();
+
+                    int userCount = (int)sqlCommand.ExecuteScalar();
+                    if (userCount == 1)
+                    {
+                        //MessageBox.Show("item already exists");
+                        itempresent = true;
+                    }
+                    else
+                    {
+                        //MessageBox.Show(" move forward");
+                        itempresent = false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Check Item Present On Genius", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return itempresent;
         }
 
         private void pricetxt_TextChanged(object sender, EventArgs e)
@@ -3528,7 +3570,7 @@ namespace SearchDataSPM
                             {
                                 string reqno = purchreqtxt.Text;
                                 string requestby = requestbytxt.Text;
-
+                                bool happroval = Happroval();
                                 await Processsavebutton(true, "Approved");
                                 approvechk.Checked = true;
                                 await Task.Run(() => SplashDialog("Sending Email..."));
@@ -3536,7 +3578,7 @@ namespace SearchDataSPM
 
                                 string filename = Makefilenameforreport(reqno, false).ToString();
                                 SaveReport(reqno, filename);
-                                Preparetosendemail(reqno, false, requestby, filename, Happroval(), "supervisor", false);
+                                Preparetosendemail(reqno, false, requestby, filename, happroval, "supervisor", false);
                                 Exporttoexcel();
                                 this.Enabled = true;
                                 this.Focus();
@@ -3667,7 +3709,7 @@ namespace SearchDataSPM
                             {
                                 string reqno = purchreqtxt.Text;
                                 string requestby = requestbytxt.Text;
-
+                                bool happroval = Happroval();
                                 await Processsavebutton(true, "Rejected");
                                 approvechk.Checked = true;
                                 await Task.Run(() => SplashDialog("Sending Email..."));
@@ -3675,7 +3717,7 @@ namespace SearchDataSPM
 
                                 //string filename = makefilenameforreport(reqno, false).ToString();
                                 //SaveReport(reqno, filename);
-                                Preparetosendemail(reqno, false, requestby, "", Happroval(), "supervisor", true);
+                                Preparetosendemail(reqno, false, requestby, "", happroval, "supervisor", true);
                                 //exporttoexcel();
                                 //t.Abort();
                                 //this.TopMost = true;
