@@ -86,6 +86,37 @@ namespace SPMConnectAPI
             return fullname;
         }
 
+        public string Getsharesfolder()
+        {
+            string path = "";
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + UserName() + "' ";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    path = dr["SharesFolder"].ToString();
+                }
+                dt.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Error Getting user shares folder path", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return path;
+        }
+
         public string getdepartment()
         {
             string Department = "";
@@ -2388,6 +2419,31 @@ namespace SPMConnectAPI
             return report;
         }
 
+        public string GetReportEFT()
+        {
+            string report = "";
+            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'ReportEFT'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    report = (string)cmd.ExecuteScalar();
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get EFT Report", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+
+            return report;
+        }
+
         #endregion ReportViewer Paths
 
         #endregion GetConnectParameters
@@ -2588,7 +2644,7 @@ namespace SPMConnectAPI
 
         #endregion Favorites
 
-        public void sendemail(string emailtosend, string subject, string body, string filetoattach, string cc)
+        public void Sendemail(string emailtosend, string subject, string body, string filetoattach, string cc)
         {
             try
             {
@@ -2596,6 +2652,7 @@ namespace SPMConnectAPI
                 SmtpClient SmtpServer = new SmtpClient("spmautomation-com0i.mail.protection.outlook.com");
                 message.From = new MailAddress("connect@spm-automation.com", "SPM Connect");
                 System.Net.Mail.Attachment attachment;
+
                 message.To.Add(emailtosend);
                 if (cc == "")
                 {
@@ -2606,6 +2663,52 @@ namespace SPMConnectAPI
                 }
                 message.Subject = subject;
                 message.Body = body;
+
+                if (filetoattach == "")
+                {
+                }
+                else
+                {
+                    attachment = new System.Net.Mail.Attachment(filetoattach);
+                    message.Attachments.Add(attachment);
+                }
+                SmtpServer.Port = 25;
+                SmtpServer.UseDefaultCredentials = true;
+                SmtpServer.EnableSsl = true;
+                SmtpServer.Send(message);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Send Email", MessageBoxButtons.OK);
+            }
+        }
+
+        public void SendemailAccounting(string emailtosend, string subject, string body, string filetoattach, string cc)
+        {
+            try
+            {
+                MailMessage message = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient("spmautomation-com0i.mail.protection.outlook.com");
+                message.From = new MailAddress("connect@spm-automation.com", "SPM Automation");
+                System.Net.Mail.Attachment attachment;
+
+                message.To.Add(emailtosend);
+                if (cc == "")
+                {
+                }
+                else
+                {
+                    message.CC.Add(cc);
+                }
+                message.Subject = subject;
+                message.IsBodyHtml = true;
+
+                using (StreamReader reader = File.OpenText(Path.Combine(Directory.GetCurrentDirectory() + @"\EmailTemplates\", "EFTEmailTemplate.html"))) // Path to your
+                {
+                    message.Body = reader.ReadToEnd();  // Load the content from your file...
+                                                        //...
+                }
+                message.Body = message.Body.Replace("{type}", body);
 
                 if (filetoattach == "")
                 {

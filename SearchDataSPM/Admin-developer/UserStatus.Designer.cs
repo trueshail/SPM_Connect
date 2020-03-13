@@ -33,6 +33,8 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Listviewcontextmenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.freeuser = new System.Windows.Forms.ToolStripMenuItem();
+            this.updateAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.shutDownAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.Listviewcontextmenu.SuspendLayout();
             this.SuspendLayout();
@@ -59,19 +61,37 @@
             // Listviewcontextmenu
             // 
             this.Listviewcontextmenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.freeuser});
+            this.freeuser,
+            this.updateAllToolStripMenuItem,
+            this.shutDownAllToolStripMenuItem});
             this.Listviewcontextmenu.Name = "contextMenuStrip1";
             this.Listviewcontextmenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.Listviewcontextmenu.Size = new System.Drawing.Size(141, 26);
+            this.Listviewcontextmenu.Size = new System.Drawing.Size(181, 92);
             // 
             // freeuser
             // 
             this.freeuser.Image = ((System.Drawing.Image)(resources.GetObject("freeuser.Image")));
             this.freeuser.Name = "freeuser";
-            this.freeuser.Size = new System.Drawing.Size(140, 22);
+            this.freeuser.Size = new System.Drawing.Size(180, 22);
             this.freeuser.Text = "Free Up User";
             this.freeuser.ToolTipText = "Free User Licence";
             this.freeuser.Click += new System.EventHandler(this.freeuser_Click);
+            // 
+            // updateAllToolStripMenuItem
+            // 
+            this.updateAllToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("updateAllToolStripMenuItem.Image")));
+            this.updateAllToolStripMenuItem.Name = "updateAllToolStripMenuItem";
+            this.updateAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.updateAllToolStripMenuItem.Text = "Update All";
+            this.updateAllToolStripMenuItem.Click += new System.EventHandler(this.updateAllToolStripMenuItem_Click);
+            // 
+            // shutDownAllToolStripMenuItem
+            // 
+            this.shutDownAllToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("shutDownAllToolStripMenuItem.Image")));
+            this.shutDownAllToolStripMenuItem.Name = "shutDownAllToolStripMenuItem";
+            this.shutDownAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.shutDownAllToolStripMenuItem.Text = "Shut Down All";
+            this.shutDownAllToolStripMenuItem.Click += new System.EventHandler(this.shutDownAllToolStripMenuItem_Click);
             // 
             // UserStatus
             // 
@@ -99,5 +119,7 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.ContextMenuStrip Listviewcontextmenu;
         private System.Windows.Forms.ToolStripMenuItem freeuser;
+        private System.Windows.Forms.ToolStripMenuItem updateAllToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem shutDownAllToolStripMenuItem;
     }
 }

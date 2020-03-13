@@ -111,7 +111,7 @@ namespace SearchDataSPM
                     names[b] = names[b].Trim();
                 }
                 name = names[0];
-                connectapi.sendemail(email, "Connect Error Occured - " + subject, "Hello " + name + "," + Environment.NewLine + requser + " sent this error report." + Environment.NewLine + notes + Environment.NewLine + "Triggered by " + connectapi.UserName(), fileName, "");
+                connectapi.Sendemail(email, "Connect Error Occured - " + subject, "Hello " + name + "," + Environment.NewLine + requser + " sent this error report." + Environment.NewLine + notes + Environment.NewLine + "Triggered by " + connectapi.UserName(), fileName, "");
             }
         }
 

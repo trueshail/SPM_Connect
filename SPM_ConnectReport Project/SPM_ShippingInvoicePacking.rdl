@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
-  <Author>Shail Patel</Author>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="ShippingDataSet">
@@ -206,6 +205,7 @@ WHERE ShippingItems.InvoiceNo = @InvoiceNo</CommandText>
   ShippingCustInfo.InvoiceNo
   ,ShippingCustInfo.SoldToName
   ,ShippingCustInfo.SoldToAddress
+  ,ShippingCustInfo.SoldToAddress2
   ,ShippingCustInfo.SoldToCity
   ,ShippingCustInfo.SoldToProvince
   ,ShippingCustInfo.SoldToCountry
@@ -214,6 +214,7 @@ WHERE ShippingItems.InvoiceNo = @InvoiceNo</CommandText>
   ,ShippingCustInfo.SoldToFax
   ,ShippingCustInfo.ShipToName
   ,ShippingCustInfo.ShipToAddress
+  ,ShippingCustInfo.ShipToAddress2
   ,ShippingCustInfo.ShipToCity
   ,ShippingCustInfo.ShipToProvince
   ,ShippingCustInfo.ShipToCountry
@@ -240,6 +241,10 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
         </Field>
         <Field Name="SoldToCity">
           <DataField>SoldToCity</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SoldToAddress2">
+          <DataField>SoldToAddress2</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="SoldToProvince">
@@ -276,6 +281,10 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
         </Field>
         <Field Name="ShipToProvince">
           <DataField>ShipToProvince</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ShipToAddress2">
+          <DataField>ShipToAddress2</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="ShipToCountry">
@@ -698,7 +707,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                 </FilterValues>
               </Filter>
             </Filters>
-            <Top>12.85557cm</Top>
+            <Top>11.90307cm</Top>
             <Left>0.3175cm</Left>
             <Height>1.835cm</Height>
             <Width>19.71042cm</Width>
@@ -731,7 +740,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>textbox146</rd:DefaultName>
-            <Top>4.375in</Top>
+            <Top>4in</Top>
             <Left>0.125in</Left>
             <Height>0.40847in</Height>
             <Width>7.76001in</Width>
@@ -774,7 +783,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <Top>4.11381in</Top>
+            <Top>3.73881in</Top>
             <Left>0.125in</Left>
             <Height>0.25155in</Height>
             <Width>7.76001in</Width>
@@ -865,7 +874,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>textbox178</rd:DefaultName>
-            <Top>5.78369in</Top>
+            <Top>5.40869in</Top>
             <Left>0.1324in</Left>
             <Height>0.04199in</Height>
             <Width>7.73917in</Width>
@@ -913,7 +922,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <Top>4.79581in</Top>
+            <Top>4.42081in</Top>
             <Left>0.125in</Left>
             <Height>0.25155in</Height>
             <Width>7.76001in</Width>
@@ -960,7 +969,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
               </TablixColumns>
               <TablixRows>
                 <TablixRow>
-                  <Height>0.67384cm</Height>
+                  <Height>0.59447cm</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -1193,7 +1202,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>2.47301cm</Height>
+                  <Height>1.54697cm</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -1206,7 +1215,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                                 <TextRun>
                                   <Value>=Fields!SalesPerson.Value</Value>
                                   <Style>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1241,7 +1250,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                                 <TextRun>
                                   <Value>=Fields!JobNumber.Value</Value>
                                   <Style>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1276,7 +1285,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                                 <TextRun>
                                   <Value>=Fields!Requistioner.Value</Value>
                                   <Style>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1313,7 +1322,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
 &amp; IIF(Fields!Collect_Prepaid.Value="0","Collect","Prepaid") &amp; Environment.NewLine() 
 &amp; IIF(LEN(First(Fields!CarrierCode.Value, "ShippingBase"))&gt;0,"Code : "+First(Fields!CarrierCode.Value, "ShippingBase"),"")</Value>
                                   <Style>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1348,7 +1357,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                                 <TextRun>
                                   <Value>=Fields!FobPoint.Value</Value>
                                   <Style>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1383,7 +1392,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                                 <TextRun>
                                   <Value>=Fields!Terms.Value</Value>
                                   <Style>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1444,9 +1453,9 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                 </FilterValues>
               </Filter>
             </Filters>
-            <Top>7.17875cm</Top>
+            <Top>7.22cm</Top>
             <Left>0.3363cm</Left>
-            <Height>3.14685cm</Height>
+            <Height>2.14144cm</Height>
             <Width>19.65749cm</Width>
             <ZIndex>8</ZIndex>
             <Style>
@@ -1467,7 +1476,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
               </TablixColumns>
               <TablixRows>
                 <TablixRow>
-                  <Height>0.20833in</Height>
+                  <Height>0.19444in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -1507,7 +1516,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.25in</Height>
+                  <Height>0.23611in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -1519,7 +1528,9 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                               <TextRuns>
                                 <TextRun>
                                   <Value>=First(Fields!SoldToName.Value, "CustomerVendorInfo")</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
@@ -1543,7 +1554,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.25in</Height>
+                  <Height>0.23611in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -1555,7 +1566,9 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                               <TextRuns>
                                 <TextRun>
                                   <Value>=First(Fields!SoldToAddress.Value, "CustomerVendorInfo")</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
@@ -1579,7 +1592,45 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.25in</Height>
+                  <Height>0.23611in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox3">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=First(Fields!SoldToAddress2.Value, "CustomerVendorInfo")</Value>
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox3</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>White</Color>
+                              <Style>None</Style>
+                            </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.23611in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -1591,7 +1642,9 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                               <TextRuns>
                                 <TextRun>
                                   <Value>=First(Fields!SoldToCity.Value, "CustomerVendorInfo") + ", " + First(Fields!SoldToProvince.Value, "CustomerVendorInfo")</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
@@ -1615,7 +1668,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.25in</Height>
+                  <Height>0.23611in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -1627,7 +1680,9 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                               <TextRuns>
                                 <TextRun>
                                   <Value>=First(Fields!SoldToCountry.Value, "CustomerVendorInfo")</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
@@ -1651,7 +1706,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.25in</Height>
+                  <Height>0.23611in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -1663,7 +1718,9 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                               <TextRuns>
                                 <TextRun>
                                   <Value>=First(Fields!SoldToPostalCode.Value, "CustomerVendorInfo")</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
@@ -1687,7 +1744,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.25in</Height>
+                  <Height>0.23611in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -1699,7 +1756,9 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                               <TextRuns>
                                 <TextRun>
                                   <Value>=First(Fields!SoldToTelephone.Value, "CustomerVendorInfo")</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
@@ -1743,15 +1802,16 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                     <TablixMember />
                     <TablixMember />
                     <TablixMember />
+                    <TablixMember />
                   </TablixMembers>
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
             <KeepTogether>true</KeepTogether>
             <DataSetName>CustomerVendorInfo</DataSetName>
-            <Top>1.05083in</Top>
+            <Top>0.92583in</Top>
             <Left>0.125in</Left>
-            <Height>1.70833in</Height>
+            <Height>1.84721in</Height>
             <Width>2.52385in</Width>
             <ZIndex>9</ZIndex>
             <Style>
@@ -1771,7 +1831,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
               </TablixColumns>
               <TablixRows>
                 <TablixRow>
-                  <Height>0.20833in</Height>
+                  <Height>0.19444in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -1811,7 +1871,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.25in</Height>
+                  <Height>0.23611in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -1823,7 +1883,9 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                               <TextRuns>
                                 <TextRun>
                                   <Value>=First(Fields!ShipToName.Value, "CustomerVendorInfo")</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
@@ -1847,7 +1909,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.25in</Height>
+                  <Height>0.23611in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -1859,7 +1921,9 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                               <TextRuns>
                                 <TextRun>
                                   <Value>=First(Fields!ShipToAddress.Value, "CustomerVendorInfo")</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
@@ -1883,7 +1947,45 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.25in</Height>
+                  <Height>0.23611in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox4">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=First(Fields!ShipToAddress2.Value, "CustomerVendorInfo")</Value>
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox4</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>White</Color>
+                              <Style>None</Style>
+                            </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.23611in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -1895,7 +1997,9 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                               <TextRuns>
                                 <TextRun>
                                   <Value>=First(Fields!ShipToCity.Value, "CustomerVendorInfo") + ", " + First(Fields!ShipToProvince.Value, "CustomerVendorInfo")</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
@@ -1919,7 +2023,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.25in</Height>
+                  <Height>0.23611in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -1931,7 +2035,9 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                               <TextRuns>
                                 <TextRun>
                                   <Value>=First(Fields!ShipToCountry.Value, "CustomerVendorInfo")</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
@@ -1955,7 +2061,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.25in</Height>
+                  <Height>0.23611in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -1967,7 +2073,9 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                               <TextRuns>
                                 <TextRun>
                                   <Value>=First(Fields!ShipToPostalCode.Value, "CustomerVendorInfo")</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
@@ -1991,7 +2099,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.25in</Height>
+                  <Height>0.23611in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -2003,7 +2111,9 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                               <TextRuns>
                                 <TextRun>
                                   <Value>=First(Fields!ShipToTelephone.Value, "CustomerVendorInfo")</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
@@ -2047,15 +2157,16 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                     <TablixMember />
                     <TablixMember />
                     <TablixMember />
+                    <TablixMember />
                   </TablixMembers>
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
             <KeepTogether>true</KeepTogether>
             <DataSetName>CustomerVendorInfo</DataSetName>
-            <Top>1.05083in</Top>
-            <Left>2.86855in</Left>
-            <Height>1.70833in</Height>
+            <Top>0.92583in</Top>
+            <Left>4.24355in</Left>
+            <Height>1.84721in</Height>
             <Width>2.52385in</Width>
             <ZIndex>10</ZIndex>
             <Style>
@@ -2084,9 +2195,9 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
             </Paragraphs>
             <rd:DefaultName>Textbox140</rd:DefaultName>
             <Top>0.88417in</Top>
-            <Left>6.53075in</Left>
-            <Height>0.25in</Height>
-            <Width>1.3125in</Width>
+            <Left>6.71879in</Left>
+            <Height>0.21583in</Height>
+            <Width>1.12446in</Width>
             <ZIndex>11</ZIndex>
             <Style>
               <Border>
@@ -2118,10 +2229,10 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox141</rd:DefaultName>
-            <Top>1.07861in</Top>
-            <Left>6.53075in</Left>
+            <Top>1.1in</Top>
+            <Left>6.84325in</Left>
             <Height>0.25in</Height>
-            <Width>1.3125in</Width>
+            <Width>1in</Width>
             <ZIndex>12</ZIndex>
             <Style>
               <Border>
@@ -2189,19 +2300,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>519-737-0320 ph. </Value>
-                    <Style>
-                      <FontSize>8pt</FontSize>
-                      <FontWeight>Normal</FontWeight>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <Style />
-              </Paragraph>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>519-737-0070 fax</Value>
+                    <Value>519-737-0320 ph. 519-737-0070 fax</Value>
                     <Style>
                       <FontSize>8pt</FontSize>
                       <FontWeight>Normal</FontWeight>
@@ -2214,7 +2313,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
             <rd:DefaultName>Textbox2</rd:DefaultName>
             <Top>0.10532in</Top>
             <Left>0.125in</Left>
-            <Height>0.94551in</Height>
+            <Height>0.77731in</Height>
             <Width>2.375in</Width>
             <ZIndex>13</ZIndex>
             <Style>
@@ -2228,14 +2327,14 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
             </Style>
           </Textbox>
         </ReportItems>
-        <Height>6.64583in</Height>
+        <Height>5.54166in</Height>
         <Style>
           <Border>
             <Style>Solid</Style>
           </Border>
         </Style>
       </Body>
-      <Width>7.96in</Width>
+      <Width>7.93917in</Width>
       <Page>
         <PageFooter>
           <Height>0.32639in</Height>
@@ -2282,7 +2381,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>THANK YOU FOR YOUR BUSINNESS!</Value>
+                      <Value>THANK YOU FOR YOUR BUSINESS!</Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                         <FontWeight>Bold</FontWeight>
@@ -2332,7 +2431,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
       <DataType>String</DataType>
       <DefaultValue>
         <Values>
-          <Value>1002</Value>
+          <Value>1024</Value>
         </Values>
       </DefaultValue>
       <Prompt>pInvno</Prompt>

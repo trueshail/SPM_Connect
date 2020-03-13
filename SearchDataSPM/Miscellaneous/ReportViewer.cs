@@ -10,18 +10,18 @@ namespace SearchDataSPM
         private log4net.ILog log;
         private string reportname = "";
         private string itemnumber = "";
-        private string totalvalue = "";
+        private string PaymentMode = "";
 
         private ErrorHandler errorHandler = new ErrorHandler();
 
-        public ReportViewer(string _reportname, string _item, string _total = "")
+        public ReportViewer(string _reportname, string _item, string paymenttype = "")
         {
             InitializeComponent();
             string connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
             // connectapi.SPM_Connect();
             this.reportname = _reportname;
             this.itemnumber = _item;
-            this.totalvalue = _total;
+            this.PaymentMode = paymenttype;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -89,6 +89,13 @@ namespace SearchDataSPM
                 this.reportViewer1.RefreshReport();
                 FillServiceReportParamter();
             }
+            else if (reportname == "EFT")
+            {
+                this.Text = "Service Report - " + itemnumber;
+                reportViewer1.ServerReport.ReportPath = connectapi.GetReportEFT();
+                this.reportViewer1.RefreshReport();
+                FillEFTReportParamter();
+            }
 
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -131,6 +138,15 @@ namespace SearchDataSPM
         {
             Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection();
             reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("ReqNumber", itemnumber));
+            this.reportViewer1.ServerReport.SetParameters(reportParameters);
+            this.reportViewer1.RefreshReport();
+        }
+
+        private void FillEFTReportParamter()
+        {
+            Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection();
+            reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("pCode", itemnumber));
+            reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("pTransNo", PaymentMode));
             this.reportViewer1.ServerReport.SetParameters(reportParameters);
             this.reportViewer1.RefreshReport();
         }

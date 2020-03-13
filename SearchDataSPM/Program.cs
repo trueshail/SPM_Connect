@@ -1,6 +1,5 @@
 ﻿using ExceptionReporting;
 using System;
-using System.IO;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
@@ -43,7 +42,6 @@ namespace SearchDataSPM
                          RegionInfo = "Windsor",
                          ShowAssembliesTab =false,
                          TopMost = true,
-
                        }
                 };
                 er.Show(args.Exception);
@@ -74,7 +72,6 @@ namespace SearchDataSPM
                          RegionInfo = "Windsor",
                          ShowAssembliesTab =false,
                          TopMost = true,
-
                        }
                         };
                         er.Show((Exception)args.ExceptionObject);
@@ -85,6 +82,5 @@ namespace SearchDataSPM
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new SPM_ConnectHome());
         }
-
     }
 }

@@ -1,0 +1,2 @@
+﻿CREATE USER [shail] WITHOUT LOGIN;
+

@@ -854,7 +854,6 @@ namespace SearchDataSPM
                 {
                     MetroFramework.MetroMessageBox.Show(this, "Customer short name not found. Error with customer alias. Please contact admin.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 }
-
             }
             catch (Exception)
             {

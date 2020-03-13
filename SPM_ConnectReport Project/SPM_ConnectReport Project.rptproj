@@ -51,7 +51,11 @@
   <ItemGroup>
     <Report Include="SpareParts.rdl" />
     <Report Include="SPM_BOM.rdl" />
+    <Report Include="SPM_Connect_MatReAloc.rdl" />
+    <Report Include="SPM_ECR.rdl" />
+    <Report Include="SPM_EFT.rdl" />
     <Report Include="SPM_PurchaseReq.rdl" />
+    <Report Include="SPM_ServiceReport.rdl" />
     <Report Include="SPM_ShippingInvoice.rdl" />
     <Report Include="SPM_ShippingInvoicePacking.rdl" />
     <Report Include="SPM_WorkOrder.rdl" />

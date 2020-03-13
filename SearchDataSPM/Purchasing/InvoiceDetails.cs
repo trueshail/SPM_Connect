@@ -1224,8 +1224,6 @@ namespace SearchDataSPM
                 editbttn.Visible = true;
             }
 
-
-
             if (shippingmanager && shipsupervisorheckBox.Checked)
             {
                 shipmanagercheckBox.Enabled = true;
@@ -1233,7 +1231,6 @@ namespace SearchDataSPM
             }
             else
             {
-
                 shipsupervisorheckBox.Enabled = false;
                 if (shippingmanager && supcheckBox.Checked)
                 {
@@ -1634,7 +1631,7 @@ namespace SearchDataSPM
                 }
                 catch (Exception ex)
                 {
-                    MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Get Limit for purchasing", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Get Email access for shipping", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {

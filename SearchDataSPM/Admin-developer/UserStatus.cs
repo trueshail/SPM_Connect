@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
@@ -120,7 +121,6 @@ namespace SearchDataSPM.Admin_developer
         private void freeuser_Click(object sender, EventArgs e)
         {
             string userName = getuserselected().Trim();
-
             deleteuser(userName);
             if (userName == System.Security.Principal.WindowsIdentity.GetCurrent().Name)
             {
@@ -157,6 +157,33 @@ namespace SearchDataSPM.Admin_developer
                 catch (Exception ex)
                 {
                     MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Delete User", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+        }
+
+        private void UpdateUser(string username)
+        {
+            if (username.Length > 0)
+            {
+                DateTime datecreated = DateTime.Now;
+                string sqlFormattedDate = datecreated.ToString("dd-MM-yyyy HH:mm tt");
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                try
+                {
+                    string query = "UPDATE [SPM_Database].[dbo].[Checkin] SET [Last Login] = '" + sqlFormattedDate + "' WHERE [User Name] ='" + username.ToString() + "'";
+                    SqlCommand sda = new SqlCommand(query, cn);
+                    sda.ExecuteNonQuery();
+                    cn.Close();
+                    // MetroFramework.MetroMessageBox.Show(this, username + " - Is removed from the system now!", "SPM Connect - Delete Item", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Update User", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -212,6 +239,65 @@ namespace SearchDataSPM.Admin_developer
             {
                 item = "";
                 return item;
+            }
+        }
+
+        private void updateAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<string> intList = new List<string>();
+            foreach (DataRow row in dt.Rows)
+            {
+                intList.Add(row["User Name"].ToString());
+            }
+            foreach (string user in intList)
+            {
+                UpdateUser(user);
+                if (user == System.Security.Principal.WindowsIdentity.GetCurrent().Name)
+                {
+                }
+                else
+                {
+                    try
+                    {
+                        dt.Rows.Clear();
+                        dataGridView1.Refresh();
+                        loaddata();
+                    }
+                    catch (Exception ex)
+                    {
+                        MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Update User", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        private void shutDownAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<string> intList = new List<string>();
+            foreach (DataRow row in dt.Rows)
+            {
+                intList.Add(row["User Name"].ToString());
+            }
+
+            foreach (string user in intList)
+            {
+                deleteuser(user);
+                if (user == System.Security.Principal.WindowsIdentity.GetCurrent().Name)
+                {
+                }
+                else
+                {
+                    try
+                    {
+                        dt.Rows.Clear();
+                        dataGridView1.Refresh();
+                        loaddata();
+                    }
+                    catch (Exception ex)
+                    {
+                        MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Delete User", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
             }
         }
     }

@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
-  <Author>Shail Patel</Author>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="ShippingDataSet">
@@ -206,6 +205,7 @@ WHERE ShippingItems.InvoiceNo = @InvoiceNo</CommandText>
   ShippingCustInfo.InvoiceNo
   ,ShippingCustInfo.SoldToName
   ,ShippingCustInfo.SoldToAddress
+  ,ShippingCustInfo.SoldToAddress2
   ,ShippingCustInfo.SoldToCity
   ,ShippingCustInfo.SoldToProvince
   ,ShippingCustInfo.SoldToCountry
@@ -214,6 +214,7 @@ WHERE ShippingItems.InvoiceNo = @InvoiceNo</CommandText>
   ,ShippingCustInfo.SoldToFax
   ,ShippingCustInfo.ShipToName
   ,ShippingCustInfo.ShipToAddress
+  ,ShippingCustInfo.ShipToAddress2
   ,ShippingCustInfo.ShipToCity
   ,ShippingCustInfo.ShipToProvince
   ,ShippingCustInfo.ShipToCountry
@@ -240,6 +241,10 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
         </Field>
         <Field Name="SoldToCity">
           <DataField>SoldToCity</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SoldToAddress2">
+          <DataField>SoldToAddress2</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="SoldToProvince">
@@ -272,6 +277,10 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
         </Field>
         <Field Name="ShipToCity">
           <DataField>ShipToCity</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ShipToAddress2">
+          <DataField>ShipToAddress2</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="ShipToProvince">
@@ -364,10 +373,10 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                   <Width>1.98437cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.54cm</Width>
+                  <Width>2.18687cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.85208cm</Width>
+                  <Width>2.20522cm</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>2.54cm</Width>
@@ -684,7 +693,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>1.07625cm</Height>
+                  <Height>0.75875cm</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -972,6 +981,578 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                     </TablixCell>
                   </TablixCells>
                 </TablixRow>
+                <TablixRow>
+                  <Height>0.26458cm</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox26">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontSize>9pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox26</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BackgroundColor>DimGray</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox27">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontSize>9pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox27</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BackgroundColor>DimGray</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox28">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontSize>9pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox28</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BackgroundColor>DimGray</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox29">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontSize>9pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox29</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BackgroundColor>DimGray</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox30">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontSize>9pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox30</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BackgroundColor>DimGray</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox32">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontSize>9pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox32</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BackgroundColor>DimGray</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox33">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontSize>9pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox33</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BackgroundColor>DimGray</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox34">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontSize>9pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox34</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BackgroundColor>DimGray</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.94313cm</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox9">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontSize>9pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox9</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox10">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontSize>9pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox10</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox11">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontSize>9pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox11</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox12">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontSize>9pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox12</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox13">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontSize>9pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox13</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox14">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontSize>9pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox14</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="txtlblHeaderPO3">
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Label>NoPo</Label>
+                                  <Value>=First(Fields!Currency.Value, "ShippingBase")+ " Funds : "</Value>
+                                  <Style>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Format>'$'0.00;'$'-0.00</Format>
+                                    <Color>DarkBlue</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <ZIndex>8</ZIndex>
+                          <Style>
+                            <Border>
+                              <Color>DarkBlue</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>White</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                            <rd:FormatSymbolCulture>en-US</rd:FormatSymbolCulture>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="txtlblHeaderPO4">
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Label>NoPo</Label>
+                                  <Value>=First(Fields!Total.Value, "ShippingBase")</Value>
+                                  <Style>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Format>'$'0.00;'$'-0.00</Format>
+                                    <Color>DarkBlue</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <ZIndex>14</ZIndex>
+                          <Style>
+                            <Border>
+                              <Color>DarkBlue</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>White</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                            <rd:FormatSymbolCulture>en-US</rd:FormatSymbolCulture>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
               </TablixRows>
             </TablixBody>
             <TablixColumnHierarchy>
@@ -997,9 +1578,14 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                     <TablixMember />
                   </TablixMembers>
                 </TablixMember>
+                <TablixMember>
+                  <KeepWithGroup>Before</KeepWithGroup>
+                </TablixMember>
+                <TablixMember>
+                  <KeepWithGroup>Before</KeepWithGroup>
+                </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
-            <KeepTogether>true</KeepTogether>
             <DataSetName>ShippingItems</DataSetName>
             <Filters>
               <Filter>
@@ -1010,10 +1596,10 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                 </FilterValues>
               </Filter>
             </Filters>
-            <Top>12.85557cm</Top>
+            <Top>13.17307cm</Top>
             <Left>0.3175cm</Left>
-            <Height>1.835cm</Height>
-            <Width>19.67628cm</Width>
+            <Height>2.72521cm</Height>
+            <Width>19.67629cm</Width>
             <ZIndex>1</ZIndex>
             <Style>
               <Border>
@@ -1043,9 +1629,9 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>textbox146</rd:DefaultName>
-            <Top>4.375in</Top>
+            <Top>4.25in</Top>
             <Left>0.125in</Left>
-            <Height>0.40847in</Height>
+            <Height>0.60137in</Height>
             <Width>7.76001in</Width>
             <ZIndex>2</ZIndex>
             <Style>
@@ -1086,7 +1672,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <Top>4.11381in</Top>
+            <Top>3.98881in</Top>
             <Left>0.125in</Left>
             <Height>0.25155in</Height>
             <Width>7.76001in</Width>
@@ -1159,51 +1745,6 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
               <PaddingBottom>2pt</PaddingBottom>
             </Style>
           </Textbox>
-          <Textbox Name="textbox178">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value />
-                    <Style>
-                      <FontFamily>Arial Narrow</FontFamily>
-                      <FontSize>8pt</FontSize>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <Style />
-              </Paragraph>
-            </Paragraphs>
-            <rd:DefaultName>textbox178</rd:DefaultName>
-            <Top>5.78369in</Top>
-            <Left>0.1324in</Left>
-            <Height>0.04199in</Height>
-            <Width>7.73917in</Width>
-            <ZIndex>6</ZIndex>
-            <Style>
-              <Border>
-                <Style>Solid</Style>
-              </Border>
-              <TopBorder>
-                <Color>Black</Color>
-              </TopBorder>
-              <BottomBorder>
-                <Color>Black</Color>
-                <Width>1pt</Width>
-              </BottomBorder>
-              <LeftBorder>
-                <Color>Black</Color>
-                <Width>1pt</Width>
-              </LeftBorder>
-              <RightBorder>
-                <Color>Black</Color>
-              </RightBorder>
-              <BackgroundColor>Gray</BackgroundColor>
-              <VerticalAlign>Middle</VerticalAlign>
-            </Style>
-          </Textbox>
           <Textbox Name="textbox8">
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
@@ -1225,11 +1766,11 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <Top>4.79581in</Top>
+            <Top>4.92081in</Top>
             <Left>0.125in</Left>
             <Height>0.25155in</Height>
             <Width>7.76001in</Width>
-            <ZIndex>7</ZIndex>
+            <ZIndex>6</ZIndex>
             <Style>
               <Border>
                 <Color>DarkBlue</Color>
@@ -1246,45 +1787,6 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
               <PaddingRight>2pt</PaddingRight>
               <PaddingTop>2pt</PaddingTop>
               <PaddingBottom>2pt</PaddingBottom>
-            </Style>
-          </Textbox>
-          <Textbox Name="txtlblHeaderPO3">
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Label>NoPo</Label>
-                    <Value>=First(Fields!Currency.Value, "ShippingBase")+ " Funds : "</Value>
-                    <Style>
-                      <FontWeight>Bold</FontWeight>
-                      <Format>'$'0.00;'$'-0.00</Format>
-                      <Color>DarkBlue</Color>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <Style>
-                  <TextAlign>Center</TextAlign>
-                </Style>
-              </Paragraph>
-            </Paragraphs>
-            <Top>5.83924in</Top>
-            <Left>5.66324in</Left>
-            <Height>0.35313in</Height>
-            <Width>1.09082in</Width>
-            <ZIndex>8</ZIndex>
-            <Style>
-              <Border>
-                <Color>DarkBlue</Color>
-                <Style>Solid</Style>
-              </Border>
-              <BackgroundColor>White</BackgroundColor>
-              <VerticalAlign>Middle</VerticalAlign>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
-              <rd:FormatSymbolCulture>en-US</rd:FormatSymbolCulture>
             </Style>
           </Textbox>
           <Tablix Name="Tablix3">
@@ -1311,7 +1813,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
               </TablixColumns>
               <TablixRows>
                 <TablixRow>
-                  <Height>0.67384cm</Height>
+                  <Height>0.54155cm</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -1544,7 +2046,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>2.47301cm</Height>
+                  <Height>2.02322cm</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -1557,7 +2059,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                                 <TextRun>
                                   <Value>=Fields!SalesPerson.Value</Value>
                                   <Style>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1592,7 +2094,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                                 <TextRun>
                                   <Value>=Fields!JobNumber.Value</Value>
                                   <Style>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1627,7 +2129,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                                 <TextRun>
                                   <Value>=Fields!Requistioner.Value</Value>
                                   <Style>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1664,7 +2166,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
 &amp; IIF(Fields!Collect_Prepaid.Value="0","Collect","Prepaid") &amp; Environment.NewLine() 
 &amp; IIF(LEN(First(Fields!CarrierCode.Value, "ShippingBase"))&gt;0,"Code : "+First(Fields!CarrierCode.Value, "ShippingBase"),"")</Value>
                                   <Style>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1699,7 +2201,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                                 <TextRun>
                                   <Value>=Fields!FobPoint.Value</Value>
                                   <Style>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1734,7 +2236,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                                 <TextRun>
                                   <Value>=Fields!Terms.Value</Value>
                                   <Style>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1795,11 +2297,11 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                 </FilterValues>
               </Filter>
             </Filters>
-            <Top>7.17875cm</Top>
+            <Top>7.49625cm</Top>
             <Left>0.3363cm</Left>
-            <Height>3.14685cm</Height>
+            <Height>2.56477cm</Height>
             <Width>19.65749cm</Width>
-            <ZIndex>9</ZIndex>
+            <ZIndex>7</ZIndex>
             <Style>
               <Border>
                 <Color>Blue</Color>
@@ -1870,7 +2372,9 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                               <TextRuns>
                                 <TextRun>
                                   <Value>=First(Fields!SoldToName.Value, "CustomerVendorInfo")</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
@@ -1906,13 +2410,53 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                               <TextRuns>
                                 <TextRun>
                                   <Value>=First(Fields!SoldToAddress.Value, "CustomerVendorInfo")</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox121</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>White</Color>
+                              <Style>None</Style>
+                            </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox3">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=First(Fields!SoldToAddress2.Value, "CustomerVendorInfo")</Value>
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox3</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>White</Color>
@@ -1942,7 +2486,9 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                               <TextRuns>
                                 <TextRun>
                                   <Value>=First(Fields!SoldToCity.Value, "CustomerVendorInfo") + ", " + First(Fields!SoldToProvince.Value, "CustomerVendorInfo")</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
@@ -1978,7 +2524,9 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                               <TextRuns>
                                 <TextRun>
                                   <Value>=First(Fields!SoldToCountry.Value, "CustomerVendorInfo")</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
@@ -2014,7 +2562,9 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                               <TextRuns>
                                 <TextRun>
                                   <Value>=First(Fields!SoldToPostalCode.Value, "CustomerVendorInfo")</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
@@ -2050,7 +2600,9 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                               <TextRuns>
                                 <TextRun>
                                   <Value>=First(Fields!SoldToTelephone.Value, "CustomerVendorInfo")</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
@@ -2094,17 +2646,18 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                     <TablixMember />
                     <TablixMember />
                     <TablixMember />
+                    <TablixMember />
                   </TablixMembers>
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
             <KeepTogether>true</KeepTogether>
             <DataSetName>CustomerVendorInfo</DataSetName>
-            <Top>1.05083in</Top>
+            <Top>0.92583in</Top>
             <Left>0.125in</Left>
-            <Height>1.70833in</Height>
+            <Height>1.95833in</Height>
             <Width>2.52385in</Width>
-            <ZIndex>10</ZIndex>
+            <ZIndex>8</ZIndex>
             <Style>
               <Border>
                 <Color>DarkBlue</Color>
@@ -2174,7 +2727,9 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                               <TextRuns>
                                 <TextRun>
                                   <Value>=First(Fields!ShipToName.Value, "CustomerVendorInfo")</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
@@ -2210,13 +2765,53 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                               <TextRuns>
                                 <TextRun>
                                   <Value>=First(Fields!ShipToAddress.Value, "CustomerVendorInfo")</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox121</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>White</Color>
+                              <Style>None</Style>
+                            </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox4">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=First(Fields!ShipToAddress2.Value, "CustomerVendorInfo")</Value>
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox4</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>White</Color>
@@ -2246,7 +2841,9 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                               <TextRuns>
                                 <TextRun>
                                   <Value>=First(Fields!ShipToCity.Value, "CustomerVendorInfo") + ", " + First(Fields!ShipToProvince.Value, "CustomerVendorInfo")</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
@@ -2282,7 +2879,9 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                               <TextRuns>
                                 <TextRun>
                                   <Value>=First(Fields!ShipToCountry.Value, "CustomerVendorInfo")</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
@@ -2318,7 +2917,9 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                               <TextRuns>
                                 <TextRun>
                                   <Value>=First(Fields!ShipToPostalCode.Value, "CustomerVendorInfo")</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
@@ -2354,7 +2955,9 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                               <TextRuns>
                                 <TextRun>
                                   <Value>=First(Fields!ShipToTelephone.Value, "CustomerVendorInfo")</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
@@ -2398,17 +3001,18 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                     <TablixMember />
                     <TablixMember />
                     <TablixMember />
+                    <TablixMember />
                   </TablixMembers>
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
             <KeepTogether>true</KeepTogether>
             <DataSetName>CustomerVendorInfo</DataSetName>
-            <Top>1.05083in</Top>
-            <Left>2.86855in</Left>
-            <Height>1.70833in</Height>
+            <Top>0.92583in</Top>
+            <Left>4.21632in</Left>
+            <Height>1.95833in</Height>
             <Width>2.52385in</Width>
-            <ZIndex>11</ZIndex>
+            <ZIndex>9</ZIndex>
             <Style>
               <Border>
                 <Color>DarkBlue</Color>
@@ -2435,10 +3039,10 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
             </Paragraphs>
             <rd:DefaultName>Textbox140</rd:DefaultName>
             <Top>0.88417in</Top>
-            <Left>6.53075in</Left>
-            <Height>0.25in</Height>
-            <Width>1.3125in</Width>
-            <ZIndex>12</ZIndex>
+            <Left>6.75406in</Left>
+            <Height>0.27139in</Height>
+            <Width>1.08919in</Width>
+            <ZIndex>10</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2469,11 +3073,11 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox141</rd:DefaultName>
-            <Top>1.07861in</Top>
-            <Left>6.53075in</Left>
+            <Top>1.1in</Top>
+            <Left>6.84325in</Left>
             <Height>0.25in</Height>
-            <Width>1.3125in</Width>
-            <ZIndex>13</ZIndex>
+            <Width>1in</Width>
+            <ZIndex>11</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2483,45 +3087,6 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
               <PaddingRight>2pt</PaddingRight>
               <PaddingTop>2pt</PaddingTop>
               <PaddingBottom>2pt</PaddingBottom>
-            </Style>
-          </Textbox>
-          <Textbox Name="txtlblHeaderPO4">
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Label>NoPo</Label>
-                    <Value>=First(Fields!Total.Value, "ShippingBase")</Value>
-                    <Style>
-                      <FontWeight>Bold</FontWeight>
-                      <Format>'$'0.00;'$'-0.00</Format>
-                      <Color>DarkBlue</Color>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <Style>
-                  <TextAlign>Center</TextAlign>
-                </Style>
-              </Paragraph>
-            </Paragraphs>
-            <Top>5.83924in</Top>
-            <Left>6.75406in</Left>
-            <Height>0.35313in</Height>
-            <Width>1.11751in</Width>
-            <ZIndex>14</ZIndex>
-            <Style>
-              <Border>
-                <Color>DarkBlue</Color>
-                <Style>Solid</Style>
-              </Border>
-              <BackgroundColor>White</BackgroundColor>
-              <VerticalAlign>Middle</VerticalAlign>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
-              <rd:FormatSymbolCulture>en-US</rd:FormatSymbolCulture>
             </Style>
           </Textbox>
           <Textbox Name="Textbox2">
@@ -2579,19 +3144,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>519-737-0320 ph.</Value>
-                    <Style>
-                      <FontSize>8pt</FontSize>
-                      <FontWeight>Normal</FontWeight>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <Style />
-              </Paragraph>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>519-737-0070 fax</Value>
+                    <Value>519-737-0320 ph. 519-737-0070 fax</Value>
                     <Style>
                       <FontSize>8pt</FontSize>
                       <FontWeight>Normal</FontWeight>
@@ -2604,9 +3157,9 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
             <rd:DefaultName>Textbox2</rd:DefaultName>
             <Top>0.07754in</Top>
             <Left>0.125in</Left>
-            <Height>0.94551in</Height>
+            <Height>0.80509in</Height>
             <Width>2.375in</Width>
-            <ZIndex>15</ZIndex>
+            <ZIndex>12</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2618,7 +3171,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
             </Style>
           </Textbox>
         </ReportItems>
-        <Height>6.64583in</Height>
+        <Height>6.30083in</Height>
         <Style>
           <Border>
             <Style>Solid</Style>
@@ -2672,7 +3225,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>THANK YOU FOR YOUR BUSINNESS!</Value>
+                      <Value>THANK YOU FOR YOUR BUSINESS!</Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                         <FontWeight>Bold</FontWeight>
@@ -2722,7 +3275,7 @@ WHERE ShippingCustInfo.InvoiceNo = @InvoiceNo</CommandText>
       <DataType>String</DataType>
       <DefaultValue>
         <Values>
-          <Value>1001</Value>
+          <Value>1024</Value>
         </Values>
       </DefaultValue>
       <Prompt>pInvno</Prompt>
@@ -2833,6 +3386,7 @@ n20gn20gn20gn20gn20gn20gqHs1+vj1////////18Khn20gn20gn20gn20gn20gn20gn20gn20gn20g
 pHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQqpHQqqXw3s4tNvp1pzbKK5NbB+/n2////////////////////////////////////////////////////////////////////////0LeRn20gpHQqpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQrpHQro3MqpXYuqn45sYlLupdgw6R00bmU59rG+vj1////////////////////////////AAA=</ImageData>
     </EmbeddedImage>
   </EmbeddedImages>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>29e79485-bafa-4fc3-9e85-fd7dc32809bb</rd:ReportID>
 </Report>

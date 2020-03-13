@@ -400,7 +400,7 @@ namespace SearchDataSPM
             changed = string.Format((changedEntity.username));
             string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
             // MessageBox.Show(changed);
-            if (changed == userName && type == "Delete")
+            if (changed == userName && type == "Update")
             {
                 //MessageBox.Show(this,"Developer has kicked you out due to maintenance issues.");
                 _dependency.Stop();
@@ -413,6 +413,10 @@ namespace SearchDataSPM
                 {
                     throw ex;
                 }
+            }
+            else if (changed == userName && type == "Delete")
+            {
+                System.Environment.Exit(0);
             }
         }
 

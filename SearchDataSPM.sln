@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserActionLog", "UserAction
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceReport", "SimpleHeartbeatService\ServiceReport.csproj", "{9587EAA0-92DA-49E7-9241-92DEEA2520A0}"
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "SPM_Database", "SPM_Database\SPM_Database.sqlproj", "{D9060B54-3C27-457F-814F-0BFCD186D000}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,6 +54,15 @@ Global
 		{9587EAA0-92DA-49E7-9241-92DEEA2520A0}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
 		{9587EAA0-92DA-49E7-9241-92DEEA2520A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9587EAA0-92DA-49E7-9241-92DEEA2520A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9060B54-3C27-457F-814F-0BFCD186D000}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9060B54-3C27-457F-814F-0BFCD186D000}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9060B54-3C27-457F-814F-0BFCD186D000}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{D9060B54-3C27-457F-814F-0BFCD186D000}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9060B54-3C27-457F-814F-0BFCD186D000}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
+		{D9060B54-3C27-457F-814F-0BFCD186D000}.DebugLocal|Any CPU.Deploy.0 = Debug|Any CPU
+		{D9060B54-3C27-457F-814F-0BFCD186D000}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9060B54-3C27-457F-814F-0BFCD186D000}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9060B54-3C27-457F-814F-0BFCD186D000}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -2651,7 +2651,6 @@ namespace SearchDataSPM
                     else
                     {
                         MessageBox.Show("Item Not found on Genius.!! Please make sure to the item you are trying to add exists on Genius in order to be purchased.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-
                     }
                 }
 

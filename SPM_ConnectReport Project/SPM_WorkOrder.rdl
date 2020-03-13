@@ -10191,6 +10191,46 @@ OR
             <Value />
           </ParameterValue>
           <ParameterValue>
+            <Value>Release 1</Value>
+            <Label>Release 1</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>Release 2</Value>
+            <Label>Release 2</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>Release 3</Value>
+            <Label>Release 3</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>Release 4</Value>
+            <Label>Release 4</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>Release 5</Value>
+            <Label>Release 5</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>Release 6</Value>
+            <Label>Release 6</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>Release 7</Value>
+            <Label>Release 7</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>Release 8</Value>
+            <Label>Release 8</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>Release 9</Value>
+            <Label>Release 9</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>Release 10</Value>
+            <Label>Release 10</Label>
+          </ParameterValue>
+          <ParameterValue>
             <Value>REV A</Value>
             <Label>REV A</Label>
           </ParameterValue>
@@ -10312,6 +10352,6 @@ lpvDjH+elJ++94i32TzF+2sA39zd3Xl/84z3y6JpzynTF3SQ9Xinm1Kd39ewcE+C4vd6TU8+cFqwJNx7
   <Language>en-US</Language>
   <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
-  <rd:ReportServerUrl>http://spm-sql/Reportserver</rd:ReportServerUrl>
+  <rd:ReportServerUrl>http://spm-sql/reportserver</rd:ReportServerUrl>
   <rd:ReportID>cd2f86f7-095d-4187-92eb-3260ff61c2e5</rd:ReportID>
 </Report>

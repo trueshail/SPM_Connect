@@ -8,18 +8,15 @@ namespace SearchDataSPM
     public partial class SPM_ConnectHome : Form
     {
         private log4net.ILog log;
-
+        private int time = 0;
+        private string connection;
+        private SqlConnection cn;
         private ErrorHandler errorHandler = new ErrorHandler();
 
         public SPM_ConnectHome()
         {
             InitializeComponent();
         }
-
-        private int time = 0;
-
-        private string connection;
-        private SqlConnection cn;
 
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -64,19 +61,38 @@ namespace SearchDataSPM
             finally
             {
                 cn.Close();
-                if (userexists(userName))
+                string department = Getdepartment();
+                if (Userexists(userName))
                 {
-                    if (!checkmaintenance())
+                    if (!Checkmaintenance())
                     {
-                        var loadspmconnect = new SPM_Connect();
-                        loadspmconnect.Closed += (s, args) => this.Close();
-                        loadspmconnect.Show();
+                        if (department == "Accounting")
+                        {
+                            var loadspmconnect = new ReportAllRecords();
+                            loadspmconnect.Closed += (s, args) => this.Close();
+                            loadspmconnect.Show();
+                        }
+                        else
+                        {
+                            var loadspmconnect = new SPM_Connect();
+                            loadspmconnect.Closed += (s, args) => this.Close();
+                            loadspmconnect.Show();
+                        }
                     }
-                    else if (checkmaintenance() && Checkdeveloper())
+                    else if (Checkmaintenance() && Checkdeveloper())
                     {
-                        var loadspmconnect = new SPM_Connect();
-                        loadspmconnect.Closed += (s, args) => this.Close();
-                        loadspmconnect.Show();
+                        if (department == "Accounting")
+                        {
+                            var loadspmconnect = new ReportAllRecords();
+                            loadspmconnect.Closed += (s, args) => this.Close();
+                            loadspmconnect.Show();
+                        }
+                        else
+                        {
+                            var loadspmconnect = new SPM_Connect();
+                            loadspmconnect.Closed += (s, args) => this.Close();
+                            loadspmconnect.Show();
+                        }
                     }
                     else
                     {
@@ -94,7 +110,38 @@ namespace SearchDataSPM
             }
         }
 
-        private bool checkmaintenance()
+        public string Getdepartment()
+        {
+            string Department = "";
+            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + userName + "' ";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    Department = dr["Department"].ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve user department", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return Department;
+        }
+
+        private bool Checkmaintenance()
         {
             bool maintenance = false;
             string limit = "";
@@ -153,7 +200,7 @@ namespace SearchDataSPM
             return developer;
         }
 
-        private bool userexists(string username)
+        private bool Userexists(string username)
         {
             bool userpresent = false;
             using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + username + "'", cn))

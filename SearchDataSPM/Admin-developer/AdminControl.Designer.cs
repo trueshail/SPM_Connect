@@ -110,6 +110,10 @@ namespace SearchDataSPM
             this.label22 = new System.Windows.Forms.Label();
             this.woreleasetoggle = new ToggleSlider.ToggleSliderComponent();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.appdrwtoggle = new ToggleSlider.ToggleSliderComponent();
+            this.label27 = new System.Windows.Forms.Label();
+            this.chkdrwtoggle = new ToggleSlider.ToggleSliderComponent();
+            this.label23 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -119,10 +123,6 @@ namespace SearchDataSPM
             this.label26 = new System.Windows.Forms.Label();
             this.shippingsupchk = new System.Windows.Forms.CheckBox();
             this.shippingmanagerchk = new System.Windows.Forms.CheckBox();
-            this.chkdrwtoggle = new ToggleSlider.ToggleSliderComponent();
-            this.label23 = new System.Windows.Forms.Label();
-            this.appdrwtoggle = new ToggleSlider.ToggleSliderComponent();
-            this.label27 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -770,7 +770,8 @@ namespace SearchDataSPM
             "Controls",
             "Production",
             "Purchasing",
-            "Crib"});
+            "Crib",
+            "Accounting"});
             this.deptcombobox.Location = new System.Drawing.Point(318, 168);
             this.deptcombobox.Name = "deptcombobox";
             this.deptcombobox.Size = new System.Drawing.Size(128, 23);
@@ -1263,6 +1264,70 @@ namespace SearchDataSPM
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "General Rights";
             // 
+            // appdrwtoggle
+            // 
+            this.appdrwtoggle.AutoSize = true;
+            this.appdrwtoggle.Checked = false;
+            this.appdrwtoggle.Enabled = false;
+            this.appdrwtoggle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.appdrwtoggle.Location = new System.Drawing.Point(294, 263);
+            this.appdrwtoggle.MaximumSize = new System.Drawing.Size(70, 25);
+            this.appdrwtoggle.MinimumSize = new System.Drawing.Size(70, 25);
+            this.appdrwtoggle.Name = "appdrwtoggle";
+            this.appdrwtoggle.Size = new System.Drawing.Size(70, 25);
+            this.appdrwtoggle.TabIndex = 115;
+            this.appdrwtoggle.ToggleBarText = "No";
+            this.appdrwtoggle.ToggleCircleColor = System.Drawing.Color.Red;
+            this.appdrwtoggle.ToggleColorBar = System.Drawing.Color.LightGray;
+            this.appdrwtoggle.CheckChanged += new System.EventHandler(this.appdrwtoggle_CheckChanged);
+            // 
+            // label27
+            // 
+            this.label27.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.label27.AutoSize = true;
+            this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label27.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label27.Location = new System.Drawing.Point(201, 265);
+            this.label27.MaximumSize = new System.Drawing.Size(90, 15);
+            this.label27.Name = "label27";
+            this.label27.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label27.Size = new System.Drawing.Size(83, 15);
+            this.label27.TabIndex = 116;
+            this.label27.Text = "Apprv Draw:";
+            // 
+            // chkdrwtoggle
+            // 
+            this.chkdrwtoggle.AutoSize = true;
+            this.chkdrwtoggle.Checked = false;
+            this.chkdrwtoggle.Enabled = false;
+            this.chkdrwtoggle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.chkdrwtoggle.Location = new System.Drawing.Point(293, 233);
+            this.chkdrwtoggle.MaximumSize = new System.Drawing.Size(70, 25);
+            this.chkdrwtoggle.MinimumSize = new System.Drawing.Size(70, 25);
+            this.chkdrwtoggle.Name = "chkdrwtoggle";
+            this.chkdrwtoggle.Size = new System.Drawing.Size(70, 25);
+            this.chkdrwtoggle.TabIndex = 113;
+            this.chkdrwtoggle.ToggleBarText = "No";
+            this.chkdrwtoggle.ToggleCircleColor = System.Drawing.Color.Red;
+            this.chkdrwtoggle.ToggleColorBar = System.Drawing.Color.LightGray;
+            this.chkdrwtoggle.CheckChanged += new System.EventHandler(this.chkdrwtoggle_CheckChanged);
+            // 
+            // label23
+            // 
+            this.label23.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label23.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label23.Location = new System.Drawing.Point(200, 235);
+            this.label23.MaximumSize = new System.Drawing.Size(90, 15);
+            this.label23.Name = "label23";
+            this.label23.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label23.Size = new System.Drawing.Size(87, 15);
+            this.label23.TabIndex = 114;
+            this.label23.Text = "Check Draw:";
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.label9);
@@ -1394,70 +1459,6 @@ namespace SearchDataSPM
             this.shippingmanagerchk.TabIndex = 100;
             this.shippingmanagerchk.UseVisualStyleBackColor = true;
             this.shippingmanagerchk.CheckedChanged += new System.EventHandler(this.shippingmanagerchk_CheckedChanged);
-            // 
-            // chkdrwtoggle
-            // 
-            this.chkdrwtoggle.AutoSize = true;
-            this.chkdrwtoggle.Checked = false;
-            this.chkdrwtoggle.Enabled = false;
-            this.chkdrwtoggle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.chkdrwtoggle.Location = new System.Drawing.Point(293, 233);
-            this.chkdrwtoggle.MaximumSize = new System.Drawing.Size(70, 25);
-            this.chkdrwtoggle.MinimumSize = new System.Drawing.Size(70, 25);
-            this.chkdrwtoggle.Name = "chkdrwtoggle";
-            this.chkdrwtoggle.Size = new System.Drawing.Size(70, 25);
-            this.chkdrwtoggle.TabIndex = 113;
-            this.chkdrwtoggle.ToggleBarText = "No";
-            this.chkdrwtoggle.ToggleCircleColor = System.Drawing.Color.Red;
-            this.chkdrwtoggle.ToggleColorBar = System.Drawing.Color.LightGray;
-            this.chkdrwtoggle.CheckChanged += new System.EventHandler(this.chkdrwtoggle_CheckChanged);
-            // 
-            // label23
-            // 
-            this.label23.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.label23.AutoSize = true;
-            this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label23.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label23.Location = new System.Drawing.Point(200, 235);
-            this.label23.MaximumSize = new System.Drawing.Size(90, 15);
-            this.label23.Name = "label23";
-            this.label23.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label23.Size = new System.Drawing.Size(87, 15);
-            this.label23.TabIndex = 114;
-            this.label23.Text = "Check Draw:";
-            // 
-            // appdrwtoggle
-            // 
-            this.appdrwtoggle.AutoSize = true;
-            this.appdrwtoggle.Checked = false;
-            this.appdrwtoggle.Enabled = false;
-            this.appdrwtoggle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.appdrwtoggle.Location = new System.Drawing.Point(294, 263);
-            this.appdrwtoggle.MaximumSize = new System.Drawing.Size(70, 25);
-            this.appdrwtoggle.MinimumSize = new System.Drawing.Size(70, 25);
-            this.appdrwtoggle.Name = "appdrwtoggle";
-            this.appdrwtoggle.Size = new System.Drawing.Size(70, 25);
-            this.appdrwtoggle.TabIndex = 115;
-            this.appdrwtoggle.ToggleBarText = "No";
-            this.appdrwtoggle.ToggleCircleColor = System.Drawing.Color.Red;
-            this.appdrwtoggle.ToggleColorBar = System.Drawing.Color.LightGray;
-            this.appdrwtoggle.CheckChanged += new System.EventHandler(this.appdrwtoggle_CheckChanged);
-            // 
-            // label27
-            // 
-            this.label27.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.label27.AutoSize = true;
-            this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label27.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label27.Location = new System.Drawing.Point(201, 265);
-            this.label27.MaximumSize = new System.Drawing.Size(90, 15);
-            this.label27.Name = "label27";
-            this.label27.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label27.Size = new System.Drawing.Size(83, 15);
-            this.label27.TabIndex = 116;
-            this.label27.Text = "Apprv Draw:";
             // 
             // Spmadmin
             // 

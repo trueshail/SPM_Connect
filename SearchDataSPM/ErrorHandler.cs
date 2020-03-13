@@ -1,5 +1,4 @@
-﻿using Microsoft.Exchange.WebServices.Data;
-using SPMConnect;
+﻿using SPMConnect;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -94,6 +93,5 @@ namespace SearchDataSPM
                 //System.Windows.Forms.MessageBox.Show("FAILED TO SEND EMAIL - PLEASE CONTACT " + "shail@spm-automation.com" + "!", "Email sending failed", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Exclamation);
             }
         }
-
     }
 }

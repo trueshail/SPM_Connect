@@ -262,6 +262,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Accounting\EFTHome.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Accounting\EFTHome.designer.cs">
+      <DependentUpon>EFTHome.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Accounting\Vendor.cs" />
     <Compile Include="Admin-developer\ConnectParameters.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -686,6 +693,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Accounting\EFTHome.resx">
+      <DependentUpon>EFTHome.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Admin-developer\ConnectParameters.resx">
       <DependentUpon>ConnectParameters.cs</DependentUpon>
     </EmbeddedResource>
@@ -1026,6 +1036,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="EmailTemplates\EFTEmailTemplate.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="ConnectCustomers.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ConnectCustomers.edmx</DependentUpon>
