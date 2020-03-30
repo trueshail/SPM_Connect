@@ -31,7 +31,7 @@ namespace SearchDataSPM
             developer = connectapi.Checkdeveloper();
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened Scan Emp ID by " + System.Environment.UserName);
+            log.Info("Opened Scan Emp ID ");
         }
 
         private void empid_txtbox_KeyPress(object sender, KeyPressEventArgs e)
@@ -80,7 +80,7 @@ namespace SearchDataSPM
 
         private void ScanEmpId_FormClosed(object sender, FormClosedEventArgs e)
         {
-            log.Info("Closed Scan Emp ID by " + System.Environment.UserName);
+            log.Info("Closed Scan Emp ID ");
             this.Dispose();
         }
     }

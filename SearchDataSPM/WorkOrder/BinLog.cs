@@ -42,7 +42,7 @@ namespace SearchDataSPM
             loadform();
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened Inventory Bin Status by " + System.Environment.UserName);
+            log.Info("Opened Inventory Bin Status ");
         }
 
         private void loadform()
@@ -406,7 +406,7 @@ namespace SearchDataSPM
 
         private void BinLog_FormClosed(object sender, FormClosedEventArgs e)
         {
-            log.Info("Closed Inventory Bin Status by " + System.Environment.UserName);
+            log.Info("Closed Inventory Bin Status ");
             this.Dispose();
         }
     }

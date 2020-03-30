@@ -33,7 +33,7 @@ namespace SearchDataSPM
             developer = connectapi.Checkdeveloper();
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened Crib Management by " + System.Environment.UserName);
+            log.Info("Opened Crib Management ");
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -425,7 +425,7 @@ namespace SearchDataSPM
 
         private void InvInOut_FormClosed(object sender, FormClosedEventArgs e)
         {
-            log.Info("Closed Crib Management by " + System.Environment.UserName);
+            log.Info("Closed Crib Management ");
             this.Dispose();
         }
     }

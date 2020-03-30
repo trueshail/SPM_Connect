@@ -20,17 +20,17 @@ namespace SearchDataSPM {
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
     [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedDataSetSchema")]
-    [global::System.Xml.Serialization.XmlRootAttribute("SPM_DatabaseDataSet1")]
+    [global::System.Xml.Serialization.XmlRootAttribute("LogDataset")]
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.DataSet")]
-    public partial class SPM_DatabaseDataSet1 : global::System.Data.DataSet {
+    public partial class LogDataset : global::System.Data.DataSet {
         
-        private UnionLogsDataTable tableUnionLogs;
+        private LogDataTable tableLog;
         
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-        public SPM_DatabaseDataSet1() {
+        public LogDataset() {
             this.BeginInit();
             this.InitClass();
             global::System.ComponentModel.CollectionChangeEventHandler schemaChangedHandler = new global::System.ComponentModel.CollectionChangeEventHandler(this.SchemaChanged);
@@ -41,7 +41,7 @@ namespace SearchDataSPM {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-        protected SPM_DatabaseDataSet1(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+        protected LogDataset(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                 base(info, context, false) {
             if ((this.IsBinarySerialized(info, context) == true)) {
                 this.InitVars(false);
@@ -54,8 +54,8 @@ namespace SearchDataSPM {
             if ((this.DetermineSchemaSerializationMode(info, context) == global::System.Data.SchemaSerializationMode.IncludeSchema)) {
                 global::System.Data.DataSet ds = new global::System.Data.DataSet();
                 ds.ReadXmlSchema(new global::System.Xml.XmlTextReader(new global::System.IO.StringReader(strSchema)));
-                if ((ds.Tables["UnionLogs"] != null)) {
-                    base.Tables.Add(new UnionLogsDataTable(ds.Tables["UnionLogs"]));
+                if ((ds.Tables["Log"] != null)) {
+                    base.Tables.Add(new LogDataTable(ds.Tables["Log"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -79,9 +79,9 @@ namespace SearchDataSPM {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public UnionLogsDataTable UnionLogs {
+        public LogDataTable Log {
             get {
-                return this.tableUnionLogs;
+                return this.tableLog;
             }
         }
         
@@ -127,7 +127,7 @@ namespace SearchDataSPM {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         public override global::System.Data.DataSet Clone() {
-            SPM_DatabaseDataSet1 cln = ((SPM_DatabaseDataSet1)(base.Clone()));
+            LogDataset cln = ((LogDataset)(base.Clone()));
             cln.InitVars();
             cln.SchemaSerializationMode = this.SchemaSerializationMode;
             return cln;
@@ -152,8 +152,8 @@ namespace SearchDataSPM {
                 this.Reset();
                 global::System.Data.DataSet ds = new global::System.Data.DataSet();
                 ds.ReadXml(reader);
-                if ((ds.Tables["UnionLogs"] != null)) {
-                    base.Tables.Add(new UnionLogsDataTable(ds.Tables["UnionLogs"]));
+                if ((ds.Tables["Log"] != null)) {
+                    base.Tables.Add(new LogDataTable(ds.Tables["Log"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -188,10 +188,10 @@ namespace SearchDataSPM {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         internal void InitVars(bool initTable) {
-            this.tableUnionLogs = ((UnionLogsDataTable)(base.Tables["UnionLogs"]));
+            this.tableLog = ((LogDataTable)(base.Tables["Log"]));
             if ((initTable == true)) {
-                if ((this.tableUnionLogs != null)) {
-                    this.tableUnionLogs.InitVars();
+                if ((this.tableLog != null)) {
+                    this.tableLog.InitVars();
                 }
             }
         }
@@ -199,18 +199,18 @@ namespace SearchDataSPM {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         private void InitClass() {
-            this.DataSetName = "SPM_DatabaseDataSet1";
+            this.DataSetName = "LogDataset";
             this.Prefix = "";
-            this.Namespace = "http://tempuri.org/SPM_DatabaseDataSet1.xsd";
+            this.Namespace = "http://tempuri.org/LogDataset.xsd";
             this.EnforceConstraints = true;
             this.SchemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
-            this.tableUnionLogs = new UnionLogsDataTable();
-            base.Tables.Add(this.tableUnionLogs);
+            this.tableLog = new LogDataTable();
+            base.Tables.Add(this.tableLog);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-        private bool ShouldSerializeUnionLogs() {
+        private bool ShouldSerializeLog() {
             return false;
         }
         
@@ -225,7 +225,7 @@ namespace SearchDataSPM {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedDataSetSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
-            SPM_DatabaseDataSet1 ds = new SPM_DatabaseDataSet1();
+            LogDataset ds = new LogDataset();
             global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
             global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
             global::System.Xml.Schema.XmlSchemaAny any = new global::System.Xml.Schema.XmlSchemaAny();
@@ -270,31 +270,35 @@ namespace SearchDataSPM {
         }
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-        public delegate void UnionLogsRowChangeEventHandler(object sender, UnionLogsRowChangeEvent e);
+        public delegate void LogRowChangeEventHandler(object sender, LogRowChangeEvent e);
         
         /// <summary>
         ///Represents the strongly named DataTable class.
         ///</summary>
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class UnionLogsDataTable : global::System.Data.TypedTableBase<UnionLogsRow> {
+        public partial class LogDataTable : global::System.Data.TypedTableBase<LogRow> {
+            
+            private global::System.Data.DataColumn columnId;
             
             private global::System.Data.DataColumn columnDate;
             
-            private global::System.Data.DataColumn columnloggerFrmName;
+            private global::System.Data.DataColumn columnThread;
             
-            private global::System.Data.DataColumn columnctrlNameThread;
+            private global::System.Data.DataColumn columnLevel;
             
-            private global::System.Data.DataColumn columnEventLevel;
+            private global::System.Data.DataColumn columnLogger;
             
-            private global::System.Data.DataColumn columnMessageValue;
+            private global::System.Data.DataColumn columnMessage;
             
-            private global::System.Data.DataColumn columnExceptionUser;
+            private global::System.Data.DataColumn columnException;
+            
+            private global::System.Data.DataColumn columnUser;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public UnionLogsDataTable() {
-                this.TableName = "UnionLogs";
+            public LogDataTable() {
+                this.TableName = "Log";
                 this.BeginInit();
                 this.InitClass();
                 this.EndInit();
@@ -302,7 +306,7 @@ namespace SearchDataSPM {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            internal UnionLogsDataTable(global::System.Data.DataTable table) {
+            internal LogDataTable(global::System.Data.DataTable table) {
                 this.TableName = table.TableName;
                 if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
                     this.CaseSensitive = table.CaseSensitive;
@@ -319,9 +323,17 @@ namespace SearchDataSPM {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            protected UnionLogsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+            protected LogDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn IdColumn {
+                get {
+                    return this.columnId;
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -334,41 +346,49 @@ namespace SearchDataSPM {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public global::System.Data.DataColumn loggerFrmNameColumn {
+            public global::System.Data.DataColumn ThreadColumn {
                 get {
-                    return this.columnloggerFrmName;
+                    return this.columnThread;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public global::System.Data.DataColumn ctrlNameThreadColumn {
+            public global::System.Data.DataColumn LevelColumn {
                 get {
-                    return this.columnctrlNameThread;
+                    return this.columnLevel;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public global::System.Data.DataColumn EventLevelColumn {
+            public global::System.Data.DataColumn LoggerColumn {
                 get {
-                    return this.columnEventLevel;
+                    return this.columnLogger;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public global::System.Data.DataColumn MessageValueColumn {
+            public global::System.Data.DataColumn MessageColumn {
                 get {
-                    return this.columnMessageValue;
+                    return this.columnMessage;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public global::System.Data.DataColumn ExceptionUserColumn {
+            public global::System.Data.DataColumn ExceptionColumn {
                 get {
-                    return this.columnExceptionUser;
+                    return this.columnException;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn UserColumn {
+                get {
+                    return this.columnUser;
                 }
             }
             
@@ -383,50 +403,52 @@ namespace SearchDataSPM {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public UnionLogsRow this[int index] {
+            public LogRow this[int index] {
                 get {
-                    return ((UnionLogsRow)(this.Rows[index]));
+                    return ((LogRow)(this.Rows[index]));
                 }
             }
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public event UnionLogsRowChangeEventHandler UnionLogsRowChanging;
+            public event LogRowChangeEventHandler LogRowChanging;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public event UnionLogsRowChangeEventHandler UnionLogsRowChanged;
+            public event LogRowChangeEventHandler LogRowChanged;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public event UnionLogsRowChangeEventHandler UnionLogsRowDeleting;
+            public event LogRowChangeEventHandler LogRowDeleting;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public event UnionLogsRowChangeEventHandler UnionLogsRowDeleted;
+            public event LogRowChangeEventHandler LogRowDeleted;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public void AddUnionLogsRow(UnionLogsRow row) {
+            public void AddLogRow(LogRow row) {
                 this.Rows.Add(row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public UnionLogsRow AddUnionLogsRow(System.DateTime Date, string loggerFrmName, string ctrlNameThread, string EventLevel, string MessageValue, string ExceptionUser) {
-                UnionLogsRow rowUnionLogsRow = ((UnionLogsRow)(this.NewRow()));
+            public LogRow AddLogRow(System.DateTime Date, string Thread, string Level, string Logger, string Message, string Exception, string User) {
+                LogRow rowLogRow = ((LogRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
+                        null,
                         Date,
-                        loggerFrmName,
-                        ctrlNameThread,
-                        EventLevel,
-                        MessageValue,
-                        ExceptionUser};
-                rowUnionLogsRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowUnionLogsRow);
-                return rowUnionLogsRow;
+                        Thread,
+                        Level,
+                        Logger,
+                        Message,
+                        Exception,
+                        User};
+                rowLogRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowLogRow);
+                return rowLogRow;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public override global::System.Data.DataTable Clone() {
-                UnionLogsDataTable cln = ((UnionLogsDataTable)(base.Clone()));
+                LogDataTable cln = ((LogDataTable)(base.Clone()));
                 cln.InitVars();
                 return cln;
             }
@@ -434,66 +456,83 @@ namespace SearchDataSPM {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             protected override global::System.Data.DataTable CreateInstance() {
-                return new UnionLogsDataTable();
+                return new LogDataTable();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             internal void InitVars() {
+                this.columnId = base.Columns["Id"];
                 this.columnDate = base.Columns["Date"];
-                this.columnloggerFrmName = base.Columns["loggerFrmName"];
-                this.columnctrlNameThread = base.Columns["ctrlNameThread"];
-                this.columnEventLevel = base.Columns["EventLevel"];
-                this.columnMessageValue = base.Columns["MessageValue"];
-                this.columnExceptionUser = base.Columns["ExceptionUser"];
+                this.columnThread = base.Columns["Thread"];
+                this.columnLevel = base.Columns["Level"];
+                this.columnLogger = base.Columns["Logger"];
+                this.columnMessage = base.Columns["Message"];
+                this.columnException = base.Columns["Exception"];
+                this.columnUser = base.Columns["User"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             private void InitClass() {
+                this.columnId = new global::System.Data.DataColumn("Id", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnId);
                 this.columnDate = new global::System.Data.DataColumn("Date", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDate);
-                this.columnloggerFrmName = new global::System.Data.DataColumn("loggerFrmName", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnloggerFrmName);
-                this.columnctrlNameThread = new global::System.Data.DataColumn("ctrlNameThread", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnctrlNameThread);
-                this.columnEventLevel = new global::System.Data.DataColumn("EventLevel", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnEventLevel);
-                this.columnMessageValue = new global::System.Data.DataColumn("MessageValue", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnMessageValue);
-                this.columnExceptionUser = new global::System.Data.DataColumn("ExceptionUser", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnExceptionUser);
-                this.columnloggerFrmName.MaxLength = 2147483647;
-                this.columnctrlNameThread.MaxLength = 2147483647;
-                this.columnEventLevel.MaxLength = 2147483647;
-                this.columnMessageValue.MaxLength = 2147483647;
-                this.columnExceptionUser.MaxLength = 2000;
+                this.columnThread = new global::System.Data.DataColumn("Thread", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnThread);
+                this.columnLevel = new global::System.Data.DataColumn("Level", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnLevel);
+                this.columnLogger = new global::System.Data.DataColumn("Logger", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnLogger);
+                this.columnMessage = new global::System.Data.DataColumn("Message", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnMessage);
+                this.columnException = new global::System.Data.DataColumn("Exception", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnException);
+                this.columnUser = new global::System.Data.DataColumn("User", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnUser);
+                this.columnId.AutoIncrement = true;
+                this.columnId.AutoIncrementSeed = -1;
+                this.columnId.AutoIncrementStep = -1;
+                this.columnId.AllowDBNull = false;
+                this.columnId.ReadOnly = true;
+                this.columnDate.AllowDBNull = false;
+                this.columnThread.AllowDBNull = false;
+                this.columnThread.MaxLength = 255;
+                this.columnLevel.AllowDBNull = false;
+                this.columnLevel.MaxLength = 50;
+                this.columnLogger.AllowDBNull = false;
+                this.columnLogger.MaxLength = 255;
+                this.columnMessage.AllowDBNull = false;
+                this.columnMessage.MaxLength = 4000;
+                this.columnException.MaxLength = 2000;
+                this.columnUser.MaxLength = 50;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public UnionLogsRow NewUnionLogsRow() {
-                return ((UnionLogsRow)(this.NewRow()));
+            public LogRow NewLogRow() {
+                return ((LogRow)(this.NewRow()));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new UnionLogsRow(builder);
+                return new LogRow(builder);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             protected override global::System.Type GetRowType() {
-                return typeof(UnionLogsRow);
+                return typeof(LogRow);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanged(e);
-                if ((this.UnionLogsRowChanged != null)) {
-                    this.UnionLogsRowChanged(this, new UnionLogsRowChangeEvent(((UnionLogsRow)(e.Row)), e.Action));
+                if ((this.LogRowChanged != null)) {
+                    this.LogRowChanged(this, new LogRowChangeEvent(((LogRow)(e.Row)), e.Action));
                 }
             }
             
@@ -501,8 +540,8 @@ namespace SearchDataSPM {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanging(e);
-                if ((this.UnionLogsRowChanging != null)) {
-                    this.UnionLogsRowChanging(this, new UnionLogsRowChangeEvent(((UnionLogsRow)(e.Row)), e.Action));
+                if ((this.LogRowChanging != null)) {
+                    this.LogRowChanging(this, new LogRowChangeEvent(((LogRow)(e.Row)), e.Action));
                 }
             }
             
@@ -510,8 +549,8 @@ namespace SearchDataSPM {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleted(e);
-                if ((this.UnionLogsRowDeleted != null)) {
-                    this.UnionLogsRowDeleted(this, new UnionLogsRowChangeEvent(((UnionLogsRow)(e.Row)), e.Action));
+                if ((this.LogRowDeleted != null)) {
+                    this.LogRowDeleted(this, new LogRowChangeEvent(((LogRow)(e.Row)), e.Action));
                 }
             }
             
@@ -519,14 +558,14 @@ namespace SearchDataSPM {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleting(e);
-                if ((this.UnionLogsRowDeleting != null)) {
-                    this.UnionLogsRowDeleting(this, new UnionLogsRowChangeEvent(((UnionLogsRow)(e.Row)), e.Action));
+                if ((this.LogRowDeleting != null)) {
+                    this.LogRowDeleting(this, new LogRowChangeEvent(((LogRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public void RemoveUnionLogsRow(UnionLogsRow row) {
+            public void RemoveLogRow(LogRow row) {
                 this.Rows.Remove(row);
             }
             
@@ -535,7 +574,7 @@ namespace SearchDataSPM {
             public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
                 global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
                 global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                SPM_DatabaseDataSet1 ds = new SPM_DatabaseDataSet1();
+                LogDataset ds = new LogDataset();
                 global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
                 any1.Namespace = "http://www.w3.org/2001/XMLSchema";
                 any1.MinOccurs = new decimal(0);
@@ -553,7 +592,7 @@ namespace SearchDataSPM {
                 type.Attributes.Add(attribute1);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "UnionLogsDataTable";
+                attribute2.FixedValue = "LogDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -597,183 +636,137 @@ namespace SearchDataSPM {
         /// <summary>
         ///Represents strongly named DataRow class.
         ///</summary>
-        public partial class UnionLogsRow : global::System.Data.DataRow {
+        public partial class LogRow : global::System.Data.DataRow {
             
-            private UnionLogsDataTable tableUnionLogs;
+            private LogDataTable tableLog;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            internal UnionLogsRow(global::System.Data.DataRowBuilder rb) : 
+            internal LogRow(global::System.Data.DataRowBuilder rb) : 
                     base(rb) {
-                this.tableUnionLogs = ((UnionLogsDataTable)(this.Table));
+                this.tableLog = ((LogDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public int Id {
+                get {
+                    return ((int)(this[this.tableLog.IdColumn]));
+                }
+                set {
+                    this[this.tableLog.IdColumn] = value;
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public System.DateTime Date {
                 get {
-                    try {
-                        return ((global::System.DateTime)(this[this.tableUnionLogs.DateColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Date\' in table \'UnionLogs\' is DBNull.", e);
-                    }
+                    return ((global::System.DateTime)(this[this.tableLog.DateColumn]));
                 }
                 set {
-                    this[this.tableUnionLogs.DateColumn] = value;
+                    this[this.tableLog.DateColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public string loggerFrmName {
+            public string Thread {
+                get {
+                    return ((string)(this[this.tableLog.ThreadColumn]));
+                }
+                set {
+                    this[this.tableLog.ThreadColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public string Level {
+                get {
+                    return ((string)(this[this.tableLog.LevelColumn]));
+                }
+                set {
+                    this[this.tableLog.LevelColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public string Logger {
+                get {
+                    return ((string)(this[this.tableLog.LoggerColumn]));
+                }
+                set {
+                    this[this.tableLog.LoggerColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public string Message {
+                get {
+                    return ((string)(this[this.tableLog.MessageColumn]));
+                }
+                set {
+                    this[this.tableLog.MessageColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public string Exception {
                 get {
                     try {
-                        return ((string)(this[this.tableUnionLogs.loggerFrmNameColumn]));
+                        return ((string)(this[this.tableLog.ExceptionColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'loggerFrmName\' in table \'UnionLogs\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Exception\' in table \'Log\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableUnionLogs.loggerFrmNameColumn] = value;
+                    this[this.tableLog.ExceptionColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public string ctrlNameThread {
+            public string User {
                 get {
                     try {
-                        return ((string)(this[this.tableUnionLogs.ctrlNameThreadColumn]));
+                        return ((string)(this[this.tableLog.UserColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'ctrlNameThread\' in table \'UnionLogs\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'User\' in table \'Log\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableUnionLogs.ctrlNameThreadColumn] = value;
+                    this[this.tableLog.UserColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public string EventLevel {
-                get {
-                    try {
-                        return ((string)(this[this.tableUnionLogs.EventLevelColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'EventLevel\' in table \'UnionLogs\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableUnionLogs.EventLevelColumn] = value;
-                }
+            public bool IsExceptionNull() {
+                return this.IsNull(this.tableLog.ExceptionColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public string MessageValue {
-                get {
-                    try {
-                        return ((string)(this[this.tableUnionLogs.MessageValueColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'MessageValue\' in table \'UnionLogs\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableUnionLogs.MessageValueColumn] = value;
-                }
+            public void SetExceptionNull() {
+                this[this.tableLog.ExceptionColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public string ExceptionUser {
-                get {
-                    try {
-                        return ((string)(this[this.tableUnionLogs.ExceptionUserColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'ExceptionUser\' in table \'UnionLogs\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableUnionLogs.ExceptionUserColumn] = value;
-                }
+            public bool IsUserNull() {
+                return this.IsNull(this.tableLog.UserColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public bool IsDateNull() {
-                return this.IsNull(this.tableUnionLogs.DateColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public void SetDateNull() {
-                this[this.tableUnionLogs.DateColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public bool IsloggerFrmNameNull() {
-                return this.IsNull(this.tableUnionLogs.loggerFrmNameColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public void SetloggerFrmNameNull() {
-                this[this.tableUnionLogs.loggerFrmNameColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public bool IsctrlNameThreadNull() {
-                return this.IsNull(this.tableUnionLogs.ctrlNameThreadColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public void SetctrlNameThreadNull() {
-                this[this.tableUnionLogs.ctrlNameThreadColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public bool IsEventLevelNull() {
-                return this.IsNull(this.tableUnionLogs.EventLevelColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public void SetEventLevelNull() {
-                this[this.tableUnionLogs.EventLevelColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public bool IsMessageValueNull() {
-                return this.IsNull(this.tableUnionLogs.MessageValueColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public void SetMessageValueNull() {
-                this[this.tableUnionLogs.MessageValueColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public bool IsExceptionUserNull() {
-                return this.IsNull(this.tableUnionLogs.ExceptionUserColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public void SetExceptionUserNull() {
-                this[this.tableUnionLogs.ExceptionUserColumn] = global::System.Convert.DBNull;
+            public void SetUserNull() {
+                this[this.tableLog.UserColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -781,22 +774,22 @@ namespace SearchDataSPM {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-        public class UnionLogsRowChangeEvent : global::System.EventArgs {
+        public class LogRowChangeEvent : global::System.EventArgs {
             
-            private UnionLogsRow eventRow;
+            private LogRow eventRow;
             
             private global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public UnionLogsRowChangeEvent(UnionLogsRow row, global::System.Data.DataRowAction action) {
+            public LogRowChangeEvent(LogRow row, global::System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public UnionLogsRow Row {
+            public LogRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -812,7 +805,7 @@ namespace SearchDataSPM {
         }
     }
 }
-namespace SearchDataSPM.SPM_DatabaseDataSet1TableAdapters {
+namespace SearchDataSPM.LogDatasetTableAdapters {
     
     
     /// <summary>
@@ -824,7 +817,7 @@ namespace SearchDataSPM.SPM_DatabaseDataSet1TableAdapters {
     [global::System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
         ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-    public partial class UnionLogsTableAdapter : global::System.ComponentModel.Component {
+    public partial class LogTableAdapter : global::System.ComponentModel.Component {
         
         private global::System.Data.SqlClient.SqlDataAdapter _adapter;
         
@@ -838,7 +831,7 @@ namespace SearchDataSPM.SPM_DatabaseDataSet1TableAdapters {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-        public UnionLogsTableAdapter() {
+        public LogTableAdapter() {
             this.ClearBeforeFill = true;
         }
         
@@ -935,14 +928,29 @@ namespace SearchDataSPM.SPM_DatabaseDataSet1TableAdapters {
             this._adapter = new global::System.Data.SqlClient.SqlDataAdapter();
             global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
             tableMapping.SourceTable = "Table";
-            tableMapping.DataSetTable = "UnionLogs";
+            tableMapping.DataSetTable = "Log";
+            tableMapping.ColumnMappings.Add("Id", "Id");
             tableMapping.ColumnMappings.Add("Date", "Date");
-            tableMapping.ColumnMappings.Add("loggerFrmName", "loggerFrmName");
-            tableMapping.ColumnMappings.Add("ctrlNameThread", "ctrlNameThread");
-            tableMapping.ColumnMappings.Add("EventLevel", "EventLevel");
-            tableMapping.ColumnMappings.Add("MessageValue", "MessageValue");
-            tableMapping.ColumnMappings.Add("ExceptionUser", "ExceptionUser");
+            tableMapping.ColumnMappings.Add("Thread", "Thread");
+            tableMapping.ColumnMappings.Add("Level", "Level");
+            tableMapping.ColumnMappings.Add("Logger", "Logger");
+            tableMapping.ColumnMappings.Add("Message", "Message");
+            tableMapping.ColumnMappings.Add("Exception", "Exception");
+            tableMapping.ColumnMappings.Add("User", "User");
             this._adapter.TableMappings.Add(tableMapping);
+            this._adapter.InsertCommand = new global::System.Data.SqlClient.SqlCommand();
+            this._adapter.InsertCommand.Connection = this.Connection;
+            this._adapter.InsertCommand.CommandText = "INSERT INTO [dbo].[Log] ([Date], [Thread], [Level], [Logger], [Message], [Excepti" +
+                "on], [User]) VALUES (@Date, @Thread, @Level, @Logger, @Message, @Exception, @Use" +
+                "r)";
+            this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Date", global::System.Data.SqlDbType.DateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Date", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Thread", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Thread", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Level", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Level", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Logger", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Logger", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Message", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Message", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Exception", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Exception", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@User", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "User", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -958,8 +966,8 @@ namespace SearchDataSPM.SPM_DatabaseDataSet1TableAdapters {
             this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT Date, loggerFrmName, ctrlNameThread, EventLevel, MessageValue, ExceptionUs" +
-                "er FROM dbo.UnionLogs";
+            this._commandCollection[0].CommandText = "SELECT Id, Date, Thread, [Level], Logger, Message, Exception, [User] FROM dbo.[Lo" +
+                "g]";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -967,7 +975,7 @@ namespace SearchDataSPM.SPM_DatabaseDataSet1TableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int Fill(SPM_DatabaseDataSet1.UnionLogsDataTable dataTable) {
+        public virtual int Fill(LogDataset.LogDataTable dataTable) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
             if ((this.ClearBeforeFill == true)) {
                 dataTable.Clear();
@@ -980,11 +988,98 @@ namespace SearchDataSPM.SPM_DatabaseDataSet1TableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual SPM_DatabaseDataSet1.UnionLogsDataTable GetData() {
+        public virtual LogDataset.LogDataTable GetData() {
             this.Adapter.SelectCommand = this.CommandCollection[0];
-            SPM_DatabaseDataSet1.UnionLogsDataTable dataTable = new SPM_DatabaseDataSet1.UnionLogsDataTable();
+            LogDataset.LogDataTable dataTable = new LogDataset.LogDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(LogDataset.LogDataTable dataTable) {
+            return this.Adapter.Update(dataTable);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(LogDataset dataSet) {
+            return this.Adapter.Update(dataSet, "Log");
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(global::System.Data.DataRow dataRow) {
+            return this.Adapter.Update(new global::System.Data.DataRow[] {
+                        dataRow});
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(global::System.Data.DataRow[] dataRows) {
+            return this.Adapter.Update(dataRows);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
+        public virtual int Insert(System.DateTime Date, string Thread, string Level, string Logger, string Message, string Exception, string User) {
+            this.Adapter.InsertCommand.Parameters[0].Value = ((System.DateTime)(Date));
+            if ((Thread == null)) {
+                throw new global::System.ArgumentNullException("Thread");
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[1].Value = ((string)(Thread));
+            }
+            if ((Level == null)) {
+                throw new global::System.ArgumentNullException("Level");
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[2].Value = ((string)(Level));
+            }
+            if ((Logger == null)) {
+                throw new global::System.ArgumentNullException("Logger");
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[3].Value = ((string)(Logger));
+            }
+            if ((Message == null)) {
+                throw new global::System.ArgumentNullException("Message");
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[4].Value = ((string)(Message));
+            }
+            if ((Exception == null)) {
+                this.Adapter.InsertCommand.Parameters[5].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[5].Value = ((string)(Exception));
+            }
+            if ((User == null)) {
+                this.Adapter.InsertCommand.Parameters[6].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[6].Value = ((string)(User));
+            }
+            global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
+            if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                this.Adapter.InsertCommand.Connection.Open();
+            }
+            try {
+                int returnValue = this.Adapter.InsertCommand.ExecuteNonQuery();
+                return returnValue;
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    this.Adapter.InsertCommand.Connection.Close();
+                }
+            }
         }
     }
     
@@ -1000,6 +1095,8 @@ namespace SearchDataSPM.SPM_DatabaseDataSet1TableAdapters {
         
         private UpdateOrderOption _updateOrder;
         
+        private LogTableAdapter _logTableAdapter;
+        
         private bool _backupDataSetBeforeUpdate;
         
         private global::System.Data.IDbConnection _connection;
@@ -1012,6 +1109,20 @@ namespace SearchDataSPM.SPM_DatabaseDataSet1TableAdapters {
             }
             set {
                 this._updateOrder = value;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+        [global::System.ComponentModel.EditorAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterManagerPropertyEditor, Microso" +
+            "ft.VSDesigner, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3" +
+            "a", "System.Drawing.Design.UITypeEditor")]
+        public LogTableAdapter LogTableAdapter {
+            get {
+                return this._logTableAdapter;
+            }
+            set {
+                this._logTableAdapter = value;
             }
         }
         
@@ -1034,6 +1145,10 @@ namespace SearchDataSPM.SPM_DatabaseDataSet1TableAdapters {
                 if ((this._connection != null)) {
                     return this._connection;
                 }
+                if (((this._logTableAdapter != null) 
+                            && (this._logTableAdapter.Connection != null))) {
+                    return this._logTableAdapter.Connection;
+                }
                 return null;
             }
             set {
@@ -1047,6 +1162,9 @@ namespace SearchDataSPM.SPM_DatabaseDataSet1TableAdapters {
         public int TableAdapterInstanceCount {
             get {
                 int count = 0;
+                if ((this._logTableAdapter != null)) {
+                    count = (count + 1);
+                }
                 return count;
             }
         }
@@ -1056,8 +1174,17 @@ namespace SearchDataSPM.SPM_DatabaseDataSet1TableAdapters {
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-        private int UpdateUpdatedRows(SPM_DatabaseDataSet1 dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
+        private int UpdateUpdatedRows(LogDataset dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
+            if ((this._logTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.Log.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
+                if (((updatedRows != null) 
+                            && (0 < updatedRows.Length))) {
+                    result = (result + this._logTableAdapter.Update(updatedRows));
+                    allChangedRows.AddRange(updatedRows);
+                }
+            }
             return result;
         }
         
@@ -1066,8 +1193,16 @@ namespace SearchDataSPM.SPM_DatabaseDataSet1TableAdapters {
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-        private int UpdateInsertedRows(SPM_DatabaseDataSet1 dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
+        private int UpdateInsertedRows(LogDataset dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
+            if ((this._logTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.Log.Select(null, null, global::System.Data.DataViewRowState.Added);
+                if (((addedRows != null) 
+                            && (0 < addedRows.Length))) {
+                    result = (result + this._logTableAdapter.Update(addedRows));
+                    allAddedRows.AddRange(addedRows);
+                }
+            }
             return result;
         }
         
@@ -1076,8 +1211,16 @@ namespace SearchDataSPM.SPM_DatabaseDataSet1TableAdapters {
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-        private int UpdateDeletedRows(SPM_DatabaseDataSet1 dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
+        private int UpdateDeletedRows(LogDataset dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
             int result = 0;
+            if ((this._logTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.Log.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+                if (((deletedRows != null) 
+                            && (0 < deletedRows.Length))) {
+                    result = (result + this._logTableAdapter.Update(deletedRows));
+                    allChangedRows.AddRange(deletedRows);
+                }
+            }
             return result;
         }
         
@@ -1110,12 +1253,17 @@ namespace SearchDataSPM.SPM_DatabaseDataSet1TableAdapters {
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-        public virtual int UpdateAll(SPM_DatabaseDataSet1 dataSet) {
+        public virtual int UpdateAll(LogDataset dataSet) {
             if ((dataSet == null)) {
                 throw new global::System.ArgumentNullException("dataSet");
             }
             if ((dataSet.HasChanges() == false)) {
                 return 0;
+            }
+            if (((this._logTableAdapter != null) 
+                        && (this.MatchTableAdapterConnection(this._logTableAdapter.Connection) == false))) {
+                throw new global::System.ArgumentException("All TableAdapters managed by a TableAdapterManager must use the same connection s" +
+                        "tring.");
             }
             global::System.Data.IDbConnection workConnection = this.Connection;
             if ((workConnection == null)) {
@@ -1149,6 +1297,15 @@ namespace SearchDataSPM.SPM_DatabaseDataSet1TableAdapters {
             try {
                 // ---- Prepare for update -----------
                 //
+                if ((this._logTableAdapter != null)) {
+                    revertConnections.Add(this._logTableAdapter, this._logTableAdapter.Connection);
+                    this._logTableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(workConnection));
+                    this._logTableAdapter.Transaction = ((global::System.Data.SqlClient.SqlTransaction)(workTransaction));
+                    if (this._logTableAdapter.Adapter.AcceptChangesDuringUpdate) {
+                        this._logTableAdapter.Adapter.AcceptChangesDuringUpdate = false;
+                        adaptersWithAcceptChangesDuringUpdate.Add(this._logTableAdapter.Adapter);
+                    }
+                }
                 // 
                 //---- Perform updates -----------
                 //
@@ -1206,6 +1363,10 @@ namespace SearchDataSPM.SPM_DatabaseDataSet1TableAdapters {
             finally {
                 if (workConnOpened) {
                     workConnection.Close();
+                }
+                if ((this._logTableAdapter != null)) {
+                    this._logTableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(revertConnections[this._logTableAdapter]));
+                    this._logTableAdapter.Transaction = null;
                 }
                 if ((0 < adaptersWithAcceptChangesDuringUpdate.Count)) {
                     global::System.Data.Common.DataAdapter[] adapters = new System.Data.Common.DataAdapter[adaptersWithAcceptChangesDuringUpdate.Count];

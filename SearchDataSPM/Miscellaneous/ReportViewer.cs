@@ -99,7 +99,7 @@ namespace SearchDataSPM
 
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened ReportViewer, ReportName : " + reportname + ", ItemNumber : " + itemnumber + " by " + System.Environment.UserName);
+            log.Info("Opened ReportViewer, ReportName : " + reportname + ", ItemNumber : " + itemnumber + " ");
         }
 
         private void Fillbomreport()
@@ -153,7 +153,7 @@ namespace SearchDataSPM
 
         private void ReportViewer_FormClosed(object sender, FormClosedEventArgs e)
         {
-            log.Info("Closed ReportViewer, ReportName : " + reportname + ", ItemNumber : " + itemnumber + " by " + System.Environment.UserName);
+            log.Info("Closed ReportViewer, ReportName : " + reportname + ", ItemNumber : " + itemnumber + " ");
             this.Dispose();
         }
 

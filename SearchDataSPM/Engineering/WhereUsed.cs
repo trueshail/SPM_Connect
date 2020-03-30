@@ -77,11 +77,11 @@ namespace SearchDataSPM
                 startprocessofwhereused();
                 CallRecursive();
                 // connectapi.SPM_Connect();
-                if (connectapi.getdepartment() == "Eng") eng = true;
+                if (connectapi.Getdepartment() == "Eng") eng = true;
             }
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened Where Used " + itemnumber + " by " + System.Environment.UserName);
+            log.Info("Opened Where Used " + itemnumber + " ");
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -383,11 +383,11 @@ namespace SearchDataSPM
             Item = Item.Substring(0, 6);
             if (eng)
             {
-                connectapi.checkforspmfile(Item);
+                connectapi.Checkforspmfile(Item);
             }
             else
             {
-                connectapi.checkforspmfileprod(Item);
+                connectapi.Checkforspmfileprod(Item);
             }
         }
 
@@ -397,11 +397,11 @@ namespace SearchDataSPM
             Item = Item.Substring(0, 6);
             if (eng)
             {
-                connectapi.checkforspmfile(Item);
+                connectapi.Checkforspmfile(Item);
             }
             else
             {
-                connectapi.checkforspmfileprod(Item);
+                connectapi.Checkforspmfileprod(Item);
             }
         }
 
@@ -1038,7 +1038,7 @@ namespace SearchDataSPM
             {
                 string txt = listView.FocusedItem.Text;
                 txt = txt.Substring(0, 6);
-                connectapi.addtofavorites(txt);
+                connectapi.Addtofavorites(txt);
             }
         }
 
@@ -1070,7 +1070,7 @@ namespace SearchDataSPM
             {
                 string itemstr = treeView1.SelectedNode.Text;
                 itemstr = itemstr.Substring(0, 6);
-                connectapi.addtofavorites(itemstr);
+                connectapi.Addtofavorites(itemstr);
             }
         }
 
@@ -1078,7 +1078,7 @@ namespace SearchDataSPM
 
         private void WhereUsed_FormClosed(object sender, FormClosedEventArgs e)
         {
-            log.Info("Closed Where Used " + itemnumber + " by " + System.Environment.UserName);
+            log.Info("Closed Where Used " + itemnumber + " ");
             this.Dispose();
         }
     }

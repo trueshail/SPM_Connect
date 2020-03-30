@@ -61,7 +61,7 @@ namespace SearchDataSPM
             Treeview.ExpandAll();
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened Item Details " + releaseLogNumber + " by " + System.Environment.UserName);
+            log.Info("Opened Item Details " + releaseLogNumber + " ");
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -102,7 +102,7 @@ namespace SearchDataSPM
 
         private void ItemInfo_FormClosed(object sender, FormClosedEventArgs e)
         {
-            log.Info("Closed Item Details " + releaseLogNumber + " by " + System.Environment.UserName);
+            log.Info("Closed Item Details " + releaseLogNumber + " ");
             Dispose();
         }
 

@@ -48,14 +48,14 @@ namespace SPMConnectAPI
             }
         }
 
-        public string getassyversionnumber()
+        public string Getassyversionnumber()
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
             string version = "V" + assembly.GetName().Version.ToString(3);
             return version;
         }
 
-        public string getuserfullname()
+        public string Getuserfullname()
         {
             string fullname = "";
             try
@@ -117,7 +117,7 @@ namespace SPMConnectAPI
             return path;
         }
 
-        public string getdepartment()
+        public string Getdepartment()
         {
             string Department = "";
             try
@@ -147,7 +147,7 @@ namespace SPMConnectAPI
             return Department;
         }
 
-        public void deleteitem(string _itemno)
+        public void Deleteitem(string _itemno)
         {
             DialogResult result = MessageBox.Show("Are you sure want to delete " + _itemno + "?", "SPM Connect - Delete Item?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
@@ -299,7 +299,7 @@ namespace SPMConnectAPI
             return management;
         }
 
-        public bool checkpruchasereqrights()
+        public bool Checkpruchasereqrights()
         {
             bool purchasereq = false;
             using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND PurchaseReq = '1'", cn))
@@ -327,7 +327,7 @@ namespace SPMConnectAPI
             return purchasereq;
         }
 
-        public bool checkquoterights()
+        public bool Checkquoterights()
         {
             bool quoterights = false;
 
@@ -356,7 +356,7 @@ namespace SPMConnectAPI
             return quoterights;
         }
 
-        public bool checkShippingrights()
+        public bool CheckShippingrights()
         {
             bool quoterights = false;
 
@@ -387,7 +387,7 @@ namespace SPMConnectAPI
 
         #endregion UserRights
 
-        public void chekin(string applicationname)
+        public void Chekin(string applicationname)
         {
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDate = datecreated.ToString("dd-MM-yyyy HH:mm tt");
@@ -399,7 +399,7 @@ namespace SPMConnectAPI
             {
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Checkin] ([Last Login],[Application Running],[User Name], [Computer Name], [Version]) VALUES('" + sqlFormattedDate + "', '" + applicationname + "', '" + UserName() + "', '" + computername + "','" + getassyversionnumber() + "')";
+                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Checkin] ([Last Login],[Application Running],[User Name], [Computer Name], [Version]) VALUES('" + sqlFormattedDate + "', '" + applicationname + "', '" + UserName() + "', '" + computername + "','" + Getassyversionnumber() + "')";
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -414,7 +414,7 @@ namespace SPMConnectAPI
             }
         }
 
-        public void checkout()
+        public void Checkout()
         {
             if (cn.State == ConnectionState.Closed)
                 cn.Open();
@@ -539,7 +539,7 @@ namespace SPMConnectAPI
             return dt;
         }
 
-        public string getfilename()
+        public string Getfilename()
         {
             ModelDoc2 swModel;
             var progId = "SldWorks.Application";
@@ -559,7 +559,7 @@ namespace SPMConnectAPI
             return filename;
         }
 
-        public string get_pathname()
+        public string Get_pathname()
         {
             ModelDoc2 swModel;
             var progId = "SldWorks.Application";
@@ -578,7 +578,7 @@ namespace SPMConnectAPI
             return pathName;
         }
 
-        public string getfamilycategory(string familycode)
+        public string Getfamilycategory(string familycode)
         {
             string category = "";
             try
@@ -622,7 +622,7 @@ namespace SPMConnectAPI
             return Pathpart;
         }
 
-        public bool checkforreadonly()
+        public bool Checkforreadonly()
         {
             bool notreadonly = true;
             var progId = "SldWorks.Application";
@@ -638,7 +638,7 @@ namespace SPMConnectAPI
             return notreadonly;
         }
 
-        public string getcustomeralias(string customerid)
+        public string Getcustomeralias(string customerid)
         {
             string customername = "";
             try
@@ -670,7 +670,7 @@ namespace SPMConnectAPI
 
         #region GetNewItemNumber or copy items
 
-        public string getactiveblock()
+        public string Getactiveblock()
         {
             string useractiveblock = "";
 
@@ -711,7 +711,7 @@ namespace SPMConnectAPI
 
         public string Getlastnumber()
         {
-            string blocknumber = getactiveblock().ToString();
+            string blocknumber = Getactiveblock().ToString();
 
             if (blocknumber == "")
             {
@@ -754,7 +754,7 @@ namespace SPMConnectAPI
 
         public bool CheckBaseBlockNumberTaken()
         {
-            string blocknumber = getactiveblock().ToString();
+            string blocknumber = Getactiveblock().ToString();
             bool taken = false;
             if (blocknumber == "")
             {
@@ -921,7 +921,7 @@ namespace SPMConnectAPI
 
         #region Advance Search Fill Comboxes
 
-        public AutoCompleteStringCollection fillfamilycodes()
+        public AutoCompleteStringCollection Fillfamilycodes()
         {
             AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
             using (SqlCommand sqlCommand = new SqlCommand("SELECT FamilyCodes FROM [SPM_Database].[dbo].[FamilyCodes] order by FamilyCodes", cn))
@@ -949,7 +949,7 @@ namespace SPMConnectAPI
             return MyCollection;
         }
 
-        public AutoCompleteStringCollection filluserwithblock()
+        public AutoCompleteStringCollection Filluserwithblock()
         {
             AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
             using (SqlCommand sqlCommand = new SqlCommand("SELECT CONCAT(ActiveBlockNumber,' ',Name) AS UserWithCad FROM [SPM_Database].[dbo].[Users] WHERE ActiveBlockNumber is not null AND ActiveBlockNumber <> '' Order by ActiveBlockNumber", cn))
@@ -977,7 +977,7 @@ namespace SPMConnectAPI
             return MyCollection;
         }
 
-        public AutoCompleteStringCollection filldesignedby()
+        public AutoCompleteStringCollection Filldesignedby()
         {
             AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
             using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT DesignedBy from [dbo].[UnionInventory] where DesignedBy is not null order by DesignedBy", cn))
@@ -1004,7 +1004,7 @@ namespace SPMConnectAPI
             return MyCollection;
         }
 
-        public AutoCompleteStringCollection filllastsavedby()
+        public AutoCompleteStringCollection Filllastsavedby()
         {
             AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
             using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT LastSavedBy from [dbo].[UnionInventory] where LastSavedBy is not null order by LastSavedBy", cn))
@@ -1031,7 +1031,7 @@ namespace SPMConnectAPI
             return MyCollection;
         }
 
-        public AutoCompleteStringCollection fillmanufacturers()
+        public AutoCompleteStringCollection Fillmanufacturers()
         {
             AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
             using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM [SPM_Database].[dbo].[Manufacturers] order by Manufacturer", cn))
@@ -1058,7 +1058,7 @@ namespace SPMConnectAPI
             return MyCollection;
         }
 
-        public AutoCompleteStringCollection filloem()
+        public AutoCompleteStringCollection Filloem()
         {
             AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
             using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM [SPM_Database].[dbo].[ManufacturersItemNumbers] order by [ManufacturerItemNumber]", cn))
@@ -1139,7 +1139,7 @@ namespace SPMConnectAPI
             return MyCollection;
         }
 
-        public AutoCompleteStringCollection fillheattreats()
+        public AutoCompleteStringCollection Fillheattreats()
         {
             AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
             using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM [SPM_Database].[dbo].[HeatTreatments]", cn))
@@ -1166,7 +1166,7 @@ namespace SPMConnectAPI
             return MyCollection;
         }
 
-        public AutoCompleteStringCollection fillsurface()
+        public AutoCompleteStringCollection Fillsurface()
         {
             AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
             using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM [SPM_Database].[dbo].[SurfaceProtections]", cn))
@@ -1193,7 +1193,7 @@ namespace SPMConnectAPI
             return MyCollection;
         }
 
-        public AutoCompleteStringCollection filldescriptionsource()
+        public AutoCompleteStringCollection Filldescriptionsource()
         {
             AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
             using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM [SPM_Database].[dbo].[Descriptions]", cn))
@@ -1224,7 +1224,7 @@ namespace SPMConnectAPI
 
         #region OpenModel & Drawing
 
-        public void checkforspmfile(string Item_No)
+        public void Checkforspmfile(string Item_No)
         {
             string ItemNumbero;
             ItemNumbero = Item_No + "-0";
@@ -1275,7 +1275,7 @@ namespace SPMConnectAPI
                 {
                     //Process.Start("explorer.exe", Pathassy);
                     //fName = Pathassy;
-                    if (solidworks_running() == true)
+                    if (Solidworks_running() == true)
                     {
                         Open_assy(Pathassy);
                     }
@@ -1284,7 +1284,7 @@ namespace SPMConnectAPI
                 {
                     //Process.Start("explorer.exe", PathAssyNo);
                     // fName = PathAssyNo;
-                    if (solidworks_running() == true)
+                    if (Solidworks_running() == true)
                     {
                         Open_assy(PathAssyNo);
                     }
@@ -1293,7 +1293,7 @@ namespace SPMConnectAPI
                 {
                     //Process.Start("explorer.exe", Pathpart);
                     //fName = Pathpart;
-                    if (solidworks_running() == true)
+                    if (Solidworks_running() == true)
                     {
                         Open_model(Pathpart);
                     }
@@ -1302,7 +1302,7 @@ namespace SPMConnectAPI
                 {
                     //Process.Start("explorer.exe", PathPartNo);
                     //fName = PathPartNo;
-                    if (solidworks_running() == true)
+                    if (Solidworks_running() == true)
                     {
                         Open_model(PathPartNo);
                     }
@@ -1315,7 +1315,7 @@ namespace SPMConnectAPI
             }
         }
 
-        public void checkforspmdrwfile(string Item_No)
+        public void Checkforspmdrwfile(string Item_No)
         {
             string ItemNumbero = Item_No + "-0";
 
@@ -1339,7 +1339,7 @@ namespace SPMConnectAPI
                 else if (File.Exists(Drawpath))
                 {
                     //Process.Start("explorer.exe", Drawpath);
-                    if (solidworks_running() == true)
+                    if (Solidworks_running() == true)
                     {
                         Open_drw(Drawpath);
                     }
@@ -1347,7 +1347,7 @@ namespace SPMConnectAPI
                 else if (File.Exists(drawpathno))
                 {
                     //Process.Start("explorer.exe", drawpathno);
-                    if (solidworks_running() == true)
+                    if (Solidworks_running() == true)
                     {
                         Open_drw(drawpathno);
                     }
@@ -1362,7 +1362,7 @@ namespace SPMConnectAPI
             }
         }
 
-        public void checkforspmfileprod(string ItemNo)
+        public void Checkforspmfileprod(string ItemNo)
         {
             string ItemNumbero;
             ItemNumbero = ItemNo + "-0";
@@ -1436,7 +1436,7 @@ namespace SPMConnectAPI
             }
         }
 
-        public void checkforspmdrwfileprod(string str)
+        public void Checkforspmdrwfileprod(string str)
         {
             string ItemNumbero = str + "-0";
 
@@ -1475,7 +1475,7 @@ namespace SPMConnectAPI
             }
         }
 
-        public bool solidworks_running()
+        public bool Solidworks_running()
         {
             if (Process.GetProcessesByName("SLDWORKS").Length >= 1)
             {
@@ -1539,9 +1539,9 @@ namespace SPMConnectAPI
 
         #region solidworks createmodels and open models
 
-        public void createmodel(string filename)
+        public void Createmodel(string filename)
         {
-            if (solidworks_running() == true)
+            if (Solidworks_running() == true)
             {
                 var progId = "SldWorks.Application";
                 SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
@@ -1560,8 +1560,8 @@ namespace SPMConnectAPI
                 if (boolstatus == true)
                 {
                     //MessageBox.Show("new part created");
-                    get_pathname();
-                    getfilename();
+                    Get_pathname();
+                    Getfilename();
                 }
                 else
                 {
@@ -1570,9 +1570,9 @@ namespace SPMConnectAPI
             }
         }
 
-        public void createassy(string filename)
+        public void CreateAssy(string filename)
         {
-            if (solidworks_running() == true)
+            if (Solidworks_running() == true)
             {
                 var progId = "SldWorks.Application";
                 SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
@@ -1592,8 +1592,8 @@ namespace SPMConnectAPI
                 if (boolstatus == true)
                 {
                     //MessageBox.Show("new assy created");
-                    get_pathname();
-                    getfilename();
+                    Get_pathname();
+                    Getfilename();
                 }
                 else
                 {
@@ -1602,9 +1602,9 @@ namespace SPMConnectAPI
             }
         }
 
-        public void createdrawingpart(string filename, string _itemnumber)
+        public void Createdrawingpart(string filename, string _itemnumber)
         {
-            if (solidworks_running() == true)
+            if (Solidworks_running() == true)
             {
                 var progId = "SldWorks.Application";
                 SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
@@ -1662,9 +1662,9 @@ namespace SPMConnectAPI
             }
         }
 
-        public void createdrwaingassy(string filename, string _itemnumber)
+        public void Createdrwaingassy(string filename, string _itemnumber)
         {
-            if (solidworks_running() == true)
+            if (Solidworks_running() == true)
             {
                 var progId = "SldWorks.Application";
                 SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
@@ -1722,9 +1722,9 @@ namespace SPMConnectAPI
             }
         }
 
-        public bool importstepfile(string stepFileName, string savefilename)
+        public bool Importstepfile(string stepFileName, string savefilename)
         {
-            if (solidworks_running() == true)
+            if (Solidworks_running() == true)
             {
                 var progId = "SldWorks.Application";
                 SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
@@ -1772,9 +1772,9 @@ namespace SPMConnectAPI
             return false;
         }
 
-        public bool importigesfile(string igesfilename, string savefilename)
+        public bool Importigesfile(string igesfilename, string savefilename)
         {
-            if (solidworks_running() == true)
+            if (Solidworks_running() == true)
             {
                 var progId = "SldWorks.Application";
                 SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
@@ -1814,9 +1814,9 @@ namespace SPMConnectAPI
             return false;
         }
 
-        public bool importparasolidfile(string parasolidfilename, string savefilename)
+        public bool Importparasolidfile(string parasolidfilename, string savefilename)
         {
-            if (solidworks_running() == true)
+            if (Solidworks_running() == true)
             {
                 var progId = "SldWorks.Application";
                 SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
@@ -2450,16 +2450,16 @@ namespace SPMConnectAPI
 
         #region Favorites
 
-        public bool addtofavorites(string itemid)
+        public bool Addtofavorites(string itemid)
         {
             bool completed = false;
-            if (checkitempresentonFavorites(itemid))
+            if (CheckitempresentonFavorites(itemid))
             {
                 string usernamesfromitem = Getusernamesfromfavorites(itemid);
-                if (!userexists(usernamesfromitem))
+                if (!Userexists(usernamesfromitem))
                 {
                     string newuseradded = usernamesfromitem + UserName() + ",";
-                    updateusernametoitemonfavorites(itemid, newuseradded);
+                    Updateusernametoitemonfavorites(itemid, newuseradded);
                 }
                 else
                 {
@@ -2468,26 +2468,26 @@ namespace SPMConnectAPI
             }
             else
             {
-                additemtofavoritessql(itemid);
+                Additemtofavoritessql(itemid);
             }
 
             return completed;
         }
 
-        public bool removefromfavorites(string itemid)
+        public bool Removefromfavorites(string itemid)
         {
             bool completed = false;
 
             string usernamesfromitem = Getusernamesfromfavorites(itemid);
 
-            updateusernametoitemonfavorites(itemid, removeusername(usernamesfromitem));
+            Updateusernametoitemonfavorites(itemid, Removeusername(usernamesfromitem));
 
             MessageBox.Show("Item no " + itemid + " has been removed from your favorite list.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             return completed;
         }
 
-        private bool checkitempresentonFavorites(string itemid)
+        private bool CheckitempresentonFavorites(string itemid)
         {
             bool itempresent = false;
             using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[favourite] WHERE [Item]='" + itemid.ToString() + "'", cn))
@@ -2520,7 +2520,7 @@ namespace SPMConnectAPI
             return itempresent;
         }
 
-        private void additemtofavoritessql(string itemid)
+        private void Additemtofavoritessql(string itemid)
         {
             string userid = UserName();
             userid += ",";
@@ -2545,7 +2545,7 @@ namespace SPMConnectAPI
             }
         }
 
-        private void updateusernametoitemonfavorites(string itemid, string updatedusername)
+        private void Updateusernametoitemonfavorites(string itemid, string updatedusername)
         {
             if (cn.State == ConnectionState.Closed)
                 cn.Open();
@@ -2606,7 +2606,7 @@ namespace SPMConnectAPI
             return usersfav;
         }
 
-        private bool userexists(string usernames)
+        private bool Userexists(string usernames)
         {
             bool exists = false;
             string userid = UserName();
@@ -2621,7 +2621,7 @@ namespace SPMConnectAPI
             return exists;
         }
 
-        private string removeusername(string usernames)
+        private string Removeusername(string usernames)
         {
             string removedusername = "";
             string userid = UserName();
@@ -2683,13 +2683,13 @@ namespace SPMConnectAPI
             }
         }
 
-        public void SendemailAccounting(string emailtosend, string subject, string body, string filetoattach, string cc)
+        public void SendemailListAttachments(string emailtosend, string subject, string body, List<string> filetoattach, string cc)
         {
             try
             {
                 MailMessage message = new MailMessage();
                 SmtpClient SmtpServer = new SmtpClient("spmautomation-com0i.mail.protection.outlook.com");
-                message.From = new MailAddress("connect@spm-automation.com", "SPM Automation");
+                message.From = new MailAddress("connect@spm-automation.com", "SPM Connect");
                 System.Net.Mail.Attachment attachment;
 
                 message.To.Add(emailtosend);
@@ -2701,22 +2701,18 @@ namespace SPMConnectAPI
                     message.CC.Add(cc);
                 }
                 message.Subject = subject;
-                message.IsBodyHtml = true;
+                message.Body = body;
 
-                using (StreamReader reader = File.OpenText(Path.Combine(Directory.GetCurrentDirectory() + @"\EmailTemplates\", "EFTEmailTemplate.html"))) // Path to your
-                {
-                    message.Body = reader.ReadToEnd();  // Load the content from your file...
-                                                        //...
-                }
-                message.Body = message.Body.Replace("{type}", body);
-
-                if (filetoattach == "")
+                if (filetoattach.Count == 0)
                 {
                 }
                 else
                 {
-                    attachment = new System.Net.Mail.Attachment(filetoattach);
-                    message.Attachments.Add(attachment);
+                    foreach (string file in filetoattach)
+                    {
+                        attachment = new System.Net.Mail.Attachment(file);
+                        message.Attachments.Add(attachment);
+                    }
                 }
                 SmtpServer.Port = 25;
                 SmtpServer.UseDefaultCredentials = true;
@@ -2729,7 +2725,99 @@ namespace SPMConnectAPI
             }
         }
 
-        public List<string> getdevelopersnamesandemail()
+        public bool TriggerEmail(string emailtosend, string subject, string user, string body, string filetoattach, string cc, string extracc, string msgtype)
+        {
+            bool success = false;
+            try
+            {
+                MailMessage message = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient("spmautomation-com0i.mail.protection.outlook.com");
+
+                System.Net.Mail.Attachment attachment;
+
+                message.To.Add(emailtosend);
+                if (cc == "")
+                {
+                }
+                else
+                {
+                    message.CC.Add(cc);
+                }
+                if (extracc == "")
+                {
+                }
+                else
+                {
+                    message.CC.Add(extracc);
+                }
+                message.Subject = subject;
+
+                if (msgtype == "EFT")
+                {
+                    message.From = new MailAddress("connect@spm-automation.com", "SPM Automation");
+                    message.IsBodyHtml = true;
+                    using (StreamReader reader = File.OpenText(Path.Combine(Directory.GetCurrentDirectory() + @"\EmailTemplates\", "EFTEmailTemplate.html"))) // Path to your
+                    {
+                        message.Body = reader.ReadToEnd();  // Load the content from your file...
+                    }
+                    message.Body = message.Body.Replace("{type}", body);
+                }
+                else if (msgtype == "Normal")
+                {
+                    message.From = new MailAddress("connect@spm-automation.com", "SPM Connect");
+                    message.IsBodyHtml = true;
+                    using (StreamReader reader = File.OpenText(Path.Combine(Directory.GetCurrentDirectory() + @"\EmailTemplates\", "EmailTemplate.html"))) // Path to your
+                    {
+                        message.Body = reader.ReadToEnd();
+                    }
+                    message.Body = message.Body.Replace("{message}", body);
+                    message.Body = message.Body.Replace("{username}", user);
+                }
+                else if (msgtype == "update")
+                {
+                    message.From = new MailAddress("connect@spm-automation.com", "SPM Connect");
+                    message.IsBodyHtml = true;
+                    using (StreamReader reader = File.OpenText(Path.Combine(Directory.GetCurrentDirectory() + @"\EmailTemplates\", "update.html"))) // Path to your
+                    {
+                        message.Body = reader.ReadToEnd();  // Load the content from your file...
+                    }
+                }
+                else
+                {
+                    message.From = new MailAddress("connect@spm-automation.com", "SPM Connect");
+                    message.Body = body;
+                }
+
+                if (filetoattach == "")
+                {
+                }
+                else
+                {
+                    attachment = new System.Net.Mail.Attachment(filetoattach);
+                    message.Attachments.Add(attachment);
+                }
+                SmtpServer.Port = 25;
+                SmtpServer.UseDefaultCredentials = true;
+                SmtpServer.EnableSsl = true;
+                try
+                {
+                    SmtpServer.Send(message);
+                    success = true;
+                }
+                catch (Exception)
+                {
+                    success = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Send Email", MessageBoxButtons.OK);
+                success = false;
+            }
+            return success;
+        }
+
+        public List<string> Getdevelopersnamesandemail()
         {
             List<string> Happrovalnames = new List<string>();
 
@@ -2760,7 +2848,37 @@ namespace SPMConnectAPI
             return Happrovalnames;
         }
 
-        public bool checkPurchaseReqMaintenance()
+        public List<string> GetAccountantsNamesAndEmails()
+        {
+            List<string> accountants = new List<string>();
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [Department] = 'Accounting' ";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    accountants.Add(dr["Email"].ToString() + "][" + dr["Name"].ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Get User Name and Email Accounting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return accountants;
+        }
+
+        public bool CheckPurchaseReqMaintenance()
         {
             bool maintenance = false;
             string result = "";

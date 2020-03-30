@@ -31,11 +31,10 @@
     <ErrorReportUrl>http://www.spm-automation.com/contact.php</ErrorReportUrl>
     <ProductName>SPM Connect</ProductName>
     <PublisherName>SPM Automation</PublisherName>
-    <MinimumRequiredVersion>7.20.03.04</MinimumRequiredVersion>
-    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
+    <MinimumRequiredVersion>7.20.03.30</MinimumRequiredVersion>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>5</ApplicationRevision>
+    <ApplicationRevision>31</ApplicationRevision>
     <ApplicationVersion>7.20.03.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -426,12 +425,12 @@
     <Compile Include="General\ServiceReportHome.Designer.cs">
       <DependentUpon>ServiceReportHome.cs</DependentUpon>
     </Compile>
-    <Compile Include="ServiceReportCreation.cs" />
-    <Compile Include="SPM_DatabaseDataSet1.Designer.cs">
+    <Compile Include="LogDataset.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>SPM_DatabaseDataSet1.xsd</DependentUpon>
+      <DependentUpon>LogDataset.xsd</DependentUpon>
     </Compile>
+    <Compile Include="ServiceReportCreation.cs" />
     <Compile Include="WaitForms\Dialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -627,11 +626,11 @@
     <Compile Include="Controls\SPM_ConnectItems.Designer.cs">
       <DependentUpon>SPM_ConnectItems.cs</DependentUpon>
     </Compile>
-    <Compile Include="Engineering\SPM_ConnectEng.cs">
+    <Compile Include="Engineering\SpmConnect.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Engineering\SPM_ConnectEng.Designer.cs">
-      <DependentUpon>SPM_ConnectEng.cs</DependentUpon>
+    <Compile Include="Engineering\SpmConnect.Designer.cs">
+      <DependentUpon>SpmConnect.cs</DependentUpon>
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Admin-developer\AdminControl.cs">
@@ -744,8 +743,8 @@
     <EmbeddedResource Include="Engineering\NewItem.resx">
       <DependentUpon>NewItem.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Engineering\SPM_ConnectEng.resx">
-      <DependentUpon>SPM_ConnectEng.cs</DependentUpon>
+    <EmbeddedResource Include="Engineering\SpmConnect.resx">
+      <DependentUpon>SpmConnect.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Admin-developer\AdminControl.resx">
       <DependentUpon>AdminControl.cs</DependentUpon>
@@ -887,6 +886,17 @@
     <None Include="ConnectPurchaseReqDet.edmx.diagram">
       <DependentUpon>ConnectPurchaseReqDet.edmx</DependentUpon>
     </None>
+    <None Include="LogDataset.xsc">
+      <DependentUpon>LogDataset.xsd</DependentUpon>
+    </None>
+    <None Include="LogDataset.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>LogDataset.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="LogDataset.xss">
+      <DependentUpon>LogDataset.xsd</DependentUpon>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\app.manifest">
       <SubType>Designer</SubType>
@@ -900,17 +910,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="SPM_DatabaseDataSet1.xsc">
-      <DependentUpon>SPM_DatabaseDataSet1.xsd</DependentUpon>
-    </None>
-    <None Include="SPM_DatabaseDataSet1.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>SPM_DatabaseDataSet1.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="SPM_DatabaseDataSet1.xss">
-      <DependentUpon>SPM_DatabaseDataSet1.xsd</DependentUpon>
-    </None>
     <None Include="Web References\RE2005\DocumentMapNode.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
@@ -1036,6 +1035,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="EmailTemplates\EmailTemplate.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="EmailTemplates\EFTEmailTemplate.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -1072,9 +1074,13 @@
     <Content Include="df_GyV_icon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="EmailTemplates\update.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="magnifying-glass-search-64.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\spmconnecthelp.png" />
     <Content Include="SqlServerTypes\x64\msvcr120.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -1091,7 +1097,6 @@
     <None Include="Resources\spm_smal3.bmp" />
     <None Include="Resources\Login-Manager.png" />
     <Content Include="Resources\SPMConnect.png" />
-    <None Include="Resources\spmconnecthelp1.png" />
     <Content Include="Resources\spm_white_icon.png" />
     <None Include="Resources\spm_white_icon_21.gif" />
     <None Include="Resources\spm_white_icon1.png" />

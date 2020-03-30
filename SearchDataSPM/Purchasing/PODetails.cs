@@ -21,7 +21,7 @@ namespace SearchDataSPM.General
         {
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened Enter PO Details For PurchaseReq by " + System.Environment.UserName);
+            log.Info("Opened Enter PO Details For PurchaseReq ");
         }
 
         private void savebttn_Click(object sender, EventArgs e)
@@ -51,7 +51,7 @@ namespace SearchDataSPM.General
 
         private void PODetails_FormClosed(object sender, FormClosedEventArgs e)
         {
-            log.Info("Closed Enter PO Details For PurchaseReq by " + System.Environment.UserName);
+            log.Info("Closed Enter PO Details For PurchaseReq ");
             this.Dispose();
         }
     }

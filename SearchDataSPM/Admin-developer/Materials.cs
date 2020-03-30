@@ -37,7 +37,7 @@ namespace SearchDataSPM
             PopulateDataGridView();
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened Manage Materials by " + System.Environment.UserName);
+            log.Info("Opened Manage Materials ");
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -100,7 +100,7 @@ namespace SearchDataSPM
 
         private void Materials_FormClosed(object sender, FormClosedEventArgs e)
         {
-            log.Info("Closed Manage Materials by " + System.Environment.UserName);
+            log.Info("Closed Manage Materials ");
             this.Dispose();
         }
     }

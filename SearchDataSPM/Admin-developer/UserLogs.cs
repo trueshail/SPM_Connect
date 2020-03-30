@@ -16,26 +16,27 @@ namespace SearchDataSPM.Admin_developer
 
         private void UserLogs_Load(object sender, EventArgs e)
         {
-            // TODO: This line of code loads data into the 'sPM_DatabaseDataSet1.UnionLogs' table. You can move, or remove it, as needed.
-            this.unionLogsTableAdapter.Fill(this.sPM_DatabaseDataSet1.UnionLogs);
+            // TODO: This line of code loads data into the 'logDataset.Log' table. You can move, or remove it, as needed.
+            this.logTableAdapter.Fill(this.logDataset.Log);
+
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened User Action Logs by " + System.Environment.UserName);
+            log.Info("Opened User Action Logs");
         }
 
         private void advancedDataGridView_SortStringChanged(object sender, EventArgs e)
         {
-            this.unionLogsBindingSource.Sort = this.advancedDataGridView1.SortString;
+            this.logBindingSource.Sort = this.advancedDataGridView1.SortString;
         }
 
         private void advancedDataGridView_FilterStringChanged(object sender, EventArgs e)
         {
-            this.unionLogsBindingSource.Filter = this.advancedDataGridView1.FilterString;
+            this.logBindingSource.Filter = this.advancedDataGridView1.FilterString;
         }
 
         private void UserLogs_FormClosed(object sender, FormClosedEventArgs e)
         {
-            log.Info("Closed User Actions Log by " + System.Environment.UserName);
+            log.Info("Closed User Actions Log ");
             this.Dispose();
         }
     }

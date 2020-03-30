@@ -93,7 +93,7 @@ namespace SearchDataSPM
 
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened Create/Edit Item " + itemnumber + " by " + System.Environment.UserName);
+            log.Info("Opened Create/Edit Item " + itemnumber + " ");
         }
 
         private string itemnumber;
@@ -181,19 +181,19 @@ namespace SearchDataSPM
 
         private void filldescriptionsource()
         {
-            AutoCompleteStringCollection MyCollection = connectapi.filldescriptionsource();
+            AutoCompleteStringCollection MyCollection = connectapi.Filldescriptionsource();
             Descriptiontxtbox.AutoCompleteCustomSource = MyCollection;
         }
 
         private void fillmanufacturers()
         {
-            AutoCompleteStringCollection MyCollection = connectapi.fillmanufacturers();
+            AutoCompleteStringCollection MyCollection = connectapi.Fillmanufacturers();
             oemtxtbox.AutoCompleteCustomSource = MyCollection;
         }
 
         private void filloem()
         {
-            AutoCompleteStringCollection MyCollection = connectapi.filloem();
+            AutoCompleteStringCollection MyCollection = connectapi.Filloem();
             oemitemtxtbox.AutoCompleteCustomSource = MyCollection;
         }
 
@@ -205,19 +205,19 @@ namespace SearchDataSPM
 
         private void fillsurface()
         {
-            AutoCompleteStringCollection MyCollection = connectapi.fillsurface();
+            AutoCompleteStringCollection MyCollection = connectapi.Fillsurface();
             surfacetxt.AutoCompleteCustomSource = MyCollection;
         }
 
         private void fillheattreats()
         {
-            AutoCompleteStringCollection MyCollection = connectapi.fillheattreats();
+            AutoCompleteStringCollection MyCollection = connectapi.Fillheattreats();
             heattreat.AutoCompleteCustomSource = MyCollection;
         }
 
         private void fillfamilycodes()
         {
-            AutoCompleteStringCollection MyCollection = connectapi.fillfamilycodes();
+            AutoCompleteStringCollection MyCollection = connectapi.Fillfamilycodes();
             familycombobox.AutoCompleteCustomSource = MyCollection;
             familycombobox.DataSource = MyCollection;
         }
@@ -417,7 +417,7 @@ namespace SearchDataSPM
 
         private void savebttn_Click(object sender, EventArgs e)
         {
-            if (connectapi.solidworks_running() == true)
+            if (connectapi.Solidworks_running() == true)
             {
                 listView.Refresh();
                 if (listView.Items.Count != 0)
@@ -464,7 +464,7 @@ namespace SearchDataSPM
             Cursor.Current = Cursors.WaitCursor;
             this.Enabled = false;
             graballinfor();
-            string lastsavedby = connectapi.getuserfullname();
+            string lastsavedby = connectapi.Getuserfullname();
             filllistview(ItemTxtBox.Text);
             if (listView.Items.Count == 0)
             {
@@ -483,24 +483,24 @@ namespace SearchDataSPM
             listView.Refresh();
             if (listView.Items.Count == 0)
             {
-                string category = connectapi.getfamilycategory(familycombobox.SelectedItem.ToString()).ToString();
+                string category = connectapi.Getfamilycategory(familycombobox.SelectedItem.ToString()).ToString();
                 string path = Makepath(item).ToString();
                 if (category.ToLower() == "manufactured")
                 {
                     //MessageBox.Show(path);
                     System.IO.Directory.CreateDirectory(path);
                     string filename = path + (item) + ".sldprt";
-                    connectapi.createmodel(filename);
+                    connectapi.Createmodel(filename);
                     string draw = path + (item) + ".slddrw";
-                    connectapi.createdrawingpart(draw, item);
+                    connectapi.Createdrawingpart(draw, item);
                 }
                 else if (category.ToLower() == "assembly")
                 {
                     System.IO.Directory.CreateDirectory(path);
                     string filename = path + (item) + ".sldasm";
-                    connectapi.createassy(filename);
+                    connectapi.CreateAssy(filename);
                     string draw = path + (item) + ".slddrw";
-                    connectapi.createdrwaingassy(draw, item);
+                    connectapi.Createdrwaingassy(draw, item);
                 }
                 else
                 {
@@ -528,7 +528,7 @@ namespace SearchDataSPM
                                 t.Start();
                                 Thread.Sleep(3000);
 
-                                connectapi.importstepfile(impfilname, filename);
+                                connectapi.Importstepfile(impfilname, filename);
                                 t.Abort();
                                 //Engineering.WaitFormImport f = new Engineering.WaitFormImport();
                                 //f = (Engineering.WaitFormImport)Application.OpenForms["WaitFormImport"];
@@ -538,7 +538,7 @@ namespace SearchDataSPM
                             {
                                 MessageBox.Show("Selected File extension did not match the file type selected to import.!", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 System.IO.Directory.CreateDirectory(path);
-                                connectapi.createmodel(filename);
+                                connectapi.Createmodel(filename);
                             }
                         }
                         else if (fileimporttype == "IGES")
@@ -553,14 +553,14 @@ namespace SearchDataSPM
                                 t.Start();
                                 Thread.Sleep(3000);
 
-                                if (connectapi.importigesfile(impfilname, filename) == true)
+                                if (connectapi.Importigesfile(impfilname, filename) == true)
                                 {
                                 }
                                 else
                                 {
                                     MessageBox.Show("Solidworks encountered importing error. Please restart solidworks in oder to prevent this error in future.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                     System.IO.Directory.CreateDirectory(path);
-                                    connectapi.createmodel(filename);
+                                    connectapi.Createmodel(filename);
                                 }
                                 t.Abort();
                                 //Engineering.WaitFormImport f = new Engineering.WaitFormImport();
@@ -571,7 +571,7 @@ namespace SearchDataSPM
                             {
                                 MessageBox.Show("Selected File extension did not match the file type selected to import.!", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 System.IO.Directory.CreateDirectory(path);
-                                connectapi.createmodel(filename);
+                                connectapi.Createmodel(filename);
                             }
                         }
                         else if (fileimporttype == "PARASOLID")
@@ -586,14 +586,14 @@ namespace SearchDataSPM
                                 t.Start();
                                 Thread.Sleep(3000);
 
-                                if (connectapi.importparasolidfile(impfilname, filename) == true)
+                                if (connectapi.Importparasolidfile(impfilname, filename) == true)
                                 {
                                 }
                                 else
                                 {
                                     MessageBox.Show("Solidworks encountered importing error. Please restart solidworks in oder to prevent this error in future.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                     System.IO.Directory.CreateDirectory(path);
-                                    connectapi.createmodel(filename);
+                                    connectapi.Createmodel(filename);
                                 }
                                 t.Abort();
                                 //Engineering.WaitFormImport f = new Engineering.WaitFormImport();
@@ -604,19 +604,19 @@ namespace SearchDataSPM
                             {
                                 MessageBox.Show("Selected File extension did not match the file type selected to import.!", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 System.IO.Directory.CreateDirectory(path);
-                                connectapi.createmodel(filename);
+                                connectapi.Createmodel(filename);
                             }
                         }
                         else
                         {
                             System.IO.Directory.CreateDirectory(path);
-                            connectapi.createmodel(filename);
+                            connectapi.Createmodel(filename);
                         }
                     }
                     else
                     {
                         System.IO.Directory.CreateDirectory(path);
-                        connectapi.createmodel(filename);
+                        connectapi.Createmodel(filename);
                     }
                 }
             }
@@ -767,7 +767,7 @@ namespace SearchDataSPM
 
         public void fillcustomproperties()
         {
-            if (connectapi.solidworks_running() == true)
+            if (connectapi.Solidworks_running() == true)
             {
                 try
                 {
@@ -797,7 +797,7 @@ namespace SearchDataSPM
                     lRetVal = cusPropMgr.Add3("Family Type", (int)swCustomInfoType_e.swCustomInfoText, list[6].ToString(), (int)swCustomPropertyAddOption_e.swCustomPropertyDeleteAndAdd);
                     lRetVal = cusPropMgr.Add3("cCategory", (int)swCustomInfoType_e.swCustomInfoText, list[5].ToString(), (int)swCustomPropertyAddOption_e.swCustomPropertyDeleteAndAdd);
 
-                    string category = connectapi.getfamilycategory(familycombobox.SelectedItem.ToString()).ToString();
+                    string category = connectapi.Getfamilycategory(familycombobox.SelectedItem.ToString()).ToString();
                     if (category.ToLower() == "manufactured")
                     {
                         PartDoc swPart = default(PartDoc);
@@ -817,9 +817,9 @@ namespace SearchDataSPM
 
         public void chekbeforefillingcustomproperties(string item)
         {
-            if (connectapi.solidworks_running() == true)
+            if (connectapi.Solidworks_running() == true)
             {
-                string getcurrentfilename = connectapi.getfilename().ToString();
+                string getcurrentfilename = connectapi.Getfilename().ToString();
                 string olditemnumber = item + "-0";
                 if (getcurrentfilename == item || getcurrentfilename == olditemnumber)
                 {
@@ -873,7 +873,7 @@ namespace SearchDataSPM
 
         private void NewItem_FormClosed(object sender, FormClosedEventArgs e)
         {
-            log.Info("Closed Create/Edit Item " + itemnumber + " by " + System.Environment.UserName);
+            log.Info("Closed Create/Edit Item " + itemnumber + " ");
             this.Dispose();
         }
     }

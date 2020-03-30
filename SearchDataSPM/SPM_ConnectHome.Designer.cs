@@ -2,7 +2,7 @@
 
 namespace SearchDataSPM
 {
-    partial class SPM_ConnectHome
+    partial class SPMConnectHome
     {
         /// <summary>
         /// Required designer variable.
@@ -31,7 +31,7 @@ namespace SearchDataSPM
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SPM_ConnectHome));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SPMConnectHome));
             this.metroProgressSpinner1 = new MetroFramework.Controls.MetroProgressSpinner();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SPM = new System.Windows.Forms.Label();

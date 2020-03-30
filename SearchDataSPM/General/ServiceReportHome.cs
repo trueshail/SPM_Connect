@@ -51,7 +51,7 @@ namespace SearchDataSPM
             formloading = false;
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened Service Report Home by " + System.Environment.UserName);
+            log.Info("Opened Service Report Home ");
         }
 
         private void checkdeptsandrights()
@@ -623,7 +623,7 @@ namespace SearchDataSPM
 
         private void SPM_Connect_FormClosed(object sender, FormClosedEventArgs e)
         {
-            log.Info("Closed Service Report Home by " + System.Environment.UserName);
+            log.Info("Closed Service Report Home ");
             this.Dispose();
         }
 

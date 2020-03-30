@@ -9,7 +9,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Net.Mail;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -80,7 +79,7 @@ namespace SearchDataSPM
             }
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened ECR Detail " + Invoice_Number + " by " + System.Environment.UserName);
+            log.Info("Opened ECR Detail " + Invoice_Number + " ");
         }
 
         private string Get_username()
@@ -1144,53 +1143,12 @@ namespace SearchDataSPM
 
         #region Sending Email
 
-        private void sendemail(string emailtosend, string subject, string body, string filetoattach, string cc, string extracc)
+        private void Sendemail(string emailtosend, string subject, string name, string body, string filetoattach, string cc, string extracc)
         {
             if (sendemailyesno())
             {
-                try
-                {
-                    MailMessage message = new MailMessage();
-                    SmtpClient SmtpServer = new SmtpClient("spmautomation-com0i.mail.protection.outlook.com");
-                    message.From = new MailAddress("connect@spm-automation.com", "SPM Connect");
-                    System.Net.Mail.Attachment attachment;
-                    message.To.Add(emailtosend);
-                    if (cc == "")
-                    {
-                    }
-                    else
-                    {
-                        message.CC.Add(cc);
-                    }
-                    if (extracc == "")
-                    {
-                    }
-                    else
-                    {
-                        message.CC.Add(extracc);
-                    }
-                    message.Subject = subject;
-                    message.Body = body;
-
-                    if (filetoattach == "")
-                    {
-                    }
-                    else
-                    {
-                        attachment = new System.Net.Mail.Attachment(filetoattach);
-                        message.Attachments.Add(attachment);
-                    }
-
-                    SmtpServer.Port = 25;
-                    SmtpServer.UseDefaultCredentials = true;
-                    SmtpServer.EnableSsl = true;
-                    SmtpServer.Send(message);
-                }
-                catch (Exception ex)
-                {
-                    Debug.Print(ex.ToString());
-                    //MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Send Email", MessageBoxButtons.OK);
-                }
+                SPMConnectAPI.SPMSQLCommands connectapi = new SPMConnectAPI.SPMSQLCommands();
+                connectapi.TriggerEmail(emailtosend, subject, name, body, filetoattach, cc, extracc, "Normal");
             }
             else
             {
@@ -1327,7 +1285,7 @@ namespace SearchDataSPM
             }
         }
 
-        private string getusernameandemail(string requestby)
+        private string Getusernameandemail(string requestby)
         {
             string Email = "";
             try
@@ -1382,7 +1340,7 @@ namespace SearchDataSPM
                 names[i] = names[i].Trim();
             }
             name = names[0];
-            sendemail(email, ecrnotxtbox.Text + " ECR Approval Required", "Hello " + name + "," + Environment.NewLine + userfullname + " sent this engineering change request for approval.", fileName, "", "");
+            Sendemail(email, ecrnotxtbox.Text + " ECR Approval Required", name, Environment.NewLine + userfullname + " sent this engineering change request for approval.", fileName, "", "");
         }
 
         private void sendemailtoManager(string fileName)
@@ -1404,7 +1362,7 @@ namespace SearchDataSPM
             }
             name = names[0];
 
-            sendemail(manageremail, ecrnotxtbox.Text.Trim() + " ECR Approval Required", "Hello " + name + "," + Environment.NewLine + r["SupApprovalBy"].ToString() + " sent this engineering change request for approval.", fileName, "", "");
+            Sendemail(manageremail, ecrnotxtbox.Text.Trim() + " ECR Approval Required", name, Environment.NewLine + r["SupApprovalBy"].ToString() + " sent this engineering change request for approval.", fileName, "", "");
         }
 
         private void sendemailtoHandler(string fileName)
@@ -1426,18 +1384,18 @@ namespace SearchDataSPM
             }
             name = names[0];
 
-            sendemail(manageremail, ecrnotxtbox.Text.Trim() + " ECR Completion Required", "Hello " + name + "," + Environment.NewLine + r["ApprovedBy"].ToString() + " sent this engineering change request for completion and changes to be made.", fileName, "", "");
+            Sendemail(manageremail, ecrnotxtbox.Text.Trim() + " ECR Completion Required", name, Environment.NewLine + r["ApprovedBy"].ToString() + " sent this engineering change request for completion and changes to be made.", fileName, "", "");
         }
 
         private void sendemailtouser(string fileName, string triggerby, bool rejected)
         {
             DataRow r = dt.Rows[0];
-            string userreqemail = getusernameandemail(requestedbycombobox.Text);
+            string userreqemail = Getusernameandemail(requestedbycombobox.Text);
             if (rejected)
             {
                 if (triggerby == "supervisor")
                 {
-                    sendemail(userreqemail, ecrnotxtbox.Text + " ECR Rejected ", "Hello " + requestedbycombobox.Text + "," + Environment.NewLine + " Your engineering change request is rejected.", fileName, "", "");
+                    Sendemail(userreqemail, ecrnotxtbox.Text + " ECR Rejected ", requestedbycombobox.Text, Environment.NewLine + " Your engineering change request is rejected.", fileName, "", "");
                 }
                 else if (triggerby == "manager")
                 {
@@ -1457,14 +1415,14 @@ namespace SearchDataSPM
                     }
                     name = names[0];
 
-                    sendemail(userreqemail, ecrnotxtbox.Text.Trim() + "ECR Rejected ", "Hello " + name + ", " + requestedbycombobox.Text + "," + Environment.NewLine + " Your engineering change request got rejected by " + departmentcomboBox.Text + ".", fileName, supervisoremail, "");
+                    Sendemail(userreqemail, ecrnotxtbox.Text.Trim() + "ECR Rejected ", name, requestedbycombobox.Text + "," + Environment.NewLine + " Your engineering change request got rejected by " + departmentcomboBox.Text + ".", fileName, supervisoremail, "");
                 }
             }
             else
             {
                 if (triggerby == "supervisor")
                 {
-                    sendemail(userreqemail, ecrnotxtbox.Text + " ECR Approved ", "Hello " + requestedbycombobox.Text + "," + Environment.NewLine + " Your engineering change request is sent out for approval.", fileName, "", "");
+                    Sendemail(userreqemail, ecrnotxtbox.Text + " ECR Approved ", requestedbycombobox.Text, Environment.NewLine + " Your engineering change request is sent out for approval.", fileName, "", "");
                 }
                 else if (triggerby == "manager")
                 {
@@ -1484,7 +1442,7 @@ namespace SearchDataSPM
                     }
                     name = names[0];
 
-                    sendemail(supervisoremail, ecrnotxtbox.Text.Trim() + " ECR Approved ", "Hello " + name + "," + Environment.NewLine + " Your engineering change request has been approved and being assigned to " + connectapi.getNameByConnectEmpId(r["AssignedTo"].ToString()) + ".", fileName, userreqemail, "");
+                    Sendemail(supervisoremail, ecrnotxtbox.Text.Trim() + " ECR Approved ", name, Environment.NewLine + " Your engineering change request has been approved and being assigned to " + connectapi.getNameByConnectEmpId(r["AssignedTo"].ToString()) + ".", fileName, userreqemail, "");
                 }
                 else if (triggerby == "ecrhandler")
                 {
@@ -1512,7 +1470,7 @@ namespace SearchDataSPM
                     }
                     string manageremail = managervalues[0];
 
-                    sendemail(userreqemail, ecrnotxtbox.Text.Trim() + " ECR Approved ", "Hello " + requestedbycombobox.Text + "," + Environment.NewLine + " Your engineering change request has been approved and being assigned to " + connectapi.getNameByConnectEmpId(r["AssignedTo"].ToString()) + ".", fileName, supervisoremail, manageremail);
+                    Sendemail(userreqemail, ecrnotxtbox.Text.Trim() + " ECR Approved ", requestedbycombobox.Text, Environment.NewLine + " Your engineering change request has been approved and being assigned to " + connectapi.getNameByConnectEmpId(r["AssignedTo"].ToString()) + ".", fileName, supervisoremail, manageremail);
                 }
             }
         }
@@ -1759,7 +1717,7 @@ namespace SearchDataSPM
 
         private void ECRDetails_FormClosed(object sender, FormClosedEventArgs e)
         {
-            log.Info("Closed ECR Detail " + Invoice_Number + " by " + System.Environment.UserName);
+            log.Info("Closed ECR Detail " + Invoice_Number + " ");
             this.Dispose();
         }
 

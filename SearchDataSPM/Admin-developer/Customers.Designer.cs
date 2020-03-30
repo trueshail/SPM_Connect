@@ -1,6 +1,6 @@
 ﻿namespace SearchDataSPM
 {
-    partial class Customers
+    partial class ManageCustomers
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Customers));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManageCustomers));
             this.label1 = new System.Windows.Forms.Label();
             this.custname = new System.Windows.Forms.TextBox();
             this.btnSave = new System.Windows.Forms.Button();

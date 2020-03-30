@@ -51,7 +51,7 @@ namespace SearchDataSPM.General
             processeditbutton();
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened Quote Details " + quoteno2 + " by " + System.Environment.UserName);
+            log.Info("Opened Quote Details " + quoteno2 + " ");
             if (!(dt.Rows.Count > 0))
                 this.Close();
         }
@@ -725,7 +725,7 @@ namespace SearchDataSPM.General
 
         private void QuoteDetails_FormClosed(object sender, FormClosedEventArgs e)
         {
-            log.Info("Closed Quote Details " + quoteno2 + " by " + System.Environment.UserName);
+            log.Info("Closed Quote Details " + quoteno2 + " ");
             this.Dispose();
         }
 

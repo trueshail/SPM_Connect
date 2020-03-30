@@ -1,11 +1,12 @@
-﻿using System;
+﻿using SearchDataSPM.Engineering;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
 {
-    public partial class SPM_ConnectHome : Form
+    public partial class SPMConnectHome : Form
     {
         private log4net.ILog log;
         private int time = 0;
@@ -13,7 +14,7 @@ namespace SearchDataSPM
         private SqlConnection cn;
         private ErrorHandler errorHandler = new ErrorHandler();
 
-        public SPM_ConnectHome()
+        public SPMConnectHome()
         {
             InitializeComponent();
         }
@@ -40,7 +41,8 @@ namespace SearchDataSPM
             timer1.Start();
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened SPM Connect Home by " + System.Environment.UserName);
+            log4net.GlobalContext.Properties["User"] = System.Environment.UserName;
+            log.Info("Opened SPM Connect Home ");
         }
 
         public void Connect_SPMSQL()
@@ -74,7 +76,7 @@ namespace SearchDataSPM
                         }
                         else
                         {
-                            var loadspmconnect = new SPM_Connect();
+                            var loadspmconnect = new SpmConnect();
                             loadspmconnect.Closed += (s, args) => this.Close();
                             loadspmconnect.Show();
                         }
@@ -89,7 +91,7 @@ namespace SearchDataSPM
                         }
                         else
                         {
-                            var loadspmconnect = new SPM_Connect();
+                            var loadspmconnect = new SpmConnect();
                             loadspmconnect.Closed += (s, args) => this.Close();
                             loadspmconnect.Show();
                         }
@@ -230,7 +232,7 @@ namespace SearchDataSPM
 
         private void SPM_ConnectHome_FormClosed(object sender, FormClosedEventArgs e)
         {
-            log.Info("Closed SPM Connect Home by " + System.Environment.UserName);
+            log.Info("Closed SPM Connect Home ");
             this.Dispose();
         }
     }

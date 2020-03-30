@@ -123,7 +123,7 @@ namespace SearchDataSPM
             Cursor.Current = Cursors.Default;
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened Shipping Invoice Add Item " + Invoice_Number + " by " + System.Environment.UserName);
+            log.Info("Opened Shipping Invoice Add Item " + Invoice_Number + " ");
         }
 
         #region Fill information on controls
@@ -656,7 +656,7 @@ namespace SearchDataSPM
 
         private void InvoiceAddItem_FormClosed(object sender, FormClosedEventArgs e)
         {
-            log.Info("Closed Shipping Invoice Add Item " + Invoice_Number + " by " + System.Environment.UserName);
+            log.Info("Closed Shipping Invoice Add Item " + Invoice_Number + " ");
             this.Dispose();
         }
 

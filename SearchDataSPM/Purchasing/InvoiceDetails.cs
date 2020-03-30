@@ -4,10 +4,8 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Net.Mail;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -86,7 +84,7 @@ namespace SearchDataSPM
             formloading = false;
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened Shipping Invoice Detail " + Invoice_Number + " by " + System.Environment.UserName);
+            log.Info("Opened Shipping Invoice Detail " + Invoice_Number + " ");
         }
 
         private bool GetShippingBaseInfo(string invoicenumber)
@@ -1165,7 +1163,7 @@ namespace SearchDataSPM
 
         private void InvoiceDetails_FormClosed(object sender, FormClosedEventArgs e)
         {
-            log.Info("Closed Shipping Invoice Detail " + Invoice_Number + " by " + System.Environment.UserName);
+            log.Info("Closed Shipping Invoice Detail " + Invoice_Number + " ");
             this.Dispose();
         }
 
@@ -1231,7 +1229,11 @@ namespace SearchDataSPM
             }
             else
             {
-                shipsupervisorheckBox.Enabled = false;
+                if (shippingsup)
+                    shipsupervisorheckBox.Enabled = true;
+                else
+                    shipsupervisorheckBox.Enabled = false;
+
                 if (shippingmanager && supcheckBox.Checked)
                 {
                     shipsupervisorheckBox.Enabled = true;
@@ -1500,7 +1502,7 @@ namespace SearchDataSPM
                 names[i] = names[i].Trim();
             }
             name = names[0];
-            Sendemail(email, invoicetxtbox.Text + " Shipping Request Approval Required", "Hello " + name + "," + Environment.NewLine + userfullname + " sent this shipping request for approval.", fileName, "", "");
+            Sendemail(email, invoicetxtbox.Text + " Shipping Request Approval Required", name, Environment.NewLine + userfullname + " sent this shipping request for approval.", fileName, "", "");
         }
 
         private void SendemailtoManager(string fileName)
@@ -1523,7 +1525,7 @@ namespace SearchDataSPM
                     names[b] = names[b].Trim();
                 }
                 name = names[0];
-                Sendemail(email, invoicetxtbox.Text.Trim() + " Shipment to be shipped", "Hello " + name + "," + Environment.NewLine + userfullname + " sent this shipping request for shipping.", fileName, "", "");
+                Sendemail(email, invoicetxtbox.Text.Trim() + " Shipment to be shipped", name, Environment.NewLine + userfullname + " sent this shipping request for shipping.", fileName, "", "");
             }
         }
 
@@ -1538,7 +1540,7 @@ namespace SearchDataSPM
             }
             if (triggerby == "supervisor")
             {
-                Sendemail(userreqemail, invoicetxtbox.Text + " Shipping Request Approved ", "Hello " + createdbyname + "," + Environment.NewLine + " Your shipping request is approved and submmited to shipping manager.", fileName, "", "");
+                Sendemail(userreqemail, invoicetxtbox.Text + " Shipping Request Approved ", createdbyname, Environment.NewLine + " Your shipping request is approved and submmited to shipping manager.", fileName, "", "");
             }
             else if (triggerby == "manager")
             {
@@ -1558,57 +1560,16 @@ namespace SearchDataSPM
                 }
                 name = names[0];
 
-                Sendemail(userreqemail, invoicetxtbox.Text.Trim() + " Shipping Request Completed ", "Hello " + createdbyname + "," + Environment.NewLine + " Your shipping request has been completed and being processed for shipping.", fileName, supervisoremail, "");
+                Sendemail(userreqemail, invoicetxtbox.Text.Trim() + " Shipping Request Completed ", createdbyname, Environment.NewLine + " Your shipping request has been completed and being processed for shipping.", fileName, supervisoremail, "");
             }
         }
 
-        private void Sendemail(string emailtosend, string subject, string body, string filetoattach, string cc, string extracc)
+        private void Sendemail(string emailtosend, string subject, string name, string body, string filetoattach, string cc, string extracc)
         {
             if (Sendemailyesno())
             {
-                try
-                {
-                    MailMessage message = new MailMessage();
-                    SmtpClient SmtpServer = new SmtpClient("spmautomation-com0i.mail.protection.outlook.com");
-                    message.From = new MailAddress("connect@spm-automation.com", "SPM Connect");
-                    System.Net.Mail.Attachment attachment;
-                    message.To.Add(emailtosend);
-                    if (cc == "")
-                    {
-                    }
-                    else
-                    {
-                        message.CC.Add(cc);
-                    }
-                    if (extracc == "")
-                    {
-                    }
-                    else
-                    {
-                        message.CC.Add(extracc);
-                    }
-                    message.Subject = subject;
-                    message.Body = body;
-
-                    if (filetoattach == "")
-                    {
-                    }
-                    else
-                    {
-                        attachment = new System.Net.Mail.Attachment(filetoattach);
-                        message.Attachments.Add(attachment);
-                    }
-
-                    SmtpServer.Port = 25;
-                    SmtpServer.UseDefaultCredentials = true;
-                    SmtpServer.EnableSsl = true;
-                    SmtpServer.Send(message);
-                }
-                catch (Exception ex)
-                {
-                    Debug.Print(ex.ToString());
-                    //MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Send Email", MessageBoxButtons.OK);
-                }
+                SPMConnectAPI.SPMSQLCommands connectapi = new SPMConnectAPI.SPMSQLCommands();
+                connectapi.TriggerEmail(emailtosend, subject, name, body, filetoattach, cc, extracc, "Normal");
             }
             else
             {

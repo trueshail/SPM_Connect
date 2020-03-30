@@ -83,7 +83,7 @@ namespace SearchDataSPM
             Assy_txtbox.Select();
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened AutoCadWhereUsed Form by " + System.Environment.UserName);
+            log.Info("Opened AutoCadWhereUsed Form ");
         }
 
         private void filldatatable()
@@ -587,7 +587,7 @@ namespace SearchDataSPM
 
         private void AutocadWhereUsed_FormClosed(object sender, FormClosedEventArgs e)
         {
-            log.Info("Closed AutoCadWhereUsed Form by " + System.Environment.UserName);
+            log.Info("Closed AutoCadWhereUsed Form ");
             this.Dispose();
         }
     }

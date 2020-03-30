@@ -6,14 +6,12 @@ using System.Windows.Forms;
 
 namespace SearchDataSPM
 {
-    public partial class Customers : Form
+    public partial class ManageCustomers : Form
     {
-        private Customer model = new Customer();
-        private log4net.ILog log;
+        private Customer _model = new Customer();
+        private log4net.ILog _log;
 
-        private ErrorHandler errorHandler = new ErrorHandler();
-
-        public Customers()
+        public ManageCustomers()
         {
             InitializeComponent();
         }
@@ -28,7 +26,7 @@ namespace SearchDataSPM
             custname.Text = shortname.Text = alias.Text = custidtxt.Text = "";
             btnSave.Text = "Save";
             btnDelete.Enabled = false;
-            model.id = 0;
+            _model.id = 0;
         }
 
         private void Customers_Load(object sender, EventArgs e)
@@ -36,27 +34,27 @@ namespace SearchDataSPM
             Clear();
             PopulateDataGridView();
             log4net.Config.XmlConfigurator.Configure();
-            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened Manage Customers by " + System.Environment.UserName);
+            _log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            _log.Info(message: "Opened Manage Customers");
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            model.CustomerId = Convert.ToInt16(custidtxt.Text.ToString());
-            model.Name = custname.Text.Trim();
-            model.ShortName = shortname.Text.Trim();
-            model.Alias = alias.Text.Trim();
+            _model.CustomerId = Convert.ToInt16(custidtxt.Text.ToString());
+            _model.Name = custname.Text.Trim();
+            _model.ShortName = shortname.Text.Trim();
+            _model.Alias = alias.Text.Trim();
             using (SPM_DatabaseEntities db = new SPM_DatabaseEntities())
             {
-                if (model.id == 0)//Insert
-                    db.Customers.Add(model);
+                if (_model.id == 0)//Insert
+                    db.Customers.Add(_model);
                 else //Update
-                    db.Entry(model).State = EntityState.Modified;
+                    db.Entry(_model).State = EntityState.Modified;
                 db.SaveChanges();
             }
             Clear();
             PopulateDataGridView();
-            MessageBox.Show("Submitted Successfully", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(text: "Submitted Successfully", caption: "SPM Connect", buttons: MessageBoxButtons.OK, icon: MessageBoxIcon.Information);
         }
 
         private void PopulateDataGridView()
@@ -72,14 +70,14 @@ namespace SearchDataSPM
         {
             if (dgvCustomer.CurrentRow.Index != -1)
             {
-                model.id = Convert.ToInt32(dgvCustomer.CurrentRow.Cells["id"].Value);
+                _model.id = Convert.ToInt32(dgvCustomer.CurrentRow.Cells["id"].Value);
                 using (SPM_DatabaseEntities db = new SPM_DatabaseEntities())
                 {
-                    model = db.Customers.Where(x => x.id == model.id).FirstOrDefault();
-                    custidtxt.Text = model.CustomerId.ToString();
-                    custname.Text = model.Name;
-                    shortname.Text = model.ShortName;
-                    alias.Text = model.Alias;
+                    _model = db.Customers.Where(x => x.id == _model.id).FirstOrDefault();
+                    custidtxt.Text = _model.CustomerId.ToString();
+                    custname.Text = _model.Name;
+                    shortname.Text = _model.ShortName;
+                    alias.Text = _model.Alias;
                 }
                 btnSave.Text = "Update";
                 btnDelete.Enabled = true;
@@ -92,10 +90,10 @@ namespace SearchDataSPM
             {
                 using (SPM_DatabaseEntities db = new SPM_DatabaseEntities())
                 {
-                    var entry = db.Entry(model);
+                    var entry = db.Entry(_model);
                     if (entry.State == EntityState.Detached)
-                        db.Customers.Attach(model);
-                    db.Customers.Remove(model);
+                        db.Customers.Attach(_model);
+                    db.Customers.Remove(_model);
                     db.SaveChanges();
                     PopulateDataGridView();
                     Clear();
@@ -118,7 +116,7 @@ namespace SearchDataSPM
 
         private void Customers_FormClosing(object sender, FormClosingEventArgs e)
         {
-            log.Info("Closed Manage Customers by " + System.Environment.UserName);
+            _log.Info("Closed Manage Customers");
             this.Dispose();
         }
     }

@@ -345,6 +345,7 @@
             this.Style = MetroFramework.MetroColorStyle.Pink;
             this.Text = "SPM Connect Accounting";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ReportAllRecords_FormClosed);
             this.Load += new System.EventHandler(this.EvictionsHome_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);

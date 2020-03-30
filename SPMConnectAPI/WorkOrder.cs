@@ -2074,7 +2074,7 @@ namespace SPMConnectAPI
             SPMSQLCommands connectAPI = new SPMSQLCommands();
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-            string username = connectAPI.getuserfullname();
+            string username = connectAPI.Getuserfullname();
             try
             {
                 if (cn.State == ConnectionState.Closed)
@@ -2314,7 +2314,7 @@ namespace SPMConnectAPI
             SPMSQLCommands connectAPI = new SPMSQLCommands();
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-            string username = connectAPI.getuserfullname();
+            string username = connectAPI.Getuserfullname();
             try
             {
                 if (cn.State == ConnectionState.Closed)
@@ -2344,7 +2344,7 @@ namespace SPMConnectAPI
             SPMSQLCommands connectAPI = new SPMSQLCommands();
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-            string username = connectAPI.getuserfullname();
+            string username = connectAPI.Getuserfullname();
             try
             {
                 if (cn.State == ConnectionState.Closed)

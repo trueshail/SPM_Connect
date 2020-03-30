@@ -126,7 +126,7 @@ namespace SearchDataSPM.ECR
             UpdateFont();
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened ECR Users Available by " + System.Environment.UserName);
+            log.Info("Opened ECR Users Available ");
         }
 
         private void UpdateFont()
@@ -141,7 +141,7 @@ namespace SearchDataSPM.ECR
 
         private void ECR_Users_FormClosed(object sender, FormClosedEventArgs e)
         {
-            log.Info("Closed ECR Users Available by " + System.Environment.UserName);
+            log.Info("Closed ECR Users Available ");
             this.Dispose();
         }
     }

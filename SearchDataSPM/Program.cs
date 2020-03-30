@@ -12,6 +12,8 @@ namespace SearchDataSPM
         [STAThread]
         private static void Main()
         {
+            string appPath = Application.ExecutablePath;
+            Microsoft.Win32.Registry.SetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers", appPath, "~ GDIDPISCALING DPIUNAWARE");
             ErrorHandler errorHandler = new ErrorHandler();
             log4net.ILog log;
             log4net.Config.XmlConfigurator.Configure();
@@ -80,7 +82,7 @@ namespace SearchDataSPM
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new SPM_ConnectHome());
+            Application.Run(new SPMConnectHome());
         }
     }
 }

@@ -61,7 +61,7 @@ namespace SearchDataSPM
             Loadadding();
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened Create Assy To Catalog by " + System.Environment.UserName);
+            log.Info("Opened Create Assy To Catalog ");
         }
 
         public void getallitems(string ItemNoimp, string descriptionimp, string familyimp, string Manufacturerimp, string oemimp)
@@ -576,7 +576,7 @@ namespace SearchDataSPM
 
         private void CreateAssyToCatalog_FormClosed(object sender, FormClosedEventArgs e)
         {
-            log.Info("Closed Creat Assy To Catalog by " + System.Environment.UserName);
+            log.Info("Closed Creat Assy To Catalog ");
             this.Dispose();
         }
     }

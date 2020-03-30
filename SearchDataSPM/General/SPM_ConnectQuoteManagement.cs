@@ -51,7 +51,7 @@ namespace SearchDataSPM.General
             UpdateFont();
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened Quote Management by " + System.Environment.UserName);
+            log.Info("Opened Quote Management ");
         }
 
         private void Showallitems()
@@ -468,7 +468,7 @@ namespace SearchDataSPM.General
 
         private void SPM_ConnectJobs_FormClosed(object sender, FormClosedEventArgs e)
         {
-            log.Info("Closed Quote Management by " + System.Environment.UserName);
+            log.Info("Closed Quote Management ");
             this.Dispose();
         }
 

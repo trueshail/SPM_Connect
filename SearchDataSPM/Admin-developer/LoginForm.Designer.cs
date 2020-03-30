@@ -128,7 +128,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::SearchDataSPM.Properties.Resources.Login_Manager;
+            this.pictureBox1.Image = global::SearchDataSPM.Properties.Resources.s;
             this.pictureBox1.Location = new System.Drawing.Point(23, 85);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(128, 128);

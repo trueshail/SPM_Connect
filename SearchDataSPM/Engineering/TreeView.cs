@@ -74,13 +74,13 @@ namespace SearchDataSPM
                 Startprocessofbom();
                 CallRecursive();
                 //connectapi.SPM_Connect();
-                if (connectapi.getdepartment() == "Eng") eng = true;
+                if (connectapi.Getdepartment() == "Eng") eng = true;
                 Assy_txtbox.Select();
             }
 
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened Engineering BOM " + itemnumber + " by " + System.Environment.UserName);
+            log.Info("Opened Engineering BOM " + itemnumber + " ");
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -388,11 +388,11 @@ namespace SearchDataSPM
             itemstr = itemstr.Substring(0, 6);
             if (eng)
             {
-                connectapi.checkforspmfile(itemstr);
+                connectapi.Checkforspmfile(itemstr);
             }
             else
             {
-                connectapi.checkforspmfileprod(itemstr);
+                connectapi.Checkforspmfileprod(itemstr);
             }
         }
 
@@ -402,11 +402,11 @@ namespace SearchDataSPM
             itemstr = itemstr.Substring(0, 6);
             if (eng)
             {
-                connectapi.checkforspmdrwfile(itemstr);
+                connectapi.Checkforspmdrwfile(itemstr);
             }
             else
             {
-                connectapi.checkforspmdrwfileprod(itemstr);
+                connectapi.Checkforspmdrwfileprod(itemstr);
             }
         }
 
@@ -822,7 +822,7 @@ namespace SearchDataSPM
 
         private void TreeView_FormClosed(object sender, FormClosedEventArgs e)
         {
-            log.Info("Closed Engineering BOM " + itemnumber + " by " + System.Environment.UserName);
+            log.Info("Closed Engineering BOM " + itemnumber + " ");
             this.Dispose();
         }
 
@@ -1009,7 +1009,7 @@ namespace SearchDataSPM
             {
                 string txt = listView.FocusedItem.Text;
                 txt = txt.Substring(0, 6);
-                connectapi.addtofavorites(txt);
+                connectapi.Addtofavorites(txt);
             }
         }
 
@@ -1098,7 +1098,7 @@ namespace SearchDataSPM
             {
                 string itemstr = treeView1.SelectedNode.Text;
                 itemstr = itemstr.Substring(0, 6);
-                connectapi.addtofavorites(itemstr);
+                connectapi.Addtofavorites(itemstr);
             }
         }
 

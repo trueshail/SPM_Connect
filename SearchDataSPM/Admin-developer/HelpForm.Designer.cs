@@ -43,8 +43,6 @@
             this.subtxt = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.nametxt = new System.Windows.Forms.TextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
@@ -130,8 +128,6 @@
             this.groupBox1.Controls.Add(this.subtxt);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.nametxt);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
@@ -146,13 +142,13 @@
             this.notestxt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.notestxt.BackColor = System.Drawing.Color.AntiqueWhite;
             this.notestxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.notestxt.Location = new System.Drawing.Point(82, 80);
+            this.notestxt.Location = new System.Drawing.Point(82, 46);
             this.notestxt.MinimumSize = new System.Drawing.Size(180, 20);
             this.notestxt.Multiline = true;
             this.notestxt.Name = "notestxt";
             this.notestxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.notestxt.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.notestxt.Size = new System.Drawing.Size(579, 129);
+            this.notestxt.Size = new System.Drawing.Size(579, 163);
             this.notestxt.TabIndex = 2;
             this.notestxt.TextChanged += new System.EventHandler(this.notestxt_TextChanged);
             // 
@@ -175,7 +171,7 @@
             this.browsebttn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.browsebttn.Font = new System.Drawing.Font("Modern No. 20", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.browsebttn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
-            this.browsebttn.Location = new System.Drawing.Point(87, 216);
+            this.browsebttn.Location = new System.Drawing.Point(113, 216);
             this.browsebttn.Name = "browsebttn";
             this.browsebttn.Size = new System.Drawing.Size(68, 29);
             this.browsebttn.TabIndex = 3;
@@ -188,7 +184,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
-            this.label3.Location = new System.Drawing.Point(256, 38);
+            this.label3.Location = new System.Drawing.Point(16, 22);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(129, 15);
             this.label3.TabIndex = 15;
@@ -200,7 +196,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.subtxt.BackColor = System.Drawing.Color.AntiqueWhite;
             this.subtxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.subtxt.Location = new System.Drawing.Point(391, 35);
+            this.subtxt.Location = new System.Drawing.Point(151, 19);
             this.subtxt.Name = "subtxt";
             this.subtxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.subtxt.Size = new System.Drawing.Size(270, 21);
@@ -228,30 +224,6 @@
             this.label4.TabIndex = 15;
             this.label4.Text = "Message :";
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
-            this.label2.Location = new System.Drawing.Point(12, 38);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(47, 15);
-            this.label2.TabIndex = 15;
-            this.label2.Text = "Name :";
-            // 
-            // nametxt
-            // 
-            this.nametxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.nametxt.BackColor = System.Drawing.Color.AntiqueWhite;
-            this.nametxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nametxt.Location = new System.Drawing.Point(65, 35);
-            this.nametxt.Name = "nametxt";
-            this.nametxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.nametxt.Size = new System.Drawing.Size(185, 21);
-            this.nametxt.TabIndex = 0;
-            this.nametxt.TextChanged += new System.EventHandler(this.nametxt_TextChanged);
-            // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
@@ -263,7 +235,6 @@
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(673, 282);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             // 
@@ -311,8 +282,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox subtxt;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox nametxt;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;

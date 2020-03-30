@@ -54,7 +54,7 @@ namespace SearchDataSPM
             }
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened Material Re-Alloc Invoice " + Invoice_Number + " by " + System.Environment.UserName);
+            log.Info("Opened Material Re-Alloc Invoice " + Invoice_Number + " ");
         }
 
         private bool GetMatReInfo(string id)
@@ -607,7 +607,7 @@ namespace SearchDataSPM
 
         private void MatReAlloc_FormClosed(object sender, FormClosedEventArgs e)
         {
-            log.Info("Closed Material Re-Alloc Invoice " + Invoice_Number + " by " + System.Environment.UserName);
+            log.Info("Closed Material Re-Alloc Invoice " + Invoice_Number + " ");
             this.Dispose();
         }
     }

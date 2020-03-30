@@ -63,23 +63,23 @@ namespace SearchDataSPM
                 contextMenuStrip1.Items[3].Enabled = true;
                 contextMenuStrip1.Items[3].Visible = true;
             }
-            if (connectapi.checkpruchasereqrights())
+            if (connectapi.Checkpruchasereqrights())
             {
                 purchasereq.Enabled = true;
             }
-            if (connectapi.checkquoterights())
+            if (connectapi.Checkquoterights())
             {
                 quotebttn.Enabled = true;
             }
 
-            if (connectapi.checkShippingrights())
+            if (connectapi.CheckShippingrights())
             {
                 shippingbttn.Enabled = true;
             }
 
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened SPM Connect Jobs by " + System.Environment.UserName);
+            log.Info("Opened SPM Connect Jobs ");
         }
 
         private void Showallitems()
@@ -836,7 +836,7 @@ namespace SearchDataSPM
                 string jobnumber = Getjobnumber().ToString();
                 string salesorder = getsalesorder().ToString();
                 string jobdescription = getjobdescription().ToString();
-                string customer = connectapi.getcustomeralias(getcutomerid().ToString()).ToString();
+                string customer = connectapi.Getcustomeralias(getcutomerid().ToString()).ToString();
                 if (customer.Length > 1)
                 {
                     DialogResult result = MessageBox.Show(
@@ -1035,7 +1035,7 @@ namespace SearchDataSPM
         private void purchasereq_Click(object sender, EventArgs e)
         {
             int openforms = Application.OpenForms.Count;
-            bool checkmaintenance = connectapi.checkPurchaseReqMaintenance();
+            bool checkmaintenance = connectapi.CheckPurchaseReqMaintenance();
             if (openforms >= 2)
             {
                 bool purchasereqopen = false;
@@ -1121,7 +1121,7 @@ namespace SearchDataSPM
 
         private void SPM_ConnectJobs_FormClosed(object sender, FormClosedEventArgs e)
         {
-            log.Info("Closed SPM Connect Jobs by " + System.Environment.UserName);
+            log.Info("Closed SPM Connect Jobs ");
             this.Dispose();
         }
 

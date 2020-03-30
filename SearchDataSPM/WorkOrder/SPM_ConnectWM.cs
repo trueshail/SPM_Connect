@@ -34,7 +34,7 @@ namespace SearchDataSPM
             Checkdeptsandrights();
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened Work Order Management by " + System.Environment.UserName);
+            log.Info("Opened Work Order Management ");
         }
 
         private void Checkdeptsandrights()
@@ -506,7 +506,7 @@ namespace SearchDataSPM
 
         private void SPM_ConnectWM_FormClosed(object sender, FormClosedEventArgs e)
         {
-            log.Info("Closed Work Order Management by " + System.Environment.UserName);
+            log.Info("Closed Work Order Management ");
             this.Dispose();
         }
 

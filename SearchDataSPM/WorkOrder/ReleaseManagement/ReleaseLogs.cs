@@ -30,7 +30,7 @@ namespace SearchDataSPM
             GetVersionLabel();
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened Work Order Release Log by " + System.Environment.UserName);
+            log.Info("Opened Work Order Release Log ");
         }
 
         private void GetVersionLabel()
@@ -509,7 +509,7 @@ namespace SearchDataSPM
 
         private void SPM_ConnectWM_FormClosed(object sender, FormClosedEventArgs e)
         {
-            log.Info("Closed Work Order Release Logs by " + System.Environment.UserName);
+            log.Info("Closed Work Order Release Logs ");
             this.Dispose();
         }
 

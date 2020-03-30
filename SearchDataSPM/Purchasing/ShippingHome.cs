@@ -62,7 +62,7 @@ namespace SearchDataSPM
 
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened Shipping Home by " + System.Environment.UserName);
+            log.Info("Opened Shipping Home ");
         }
 
         private void Checkdeptsandrights()
@@ -716,7 +716,7 @@ namespace SearchDataSPM
 
         private void SPM_Connect_FormClosed(object sender, FormClosedEventArgs e)
         {
-            log.Info("Closed Shipping Home by " + System.Environment.UserName);
+            log.Info("Closed Shipping Home ");
             this.Dispose();
         }
 

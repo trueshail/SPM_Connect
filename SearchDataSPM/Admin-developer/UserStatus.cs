@@ -38,7 +38,7 @@ namespace SearchDataSPM.Admin_developer
             loaddata();
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened User Status by " + System.Environment.UserName);
+            log.Info("Opened User Status ");
         }
 
         private void loaddata()
@@ -194,7 +194,7 @@ namespace SearchDataSPM.Admin_developer
 
         private void UserStatus_FormClosed(object sender, FormClosedEventArgs e)
         {
-            log.Info("Closed User Status by " + System.Environment.UserName);
+            log.Info("Closed User Status ");
             this.Dispose();
         }
 

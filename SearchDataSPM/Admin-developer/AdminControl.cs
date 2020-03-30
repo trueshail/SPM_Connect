@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace SearchDataSPM
 {
-    public partial class Spmadmin : Form
+    public partial class AdminControl : Form
     {
         #region steupvariables
 
@@ -23,7 +23,7 @@ namespace SearchDataSPM
 
         #region loadtree
 
-        public Spmadmin()
+        public AdminControl()
         {
             InitializeComponent();
 
@@ -51,7 +51,7 @@ namespace SearchDataSPM
             Connect_SPMSQL(0);
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened Admin Control by " + System.Environment.UserName);
+            log.Info("Opened Admin Control");
         }
 
         private void Connect_SPMSQL(int index)
@@ -1050,7 +1050,7 @@ namespace SearchDataSPM
 
         private void custbttn_Click(object sender, EventArgs e)
         {
-            Customers customers = new Customers();
+            ManageCustomers customers = new ManageCustomers();
             customers.Owner = this;
             customers.Show();
         }
@@ -1064,7 +1064,7 @@ namespace SearchDataSPM
 
         private void spmadmin_FormClosed(object sender, FormClosedEventArgs e)
         {
-            log.Info("Closed Admin Control by " + System.Environment.UserName);
+            log.Info("Closed Admin Control");
             this.Dispose();
         }
 

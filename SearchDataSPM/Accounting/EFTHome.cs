@@ -10,23 +10,18 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-internal enum Level
-{
-    All,
-    complete,
-    Waiting
-}
-
 namespace SearchDataSPM
 {
     public partial class ReportAllRecords : MetroFramework.Forms.MetroForm
     {
-        private String connection;
+        private string connection;
         private SqlConnection cn;
         private DataTable dt;
-        private Level myVar = Level.All;
         private SPMSQLCommands connectapi = new SPMSQLCommands();
         private bool splashWorkDone = false;
+        private bool bademails = false;
+        private List<string> rejectedemailslist;
+        private log4net.ILog log;
 
         public ReportAllRecords()
         {
@@ -44,12 +39,16 @@ namespace SearchDataSPM
             }
 
             dt = new DataTable();
+            rejectedemailslist = new List<string>();
         }
 
         private void EvictionsHome_Load(object sender, EventArgs e)
         {
             Showallitems("No");
             bttnshowwaiting.BackColor = Color.LightSkyBlue;
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Opened SPM Connect EFT ");
         }
 
         private void Showallitems(string type)
@@ -117,7 +116,6 @@ namespace SearchDataSPM
 
         private void Bttnshowapproved_Click(object sender, EventArgs e)
         {
-            myVar = Level.All;
             Showallitems("");
             foreach (Control c in managergroupbox.Controls)
             {
@@ -145,7 +143,6 @@ namespace SearchDataSPM
 
         private void Bttnshowmydept_Click(object sender, EventArgs e)
         {
-            myVar = Level.Waiting;
             Showallitems("No");
             foreach (Control c in managergroupbox.Controls)
             {
@@ -161,17 +158,16 @@ namespace SearchDataSPM
         {
             if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
             {
-                Accounting.Vendor vendor = GetselectedReport();
+                Vendor vendor = GetselectedReport();
                 ReportViewer form1 = new ReportViewer("EFT", vendor.EFTId, vendor.PaymentType);
                 form1.Show();
             }
-
         }
 
-        private Accounting.Vendor GetselectedReport()
+        private Vendor GetselectedReport()
         {
             DataGridViewRow row = this.dataGridView.SelectedRows[0];
-            return new Accounting.Vendor
+            return new Vendor
             {
                 EFTId = Convert.ToString(row.Cells[0].Value),
                 PaymentDate = Convert.ToString(row.Cells[2].Value),
@@ -195,7 +191,7 @@ namespace SearchDataSPM
             return fileName = filepath + reqno + ".pdf";
         }
 
-        private async Task SaveReport(string invoiceno, string fileName, string paymenttype)
+        private void SaveReport(string invoiceno, string fileName, string paymenttype)
         {
             RS2005.ReportingService2005 rs;
             RE2005.ReportExecutionService rsExec;
@@ -304,26 +300,81 @@ namespace SearchDataSPM
             return sendemail;
         }
 
-        private async Task ProcessReportSendingAsync(Accounting.Vendor vendor)
+        private void ProcessReportSendingAsync(Vendor _vendor)
         {
             // save report
-            string filename = SaveReport(vendor.EFTId);
-            await SaveReport(vendor.EFTId, filename, vendor.PaymentType);
+            string filename = SaveReport(_vendor.EFTId);
+            SaveReport(_vendor.EFTId, filename, _vendor.PaymentType);
             // get the file name
             //get the vendor email
             //send email with attachment
             if (Sendemailyesno())
             {
-                connectapi.SendemailAccounting(vendor.Email, (vendor.PaymentType == "EFTTD" ? "EFT" : "ACH") + " Remittance from SPM Automation (Canada) Inc.", (vendor.PaymentType == "EFTTD" ? "EFT" : "ACH"), filename, "");
+                bool success = connectapi.TriggerEmail(_vendor.Email,
+                    (_vendor.PaymentType == "EFTTD" ? "EFT" : "ACH") + " Remittance from SPM Automation (Canada) Inc.", "",
+                    (_vendor.PaymentType == "EFTTD" ? "EFT" : "ACH"), filename, "", "", "EFT");
                 // write back to database
                 //reload the datagrid
-                if (vendor.EmailSent.ToLower() == "no")
-                    CheckInEFT(vendor);
+
+                if (success && _vendor.EmailSent.ToLower() == "no")
+                {
+                    CheckInEFT(_vendor);
+                }
+                else
+                {
+                    bademails = true;
+                    RejectedEmail(_vendor.Email, _vendor.VendorName);
+                }
+
                 Showallitems("No");
             }
             else
             {
                 MetroFramework.MetroMessageBox.Show(this, "Emails are turned off.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void RejectedEmail(string email, string vendorname)
+        {
+            rejectedemailslist.Add(vendorname + " - " + email);
+        }
+
+        private void PrintBadEmail()
+        {
+            string listemails = "";
+            if (rejectedemailslist.Count > 0)
+            {
+                foreach (string email in rejectedemailslist)
+                {
+                    listemails += email + "<br>";
+                }
+                SendEmailToAccountants(listemails);
+            }
+            else
+                return;
+        }
+
+        private void SendEmailToAccountants(string body)
+        {
+            string[] nameemail = connectapi.GetAccountantsNamesAndEmails().ToArray();
+            for (int i = 0; i < nameemail.Length; i++)
+            {
+                string[] values = nameemail[i].Replace("][", "~").Split('~');
+
+                for (int a = 0; a < values.Length; a++)
+                {
+                    values[a] = values[a].Trim();
+                }
+                string email = values[0];
+                string name = values[1];
+
+                string[] names = name.Replace(" ", "~").Split('~');
+                for (int b = 0; b < names.Length; b++)
+                {
+                    names[b] = names[b].Trim();
+                }
+                name = names[0];
+                connectapi.TriggerEmail(email, "Unable to deliver EFT reports ", name, Environment.NewLine + "Here is the list of vendors with email address whom report cannot be delivered." + Environment.NewLine + Environment.NewLine + body, "", "", "", "Normal");
             }
         }
 
@@ -345,7 +396,7 @@ namespace SearchDataSPM
             });
         }
 
-        private void CheckInEFT(Accounting.Vendor vendor)
+        private void CheckInEFT(Vendor vendor)
         {
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDate = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
@@ -379,8 +430,10 @@ namespace SearchDataSPM
 
                 if (result == DialogResult.Yes)
                 {
+                    bademails = false;
+                    rejectedemailslist.Clear();
                     DataGridViewRow row = this.dataGridView.SelectedRows[0];
-                    Accounting.Vendor vendor = new Accounting.Vendor
+                    Vendor vendor_ = new Vendor
                     {
                         EFTId = Convert.ToString(row.Cells[0].Value),
                         PaymentDate = Convert.ToString(row.Cells[2].Value),
@@ -394,18 +447,18 @@ namespace SearchDataSPM
                         EmailSent = Convert.ToString(row.Cells[9].Value),
                         PaymentType = Convert.ToString(row.Cells[5].Value),
                     };
-                    if (vendor != null)
-                    {
-                        await Task.Run(() => SplashDialog("Sending Email..."));
-                        Cursor.Current = Cursors.WaitCursor;
-                        this.Enabled = false;
-                        await ProcessReportSendingAsync(vendor);
-                        Cursor.Current = Cursors.Default;
-                        this.Enabled = true;
-                        this.Focus();
-                        this.Activate();
-                        splashWorkDone = true;
-                    }
+                    await Task.Run(() => SplashDialog("Sending Email..."));
+                    Cursor.Current = Cursors.WaitCursor;
+                    this.Enabled = false;
+                    ProcessReportSendingAsync(vendor_);
+                    if (bademails)
+                        PrintBadEmail();
+                    Cursor.Current = Cursors.Default;
+                    this.Enabled = true;
+                    this.Focus();
+                    this.Activate();
+                    splashWorkDone = true;
+                    bademails = false;
                 }
             }
         }
@@ -416,27 +469,33 @@ namespace SearchDataSPM
 
             if (result == DialogResult.Yes)
             {
+                bademails = false;
+                rejectedemailslist.Clear();
+
                 await Task.Run(() => SplashDialog("Sending Email..."));
                 Cursor.Current = Cursors.WaitCursor;
                 this.Enabled = false;
                 BatchProcess();
+                if (bademails)
+                    PrintBadEmail();
                 Cursor.Current = Cursors.Default;
                 this.Enabled = true;
                 this.Focus();
                 this.Activate();
                 splashWorkDone = true;
+                bademails = false;
             }
         }
 
-        private async void BatchProcess()
+        private void BatchProcess()
         {
-            List<Accounting.Vendor> vendorlist = new List<Accounting.Vendor>();
+            List<Vendor> vendorlist = new List<Vendor>();
 
             if (dataGridView.Rows.Count > 0)
             {
                 foreach (DataRow row in dt.Rows)
                 {
-                    Accounting.Vendor vendor = new Accounting.Vendor
+                    Vendor vendor = new Vendor
                     {
                         EFTId = Convert.ToString(row["Id"].ToString()),
                         PaymentDate = Convert.ToString(row["PaymentDate"].ToString()),
@@ -458,16 +517,17 @@ namespace SearchDataSPM
                 splashWorkDone = true;
                 return;
             }
-            foreach (Accounting.Vendor vendor in vendorlist)
+            foreach (Vendor vendor in vendorlist)
             {
-                await ProcessReportSendingAsync(vendor);
+                ProcessReportSendingAsync(vendor);
             }
+
             splashWorkDone = true;
+            vendorlist.Clear();
         }
 
         private void Reloadbttn_Click(object sender, EventArgs e)
         {
-            myVar = Level.Waiting;
             Showallitems("No");
             filterbttn.BackColor = Color.Transparent;
             //set the clicked control to a different color
@@ -487,6 +547,12 @@ namespace SearchDataSPM
                 dataGridView.ClearSelection();
                 dataGridView.Rows[columnindex].Selected = true;
             }
+        }
+
+        private void ReportAllRecords_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            log.Info("Closed SPM Connect EFT ");
+            this.Dispose();
         }
     }
 }

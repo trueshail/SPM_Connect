@@ -54,7 +54,7 @@ namespace SearchDataSPM
             formloading = false;
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened ECR Home by " + System.Environment.UserName);
+            log.Info("Opened ECR Home ");
         }
 
         private void checkdeptsandrights()
@@ -670,7 +670,7 @@ namespace SearchDataSPM
 
         private void SPM_Connect_FormClosed(object sender, FormClosedEventArgs e)
         {
-            log.Info("Closed ECR Home by " + System.Environment.UserName);
+            log.Info("Closed ECR Home ");
             this.Dispose();
         }
 

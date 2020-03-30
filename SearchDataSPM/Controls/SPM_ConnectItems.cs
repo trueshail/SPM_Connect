@@ -56,7 +56,7 @@ namespace SearchDataSPM
             this.Text = "SPM Connect Engineering - " + userName.ToString().Substring(4);
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened Connect Select Items by " + System.Environment.UserName);
+            log.Info("Opened Connect Select Items ");
         }
 
         private void Showallitems()
@@ -505,7 +505,7 @@ namespace SearchDataSPM
 
         private void SPM_ConnectItems_FormClosed(object sender, FormClosedEventArgs e)
         {
-            log.Info("Closed Select Items by " + System.Environment.UserName);
+            log.Info("Closed Select Items ");
             this.Dispose();
         }
     }

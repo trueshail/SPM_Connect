@@ -9,7 +9,6 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Net.Mail;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -113,7 +112,7 @@ namespace SearchDataSPM
             Debug.WriteLine(supervisoridfromreq);
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened Purchase Req by " + System.Environment.UserName);
+            log.Info("Opened Purchase Req ");
             this.BringToFront();
             this.Focus();
         }
@@ -1622,7 +1621,7 @@ namespace SearchDataSPM
 
         private void PurchaseReqform_FormClosed(object sender, FormClosedEventArgs e)
         {
-            log.Info("Closed Purchase Req by " + System.Environment.UserName);
+            log.Info("Closed Purchase Req ");
             this.Dispose();
         }
 
@@ -2292,7 +2291,7 @@ namespace SearchDataSPM
                 names[i] = names[i].Trim();
             }
             name = names[0];
-            Sendemail(email, reqno + " Purchase Req Approval Required - Job " + jobnumbertxt.Text, "Hello " + name + "," + Environment.NewLine + userfullname + " sent this purchase req for approval.", fileName, "");
+            Sendemail(email, reqno + " Purchase Req Approval Required - Job " + jobnumbertxt.Text, name, Environment.NewLine + userfullname + " sent this purchase req for approval.", fileName, "");
         }
 
         private void Sendemailtouser(string reqno, string fileName, string requestby, string triggerby, bool rejected)
@@ -2302,7 +2301,7 @@ namespace SearchDataSPM
             {
                 if (triggerby == "supervisor")
                 {
-                    Sendemail(email, reqno + " Purchase Req Approved - Job " + jobnumbertxt.Text, "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is approved.", fileName, "");
+                    Sendemail(email, reqno + " Purchase Req Approved - Job " + jobnumbertxt.Text, requestby, Environment.NewLine + " Your purchase req is approved.", fileName, "");
                 }
                 else
                 {
@@ -2316,11 +2315,11 @@ namespace SearchDataSPM
 
                     if (triggerby == "pbuyer")
                     {
-                        Sendemail(email, reqno + " Purchase Req Purchased - Job " + jobnumbertxt.Text, "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is sent out for purchase.", fileName, supervisoremail);
+                        Sendemail(email, reqno + " Purchase Req Purchased - Job " + jobnumbertxt.Text, requestby, Environment.NewLine + " Your purchase req is sent out for purchase.", fileName, supervisoremail);
                     }
                     if (triggerby == "highautority")
                     {
-                        Sendemail(email, reqno + " Purchase Req Approved - Job " + jobnumbertxt.Text, "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is approved.", fileName, supervisoremail);
+                        Sendemail(email, reqno + " Purchase Req Approved - Job " + jobnumbertxt.Text, requestby, Environment.NewLine + " Your purchase req is approved.", fileName, supervisoremail);
                     }
                 }
             }
@@ -2328,7 +2327,7 @@ namespace SearchDataSPM
             {
                 if (triggerby == "supervisor")
                 {
-                    Sendemail(email, reqno + " Purchase Req Rejected - Job " + jobnumbertxt.Text, "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is not approved.", fileName, "");
+                    Sendemail(email, reqno + " Purchase Req Rejected - Job " + jobnumbertxt.Text, requestby, Environment.NewLine + " Your purchase req is not approved.", fileName, "");
                 }
                 else
                 {
@@ -2342,7 +2341,7 @@ namespace SearchDataSPM
 
                     if (triggerby == "highautority")
                     {
-                        Sendemail(email, reqno + " Purchase Req Rejected - Job " + jobnumbertxt.Text, "Hello " + requestby + "," + Environment.NewLine + " Your purchase req is not approved.", fileName, supervisoremail);
+                        Sendemail(email, reqno + " Purchase Req Rejected - Job " + jobnumbertxt.Text, requestby, Environment.NewLine + " Your purchase req is not approved.", fileName, supervisoremail);
                     }
                 }
             }
@@ -2368,7 +2367,7 @@ namespace SearchDataSPM
                     names[b] = names[b].Trim();
                 }
                 name = names[0];
-                Sendemail(email, reqno + " Purchase Req Approval Required - 2nd Approval - Job " + jobnumbertxt.Text, "Hello " + name + "," + Environment.NewLine + userfullname + " sent this purchase req for second approval.", fileName, "");
+                Sendemail(email, reqno + " Purchase Req Approval Required - 2nd Approval - Job " + jobnumbertxt.Text, name, Environment.NewLine + userfullname + " sent this purchase req for second approval.", fileName, "");
             }
         }
 
@@ -2392,7 +2391,7 @@ namespace SearchDataSPM
                     names[b] = names[b].Trim();
                 }
                 name = names[0];
-                Sendemail(email, reqno + " Purchase Req needs PO - Notification - Job " + jobnumbertxt.Text, "Hello " + name + "," + Environment.NewLine + userfullname + " apporved this purchase req and on its way to be purchased. ", fileName, "");
+                Sendemail(email, reqno + " Purchase Req needs PO - Notification - Job " + jobnumbertxt.Text, name, Environment.NewLine + userfullname + " apporved this purchase req and on its way to be purchased. ", fileName, "");
             }
         }
 
@@ -2538,45 +2537,12 @@ namespace SearchDataSPM
             return Happrovalnames;
         }
 
-        private void Sendemail(string emailtosend, string subject, string body, string filetoattach, string cc)
+        private void Sendemail(string emailtosend, string subject, string name, string body, string filetoattach, string cc)
         {
             if (Sendemailyesno())
             {
-                try
-                {
-                    MailMessage message = new MailMessage();
-                    SmtpClient SmtpServer = new SmtpClient("spmautomation-com0i.mail.protection.outlook.com");
-                    message.From = new MailAddress("connect@spm-automation.com", "SPM Connect");
-                    System.Net.Mail.Attachment attachment;
-                    message.To.Add(emailtosend);
-                    if (cc == "")
-                    {
-                    }
-                    else
-                    {
-                        message.CC.Add(cc);
-                    }
-                    message.Subject = subject;
-                    message.Body = body;
-
-                    if (filetoattach == "")
-                    {
-                    }
-                    else
-                    {
-                        attachment = new System.Net.Mail.Attachment(filetoattach);
-                        message.Attachments.Add(attachment);
-                    }
-
-                    SmtpServer.Port = 25;
-                    SmtpServer.UseDefaultCredentials = true;
-                    SmtpServer.EnableSsl = true;
-                    SmtpServer.Send(message);
-                }
-                catch (Exception ex)
-                {
-                    MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Send Email", MessageBoxButtons.OK);
-                }
+                SPMConnectAPI.SPMSQLCommands connectapi = new SPMConnectAPI.SPMSQLCommands();
+                connectapi.TriggerEmail(emailtosend, subject, name, body, filetoattach, cc, "", "Normal");
             }
             else
             {

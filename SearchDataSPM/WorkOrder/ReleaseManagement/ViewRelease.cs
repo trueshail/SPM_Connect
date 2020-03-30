@@ -82,7 +82,7 @@ namespace SearchDataSPM
             root.Expand();
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened View WorkOrder Release " + workOrder + " by " + System.Environment.UserName);
+            log.Info("Opened View WorkOrder Release " + workOrder + " ");
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -123,7 +123,7 @@ namespace SearchDataSPM
 
         private void ItemInfo_FormClosed(object sender, FormClosedEventArgs e)
         {
-            log.Info("Closed WorkOrder Release " + workOrder + " by " + System.Environment.UserName);
+            log.Info("Closed WorkOrder Release " + workOrder + " ");
             Dispose();
         }
 

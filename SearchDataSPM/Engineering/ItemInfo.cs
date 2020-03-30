@@ -84,7 +84,7 @@ namespace SearchDataSPM
             treeView1.ExpandAll();
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened Item Details " + iteminfo2 + " by " + System.Environment.UserName);
+            log.Info("Opened Item Details " + iteminfo2 + " ");
         }
 
         private bool yesmanagement = false;
@@ -573,7 +573,7 @@ namespace SearchDataSPM
 
         private void ItemInfo_FormClosed(object sender, FormClosedEventArgs e)
         {
-            log.Info("Closed Item Details " + iteminfo2 + " by " + System.Environment.UserName);
+            log.Info("Closed Item Details " + iteminfo2 + " ");
             this.Dispose();
         }
 
@@ -1225,7 +1225,7 @@ namespace SearchDataSPM
             SPMSQLCommands connectAPI = new SPMSQLCommands();
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-            string username = connectAPI.getuserfullname();
+            string username = connectAPI.Getuserfullname();
 
             try
             {

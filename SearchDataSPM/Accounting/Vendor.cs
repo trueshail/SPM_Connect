@@ -1,4 +1,4 @@
-﻿namespace SearchDataSPM.Accounting
+﻿namespace SearchDataSPM
 {
     public class Vendor
     {

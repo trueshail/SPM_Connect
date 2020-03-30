@@ -1,7 +1,7 @@
 ﻿
 namespace SearchDataSPM
 {
-    partial class Spmadmin
+    partial class AdminControl
     {
         /// <summary>
         /// Required designer variable.
@@ -30,7 +30,7 @@ namespace SearchDataSPM
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Spmadmin));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AdminControl));
             this.LabelTooltips = new System.Windows.Forms.ToolTip(this.components);
             this.nametextbox = new System.Windows.Forms.TextBox();
             this.domaintxtbox = new System.Windows.Forms.TextBox();
