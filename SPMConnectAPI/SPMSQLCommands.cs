@@ -51,7 +51,7 @@ namespace SPMConnectAPI
         public string Getassyversionnumber()
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
-            string version = "V" + assembly.GetName().Version.ToString(3);
+            string version = "V" + assembly.GetName().Version.ToString();
             return version;
         }
 

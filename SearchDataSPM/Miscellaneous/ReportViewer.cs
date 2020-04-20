@@ -11,10 +11,12 @@ namespace SearchDataSPM
         private string reportname = "";
         private string itemnumber = "";
         private string PaymentMode = "";
+        private string WORelease = "";
+        private string WONotes = "";
 
         private ErrorHandler errorHandler = new ErrorHandler();
 
-        public ReportViewer(string _reportname, string _item, string paymenttype = "")
+        public ReportViewer(string _reportname, string _item, string paymenttype = "", string woreleasetype = "", string wonotes = "")
         {
             InitializeComponent();
             string connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
@@ -22,6 +24,8 @@ namespace SearchDataSPM
             this.reportname = _reportname;
             this.itemnumber = _item;
             this.PaymentMode = paymenttype;
+            this.WONotes = wonotes;
+            this.WORelease = woreleasetype;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -114,6 +118,14 @@ namespace SearchDataSPM
         {
             Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection();
             reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("pWorkOrder", itemnumber));
+            if (WORelease != "")
+            {
+                reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("BalloonRef", WORelease));
+            }
+            if (WONotes != "")
+            {
+                reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("Notes", WONotes));
+            }
             this.reportViewer1.ServerReport.SetParameters(reportParameters);
             this.reportViewer1.RefreshReport();
         }

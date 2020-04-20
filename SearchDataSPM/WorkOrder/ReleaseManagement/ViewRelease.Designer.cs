@@ -87,6 +87,7 @@
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.wosearchlabel = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.viewWorkOrderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -724,16 +725,17 @@
             // Addremovecontextmenu
             // 
             this.Addremovecontextmenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.RemoveItemToolStripMenuItem});
+            this.RemoveItemToolStripMenuItem,
+            this.viewWorkOrderToolStripMenuItem});
             this.Addremovecontextmenu.Name = "contextMenuStrip1";
-            this.Addremovecontextmenu.Size = new System.Drawing.Size(142, 26);
+            this.Addremovecontextmenu.Size = new System.Drawing.Size(181, 70);
             this.Addremovecontextmenu.Opening += new System.ComponentModel.CancelEventHandler(this.Addremovecontextmenu_Opening);
             // 
             // RemoveItemToolStripMenuItem
             // 
             this.RemoveItemToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("RemoveItemToolStripMenuItem.Image")));
             this.RemoveItemToolStripMenuItem.Name = "RemoveItemToolStripMenuItem";
-            this.RemoveItemToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.RemoveItemToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.RemoveItemToolStripMenuItem.Text = "View Release";
             this.RemoveItemToolStripMenuItem.Click += new System.EventHandler(this.RemoveItemToolStripMenuItem_Click);
             // 
@@ -1035,6 +1037,14 @@
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 76;
             // 
+            // viewWorkOrderToolStripMenuItem
+            // 
+            this.viewWorkOrderToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("viewWorkOrderToolStripMenuItem.Image")));
+            this.viewWorkOrderToolStripMenuItem.Name = "viewWorkOrderToolStripMenuItem";
+            this.viewWorkOrderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.viewWorkOrderToolStripMenuItem.Text = "View WorkOrder";
+            this.viewWorkOrderToolStripMenuItem.Click += new System.EventHandler(this.viewWorkOrderToolStripMenuItem_Click);
+            // 
             // ViewRelease
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1130,5 +1140,6 @@
         private System.Windows.Forms.Button reloadwobttn;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem viewWorkOrderToolStripMenuItem;
     }
 }

@@ -70,7 +70,7 @@ namespace SearchDataSPM
                     {
                         if (department == "Accounting")
                         {
-                            var loadspmconnect = new ReportAllRecords();
+                            var loadspmconnect = new EFTHome();
                             loadspmconnect.Closed += (s, args) => this.Close();
                             loadspmconnect.Show();
                         }
@@ -85,7 +85,7 @@ namespace SearchDataSPM
                     {
                         if (department == "Accounting")
                         {
-                            var loadspmconnect = new ReportAllRecords();
+                            var loadspmconnect = new EFTHome();
                             loadspmconnect.Closed += (s, args) => this.Close();
                             loadspmconnect.Show();
                         }

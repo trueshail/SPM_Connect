@@ -3196,22 +3196,25 @@ namespace SearchDataSPM.Engineering
 
         private void DataGridView_MouseMove(object sender, MouseEventArgs e)
         {
-            int openforms = Application.OpenForms.Count;
-            if (openforms >= 2)
+            if (dataGridView.Rows.Count > 0)
             {
-                ListOpenWindows frm2 = new ListOpenWindows();
-                bool allowdragdrop = false;
+                int openforms = Application.OpenForms.Count;
+                if (openforms >= 2)
+                {
+                    ListOpenWindows frm2 = new ListOpenWindows();
+                    bool allowdragdrop = false;
 
-                foreach (Form frm in Application.OpenForms)
-                {
-                    if (frm.Name.ToString() == "ItemInfo" || frm.Name.ToString() == "AddRelease")
-                        allowdragdrop = true;
-                }
-                if (allowdragdrop)
-                {
-                    if (e.Button == MouseButtons.Left)
+                    foreach (Form frm in Application.OpenForms)
                     {
-                        dataGridView.DoDragDrop(dataGridView.Rows[dataGridView.SelectedCells[0].RowIndex], DragDropEffects.All);
+                        if (frm.Name.ToString() == "ItemInfo" || frm.Name.ToString() == "AddRelease")
+                            allowdragdrop = true;
+                    }
+                    if (allowdragdrop)
+                    {
+                        if (e.Button == MouseButtons.Left)
+                        {
+                            dataGridView.DoDragDrop(dataGridView.Rows[dataGridView.SelectedCells[0].RowIndex], DragDropEffects.All);
+                        }
                     }
                 }
             }

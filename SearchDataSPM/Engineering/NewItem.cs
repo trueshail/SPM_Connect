@@ -14,6 +14,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using wpfPreviewFlowControl;
 
@@ -31,6 +32,7 @@ namespace SearchDataSPM
         private SqlDataAdapter _adapter;
         private SPMConnectAPI.SPMSQLCommands connectapi = new SPMSQLCommands();
         private log4net.ILog log;
+        private bool doneshowingSplash = false;
 
         private ErrorHandler errorHandler = new ErrorHandler();
 
@@ -415,21 +417,16 @@ namespace SearchDataSPM
             }
         }
 
-        private void savebttn_Click(object sender, EventArgs e)
+        private async void savebttn_Click(object sender, EventArgs e)
         {
             if (connectapi.Solidworks_running() == true)
             {
                 listView.Refresh();
                 if (listView.Items.Count != 0)
                 {
-                    //new Thread(() => new Engineering.WaitFormSaving().ShowDialog()).Start();
-                    Thread t = new Thread(new ThreadStart(splashsave));
-                    t.Start();
+                    await Task.Run(() => SplashDialog("Saving Model..."));
                     processsavebutton();
-                    //Engineering.WaitFormSaving f = new Engineering.WaitFormSaving();
-                    //f = (Engineering.WaitFormSaving)Application.OpenForms["WaitFormSaving"];
-                    //f.Invoke(new ThreadStart(delegate { f.Close(); }));
-                    t.Abort();
+                    doneshowingSplash = true;
                 }
                 else
                 {
@@ -438,25 +435,24 @@ namespace SearchDataSPM
             }
         }
 
-        private void splashsave()
+        private void SplashDialog(string message)
         {
-            Dialog waitFormSaving = new Dialog
+            doneshowingSplash = false;
+            ThreadPool.QueueUserWorkItem((x) =>
             {
-                Message = "Saving Data.....",
-                TopMost = true
-            };
-            waitFormSaving.Location = new Point(this.Location.X + (this.Width - waitFormSaving.Width) / 2, this.Location.Y + (this.Height - waitFormSaving.Height) / 2);
-            Application.Run(waitFormSaving);
-        }
-
-        private void splashimport()
-        {
-            Dialog waitFormImport = new Dialog
-            {
-                Message = "Importing Model.....",
-                TopMost = true
-            };
-            Application.Run(waitFormImport);
+                using (var splashForm = new Dialog())
+                {
+                    splashForm.TopMost = true;
+                    splashForm.Focus();
+                    splashForm.Activate();
+                    splashForm.Message = message;
+                    splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
+                    splashForm.Show();
+                    while (!doneshowingSplash)
+                        Application.DoEvents();
+                    splashForm.Close();
+                }
+            });
         }
 
         private void processsavebutton()
@@ -478,7 +474,7 @@ namespace SearchDataSPM
             Cursor.Current = Cursors.Default;
         }
 
-        private void processmodelcreattion(string item)
+        private async void processmodelcreattion(string item)
         {
             listView.Refresh();
             if (listView.Items.Count == 0)
@@ -524,12 +520,10 @@ namespace SearchDataSPM
                             {
                                 //new Thread(() => new Engineering.WaitFormImport().ShowDialog()).Start();
                                 //Thread.Sleep(3000);
-                                Thread t = new Thread(new ThreadStart(splashimport));
-                                t.Start();
-                                Thread.Sleep(3000);
-
+                                await Task.Run(() => SplashDialog("Importing Model...."));
+                                Thread.Sleep(1000);
                                 connectapi.Importstepfile(impfilname, filename);
-                                t.Abort();
+                                doneshowingSplash = true;
                                 //Engineering.WaitFormImport f = new Engineering.WaitFormImport();
                                 //f = (Engineering.WaitFormImport)Application.OpenForms["WaitFormImport"];
                                 //f.Invoke(new ThreadStart(delegate { f.Close(); }));
@@ -549,9 +543,8 @@ namespace SearchDataSPM
                             {
                                 //new Thread(() => new Engineering.WaitFormImport().ShowDialog()).Start();
                                 //Thread.Sleep(3000);
-                                Thread t = new Thread(new ThreadStart(splashimport));
-                                t.Start();
-                                Thread.Sleep(3000);
+                                await Task.Run(() => SplashDialog("Importing Model...."));
+                                Thread.Sleep(1000);
 
                                 if (connectapi.Importigesfile(impfilname, filename) == true)
                                 {
@@ -562,7 +555,7 @@ namespace SearchDataSPM
                                     System.IO.Directory.CreateDirectory(path);
                                     connectapi.Createmodel(filename);
                                 }
-                                t.Abort();
+                                doneshowingSplash = true;
                                 //Engineering.WaitFormImport f = new Engineering.WaitFormImport();
                                 //f = (Engineering.WaitFormImport)Application.OpenForms["WaitFormImport"];
                                 //f.Invoke(new ThreadStart(delegate { f.Close(); }));
@@ -582,9 +575,8 @@ namespace SearchDataSPM
                             {
                                 //new Thread(() => new Engineering.WaitFormImport().ShowDialog()).Start();
                                 //Thread.Sleep(3000);
-                                Thread t = new Thread(new ThreadStart(splashimport));
-                                t.Start();
-                                Thread.Sleep(3000);
+                                await Task.Run(() => SplashDialog("Importing Model...."));
+                                Thread.Sleep(1000);
 
                                 if (connectapi.Importparasolidfile(impfilname, filename) == true)
                                 {
@@ -595,7 +587,7 @@ namespace SearchDataSPM
                                     System.IO.Directory.CreateDirectory(path);
                                     connectapi.Createmodel(filename);
                                 }
-                                t.Abort();
+                                doneshowingSplash = true;
                                 //Engineering.WaitFormImport f = new Engineering.WaitFormImport();
                                 //f = (Engineering.WaitFormImport)Application.OpenForms["WaitFormImport"];
                                 //f.Invoke(new ThreadStart(delegate { f.Close(); }));

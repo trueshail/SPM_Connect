@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace SearchDataSPM
 {
-    public partial class ReportAllRecords : MetroFramework.Forms.MetroForm
+    public partial class EFTHome : MetroFramework.Forms.MetroForm
     {
         private string connection;
         private SqlConnection cn;
@@ -23,7 +23,7 @@ namespace SearchDataSPM
         private List<string> rejectedemailslist;
         private log4net.ILog log;
 
-        public ReportAllRecords()
+        public EFTHome()
         {
             InitializeComponent();
 
@@ -161,6 +161,43 @@ namespace SearchDataSPM
                 Vendor vendor = GetselectedReport();
                 ReportViewer form1 = new ReportViewer("EFT", vendor.EFTId, vendor.PaymentType);
                 form1.Show();
+            }
+        }
+
+        private void Calculatetotal()
+        {
+            string totalvalue = "";
+            if (dataGridView.Rows.Count > 0)
+            {
+                decimal total = 0.00m;
+
+                decimal price = 0.00m;
+                foreach (DataGridViewRow row in dataGridView.Rows)
+                {
+                    try
+                    {
+                        if (row.Cells[6].Value.ToString() != null && row.Cells[6].Value.ToString().Length > 0)
+                        {
+                            price = Convert.ToDecimal(row.Cells[6].Value.ToString());
+                        }
+                        else
+                        {
+                            price = 0;
+                        }
+                        total += price;
+                        totallbl.Text = "Total Value : $" + string.Format("{0:n}", Convert.ToDecimal(total.ToString()));
+
+                        totalvalue = string.Format("{0:#.00}", total.ToString());
+                    }
+                    catch (Exception ex)
+                    {
+                        MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect -  Error Getting Total", MessageBoxButtons.OK);
+                    }
+                }
+            }
+            else
+            {
+                totallbl.Text = "";
             }
         }
 
@@ -553,6 +590,16 @@ namespace SearchDataSPM
         {
             log.Info("Closed SPM Connect EFT ");
             this.Dispose();
+        }
+
+        private void dataGridView_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            Calculatetotal();
+        }
+
+        private void dataGridView_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+        {
+            Calculatetotal();
         }
     }
 }

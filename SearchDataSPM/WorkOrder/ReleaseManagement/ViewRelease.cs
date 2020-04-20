@@ -1353,6 +1353,12 @@ namespace SearchDataSPM
             form1.Show();
         }
 
+        private void ProrcessReleasereportWorkOrder(string itemvalue, string Reportname, string worelease, string wonotes)
+        {
+            ReportViewer form1 = new ReportViewer(Reportname, itemvalue, wonotes: wonotes, woreleasetype: worelease);
+            form1.Show();
+        }
+
         private string Getselectedworkorder(TreeNode treeNode)
         {
             string wo = "";
@@ -1362,6 +1368,43 @@ namespace SearchDataSPM
                 wo = r["WO"].ToString();
             }
 
+            return wo;
+        }
+
+        private string Getselectedreleaseworkorder(TreeNode treeNode)
+        {
+            string wo = "";
+            if (treeNode != null)
+            {
+                DataRow r = treeTB.Rows[int.Parse(treeNode.Tag.ToString())];
+                wo = r["WO"].ToString();
+            }
+
+            return wo;
+        }
+
+        private string GetselectedreleaseworkorderReleaseNotes(TreeNode treeNode)
+        {
+            string wo = "";
+            if (treeNode != null)
+            {
+                DataRow r = treeTB.Rows[int.Parse(treeNode.Tag.ToString())];
+                wo = r["ReleaseNotes"].ToString();
+            }
+
+            return wo;
+        }
+
+        private string GetselectedreleaseworkorderReleaseType(TreeNode treeNode)
+        {
+            string wo = "";
+            if (treeNode != null)
+            {
+                DataRow r = treeTB.Rows[int.Parse(treeNode.Tag.ToString())];
+                wo = r["ReleaseType"].ToString();
+            }
+            if (wo == "Initial Release")
+                return "";
             return wo;
         }
 
@@ -1379,6 +1422,11 @@ namespace SearchDataSPM
         private void woTreeview_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             woTreeview.SelectedNode = e.Node;
+        }
+
+        private void viewWorkOrderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ProrcessReleasereportWorkOrder(Getselectedreleaseworkorder(Treeview.SelectedNode), "WorkOrder", GetselectedreleaseworkorderReleaseType(Treeview.SelectedNode), GetselectedreleaseworkorderReleaseNotes(Treeview.SelectedNode));
         }
     }
 }
