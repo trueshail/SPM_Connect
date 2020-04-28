@@ -554,7 +554,7 @@ namespace SPMConnectAPI
                 // MessageBox.Show("Number of open documents in this SOLIDWORKS session: " + count);
                 swModel = swApp.ActiveDoc as ModelDoc2;
 
-                filename = swModel.GetTitle();
+                filename = swModel.GetTitle().Substring(0, 6);
             }
             return filename;
         }
@@ -1561,7 +1561,7 @@ namespace SPMConnectAPI
                 {
                     //MessageBox.Show("new part created");
                     Get_pathname();
-                    Getfilename();
+                    //Getfilename();
                 }
                 else
                 {
@@ -1593,7 +1593,7 @@ namespace SPMConnectAPI
                 {
                     //MessageBox.Show("new assy created");
                     Get_pathname();
-                    Getfilename();
+                    //Getfilename();
                 }
                 else
                 {
@@ -1728,8 +1728,6 @@ namespace SPMConnectAPI
             {
                 var progId = "SldWorks.Application";
                 SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
-                PartDoc swPart = default(PartDoc);
-                AssemblyDoc swassy = default(AssemblyDoc);
                 ModelDoc2 swModel = default(ModelDoc2);
                 ModelDocExtension swModelDocExt = default(ModelDocExtension);
                 ImportStepData swImportStepData = default(ImportStepData);
@@ -1748,22 +1746,11 @@ namespace SPMConnectAPI
                 //Import the STEP file.
                 try
                 {
-                    swPart = (PartDoc)swApp.LoadFile4(stepFileName, "r", swImportStepData, ref errors);
-                    swModel = (ModelDoc2)swPart;
+                    swModel = (ModelDoc2)swApp.LoadFile4(stepFileName, "r", swImportStepData, ref errors);
                     swModelDocExt = (ModelDocExtension)swModel.Extension;
                     status = swModelDocExt.SaveAs(savefilename, 0, (int)swSaveAsOptions_e.swSaveAsOptions_Silent, 0, 0, 0);
                 }
-                catch
-                {
-                }
-                try
-                {
-                    swassy = (AssemblyDoc)swApp.LoadFile4(stepFileName, "r", swImportStepData, ref errors);
-                    swModel = (ModelDoc2)swPart;
-                    swModelDocExt = (ModelDocExtension)swModel.Extension;
-                    status = swModelDocExt.SaveAs(savefilename, 0, (int)swSaveAsOptions_e.swSaveAsOptions_Silent, 0, 0, 0);
-                }
-                catch
+                catch (Exception)
                 {
                 }
 
@@ -1778,8 +1765,6 @@ namespace SPMConnectAPI
             {
                 var progId = "SldWorks.Application";
                 SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
-                PartDoc swPart = default(PartDoc);
-                AssemblyDoc swassy = default(AssemblyDoc);
                 ModelDoc2 swModel = default(ModelDoc2);
                 ModelDocExtension swModelDocExt = default(ModelDocExtension);
                 ImportIgesData swImportIgesdata = default(ImportIgesData);
@@ -1790,25 +1775,13 @@ namespace SPMConnectAPI
                 swImportIgesdata.IncludeSurfaces = true;
                 try
                 {
-                    swPart = (PartDoc)swApp.LoadFile4(igesfilename, "r", swImportIgesdata, ref errors);
-                    swModel = (ModelDoc2)swPart;
+                    swModel = (ModelDoc2)swApp.LoadFile4(igesfilename, "r", swImportIgesdata, ref errors);
                     swModelDocExt = (ModelDocExtension)swModel.Extension;
                     status = swModelDocExt.SaveAs(savefilename, 0, (int)swSaveAsOptions_e.swSaveAsOptions_Silent, 0, 0, 0);
                 }
-                catch
+                catch (Exception)
                 {
                 }
-                try
-                {
-                    swassy = (AssemblyDoc)swApp.LoadFile4(igesfilename, "r", swImportIgesdata, ref errors);
-                    swModel = (ModelDoc2)swassy;
-                    swModelDocExt = (ModelDocExtension)swModel.Extension;
-                    status = swModelDocExt.SaveAs(savefilename, 0, (int)swSaveAsOptions_e.swSaveAsOptions_Silent, 0, 0, 0);
-                }
-                catch
-                {
-                }
-
                 return status;
             }
             return false;
@@ -1820,8 +1793,8 @@ namespace SPMConnectAPI
             {
                 var progId = "SldWorks.Application";
                 SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
-                PartDoc swPart = default(PartDoc);
-                AssemblyDoc swassy = default(AssemblyDoc);
+                //PartDoc swPart = default(PartDoc);
+                //AssemblyDoc swassy = default(AssemblyDoc);
                 ModelDoc2 swModel = default(ModelDoc2);
                 ModelDocExtension swModelDocExt = default(ModelDocExtension);
 
@@ -1829,22 +1802,12 @@ namespace SPMConnectAPI
                 int errors = 0;
                 try
                 {
-                    swPart = (PartDoc)swApp.LoadFile4(parasolidfilename, "r", null, ref errors);
-                    swModel = (ModelDoc2)swPart;
+                    swModel = (ModelDoc2)swApp.LoadFile4(parasolidfilename, "r", null, ref errors);
+                    //swModel = (ModelDoc2)swPart;
                     swModelDocExt = (ModelDocExtension)swModel.Extension;
-                    status = swModelDocExt.SaveAs(savefilename, 0, (int)swSaveAsOptions_e.swSaveAsOptions_Silent, 0, 0, 0);
+                    status = swModelDocExt.SaveAs(savefilename, (int)swSaveAsVersion_e.swSaveAsCurrentVersion, (int)swSaveAsOptions_e.swSaveAsOptions_Silent, 0, 0, 0);
                 }
-                catch
-                {
-                }
-                try
-                {
-                    swassy = (AssemblyDoc)swApp.LoadFile4(parasolidfilename, "r", null, ref errors);
-                    swModel = (ModelDoc2)swassy;
-                    swModelDocExt = (ModelDocExtension)swModel.Extension;
-                    status = swModelDocExt.SaveAs(savefilename, 0, (int)swSaveAsOptions_e.swSaveAsOptions_Silent, 0, 0, 0);
-                }
-                catch
+                catch (Exception)
                 {
                 }
 

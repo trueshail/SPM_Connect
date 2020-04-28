@@ -72,7 +72,9 @@ namespace SearchDataSPM
             }
             else
             {
-                Treeview.ContextMenuStrip = null;
+                Treeview.ContextMenuStrip = Addremovecontextmenu;
+                Addremovecontextmenu.Items[0].Enabled = false;
+                Addremovecontextmenu.Items[0].Visible = false;
                 Treeview.AllowDrop = false;
             }
             Text = "Release Log Details - SPM Connect (" + workOrder + ")";

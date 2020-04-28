@@ -69,6 +69,7 @@
             this.Treeview = new System.Windows.Forms.TreeView();
             this.Addremovecontextmenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.RemoveItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewWorkOrderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.foundlabel = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -87,7 +88,6 @@
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.wosearchlabel = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.viewWorkOrderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -739,6 +739,14 @@
             this.RemoveItemToolStripMenuItem.Text = "View Release";
             this.RemoveItemToolStripMenuItem.Click += new System.EventHandler(this.RemoveItemToolStripMenuItem_Click);
             // 
+            // viewWorkOrderToolStripMenuItem
+            // 
+            this.viewWorkOrderToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("viewWorkOrderToolStripMenuItem.Image")));
+            this.viewWorkOrderToolStripMenuItem.Name = "viewWorkOrderToolStripMenuItem";
+            this.viewWorkOrderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.viewWorkOrderToolStripMenuItem.Text = "View WorkOrder";
+            this.viewWorkOrderToolStripMenuItem.Click += new System.EventHandler(this.viewWorkOrderToolStripMenuItem_Click);
+            // 
             // imageList1
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
@@ -1036,14 +1044,6 @@
             this.splitContainer1.SplitterDistance = 400;
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 76;
-            // 
-            // viewWorkOrderToolStripMenuItem
-            // 
-            this.viewWorkOrderToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("viewWorkOrderToolStripMenuItem.Image")));
-            this.viewWorkOrderToolStripMenuItem.Name = "viewWorkOrderToolStripMenuItem";
-            this.viewWorkOrderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.viewWorkOrderToolStripMenuItem.Text = "View WorkOrder";
-            this.viewWorkOrderToolStripMenuItem.Click += new System.EventHandler(this.viewWorkOrderToolStripMenuItem_Click);
             // 
             // ViewRelease
             // 

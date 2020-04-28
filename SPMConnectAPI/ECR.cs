@@ -31,7 +31,6 @@ namespace SPMConnectAPI
         }
 
         public string UserName()
-
         {
             string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
             if (userName.Length > 0)
@@ -44,7 +43,7 @@ namespace SPMConnectAPI
             }
         }
 
-        public string getuserfullname()
+        public string Getuserfullname()
         {
             string fullname = "";
             try
@@ -75,7 +74,7 @@ namespace SPMConnectAPI
             return fullname;
         }
 
-        public int getsupervisorId()
+        public int GetsupervisorId()
         {
             int supervisorId = 0;
             try
@@ -91,7 +90,7 @@ namespace SPMConnectAPI
                 da.Fill(dt);
                 foreach (DataRow dr in dt.Rows)
                 {
-                    supervisorId = Convert.ToInt32(dr["Supervisor"].ToString());
+                    supervisorId = Convert.ToInt32(dr["ECRSup"].ToString());
                 }
                 dt.Clear();
             }
@@ -840,10 +839,10 @@ namespace SPMConnectAPI
             )
         {
             bool success = false;
-            string username = getuserfullname();
+            string username = Getuserfullname();
             DateTime dateedited = DateTime.Now;
             string sqlFormattedDate = dateedited.ToString("yyyy-MM-dd HH:mm:ss");
-            int supervisorid = getsupervisorId();
+            int supervisorid = GetsupervisorId();
             try
             {
                 if (cn.State == ConnectionState.Closed)

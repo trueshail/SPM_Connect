@@ -110,6 +110,8 @@ namespace SearchDataSPM
             this.label22 = new System.Windows.Forms.Label();
             this.woreleasetoggle = new ToggleSlider.ToggleSliderComponent();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.rptoggle = new ToggleSlider.ToggleSliderComponent();
+            this.label28 = new System.Windows.Forms.Label();
             this.appdrwtoggle = new ToggleSlider.ToggleSliderComponent();
             this.label27 = new System.Windows.Forms.Label();
             this.chkdrwtoggle = new ToggleSlider.ToggleSliderComponent();
@@ -819,7 +821,7 @@ namespace SearchDataSPM
             this.admintoggle.ToggleBarText = "No";
             this.admintoggle.ToggleCircleColor = System.Drawing.Color.Red;
             this.admintoggle.ToggleColorBar = System.Drawing.Color.LightGray;
-            this.admintoggle.CheckChanged += new System.EventHandler(this.toggleSliderComponent1_CheckChanged);
+            this.admintoggle.CheckChanged += new System.EventHandler(this.admintoggle_CheckChanged);
             // 
             // quotetoggle
             // 
@@ -836,7 +838,7 @@ namespace SearchDataSPM
             this.quotetoggle.ToggleBarText = "No";
             this.quotetoggle.ToggleCircleColor = System.Drawing.Color.Red;
             this.quotetoggle.ToggleColorBar = System.Drawing.Color.LightGray;
-            this.quotetoggle.CheckChanged += new System.EventHandler(this.quotetoggle_CheckChanged);
+            this.quotetoggle.CheckChanged += new System.EventHandler(this.admintoggle_CheckChanged);
             // 
             // pricetoggle
             // 
@@ -853,7 +855,7 @@ namespace SearchDataSPM
             this.pricetoggle.ToggleBarText = "No";
             this.pricetoggle.ToggleCircleColor = System.Drawing.Color.Red;
             this.pricetoggle.ToggleColorBar = System.Drawing.Color.LightGray;
-            this.pricetoggle.CheckChanged += new System.EventHandler(this.pricetoggle_CheckChanged);
+            this.pricetoggle.CheckChanged += new System.EventHandler(this.admintoggle_CheckChanged);
             // 
             // shiptoggle
             // 
@@ -870,7 +872,7 @@ namespace SearchDataSPM
             this.shiptoggle.ToggleBarText = "No";
             this.shiptoggle.ToggleCircleColor = System.Drawing.Color.Red;
             this.shiptoggle.ToggleColorBar = System.Drawing.Color.LightGray;
-            this.shiptoggle.CheckChanged += new System.EventHandler(this.shiptoggle_CheckChanged);
+            this.shiptoggle.CheckChanged += new System.EventHandler(this.admintoggle_CheckChanged);
             // 
             // managementtoggle
             // 
@@ -887,8 +889,7 @@ namespace SearchDataSPM
             this.managementtoggle.ToggleBarText = "No";
             this.managementtoggle.ToggleCircleColor = System.Drawing.Color.Red;
             this.managementtoggle.ToggleColorBar = System.Drawing.Color.LightGray;
-            this.managementtoggle.CheckChanged += new System.EventHandler(this.managementtoggle_CheckChanged);
-            this.managementtoggle.Load += new System.EventHandler(this.managementtoggle_Load);
+            this.managementtoggle.CheckChanged += new System.EventHandler(this.admintoggle_CheckChanged);
             // 
             // purchasereqtoggle
             // 
@@ -905,7 +906,7 @@ namespace SearchDataSPM
             this.purchasereqtoggle.ToggleBarText = "No";
             this.purchasereqtoggle.ToggleCircleColor = System.Drawing.Color.Red;
             this.purchasereqtoggle.ToggleColorBar = System.Drawing.Color.LightGray;
-            this.purchasereqtoggle.CheckChanged += new System.EventHandler(this.purchasereqtoggle_CheckChanged);
+            this.purchasereqtoggle.CheckChanged += new System.EventHandler(this.admintoggle_CheckChanged);
             // 
             // developertoggle
             // 
@@ -922,7 +923,7 @@ namespace SearchDataSPM
             this.developertoggle.ToggleBarText = "No";
             this.developertoggle.ToggleCircleColor = System.Drawing.Color.Red;
             this.developertoggle.ToggleColorBar = System.Drawing.Color.LightGray;
-            this.developertoggle.CheckChanged += new System.EventHandler(this.developertoggle_CheckChanged);
+            this.developertoggle.CheckChanged += new System.EventHandler(this.admintoggle_CheckChanged);
             // 
             // label14
             // 
@@ -954,7 +955,7 @@ namespace SearchDataSPM
             this.cribouttoggle.ToggleBarText = "No";
             this.cribouttoggle.ToggleCircleColor = System.Drawing.Color.Red;
             this.cribouttoggle.ToggleColorBar = System.Drawing.Color.LightGray;
-            this.cribouttoggle.CheckChanged += new System.EventHandler(this.cribouttoggle_CheckChanged);
+            this.cribouttoggle.CheckChanged += new System.EventHandler(this.admintoggle_CheckChanged);
             // 
             // label15
             // 
@@ -986,7 +987,7 @@ namespace SearchDataSPM
             this.scanwotoggle.ToggleBarText = "No";
             this.scanwotoggle.ToggleCircleColor = System.Drawing.Color.Red;
             this.scanwotoggle.ToggleColorBar = System.Drawing.Color.LightGray;
-            this.scanwotoggle.CheckChanged += new System.EventHandler(this.scanwotoggle_CheckChanged);
+            this.scanwotoggle.CheckChanged += new System.EventHandler(this.admintoggle_CheckChanged);
             // 
             // cribshorttoggle
             // 
@@ -1003,7 +1004,7 @@ namespace SearchDataSPM
             this.cribshorttoggle.ToggleBarText = "No";
             this.cribshorttoggle.ToggleCircleColor = System.Drawing.Color.Red;
             this.cribshorttoggle.ToggleColorBar = System.Drawing.Color.LightGray;
-            this.cribshorttoggle.CheckChanged += new System.EventHandler(this.cribshorttoggle_CheckChanged);
+            this.cribshorttoggle.CheckChanged += new System.EventHandler(this.admintoggle_CheckChanged);
             // 
             // label16
             // 
@@ -1158,7 +1159,7 @@ namespace SearchDataSPM
             this.ecrtoggle.ToggleBarText = "No";
             this.ecrtoggle.ToggleCircleColor = System.Drawing.Color.Red;
             this.ecrtoggle.ToggleColorBar = System.Drawing.Color.LightGray;
-            this.ecrtoggle.CheckChanged += new System.EventHandler(this.ecrtoggle_CheckChanged);
+            this.ecrtoggle.CheckChanged += new System.EventHandler(this.admintoggle_CheckChanged);
             // 
             // label17
             // 
@@ -1190,7 +1191,7 @@ namespace SearchDataSPM
             this.itmdeptoggle.ToggleBarText = "No";
             this.itmdeptoggle.ToggleCircleColor = System.Drawing.Color.Red;
             this.itmdeptoggle.ToggleColorBar = System.Drawing.Color.LightGray;
-            this.itmdeptoggle.CheckChanged += new System.EventHandler(this.itmdeptoggle_CheckChanged);
+            this.itmdeptoggle.CheckChanged += new System.EventHandler(this.admintoggle_CheckChanged);
             // 
             // label22
             // 
@@ -1222,10 +1223,12 @@ namespace SearchDataSPM
             this.woreleasetoggle.ToggleBarText = "No";
             this.woreleasetoggle.ToggleCircleColor = System.Drawing.Color.Red;
             this.woreleasetoggle.ToggleColorBar = System.Drawing.Color.LightGray;
-            this.woreleasetoggle.CheckChanged += new System.EventHandler(this.woreleasetoggle_CheckChanged);
+            this.woreleasetoggle.CheckChanged += new System.EventHandler(this.admintoggle_CheckChanged);
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.rptoggle);
+            this.groupBox1.Controls.Add(this.label28);
             this.groupBox1.Controls.Add(this.appdrwtoggle);
             this.groupBox1.Controls.Add(this.label27);
             this.groupBox1.Controls.Add(this.chkdrwtoggle);
@@ -1264,6 +1267,36 @@ namespace SearchDataSPM
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "General Rights";
             // 
+            // rptoggle
+            // 
+            this.rptoggle.AutoSize = true;
+            this.rptoggle.Checked = false;
+            this.rptoggle.Enabled = false;
+            this.rptoggle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.rptoggle.Location = new System.Drawing.Point(89, 263);
+            this.rptoggle.MaximumSize = new System.Drawing.Size(70, 25);
+            this.rptoggle.MinimumSize = new System.Drawing.Size(70, 25);
+            this.rptoggle.Name = "rptoggle";
+            this.rptoggle.Size = new System.Drawing.Size(70, 25);
+            this.rptoggle.TabIndex = 117;
+            this.rptoggle.ToggleBarText = "No";
+            this.rptoggle.ToggleCircleColor = System.Drawing.Color.Red;
+            this.rptoggle.ToggleColorBar = System.Drawing.Color.LightGray;
+            this.rptoggle.CheckChanged += new System.EventHandler(this.admintoggle_CheckChanged);
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label28.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label28.Location = new System.Drawing.Point(4, 266);
+            this.label28.MaximumSize = new System.Drawing.Size(90, 15);
+            this.label28.Name = "label28";
+            this.label28.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label28.Size = new System.Drawing.Size(80, 15);
+            this.label28.TabIndex = 118;
+            this.label28.Text = "Rel. Pckg. :";
+            // 
             // appdrwtoggle
             // 
             this.appdrwtoggle.AutoSize = true;
@@ -1279,7 +1312,7 @@ namespace SearchDataSPM
             this.appdrwtoggle.ToggleBarText = "No";
             this.appdrwtoggle.ToggleCircleColor = System.Drawing.Color.Red;
             this.appdrwtoggle.ToggleColorBar = System.Drawing.Color.LightGray;
-            this.appdrwtoggle.CheckChanged += new System.EventHandler(this.appdrwtoggle_CheckChanged);
+            this.appdrwtoggle.CheckChanged += new System.EventHandler(this.admintoggle_CheckChanged);
             // 
             // label27
             // 
@@ -1311,7 +1344,7 @@ namespace SearchDataSPM
             this.chkdrwtoggle.ToggleBarText = "No";
             this.chkdrwtoggle.ToggleCircleColor = System.Drawing.Color.Red;
             this.chkdrwtoggle.ToggleColorBar = System.Drawing.Color.LightGray;
-            this.chkdrwtoggle.CheckChanged += new System.EventHandler(this.chkdrwtoggle_CheckChanged);
+            this.chkdrwtoggle.CheckChanged += new System.EventHandler(this.admintoggle_CheckChanged);
             // 
             // label23
             // 
@@ -1460,7 +1493,7 @@ namespace SearchDataSPM
             this.shippingmanagerchk.UseVisualStyleBackColor = true;
             this.shippingmanagerchk.CheckedChanged += new System.EventHandler(this.shippingmanagerchk_CheckedChanged);
             // 
-            // Spmadmin
+            // AdminControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -1504,7 +1537,7 @@ namespace SearchDataSPM
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(600, 600);
-            this.Name = "Spmadmin";
+            this.Name = "AdminControl";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Amin Control";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.spmadmin_FormClosing);
@@ -1616,5 +1649,7 @@ namespace SearchDataSPM
         private System.Windows.Forms.Label label27;
         private ToggleSlider.ToggleSliderComponent chkdrwtoggle;
         private System.Windows.Forms.Label label23;
+        private ToggleSlider.ToggleSliderComponent rptoggle;
+        private System.Windows.Forms.Label label28;
     }
 }

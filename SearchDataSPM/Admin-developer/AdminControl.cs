@@ -447,7 +447,16 @@ namespace SearchDataSPM
                     {
                         appdrwtoggle.Checked = false;
                     }
-                    runalltoggle();
+
+                    if (dr["ReleasePackage"].ToString().Equals("1"))
+                    {
+                        rptoggle.Checked = true;
+                    }
+                    else
+                    {
+                        rptoggle.Checked = false;
+                    }
+                    Runalltoggle();
                 }
             }
             catch (Exception ex)
@@ -578,6 +587,7 @@ namespace SearchDataSPM
             itmdeptoggle.Enabled = true;
             chkdrwtoggle.Enabled = true;
             appdrwtoggle.Enabled = true;
+            rptoggle.Enabled = true;
         }
 
         private void Disablealltoggles()
@@ -597,6 +607,7 @@ namespace SearchDataSPM
             itmdeptoggle.Enabled = false;
             chkdrwtoggle.Enabled = false;
             appdrwtoggle.Enabled = false;
+            rptoggle.Enabled = false;
         }
 
         private void Delbttn_Click(object sender, EventArgs e)
@@ -635,6 +646,7 @@ namespace SearchDataSPM
                  "Shipping Manager = " + (shippingmanagerchk.Checked ? "Yes" : "No") + Environment.NewLine +
                  "Check Drawings = " + (chkdrwtoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                  "Approve Drawings = " + (appdrwtoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+                 "Release Package = " + (rptoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                  "Management = " + (managementtoggle.Checked ? "Yes" : "No"), "Remove user from system?",
                                                  MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
@@ -767,6 +779,7 @@ namespace SearchDataSPM
                "Shipping Manager = " + (shippingmanagerchk.Checked ? "Yes" : "No") + Environment.NewLine +
                "Check Drawing = " + (chkdrwtoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                "Approve Drawing = " + (appdrwtoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+               "Release Package = " + (rptoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                "Management = " + (managementtoggle.Checked ? "Yes" : "No"), "Update User Information?",
                                                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
@@ -790,7 +803,7 @@ namespace SearchDataSPM
                         "Quote = '" + (quotetoggle.Checked ? "1" : "0") + "',PurchaseReq = '" + (purchasereqtoggle.Checked ? "1" : "0") + "'," +
                         "PurchaseReqApproval = '" + (papprovalchk.Checked ? "1" : "0") + "',PurchaseReqApproval2 = '" + (papproval2chk.Checked ? "1" : "0") + "'," +
                         "PurchaseReqBuyer = '" + (pbuyerchk.Checked ? "1" : "0") + "',ECRSup = '" + ecrSupervisorcomboBox.SelectedItem.ToString().Substring(0, 2) + "',Supervisor = '" + supervisorcombox.SelectedItem.ToString().Substring(0, 2) + "'," +
-                        "Email = '" + useremailtxt.Text + "',PriceRight = '" + (pricetoggle.Checked ? "1" : "0") + "',CheckDrawing = '" + (chkdrwtoggle.Checked ? "1" : "0") + "',ApproveDrawing = '" + (appdrwtoggle.Checked ? "1" : "0") + "',Shipping = '" + (shiptoggle.Checked ? "1" : "0") + "'," +
+                        "Email = '" + useremailtxt.Text + "',PriceRight = '" + (pricetoggle.Checked ? "1" : "0") + "',CheckDrawing = '" + (chkdrwtoggle.Checked ? "1" : "0") + "',ApproveDrawing = '" + (appdrwtoggle.Checked ? "1" : "0") + "',ReleasePackage = '" + (rptoggle.Checked ? "1" : "0") + "',Shipping = '" + (shiptoggle.Checked ? "1" : "0") + "'," +
                         "CribCheckout = '" + (cribouttoggle.Checked ? "1" : "0") + "',ShipSup = '" + (shippingSupervisorcomboBox.SelectedItem != null ? shippingSupervisorcomboBox.SelectedItem.ToString().Substring(0, 2) : "") + "',CribShort = '" + (cribshorttoggle.Checked ? "1" : "0") + "'," +
                         "ECR = '" + (ecrtoggle.Checked ? "1" : "0") + "',ShipSupervisor = '" + (shippingsupchk.Checked ? "1" : "0") + "',ShippingManager = '" + (shippingmanagerchk.Checked ? "1" : "0") + "',WORelease = '" + (woreleasetoggle.Checked ? "1" : "0") + "',ItemDependencies = '" + (itmdeptoggle.Checked ? "1" : "0") + "',ECRApproval = '" + (ecrapprovalchk.Checked ? "1" : "0") + "',ECRApproval2 = '" + (ecrapproval2chk.Checked ? "1" : "0") + "',ECRHandler = '" + (ecrhandlerchk.Checked ? "1" : "0") + "'," +
                         "WOScan = '" + (scanwotoggle.Checked ? "1" : "0") + "',SharesFolder = '" + sharepathtxt.Text.Trim() + "'," +
@@ -847,6 +860,7 @@ namespace SearchDataSPM
                "Shipping Manager = " + (shippingmanagerchk.Checked ? "Yes" : "No") + Environment.NewLine +
                "Check Drawing = " + (chkdrwtoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                "Approve Drawing = " + (appdrwtoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+               "Release Pacakage = " + (rptoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                "Management = " + (managementtoggle.Checked ? "Yes" : "No"), "Update User Information?",
                                                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
@@ -865,13 +879,13 @@ namespace SearchDataSPM
                     SqlCommand cmd = cn.CreateCommand();
                     cmd.CommandType = CommandType.Text;
                     cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Users]([Emp_Id], [UserName], [Department], [Name],[ActiveBlockNumber],[Admin],[Developer],[Management]," +
-                        "[Quote],[PurchaseReq],[PurchaseReqApproval],[PurchaseReqApproval2],[PurchaseReqBuyer],[PriceRight],[CheckDrawing],[ApproveDrawing],[ShipSupervisor],[ShipSup],[ShippingManager],[CribCheckout],[CribShort],[WOScan],[Shipping],[Supervisor],[ECRSup]," +
+                        "[Quote],[PurchaseReq],[PurchaseReqApproval],[PurchaseReqApproval2],[PurchaseReqBuyer],[PriceRight],[CheckDrawing],[ApproveDrawing],[ReleasePackage],[ShipSupervisor],[ShipSup],[ShippingManager],[CribCheckout],[CribShort],[WOScan],[Shipping],[Supervisor],[ECRSup]," +
                         "[Email],[SharesFolder],[ECR],[WORelease],[ItemDependencies],[ECRApproval],[ECRApproval2],[ECRHandler]) " +
                         "VALUES('" + empidtxt.Text.Trim() + "','" + domaintxtbox.Text.Trim() + "','" + deptcombobox.SelectedItem.ToString() + "'," +
                         "'" + nametextbox.Text.Trim() + "','" + activeblocknumber + "','" + (admintoggle.Checked ? "1" : "0") + "','" + (developertoggle.Checked ? "1" : "0") + "'," +
                         "'" + (managementtoggle.Checked ? "1" : "0") + "','" + (quotetoggle.Checked ? "1" : "0") + "','" + (purchasereqtoggle.Checked ? "1" : "0") + "'," +
                         "'" + (papprovalchk.Checked ? "1" : "0") + "','" + (papproval2chk.Checked ? "1" : "0") + "','" + (pbuyerchk.Checked ? "1" : "0") + "'," +
-                        "'" + (pricetoggle.Checked ? "1" : "0") + "','" + (chkdrwtoggle.Checked ? "1" : "0") + "','" + (appdrwtoggle.Checked ? "1" : "0") + "','" + (shippingSupervisorcomboBox.SelectedItem != null ? shippingSupervisorcomboBox.SelectedItem.ToString().Substring(0, 2).TrimEnd() : "") + "','" + (shippingmanagerchk.Checked ? "1" : "0") + "','" + (cribouttoggle.Checked ? "1" : "0") + "','" + (cribouttoggle.Checked ? "1" : "0") + "','" + (cribshorttoggle.Checked ? "1" : "0") + "','" + (scanwotoggle.Checked ? "1" : "0") + "','" + (shiptoggle.Checked ? "1" : "0") + "'," +
+                        "'" + (pricetoggle.Checked ? "1" : "0") + "','" + (chkdrwtoggle.Checked ? "1" : "0") + "','" + (appdrwtoggle.Checked ? "1" : "0") + "','" + (rptoggle.Checked ? "1" : "0") + "','" + (shippingSupervisorcomboBox.SelectedItem != null ? shippingSupervisorcomboBox.SelectedItem.ToString().Substring(0, 2).TrimEnd() : "") + "','" + (shippingmanagerchk.Checked ? "1" : "0") + "','" + (cribouttoggle.Checked ? "1" : "0") + "','" + (cribouttoggle.Checked ? "1" : "0") + "','" + (cribshorttoggle.Checked ? "1" : "0") + "','" + (scanwotoggle.Checked ? "1" : "0") + "','" + (shiptoggle.Checked ? "1" : "0") + "'," +
                         "'" + supervisorcombox.SelectedItem.ToString().Substring(0, 2).TrimEnd() + "','" + ecrSupervisorcomboBox.SelectedItem.ToString().Substring(0, 2).TrimEnd() + "','" + useremailtxt.Text + "','" + sharepathtxt.Text + "'," +
                         "'" + (ecrtoggle.Checked ? "1" : "0") + "','" + (woreleasetoggle.Checked ? "1" : "0") + "','" + (itmdeptoggle.Checked ? "1" : "0") + "','" + (ecrapprovalchk.Checked ? "1" : "0") + "','" + (ecrapproval2chk.Checked ? "1" : "0") + "','" + (ecrhandlerchk.Checked ? "1" : "0") + "')";
                     cmd.ExecuteNonQuery();
@@ -1078,338 +1092,36 @@ namespace SearchDataSPM
 
         #region Toggle Events
 
-        private void toggleSliderComponent1_CheckChanged(object sender, EventArgs e)
+        private void admintoggle_CheckChanged(object sender, EventArgs e)
         {
-            toggleadmin();
+            ToggleAction(sender as ToggleSlider.ToggleSliderComponent);
         }
 
-        private void runalltoggle()
+        private void Runalltoggle()
         {
-            toggleadmin();
-            togglecribout();
-            togglequote();
-            toggleprice();
-            toggleship();
-            togglemangement();
-            toggledeveloper();
-            togglepurchasereq();
-            toggleScanwo();
-            toggleCribShort();
-            toggleECR();
-            toggleWORelease();
-            toggleItemDependencies();
-            toggleCheckDrawing();
-            toggleApproveDraw();
-        }
-
-        private void toggleadmin()
-        {
-            if (admintoggle.Checked)
+            foreach (Control c in groupBox1.Controls)
             {
-                admintoggle.ToggleBarText = "Yes";
-                admintoggle.ToggleCircleColor = Color.Green;
-                admintoggle.ToggleColorBar = Color.White;
+                if (c.GetType() == typeof(ToggleSlider.ToggleSliderComponent))
+                {
+                    ToggleAction(c as ToggleSlider.ToggleSliderComponent);
+                }
+            }
+        }
+
+        private void ToggleAction(ToggleSlider.ToggleSliderComponent tg)
+        {
+            if (tg.Checked)
+            {
+                tg.ToggleBarText = "Yes";
+                tg.ToggleCircleColor = Color.Green;
+                tg.ToggleColorBar = Color.White;
             }
             else
             {
-                admintoggle.ToggleBarText = "No";
-                admintoggle.ToggleCircleColor = Color.Red;
-                admintoggle.ToggleColorBar = Color.LightGray;
+                tg.ToggleBarText = "No";
+                tg.ToggleCircleColor = Color.Red;
+                tg.ToggleColorBar = Color.LightGray;
             }
-        }
-
-        private void togglequote()
-        {
-            if (quotetoggle.Checked)
-            {
-                quotetoggle.ToggleBarText = "Yes";
-                quotetoggle.ToggleCircleColor = Color.Green;
-                quotetoggle.ToggleColorBar = Color.White;
-            }
-            else
-            {
-                quotetoggle.ToggleBarText = "No";
-                quotetoggle.ToggleCircleColor = Color.Red;
-                quotetoggle.ToggleColorBar = Color.LightGray;
-            }
-        }
-
-        private void toggleprice()
-        {
-            if (pricetoggle.Checked)
-            {
-                pricetoggle.ToggleBarText = "Yes";
-                pricetoggle.ToggleCircleColor = Color.Green;
-                pricetoggle.ToggleColorBar = Color.White;
-            }
-            else
-            {
-                pricetoggle.ToggleBarText = "No";
-                pricetoggle.ToggleCircleColor = Color.Red;
-                pricetoggle.ToggleColorBar = Color.LightGray;
-            }
-        }
-
-        private void toggleship()
-        {
-            if (shiptoggle.Checked)
-            {
-                shiptoggle.ToggleBarText = "Yes";
-                shiptoggle.ToggleCircleColor = Color.Green;
-                shiptoggle.ToggleColorBar = Color.White;
-            }
-            else
-            {
-                shiptoggle.ToggleBarText = "No";
-                shiptoggle.ToggleCircleColor = Color.Red;
-                shiptoggle.ToggleColorBar = Color.LightGray;
-            }
-        }
-
-        private void togglemangement()
-        {
-            if (managementtoggle.Checked)
-            {
-                managementtoggle.ToggleBarText = "Yes";
-                managementtoggle.ToggleCircleColor = Color.Green;
-                managementtoggle.ToggleColorBar = Color.White;
-            }
-            else
-            {
-                managementtoggle.ToggleBarText = "No";
-                managementtoggle.ToggleCircleColor = Color.Red;
-                managementtoggle.ToggleColorBar = Color.LightGray;
-            }
-        }
-
-        private void toggledeveloper()
-        {
-            if (developertoggle.Checked)
-            {
-                developertoggle.ToggleBarText = "Yes";
-                developertoggle.ToggleCircleColor = Color.Green;
-                developertoggle.ToggleColorBar = Color.White;
-            }
-            else
-            {
-                developertoggle.ToggleBarText = "No";
-                developertoggle.ToggleCircleColor = Color.Red;
-                developertoggle.ToggleColorBar = Color.LightGray;
-            }
-        }
-
-        private void togglepurchasereq()
-        {
-            if (purchasereqtoggle.Checked)
-            {
-                purchasereqtoggle.ToggleBarText = "Yes";
-                purchasereqtoggle.ToggleCircleColor = Color.Green;
-                purchasereqtoggle.ToggleColorBar = Color.White;
-            }
-            else
-            {
-                purchasereqtoggle.ToggleBarText = "No";
-                purchasereqtoggle.ToggleCircleColor = Color.Red;
-                purchasereqtoggle.ToggleColorBar = Color.LightGray;
-            }
-        }
-
-        private void togglecribout()
-        {
-            if (cribouttoggle.Checked)
-            {
-                cribouttoggle.ToggleBarText = "Yes";
-                cribouttoggle.ToggleCircleColor = Color.Green;
-                cribouttoggle.ToggleColorBar = Color.White;
-            }
-            else
-            {
-                cribouttoggle.ToggleBarText = "No";
-                cribouttoggle.ToggleCircleColor = Color.Red;
-                cribouttoggle.ToggleColorBar = Color.LightGray;
-            }
-        }
-
-        private void toggleScanwo()
-        {
-            if (scanwotoggle.Checked)
-            {
-                scanwotoggle.ToggleBarText = "Yes";
-                scanwotoggle.ToggleCircleColor = Color.Green;
-                scanwotoggle.ToggleColorBar = Color.White;
-            }
-            else
-            {
-                scanwotoggle.ToggleBarText = "No";
-                scanwotoggle.ToggleCircleColor = Color.Red;
-                scanwotoggle.ToggleColorBar = Color.LightGray;
-            }
-        }
-
-        private void toggleCribShort()
-        {
-            if (cribshorttoggle.Checked)
-            {
-                cribshorttoggle.ToggleBarText = "Yes";
-                cribshorttoggle.ToggleCircleColor = Color.Green;
-                cribshorttoggle.ToggleColorBar = Color.White;
-            }
-            else
-            {
-                cribshorttoggle.ToggleBarText = "No";
-                cribshorttoggle.ToggleCircleColor = Color.Red;
-                cribshorttoggle.ToggleColorBar = Color.LightGray;
-            }
-        }
-
-        private void toggleECR()
-        {
-            if (ecrtoggle.Checked)
-            {
-                ecrtoggle.ToggleBarText = "Yes";
-                ecrtoggle.ToggleCircleColor = Color.Green;
-                ecrtoggle.ToggleColorBar = Color.White;
-            }
-            else
-            {
-                ecrtoggle.ToggleBarText = "No";
-                ecrtoggle.ToggleCircleColor = Color.Red;
-                ecrtoggle.ToggleColorBar = Color.LightGray;
-            }
-        }
-
-        private void toggleWORelease()
-        {
-            if (woreleasetoggle.Checked)
-            {
-                woreleasetoggle.ToggleBarText = "Yes";
-                woreleasetoggle.ToggleCircleColor = Color.Green;
-                woreleasetoggle.ToggleColorBar = Color.White;
-            }
-            else
-            {
-                woreleasetoggle.ToggleBarText = "No";
-                woreleasetoggle.ToggleCircleColor = Color.Red;
-                woreleasetoggle.ToggleColorBar = Color.LightGray;
-            }
-        }
-
-        private void toggleItemDependencies()
-        {
-            if (itmdeptoggle.Checked)
-            {
-                itmdeptoggle.ToggleBarText = "Yes";
-                itmdeptoggle.ToggleCircleColor = Color.Green;
-                itmdeptoggle.ToggleColorBar = Color.White;
-            }
-            else
-            {
-                itmdeptoggle.ToggleBarText = "No";
-                itmdeptoggle.ToggleCircleColor = Color.Red;
-                itmdeptoggle.ToggleColorBar = Color.LightGray;
-            }
-        }
-
-        private void toggleCheckDrawing()
-        {
-            if (chkdrwtoggle.Checked)
-            {
-                chkdrwtoggle.ToggleBarText = "Yes";
-                chkdrwtoggle.ToggleCircleColor = Color.Green;
-                chkdrwtoggle.ToggleColorBar = Color.White;
-            }
-            else
-            {
-                chkdrwtoggle.ToggleBarText = "No";
-                chkdrwtoggle.ToggleCircleColor = Color.Red;
-                chkdrwtoggle.ToggleColorBar = Color.LightGray;
-            }
-        }
-
-        private void toggleApproveDraw()
-        {
-            if (appdrwtoggle.Checked)
-            {
-                appdrwtoggle.ToggleBarText = "Yes";
-                appdrwtoggle.ToggleCircleColor = Color.Green;
-                appdrwtoggle.ToggleColorBar = Color.White;
-            }
-            else
-            {
-                appdrwtoggle.ToggleBarText = "No";
-                appdrwtoggle.ToggleCircleColor = Color.Red;
-                appdrwtoggle.ToggleColorBar = Color.LightGray;
-            }
-        }
-
-        private void quotetoggle_CheckChanged(object sender, EventArgs e)
-        {
-            togglequote();
-        }
-
-        private void pricetoggle_CheckChanged(object sender, EventArgs e)
-        {
-            toggleprice();
-        }
-
-        private void shiptoggle_CheckChanged(object sender, EventArgs e)
-        {
-            toggleship();
-        }
-
-        private void cribouttoggle_CheckChanged(object sender, EventArgs e)
-        {
-            togglecribout();
-        }
-
-        private void developertoggle_CheckChanged(object sender, EventArgs e)
-        {
-            toggledeveloper();
-        }
-
-        private void purchasereqtoggle_CheckChanged(object sender, EventArgs e)
-        {
-            togglepurchasereq();
-        }
-
-        private void managementtoggle_CheckChanged(object sender, EventArgs e)
-        {
-            togglemangement();
-        }
-
-        private void scanwotoggle_CheckChanged(object sender, EventArgs e)
-        {
-            toggleScanwo();
-        }
-
-        private void cribshorttoggle_CheckChanged(object sender, EventArgs e)
-        {
-            toggleCribShort();
-        }
-
-        private void ecrtoggle_CheckChanged(object sender, EventArgs e)
-        {
-            toggleECR();
-        }
-
-        private void itmdeptoggle_CheckChanged(object sender, EventArgs e)
-        {
-            toggleItemDependencies();
-        }
-
-        private void woreleasetoggle_CheckChanged(object sender, EventArgs e)
-        {
-            toggleWORelease();
-        }
-
-        private void chkdrwtoggle_CheckChanged(object sender, EventArgs e)
-        {
-            toggleCheckDrawing();
-        }
-
-        private void appdrwtoggle_CheckChanged(object sender, EventArgs e)
-        {
-            toggleApproveDraw();
         }
 
         #endregion Toggle Events
@@ -1522,10 +1234,6 @@ namespace SearchDataSPM
             }
         }
 
-        private void managementtoggle_Load(object sender, EventArgs e)
-        {
-        }
-
         private void shippingmanagerchk_CheckedChanged(object sender, EventArgs e)
         {
             if (shippingmanagerchk.Checked)
@@ -1541,5 +1249,6 @@ namespace SearchDataSPM
                 shippingmanagerchk.Checked = false;
             }
         }
+
     }
 }

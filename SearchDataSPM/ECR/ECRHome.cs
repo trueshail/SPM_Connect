@@ -48,7 +48,7 @@ namespace SearchDataSPM
             collapse();
             dt = new DataTable();
             checkdeptsandrights();
-            userfullname = connectapi.getuserfullname();
+            userfullname = connectapi.Getuserfullname();
             Showallitems(true);
             txtSearch.Focus();
             formloading = false;
@@ -1113,7 +1113,7 @@ namespace SearchDataSPM
                 {
                     if (connectapi.CheckinInvoice(invoice))
                     {
-                        using (ECRDetails invoiceDetails = new ECRDetails(connectapi.getuserfullname(), invoice))
+                        using (ECRDetails invoiceDetails = new ECRDetails(connectapi.Getuserfullname(), invoice))
                         {
                             invoiceDetails.ShowDialog();
                             this.Enabled = true;

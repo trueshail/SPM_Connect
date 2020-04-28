@@ -1,7 +1,6 @@
 ﻿using ExtractLargeIconFromFile;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
-
 using SPMConnectAPI;
 using System;
 using System.Collections.Generic;
@@ -90,7 +89,7 @@ namespace SearchDataSPM
             if (checkedit == "yes")
             {
                 processsavebutton();
-                processeditbutton();
+                Processeditbutton();
             }
 
             log4net.Config.XmlConfigurator.Configure();
@@ -467,9 +466,9 @@ namespace SearchDataSPM
                 processmodelcreattion(ItemTxtBox.Text);
             }
             filllistview(ItemTxtBox.Text);
-            chekbeforefillingcustomproperties(ItemTxtBox.Text);
+            Chekbeforefillingcustomproperties(ItemTxtBox.Text);
             createnewitemtosql(list[0].ToString(), list[1].ToString(), list[5].ToString(), list[3].ToString(), list[4].ToString(), list[2].ToString(), list[6].ToString(), list[7].ToString(), list[8].ToString(), lastsavedby, list[10].ToString(), list[9].ToString());
-            perfromlockdown();
+            Perfromlockdown();
             this.Enabled = true;
             Cursor.Current = Cursors.Default;
         }
@@ -522,7 +521,19 @@ namespace SearchDataSPM
                                 //Thread.Sleep(3000);
                                 await Task.Run(() => SplashDialog("Importing Model...."));
                                 Thread.Sleep(1000);
-                                connectapi.Importstepfile(impfilname, filename);
+                                if (connectapi.Importstepfile(impfilname, filename) == true)
+                                {
+                                    if (connectapi.Getfilename() != item)
+                                    {
+                                        connectapi.Open_model(filename);
+                                    }
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Solidworks encountered importing error. Please restart solidworks in oder to prevent this error in future.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    System.IO.Directory.CreateDirectory(path);
+                                    connectapi.Createmodel(filename);
+                                }
                                 doneshowingSplash = true;
                                 //Engineering.WaitFormImport f = new Engineering.WaitFormImport();
                                 //f = (Engineering.WaitFormImport)Application.OpenForms["WaitFormImport"];
@@ -548,6 +559,10 @@ namespace SearchDataSPM
 
                                 if (connectapi.Importigesfile(impfilname, filename) == true)
                                 {
+                                    if (connectapi.Getfilename() != item)
+                                    {
+                                        connectapi.Open_model(filename);
+                                    }
                                 }
                                 else
                                 {
@@ -580,6 +595,10 @@ namespace SearchDataSPM
 
                                 if (connectapi.Importparasolidfile(impfilname, filename) == true)
                                 {
+                                    if (connectapi.Getfilename() != item)
+                                    {
+                                        connectapi.Open_model(filename);
+                                    }
                                 }
                                 else
                                 {
@@ -643,10 +662,10 @@ namespace SearchDataSPM
 
         private void editbttn_Click(object sender, EventArgs e)
         {
-            processeditbutton();
+            Processeditbutton();
         }
 
-        private void processeditbutton()
+        private void Processeditbutton()
         {
             editbttn.Visible = false;
             savebttn.Enabled = true;
@@ -677,7 +696,7 @@ namespace SearchDataSPM
             heattreat.AutoCompleteMode = AutoCompleteMode.Suggest;
         }
 
-        private void perfromlockdown()
+        private void Perfromlockdown()
         {
             editbttn.Visible = true;
             savebttn.Enabled = false;
@@ -757,7 +776,7 @@ namespace SearchDataSPM
 
         #region solidworks custom properties
 
-        public void fillcustomproperties()
+        public void Fillcustomproperties()
         {
             if (connectapi.Solidworks_running() == true)
             {
@@ -807,7 +826,7 @@ namespace SearchDataSPM
             }
         }
 
-        public void chekbeforefillingcustomproperties(string item)
+        public void Chekbeforefillingcustomproperties(string item)
         {
             if (connectapi.Solidworks_running() == true)
             {
@@ -815,7 +834,7 @@ namespace SearchDataSPM
                 string olditemnumber = item + "-0";
                 if (getcurrentfilename == item || getcurrentfilename == olditemnumber)
                 {
-                    fillcustomproperties();
+                    Fillcustomproperties();
                 }
                 else
                 {
@@ -832,22 +851,22 @@ namespace SearchDataSPM
                     if (File.Exists(Pathassy))
                     {
                         connectapi.Open_assy(Pathassy);
-                        fillcustomproperties();
+                        Fillcustomproperties();
                     }
                     else if (File.Exists(Pathpart))
                     {
                         connectapi.Open_model(Pathpart);
-                        fillcustomproperties();
+                        Fillcustomproperties();
                     }
                     else if (File.Exists(Pathparto))
                     {
                         connectapi.Open_model(Pathparto);
-                        fillcustomproperties();
+                        Fillcustomproperties();
                     }
                     else if (File.Exists(Pathassyo))
                     {
                         connectapi.Open_assy(Pathassyo);
-                        fillcustomproperties();
+                        Fillcustomproperties();
                     }
                     else
                     {
