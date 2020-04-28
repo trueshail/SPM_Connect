@@ -28,7 +28,6 @@ namespace SearchDataSPM.Engineering
         private ErrorHandler errorHandler = new ErrorHandler();
         private log4net.ILog log;
         private string connection;
-        private string cntrlconnection;
         private SqlConnection cn;
         private DataTable dt;
         private bool formloading = false;
@@ -53,9 +52,8 @@ namespace SearchDataSPM.Engineering
         {
             InitializeComponent();
             formloading = true;
-
             connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
-            cntrlconnection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cntrlscn"].ConnectionString;
+
             try
             {
                 cn = new SqlConnection(connection);
@@ -106,7 +104,7 @@ namespace SearchDataSPM.Engineering
 
         private void Checkdeptsandrights()
         {
-            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+            string userName = SPMConnectAPI.Helper.GetUserName();
             department = connectapi.Getdepartment();
 
             if (department == "Controls")
@@ -398,7 +396,7 @@ namespace SearchDataSPM.Engineering
             //Console.WriteLine("Surame: " + changedEntity.Surname);
             string type = e.ChangeType.ToString();
             changed = string.Format((changedEntity.username));
-            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+            string userName = SPMConnectAPI.Helper.GetUserName();
             // MessageBox.Show(changed);
             if (changed == userName && type == "Update")
             {
@@ -1700,7 +1698,7 @@ namespace SearchDataSPM.Engineering
             {
                 if (connectapi.Solidworks_running() == true)
                 {
-                    string user = connectapi.UserName();
+                    string user = SPMConnectAPI.Helper.GetUserName();
                     string activeblock = connectapi.Getactiveblock();
 
                     if (activeblock.ToString().Length > 0)
@@ -2110,7 +2108,7 @@ namespace SearchDataSPM.Engineering
             {
                 if (connectapi.Solidworks_running() == true)
                 {
-                    string user = connectapi.UserName();
+                    string user = SPMConnectAPI.Helper.GetUserName();
                     string activeblock = connectapi.Getactiveblock();
                     string lastnumber = connectapi.Getlastnumber();
                     if (activeblock.ToString().Length > 0)

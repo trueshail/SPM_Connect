@@ -19,7 +19,7 @@ namespace SPMConnectAPI
 
         private void SPM_Connect()
         {
-            string connection = "Data Source=spm-sql;Initial Catalog=SPM_Database;User ID=SPM_Agent;password=spm5445";
+            string connection = Helper.ConnectConnectionString();
             try
             {
                 cn = new SqlConnection(connection);
@@ -27,19 +27,6 @@ namespace SPMConnectAPI
             catch (Exception)
             {
                 MessageBox.Show("Error Connecting to SQL Server.....", "SPM Connect ECR sql", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        public string UserName()
-        {
-            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-            if (userName.Length > 0)
-            {
-                return userName;
-            }
-            else
-            {
-                return null;
             }
         }
 
@@ -52,7 +39,7 @@ namespace SPMConnectAPI
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + UserName().ToString() + "' ";
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + Helper.GetUserName().ToString() + "' ";
                 cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -83,7 +70,7 @@ namespace SPMConnectAPI
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + UserName().ToString() + "' ";
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + Helper.GetUserName().ToString() + "' ";
                 cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -176,7 +163,7 @@ namespace SPMConnectAPI
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + UserName().ToString() + "' ";
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + Helper.GetUserName().ToString() + "' ";
                 cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -235,7 +222,7 @@ namespace SPMConnectAPI
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + UserName().ToString() + "' ";
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + Helper.GetUserName().ToString() + "' ";
                 cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -273,7 +260,7 @@ namespace SPMConnectAPI
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + UserName() + "' ";
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + Helper.GetUserName() + "' ";
                 cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -298,7 +285,7 @@ namespace SPMConnectAPI
         public bool CheckECRCreator()
         {
             bool ecrCreator = false;
-            string useradmin = UserName();
+            string useradmin = Helper.GetUserName();
 
             using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND [ECR] = '1'", cn))
             {
@@ -328,7 +315,7 @@ namespace SPMConnectAPI
         public bool CheckECRSupervisor()
         {
             bool ecrSupervisor = false;
-            string useradmin = UserName();
+            string useradmin = Helper.GetUserName();
 
             using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND [ECRApproval] = '1'", cn))
             {
@@ -358,7 +345,7 @@ namespace SPMConnectAPI
         public bool CheckECRApprovee()
         {
             bool ecrApprovee = false;
-            string useradmin = UserName();
+            string useradmin = Helper.GetUserName();
 
             using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND [ECRApproval2] = '1'", cn))
             {
@@ -388,7 +375,7 @@ namespace SPMConnectAPI
         public bool CheckECRHandler()
         {
             bool ecrHandler = false;
-            string useradmin = UserName();
+            string useradmin = Helper.GetUserName();
 
             using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND [ECRHandler] = '1'", cn))
             {
@@ -1031,7 +1018,7 @@ namespace SPMConnectAPI
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[UserHolding] (App, UserName, ItemId,CheckInDateTime) VALUES('ECR','" + UserName() + "','" + invoicenumber + "','" + sqlFormattedDatetime + "')";
+                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[UserHolding] (App, UserName, ItemId,CheckInDateTime) VALUES('ECR','" + Helper.GetUserName() + "','" + invoicenumber + "','" + sqlFormattedDatetime + "')";
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 success = true;
@@ -1057,7 +1044,7 @@ namespace SPMConnectAPI
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "DELETE FROM [SPM_Database].[dbo].[UserHolding] where App = 'ECR' AND UserName = '" + UserName() + "' AND ItemId = '" + invoicenumber + "'";
+                cmd.CommandText = "DELETE FROM [SPM_Database].[dbo].[UserHolding] where App = 'ECR' AND UserName = '" + Helper.GetUserName() + "' AND ItemId = '" + invoicenumber + "'";
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 success = true;

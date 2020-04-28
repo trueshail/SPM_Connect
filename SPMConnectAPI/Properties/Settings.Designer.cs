@@ -22,27 +22,5 @@ namespace SPMConnectAPI.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=spm-sql;Initial Catalog=SPM_Database;User ID=SPM_Agent;password=spm54" +
-            "45")]
-        public string cn {
-            get {
-                return ((string)(this["cn"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=spm-sql;Initial Catalog=SPMControlCatalog;User ID=SPM_Controls;passwo" +
-            "rd=eyBzJehFP*uO")]
-        public string cntrlscn {
-            get {
-                return ((string)(this["cntrlscn"]));
-            }
-        }
     }
 }

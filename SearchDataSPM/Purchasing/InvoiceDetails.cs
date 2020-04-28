@@ -112,19 +112,6 @@ namespace SearchDataSPM
             return fillled;
         }
 
-        private string Get_username()
-        {
-            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-
-            if (userName.Length > 0)
-            {
-                return userName;
-            }
-            else
-            {
-                return null;
-            }
-        }
 
         private void GetUserCreds()
         {
@@ -134,7 +121,7 @@ namespace SearchDataSPM
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + Get_username().ToString() + "' ";
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + SPMConnectAPI.Helper.GetUserName() + "' ";
                 cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);

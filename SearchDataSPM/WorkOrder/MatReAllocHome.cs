@@ -61,7 +61,7 @@ namespace SearchDataSPM
 
         private void checkdeptsandrights()
         {
-            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+            string userName = SPMConnectAPI.Helper.GetUserName();
             versionlabel.Text = connectapi.Getassyversionnumber();
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
         }

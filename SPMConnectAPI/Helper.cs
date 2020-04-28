@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace SPMConnectAPI
 {
     /// <summary>
@@ -22,6 +17,17 @@ namespace SPMConnectAPI
             {
                 return null;
             }
+        }
+
+        public static string ConnectConnectionString()
+        {
+            return "Data Source=spm-sql;Initial Catalog=SPM_Database;User ID=SPM_Agent;password=spm5445";
+        }
+
+
+        public static string ConnectCntrlsConnectionString()
+        {
+            return "Data Source=spm-sql;Initial Catalog=SPMControlCatalog;User ID=SPM_Controls;password=eyBzJehFP*uO";
         }
     }
 }

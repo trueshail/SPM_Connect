@@ -92,7 +92,7 @@ namespace SearchDataSPM
 
         private void CheckManagement()
         {
-            string useradmin = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+            string useradmin = SPMConnectAPI.Helper.GetUserName();
 
             using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND Management = '1'", _connection))
             {
@@ -135,7 +135,7 @@ namespace SearchDataSPM
 
         private void CheckItemDependenciesRight()
         {
-            string useradmin = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+            string useradmin = SPMConnectAPI.Helper.GetUserName();
 
             using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND ItemDependencies = '1'", _connection))
             {
@@ -182,7 +182,7 @@ namespace SearchDataSPM
 
         private void CheckPriceRights()
         {
-            string useradmin = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+            string useradmin = SPMConnectAPI.Helper.GetUserName();
 
             using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND PriceRight = '1'", _connection))
             {
@@ -467,7 +467,7 @@ namespace SearchDataSPM
             if (salepricetext.Text.Length > 0 && qtytxt.Text.Length > 0)
             {
                 string itemnumber = ItemTxtBox.Text;
-                string user = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+                string user = SPMConnectAPI.Helper.GetUserName();
                 string userfullname = Getuserfullname(user).ToString();
                 Createnewentry(itemnumber, userfullname);
                 Clearalltextboxes();

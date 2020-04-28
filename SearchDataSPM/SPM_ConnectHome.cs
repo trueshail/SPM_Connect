@@ -48,7 +48,7 @@ namespace SearchDataSPM
         public void Connect_SPMSQL()
         {
             connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
-            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+            string userName = SPMConnectAPI.Helper.GetUserName();
             try
             {
                 cn = new SqlConnection(connection);
@@ -115,7 +115,7 @@ namespace SearchDataSPM
         public string Getdepartment()
         {
             string Department = "";
-            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+            string userName = SPMConnectAPI.Helper.GetUserName();
             try
             {
                 if (cn.State == ConnectionState.Closed)
@@ -175,7 +175,7 @@ namespace SearchDataSPM
         public bool Checkdeveloper()
         {
             bool developer = false;
-            string useradmin = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+            string useradmin = SPMConnectAPI.Helper.GetUserName();
 
             using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND Developer = '1'", cn))
             {

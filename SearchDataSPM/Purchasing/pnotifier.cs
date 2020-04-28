@@ -26,19 +26,6 @@ namespace SearchDataSPM
         //double total = 0.00;
         ////
 
-        public String UserName()
-        {
-            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-
-            if (userName.Length > 0)
-            {
-                return userName;
-            }
-            else
-            {
-                return null;
-            }
-        }
 
         public void SPM_Connect()
         {
@@ -52,10 +39,10 @@ namespace SearchDataSPM
             }
         }
 
-        public void currentusercreds()
+        public void Currentusercreds()
         {
             SPM_Connect();
-            string username = UserName();
+            string username = SPMConnectAPI.Helper.GetUserName();
             string fullname = "";
             try
             {
@@ -107,7 +94,7 @@ namespace SearchDataSPM
             //currentusercreds();
             string message = "no";
 
-            string supervisorname = getsupervisorname(getsupervisorid(UserName()));
+            string supervisorname = getsupervisorname(getsupervisorid(SPMConnectAPI.Helper.GetUserName()));
 
             if (validate == 1 && approved == 0)
             {

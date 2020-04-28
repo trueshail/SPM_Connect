@@ -67,7 +67,7 @@ namespace SearchDataSPM
             }
             dt = new DataTable();
             Clear();
-            userfullname = Getuserfullname(Get_username().ToString()).ToString();
+            userfullname = Getuserfullname(SPMConnectAPI.Helper.GetUserName().ToString()).ToString();
         }
 
         private void PurchaseReq_Load(object sender, EventArgs e)
@@ -115,6 +115,7 @@ namespace SearchDataSPM
             log.Info("Opened Purchase Req ");
             this.BringToFront();
             this.Focus();
+            this.Text = "SPM Connect Purchase Requisition - " + SPMConnectAPI.Helper.GetUserName().Substring(4);
         }
 
         private void Changecontrolbuttonnames()
@@ -254,19 +255,6 @@ namespace SearchDataSPM
 
         #region Get User Full Name
 
-        private string Get_username()
-        {
-            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-            this.Text = "SPM Connect Purchase Requisition - " + userName.Substring(4);
-            if (userName.Length > 0)
-            {
-                return userName;
-            }
-            else
-            {
-                return null;
-            }
-        }
 
         private string Getuserfullname(string username)
         {
@@ -3354,7 +3342,7 @@ namespace SearchDataSPM
                 //sfd.Filter = "Excel Documents (*.xls)|*.xls";
                 //sfd.FileName = "Inventory_Adjustment_Export.xls";
 
-                string filepath = Getsupervisorsharepath(Get_username()).ToString() + @"\SPM_Connect\PreliminaryPurchases\";
+                string filepath = Getsupervisorsharepath(SPMConnectAPI.Helper.GetUserName()).ToString() + @"\SPM_Connect\PreliminaryPurchases\";
                 System.IO.Directory.CreateDirectory(filepath);
                 filepath += purchreqtxt.Text + " - " + requestbytxt.Text + ".xls";
                 // Copy DataGridView results to clipboard

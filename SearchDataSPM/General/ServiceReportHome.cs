@@ -44,7 +44,7 @@ namespace SearchDataSPM
             formloading = true;
             collapse();
             dt = new DataTable();
-            checkdeptsandrights();
+            Checkdeptsandrights();
             userfullname = connectapi.getuserfullname();
             Showallitems(true);
             txtSearch.Focus();
@@ -54,9 +54,9 @@ namespace SearchDataSPM
             log.Info("Opened Service Report Home ");
         }
 
-        private void checkdeptsandrights()
+        private void Checkdeptsandrights()
         {
-            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+            string userName = SPMConnectAPI.Helper.GetUserName();
             versionlabel.Text = connectapi.getassyversionnumber();
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
         }

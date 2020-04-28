@@ -525,20 +525,8 @@ namespace SearchDataSPM.General
             }
         }
 
-        private static string get_username()
-        {
-            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-            if (userName.Length > 0)
-            {
-                return userName;
-            }
-            else
-            {
-                return null;
-            }
-        }
 
-        private string getuserfullname(string username)
+        private string Getuserfullname(string username)
         {
             try
             {
@@ -605,7 +593,7 @@ namespace SearchDataSPM.General
 
             if (result == DialogResult.Yes)
             {
-                string user = getuserfullname(get_username());
+                string user = Getuserfullname(SPMConnectAPI.Helper.GetUserName());
                 string newnunber = getnewnumber();
                 bool status = createnewquote(newnunber, user);
                 if (status)

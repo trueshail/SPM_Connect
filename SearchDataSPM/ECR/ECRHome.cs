@@ -47,7 +47,7 @@ namespace SearchDataSPM
             formloading = true;
             collapse();
             dt = new DataTable();
-            checkdeptsandrights();
+            Checkdeptsandrights();
             userfullname = connectapi.Getuserfullname();
             Showallitems(true);
             txtSearch.Focus();
@@ -57,9 +57,9 @@ namespace SearchDataSPM
             log.Info("Opened ECR Home ");
         }
 
-        private void checkdeptsandrights()
+        private void Checkdeptsandrights()
         {
-            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+            string userName = SPMConnectAPI.Helper.GetUserName();
             versionlabel.Text = connectapi.getassyversionnumber();
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
 

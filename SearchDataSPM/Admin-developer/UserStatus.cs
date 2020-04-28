@@ -83,14 +83,13 @@ namespace SearchDataSPM.Admin_developer
 
         private void Checkdeveloper()
         {
-            string useradmin = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
 
             using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND Developer = '1'", cn))
             {
                 try
                 {
                     cn.Open();
-                    sqlCommand.Parameters.AddWithValue("@username", useradmin);
+                    sqlCommand.Parameters.AddWithValue("@username", SPMConnectAPI.Helper.GetUserName());
 
                     int userCount = (int)sqlCommand.ExecuteScalar();
                     if (userCount == 1)

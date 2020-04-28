@@ -141,7 +141,7 @@ namespace SearchDataSPM
                     names[b] = names[b].Trim();
                 }
                 name = names[0];
-                connectapi.SendemailListAttachments(email, "Connect Error Submitted - " + subject, "Hello " + name + "," + Environment.NewLine + requser + " sent this error report." + Environment.NewLine + notes + Environment.NewLine + Environment.NewLine + "Triggered by " + connectapi.UserName(), files, "");
+                connectapi.SendemailListAttachments(email, "Connect Error Submitted - " + subject, "Hello " + name + "," + Environment.NewLine + requser + " sent this error report." + Environment.NewLine + notes + Environment.NewLine + Environment.NewLine + "Triggered by " + SPMConnectAPI.Helper.GetUserName(), files, "");
             }
         }
 

@@ -19,7 +19,7 @@ namespace SPMConnectAPI
 
         private void SPM_Connect()
         {
-            string connection = "Data Source=spm-sql;Initial Catalog=SPMControlCatalog;User ID=SPM_Controls;password=eyBzJehFP*uO";
+            string connection = Helper.ConnectCntrlsConnectionString();
             try
             {
                 _connection = new SqlConnection(connection);
@@ -36,7 +36,7 @@ namespace SPMConnectAPI
 
         private void SPM_Connectconnectsql()
         {
-            string connection = "Data Source=spm-sql;Initial Catalog=SPM_Database;User ID=SPM_Agent;password=spm5445";
+            string connection = Helper.ConnectConnectionString();
             try
             {
                 cn = new SqlConnection(connection);

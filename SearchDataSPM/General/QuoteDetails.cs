@@ -310,20 +310,8 @@ namespace SearchDataSPM.General
             return money.IsMatch(text);
         }
 
-        private static String get_username()
-        {
-            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-            if (userName.Length > 0)
-            {
-                return userName;
-            }
-            else
-            {
-                return null;
-            }
-        }
 
-        private string getuserfullname(string username)
+        private string Getuserfullname(string username)
         {
             try
             {
@@ -473,7 +461,7 @@ namespace SearchDataSPM.General
                 createfolders(ItemTxtBox.Text);
             }
 
-            string lastsavedby = getuserfullname(get_username().ToString()).ToString();
+            string lastsavedby = Getuserfullname(SPMConnectAPI.Helper.GetUserName()).ToString();
             createnewitemtosql(list[0].ToString(), list[1].ToString(), list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(), list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(), list[10].ToString(), lastsavedby);
 
             this.Enabled = true;
