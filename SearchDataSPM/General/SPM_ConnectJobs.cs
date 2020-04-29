@@ -9,6 +9,7 @@ using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
@@ -23,7 +24,7 @@ namespace SearchDataSPM
         private SqlCommand _command;
         private SPMSQLCommands connectapi = new SPMSQLCommands();
         private log4net.ILog log;
-
+        private bool doneshowingSplash = false;
         private ErrorHandler errorHandler = new ErrorHandler();
 
         public SPM_ConnectJobs()
@@ -829,7 +830,7 @@ namespace SearchDataSPM
             ecr.Show();
         }
 
-        private void Createfolders()
+        private void CreatefoldersAsync()
         {
             try
             {
@@ -861,7 +862,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void Createjobfolders(string jobnumber, string customer, string jobdescription, string salesorder)
+        private async void Createjobfolders(string jobnumber, string customer, string jobdescription, string salesorder)
         {
             this.Enabled = false;
             Cursor.Current = Cursors.WaitCursor;
@@ -874,8 +875,7 @@ namespace SearchDataSPM
 
             if (ValueIWantFromProptForm.Length > 0)
             {
-                Thread t = new Thread(new ThreadStart(Splashsave));
-                t.Start();
+                await Task.Run(() => SplashDialog("Creating Folders....."));
                 string destpatheng = "";
                 string destpaths300 = "";
                 string sourcepathseng = "";
@@ -907,7 +907,7 @@ namespace SearchDataSPM
                     DirectoryCopy(sourcepathseng, destpatheng, true);
                     DirectoryCopy(sourcepaths300, destpaths300, true);
                 }
-                t.Abort();
+                doneshowingSplash = true;
 
                 MessageBox.Show("Job folders created sucessfully!.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -920,15 +920,24 @@ namespace SearchDataSPM
             this.Enabled = true;
         }
 
-        private void Splashsave()
+        private void SplashDialog(string message)
         {
-            Dialog waitFormSaving = new Dialog
+            doneshowingSplash = false;
+            ThreadPool.QueueUserWorkItem((x) =>
             {
-                Message = "Creating Folders.....",
-                TopMost = true
-            };
-            waitFormSaving.Location = new Point(this.Location.X + (this.Width - waitFormSaving.Width) / 2, this.Location.Y + (this.Height - waitFormSaving.Height) / 2);
-            Application.Run(waitFormSaving);
+                using (var splashForm = new Dialog())
+                {
+                    splashForm.TopMost = true;
+                    splashForm.Focus();
+                    splashForm.Activate();
+                    splashForm.Message = message;
+                    splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
+                    splashForm.Show();
+                    while (!doneshowingSplash)
+                        Application.DoEvents();
+                    splashForm.Close();
+                }
+            });
         }
 
         private string Getjobnumber()
@@ -1027,7 +1036,7 @@ namespace SearchDataSPM
 
         private void createFoldersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Createfolders();
+            CreatefoldersAsync();
         }
 
         #endregion CreateFolders

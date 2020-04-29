@@ -1818,7 +1818,11 @@ namespace SPMConnectAPI
                         dt = GrabReleaseSuggestions(wo, jobno, assyno);
                         if (dt.Rows.Count > 0)
                             foreach (DataRow dr in dt.Select())
-                                CopyNewReleaseItems(wo, assyno, releaselogno, jobno, releasetype, dr["ItemId"].ToString(), dr["Qty"].ToString());
+                            {
+                                CopyNewReleaseItems(wo, assyno, releaselogno, jobno, releasetype, dr["ItemId"].ToString(), dr["Qty"].ToString(), dr["Order"].ToString());
+                                UpdateBallonRefToEst(dr["ItemId"].ToString(), releasetype, jobno, assyno);
+                                UpdateBallonRefToWorkOrder(dr["ItemId"].ToString(), releasetype, jobno, assyno, wo, dr["Order"].ToString());
+                            }
                     }
                 }
                 return success;
@@ -2201,7 +2205,7 @@ namespace SPMConnectAPI
             return success;
         }
 
-        public bool UpdateBallonRefToWorkOrder(string itemId, string ballonref, string job, string assy, string wo)
+        public bool UpdateBallonRefToWorkOrder(string itemId, string ballonref, string job, string assy, string wo, string order = "0")
         {
             bool success = false;
 
@@ -2211,7 +2215,7 @@ namespace SPMConnectAPI
             {
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "UPDATE [SPMDB].[dbo].[Mrpres] SET [Ballon] = '" + ballonref + "' WHERE [Item] = '" + itemId + "' AND [Job]  = '" + job + "' AND [Piece] = '" + assy + "' AND [Woprec]  = '" + wo + "'";
+                cmd.CommandText = "UPDATE [SPMDB].[dbo].[Mrpres] SET [Ballon] = '" + ballonref + "' WHERE [Item] = '" + itemId + "' AND [Job]  = '" + job + "' AND [Piece] = '" + assy + "' AND [Woprec]  = '" + wo + "' AND [Ordre] = '" + order + "' AND RML_Active = '1'";
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 success = true;
@@ -2309,9 +2313,9 @@ namespace SPMConnectAPI
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[WOReleaseDetails] ([RlogNo],[WO],[ReleaseType], [JobNo], [AssyNo],[ItemId],[ItemQty],[ItemNotes],[IsRevised]," +
-                    "[ItemCreatedOn], [ItemCreatedBy], [ItemLastSaved], [ItemLastSavedBy])" +
+                    "[ItemCreatedOn], [ItemCreatedBy], [ItemLastSaved], [ItemLastSavedBy],[Order])" +
                     "SELECT'" + rlogno + "' as RlogNo,[Woprec],'" + releasetype + "' as ReleaseType,'" + jobno + "' as JobNo,[Piece],[Item],[Qte_Ass],'' as Notes,'3' as IsRevised,'" + sqlFormattedDatetime + "' as CreatedOn," +
-                    "'" + username + "' as CreatedBy,'" + sqlFormattedDatetime + "' as LastSaved,'" + username + "' as LastSavedBy " +
+                    "'" + username + "' as CreatedBy,'" + sqlFormattedDatetime + "' as LastSaved,'" + username + "' as LastSavedBy,[Ordre] " +
                     "FROM [SPMDB].[dbo].[Mrpres] where Piece = '" + assyno + "' and Job = '" + jobno + "' and Woprec = '" + wo + "' and RML_Active = '1'";
                 cmd.ExecuteNonQuery();
                 cn.Close();
@@ -2326,7 +2330,7 @@ namespace SPMConnectAPI
             }
         }
 
-        public void CopyNewReleaseItems(string wo, string assyno, string rlogno, string jobno, string releasetype, string itemno, string qty)
+        public void CopyNewReleaseItems(string wo, string assyno, string rlogno, string jobno, string releasetype, string itemno, string qty, string order)
         {
             SPMSQLCommands connectAPI = new SPMSQLCommands();
             DateTime datecreated = DateTime.Now;
@@ -2339,9 +2343,9 @@ namespace SPMConnectAPI
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[WOReleaseDetails] ([RlogNo],[WO],[ReleaseType], [JobNo], [AssyNo],[ItemId],[ItemQty],[ItemNotes],[IsRevised]," +
-                    "[ItemCreatedOn], [ItemCreatedBy], [ItemLastSaved], [ItemLastSavedBy])" +
+                    "[ItemCreatedOn], [ItemCreatedBy], [ItemLastSaved], [ItemLastSavedBy], [Order])" +
                     "VALUES('" + rlogno + "','" + wo + "','" + releasetype + "','" + jobno + "','" + assyno + "','" + itemno + "','" + qty + "','','1','" + sqlFormattedDatetime + "'," +
-                    "'" + username + "','" + sqlFormattedDatetime + "','" + username + "')";
+                    "'" + username + "','" + sqlFormattedDatetime + "','" + username + "','" + order + "')";
 
                 cmd.ExecuteNonQuery();
                 cn.Close();
