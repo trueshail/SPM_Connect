@@ -219,7 +219,7 @@ namespace SearchDataSPM
                 {
                     Text = dr["ItemNumber"].ToString() + " - " + dr["Description"].ToString() + " (" + dr["QuantityPerAssembly"].ToString() + ") ",
                     Name = dr["ItemNumber"].ToString(),
-                    Tag = dr["ItemNumber"].ToString() + "][" + dr["Description"].ToString() + "][" + dr["ItemFamily"].ToString() + "][" + dr["Manufacturer"].ToString() + "][" + dr["ManufacturerItemNumber"].ToString() + "][" + dr["QuantityPerAssembly"].ToString() + "][" + dr["ItemNotes"].ToString() + "][" + dr["IsRevised"].ToString()
+                    Tag = dr["ItemNumber"].ToString() + "][" + dr["Description"].ToString() + "][" + dr["ItemFamily"].ToString() + "][" + dr["Manufacturer"].ToString() + "][" + dr["ManufacturerItemNumber"].ToString() + "][" + dr["QuantityPerAssembly"].ToString() + "][" + dr["ItemNotes"].ToString() + "][" + dr["IsRevised"].ToString() + "][" + dr["Order"].ToString()
                 };
                 if (parentNode == null)
                 {
@@ -513,7 +513,7 @@ namespace SearchDataSPM
                             var child = new TreeNode
                             {
                                 Text = _itemno.ToString() + " - " + _description.ToString() + " (" + qty.ToString() + ")",
-                                Tag = _itemno + "][" + _description + "][" + _family + "][" + _manufacturer + "][" + _oem + "][" + qty + "][" + notes + "][" + (isrevised ? "1" : "0")
+                                Tag = _itemno + "][" + _description + "][" + _family + "][" + _manufacturer + "][" + _oem + "][" + qty + "][" + notes + "][" + (isrevised ? "1" : "0") + "][" + "0"
                             };
 
                             Treeview.SelectedNode = Treeview.Nodes[0];
@@ -610,7 +610,7 @@ namespace SearchDataSPM
                 var child = new TreeNode
                 {
                     Text = itemnumber + " - " + description + " (1)",
-                    Tag = itemnumber + "][" + description + "][" + family + "][" + oem + "][" + oemitem + "][" + "1" + "][" + " " + "][" + (isrevised ? "1" : "0")
+                    Tag = itemnumber + "][" + description + "][" + family + "][" + oem + "][" + oemitem + "][" + "1" + "][" + " " + "][" + (isrevised ? "1" : "0") + "][" + "0"
                 };
                 if (isrevised)
                 {
@@ -717,13 +717,13 @@ namespace SearchDataSPM
             {
                 values[i] = values[i].Trim();
             }
-            UpdateRemoveitemsBallon(values[0]);
+            UpdateRemoveitemsBallon(values[0], values[8]);
         }
 
-        private void UpdateRemoveitemsBallon(string itemno)
+        private void UpdateRemoveitemsBallon(string itemno, string order)
         {
             connectapi.UpdateBallonRefToEst(itemno, "", jobnotxt.Text, assynotxt.Text);
-            connectapi.UpdateBallonRefToWorkOrder(itemno, "", jobnotxt.Text, assynotxt.Text, wotxt.Text);
+            connectapi.UpdateBallonRefToWorkOrder(itemno, "", jobnotxt.Text, assynotxt.Text, wotxt.Text, order);
         }
 
         private void AddItems()
@@ -782,9 +782,9 @@ namespace SearchDataSPM
                 values[i] = values[i].Replace("'", "''");
             }
 
-            connectapi.AddItemToReleaseLog(wotxt.Text, assynotxt.Text, releaseLogNumber, values[0], values[5], values[6], jobnotxt.Text, releasetypetxt.Text, values[7]);
+            connectapi.AddItemToReleaseLog(wotxt.Text, assynotxt.Text, releaseLogNumber, values[0], values[5], values[6], jobnotxt.Text, releasetypetxt.Text, values[7], values[8]);
             connectapi.UpdateBallonRefToEst(values[0], releasetypetxt.Text, jobnotxt.Text, assynotxt.Text);
-            connectapi.UpdateBallonRefToWorkOrder(values[0], releasetypetxt.Text, jobnotxt.Text, assynotxt.Text, wotxt.Text);
+            connectapi.UpdateBallonRefToWorkOrder(values[0], releasetypetxt.Text, jobnotxt.Text, assynotxt.Text, wotxt.Text, values[8]);
         }
 
         private void Qtytxtbox_KeyDown(object sender, KeyEventArgs e)
@@ -839,7 +839,7 @@ namespace SearchDataSPM
                         string[] values = s.Replace("][", "~").Split('~');
                         for (int i = 0; i < values.Length; i++)
                             values[i] = values[i].Trim();
-                        Itemstodiscard.Add(values[0]);
+                        Itemstodiscard.Add(s);
                         Treeview.SelectedNode.Parent.Nodes.Remove(Treeview.SelectedNode);
                         savbttn.Visible = true;
                     }

@@ -2060,7 +2060,7 @@ namespace SPMConnectAPI
             return dt;
         }
 
-        public void AddItemToReleaseLog(string wo, string assyno, string rlogno, string itemno, string qty, string itemnotes, string jobno, string releasetype, string isrevised)
+        public void AddItemToReleaseLog(string wo, string assyno, string rlogno, string itemno, string qty, string itemnotes, string jobno, string releasetype, string isrevised, string order)
         {
             SPMSQLCommands connectAPI = new SPMSQLCommands();
             DateTime datecreated = DateTime.Now;
@@ -2073,8 +2073,8 @@ namespace SPMConnectAPI
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[WOReleaseDetails] ([RlogNo],[ReleaseType], [JobNo],[WO],[AssyNo],[ItemId],[ItemQty],[ItemNotes]," +
-                    "[IsRevised],[ItemCreatedOn], [ItemCreatedBy], [ItemLastSaved], [ItemLastSavedBy])" +
-                    " VALUES('" + rlogno + "','" + releasetype + "','" + jobno + "','" + wo + "','" + assyno + "','" + itemno + "','" + qty + "','" + itemnotes + "','" + isrevised + "','" + sqlFormattedDatetime + "','" + username + "','" + sqlFormattedDatetime + "','" + username + "')";
+                    "[IsRevised],[ItemCreatedOn], [ItemCreatedBy], [ItemLastSaved], [ItemLastSavedBy], [Order])" +
+                    " VALUES('" + rlogno + "','" + releasetype + "','" + jobno + "','" + wo + "','" + assyno + "','" + itemno + "','" + qty + "','" + itemnotes + "','" + isrevised + "','" + sqlFormattedDatetime + "','" + username + "','" + sqlFormattedDatetime + "','" + username + "','" + order + "')";
                 cmd.ExecuteNonQuery();
                 cn.Close();
             }
@@ -2205,7 +2205,7 @@ namespace SPMConnectAPI
             return success;
         }
 
-        public bool UpdateBallonRefToWorkOrder(string itemId, string ballonref, string job, string assy, string wo, string order = "0")
+        public bool UpdateBallonRefToWorkOrder(string itemId, string ballonref, string job, string assy, string wo, string order)
         {
             bool success = false;
 
