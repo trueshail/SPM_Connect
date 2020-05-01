@@ -2215,7 +2215,10 @@ namespace SPMConnectAPI
             {
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "UPDATE [SPMDB].[dbo].[Mrpres] SET [Ballon] = '" + ballonref + "' WHERE [Item] = '" + itemId + "' AND [Job]  = '" + job + "' AND [Piece] = '" + assy + "' AND [Woprec]  = '" + wo + "' AND [Ordre] = '" + order + "' AND RML_Active = '1'";
+                if (order == "5445")
+                    cmd.CommandText = "UPDATE [SPMDB].[dbo].[Mrpres] SET [Ballon] = '" + ballonref + "' WHERE [Item] = '" + itemId + "' AND [Job]  = '" + job + "' AND [Piece] = '" + assy + "' AND [Woprec]  = '" + wo + "' AND RML_Active = '1'";
+                else
+                    cmd.CommandText = "UPDATE [SPMDB].[dbo].[Mrpres] SET [Ballon] = '" + ballonref + "' WHERE [Item] = '" + itemId + "' AND [Job]  = '" + job + "' AND [Piece] = '" + assy + "' AND [Woprec]  = '" + wo + "' AND [Ordre] = '" + order + "' AND RML_Active = '1'";
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 success = true;

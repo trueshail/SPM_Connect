@@ -513,7 +513,7 @@ namespace SearchDataSPM
                             var child = new TreeNode
                             {
                                 Text = _itemno.ToString() + " - " + _description.ToString() + " (" + qty.ToString() + ")",
-                                Tag = _itemno + "][" + _description + "][" + _family + "][" + _manufacturer + "][" + _oem + "][" + qty + "][" + notes + "][" + (isrevised ? "1" : "0") + "][" + "0"
+                                Tag = _itemno + "][" + _description + "][" + _family + "][" + _manufacturer + "][" + _oem + "][" + qty + "][" + notes + "][" + (isrevised ? "1" : "0") + "][" + "5445"
                             };
 
                             Treeview.SelectedNode = Treeview.Nodes[0];
@@ -810,7 +810,7 @@ namespace SearchDataSPM
                 iteminfo = connectapi.GetIteminfo(itemnotxt.Text);
                 var r = iteminfo.Rows[0];
                 Treeview.SelectedNode.Text = itemnotxt.Text + " - " + r["Description"].ToString() + " (" + qtytxtbox.Text + ")";
-                Treeview.SelectedNode.Tag = itemnotxt.Text + "][" + r["Description"].ToString() + "][" + r["FamilyCode"].ToString() + "][" + r["Manufacturer"].ToString() + "][" + r["ManufacturerItemNumber"].ToString() + "][" + qtytxtbox.Text + "][" + itemnotestxt.Text + "][" + revised;
+                Treeview.SelectedNode.Tag = itemnotxt.Text + "][" + r["Description"].ToString() + "][" + r["FamilyCode"].ToString() + "][" + r["Manufacturer"].ToString() + "][" + r["ManufacturerItemNumber"].ToString() + "][" + qtytxtbox.Text + "][" + itemnotestxt.Text + "][" + revised + "][" + "5445";
                 itemnotxt.Clear();
                 savbttn.Visible = true;
                 addbutton.Visible = true;
