@@ -11,8 +11,6 @@ namespace SearchDataSPM
     {
         #region Shipping Home Load
 
-        private string connection;
-        private SqlConnection cn;
         private DataTable dt;
         private bool formloading = false;
         private bool ecrsupervisor = false;
@@ -29,17 +27,6 @@ namespace SearchDataSPM
         {
             InitializeComponent();
             formloading = true;
-
-            connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
-            try
-            {
-                cn = new SqlConnection(connection);
-            }
-            catch (Exception)
-            {
-                MetroFramework.MetroMessageBox.Show(this, "Error Connecting to SQL Server.....", "SPM Connect - Shipping Home Initialize", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
-            }
         }
 
         private void SPM_Connect_Load(object sender, EventArgs e)
@@ -59,7 +46,7 @@ namespace SearchDataSPM
 
         private void Checkdeptsandrights()
         {
-            string userName = SPMConnectAPI.Helper.GetUserName();
+            string userName = connectapi.GetUserName();
             versionlabel.Text = connectapi.getassyversionnumber();
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
 
@@ -1199,12 +1186,12 @@ namespace SearchDataSPM
             int empidtomach = connectapi.getConnectEmployeeId();
             if (ecrsupervisor)
             {
-                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT *,CONCAT([ECRNo], ' ',[JobNo],' ',[JobName],' ',[SANo],' ',[SAName],' ',RequestedBy) AS FullSearch FROM [SPM_Database].[dbo].[ECR] WHERE Submitted = '1' AND SupApproval = '0' AND Approved = '0' AND Completed = '0' AND SupervisorId = '" + empidtomach + "' ORDER BY ECRNo DESC", cn))
+                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT *,CONCAT([ECRNo], ' ',[JobNo],' ',[JobName],' ',[SANo],' ',[SAName],' ',RequestedBy) AS FullSearch FROM [SPM_Database].[dbo].[ECR] WHERE Submitted = '1' AND SupApproval = '0' AND Approved = '0' AND Completed = '0' AND SupervisorId = '" + empidtomach + "' ORDER BY ECRNo DESC", connectapi.cn))
                 {
                     try
                     {
-                        if (cn.State == ConnectionState.Closed)
-                            cn.Open();
+                        if (connectapi.cn.State == ConnectionState.Closed)
+                            connectapi.cn.Open();
 
                         dt.Clear();
                         sda.Fill(dt);
@@ -1215,18 +1202,18 @@ namespace SearchDataSPM
                     }
                     finally
                     {
-                        cn.Close();
+                        connectapi.cn.Close();
                     }
                 }
             }
             else if (ecrapprovee)
             {
-                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT *,CONCAT([ECRNo], ' ',[JobNo],' ',[JobName],' ',[SANo],' ',[SAName],' ',RequestedBy) AS FullSearch FROM [SPM_Database].[dbo].[ECR] WHERE Submitted = '1' AND SupApproval = '1' AND Approved = '0' AND Completed = '0' AND SubmitToId = '" + empidtomach + "' ORDER BY ECRNo DESC", cn))
+                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT *,CONCAT([ECRNo], ' ',[JobNo],' ',[JobName],' ',[SANo],' ',[SAName],' ',RequestedBy) AS FullSearch FROM [SPM_Database].[dbo].[ECR] WHERE Submitted = '1' AND SupApproval = '1' AND Approved = '0' AND Completed = '0' AND SubmitToId = '" + empidtomach + "' ORDER BY ECRNo DESC", connectapi.cn))
                 {
                     try
                     {
-                        if (cn.State == ConnectionState.Closed)
-                            cn.Open();
+                        if (connectapi.cn.State == ConnectionState.Closed)
+                            connectapi.cn.Open();
 
                         dt.Clear();
                         sda.Fill(dt);
@@ -1237,18 +1224,18 @@ namespace SearchDataSPM
                     }
                     finally
                     {
-                        cn.Close();
+                        connectapi.cn.Close();
                     }
                 }
             }
             else if (ecrhandler)
             {
-                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT *,CONCAT([ECRNo], ' ',[JobNo],' ',[JobName],' ',[SANo],' ',[SAName],' ',RequestedBy) AS FullSearch FROM [SPM_Database].[dbo].[ECR] WHERE Submitted = '1' AND SupApproval = '1' AND Approved = '1' AND Completed = '0' AND AssignedTo = '" + empidtomach + "' ORDER BY ECRNo DESC", cn))
+                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT *,CONCAT([ECRNo], ' ',[JobNo],' ',[JobName],' ',[SANo],' ',[SAName],' ',RequestedBy) AS FullSearch FROM [SPM_Database].[dbo].[ECR] WHERE Submitted = '1' AND SupApproval = '1' AND Approved = '1' AND Completed = '0' AND AssignedTo = '" + empidtomach + "' ORDER BY ECRNo DESC", connectapi.cn))
                 {
                     try
                     {
-                        if (cn.State == ConnectionState.Closed)
-                            cn.Open();
+                        if (connectapi.cn.State == ConnectionState.Closed)
+                            connectapi.cn.Open();
 
                         dt.Clear();
                         sda.Fill(dt);
@@ -1259,7 +1246,7 @@ namespace SearchDataSPM
                     }
                     finally
                     {
-                        cn.Close();
+                        connectapi.cn.Close();
                     }
                 }
             }

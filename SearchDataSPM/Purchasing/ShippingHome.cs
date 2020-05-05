@@ -2,7 +2,6 @@
 using System;
 using System.ComponentModel;
 using System.Data;
-using System.Data.SqlClient;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -12,8 +11,6 @@ namespace SearchDataSPM
     {
         #region Shipping Home Load
 
-        private string connection;
-        private SqlConnection cn;
         private DataTable dt;
         private DataTable invoiceitems = new DataTable();
         private DataTable temptable = new DataTable();
@@ -31,19 +28,6 @@ namespace SearchDataSPM
         {
             InitializeComponent();
             formloading = true;
-
-            connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
-            try
-            {
-                cn = new SqlConnection(connection);
-            }
-            catch (Exception)
-            {
-                MetroFramework.MetroMessageBox.Show(this, "Error Connecting to SQL Server.....", "SPM Connect - Shipping Home Initialize", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
-            }
-
-            // connectapi.SPM_Connect();
         }
 
         private void SPM_Connect_Load(object sender, EventArgs e)
@@ -67,7 +51,7 @@ namespace SearchDataSPM
 
         private void Checkdeptsandrights()
         {
-            string userName = SPMConnectAPI.Helper.GetUserName();
+            string userName = connectapi.GetUserName();
             versionlabel.Text = connectapi.getassyversionnumber();
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
             if (connectapi.CheckShipSup())

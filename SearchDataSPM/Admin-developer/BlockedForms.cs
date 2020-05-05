@@ -8,27 +8,15 @@ namespace SearchDataSPM.Admin_developer
 {
     public partial class BlockedForms : Form
     {
-        private SqlConnection cn;
-        private string connection;
         private DataTable dt;
         private log4net.ILog log;
+        private SPMConnectAPI.ConnectAPI connectapi = new SPMConnectAPI.ConnectAPI();
 
         private ErrorHandler errorHandler = new ErrorHandler();
 
         public BlockedForms()
         {
             InitializeComponent();
-
-            connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
-            try
-            {
-                cn = new SqlConnection(connection);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Error Connecting to SQL Server.....", "SPM Connect - ENG", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
-            }
             dt = new DataTable();
         }
 
@@ -45,10 +33,10 @@ namespace SearchDataSPM.Admin_developer
         {
             try
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
 
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[UserHolding] ORDER BY [CheckInDateTime] DESC", cn);
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[UserHolding] ORDER BY [CheckInDateTime] DESC", connectapi.cn);
 
                 dt.Clear();
                 sda.Fill(dt);
@@ -66,7 +54,7 @@ namespace SearchDataSPM.Admin_developer
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
         }
 
@@ -84,12 +72,12 @@ namespace SearchDataSPM.Admin_developer
 
         private void Checkdeveloper()
         {
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND Developer = '1'", cn))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND Developer = '1'", connectapi.cn))
             {
                 try
                 {
-                    cn.Open();
-                    sqlCommand.Parameters.AddWithValue("@username", SPMConnectAPI.Helper.GetUserName());
+                    connectapi.cn.Open();
+                    sqlCommand.Parameters.AddWithValue("@username", connectapi.GetUserName());
 
                     int userCount = (int)sqlCommand.ExecuteScalar();
                     if (userCount == 1)
@@ -112,7 +100,7 @@ namespace SearchDataSPM.Admin_developer
                 }
                 finally
                 {
-                    cn.Close();
+                    connectapi.cn.Close();
                 }
             }
         }
@@ -139,15 +127,15 @@ namespace SearchDataSPM.Admin_developer
         {
             if (username.Length > 0)
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
                 try
                 {
                     string query = "DELETE FROM [SPM_Database].[dbo].[UserHolding] WHERE [UserName] ='" + username.ToString() + "'" +
                         " and [App] ='" + app.ToString() + "' and [ItemId] = '" + itemid.ToString() + "' ";
-                    SqlCommand sda = new SqlCommand(query, cn);
+                    SqlCommand sda = new SqlCommand(query, connectapi.cn);
                     sda.ExecuteNonQuery();
-                    cn.Close();
+                    connectapi.cn.Close();
                     // MetroFramework.MetroMessageBox.Show(this, username + " - Is removed from the system now!", "SPM Connect - Delete Item", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
@@ -156,7 +144,7 @@ namespace SearchDataSPM.Admin_developer
                 }
                 finally
                 {
-                    cn.Close();
+                    connectapi.cn.Close();
                 }
             }
         }

@@ -7,29 +7,9 @@ using System.Windows.Forms;
 
 namespace SPMConnectAPI
 {
-    public class Shipping
+    public class Shipping : ConnectAPI
     {
         #region Settting up Connetion and Get User
-
-        private SqlConnection cn;
-
-        public Shipping()
-        {
-            SPM_Connect();
-        }
-
-        private void SPM_Connect()
-        {
-            string connection = Helper.ConnectConnectionString();
-            try
-            {
-                cn = new SqlConnection(connection);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Error Connecting to SQL Server.....", "SPM Connect shipping sql", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
 
         public string getNameByConnectEmpId(string empid)
         {
@@ -71,7 +51,7 @@ namespace SPMConnectAPI
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + Helper.GetUserName().ToString() + "' ";
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + GetUserName().ToString() + "' ";
                 cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -96,7 +76,7 @@ namespace SPMConnectAPI
         public bool CheckShipManager()
         {
             bool ecrSupervisor = false;
-            string useradmin = Helper.GetUserName();
+            string useradmin = GetUserName();
 
             using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND [ShippingManager] = '1'", cn))
             {
@@ -126,7 +106,7 @@ namespace SPMConnectAPI
         public bool CheckShipSup()
         {
             bool ecrApprovee = false;
-            string useradmin = Helper.GetUserName();
+            string useradmin = GetUserName();
 
             using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND [ShipSupervisor] = '1'", cn))
             {
@@ -162,7 +142,7 @@ namespace SPMConnectAPI
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + Helper.GetUserName().ToString() + "' ";
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + GetUserName().ToString() + "' ";
                 cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -231,7 +211,7 @@ namespace SPMConnectAPI
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + Helper.GetUserName() + "' ";
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + GetUserName() + "' ";
                 cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -262,7 +242,7 @@ namespace SPMConnectAPI
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + Helper.GetUserName().ToString() + "' ";
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + GetUserName().ToString() + "' ";
                 cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -1554,7 +1534,7 @@ namespace SPMConnectAPI
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[UserHolding] (App, UserName, ItemId,CheckInDateTime) VALUES('ShipInv','" + Helper.GetUserName() + "','" + invoicenumber + "','" + sqlFormattedDatetime + "')";
+                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[UserHolding] (App, UserName, ItemId,CheckInDateTime) VALUES('ShipInv','" + GetUserName() + "','" + invoicenumber + "','" + sqlFormattedDatetime + "')";
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 success = true;
@@ -1580,7 +1560,7 @@ namespace SPMConnectAPI
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "DELETE FROM [SPM_Database].[dbo].[UserHolding] where App = 'ShipInv' AND UserName = '" + Helper.GetUserName() + "' AND ItemId = '" + invoicenumber + "'";
+                cmd.CommandText = "DELETE FROM [SPM_Database].[dbo].[UserHolding] where App = 'ShipInv' AND UserName = '" + GetUserName() + "' AND ItemId = '" + invoicenumber + "'";
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 success = true;

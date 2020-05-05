@@ -1,8 +1,6 @@
 ﻿using SPMConnectAPI;
 using System;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -11,9 +9,6 @@ namespace SearchDataSPM
 {
     public partial class InvoiceAddItem : Form
     {
-        private string connection;
-        private SqlConnection cn;
-        private SqlCommand _command;
         private string Invoice_Number = "";
         private string custvendor = "";
         private string _operation = "";
@@ -26,18 +21,6 @@ namespace SearchDataSPM
         public InvoiceAddItem()
         {
             InitializeComponent();
-            connection = ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
-            try
-            {
-                cn = new SqlConnection(connection);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - SQL Connection Error Invoice Add items", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            // connectapi.SPM_Connect();
-
-            _command = new SqlCommand();
         }
 
         #region Setting Parameters

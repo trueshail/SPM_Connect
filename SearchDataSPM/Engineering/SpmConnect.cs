@@ -27,18 +27,15 @@ namespace SearchDataSPM.Engineering
 
         private ErrorHandler errorHandler = new ErrorHandler();
         private log4net.ILog log;
-        private string connection;
-        private SqlConnection cn;
         private DataTable dt;
         private bool formloading = false;
-        private string userfullname = "";
-        private string department = "";
         private bool eng = false;
         private bool production = false;
         private bool controls = false;
         private int _advcollapse = 0;
         private bool showingduplicates = false;
         private bool doneshowingSplash = false;
+        private UserInfo user;
 
         //bool purchasereqnotification = false;
         private bool showingfavorites = false;
@@ -48,22 +45,11 @@ namespace SearchDataSPM.Engineering
 
         private Controls connectapicntrls = new Controls();
 
-        public SpmConnect()
+        public SpmConnect(UserInfo _user)
         {
             InitializeComponent();
             formloading = true;
-            connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
-
-            try
-            {
-                cn = new SqlConnection(connection);
-            }
-            catch (Exception)
-            {
-                MetroFramework.MetroMessageBox.Show(this, "Error Connecting to SQL Server.....", "SPM Connect - Engineering Initialize", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
-            }
-            //connectapi.SPM_Connect();
+            this.user = _user;
         }
 
         private void SPM_Connect_Load(object sender, EventArgs e)
@@ -73,20 +59,9 @@ namespace SearchDataSPM.Engineering
             Loadusersettings();
             dt = new DataTable();
             Checkdeptsandrights();
-            userfullname = connectapi.Getuserfullname();
             sqlnotifier();
-            //if (purchasereqnotification = connectapi.CheckPurchaseReqNotification())
-            //{
-            //    watchpreqtable();
-            //    purchaseReq.currentusercreds();
-            //}
             Showallitems();
-
             txtSearch.Focus();
-            //string startDate = "01-12-";
-            //string endDate = "01-01-";
-            //startDate = startDate + DateTime.Now.Year + " 12:00 AM";
-            //endDate = endDate + (DateTime.Now.Year + 1) + " 12:00 AM";
             if (DateTime.Now.Month == 12)
             {
                 pictureBox1.Visible = true;
@@ -104,10 +79,7 @@ namespace SearchDataSPM.Engineering
 
         private void Checkdeptsandrights()
         {
-            string userName = SPMConnectAPI.Helper.GetUserName();
-            department = connectapi.Getdepartment();
-
-            if (department == "Controls")
+            if (user.Department == "Controls")
             {
                 controls = true;
                 listView.ContextMenuStrip = Listviewcontextmenu;
@@ -120,19 +92,19 @@ namespace SearchDataSPM.Engineering
                 getnewitembttn.Enabled = true;
 
                 dataGridView.ContextMenuStrip = FormSelectorControls;
-                this.Text = "SPM Connect Controls - " + userName.ToString().Substring(4);
+                this.Text = "SPM Connect Controls - " + user.Name;
                 connectapi.Chekin("SPM Connect Controls");
 
                 //connectapicntrls.SPM_Connect();
                 //connectapicntrls.SPM_Connectconnectsql();
             }
-            else if (department == "Eng")
+            else if (user.Department == "Eng")
             {
                 listView.ContextMenuStrip = Listviewcontextmenu;
                 dataGridView.ContextMenuStrip = FormSelectorEng;
                 AddNewBttn.Enabled = true;
                 getnewitembttn.Enabled = true;
-                this.Text = "SPM Connect Engineering - " + userName.ToString().Substring(4);
+                this.Text = "SPM Connect Engineering - " + user.Name;
                 connectapi.Chekin("SPM Connect Eng");
                 eng = true;
             }
@@ -150,8 +122,8 @@ namespace SearchDataSPM.Engineering
                 FormSelectorEng.Items[4].Visible = false;
                 FormSelectorEng.Items[5].Enabled = false;
                 FormSelectorEng.Items[5].Visible = false;
-                this.Text = "SPM Connect " + department + " - " + userName.ToString().Substring(4);
-                connectapi.Chekin("SPM Connect " + department);
+                this.Text = "SPM Connect " + user.Department + " - " + user.Name;
+                connectapi.Chekin("SPM Connect " + user.Department);
                 production = true;
             }
 
@@ -177,23 +149,6 @@ namespace SearchDataSPM.Engineering
         {
             this.Size = new Size(900, 750);
             this.CenterToScreen();
-            //if (Properties.Settings.Default.F1Size.Width == 0) Properties.Settings.Default.Upgrade();
-
-            //if (Properties.Settings.Default.F1Size.Width == 0 || Properties.Settings.Default.F1Size.Height == 0)
-            //{
-            //    // first start
-            //    // optional: add default values
-            //}
-            //else
-            //{
-            //    this.WindowState = Properties.Settings.Default.F1State;
-
-            //    // we don't want a minimized window at startup
-            //    if (this.WindowState == FormWindowState.Minimized) this.WindowState = FormWindowState.Normal;
-
-            //    this.Location = Properties.Settings.Default.F1Location;
-            //    this.Size = Properties.Settings.Default.F1Size;
-            //}
         }
 
         private void Fillinfo()
@@ -370,7 +325,7 @@ namespace SearchDataSPM.Engineering
             // (in our case we have Customer vs Customers).
             // If needed, you can also specifiy schema name.
 
-            _dependency = new SqlTableDependency<UserControl>(connection, tableName: "Checkin", mapper: mapper);
+            _dependency = new SqlTableDependency<UserControl>(connectapi.ConnectConnectionString(), tableName: "Checkin", mapper: mapper);
             _dependency.OnChanged += _dependency_OnChanged;
             _dependency.OnError += _dependency_OnError;
             _dependency.Start();
@@ -396,7 +351,7 @@ namespace SearchDataSPM.Engineering
             //Console.WriteLine("Surame: " + changedEntity.Surname);
             string type = e.ChangeType.ToString();
             changed = string.Format((changedEntity.username));
-            string userName = SPMConnectAPI.Helper.GetUserName();
+            string userName = connectapi.GetUserName();
             // MessageBox.Show(changed);
             if (changed == userName && type == "Update")
             {
@@ -1625,7 +1580,7 @@ namespace SearchDataSPM.Engineering
 
         private void listView_Enter(object sender, EventArgs e)
         {
-            if (department == "Eng")
+            if (user.Department == "Eng")
             {
                 if (listView.Items.Count > 0)
                 {
@@ -1698,7 +1653,7 @@ namespace SearchDataSPM.Engineering
             {
                 if (connectapi.Solidworks_running() == true)
                 {
-                    string user = SPMConnectAPI.Helper.GetUserName();
+                    string user = connectapi.GetUserName();
                     string activeblock = connectapi.Getactiveblock();
 
                     if (activeblock.ToString().Length > 0)
@@ -1754,15 +1709,15 @@ namespace SearchDataSPM.Engineering
         {
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDate = datecreated.ToString("yyyy-MM-dd HH:mm:ss.fff");
-            if (cn.State == ConnectionState.Closed)
-                cn.Open();
+            if (connectapi.cn.State == ConnectionState.Closed)
+                connectapi.cn.Open();
             try
             {
-                SqlCommand cmd = cn.CreateCommand();
+                SqlCommand cmd = connectapi.cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Inventory] (ItemNumber, DesignedBy, DateCreated, LastSavedBy, LastEdited, JobPlanning) VALUES('" + uniqueid.ToString() + "','" + user.ToString() + "','" + sqlFormattedDate + "','" + user.ToString() + "','" + sqlFormattedDate + "','1'  )";
                 cmd.ExecuteNonQuery();
-                cn.Close();
+                connectapi.cn.Close();
                 //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
@@ -1771,7 +1726,7 @@ namespace SearchDataSPM.Engineering
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
         }
 
@@ -1956,15 +1911,15 @@ namespace SearchDataSPM.Engineering
         {
             bool success = false;
 
-            if (cn.State == ConnectionState.Closed)
-                cn.Open();
+            if (connectapi.cn.State == ConnectionState.Closed)
+                connectapi.cn.Open();
             try
             {
-                SqlCommand cmd = cn.CreateCommand();
+                SqlCommand cmd = connectapi.cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "INSERT  [SPM_Database].[dbo].[Inventory] (ItemNumber,Description,FamilyCode,Manufacturer,ManufacturerItemNumber,DesignedBy,DateCreated,LastSavedBy,LastEdited) SELECT ItemNumber,Description,FamilyCode,Manufacturer,ManufacturerItemNumber,DesignedBy,DateCreated,LastSavedBy,LastEdited FROM [SPM_Database].[dbo].[UnionInventory] WHERE ItemNumber = '" + uniqueid + "'";
                 cmd.ExecuteNonQuery();
-                cn.Close();
+                connectapi.cn.Close();
                 success = true;
                 //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -1974,7 +1929,7 @@ namespace SearchDataSPM.Engineering
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
             return success;
         }
@@ -1993,15 +1948,15 @@ namespace SearchDataSPM.Engineering
 
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDate = datecreated.ToString("yyyy-MM-dd HH:mm:ss.fff");
-            if (cn.State == ConnectionState.Closed)
-                cn.Open();
+            if (connectapi.cn.State == ConnectionState.Closed)
+                connectapi.cn.Open();
             try
             {
-                SqlCommand cmd = cn.CreateCommand();
+                SqlCommand cmd = connectapi.cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "UPDATE [SPM_Database].[dbo].[Inventory] SET FamilyType = '" + familycategory + "',Rupture = '" + rupture + "',JobPlanning = '1',LastSavedBy = '" + username + "',DateCreated = '" + sqlFormattedDate + "',LastEdited = '" + sqlFormattedDate + "'  WHERE ItemNumber = '" + uniqueid + "'";
                 cmd.ExecuteNonQuery();
-                cn.Close();
+                connectapi.cn.Close();
                 //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
@@ -2010,7 +1965,7 @@ namespace SearchDataSPM.Engineering
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
         }
 
@@ -2108,7 +2063,7 @@ namespace SearchDataSPM.Engineering
             {
                 if (connectapi.Solidworks_running() == true)
                 {
-                    string user = SPMConnectAPI.Helper.GetUserName();
+                    string user = connectapi.GetUserName();
                     string activeblock = connectapi.Getactiveblock();
                     string lastnumber = connectapi.Getlastnumber();
                     if (activeblock.ToString().Length > 0)

@@ -1,7 +1,6 @@
 ﻿using SPMConnectAPI;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Security;
 using System.Windows.Forms;
 
@@ -21,9 +20,7 @@ namespace SearchDataSPM
 
         private void HelpForm_Load(object sender, EventArgs e)
         {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            string version = assembly.GetName().Version.ToString();
-            versionlbl.Text = string.Format("SPM Connect Version - {0}", version);
+            versionlbl.Text = string.Format("SPM Connect Version - {0}", connectapi.Getassyversionnumber());
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Help Form ");
@@ -141,7 +138,7 @@ namespace SearchDataSPM
                     names[b] = names[b].Trim();
                 }
                 name = names[0];
-                connectapi.SendemailListAttachments(email, "Connect Error Submitted - " + subject, "Hello " + name + "," + Environment.NewLine + requser + " sent this error report." + Environment.NewLine + notes + Environment.NewLine + Environment.NewLine + "Triggered by " + SPMConnectAPI.Helper.GetUserName(), files, "");
+                connectapi.SendemailListAttachments(email, "Connect Error Submitted - " + subject, "Hello " + name + "," + Environment.NewLine + requser + " sent this error report." + Environment.NewLine + notes + Environment.NewLine + Environment.NewLine + "Triggered by " + connectapi.GetUserName(), files, "");
             }
         }
 

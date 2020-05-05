@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace SPMConnectAPI
 {
-    public class Controls
+    public class Controls : ConnectAPI
     {
         private SqlConnection _connection;
         private SqlConnection cn;
@@ -19,7 +19,7 @@ namespace SPMConnectAPI
 
         private void SPM_Connect()
         {
-            string connection = Helper.ConnectCntrlsConnectionString();
+            string connection = ConnectCntrlsConnectionString();
             try
             {
                 _connection = new SqlConnection(connection);
@@ -36,7 +36,7 @@ namespace SPMConnectAPI
 
         private void SPM_Connectconnectsql()
         {
-            string connection = Helper.ConnectConnectionString();
+            string connection = ConnectConnectionString();
             try
             {
                 cn = new SqlConnection(connection);

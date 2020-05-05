@@ -7,41 +7,13 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Mail;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace SPMConnectAPI
 {
-    public class SPMSQLCommands
+    public class SPMSQLCommands : ConnectAPI
     {
-        private SqlConnection cn;
-
-        public SPMSQLCommands()
-        {
-            SPM_Connect();
-        }
-
-        private void SPM_Connect()
-        {
-            string connection = Helper.ConnectConnectionString();
-            try
-            {
-                cn = new SqlConnection(connection);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Error Connecting to SQL Server.....", "SPM Connect Sql Commands", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        public string Getassyversionnumber()
-        {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            string version = "V" + assembly.GetName().Version.ToString();
-            return version;
-        }
-
         public string Getuserfullname()
         {
             string fullname = "";
@@ -51,7 +23,7 @@ namespace SPMConnectAPI
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + Helper.GetUserName().ToString() + "' ";
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + GetUserName().ToString() + "' ";
                 cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -82,7 +54,7 @@ namespace SPMConnectAPI
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + Helper.GetUserName() + "' ";
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + GetUserName() + "' ";
                 cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -113,7 +85,7 @@ namespace SPMConnectAPI
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + Helper.GetUserName().ToString() + "' ";
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + GetUserName().ToString() + "' ";
                 cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -174,7 +146,7 @@ namespace SPMConnectAPI
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + Helper.GetUserName().ToString() + "' ";
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + GetUserName().ToString() + "' ";
                 cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -201,7 +173,7 @@ namespace SPMConnectAPI
         public bool CheckAdmin()
         {
             bool admin = false;
-            string useradmin = Helper.GetUserName();
+            string useradmin = GetUserName();
 
             using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND Admin = '1'", cn))
             {
@@ -231,7 +203,7 @@ namespace SPMConnectAPI
         public bool Checkdeveloper()
         {
             bool developer = false;
-            string useradmin = Helper.GetUserName();
+            string useradmin = GetUserName();
 
             using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND Developer = '1'", cn))
             {
@@ -266,7 +238,7 @@ namespace SPMConnectAPI
                 try
                 {
                     cn.Open();
-                    sqlCommand.Parameters.AddWithValue("@username", Helper.GetUserName());
+                    sqlCommand.Parameters.AddWithValue("@username", GetUserName());
 
                     int userCount = (int)sqlCommand.ExecuteScalar();
                     if (userCount == 1)
@@ -294,7 +266,7 @@ namespace SPMConnectAPI
                 try
                 {
                     cn.Open();
-                    sqlCommand.Parameters.AddWithValue("@username", Helper.GetUserName());
+                    sqlCommand.Parameters.AddWithValue("@username", GetUserName());
 
                     int userCount = (int)sqlCommand.ExecuteScalar();
                     if (userCount == 1)
@@ -323,7 +295,7 @@ namespace SPMConnectAPI
                 try
                 {
                     cn.Open();
-                    sqlCommand.Parameters.AddWithValue("@username", Helper.GetUserName());
+                    sqlCommand.Parameters.AddWithValue("@username", GetUserName());
 
                     int userCount = (int)sqlCommand.ExecuteScalar();
                     if (userCount == 1)
@@ -352,7 +324,7 @@ namespace SPMConnectAPI
                 try
                 {
                     cn.Open();
-                    sqlCommand.Parameters.AddWithValue("@username", Helper.GetUserName());
+                    sqlCommand.Parameters.AddWithValue("@username", GetUserName());
 
                     int userCount = (int)sqlCommand.ExecuteScalar();
                     if (userCount == 1)
@@ -386,7 +358,7 @@ namespace SPMConnectAPI
             {
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Checkin] ([Last Login],[Application Running],[User Name], [Computer Name], [Version]) VALUES('" + sqlFormattedDate + "', '" + applicationname + "', '" + Helper.GetUserName() + "', '" + computername + "','" + Getassyversionnumber() + "')";
+                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Checkin] ([Last Login],[Application Running],[User Name], [Computer Name], [Version]) VALUES('" + sqlFormattedDate + "', '" + applicationname + "', '" + GetUserName() + "', '" + computername + "','" + Getassyversionnumber() + "')";
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -407,7 +379,7 @@ namespace SPMConnectAPI
                 cn.Open();
             try
             {
-                string query = "DELETE FROM [SPM_Database].[dbo].[Checkin] WHERE [User Name] ='" + Helper.GetUserName().ToString() + "'";
+                string query = "DELETE FROM [SPM_Database].[dbo].[Checkin] WHERE [User Name] ='" + GetUserName().ToString() + "'";
                 SqlCommand sda = new SqlCommand(query, cn);
                 sda.ExecuteNonQuery();
                 cn.Close();
@@ -452,7 +424,7 @@ namespace SPMConnectAPI
         {
             DataTable dt = new DataTable();
 
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT[ItemNumber],[Description],[FamilyCode],[Manufacturer],[ManufacturerItemNumber],[DesignedBy],[DateCreated],[LastSavedBy],[LastEdited],[Material],[FullSearch] FROM [SPM_Database].[dbo].[SPMConnectFavorites] where UserName like'%" + Helper.GetUserName() + "%'", cn))
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT[ItemNumber],[Description],[FamilyCode],[Manufacturer],[ManufacturerItemNumber],[DesignedBy],[DateCreated],[LastSavedBy],[LastEdited],[Material],[FullSearch] FROM [SPM_Database].[dbo].[SPMConnectFavorites] where UserName like'%" + GetUserName() + "%'", cn))
             {
                 try
                 {
@@ -667,7 +639,7 @@ namespace SPMConnectAPI
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] where UserName ='" + Helper.GetUserName() + "'";
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] where UserName ='" + GetUserName() + "'";
                 cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter sda = new SqlDataAdapter(cmd);
@@ -2408,7 +2380,7 @@ namespace SPMConnectAPI
                 string usernamesfromitem = Getusernamesfromfavorites(itemid);
                 if (!Userexists(usernamesfromitem))
                 {
-                    string newuseradded = usernamesfromitem + Helper.GetUserName() + ",";
+                    string newuseradded = usernamesfromitem + GetUserName() + ",";
                     Updateusernametoitemonfavorites(itemid, newuseradded);
                 }
                 else
@@ -2472,7 +2444,7 @@ namespace SPMConnectAPI
 
         private void Additemtofavoritessql(string itemid)
         {
-            string userid = Helper.GetUserName();
+            string userid = GetUserName();
             userid += ",";
             try
             {
@@ -2559,7 +2531,7 @@ namespace SPMConnectAPI
         private bool Userexists(string usernames)
         {
             bool exists = false;
-            string userid = Helper.GetUserName();
+            string userid = GetUserName();
             // Split string on spaces (this will separate all the words).
             string[] words = usernames.Split(',');
             foreach (string word in words)
@@ -2574,7 +2546,7 @@ namespace SPMConnectAPI
         private string Removeusername(string usernames)
         {
             string removedusername = "";
-            string userid = Helper.GetUserName();
+            string userid = GetUserName();
             // Split string on spaces (this will separate all the words).
             string[] words = usernames.Split(',');
             foreach (string word in words)

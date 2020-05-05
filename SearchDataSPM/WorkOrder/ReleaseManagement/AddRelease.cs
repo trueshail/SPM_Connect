@@ -1,9 +1,7 @@
 ﻿using SPMConnectAPI;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -13,10 +11,7 @@ namespace SearchDataSPM
     {
         #region steupvariables
 
-        private string connection;
         private DataTable treeTB;
-        private SqlConnection _connection;
-        private SqlCommand command;
         private TreeNode root = new TreeNode();
         private string releaseLogNumber;
         private bool rootnodedone;
@@ -32,24 +27,7 @@ namespace SearchDataSPM
         public AddRelease(string releaseLogNo = "")
         {
             InitializeComponent();
-
-            connection = ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
-
-            try
-            {
-                _connection = new SqlConnection(connection);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
             treeTB = new DataTable();
-
-            command = new SqlCommand
-            {
-                Connection = _connection
-            };
             releaseLogNumber = releaseLogNo;
         }
 

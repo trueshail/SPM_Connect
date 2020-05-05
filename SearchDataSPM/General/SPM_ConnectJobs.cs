@@ -18,10 +18,7 @@ namespace SearchDataSPM
     {
         #region SPM Connect Load
 
-        private string connection;
-        private SqlConnection cn;
         private DataTable dt;
-        private SqlCommand _command;
         private SPMSQLCommands connectapi = new SPMSQLCommands();
         private log4net.ILog log;
         private bool doneshowingSplash = false;
@@ -31,22 +28,7 @@ namespace SearchDataSPM
 
         {
             InitializeComponent();
-            connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
-            try
-            {
-                cn = new SqlConnection(connection);
-                cn.Open();
-            }
-            catch (Exception)
-            {
-                // MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                MessageBox.Show("Error Connecting to SQL Server.....", "SPM Connect - Job Module", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                this.Close();
-            }
-            finally
-            {
-                cn.Close();
-            }
+
             dt = new DataTable();
             //connectapi.SPM_Connect();
         }
@@ -87,10 +69,10 @@ namespace SearchDataSPM
         {
             try
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
 
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[SPMJobs] ORDER BY Job DESC", cn);
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[SPMJobs] ORDER BY Job DESC", connectapi.cn);
 
                 dt.Clear();
                 sda.Fill(dt);
@@ -124,7 +106,7 @@ namespace SearchDataSPM
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
         }
 
@@ -579,19 +561,20 @@ namespace SearchDataSPM
         private void checksqltable(string job, string bom)
         {
             contextMenuStrip1.Visible = false;
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[SPMJobsPath] WHERE JobNo = '" + job + "' AND BOMNo = '" + bom + "' AND Path is not null", cn))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[SPMJobsPath] WHERE JobNo = '" + job + "' AND BOMNo = '" + bom + "' AND Path is not null", connectapi.cn))
             {
-                cn.Open();
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
 
                 int userCount = (int)sqlCommand.ExecuteScalar();
                 if (userCount > 0)
                 {
-                    cn.Close();
+                    connectapi.cn.Close();
                     grabpathfromtable(job, bom);
                 }
                 else
                 {
-                    cn.Close();
+                    connectapi.cn.Close();
                     DialogResult result = MessageBox.Show("Project folder not assigned. Would you like to assign one now?", "SPM Connect",
                                                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (result == DialogResult.Yes)
@@ -642,10 +625,11 @@ namespace SearchDataSPM
 
             try
             {
-                cn.Open();
-                _command = new SqlCommand
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
+                SqlCommand _command = new SqlCommand
                 {
-                    Connection = cn,
+                    Connection = connectapi.cn,
                     CommandText = sql
                 };
                 _command.ExecuteNonQuery();
@@ -658,7 +642,7 @@ namespace SearchDataSPM
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
             if (openfolder)
             {
@@ -671,10 +655,10 @@ namespace SearchDataSPM
             DataTable _acountsTb = new DataTable();
             try
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
 
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[SPMJobsPath] WHERE  JobNo = '" + job + "' AND BOMNo = '" + bom + "'", cn);
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[SPMJobsPath] WHERE  JobNo = '" + job + "' AND BOMNo = '" + bom + "'", connectapi.cn);
 
                 sda.Fill(_acountsTb);
                 string path = _acountsTb.Rows[0]["Path"].ToString();
@@ -686,7 +670,7 @@ namespace SearchDataSPM
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
         }
 
@@ -728,10 +712,11 @@ namespace SearchDataSPM
 
             try
             {
-                cn.Open();
-                _command = new SqlCommand
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
+                SqlCommand _command = new SqlCommand
                 {
-                    Connection = cn,
+                    Connection = connectapi.cn,
                     CommandText = sql
                 };
                 _command.ExecuteNonQuery();
@@ -740,11 +725,11 @@ namespace SearchDataSPM
             catch (SqlException)
             {
                 // MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                MessageBox.Show("Technical error while updating to autocad catalog. Please contact the admin.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Technical error while updating path. Please contact the admin.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
         }
 
@@ -1238,6 +1223,19 @@ namespace SearchDataSPM
         {
             ViewRelease viewRelease = new ViewRelease(wrkorder: Getjobnumber(), job: true, jobassyno: GetAssynumber(), jobno: Getjobnumber());
             viewRelease.Show();
+        }
+
+        private void cribbttn_Click(object sender, EventArgs e)
+        {
+            //if (connectapi.EmployeeExitsWithCribRights(connectapi.Getempid()))
+            //{
+            //    InvInOut invInOut = new InvInOut();
+            //    invInOut.Show();
+            //}
+            //else
+            //{
+            //    MetroFramework.MetroMessageBox.Show(this, "Your request can't be completed based on your security settings.", "SPM Connect - Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //}
         }
     }
 }

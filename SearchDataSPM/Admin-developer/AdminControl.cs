@@ -11,13 +11,12 @@ namespace SearchDataSPM
     {
         #region steupvariables
 
-        private string connection;
-        private SqlConnection cn;
         private string controluseraction;
         private int selectedindex = 0;
         private DataTable dt;
         private log4net.ILog log;
         private ErrorHandler errorHandler = new ErrorHandler();
+        private SPMConnectAPI.ConnectAPI connectapi = new SPMConnectAPI.ConnectAPI();
 
         #endregion steupvariables
 
@@ -26,20 +25,6 @@ namespace SearchDataSPM
         public AdminControl()
         {
             InitializeComponent();
-
-            connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
-            try
-            {
-                cn = new SqlConnection(connection);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
             dt = new DataTable();
         }
 
@@ -60,9 +45,9 @@ namespace SearchDataSPM
             try
             {
                 Userlistbox.Items.Clear();
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
+                SqlCommand cmd = connectapi.cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "SELECT Name FROM [SPM_Database].[dbo].[Users] order by Name";
                 cmd.ExecuteNonQuery();
@@ -85,18 +70,18 @@ namespace SearchDataSPM
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
         }
 
         private void Fillsupervisor()
         {
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT CONCAT(id, ' ', Name) as Supervisors  FROM [SPM_Database].[dbo].[Users]  WHERE PurchaseReqApproval = '1'  OR PurchaseReqApproval2 ='1'", cn))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT CONCAT(id, ' ', Name) as Supervisors  FROM [SPM_Database].[dbo].[Users]  WHERE PurchaseReqApproval = '1'  OR PurchaseReqApproval2 ='1'", connectapi.cn))
             {
                 try
                 {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
+                    if (connectapi.cn.State == ConnectionState.Closed)
+                        connectapi.cn.Open();
                     SqlDataReader reader = sqlCommand.ExecuteReader();
                     AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
                     while (reader.Read())
@@ -112,19 +97,19 @@ namespace SearchDataSPM
                 }
                 finally
                 {
-                    cn.Close();
+                    connectapi.cn.Close();
                 }
             }
         }
 
         private void FillECRsupervisor()
         {
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT CONCAT(id, ' ', Name) as ECRSupervisors  FROM [SPM_Database].[dbo].[Users]  WHERE [ECRApproval] = '1'  OR [ECRApproval2] ='1'", cn))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT CONCAT(id, ' ', Name) as ECRSupervisors  FROM [SPM_Database].[dbo].[Users]  WHERE [ECRApproval] = '1'  OR [ECRApproval2] ='1'", connectapi.cn))
             {
                 try
                 {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
+                    if (connectapi.cn.State == ConnectionState.Closed)
+                        connectapi.cn.Open();
                     SqlDataReader reader = sqlCommand.ExecuteReader();
                     AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
                     while (reader.Read())
@@ -140,19 +125,19 @@ namespace SearchDataSPM
                 }
                 finally
                 {
-                    cn.Close();
+                    connectapi.cn.Close();
                 }
             }
         }
 
         private void FillShippingsupervisor()
         {
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT CONCAT(id, ' ', Name) as ShipSupervisors  FROM [SPM_Database].[dbo].[Users]  WHERE [ShipSupervisor] = '1'", cn))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT CONCAT(id, ' ', Name) as ShipSupervisors  FROM [SPM_Database].[dbo].[Users]  WHERE [ShipSupervisor] = '1'", connectapi.cn))
             {
                 try
                 {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
+                    if (connectapi.cn.State == ConnectionState.Closed)
+                        connectapi.cn.Open();
                     SqlDataReader reader = sqlCommand.ExecuteReader();
                     AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
                     while (reader.Read())
@@ -168,7 +153,7 @@ namespace SearchDataSPM
                 }
                 finally
                 {
-                    cn.Close();
+                    connectapi.cn.Close();
                 }
             }
         }
@@ -186,9 +171,9 @@ namespace SearchDataSPM
         {
             try
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
+                SqlCommand cmd = connectapi.cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] where Name ='" + Userlistbox.SelectedItem.ToString() + "'";
                 //cmd.ExecuteNonQuery();
@@ -465,7 +450,7 @@ namespace SearchDataSPM
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
         }
 
@@ -473,9 +458,9 @@ namespace SearchDataSPM
         {
             try
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
+                SqlCommand cmd = connectapi.cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [id]='" + supervisor.ToString() + "' ";
                 cmd.ExecuteNonQuery();
@@ -494,7 +479,7 @@ namespace SearchDataSPM
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
             return null;
         }
@@ -652,15 +637,15 @@ namespace SearchDataSPM
             if (result == DialogResult.Yes)
             {
                 selectedindex = Userlistbox.SelectedIndex;
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
                 try
                 {
-                    SqlCommand cmd = cn.CreateCommand();
+                    SqlCommand cmd = connectapi.cn.CreateCommand();
                     cmd.CommandType = CommandType.Text;
                     cmd.CommandText = "DELETE FROM [SPM_Database].[dbo].[Users] WHERE UserName = '" + domaintxtbox.Text.ToString() + "'";
                     cmd.ExecuteNonQuery();
-                    cn.Close();
+                    connectapi.cn.Close();
                     MessageBox.Show("User deleted successfully", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     domaintxtbox.Text = "";
@@ -679,7 +664,7 @@ namespace SearchDataSPM
                 }
                 finally
                 {
-                    cn.Close();
+                    connectapi.cn.Close();
                     Connect_SPMSQL(0);
                 }
             }
@@ -791,11 +776,11 @@ namespace SearchDataSPM
                     activeblocknumber = Char.ToUpper(activecadblocktxt.Text[0]) + activecadblocktxt.Text.Substring(1);
                 }
 
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
                 try
                 {
-                    SqlCommand cmd = cn.CreateCommand();
+                    SqlCommand cmd = connectapi.cn.CreateCommand();
                     cmd.CommandType = CommandType.Text;
                     cmd.CommandText = "UPDATE [SPM_Database].[dbo].[Users] SET Department = '" + deptcombobox.SelectedItem.ToString() + "'," +
                         "Admin = '" + (admintoggle.Checked ? "1" : "0") + "',Name = '" + nametextbox.Text.Trim() + "',ActiveBlockNumber = '" + activeblocknumber + "'," +
@@ -810,7 +795,7 @@ namespace SearchDataSPM
                         "Emp_Id = '" + empidtxt.Text.Trim() + "' WHERE UserName = '" + domaintxtbox.Text + "' ";
 
                     cmd.ExecuteNonQuery();
-                    cn.Close();
+                    connectapi.cn.Close();
                     MessageBox.Show("User credentials updated successfully", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
@@ -819,7 +804,7 @@ namespace SearchDataSPM
                 }
                 finally
                 {
-                    cn.Close();
+                    connectapi.cn.Close();
                     Performcancelbutton();
                 }
             }
@@ -872,11 +857,11 @@ namespace SearchDataSPM
                     activeblocknumber = Char.ToUpper(activecadblocktxt.Text[0]) + activecadblocktxt.Text.Substring(1);
                 }
 
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
                 try
                 {
-                    SqlCommand cmd = cn.CreateCommand();
+                    SqlCommand cmd = connectapi.cn.CreateCommand();
                     cmd.CommandType = CommandType.Text;
                     cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Users]([Emp_Id], [UserName], [Department], [Name],[ActiveBlockNumber],[Admin],[Developer],[Management]," +
                         "[Quote],[PurchaseReq],[PurchaseReqApproval],[PurchaseReqApproval2],[PurchaseReqBuyer],[PriceRight],[CheckDrawing],[ApproveDrawing],[ReleasePackage],[ShipSupervisor],[ShipSup],[ShippingManager],[CribCheckout],[CribShort],[WOScan],[Shipping],[Supervisor],[ECRSup]," +
@@ -889,7 +874,7 @@ namespace SearchDataSPM
                         "'" + supervisorcombox.SelectedItem.ToString().Substring(0, 2).TrimEnd() + "','" + ecrSupervisorcomboBox.SelectedItem.ToString().Substring(0, 2).TrimEnd() + "','" + useremailtxt.Text + "','" + sharepathtxt.Text + "'," +
                         "'" + (ecrtoggle.Checked ? "1" : "0") + "','" + (woreleasetoggle.Checked ? "1" : "0") + "','" + (itmdeptoggle.Checked ? "1" : "0") + "','" + (ecrapprovalchk.Checked ? "1" : "0") + "','" + (ecrapproval2chk.Checked ? "1" : "0") + "','" + (ecrhandlerchk.Checked ? "1" : "0") + "')";
                     cmd.ExecuteNonQuery();
-                    cn.Close();
+                    connectapi.cn.Close();
                     MessageBox.Show("New user added successfully", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
@@ -898,7 +883,7 @@ namespace SearchDataSPM
                 }
                 finally
                 {
-                    cn.Close();
+                    connectapi.cn.Close();
                     Performcancelbutton();
                 }
             }
@@ -1249,6 +1234,5 @@ namespace SearchDataSPM
                 shippingmanagerchk.Checked = false;
             }
         }
-
     }
 }

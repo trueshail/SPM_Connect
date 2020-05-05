@@ -1,9 +1,7 @@
 ﻿using SPMConnectAPI;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
 using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,11 +13,8 @@ namespace SearchDataSPM
     {
         #region steupvariables
 
-        private string connection;
         private DataTable treeTB;
         private DataTable woTB;
-        private SqlConnection _connection;
-        private SqlCommand command;
         private TreeNode root = new TreeNode();
         private TreeNode woroot = new TreeNode();
         private string workOrder;
@@ -38,25 +33,8 @@ namespace SearchDataSPM
         public ViewRelease(string wrkorder, bool job, string jobassyno, string jobno)
         {
             InitializeComponent();
-
-            connection = ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
-
-            try
-            {
-                _connection = new SqlConnection(connection);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
             treeTB = new DataTable();
             woTB = new DataTable();
-
-            command = new SqlCommand
-            {
-                Connection = _connection
-            };
             this.workOrder = wrkorder;
             this.isJob = job;
             this.assyNumber = jobassyno;

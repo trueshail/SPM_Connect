@@ -2,7 +2,6 @@
 using System;
 using System.ComponentModel;
 using System.Data;
-using System.Data.SqlClient;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -10,8 +9,6 @@ namespace SearchDataSPM
 {
     public partial class ReleaseSuggestions : Form
     {
-        private string connection;
-        private SqlConnection cn;
         private DataTable dt;
         public string ValueIWant { get; set; }
         private string formlabel = "";
@@ -22,17 +19,6 @@ namespace SearchDataSPM
         public ReleaseSuggestions()
         {
             InitializeComponent();
-
-            connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
-            try
-            {
-                cn = new SqlConnection(connection);
-            }
-            catch (Exception)
-            {
-                MetroFramework.MetroMessageBox.Show(this, "Error Connecting to SQL Server.....", "SPM Connect - Shipping Home Initialize", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
-            }
         }
 
         public string formtext(string formname)

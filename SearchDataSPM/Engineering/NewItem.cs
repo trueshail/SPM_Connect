@@ -24,11 +24,7 @@ namespace SearchDataSPM
     {
         #region steupvariables
 
-        private string connection;
         private DataTable _acountsTb = null;
-        private SqlConnection _connection;
-        private SqlCommand _command;
-        private SqlDataAdapter _adapter;
         private SPMConnectAPI.SPMSQLCommands connectapi = new SPMSQLCommands();
         private log4net.ILog log;
         private bool doneshowingSplash = false;
@@ -42,24 +38,6 @@ namespace SearchDataSPM
         public NewItem()
         {
             InitializeComponent();
-            connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
-
-            try
-            {
-                _connection = new SqlConnection(connection);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Message - New Item Initialize", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            _acountsTb = new DataTable();
-            _command = new SqlCommand
-            {
-                Connection = _connection
-            };
-
-            //connectapi.SPM_Connect();
         }
 
         private string checkedit;
@@ -121,8 +99,9 @@ namespace SearchDataSPM
 
             try
             {
-                _connection.Open();
-                _adapter = new SqlDataAdapter(sql, _connection);
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
+                SqlDataAdapter _adapter = new SqlDataAdapter(sql, connectapi.cn);
                 _adapter.Fill(_acountsTb);
                 fillinfo();
             }
@@ -132,7 +111,7 @@ namespace SearchDataSPM
             }
             finally
             {
-                _connection.Close();
+                connectapi.cn.Close();
             }
         }
 
@@ -637,15 +616,15 @@ namespace SearchDataSPM
         {
             DateTime dateedited = DateTime.Now;
             string sqlFormattedDate = dateedited.ToString("yyyy-MM-dd HH:mm:ss.fff");
-            if (_connection.State == ConnectionState.Closed)
-                _connection.Open();
+            if (connectapi.cn.State == ConnectionState.Closed)
+                connectapi.cn.Open();
             try
             {
-                SqlCommand cmd = _connection.CreateCommand();
+                SqlCommand cmd = connectapi.cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "UPDATE [SPM_Database].[dbo].[Inventory] SET Description = '" + description + "',FamilyCode = '" + family + "',Manufacturer = '" + manufacturer + "',ManufacturerItemNumber = '" + oem + "',Material = '" + material + "',Spare = '" + (checkBox1.Checked ? "SPARE" : null) + "',FamilyType = '" + familytype + "',SurfaceProtection = '" + surface + "',HeatTreatment = '" + heat + "',LastSavedBy = '" + lastsavedby + "',Rupture = '" + rupture + "',Notes = '" + notes + "',LastEdited = '" + sqlFormattedDate + "' WHERE ItemNumber = '" + itemnumber + "' ";
                 cmd.ExecuteNonQuery();
-                _connection.Close();
+                connectapi.cn.Close();
                 //MessageBox.Show("Item sucessfully saved SPM Connect Server.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
@@ -654,7 +633,7 @@ namespace SearchDataSPM
             }
             finally
             {
-                _connection.Close();
+                connectapi.cn.Close();
             }
 
             //perfromlockdown();

@@ -27,8 +27,6 @@ namespace SearchDataSPM
         public MatReAlloc()
         {
             InitializeComponent();
-
-            //connectapi.SPM_Connect();
             dt = new DataTable();
         }
 

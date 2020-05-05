@@ -12,6 +12,7 @@ namespace SearchDataSPM
         // current user creds
         private bool supervisor = false;
 
+        private SPMConnectAPI.ConnectAPI connectapi = new SPMConnectAPI.ConnectAPI();
         private bool higherauthority = false;
         private bool pbuyer = false;
         private int supervisorid = 0;
@@ -25,7 +26,6 @@ namespace SearchDataSPM
         //int reqno = 0, validate = 0, approved = 0, happroval = 0, happroved = 0, papproval = 0, papproved = 0, supervisoridfromreq = 0;
         //double total = 0.00;
         ////
-
 
         public void SPM_Connect()
         {
@@ -42,7 +42,7 @@ namespace SearchDataSPM
         public void Currentusercreds()
         {
             SPM_Connect();
-            string username = SPMConnectAPI.Helper.GetUserName();
+            string username = connectapi.GetUserName();
             string fullname = "";
             try
             {
@@ -94,7 +94,7 @@ namespace SearchDataSPM
             //currentusercreds();
             string message = "no";
 
-            string supervisorname = getsupervisorname(getsupervisorid(SPMConnectAPI.Helper.GetUserName()));
+            string supervisorname = getsupervisorname(getsupervisorid(connectapi.GetUserName()));
 
             if (validate == 1 && approved == 0)
             {

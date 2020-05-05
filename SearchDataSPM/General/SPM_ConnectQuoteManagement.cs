@@ -9,31 +9,14 @@ namespace SearchDataSPM.General
 {
     public partial class SPM_ConnectQuoteManagement : MetroFramework.Forms.MetroForm
     {
-        private string connection;
-        private SqlConnection cn;
         private DataTable dt;
         private log4net.ILog log;
-
+        private SPMConnectAPI.ConnectAPI connectapi = new SPMConnectAPI.ConnectAPI();
         private ErrorHandler errorHandler = new ErrorHandler();
 
         public SPM_ConnectQuoteManagement()
         {
             InitializeComponent();
-            connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
-            try
-            {
-                cn = new SqlConnection(connection);
-                cn.Open();
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Error Connecting to SQL Server.....", "SPM Connect - ENG", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
-            }
-            finally
-            {
-                cn.Close();
-            }
             dt = new DataTable();
         }
 
@@ -58,10 +41,10 @@ namespace SearchDataSPM.General
         {
             try
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
 
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[Quotes] ORDER BY DateCreated DESC", cn);
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[Quotes] ORDER BY DateCreated DESC", connectapi.cn);
 
                 dt.Clear();
                 sda.Fill(dt);
@@ -74,7 +57,7 @@ namespace SearchDataSPM.General
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
         }
 
@@ -525,14 +508,13 @@ namespace SearchDataSPM.General
             }
         }
 
-
         private string Getuserfullname(string username)
         {
             try
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
+                SqlCommand cmd = connectapi.cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + username.ToString() + "' ";
                 cmd.ExecuteNonQuery();
@@ -551,7 +533,7 @@ namespace SearchDataSPM.General
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
             return null;
         }
@@ -561,9 +543,9 @@ namespace SearchDataSPM.General
             string lastnumber = "";
             try
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
+                SqlCommand cmd = connectapi.cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "SELECT * FROM newquotenumber";
                 cmd.ExecuteNonQuery();
@@ -581,7 +563,7 @@ namespace SearchDataSPM.General
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
 
             return lastnumber;
@@ -593,7 +575,7 @@ namespace SearchDataSPM.General
 
             if (result == DialogResult.Yes)
             {
-                string user = Getuserfullname(SPMConnectAPI.Helper.GetUserName());
+                string user = Getuserfullname(connectapi.GetUserName());
                 string newnunber = getnewnumber();
                 bool status = createnewquote(newnunber, user);
                 if (status)
@@ -614,18 +596,18 @@ namespace SearchDataSPM.General
             string sqlFormattedDate = date.ToString("yyyy-MM-dd");
             string folderpath = @"\\spm-adfs\SPM\S300 Sales and Project Management\Sales\Opportunities\";
 
-            if (cn.State == ConnectionState.Closed)
-                cn.Open();
+            if (connectapi.cn.State == ConnectionState.Closed)
+                connectapi.cn.Open();
             try
             {
-                SqlCommand cmd = cn.CreateCommand();
+                SqlCommand cmd = connectapi.cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Opportunities] (Quote, Quote_Date, Employee, LastSavedby, Lastsaved,DateCreated, FolderPath) VALUES('" + quotenumber.ToString() + "',@value1,'" + employee.ToString() + "','" + employee.ToString() + "',@value2,@value2,'" + folderpath + "')";
 
                 cmd.Parameters.AddWithValue("@value1", sqlFormattedDate);
                 cmd.Parameters.AddWithValue("@value2", sqlFormattedDatetime);
                 cmd.ExecuteNonQuery();
-                cn.Close();
+                connectapi.cn.Close();
                 success = true;
                 //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -635,7 +617,7 @@ namespace SearchDataSPM.General
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
             return success;
         }

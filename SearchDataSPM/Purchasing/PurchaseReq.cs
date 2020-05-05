@@ -22,9 +22,6 @@ namespace SearchDataSPM
         #region Setting up Various Variables to Store information
 
         private PurchaseReq model = new PurchaseReq();
-        private string connection;
-        private SqlConnection cn;
-        private SqlDataAdapter _adapter;
         private DataTable itemstable = new DataTable();
         private DataTable dt;
         private bool formloading = false;
@@ -40,6 +37,7 @@ namespace SearchDataSPM
         private log4net.ILog log;
         private ErrorHandler errorHandler = new ErrorHandler();
         private bool splashWorkDone = false;
+        private SPMConnectAPI.ConnectAPI connectapi = new SPMConnectAPI.ConnectAPI();
 
         #endregion Setting up Various Variables to Store information
 
@@ -48,26 +46,9 @@ namespace SearchDataSPM
         public PurchaseReqform()
         {
             InitializeComponent();
-
-            connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
-            try
-            {
-                cn = new SqlConnection(connection);
-                cn.Open();
-            }
-            catch (Exception)
-            {
-                // MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                MetroFramework.MetroMessageBox.Show(this, "Error Connecting to SQL Server.....", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
-            }
-            finally
-            {
-                cn.Close();
-            }
             dt = new DataTable();
             Clear();
-            userfullname = Getuserfullname(SPMConnectAPI.Helper.GetUserName().ToString()).ToString();
+            userfullname = Getuserfullname(connectapi.GetUserName().ToString()).ToString();
         }
 
         private void PurchaseReq_Load(object sender, EventArgs e)
@@ -115,7 +96,7 @@ namespace SearchDataSPM
             log.Info("Opened Purchase Req ");
             this.BringToFront();
             this.Focus();
-            this.Text = "SPM Connect Purchase Requisition - " + SPMConnectAPI.Helper.GetUserName().Substring(4);
+            this.Text = "SPM Connect Purchase Requisition - " + connectapi.GetUserName().Substring(4);
         }
 
         private void Changecontrolbuttonnames()
@@ -132,12 +113,12 @@ namespace SearchDataSPM
         private void ShowReqSearchItems(string user)
         {
             showingwaitingforapproval = false;
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] Where [RequestedBy] = '" + user + "'ORDER BY ReqNumber DESC", cn))
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] Where [RequestedBy] = '" + user + "'ORDER BY ReqNumber DESC", connectapi.cn))
             {
                 try
                 {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
+                    if (connectapi.cn.State == ConnectionState.Closed)
+                        connectapi.cn.Open();
 
                     dt.Clear();
                     sda.Fill(dt);
@@ -149,7 +130,7 @@ namespace SearchDataSPM
                 }
                 finally
                 {
-                    cn.Close();
+                    connectapi.cn.Close();
                 }
             }
         }
@@ -255,15 +236,14 @@ namespace SearchDataSPM
 
         #region Get User Full Name
 
-
         private string Getuserfullname(string username)
         {
             string fullname = "";
             try
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
+                SqlCommand cmd = connectapi.cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + username.ToString() + "' ";
                 cmd.ExecuteNonQuery();
@@ -298,7 +278,7 @@ namespace SearchDataSPM
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
             return fullname;
         }
@@ -424,15 +404,15 @@ namespace SearchDataSPM
         private int Getlastreqnumber()
         {
             int lastreqnumber = 0;
-            using (SqlCommand cmd = new SqlCommand("SELECT MAX(ReqNumber) FROM [SPM_Database].[dbo].[PurchaseReqBase]", cn))
+            using (SqlCommand cmd = new SqlCommand("SELECT MAX(ReqNumber) FROM [SPM_Database].[dbo].[PurchaseReqBase]", connectapi.cn))
             {
                 try
                 {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
+                    if (connectapi.cn.State == ConnectionState.Closed)
+                        connectapi.cn.Open();
                     lastreqnumber = (int)cmd.ExecuteScalar();
                     lastreqnumber++;
-                    cn.Close();
+                    connectapi.cn.Close();
                 }
                 catch (Exception ex)
                 {
@@ -440,7 +420,7 @@ namespace SearchDataSPM
                 }
                 finally
                 {
-                    cn.Close();
+                    connectapi.cn.Close();
                 }
             }
 
@@ -454,15 +434,15 @@ namespace SearchDataSPM
             string sqlFormattedDate = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
             //string jobnumber = "";
             //string subassy = "";
-            if (cn.State == ConnectionState.Closed)
-                cn.Open();
+            if (connectapi.cn.State == ConnectionState.Closed)
+                connectapi.cn.Open();
             try
             {
-                SqlCommand cmd = cn.CreateCommand();
+                SqlCommand cmd = connectapi.cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[PurchaseReqBase] (ReqNumber, RequestedBy, DateCreated, DateLastSaved, JobNumber, SubAssyNumber,LastSavedBy, Validate, Approved,Total,Happroved,DateRequired, SupervisorId, DateValidated,PApproval,Papproved) VALUES('" + reqnumber + "','" + employee.ToString() + "','" + sqlFormattedDate + "','" + sqlFormattedDate + "','','','" + employee.ToString() + "','0','0','0','0','" + sqlFormattedDate + "', '" + supervisorid + "', null,'0','0')";
                 cmd.ExecuteNonQuery();
-                cn.Close();
+                connectapi.cn.Close();
                 revtal = true;
             }
             catch (Exception ex)
@@ -471,7 +451,7 @@ namespace SearchDataSPM
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
             return revtal;
         }
@@ -539,11 +519,11 @@ namespace SearchDataSPM
             string notes = notestxt.Text;
             bool approval = Happroval();
 
-            if (cn.State == ConnectionState.Closed)
-                cn.Open();
+            if (connectapi.cn.State == ConnectionState.Closed)
+                connectapi.cn.Open();
             try
             {
-                SqlCommand cmd = cn.CreateCommand();
+                SqlCommand cmd = connectapi.cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
 
                 if (typesave == "Normal")
@@ -614,7 +594,7 @@ namespace SearchDataSPM
                 //}
 
                 cmd.ExecuteNonQuery();
-                cn.Close();
+                connectapi.cn.Close();
             }
             catch (Exception ex)
             {
@@ -622,7 +602,7 @@ namespace SearchDataSPM
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
         }
 
@@ -651,14 +631,14 @@ namespace SearchDataSPM
         private string Gethapporvallimit()
         {
             string limit = "";
-            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'Limit'", cn))
+            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'Limit'", connectapi.cn))
             {
                 try
                 {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
+                    if (connectapi.cn.State == ConnectionState.Closed)
+                        connectapi.cn.Open();
                     limit = (string)cmd.ExecuteScalar();
-                    cn.Close();
+                    connectapi.cn.Close();
                 }
                 catch (Exception ex)
                 {
@@ -666,7 +646,7 @@ namespace SearchDataSPM
                 }
                 finally
                 {
-                    cn.Close();
+                    connectapi.cn.Close();
                 }
             }
 
@@ -899,14 +879,14 @@ namespace SearchDataSPM
 
         private void Removeitems(string itemno, string description)
         {
-            if (cn.State == ConnectionState.Closed)
-                cn.Open();
+            if (connectapi.cn.State == ConnectionState.Closed)
+                connectapi.cn.Open();
             try
             {
                 string query = "DELETE FROM [SPM_Database].[dbo].[PurchaseReq] WHERE Item ='" + itemno.ToString() + "' AND ReqNumber ='" + description.ToString() + "' ";
-                SqlCommand sda = new SqlCommand(query, cn);
+                SqlCommand sda = new SqlCommand(query, connectapi.cn);
                 sda.ExecuteNonQuery();
-                cn.Close();
+                connectapi.cn.Close();
             }
             catch (Exception ex)
             {
@@ -914,7 +894,7 @@ namespace SearchDataSPM
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
         }
 
@@ -947,11 +927,11 @@ namespace SearchDataSPM
 
         private void Updateorderid(int reqnumber)
         {
-            using (SqlCommand sqlCommand = new SqlCommand("with cte as(select *, new_row_id = row_number() over(partition by ReqNumber order by ReqNumber)from[dbo].[PurchaseReq] where ReqNumber = @itemnumber)update cte set OrderId = new_row_id", cn))
+            using (SqlCommand sqlCommand = new SqlCommand("with cte as(select *, new_row_id = row_number() over(partition by ReqNumber order by ReqNumber)from[dbo].[PurchaseReq] where ReqNumber = @itemnumber)update cte set OrderId = new_row_id", connectapi.cn))
             {
                 try
                 {
-                    cn.Open();
+                    connectapi.cn.Open();
                     sqlCommand.CommandType = CommandType.Text;
                     sqlCommand.Parameters.AddWithValue("@itemnumber", reqnumber);
                     sqlCommand.ExecuteNonQuery();
@@ -962,7 +942,7 @@ namespace SearchDataSPM
                 }
                 finally
                 {
-                    cn.Close();
+                    connectapi.cn.Close();
                 }
             }
         }
@@ -1080,11 +1060,11 @@ namespace SearchDataSPM
 
         private void Fillitemssource()
         {
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM [SPM_Database].[dbo].[ItemsToSelect]", cn))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM [SPM_Database].[dbo].[ItemsToSelect]", connectapi.cn))
             {
                 try
                 {
-                    cn.Open();
+                    connectapi.cn.Open();
                     SqlDataReader reader = sqlCommand.ExecuteReader();
                     AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
                     while (reader.Read())
@@ -1099,7 +1079,7 @@ namespace SearchDataSPM
                 }
                 finally
                 {
-                    cn.Close();
+                    connectapi.cn.Close();
                 }
             }
         }
@@ -1109,9 +1089,9 @@ namespace SearchDataSPM
             string sql = "SELECT *  FROM [SPM_Database].[dbo].[UnionInventory] WHERE [ItemNumber]='" + itemnumber.ToString() + "'";
             try
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                _adapter = new SqlDataAdapter(sql, cn);
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
+                SqlDataAdapter _adapter = new SqlDataAdapter(sql, connectapi.cn);
                 itemstable.Clear();
                 _adapter.Fill(itemstable);
             }
@@ -1121,7 +1101,7 @@ namespace SearchDataSPM
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
         }
 
@@ -1726,9 +1706,9 @@ namespace SearchDataSPM
             bool approved = false;
             try
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
+                SqlCommand cmd = connectapi.cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] where ReqNumber ='" + reqno + "'";
                 cmd.ExecuteNonQuery();
@@ -1756,7 +1736,7 @@ namespace SearchDataSPM
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
 
             return approved;
@@ -1872,9 +1852,9 @@ namespace SearchDataSPM
             bool approved = false;
             try
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
+                SqlCommand cmd = connectapi.cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] where ReqNumber ='" + reqno + "'";
                 cmd.ExecuteNonQuery();
@@ -1902,7 +1882,7 @@ namespace SearchDataSPM
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
 
             return approved;
@@ -2200,10 +2180,10 @@ namespace SearchDataSPM
         {
             try
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
 
-                using (SqlCommand cmd = new SqlCommand("insert into SavePDFTable " + "(PDFFile)values(@data)", cn))
+                using (SqlCommand cmd = new SqlCommand("insert into SavePDFTable " + "(PDFFile)values(@data)", connectapi.cn))
 
                 {
                     cmd.Parameters.AddWithValue("@data", username);
@@ -2217,7 +2197,7 @@ namespace SearchDataSPM
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
             return null;
         }
@@ -2389,9 +2369,9 @@ namespace SearchDataSPM
             string name = "";
             try
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
+                SqlCommand cmd = connectapi.cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [id]='" + id + "' ";
                 cmd.ExecuteNonQuery();
@@ -2410,7 +2390,7 @@ namespace SearchDataSPM
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
             if (Email.Length > 0)
             {
@@ -2431,9 +2411,9 @@ namespace SearchDataSPM
             string Email = "";
             try
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
+                SqlCommand cmd = connectapi.cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [Name]='" + requestby.ToString() + "' ";
                 cmd.ExecuteNonQuery();
@@ -2451,7 +2431,7 @@ namespace SearchDataSPM
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
             if (Email.Length > 0)
             {
@@ -2469,9 +2449,9 @@ namespace SearchDataSPM
 
             try
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
+                SqlCommand cmd = connectapi.cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [PurchaseReqApproval2] = '1' ";
                 cmd.ExecuteNonQuery();
@@ -2489,7 +2469,7 @@ namespace SearchDataSPM
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
             return Happrovalnames;
         }
@@ -2500,9 +2480,9 @@ namespace SearchDataSPM
 
             try
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
+                SqlCommand cmd = connectapi.cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [PurchaseReqBuyer] = '1' ";
                 cmd.ExecuteNonQuery();
@@ -2520,7 +2500,7 @@ namespace SearchDataSPM
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
             return Happrovalnames;
         }
@@ -2542,14 +2522,14 @@ namespace SearchDataSPM
         {
             bool sendemail = false;
             string limit = "";
-            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'EmailReq'", cn))
+            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'EmailReq'", connectapi.cn))
             {
                 try
                 {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
+                    if (connectapi.cn.State == ConnectionState.Closed)
+                        connectapi.cn.Open();
                     limit = (string)cmd.ExecuteScalar();
-                    cn.Close();
+                    connectapi.cn.Close();
                 }
                 catch (Exception ex)
                 {
@@ -2557,7 +2537,7 @@ namespace SearchDataSPM
                 }
                 finally
                 {
-                    cn.Close();
+                    connectapi.cn.Close();
                 }
             }
             if (limit == "1")
@@ -2616,11 +2596,11 @@ namespace SearchDataSPM
         public bool CheckItemPresentOnGenius(string itemid)
         {
             bool itempresent = false;
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPMDB].[dbo].[Edb] WHERE [Item]='" + itemid.ToString() + "'", cn))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPMDB].[dbo].[Edb] WHERE [Item]='" + itemid.ToString() + "'", connectapi.cn))
             {
                 try
                 {
-                    cn.Open();
+                    connectapi.cn.Open();
 
                     int userCount = (int)sqlCommand.ExecuteScalar();
                     if (userCount == 1)
@@ -2640,7 +2620,7 @@ namespace SearchDataSPM
                 }
                 finally
                 {
-                    cn.Close();
+                    connectapi.cn.Close();
                 }
             }
             return itempresent;
@@ -2678,12 +2658,12 @@ namespace SearchDataSPM
         {
             DataTable dt = new DataTable();
 
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT TOP (1) * FROM [SPM_Database].[dbo].[PriceItemsFromPO] WHERE [Item] = '" + itemnumber + "' order by LastUpdate Desc", cn))
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT TOP (1) * FROM [SPM_Database].[dbo].[PriceItemsFromPO] WHERE [Item] = '" + itemnumber + "' order by LastUpdate Desc", connectapi.cn))
             {
                 try
                 {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
+                    if (connectapi.cn.State == ConnectionState.Closed)
+                        connectapi.cn.Open();
 
                     dt.Clear();
                     sda.Fill(dt);
@@ -2694,7 +2674,7 @@ namespace SearchDataSPM
                 }
                 finally
                 {
-                    cn.Close();
+                    connectapi.cn.Close();
                 }
             }
             return dt;
@@ -2934,12 +2914,12 @@ namespace SearchDataSPM
 
             if (higherauthority && !supervisor)
             {
-                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '1' AND Validate = '1' AND HApproval = '1' AND Happroved = '0' ORDER BY ReqNumber DESC", cn))
+                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '1' AND Validate = '1' AND HApproval = '1' AND Happroved = '0' ORDER BY ReqNumber DESC", connectapi.cn))
                 {
                     try
                     {
-                        if (cn.State == ConnectionState.Closed)
-                            cn.Open();
+                        if (connectapi.cn.State == ConnectionState.Closed)
+                            connectapi.cn.Open();
 
                         dt.Clear();
                         sda.Fill(dt);
@@ -2951,18 +2931,18 @@ namespace SearchDataSPM
                     }
                     finally
                     {
-                        cn.Close();
+                        connectapi.cn.Close();
                     }
                 }
             }
             else if (higherauthority && supervisor)
             {
-                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '1' AND Validate = '1' AND HApproval = '1' AND Happroved = '0' UNION SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Validate = '1' AND Approved = '0' AND SupervisorId = '" + myid + "' ORDER BY ReqNumber DESC", cn))
+                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '1' AND Validate = '1' AND HApproval = '1' AND Happroved = '0' UNION SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Validate = '1' AND Approved = '0' AND SupervisorId = '" + myid + "' ORDER BY ReqNumber DESC", connectapi.cn))
                 {
                     try
                     {
-                        if (cn.State == ConnectionState.Closed)
-                            cn.Open();
+                        if (connectapi.cn.State == ConnectionState.Closed)
+                            connectapi.cn.Open();
 
                         dt.Clear();
                         sda.Fill(dt);
@@ -2974,18 +2954,18 @@ namespace SearchDataSPM
                     }
                     finally
                     {
-                        cn.Close();
+                        connectapi.cn.Close();
                     }
                 }
             }
             else if (pbuyer)
             {
-                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '1' AND Validate = '1' AND PApproval = '1' AND Papproved = '0' ORDER BY ReqNumber DESC", cn))
+                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '1' AND Validate = '1' AND PApproval = '1' AND Papproved = '0' ORDER BY ReqNumber DESC", connectapi.cn))
                 {
                     try
                     {
-                        if (cn.State == ConnectionState.Closed)
-                            cn.Open();
+                        if (connectapi.cn.State == ConnectionState.Closed)
+                            connectapi.cn.Open();
 
                         dt.Clear();
                         sda.Fill(dt);
@@ -2997,18 +2977,18 @@ namespace SearchDataSPM
                     }
                     finally
                     {
-                        cn.Close();
+                        connectapi.cn.Close();
                     }
                 }
             }
             else if (supervisor && !higherauthority)
             {
-                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '0' AND Validate = '1' AND SupervisorId = '" + myid + "' ORDER BY ReqNumber DESC", cn))
+                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '0' AND Validate = '1' AND SupervisorId = '" + myid + "' ORDER BY ReqNumber DESC", connectapi.cn))
                 {
                     try
                     {
-                        if (cn.State == ConnectionState.Closed)
-                            cn.Open();
+                        if (connectapi.cn.State == ConnectionState.Closed)
+                            connectapi.cn.Open();
 
                         dt.Clear();
                         sda.Fill(dt);
@@ -3020,7 +3000,7 @@ namespace SearchDataSPM
                     }
                     finally
                     {
-                        cn.Close();
+                        connectapi.cn.Close();
                     }
                 }
             }
@@ -3032,12 +3012,12 @@ namespace SearchDataSPM
 
             if (higherauthority)
             {
-                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE (Approved = '1' OR Approved = '3') AND Validate = '1' ORDER BY ReqNumber DESC", cn))
+                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE (Approved = '1' OR Approved = '3') AND Validate = '1' ORDER BY ReqNumber DESC", connectapi.cn))
                 {
                     try
                     {
-                        if (cn.State == ConnectionState.Closed)
-                            cn.Open();
+                        if (connectapi.cn.State == ConnectionState.Closed)
+                            connectapi.cn.Open();
 
                         dt.Clear();
                         sda.Fill(dt);
@@ -3049,18 +3029,18 @@ namespace SearchDataSPM
                     }
                     finally
                     {
-                        cn.Close();
+                        connectapi.cn.Close();
                     }
                 }
             }
             else if (pbuyer)
             {
-                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Papproved = '1' ORDER BY ReqNumber DESC", cn))
+                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Papproved = '1' ORDER BY ReqNumber DESC", connectapi.cn))
                 {
                     try
                     {
-                        if (cn.State == ConnectionState.Closed)
-                            cn.Open();
+                        if (connectapi.cn.State == ConnectionState.Closed)
+                            connectapi.cn.Open();
 
                         dt.Clear();
                         sda.Fill(dt);
@@ -3072,18 +3052,18 @@ namespace SearchDataSPM
                     }
                     finally
                     {
-                        cn.Close();
+                        connectapi.cn.Close();
                     }
                 }
             }
             else if (supervisor)
             {
-                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE (Approved = '1' OR Approved = '3') AND Validate = '1' AND SupervisorId = '" + myid + "' ORDER BY ReqNumber DESC", cn))
+                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE (Approved = '1' OR Approved = '3') AND Validate = '1' AND SupervisorId = '" + myid + "' ORDER BY ReqNumber DESC", connectapi.cn))
                 {
                     try
                     {
-                        if (cn.State == ConnectionState.Closed)
-                            cn.Open();
+                        if (connectapi.cn.State == ConnectionState.Closed)
+                            connectapi.cn.Open();
 
                         dt.Clear();
                         sda.Fill(dt);
@@ -3095,7 +3075,7 @@ namespace SearchDataSPM
                     }
                     finally
                     {
-                        cn.Close();
+                        connectapi.cn.Close();
                     }
                 }
             }
@@ -3106,12 +3086,12 @@ namespace SearchDataSPM
             showingwaitingforapproval = false;
             if (higherauthority)
             {
-                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Validate != '5'  ORDER BY ReqNumber DESC", cn))
+                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Validate != '5'  ORDER BY ReqNumber DESC", connectapi.cn))
                 {
                     try
                     {
-                        if (cn.State == ConnectionState.Closed)
-                            cn.Open();
+                        if (connectapi.cn.State == ConnectionState.Closed)
+                            connectapi.cn.Open();
 
                         dt.Clear();
                         sda.Fill(dt);
@@ -3123,18 +3103,18 @@ namespace SearchDataSPM
                     }
                     finally
                     {
-                        cn.Close();
+                        connectapi.cn.Close();
                     }
                 }
             }
             else if (pbuyer)
             {
-                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE PApproval = '1'  ORDER BY ReqNumber DESC", cn))
+                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE PApproval = '1'  ORDER BY ReqNumber DESC", connectapi.cn))
                 {
                     try
                     {
-                        if (cn.State == ConnectionState.Closed)
-                            cn.Open();
+                        if (connectapi.cn.State == ConnectionState.Closed)
+                            connectapi.cn.Open();
 
                         dt.Clear();
                         sda.Fill(dt);
@@ -3146,19 +3126,19 @@ namespace SearchDataSPM
                     }
                     finally
                     {
-                        cn.Close();
+                        connectapi.cn.Close();
                     }
                 }
                 return;
             }
             else if (supervisor)
             {
-                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE SupervisorId = '" + myid + "' ORDER BY ReqNumber DESC", cn))
+                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE SupervisorId = '" + myid + "' ORDER BY ReqNumber DESC", connectapi.cn))
                 {
                     try
                     {
-                        if (cn.State == ConnectionState.Closed)
-                            cn.Open();
+                        if (connectapi.cn.State == ConnectionState.Closed)
+                            connectapi.cn.Open();
 
                         dt.Clear();
                         sda.Fill(dt);
@@ -3170,7 +3150,7 @@ namespace SearchDataSPM
                     }
                     finally
                     {
-                        cn.Close();
+                        connectapi.cn.Close();
                     }
                 }
             }
@@ -3226,14 +3206,14 @@ namespace SearchDataSPM
         {
             bool sendemail = false;
             string yesno = "";
-            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'EmailHapproval'", cn))
+            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'EmailHapproval'", connectapi.cn))
             {
                 try
                 {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
+                    if (connectapi.cn.State == ConnectionState.Closed)
+                        connectapi.cn.Open();
                     yesno = (string)cmd.ExecuteScalar();
-                    cn.Close();
+                    connectapi.cn.Close();
                 }
                 catch (Exception ex)
                 {
@@ -3241,7 +3221,7 @@ namespace SearchDataSPM
                 }
                 finally
                 {
-                    cn.Close();
+                    connectapi.cn.Close();
                 }
             }
             if (yesno == "1")
@@ -3305,14 +3285,14 @@ namespace SearchDataSPM
         {
             bool sendemail = false;
             string yesno = "";
-            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'EmailPbuyer'", cn))
+            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'EmailPbuyer'", connectapi.cn))
             {
                 try
                 {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
+                    if (connectapi.cn.State == ConnectionState.Closed)
+                        connectapi.cn.Open();
                     yesno = (string)cmd.ExecuteScalar();
-                    cn.Close();
+                    connectapi.cn.Close();
                 }
                 catch (Exception ex)
                 {
@@ -3320,7 +3300,7 @@ namespace SearchDataSPM
                 }
                 finally
                 {
-                    cn.Close();
+                    connectapi.cn.Close();
                 }
             }
             if (yesno == "1")
@@ -3342,7 +3322,7 @@ namespace SearchDataSPM
                 //sfd.Filter = "Excel Documents (*.xls)|*.xls";
                 //sfd.FileName = "Inventory_Adjustment_Export.xls";
 
-                string filepath = Getsupervisorsharepath(SPMConnectAPI.Helper.GetUserName()).ToString() + @"\SPM_Connect\PreliminaryPurchases\";
+                string filepath = Getsupervisorsharepath(connectapi.GetUserName()).ToString() + @"\SPM_Connect\PreliminaryPurchases\";
                 System.IO.Directory.CreateDirectory(filepath);
                 filepath += purchreqtxt.Text + " - " + requestbytxt.Text + ".xls";
                 // Copy DataGridView results to clipboard
@@ -3440,9 +3420,9 @@ namespace SearchDataSPM
             string path = "";
             try
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
+                SqlCommand cmd = connectapi.cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + username.ToString() + "' ";
                 cmd.ExecuteNonQuery();
@@ -3460,7 +3440,7 @@ namespace SearchDataSPM
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
             return path;
         }

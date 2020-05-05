@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
@@ -15,20 +14,16 @@ namespace SearchDataSPM
     {
         #region steupvariables
 
-        private string connection;
         private DataTable _acountsTb;
         private DataTable _treeTB;
         private DataTable dt = new DataTable();
         private DataTable PO;
-        private SqlConnection _connection;
-        private SqlCommand _command;
-        private SqlDataAdapter _adapter;
         private TreeNode root = new TreeNode();
         private string iteminfo2;
         private int PW;
         private bool hiden;
         private bool rootnodedone = false;
-
+        private SPMConnectAPI.ConnectAPI connectapi = new SPMConnectAPI.ConnectAPI();
         private log4net.ILog log;
 
         private ErrorHandler errorHandler = new ErrorHandler();
@@ -42,24 +37,10 @@ namespace SearchDataSPM
             hiden = true;
             SlidePanel.Width = 0;
 
-            connection = ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
-
-            try
-            {
-                _connection = new SqlConnection(connection);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
             _acountsTb = new DataTable();
             _treeTB = new DataTable();
             PO = new DataTable();
-            _command = new SqlCommand
-            {
-                Connection = _connection
-            };
+
             this.iteminfo2 = itemno;
         }
 
@@ -92,13 +73,14 @@ namespace SearchDataSPM
 
         private void CheckManagement()
         {
-            string useradmin = SPMConnectAPI.Helper.GetUserName();
+            string useradmin = connectapi.GetUserName();
 
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND Management = '1'", _connection))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND Management = '1'", connectapi.cn))
             {
                 try
                 {
-                    _connection.Open();
+                    if (connectapi.cn.State == ConnectionState.Closed)
+                        connectapi.cn.Open();
                     sqlCommand.Parameters.AddWithValue("@username", useradmin);
 
                     int userCount = (int)sqlCommand.ExecuteScalar();
@@ -128,20 +110,21 @@ namespace SearchDataSPM
                 }
                 finally
                 {
-                    _connection.Close();
+                    connectapi.cn.Close();
                 }
             }
         }
 
         private void CheckItemDependenciesRight()
         {
-            string useradmin = SPMConnectAPI.Helper.GetUserName();
+            string useradmin = connectapi.GetUserName();
 
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND ItemDependencies = '1'", _connection))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND ItemDependencies = '1'", connectapi.cn))
             {
                 try
                 {
-                    _connection.Open();
+                    if (connectapi.cn.State == ConnectionState.Closed)
+                        connectapi.cn.Open();
                     sqlCommand.Parameters.AddWithValue("@username", useradmin);
 
                     int userCount = (int)sqlCommand.ExecuteScalar();
@@ -175,20 +158,21 @@ namespace SearchDataSPM
                 }
                 finally
                 {
-                    _connection.Close();
+                    connectapi.cn.Close();
                 }
             }
         }
 
         private void CheckPriceRights()
         {
-            string useradmin = SPMConnectAPI.Helper.GetUserName();
+            string useradmin = connectapi.GetUserName();
 
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND PriceRight = '1'", _connection))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND PriceRight = '1'", connectapi.cn))
             {
                 try
                 {
-                    _connection.Open();
+                    if (connectapi.cn.State == ConnectionState.Closed)
+                        connectapi.cn.Open();
                     sqlCommand.Parameters.AddWithValue("@username", useradmin);
 
                     int userCount = (int)sqlCommand.ExecuteScalar();
@@ -212,7 +196,7 @@ namespace SearchDataSPM
                 }
                 finally
                 {
-                    _connection.Close();
+                    connectapi.cn.Close();
                 }
             }
         }
@@ -222,10 +206,10 @@ namespace SearchDataSPM
             string sql = "SELECT * FROM [SPM_Database].[dbo].[Item_CostRollup] WHERE ItemId ='" + itemnumber.ToString() + "'";
             try
             {
-                if (_connection.State == ConnectionState.Closed)
-                    _connection.Open();
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
 
-                SqlDataAdapter sda = new SqlDataAdapter(sql, _connection);
+                SqlDataAdapter sda = new SqlDataAdapter(sql, connectapi.cn);
 
                 dt.Clear();
                 sda.Fill(dt);
@@ -250,7 +234,7 @@ namespace SearchDataSPM
             }
             finally
             {
-                _connection.Close();
+                connectapi.cn.Close();
             }
 
             //dataGridView.Location = new Point(0, 40);
@@ -261,10 +245,10 @@ namespace SearchDataSPM
             String sql = "SELECT *  FROM [dbo].[PriceItemsFromPO]  WHERE Item = '" + itemnumber.ToString() + "' ORDER BY PurchaseOrder DESC";
             try
             {
-                if (_connection.State == ConnectionState.Closed)
-                    _connection.Open();
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
 
-                SqlDataAdapter sda = new SqlDataAdapter(sql, _connection);
+                SqlDataAdapter sda = new SqlDataAdapter(sql, connectapi.cn);
 
                 PO.Clear();
                 sda.Fill(PO);
@@ -280,7 +264,7 @@ namespace SearchDataSPM
             }
             finally
             {
-                _connection.Close();
+                connectapi.cn.Close();
             }
         }
 
@@ -307,16 +291,17 @@ namespace SearchDataSPM
 
         private void Checkfordata(string itemnumber)
         {
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Inventory] WHERE [ItemNumber]='" + itemnumber.ToString() + "'", _connection))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Inventory] WHERE [ItemNumber]='" + itemnumber.ToString() + "'", connectapi.cn))
             {
                 try
                 {
-                    _connection.Open();
+                    if (connectapi.cn.State == ConnectionState.Closed)
+                        connectapi.cn.Open();
 
                     int userCount = (int)sqlCommand.ExecuteScalar();
                     if (userCount > 0)
                     {
-                        _connection.Close();
+                        connectapi.cn.Close();
                         Filldatatable(iteminfo2);
                     }
                     else
@@ -338,7 +323,7 @@ namespace SearchDataSPM
                 }
                 finally
                 {
-                    _connection.Close();
+                    connectapi.cn.Close();
                 }
             }
         }
@@ -350,9 +335,9 @@ namespace SearchDataSPM
             // String sql2 = "SELECT *  FROM [SPM_Database].[dbo].[UnionInventory]";
             try
             {
-                if (_connection.State == ConnectionState.Closed)
-                    _connection.Open();
-                _adapter = new SqlDataAdapter(sql, _connection);
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
+                SqlDataAdapter _adapter = new SqlDataAdapter(sql, connectapi.cn);
                 _adapter.Fill(_acountsTb);
                 Fillinfo();
             }
@@ -362,7 +347,7 @@ namespace SearchDataSPM
             }
             finally
             {
-                _connection.Close();
+                connectapi.cn.Close();
             }
         }
 
@@ -435,9 +420,9 @@ namespace SearchDataSPM
         {
             try
             {
-                if (_connection.State == ConnectionState.Closed)
-                    _connection.Open();
-                SqlCommand cmd = _connection.CreateCommand();
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
+                SqlCommand cmd = connectapi.cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + username.ToString() + "' ";
                 cmd.ExecuteNonQuery();
@@ -456,7 +441,7 @@ namespace SearchDataSPM
             }
             finally
             {
-                _connection.Close();
+                connectapi.cn.Close();
             }
             return null;
         }
@@ -467,7 +452,7 @@ namespace SearchDataSPM
             if (salepricetext.Text.Length > 0 && qtytxt.Text.Length > 0)
             {
                 string itemnumber = ItemTxtBox.Text;
-                string user = SPMConnectAPI.Helper.GetUserName();
+                string user = connectapi.GetUserName();
                 string userfullname = Getuserfullname(user).ToString();
                 Createnewentry(itemnumber, userfullname);
                 Clearalltextboxes();
@@ -486,15 +471,15 @@ namespace SearchDataSPM
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDate = datecreated.ToString("yyyy-MM-dd HH:mm:ss.fff");
 
-            if (_connection.State == ConnectionState.Closed)
-                _connection.Open();
+            if (connectapi.cn.State == ConnectionState.Closed)
+                connectapi.cn.Open();
             try
             {
-                SqlCommand cmd = _connection.CreateCommand();
+                SqlCommand cmd = connectapi.cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Item_CostRollup] (ItemId, Cost, SalesPrice, Qty, Notes, Date, LastSavedBy) VALUES('" + itemnumber.ToString() + "','" + costpricetxt.Text.ToString() + "','" + salepricetext.Text.ToString() + "','" + qtytxt.Text.ToString() + "','" + NotesCosttxt.Text.ToString() + "','" + sqlFormattedDate + "','" + user.ToString() + "')";
                 cmd.ExecuteNonQuery();
-                _connection.Close();
+                connectapi.cn.Close();
                 //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
@@ -503,7 +488,7 @@ namespace SearchDataSPM
             }
             finally
             {
-                _connection.Close();
+                connectapi.cn.Close();
             }
         }
 
@@ -684,10 +669,10 @@ namespace SearchDataSPM
             try
             {
                 _treeTB.Clear();
-                _connection.Open();
-                _adapter = new SqlDataAdapter(sql, _connection);
+                connectapi.cn.Open();
+                SqlDataAdapter _adapter = new SqlDataAdapter(sql, connectapi.cn);
                 _adapter.Fill(_treeTB);
-                _connection.Close();
+                connectapi.cn.Close();
                 Fillrootnode();
             }
             catch (SqlException ex)
@@ -1144,7 +1129,8 @@ namespace SearchDataSPM
 
             try
             {
-                _connection.Open();
+                connectapi.cn.Open();
+                SqlCommand _command = connectapi.cn.CreateCommand();
                 _command.CommandText = sql;
                 _command.ExecuteNonQuery();
                 // MessageBox.Show("Item added to the catalog.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1156,7 +1142,7 @@ namespace SearchDataSPM
             }
             finally
             {
-                _connection.Close();
+                connectapi.cn.Close();
             }
         }
 
@@ -1229,15 +1215,15 @@ namespace SearchDataSPM
 
             try
             {
-                if (_connection.State == ConnectionState.Closed)
-                    _connection.Open();
-                SqlCommand cmd = _connection.CreateCommand();
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
+                SqlCommand cmd = connectapi.cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[ItemDependencies] ([AssyNo],[ItemNo],[Qty]," +
                     "DateCreated, CreatedBy, LastSaved, LastUser)" +
                     " VALUES('" + assyno + "','" + itemno + "','" + qty + "','" + sqlFormattedDatetime + "','" + username + "','" + sqlFormattedDatetime + "','" + username + "')";
                 cmd.ExecuteNonQuery();
-                _connection.Close();
+                connectapi.cn.Close();
             }
             catch (Exception ex)
             {
@@ -1245,7 +1231,7 @@ namespace SearchDataSPM
             }
             finally
             {
-                _connection.Close();
+                connectapi.cn.Close();
             }
         }
 

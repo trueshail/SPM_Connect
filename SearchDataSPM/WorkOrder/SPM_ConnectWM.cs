@@ -20,7 +20,6 @@ namespace SearchDataSPM
         public SPM_ConnectWM(string jobno = "")
         {
             InitializeComponent();
-            //connectapi.SPM_Connect();
             dt = new DataTable();
             this.jobnumber = jobno;
         }

@@ -9,8 +9,6 @@ namespace SearchDataSPM.ECR
 {
     public partial class ECR_Users : Form
     {
-        private string connection;
-        private SqlConnection cn;
         private DataTable dt;
         private bool supervisor;
         public string ValueIWant { get; set; }
@@ -23,17 +21,6 @@ namespace SearchDataSPM.ECR
         public ECR_Users()
         {
             InitializeComponent();
-
-            connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
-            try
-            {
-                cn = new SqlConnection(connection);
-            }
-            catch (Exception)
-            {
-                MetroFramework.MetroMessageBox.Show(this, "Error Connecting to SQL Server.....", "SPM Connect - Shipping Home Initialize", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
-            }
         }
 
         public bool IsSupervisor(bool issupervisor)
@@ -76,12 +63,12 @@ namespace SearchDataSPM.ECR
             if (supervisor)
             {
                 dt.Clear();
-                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT id, Name, Department, UserName FROM [SPM_Database].[dbo].[Users] where [ECRApproval2] = '1' ", cn))
+                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT id, Name, Department, UserName FROM [SPM_Database].[dbo].[Users] where [ECRApproval2] = '1' ", connectapi.cn))
                 {
                     try
                     {
-                        if (cn.State == ConnectionState.Closed)
-                            cn.Open();
+                        if (connectapi.cn.State == ConnectionState.Closed)
+                            connectapi.cn.Open();
 
                         dt.Clear();
                         sda.Fill(dt);
@@ -92,19 +79,19 @@ namespace SearchDataSPM.ECR
                     }
                     finally
                     {
-                        cn.Close();
+                        connectapi.cn.Close();
                     }
                 }
             }
             else
             {
                 dt.Clear();
-                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT id, Name, Department, UserName FROM [SPM_Database].[dbo].[Users] where [ECRHandler] = '1' ", cn))
+                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT id, Name, Department, UserName FROM [SPM_Database].[dbo].[Users] where [ECRHandler] = '1' ", connectapi.cn))
                 {
                     try
                     {
-                        if (cn.State == ConnectionState.Closed)
-                            cn.Open();
+                        if (connectapi.cn.State == ConnectionState.Closed)
+                            connectapi.cn.Open();
 
                         dt.Clear();
                         sda.Fill(dt);
@@ -115,7 +102,7 @@ namespace SearchDataSPM.ECR
                     }
                     finally
                     {
-                        cn.Close();
+                        connectapi.cn.Close();
                     }
                 }
             }

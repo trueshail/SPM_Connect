@@ -10,9 +10,8 @@ namespace SearchDataSPM
     {
         private log4net.ILog log;
         private int time = 0;
-        private string connection;
-        private SqlConnection cn;
         private ErrorHandler errorHandler = new ErrorHandler();
+        private SPMConnectAPI.ConnectAPI connectapi = new SPMConnectAPI.ConnectAPI();
 
         public SPMConnectHome()
         {
@@ -47,114 +46,66 @@ namespace SearchDataSPM
 
         public void Connect_SPMSQL()
         {
-            connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
-            string userName = SPMConnectAPI.Helper.GetUserName();
-            try
+            SPMConnectAPI.UserInfo user = connectapi.GetUserDetails();
+            if (user.UserName != null || user.UserName.Length > 0)
             {
-                cn = new SqlConnection(connection);
-                cn.Open();
-            }
-            catch (Exception)
-            {
-                MetroFramework.MetroMessageBox.Show(this, "Cannot connect through the server. Please check the network connection.", "SPM Connect Home - SQL Server Connection Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.ExitThread();
-                System.Environment.Exit(0);
-            }
-            finally
-            {
-                cn.Close();
-                string department = Getdepartment();
-                if (Userexists(userName))
+                if (!Checkmaintenance())
                 {
-                    if (!Checkmaintenance())
+                    if (user.Department == "Accounting")
                     {
-                        if (department == "Accounting")
-                        {
-                            var loadspmconnect = new EFTHome();
-                            loadspmconnect.Closed += (s, args) => this.Close();
-                            loadspmconnect.Show();
-                        }
-                        else
-                        {
-                            var loadspmconnect = new SpmConnect();
-                            loadspmconnect.Closed += (s, args) => this.Close();
-                            loadspmconnect.Show();
-                        }
-                    }
-                    else if (Checkmaintenance() && Checkdeveloper())
-                    {
-                        if (department == "Accounting")
-                        {
-                            var loadspmconnect = new EFTHome();
-                            loadspmconnect.Closed += (s, args) => this.Close();
-                            loadspmconnect.Show();
-                        }
-                        else
-                        {
-                            var loadspmconnect = new SpmConnect();
-                            loadspmconnect.Closed += (s, args) => this.Close();
-                            loadspmconnect.Show();
-                        }
+                        var loadspmconnect = new EFTHome();
+                        loadspmconnect.Closed += (s, args) => this.Close();
+                        loadspmconnect.Show();
                     }
                     else
                     {
-                        MetroFramework.MetroMessageBox.Show(this, "SPM Connect is under maintenance. Cannot start the application. Please check back soon. Sorry for the inconvenience.", "System Under Maintenance", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        Application.ExitThread();
-                        System.Environment.Exit(0);
+                        var loadspmconnect = new SpmConnect(user);
+                        loadspmconnect.Closed += (s, args) => this.Close();
+                        loadspmconnect.Show();
+                    }
+                }
+                else if (Checkmaintenance() && user.Developer)
+                {
+                    if (user.Department == "Accounting")
+                    {
+                        var loadspmconnect = new EFTHome();
+                        loadspmconnect.Closed += (s, args) => this.Close();
+                        loadspmconnect.Show();
+                    }
+                    else
+                    {
+                        var loadspmconnect = new SpmConnect(user);
+                        loadspmconnect.Closed += (s, args) => this.Close();
+                        loadspmconnect.Show();
                     }
                 }
                 else
                 {
-                    MetroFramework.MetroMessageBox.Show(this, "User name " + userName + " does not exists. Please contact the admin.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MetroFramework.MetroMessageBox.Show(this, "SPM Connect is under maintenance. Cannot start the application. Please check back soon. Sorry for the inconvenience.", "System Under Maintenance", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Application.ExitThread();
                     System.Environment.Exit(0);
                 }
             }
-        }
-
-        public string Getdepartment()
-        {
-            string Department = "";
-            string userName = SPMConnectAPI.Helper.GetUserName();
-            try
+            else
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + userName + "' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    Department = dr["Department"].ToString();
-                }
+                MetroFramework.MetroMessageBox.Show(this, "User name " + connectapi.GetUserName() + " does not exists. Please contact the admin.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Application.ExitThread();
+                System.Environment.Exit(0);
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve user department", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-            return Department;
         }
 
         private bool Checkmaintenance()
         {
             bool maintenance = false;
             string limit = "";
-            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'Maintenance'", cn))
+            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'Maintenance'", connectapi.cn))
             {
                 try
                 {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
+                    if (connectapi.cn.State == ConnectionState.Closed)
+                        connectapi.cn.Open();
                     limit = (string)cmd.ExecuteScalar();
-                    cn.Close();
+                    connectapi.cn.Close();
                 }
                 catch (Exception ex)
                 {
@@ -162,7 +113,7 @@ namespace SearchDataSPM
                 }
                 finally
                 {
-                    cn.Close();
+                    connectapi.cn.Close();
                 }
             }
             if (limit == "1")
@@ -170,64 +121,6 @@ namespace SearchDataSPM
                 maintenance = true;
             }
             return maintenance;
-        }
-
-        public bool Checkdeveloper()
-        {
-            bool developer = false;
-            string useradmin = SPMConnectAPI.Helper.GetUserName();
-
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND Developer = '1'", cn))
-            {
-                try
-                {
-                    cn.Open();
-                    sqlCommand.Parameters.AddWithValue("@username", useradmin);
-
-                    int userCount = (int)sqlCommand.ExecuteScalar();
-                    if (userCount == 1)
-                    {
-                        developer = true;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve developer rights", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-            return developer;
-        }
-
-        private bool Userexists(string username)
-        {
-            bool userpresent = false;
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + username + "'", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-                    int userCount = (int)sqlCommand.ExecuteScalar();
-                    if (userCount == 1)
-                    {
-                        userpresent = true;
-                    }
-                    cn.Close();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Check User Exists", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-            return userpresent;
         }
 
         private void SPM_ConnectHome_FormClosed(object sender, FormClosedEventArgs e)

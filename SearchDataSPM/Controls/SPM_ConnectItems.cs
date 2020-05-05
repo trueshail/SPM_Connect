@@ -11,27 +11,15 @@ namespace SearchDataSPM
     {
         #region SPM Connect Load
 
-        private string connection;
-        private SqlConnection cn;
         private DataTable dt;
         private log4net.ILog log;
-
+        private SPMConnectAPI.ConnectAPI connectapi = new SPMConnectAPI.ConnectAPI();
         private ErrorHandler errorHandler = new ErrorHandler();
 
         public SPM_ConnectItems()
         {
             InitializeComponent();
-            connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
 
-            try
-            {
-                cn = new SqlConnection(connection);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Error Connecting to SQL Server.....", "SPM Connect - Items", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
-            }
             dt = new DataTable();
         }
 
@@ -52,7 +40,7 @@ namespace SearchDataSPM
             dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dataGridView.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dataGridView.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            string userName = SPMConnectAPI.Helper.GetUserName();
+            string userName = connectapi.GetUserName();
             this.Text = "SPM Connect Engineering - " + userName.ToString().Substring(4);
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -63,10 +51,10 @@ namespace SearchDataSPM
         {
             try
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
 
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[UnionInventory] ORDER BY ItemNumber DESC", cn);
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[UnionInventory] ORDER BY ItemNumber DESC", connectapi.cn);
 
                 dt.Clear();
                 sda.Fill(dt);
@@ -82,7 +70,7 @@ namespace SearchDataSPM
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
 
             //dataGridView.Location = new Point(0, 40);

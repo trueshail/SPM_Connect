@@ -2,7 +2,6 @@
 using SearchDataSPM.ECR;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
@@ -20,11 +19,7 @@ namespace SearchDataSPM
     {
         #region Load Invoice Details and setting Parameters
 
-        private string connection;
-        private DataTable dt = new DataTable();
-        private SqlConnection cn;
-        private SqlCommand _command;
-        private SqlDataAdapter _adapter;
+        private DataTable dt;
         private string Invoice_Number = "";
         private SPMConnectAPI.ECR connectapi = new SPMConnectAPI.ECR();
 
@@ -43,18 +38,7 @@ namespace SearchDataSPM
         public ECRDetails(string username, string invoiceno)
         {
             InitializeComponent();
-            connection = ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
-            try
-            {
-                cn = new SqlConnection(connection);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
             dt = new DataTable();
-            _command = new SqlCommand();
             this.userfullname = username;
             this.Invoice_Number = invoiceno;
         }
@@ -85,11 +69,11 @@ namespace SearchDataSPM
         {
             try
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
+                SqlCommand cmd = connectapi.cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + SPMConnectAPI.Helper.GetUserName() + "' ";
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + connectapi.GetUserName() + "' ";
                 cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -122,7 +106,7 @@ namespace SearchDataSPM
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
         }
 
@@ -132,11 +116,11 @@ namespace SearchDataSPM
             string sql = "SELECT * FROM [SPM_Database].[dbo].[ECR] WHERE ECRNo = '" + invoicenumber + "'";
             try
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                _adapter = new SqlDataAdapter(sql, cn);
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
+                SqlDataAdapter da = new SqlDataAdapter(sql, connectapi.cn);
                 dt.Clear();
-                _adapter.Fill(dt);
+                da.Fill(dt);
 
                 fillled = true;
             }
@@ -146,7 +130,7 @@ namespace SearchDataSPM
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
             return fillled;
         }
@@ -1152,14 +1136,14 @@ namespace SearchDataSPM
         {
             bool sendemail = false;
             string limit = "";
-            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'EmailECR'", cn))
+            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'EmailECR'", connectapi.cn))
             {
                 try
                 {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
+                    if (connectapi.cn.State == ConnectionState.Closed)
+                        connectapi.cn.Open();
                     limit = (string)cmd.ExecuteScalar();
-                    cn.Close();
+                    connectapi.cn.Close();
                 }
                 catch (Exception ex)
                 {
@@ -1167,7 +1151,7 @@ namespace SearchDataSPM
                 }
                 finally
                 {
-                    cn.Close();
+                    connectapi.cn.Close();
                 }
             }
             if (limit == "1")
@@ -1240,9 +1224,9 @@ namespace SearchDataSPM
             string name = "";
             try
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
+                SqlCommand cmd = connectapi.cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [id]='" + id + "' ";
                 cmd.ExecuteNonQuery();
@@ -1261,7 +1245,7 @@ namespace SearchDataSPM
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
             if (Email.Length > 0)
             {
@@ -1282,9 +1266,9 @@ namespace SearchDataSPM
             string Email = "";
             try
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
+                SqlCommand cmd = connectapi.cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [Name]='" + requestby.ToString() + "' ";
                 cmd.ExecuteNonQuery();
@@ -1302,7 +1286,7 @@ namespace SearchDataSPM
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
             if (Email.Length > 0)
             {

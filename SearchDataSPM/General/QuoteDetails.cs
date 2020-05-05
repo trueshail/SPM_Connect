@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
@@ -12,32 +11,17 @@ namespace SearchDataSPM.General
 {
     public partial class QuoteDetails : Form
     {
-        private string connection;
         private DataTable dt = new DataTable();
-        private SqlConnection cn;
-        private SqlCommand _command;
-        private SqlDataAdapter _adapter;
         private string quoteno2 = "";
         private log4net.ILog log;
-
+        private SPMConnectAPI.ConnectAPI connectapi = new SPMConnectAPI.ConnectAPI();
         private ErrorHandler errorHandler = new ErrorHandler();
 
         public QuoteDetails(string quoteno)
         {
             InitializeComponent();
-            connection = ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
-
-            try
-            {
-                cn = new SqlConnection(connection);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
             this.quoteno2 = quoteno;
             dt = new DataTable();
-            _command = new SqlCommand();
         }
 
         private void QuoteDetails_Load(object sender, EventArgs e)
@@ -61,9 +45,9 @@ namespace SearchDataSPM.General
             String sql = "SELECT *  FROM [SPM_Database].[dbo].[Opportunities] WHERE [Quote]='" + quotenumber.ToString() + "'";
             try
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                _adapter = new SqlDataAdapter(sql, cn);
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
+                SqlDataAdapter _adapter = new SqlDataAdapter(sql, connectapi.cn);
                 dt.Clear();
                 _adapter.Fill(dt);
                 fillinfo();
@@ -74,7 +58,7 @@ namespace SearchDataSPM.General
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
         }
 
@@ -166,11 +150,12 @@ namespace SearchDataSPM.General
 
         private void Fillcustomers()
         {
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM [SPM_Database].[dbo].[Customersmerged] ORDER BY Customers", cn))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM [SPM_Database].[dbo].[Customersmerged] ORDER BY Customers", connectapi.cn))
             {
                 try
                 {
-                    cn.Open();
+                    if (connectapi.cn.State == ConnectionState.Closed)
+                        connectapi.cn.Open();
                     SqlDataReader reader = sqlCommand.ExecuteReader();
                     AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
                     while (reader.Read())
@@ -188,7 +173,7 @@ namespace SearchDataSPM.General
                 }
                 finally
                 {
-                    cn.Close();
+                    connectapi.cn.Close();
                 }
             }
             familycombobox.SelectedItem = null;
@@ -196,11 +181,12 @@ namespace SearchDataSPM.General
 
         private void HowFound()
         {
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT [How Found] FROM [SPM_Database].[dbo].[QuoteFilters]  where [How Found] is not null ", cn))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT [How Found] FROM [SPM_Database].[dbo].[QuoteFilters]  where [How Found] is not null ", connectapi.cn))
             {
                 try
                 {
-                    cn.Open();
+                    if (connectapi.cn.State == ConnectionState.Closed)
+                        connectapi.cn.Open();
                     SqlDataReader reader = sqlCommand.ExecuteReader();
                     AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
                     while (reader.Read())
@@ -218,18 +204,19 @@ namespace SearchDataSPM.General
                 }
                 finally
                 {
-                    cn.Close();
+                    connectapi.cn.Close();
                 }
             }
         }
 
         private void Rating()
         {
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT [Rating] FROM [SPM_Database].[dbo].[QuoteFilters]  WHERE [Rating] is not null ", cn))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT [Rating] FROM [SPM_Database].[dbo].[QuoteFilters]  WHERE [Rating] is not null ", connectapi.cn))
             {
                 try
                 {
-                    cn.Open();
+                    if (connectapi.cn.State == ConnectionState.Closed)
+                        connectapi.cn.Open();
                     SqlDataReader reader = sqlCommand.ExecuteReader();
                     AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
                     while (reader.Read())
@@ -247,18 +234,19 @@ namespace SearchDataSPM.General
                 }
                 finally
                 {
-                    cn.Close();
+                    connectapi.cn.Close();
                 }
             }
         }
 
         private void Category()
         {
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT Category FROM [SPM_Database].[dbo].[QuoteFilters]", cn))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT Category FROM [SPM_Database].[dbo].[QuoteFilters]", connectapi.cn))
             {
                 try
                 {
-                    cn.Open();
+                    if (connectapi.cn.State == ConnectionState.Closed)
+                        connectapi.cn.Open();
                     SqlDataReader reader = sqlCommand.ExecuteReader();
                     AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
                     while (reader.Read())
@@ -276,7 +264,7 @@ namespace SearchDataSPM.General
                 }
                 finally
                 {
-                    cn.Close();
+                    connectapi.cn.Close();
                 }
             }
         }
@@ -310,14 +298,13 @@ namespace SearchDataSPM.General
             return money.IsMatch(text);
         }
 
-
         private string Getuserfullname(string username)
         {
             try
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
+                SqlCommand cmd = connectapi.cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + username.ToString() + "' ";
                 cmd.ExecuteNonQuery();
@@ -336,7 +323,7 @@ namespace SearchDataSPM.General
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
             return null;
         }
@@ -461,7 +448,7 @@ namespace SearchDataSPM.General
                 createfolders(ItemTxtBox.Text);
             }
 
-            string lastsavedby = Getuserfullname(SPMConnectAPI.Helper.GetUserName()).ToString();
+            string lastsavedby = Getuserfullname(connectapi.GetUserName()).ToString();
             createnewitemtosql(list[0].ToString(), list[1].ToString(), list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(), list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(), list[10].ToString(), lastsavedby);
 
             this.Enabled = true;
@@ -473,17 +460,17 @@ namespace SearchDataSPM.General
         {
             DateTime dateedited = DateTime.Now;
             string sqlFormattedDate = dateedited.ToString("yyyy-MM-dd HH:mm:ss");
-            if (cn.State == ConnectionState.Closed)
-                cn.Open();
+            if (connectapi.cn.State == ConnectionState.Closed)
+                connectapi.cn.Open();
             try
             {
-                SqlCommand cmd = cn.CreateCommand();
+                SqlCommand cmd = connectapi.cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "UPDATE [SPM_Database].[dbo].[Opportunities] SET Title = '" + description + "',Company_Name = '" + customer + "',Category = '" + category + "',Rating = '" + rating + "',How_Found = '" + howfound + "',Est_Revenue = '" + quotedprice.ToString() + "',Currency = '" + currency + "',Closed = '" + closed + "',Converted_to_Job = '" + convertedtojob + "',Comments = '" + notes + "',LastSavedby = '" + user + "',LastSaved = @value2,FolderPath = '" + txtPath.Text + "' WHERE Quote = '" + quote + "' ";
 
                 cmd.Parameters.AddWithValue("@value2", sqlFormattedDate);
                 cmd.ExecuteNonQuery();
-                cn.Close();
+                connectapi.cn.Close();
                 //MessageBox.Show("Item sucessfully saved SPM Connect Server.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
@@ -492,7 +479,7 @@ namespace SearchDataSPM.General
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
         }
 

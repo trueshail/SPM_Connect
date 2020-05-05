@@ -14,8 +14,6 @@ namespace SearchDataSPM
 {
     public partial class EFTHome : MetroFramework.Forms.MetroForm
     {
-        private string connection;
-        private SqlConnection cn;
         private DataTable dt;
         private SPMSQLCommands connectapi = new SPMSQLCommands();
         private bool splashWorkDone = false;
@@ -26,18 +24,6 @@ namespace SearchDataSPM
         public EFTHome()
         {
             InitializeComponent();
-
-            connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
-            try
-            {
-                cn = new SqlConnection(connection);
-            }
-            catch (Exception)
-            {
-                MetroFramework.MetroMessageBox.Show(this, "Error Connecting to SQL Server.....", "SPM Connect - EFT Home Initialize", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
-            }
-
             dt = new DataTable();
             rejectedemailslist = new List<string>();
         }
@@ -53,12 +39,12 @@ namespace SearchDataSPM
 
         private void Showallitems(string type)
         {
-            using (SqlDataAdapter sda = new SqlDataAdapter("ShowAllRecordsByType", cn))
+            using (SqlDataAdapter sda = new SqlDataAdapter("ShowAllRecordsByType", connectapi.cn))
             {
                 try
                 {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
+                    if (connectapi.cn.State == ConnectionState.Closed)
+                        connectapi.cn.Open();
                     sda.SelectCommand.CommandType = CommandType.StoredProcedure;
                     sda.SelectCommand.Parameters.AddWithValue("@filterby", type);
                     dt.Clear();
@@ -84,19 +70,19 @@ namespace SearchDataSPM
                 }
                 finally
                 {
-                    cn.Close();
+                    connectapi.cn.Close();
                 }
             }
         }
 
         private void Loaddatabetween(string datefrom, string dateto)
         {
-            using (SqlDataAdapter sda = new SqlDataAdapter("ShowAllRecordsBetween", cn))
+            using (SqlDataAdapter sda = new SqlDataAdapter("ShowAllRecordsBetween", connectapi.cn))
             {
                 try
                 {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
+                    if (connectapi.cn.State == ConnectionState.Closed)
+                        connectapi.cn.Open();
                     sda.SelectCommand.CommandType = CommandType.StoredProcedure;
                     sda.SelectCommand.Parameters.AddWithValue("@datestart", datefrom);
                     sda.SelectCommand.Parameters.AddWithValue("@dateto", dateto);
@@ -109,7 +95,7 @@ namespace SearchDataSPM
                 }
                 finally
                 {
-                    cn.Close();
+                    connectapi.cn.Close();
                 }
             }
         }
@@ -312,14 +298,14 @@ namespace SearchDataSPM
         {
             bool sendemail = false;
             string limit = "";
-            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'EmailEFT'", cn))
+            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'EmailEFT'", connectapi.cn))
             {
                 try
                 {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
+                    if (connectapi.cn.State == ConnectionState.Closed)
+                        connectapi.cn.Open();
                     limit = (string)cmd.ExecuteScalar();
-                    cn.Close();
+                    connectapi.cn.Close();
                 }
                 catch (Exception ex)
                 {
@@ -327,7 +313,7 @@ namespace SearchDataSPM
                 }
                 finally
                 {
-                    cn.Close();
+                    connectapi.cn.Close();
                 }
             }
             if (limit == "1")
@@ -438,15 +424,15 @@ namespace SearchDataSPM
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDate = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
 
-            if (cn.State == ConnectionState.Closed)
-                cn.Open();
+            if (connectapi.cn.State == ConnectionState.Closed)
+                connectapi.cn.Open();
             try
             {
-                SqlCommand cmd = cn.CreateCommand();
+                SqlCommand cmd = connectapi.cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[EFTEmailTracker] ([ID],[PaymentNo],[EmailSent], [DateSent]) VALUES('" + vendor.EFTId + "', '" + vendor.PaymentNo + "', '1', '" + sqlFormattedDate + "')";
                 cmd.ExecuteNonQuery();
-                cn.Close();
+                connectapi.cn.Close();
                 //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
@@ -455,7 +441,7 @@ namespace SearchDataSPM
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
         }
 

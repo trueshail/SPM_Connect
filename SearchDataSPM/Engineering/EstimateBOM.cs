@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
@@ -20,12 +19,8 @@ namespace SearchDataSPM
     {
         #region steupvariables
 
-        private string connection;
         private DataTable _acountsTb = null;
         private DataTable _productTB;
-        private SqlConnection _connection;
-        private SqlCommand _command;
-        private SqlDataAdapter _adapter;
         private TreeNode root = new TreeNode();
         private string txtvalue;
         private bool eng = false;
@@ -43,22 +38,6 @@ namespace SearchDataSPM
 
         {
             InitializeComponent();
-            connection = ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
-
-            try
-            {
-                _connection = new SqlConnection(connection);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            _acountsTb = new DataTable();
-            _command = new SqlCommand
-            {
-                Connection = _connection
-            };
             _productTB = new DataTable();
             Rectangle screen = Screen.PrimaryScreen.WorkingArea;
             int w = Width >= screen.Width ? screen.Width : (screen.Width + Width) / 3;
@@ -238,10 +217,11 @@ namespace SearchDataSPM
             try
             {
                 _acountsTb.Clear();
-                _connection.Open();
-                _adapter = new SqlDataAdapter(sql, _connection);
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
+                SqlDataAdapter da = new SqlDataAdapter(sql, connectapi.cn);
 
-                _adapter.Fill(_acountsTb);
+                da.Fill(_acountsTb);
             }
             catch (SqlException ex)
             {
@@ -249,7 +229,7 @@ namespace SearchDataSPM
             }
             finally
             {
-                _connection.Close();
+                connectapi.cn.Close();
             }
         }
 

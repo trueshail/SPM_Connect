@@ -19,8 +19,7 @@ namespace SearchDataSPM
         public ReportViewer(string _reportname, string _item, string paymenttype = "", string woreleasetype = "", string wonotes = "")
         {
             InitializeComponent();
-            string connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
-            // connectapi.SPM_Connect();
+
             this.reportname = _reportname;
             this.itemnumber = _item;
             this.PaymentMode = paymenttype;

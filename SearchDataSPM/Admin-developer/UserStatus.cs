@@ -9,26 +9,14 @@ namespace SearchDataSPM.Admin_developer
 {
     public partial class UserStatus : Form
     {
-        private SqlConnection cn;
-        private string connection;
         private DataTable dt;
         private log4net.ILog log;
         private ErrorHandler errorHandler = new ErrorHandler();
+        private SPMConnectAPI.ConnectAPI connectapi = new SPMConnectAPI.ConnectAPI();
 
         public UserStatus()
         {
             InitializeComponent();
-
-            connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
-            try
-            {
-                cn = new SqlConnection(connection);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Error Connecting to SQL Server.....", "SPM Connect - ENG", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
-            }
             dt = new DataTable();
         }
 
@@ -45,10 +33,10 @@ namespace SearchDataSPM.Admin_developer
         {
             try
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
 
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[Checkin] ORDER BY [Last Login] DESC", cn);
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[Checkin] ORDER BY [Last Login] DESC", connectapi.cn);
 
                 dt.Clear();
                 sda.Fill(dt);
@@ -65,7 +53,7 @@ namespace SearchDataSPM.Admin_developer
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
         }
 
@@ -83,13 +71,12 @@ namespace SearchDataSPM.Admin_developer
 
         private void Checkdeveloper()
         {
-
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND Developer = '1'", cn))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND Developer = '1'", connectapi.cn))
             {
                 try
                 {
-                    cn.Open();
-                    sqlCommand.Parameters.AddWithValue("@username", SPMConnectAPI.Helper.GetUserName());
+                    connectapi.cn.Open();
+                    sqlCommand.Parameters.AddWithValue("@username", connectapi.GetUserName());
 
                     int userCount = (int)sqlCommand.ExecuteScalar();
                     if (userCount == 1)
@@ -112,7 +99,7 @@ namespace SearchDataSPM.Admin_developer
                 }
                 finally
                 {
-                    cn.Close();
+                    connectapi.cn.Close();
                 }
             }
         }
@@ -143,14 +130,14 @@ namespace SearchDataSPM.Admin_developer
         {
             if (username.Length > 0)
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
                 try
                 {
                     string query = "DELETE FROM [SPM_Database].[dbo].[Checkin] WHERE [User Name] ='" + username.ToString() + "'";
-                    SqlCommand sda = new SqlCommand(query, cn);
+                    SqlCommand sda = new SqlCommand(query, connectapi.cn);
                     sda.ExecuteNonQuery();
-                    cn.Close();
+                    connectapi.cn.Close();
                     // MetroFramework.MetroMessageBox.Show(this, username + " - Is removed from the system now!", "SPM Connect - Delete Item", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
@@ -159,7 +146,7 @@ namespace SearchDataSPM.Admin_developer
                 }
                 finally
                 {
-                    cn.Close();
+                    connectapi.cn.Close();
                 }
             }
         }
@@ -170,14 +157,14 @@ namespace SearchDataSPM.Admin_developer
             {
                 DateTime datecreated = DateTime.Now;
                 string sqlFormattedDate = datecreated.ToString("dd-MM-yyyy HH:mm tt");
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
                 try
                 {
                     string query = "UPDATE [SPM_Database].[dbo].[Checkin] SET [Last Login] = '" + sqlFormattedDate + "' WHERE [User Name] ='" + username.ToString() + "'";
-                    SqlCommand sda = new SqlCommand(query, cn);
+                    SqlCommand sda = new SqlCommand(query, connectapi.cn);
                     sda.ExecuteNonQuery();
-                    cn.Close();
+                    connectapi.cn.Close();
                     // MetroFramework.MetroMessageBox.Show(this, username + " - Is removed from the system now!", "SPM Connect - Delete Item", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
@@ -186,7 +173,7 @@ namespace SearchDataSPM.Admin_developer
                 }
                 finally
                 {
-                    cn.Close();
+                    connectapi.cn.Close();
                 }
             }
         }

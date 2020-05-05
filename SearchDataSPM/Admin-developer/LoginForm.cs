@@ -6,27 +6,13 @@ namespace SearchDataSPM
 {
     public partial class LoginForm : MetroFramework.Forms.MetroForm
     {
-        private string connection;
-        private SqlConnection cn;
         private log4net.ILog log;
-
+        private SPMConnectAPI.ConnectAPI connectapi = new SPMConnectAPI.ConnectAPI();
         private ErrorHandler errorHandler = new ErrorHandler();
 
         public LoginForm()
         {
             InitializeComponent();
-
-            connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
-
-            try
-            {
-                cn = new SqlConnection(connection);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
-            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -49,9 +35,9 @@ namespace SearchDataSPM
             try
             {
                 string pass = ConverterHash.Encrypt(txtPassword.Text.Trim());
-                using (SqlCommand sqlCommand = new SqlCommand("GetEmployeeLogininfo", cn) { CommandType = System.Data.CommandType.StoredProcedure })
+                using (SqlCommand sqlCommand = new SqlCommand("GetEmployeeLogininfo", connectapi.cn) { CommandType = System.Data.CommandType.StoredProcedure })
                 {
-                    cn.Open();
+                    connectapi.cn.Open();
 
                     sqlCommand.Parameters.AddWithValue("@username", txtUserName.Text);
                     sqlCommand.Parameters.AddWithValue("@password", pass);
@@ -79,7 +65,7 @@ namespace SearchDataSPM
             }
             finally
             {
-                cn.Close();
+                connectapi.cn.Close();
             }
         }
 
