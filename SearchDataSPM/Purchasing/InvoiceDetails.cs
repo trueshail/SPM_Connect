@@ -48,7 +48,7 @@ namespace SearchDataSPM
         private void QuoteDetails_Load(object sender, EventArgs e)
         {
             formloading = true;
-            userfullname = connectapi.getuserfullname();
+            userfullname = connectapi.user.Name;
             GetUserCreds();
             this.Text = "Invoice Details - " + Invoice_Number;
             FillFobPoint();
@@ -548,7 +548,7 @@ namespace SearchDataSPM
                 DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to close without saving changes?", "SPM Connect - Save Invoice Details", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {
-                    connectapi.CheckoutInvoice(invoicetxtbox.Text.Trim());
+                    connectapi.CheckoutInvoice(invoicetxtbox.Text.Trim(), ConnectAPI.CheckInModules.ShipInv);
                     this.Dispose();
                 }
                 else
@@ -558,7 +558,7 @@ namespace SearchDataSPM
             }
             else
             {
-                connectapi.CheckoutInvoice(invoicetxtbox.Text.Trim());
+                connectapi.CheckoutInvoice(invoicetxtbox.Text.Trim(), ConnectAPI.CheckInModules.ShipInv);
             }
         }
 
@@ -1015,7 +1015,7 @@ namespace SearchDataSPM
         private void SaveReport(string reqno)
         {
             string fileName = "";
-            string filepath = connectapi.getsharesfolder() + @"\SPM_Connect\ShippingInvoices\";
+            string filepath = connectapi.user.SharesFolder + @"\SPM_Connect\ShippingInvoices\";
             System.IO.Directory.CreateDirectory(filepath);
             fileName = filepath + reqno + " - CI.pdf";
             filepath += reqno + " - PL.pdf";
@@ -1355,7 +1355,7 @@ namespace SearchDataSPM
         private void Preparetosendemail(string typeofSave)
         {
             string fileName = "";
-            string filepath = connectapi.getsharesfolder() + @"\SPM_Connect\ShippingInvoices\";
+            string filepath = connectapi.user.SharesFolder + @"\SPM_Connect\ShippingInvoices\";
             fileName = filepath + invoicetxtbox.Text + " - CI.pdf";
             filepath += invoicetxtbox.Text + " - PL.pdf";
             if (typeofSave == "Submitted")
@@ -1457,7 +1457,7 @@ namespace SearchDataSPM
 
         private void Sendemailtosupervisor(string fileName)
         {
-            string nameemail = GetUserNameEmail(connectapi.getsupervisorId());
+            string nameemail = GetUserNameEmail(connectapi.user.ShipSup);
 
             string[] values = nameemail.Replace("][", "~").Split('~');
             for (int i = 0; i < values.Length; i++)

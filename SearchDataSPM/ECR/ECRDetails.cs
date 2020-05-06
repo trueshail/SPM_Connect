@@ -1,5 +1,6 @@
 ﻿using ExtractLargeIconFromFile;
 using SearchDataSPM.ECR;
+using SPMConnectAPI;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -227,7 +228,7 @@ namespace SearchDataSPM
             if (submittedtosup == "1")
             {
                 supcheckBox.Checked = true;
-                supcheckBox.Text = "Submitted to " + connectapi.getNameByConnectEmpId(supervisorid) + " on " + submittedon + "";
+                supcheckBox.Text = "Submitted to " + connectapi.GetNameByConnectEmpId(supervisorid) + " on " + submittedon + "";
             }
             else if (submittedtosup == "3")
             {
@@ -242,12 +243,12 @@ namespace SearchDataSPM
             if (submittedtomanager == "1")
             {
                 managercheckBox.Checked = true;
-                managercheckBox.Text = "Submitted to " + connectapi.getNameByConnectEmpId(managerid) + " on " + SupApprovedOn + "";
+                managercheckBox.Text = "Submitted to " + connectapi.GetNameByConnectEmpId(managerid) + " on " + SupApprovedOn + "";
             }
             else if (submittedtomanager == "3")
             {
                 managercheckBox.Checked = true;
-                managercheckBox.Text = "Rejected by " + connectapi.getNameByConnectEmpId(supervisorid) + " on " + SupApprovedOn + "";
+                managercheckBox.Text = "Rejected by " + connectapi.GetNameByConnectEmpId(supervisorid) + " on " + SupApprovedOn + "";
             }
             else
             {
@@ -257,12 +258,12 @@ namespace SearchDataSPM
             if (submittedtoecrhandler == "1")
             {
                 submitecrhandlercheckBox.Checked = true;
-                submitecrhandlercheckBox.Text = "Assigned to " + connectapi.getNameByConnectEmpId(assignedto) + " on " + approvedon + "";
+                submitecrhandlercheckBox.Text = "Assigned to " + connectapi.GetNameByConnectEmpId(assignedto) + " on " + approvedon + "";
             }
             else if (submittedtoecrhandler == "3")
             {
                 submitecrhandlercheckBox.Checked = true;
-                submitecrhandlercheckBox.Text = "Rejected by " + connectapi.getNameByConnectEmpId(managerid) + " on " + approvedon + "";
+                submitecrhandlercheckBox.Text = "Rejected by " + connectapi.GetNameByConnectEmpId(managerid) + " on " + approvedon + "";
             }
             else
             {
@@ -411,7 +412,7 @@ namespace SearchDataSPM
                 DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to close without saving changes?", "SPM Connect - Save Invoice Details", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {
-                    connectapi.CheckoutInvoice(ecrnotxtbox.Text.Trim());
+                    connectapi.CheckoutInvoice(ecrnotxtbox.Text.Trim(), ConnectAPI.CheckInModules.ECR);
                     this.Dispose();
                 }
                 else
@@ -421,7 +422,7 @@ namespace SearchDataSPM
             }
             else
             {
-                connectapi.CheckoutInvoice(ecrnotxtbox.Text.Trim());
+                connectapi.CheckoutInvoice(ecrnotxtbox.Text.Trim(), ConnectAPI.CheckInModules.ECR);
             }
         }
 
@@ -1300,7 +1301,7 @@ namespace SearchDataSPM
 
         private void Sendemailtosupervisor(string fileName)
         {
-            string nameemail = GetUserNameEmail(connectapi.GetsupervisorId());
+            string nameemail = GetUserNameEmail(connectapi.user.ECRSup);
 
             string[] values = nameemail.Replace("][", "~").Split('~');
             for (int i = 0; i < values.Length; i++)
@@ -1418,7 +1419,7 @@ namespace SearchDataSPM
                     }
                     name = names[0];
 
-                    Sendemail(supervisoremail, ecrnotxtbox.Text.Trim() + " ECR Approved ", name, Environment.NewLine + " Your engineering change request has been approved and being assigned to " + connectapi.getNameByConnectEmpId(r["AssignedTo"].ToString()) + ".", fileName, userreqemail, "");
+                    Sendemail(supervisoremail, ecrnotxtbox.Text.Trim() + " ECR Approved ", name, Environment.NewLine + " Your engineering change request has been approved and being assigned to " + connectapi.GetNameByConnectEmpId(r["AssignedTo"].ToString()) + ".", fileName, userreqemail, "");
                 }
                 else if (triggerby == "ecrhandler")
                 {
@@ -1446,7 +1447,7 @@ namespace SearchDataSPM
                     }
                     string manageremail = managervalues[0];
 
-                    Sendemail(userreqemail, ecrnotxtbox.Text.Trim() + " ECR Approved ", requestedbycombobox.Text, Environment.NewLine + " Your engineering change request has been approved and being assigned to " + connectapi.getNameByConnectEmpId(r["AssignedTo"].ToString()) + ".", fileName, supervisoremail, manageremail);
+                    Sendemail(userreqemail, ecrnotxtbox.Text.Trim() + " ECR Approved ", requestedbycombobox.Text, Environment.NewLine + " Your engineering change request has been approved and being assigned to " + connectapi.GetNameByConnectEmpId(r["AssignedTo"].ToString()) + ".", fileName, supervisoremail, manageremail);
                 }
             }
         }

@@ -35,21 +35,17 @@ namespace SearchDataSPM.Engineering
         private int _advcollapse = 0;
         private bool showingduplicates = false;
         private bool doneshowingSplash = false;
-        private UserInfo user;
-
         //bool purchasereqnotification = false;
         private bool showingfavorites = false;
 
         //SearchDataSPM.pnotifier purchaseReq = new SearchDataSPM.pnotifier();
         private SPMSQLCommands connectapi = new SPMSQLCommands();
-
         private Controls connectapicntrls = new Controls();
 
-        public SpmConnect(UserInfo _user)
+        public SpmConnect()
         {
             InitializeComponent();
             formloading = true;
-            this.user = _user;
         }
 
         private void SPM_Connect_Load(object sender, EventArgs e)
@@ -79,7 +75,7 @@ namespace SearchDataSPM.Engineering
 
         private void Checkdeptsandrights()
         {
-            if (user.Department == "Controls")
+            if (connectapi.user.Dept == ConnectAPI.Department.Controls)
             {
                 controls = true;
                 listView.ContextMenuStrip = Listviewcontextmenu;
@@ -92,19 +88,19 @@ namespace SearchDataSPM.Engineering
                 getnewitembttn.Enabled = true;
 
                 dataGridView.ContextMenuStrip = FormSelectorControls;
-                this.Text = "SPM Connect Controls - " + user.Name;
+                this.Text = "SPM Connect Controls - " + connectapi.user.Name;
                 connectapi.Chekin("SPM Connect Controls");
 
                 //connectapicntrls.SPM_Connect();
                 //connectapicntrls.SPM_Connectconnectsql();
             }
-            else if (user.Department == "Eng")
+            else if (connectapi.user.Dept == ConnectAPI.Department.Eng)
             {
                 listView.ContextMenuStrip = Listviewcontextmenu;
                 dataGridView.ContextMenuStrip = FormSelectorEng;
                 AddNewBttn.Enabled = true;
                 getnewitembttn.Enabled = true;
-                this.Text = "SPM Connect Engineering - " + user.Name;
+                this.Text = "SPM Connect Engineering - " + connectapi.user.Name;
                 connectapi.Chekin("SPM Connect Eng");
                 eng = true;
             }
@@ -122,17 +118,17 @@ namespace SearchDataSPM.Engineering
                 FormSelectorEng.Items[4].Visible = false;
                 FormSelectorEng.Items[5].Enabled = false;
                 FormSelectorEng.Items[5].Visible = false;
-                this.Text = "SPM Connect " + user.Department + " - " + user.Name;
-                connectapi.Chekin("SPM Connect " + user.Department);
+                this.Text = "SPM Connect " + connectapi.user.Dept + " - " + connectapi.user.Name;
+                connectapi.Chekin("SPM Connect " + connectapi.user.Dept);
                 production = true;
             }
 
-            if (connectapi.CheckAdmin())
+            if (connectapi.user.Admin)
             {
                 admin_bttn.Enabled = true;
             }
 
-            if (connectapi.Checkdeveloper())
+            if (connectapi.user.Developer)
             {
                 FormSelectorEng.Items[7].Enabled = true;
                 FormSelectorEng.Items[7].Visible = true;
@@ -1580,7 +1576,7 @@ namespace SearchDataSPM.Engineering
 
         private void listView_Enter(object sender, EventArgs e)
         {
-            if (user.Department == "Eng")
+            if (connectapi.user.Dept == ConnectAPI.Department.Eng)
             {
                 if (listView.Items.Count > 0)
                 {
@@ -1699,7 +1695,7 @@ namespace SearchDataSPM.Engineering
             }
             else
             {
-                string username = connectapi.Getuserfullname();
+                string username = connectapi.user.Name;
                 Createentryoninventory(uniqueid, username);
                 Openiteminfo(uniqueid);
             }
@@ -1944,7 +1940,7 @@ namespace SearchDataSPM.Engineering
             {
                 rupture = "NEVER";
             }
-            string username = connectapi.Getuserfullname();
+            string username = connectapi.user.Name;
 
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDate = datecreated.ToString("yyyy-MM-dd HH:mm:ss.fff");

@@ -11,158 +11,7 @@ namespace SPMConnectAPI
     {
         #region Settting up Connetion and Get User
 
-        public string getNameByConnectEmpId(string empid)
-        {
-            string fullname = "";
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [id]='" + empid + "' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    fullname = dr["Name"].ToString();
-                }
-                dt.Clear();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve user full name", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-            return fullname;
-        }
-
-        public string getuserfullname()
-        {
-            string fullname = "";
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + GetUserName().ToString() + "' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    fullname = dr["Name"].ToString();
-                }
-                dt.Clear();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve user full name", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-            return fullname;
-        }
-
-        public bool CheckShipManager()
-        {
-            bool ecrSupervisor = false;
-            string useradmin = GetUserName();
-
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND [ShippingManager] = '1'", cn))
-            {
-                try
-                {
-                    cn.Open();
-                    sqlCommand.Parameters.AddWithValue("@username", useradmin);
-
-                    int userCount = (int)sqlCommand.ExecuteScalar();
-                    if (userCount == 1)
-                    {
-                        ecrSupervisor = true;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve Shipping Manager rights", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-            return ecrSupervisor;
-        }
-
-        public bool CheckShipSup()
-        {
-            bool ecrApprovee = false;
-            string useradmin = GetUserName();
-
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND [ShipSupervisor] = '1'", cn))
-            {
-                try
-                {
-                    cn.Open();
-                    sqlCommand.Parameters.AddWithValue("@username", useradmin);
-
-                    int userCount = (int)sqlCommand.ExecuteScalar();
-                    if (userCount == 1)
-                    {
-                        ecrApprovee = true;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve Shipping Supervisor rights", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-            return ecrApprovee;
-        }
-
-        public int getsupervisorId()
-        {
-            int supervisorId = 0;
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + GetUserName().ToString() + "' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    supervisorId = Convert.ToInt32(dr["ShipSup"].ToString());
-                }
-                dt.Clear();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve user shipping supervisor id", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-            return supervisorId;
-        }
+        public Shipping() => user = GetUserDetails(GetUserName());
 
         public List<string> GetManagersNameandEmail()
         {
@@ -193,75 +42,6 @@ namespace SPMConnectAPI
                 cn.Close();
             }
             return Happrovalnames;
-        }
-
-        public string getassyversionnumber()
-        {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            string version = "V" + assembly.GetName().Version.ToString(3);
-            return version;
-        }
-
-        public string getsharesfolder()
-        {
-            string path = "";
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + GetUserName() + "' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    path = dr["SharesFolder"].ToString();
-                }
-                dt.Clear();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Error Getting share folder path", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-            return path;
-        }
-
-        public int getConnectEmployeeId()
-        {
-            int employeeId = 0;
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + GetUserName().ToString() + "' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    employeeId = Convert.ToInt32(dr["id"].ToString());
-                }
-                dt.Clear();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve user employee id", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-            return employeeId;
         }
 
         #endregion Settting up Connetion and Get User
@@ -1055,7 +835,7 @@ namespace SPMConnectAPI
             string success = "";
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-            string username = getuserfullname();
+            string username = user.Name;
             string newinvoiceno = getnewinvoicenumber();
 
             try
@@ -1131,7 +911,7 @@ namespace SPMConnectAPI
         public bool UpdateInvoiceDetsToSql(string inovicenumber, string jobnumber, string salesperson, string requestedby, string carrier, string collectprepaid, string fobpoint, string terms, string currency, string total, string soldto, string shipto, string notes, string carriercode)
         {
             bool success = false;
-            string username = getuserfullname();
+            string username = user.Name;
             DateTime dateedited = DateTime.Now;
             string sqlFormattedDate = dateedited.ToString("yyyy-MM-dd HH:mm:ss");
             if (cn.State == ConnectionState.Closed)
@@ -1160,7 +940,7 @@ namespace SPMConnectAPI
         public bool UpdateInvoiceDateCreatedToSql(string inovicenumber, string datecreated)
         {
             bool success = false;
-            string username = getuserfullname();
+            string username = user.Name;
             DateTime dateedited = DateTime.Now;
             string sqlFormattedDate = dateedited.ToString("yyyy-MM-dd HH:mm:ss");
             if (cn.State == ConnectionState.Closed)
@@ -1189,7 +969,7 @@ namespace SPMConnectAPI
         public bool UpdateInvoiceDetsToSqlforAuthorisation(string inovicenumber, string typeofsave, int supervisorid)
         {
             bool success = false;
-            string username = getuserfullname();
+            string username = user.Name;
             DateTime dateedited = DateTime.Now;
             string sqlFormattedDate = dateedited.ToString("yyyy-MM-dd HH:mm:ss");
             if (cn.State == ConnectionState.Closed)
@@ -1307,7 +1087,7 @@ namespace SPMConnectAPI
             string success = "";
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-            string username = getuserfullname();
+            string username = user.Name;
             string newinvoiceno = getnewinvoicenumber();
 
             try
@@ -1491,91 +1271,5 @@ namespace SPMConnectAPI
 
         #endregion Perform Copy and CRUD
 
-        #region Checkin Checkout Check Invoice
-
-        public string InvoiceOpen(string invoicenumber)
-        {
-            string username = "";
-
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM [SPM_Database].[dbo].[UserHolding] WHERE [ItemId]='" + invoicenumber + "'AND App = 'ShipInv'", cn))
-            {
-                try
-                {
-                    cn.Open();
-                    SqlDataReader reader = sqlCommand.ExecuteReader();
-
-                    while (reader.Read())
-                    {
-                        username = reader["UserName"].ToString();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Check Right Access", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-
-            return username;
-        }
-
-        public bool CheckinInvoice(string invoicenumber)
-        {
-            bool success = false;
-            DateTime datecreated = DateTime.Now;
-            string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[UserHolding] (App, UserName, ItemId,CheckInDateTime) VALUES('ShipInv','" + GetUserName() + "','" + invoicenumber + "','" + sqlFormattedDatetime + "')";
-                cmd.ExecuteNonQuery();
-                cn.Close();
-                success = true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Check in invoice", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-            return success;
-        }
-
-        public bool CheckoutInvoice(string invoicenumber)
-        {
-            bool success = false;
-
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "DELETE FROM [SPM_Database].[dbo].[UserHolding] where App = 'ShipInv' AND UserName = '" + GetUserName() + "' AND ItemId = '" + invoicenumber + "'";
-                cmd.ExecuteNonQuery();
-                cn.Close();
-                success = true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Check out invoice", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-            return success;
-        }
-
-        #endregion Checkin Checkout Check Invoice
     }
 }

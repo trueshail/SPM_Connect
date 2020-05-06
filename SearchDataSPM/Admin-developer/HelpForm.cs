@@ -112,7 +112,7 @@ namespace SearchDataSPM
 
         private void sendemailbttn_Click(object sender, EventArgs e)
         {
-            Sendemailtodevelopers(connectapi.Getuserfullname(), filestoAttach, subtxt.Text, notestxt.Text);
+            Sendemailtodevelopers(connectapi.user.Name, filestoAttach, subtxt.Text, notestxt.Text);
             Clearall();
             MessageBox.Show("Email successfully sent to developer.", "SPM Connect - Developer", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }

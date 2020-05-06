@@ -29,7 +29,7 @@ namespace SearchDataSPM
             timer1.Start();
             woid_txtbox.Focus();
             userinputtime = connectapi.Getuserinputtime();
-            developer = connectapi.Checkdeveloper();
+            developer = connectapi.user.Developer;
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Scan Work Order ");

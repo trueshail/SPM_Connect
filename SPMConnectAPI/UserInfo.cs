@@ -1,10 +1,10 @@
 ﻿namespace SPMConnectAPI
 {
-    public class UserInfo
+    public class UserInfo : ConnectAPI
     {
         public int Emp_Id { get; set; }
         public string UserName { get; set; }
-        public string Department { get; set; }
+        public Department Dept { get; set; }
         public string Name { get; set; }
         public string ActiveBlockNumber { get; set; }
         public bool Admin { get; set; }
@@ -37,6 +37,9 @@
         public string Email { get; set; }
         public string SharesFolder { get; set; }
         public bool ReadWhatsNew { get; set; }
-        public int Id { get; set; }
+        public int ConnectId { get; set; }
     }
+
+
+
 }

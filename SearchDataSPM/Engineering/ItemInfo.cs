@@ -1211,7 +1211,7 @@ namespace SearchDataSPM
             SPMSQLCommands connectAPI = new SPMSQLCommands();
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-            string username = connectAPI.Getuserfullname();
+            string username = connectAPI.user.Name;
 
             try
             {

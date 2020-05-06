@@ -33,7 +33,7 @@ namespace SearchDataSPM
             collapse();
             dt = new DataTable();
             checkdeptsandrights();
-            userfullname = connectapi.Getuserfullname();
+            userfullname = connectapi.user.Name;
 
             Showallitems();
             txtSearch.Focus();

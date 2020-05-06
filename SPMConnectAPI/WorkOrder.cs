@@ -11,159 +11,7 @@ namespace SPMConnectAPI
     {
         #region User Details and connections
 
-        public string Getuserfullname()
-        {
-            string fullname = "";
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + GetUserName().ToString() + "' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    fullname = dr["Name"].ToString();
-                }
-                dt.Clear();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve user full name", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-            return fullname;
-        }
-
-        public string Getempid()
-        {
-            string empid = "";
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + GetUserName().ToString() + "' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    empid = dr["Emp_Id"].ToString();
-                }
-                dt.Clear();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve employee id", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-            return empid;
-        }
-
-        public string Getdepartment()
-        {
-            string Department = "";
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + GetUserName().ToString() + "' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    Department = dr["Department"].ToString();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve user department", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-            return Department;
-        }
-
-        public string Getsharesfolder()
-        {
-            string path = "";
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + GetUserName() + "' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    path = dr["SharesFolder"].ToString();
-                }
-                dt.Clear();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Error Getting share folder path", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-            return path;
-        }
-
-        public string Getuserfullname(string empid)
-        {
-            string fullname = "";
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [Emp_Id]='" + empid + "' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    fullname = dr["Name"].ToString();
-                }
-                dt.Clear();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve user full name", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-            return fullname;
-        }
+        public WorkOrder() => user = GetUserDetails(GetUserName());
 
         public int Getuserinputtime()
         {
@@ -192,36 +40,6 @@ namespace SPMConnectAPI
                 timer = Convert.ToInt32(limit);
             }
             return timer;
-        }
-
-        public bool Checkdeveloper()
-        {
-            bool developer = false;
-            string useradmin = GetUserName();
-
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND Developer = '1'", cn))
-            {
-                try
-                {
-                    cn.Open();
-                    sqlCommand.Parameters.AddWithValue("@username", useradmin);
-
-                    int userCount = (int)sqlCommand.ExecuteScalar();
-                    if (userCount == 1)
-                    {
-                        developer = true;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve developer rights", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-            return developer;
         }
 
         #endregion User Details and connections
@@ -302,10 +120,10 @@ namespace SPMConnectAPI
 
         public void Scanworkorder(string wo)
         {
-            string department = Getdepartment();
+            Department department = user.Dept;
             if (WoExistsOnWotrack(wo))
             {
-                if (department == "Eng" || department == "Controls")
+                if (department == Department.Eng || department == Department.Controls)
                 {
                     MessageBox.Show("Work order has already been entered into the system", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -319,18 +137,18 @@ namespace SPMConnectAPI
                 // workorder not started into the system
                 if (WOReleased(wo))
                 {
-                    if (department == "Eng")
+                    if (department == Department.Eng)
                     {
                         Enterwototrackeng(wo, "Eng. Released");
                     }
-                    else if (department == "Controls")
+                    else if (department == Department.Controls)
                     {
                         Enterwototrackcontrols(wo, "Controls Released");
                     }
                 }
                 else
                 {
-                    if (department == "Eng" || department == "Controls")
+                    if (department == Department.Eng || department == Department.Controls)
                     {
                         MessageBox.Show("Please check the work order number.", "Work Order not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
@@ -403,7 +221,7 @@ namespace SPMConnectAPI
         {
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-            string username = Getuserfullname();
+            string username = user.Name;
             try
             {
                 if (cn.State == ConnectionState.Closed)
@@ -429,7 +247,7 @@ namespace SPMConnectAPI
         {
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-            string username = Getuserfullname();
+            string username = user.Name;
             try
             {
                 if (cn.State == ConnectionState.Closed)
@@ -503,7 +321,7 @@ namespace SPMConnectAPI
             return dt;
         }
 
-        private void DoWorkOrderTacking(string wo, string department)
+        private void DoWorkOrderTacking(string wo, Department department)
         {
             DataTable woinfo = new DataTable();
             woinfo.Clear();
@@ -519,19 +337,19 @@ namespace SPMConnectAPI
             Findwhatstagetoinsert(engin, Prodin, Prodout, Purin, Purout, Cribin, Cribout, department, wo);
         }
 
-        private void Findwhatstagetoinsert(string engin, string prodin, string prodout, string purin, string purout, string cribin, string cribout, string department, string wo)
+        private void Findwhatstagetoinsert(string engin, string prodin, string prodout, string purin, string purout, string cribin, string cribout, Department department, string wo)
         {
             switch (department)
             {
-                case "Production":
+                case Department.Production:
                     Checkprodtrack(engin, prodin, prodout, wo);
                     break;
 
-                case "Purchasing":
+                case Department.Purchasing:
                     Checkpurtrack(prodout, purin, purout, wo);
                     break;
 
-                case "Crib":
+                case Department.Crib:
                     CheckCribtrack(prodout, cribin, cribout, purout, wo);
                     break;
             }
@@ -544,7 +362,7 @@ namespace SPMConnectAPI
                 if (prodin == "0")
                 {
                     // insert into production
-                    if (UpdateWOTracking(wo, "Prodin", "ProdinWho", "ProdinWhen", "1", Getuserfullname(), "InProduction"))
+                    if (UpdateWOTracking(wo, "Prodin", "ProdinWho", "ProdinWhen", "1", user.Name, "InProduction"))
                         MessageBox.Show("Work Order Checked into Production.", "SPM Connect  - Work Order In Production", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     else MessageBox.Show("Error Updating WO Tracking. Please contact the admin for line 385", "SPM Connect - Error Work Order In Production", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -556,7 +374,7 @@ namespace SPMConnectAPI
                         DialogResult result = MessageBox.Show("Check out this work order from production?", "Check Out WO?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                         if (result == DialogResult.Yes)
                         {
-                            if (UpdateWOTracking(wo, "Prodout", "ProdoutWho", "ProdoutWhen", "1", Getuserfullname(), "OutProduction"))
+                            if (UpdateWOTracking(wo, "Prodout", "ProdoutWho", "ProdoutWhen", "1", user.Name, "OutProduction"))
                             {
                                 string timespan = Calculatetimedifference(Fetchdatetime("ProdoutWhen", wo), Fetchdatetime("ProdinWhen", wo));
                                 UpdateWOTrackingTimeSpan(wo, "TimeInProd", timespan);
@@ -592,7 +410,7 @@ namespace SPMConnectAPI
                 {
                     // insert into purchasing
 
-                    if (UpdateWOTracking(wo, "Purin", "PurinWho", "PurinWhen", "1", Getuserfullname(), status == "" ? "In Purchasing" : status + " & In Purchasing"))
+                    if (UpdateWOTracking(wo, "Purin", "PurinWho", "PurinWhen", "1", user.Name, status == "" ? "In Purchasing" : status + " & In Purchasing"))
                     {
                         MessageBox.Show("Work Order Checked into Purchasing.", "SPM Connect  - Work Order In Purchasing", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
@@ -610,7 +428,7 @@ namespace SPMConnectAPI
                         if (result == DialogResult.Yes)
                         {
                             status = RemoveStatus(status, "In Purchasing");
-                            if (UpdateWOTracking(wo, "Purout", "PuroutWho", "PuroutWhen", "1", Getuserfullname(), status == "" || status == "In Purchasing" ? "Out Purchasing" : status + " & Out Purchasing"))
+                            if (UpdateWOTracking(wo, "Purout", "PuroutWho", "PuroutWhen", "1", user.Name, status == "" || status == "In Purchasing" ? "Out Purchasing" : status + " & Out Purchasing"))
                             {
                                 string timespan = Calculatetimedifference(Fetchdatetime("PuroutWhen", wo), Fetchdatetime("PurinWhen", wo));
                                 UpdateWOTrackingTimeSpan(wo, "TimeInPur", timespan);
@@ -645,7 +463,7 @@ namespace SPMConnectAPI
                 if (cribin == "0")
                 {
                     // insert into crib
-                    if (UpdateWOTracking(wo, "Cribin", "CribinWho", "CribinWhen", "1", Getuserfullname(), status == "" ? "In Crib" : status + " & In Crib"))
+                    if (UpdateWOTracking(wo, "Cribin", "CribinWho", "CribinWhen", "1", user.Name, status == "" ? "In Crib" : status + " & In Crib"))
                     {
                         MessageBox.Show("Work Order Checked into Crib.", "SPM Connect  - Work Order In Crib", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
@@ -669,10 +487,10 @@ namespace SPMConnectAPI
                                 {
                                     if (IsCompletedInvInOut(wo))
                                     {
-                                        if (UpdateWOTracking(wo, "Cribout", "CriboutWho", "CriboutWhen", "1", Getuserfullname(), "Completed"))
+                                        if (UpdateWOTracking(wo, "Cribout", "CriboutWho", "CriboutWhen", "1", user.Name, "Completed"))
                                         {
                                             //status = RemoveStatus(status, "In Crib");
-                                            // UpdateWOTracking(wo, "Cribout", "CriboutWho", "CriboutWhen", "1", getuserfullname(), status == "" ? "Out Crib" : status + " & Out Crib");
+                                            // UpdateWOTracking(wo, "Cribout", "CriboutWho", "CriboutWhen", "1", user.Name, status == "" ? "Out Crib" : status + " & Out Crib");
                                             string timespan = Calculatetimedifference(Fetchdatetime("CriboutWhen", wo), Fetchdatetime("CribinWhen", wo));
                                             UpdateWOTrackingTimeSpan(wo, "TimeInCrib", timespan);
                                             timespan = Calculatetimedifference(Fetchdatetime("CriboutWhen", wo), Fetchdatetime("EngWhen", wo));
@@ -880,34 +698,6 @@ namespace SPMConnectAPI
             return completed;
         }
 
-        public bool EmployeeExits(string empid)
-        {
-            bool empexists = false;
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE [Emp_Id]='" + empid + "'", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-                    int userCount = (int)sqlCommand.ExecuteScalar();
-                    if (userCount == 1)
-                    {
-                        empexists = true;
-                    }
-                    cn.Close();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Check EmployeeExists", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-            return empexists;
-        }
-
         public bool EmployeeExitsWithCribRights(string empid)
         {
             bool empexists = false;
@@ -968,7 +758,7 @@ namespace SPMConnectAPI
         {
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-            string username = Getuserfullname();
+            string username = user.Name;
             try
             {
                 if (cn.State == ConnectionState.Closed)
@@ -994,7 +784,7 @@ namespace SPMConnectAPI
         {
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-            string username = Getuserfullname();
+            string username = user.Name;
             try
             {
                 if (cn.State == ConnectionState.Closed)
@@ -1090,7 +880,7 @@ namespace SPMConnectAPI
             string success = "";
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-            string username = Getuserfullname();
+            string username = user.Name;
             string newinvoiceno = Getnewinvoicenumber();
             try
             {
@@ -1143,7 +933,7 @@ namespace SPMConnectAPI
         public bool UpdateInvoiceDetsToSql(string inovicenumber, string notes, string itemid, string description, string oem, string oemitem, string empid, string empname, string appid, string appname, string jobreq, string woreq, string jobtaken, string wotaken, string qty)
         {
             bool success = false;
-            string username = Getuserfullname();
+            string username = user.Name;
             DateTime dateedited = DateTime.Now;
             string sqlFormattedDate = dateedited.ToString("yyyy-MM-dd HH:mm:ss");
             if (cn.State == ConnectionState.Closed)
@@ -1721,7 +1511,7 @@ namespace SPMConnectAPI
             string success = "";
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-            string username = Getuserfullname();
+            string username = user.Name;
             string releaselogno = GetNewReleaseLogNo();
             int nxtreaseno = GetNextReleaseNo(wo);
 
@@ -2007,7 +1797,7 @@ namespace SPMConnectAPI
             SPMSQLCommands connectAPI = new SPMSQLCommands();
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-            string username = connectAPI.Getuserfullname();
+            string username = connectAPI.user.Name;
             try
             {
                 if (cn.State == ConnectionState.Closed)
@@ -2058,7 +1848,7 @@ namespace SPMConnectAPI
         public bool UpdateReleaseLogNotes(string rlogno, string notes)
         {
             bool success = false;
-            string username = Getuserfullname();
+            string username = user.Name;
             DateTime dateedited = DateTime.Now;
             string sqlFormattedDate = dateedited.ToString("yyyy-MM-dd HH:mm:ss");
             if (cn.State == ConnectionState.Closed)
@@ -2250,7 +2040,7 @@ namespace SPMConnectAPI
             SPMSQLCommands connectAPI = new SPMSQLCommands();
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-            string username = connectAPI.Getuserfullname();
+            string username = connectAPI.user.Name;
             try
             {
                 if (cn.State == ConnectionState.Closed)
@@ -2280,7 +2070,7 @@ namespace SPMConnectAPI
             SPMSQLCommands connectAPI = new SPMSQLCommands();
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-            string username = connectAPI.Getuserfullname();
+            string username = connectAPI.user.Name;
             try
             {
                 if (cn.State == ConnectionState.Closed)
@@ -2371,91 +2161,5 @@ namespace SPMConnectAPI
 
         #endregion WorkOrderRelease
 
-        #region Checkin Checkout Check Invoice
-
-        public string InvoiceOpen(string invoicenumber)
-        {
-            string username = "";
-
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM [SPM_Database].[dbo].[UserHolding] WHERE [ItemId]='" + invoicenumber + "'AND App = 'WorkOrderRelease'", cn))
-            {
-                try
-                {
-                    cn.Open();
-                    SqlDataReader reader = sqlCommand.ExecuteReader();
-
-                    while (reader.Read())
-                    {
-                        username = reader["UserName"].ToString();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Check Right Access", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-
-            return username;
-        }
-
-        public bool CheckinInvoice(string invoicenumber)
-        {
-            bool success = false;
-            DateTime datecreated = DateTime.Now;
-            string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[UserHolding] (App, UserName, ItemId,CheckInDateTime) VALUES('WorkOrderRelease','" + GetUserName() + "','" + invoicenumber + "','" + sqlFormattedDatetime + "')";
-                cmd.ExecuteNonQuery();
-                cn.Close();
-                success = true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Check in invoice", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-            return success;
-        }
-
-        public bool CheckoutInvoice(string invoicenumber)
-        {
-            bool success = false;
-
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "DELETE FROM [SPM_Database].[dbo].[UserHolding] where App = 'WorkOrderRelease' AND UserName = '" + GetUserName() + "' AND ItemId = '" + invoicenumber + "'";
-                cmd.ExecuteNonQuery();
-                cn.Close();
-                success = true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Check out invoice", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-            return success;
-        }
-
-        #endregion Checkin Checkout Check Invoice
     }
 }

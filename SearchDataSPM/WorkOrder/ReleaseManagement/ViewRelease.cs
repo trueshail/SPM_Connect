@@ -795,14 +795,14 @@ namespace SearchDataSPM
 
         private void ShowReleaseLogDetails(string invoice)
         {
-            string invoiceopen = connectapi.InvoiceOpen(invoice);
+            string invoiceopen = connectapi.InvoiceOpen(invoice, ConnectAPI.CheckInModules.WO);
             if (invoiceopen.Length > 0)
             {
                 MetroFramework.MetroMessageBox.Show(this, "Release Document is opened for edit by " + invoiceopen + ". ", "SPM Connect - Open Release Document Failed", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
             else
             {
-                if (connectapi.CheckinInvoice(invoice))
+                if (connectapi.CheckinInvoice(invoice, ConnectAPI.CheckInModules.WO))
                 {
                     using (AddRelease addrelease = new AddRelease(releaseLogNo: invoice))
                     {

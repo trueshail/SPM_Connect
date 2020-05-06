@@ -876,7 +876,7 @@ namespace SearchDataSPM
                 {
                 }
             }
-            connectapi.CheckoutInvoice(releaseLogNumber);
+            connectapi.CheckoutInvoice(releaseLogNumber, ConnectAPI.CheckInModules.WO);
         }
 
         #endregion Treeview

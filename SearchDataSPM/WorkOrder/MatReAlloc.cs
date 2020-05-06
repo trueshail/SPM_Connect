@@ -43,7 +43,7 @@ namespace SearchDataSPM
             {
                 FillInfo();
                 processeditbutton();
-                developer = connectapi.Checkdeveloper();
+                developer = connectapi.user.Developer;
                 userinputtime = connectapi.Getuserinputtime();
             }
             else
@@ -453,7 +453,7 @@ namespace SearchDataSPM
                     {
                         if (connectapi.EmployeeExits(empidtxt.Text.Trim()))
                         {
-                            empname.Text = connectapi.Getuserfullname(empidtxt.Text.Trim());
+                            empname.Text = connectapi.GetNameByEmpId(empidtxt.Text.Trim());
                             empname.Text = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(empname.Text.ToLower());
                             appidtxt.Focus();
                         }
@@ -508,7 +508,7 @@ namespace SearchDataSPM
                     {
                         if (connectapi.EmployeeExitsWithCribRights(appidtxt.Text.Trim()))
                         {
-                            appnametxt.Text = connectapi.Getuserfullname(appidtxt.Text.Trim());
+                            appnametxt.Text = connectapi.GetNameByEmpId(appidtxt.Text.Trim());
                             appnametxt.Text = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(appnametxt.Text.ToLower());
                             jobreqtxt.Focus();
                         }

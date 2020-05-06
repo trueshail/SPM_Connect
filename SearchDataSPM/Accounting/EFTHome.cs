@@ -209,7 +209,7 @@ namespace SearchDataSPM
         private string SaveReport(string reqno)
         {
             string fileName = "";
-            string filepath = connectapi.Getsharesfolder() + @"\SPM_Connect\EFTReports\";
+            string filepath = connectapi.user.SharesFolder + @"\SPM_Connect\EFTReports\";
             System.IO.Directory.CreateDirectory(filepath);
             return fileName = filepath + reqno + ".pdf";
         }

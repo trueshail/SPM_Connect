@@ -41,21 +41,21 @@ namespace SearchDataSPM
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
             Showallitems();
 
-            if (connectapi.CheckManagement())
+            if (connectapi.user.Management)
             {
                 contextMenuStrip1.Items[3].Enabled = true;
                 contextMenuStrip1.Items[3].Visible = true;
             }
-            if (connectapi.Checkpruchasereqrights())
+            if (connectapi.user.PurchaseReq)
             {
                 purchasereq.Enabled = true;
             }
-            if (connectapi.Checkquoterights())
+            if (connectapi.user.Quote)
             {
                 quotebttn.Enabled = true;
             }
 
-            if (connectapi.CheckShippingrights())
+            if (connectapi.user.Shipping)
             {
                 shippingbttn.Enabled = true;
             }
@@ -1029,7 +1029,7 @@ namespace SearchDataSPM
         private void purchasereq_Click(object sender, EventArgs e)
         {
             int openforms = Application.OpenForms.Count;
-            bool checkmaintenance = connectapi.CheckPurchaseReqMaintenance();
+            bool checkmaintenance = connectapi.GetConnectParameterValue("PurchaseReqDev") == "1" ? true : false;
             if (openforms >= 2)
             {
                 bool purchasereqopen = false;
@@ -1071,7 +1071,7 @@ namespace SearchDataSPM
                         PurchaseReqform purchaseReq = new PurchaseReqform();
                         purchaseReq.Show();
                     }
-                    else if (checkmaintenance && connectapi.Checkdeveloper())
+                    else if (checkmaintenance && connectapi.user.Developer)
                     {
                         PurchaseReqform purchaseReq = new PurchaseReqform();
                         purchaseReq.Show();

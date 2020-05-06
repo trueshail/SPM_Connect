@@ -438,7 +438,7 @@ namespace SearchDataSPM
             Cursor.Current = Cursors.WaitCursor;
             this.Enabled = false;
             graballinfor();
-            string lastsavedby = connectapi.Getuserfullname();
+            string lastsavedby = connectapi.user.Name;
             filllistview(ItemTxtBox.Text);
             if (listView.Items.Count == 0)
             {

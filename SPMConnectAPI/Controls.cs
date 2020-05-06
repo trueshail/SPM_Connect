@@ -8,13 +8,11 @@ namespace SPMConnectAPI
     public class Controls : ConnectAPI
     {
         private SqlConnection _connection;
-        private SqlConnection cn;
         private SqlCommand _command;
 
         public Controls()
         {
             SPM_Connect();
-            SPM_Connectconnectsql();
         }
 
         private void SPM_Connect()
@@ -31,19 +29,6 @@ namespace SPMConnectAPI
             catch (Exception)
             {
                 MessageBox.Show("Error Connecting to SQL Server.....", "SPM Connect autocad catalog sql", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void SPM_Connectconnectsql()
-        {
-            string connection = ConnectConnectionString();
-            try
-            {
-                cn = new SqlConnection(connection);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Error Connecting to SQL Server.....", "SPM Connect sql controls", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

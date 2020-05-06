@@ -1,4 +1,5 @@
 ﻿using ExtractLargeIconFromFile;
+using SPMConnectAPI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,9 +26,9 @@ namespace SearchDataSPM
         private string txtvalue;
         private bool eng = false;
         private bool rootnodedone = false;
-        private SPMConnectAPI.SPMSQLCommands connectapi = new SPMConnectAPI.SPMSQLCommands();
+        private SPMSQLCommands connectapi = new SPMConnectAPI.SPMSQLCommands();
         private log4net.ILog log;
-
+        private UserInfo user;
         private ErrorHandler errorHandler = new ErrorHandler();
         private string itemnumber;
 
@@ -45,6 +46,7 @@ namespace SearchDataSPM
 
         private void ParentView_Load(object sender, EventArgs e)
         {
+            user = connectapi.GetUserDetails(connectapi.GetUserName());
             Assy_txtbox.Focus();
             Assy_txtbox.Text = itemnumber;
             if (Assy_txtbox.Text.Length == 5 || Assy_txtbox.Text.Length == 6)
@@ -54,7 +56,7 @@ namespace SearchDataSPM
                 Startprocessofbom();
                 CallRecursive();
                 //connectapi.SPM_Connect();
-                if (connectapi.Getdepartment() == "Eng") eng = true;
+                if (user.Dept == SPMConnectAPI.ConnectAPI.Department.Eng) eng = true;
                 Assy_txtbox.Select();
             }
 

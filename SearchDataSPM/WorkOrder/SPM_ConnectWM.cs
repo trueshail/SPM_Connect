@@ -519,7 +519,7 @@ namespace SearchDataSPM
 
         private void cribbttn_Click(object sender, EventArgs e)
         {
-            if (connectapi.EmployeeExitsWithCribRights(connectapi.Getempid()))
+            if (connectapi.EmployeeExitsWithCribRights(connectapi.user.Emp_Id.ToString()))
             {
                 InvInOut invInOut = new InvInOut();
                 invInOut.Show();
@@ -630,14 +630,14 @@ namespace SearchDataSPM
 
         private void ShowReleaseLogDetails(string invoice)
         {
-            string invoiceopen = connectapi.InvoiceOpen(invoice);
+            string invoiceopen = connectapi.InvoiceOpen(invoice, ConnectAPI.CheckInModules.WO);
             if (invoiceopen.Length > 0)
             {
                 MetroFramework.MetroMessageBox.Show(this, "Release Document is opened for edit by " + invoiceopen + ". ", "SPM Connect - Open Release Document Failed", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
             else
             {
-                if (connectapi.CheckinInvoice(invoice))
+                if (connectapi.CheckinInvoice(invoice, ConnectAPI.CheckInModules.WO))
                 {
                     AddRelease addrelease = new AddRelease(releaseLogNo: invoice);
                     addrelease.Show();

@@ -1,7 +1,6 @@
 ﻿using SearchDataSPM.Engineering;
+using SPMConnectAPI;
 using System;
-using System.Data;
-using System.Data.SqlClient;
 using System.Windows.Forms;
 
 namespace SearchDataSPM
@@ -11,7 +10,7 @@ namespace SearchDataSPM
         private log4net.ILog log;
         private int time = 0;
         private ErrorHandler errorHandler = new ErrorHandler();
-        private SPMConnectAPI.ConnectAPI connectapi = new SPMConnectAPI.ConnectAPI();
+        private SPMSQLCommands connectapi = new SPMSQLCommands();
 
         public SPMConnectHome()
         {
@@ -46,12 +45,12 @@ namespace SearchDataSPM
 
         public void Connect_SPMSQL()
         {
-            SPMConnectAPI.UserInfo user = connectapi.GetUserDetails();
+            SPMConnectAPI.UserInfo user = connectapi.user;
             if (user.UserName != null || user.UserName.Length > 0)
             {
                 if (!Checkmaintenance())
                 {
-                    if (user.Department == "Accounting")
+                    if (user.Dept == ConnectAPI.Department.Accounting)
                     {
                         var loadspmconnect = new EFTHome();
                         loadspmconnect.Closed += (s, args) => this.Close();
@@ -59,14 +58,14 @@ namespace SearchDataSPM
                     }
                     else
                     {
-                        var loadspmconnect = new SpmConnect(user);
+                        var loadspmconnect = new SpmConnect();
                         loadspmconnect.Closed += (s, args) => this.Close();
                         loadspmconnect.Show();
                     }
                 }
                 else if (Checkmaintenance() && user.Developer)
                 {
-                    if (user.Department == "Accounting")
+                    if (user.Dept == ConnectAPI.Department.Accounting)
                     {
                         var loadspmconnect = new EFTHome();
                         loadspmconnect.Closed += (s, args) => this.Close();
@@ -74,7 +73,7 @@ namespace SearchDataSPM
                     }
                     else
                     {
-                        var loadspmconnect = new SpmConnect(user);
+                        var loadspmconnect = new SpmConnect();
                         loadspmconnect.Closed += (s, args) => this.Close();
                         loadspmconnect.Show();
                     }
@@ -97,25 +96,7 @@ namespace SearchDataSPM
         private bool Checkmaintenance()
         {
             bool maintenance = false;
-            string limit = "";
-            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'Maintenance'", connectapi.cn))
-            {
-                try
-                {
-                    if (connectapi.cn.State == ConnectionState.Closed)
-                        connectapi.cn.Open();
-                    limit = (string)cmd.ExecuteScalar();
-                    connectapi.cn.Close();
-                }
-                catch (Exception ex)
-                {
-                    MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect Error connecting to server", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    connectapi.cn.Close();
-                }
-            }
+            string limit = connectapi.GetConnectParameterValue("Maintenance");
             if (limit == "1")
             {
                 maintenance = true;

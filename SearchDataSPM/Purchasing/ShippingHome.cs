@@ -36,7 +36,7 @@ namespace SearchDataSPM
             collapse();
             dt = new DataTable();
             Checkdeptsandrights();
-            userfullname = connectapi.getuserfullname();
+            userfullname = connectapi.user.Name;
 
             invoiceitemsdataGridView2.DataSource = temptable;
             FillInvoiceItems();
@@ -52,14 +52,14 @@ namespace SearchDataSPM
         private void Checkdeptsandrights()
         {
             string userName = connectapi.GetUserName();
-            versionlabel.Text = connectapi.getassyversionnumber();
+            versionlabel.Text = connectapi.Getassyversionnumber();
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
-            if (connectapi.CheckShipSup())
+            if (connectapi.user.ShipSupervisor)
             {
                 shipsupervisor = true;
                 attnbttn.Visible = true;
             }
-            else if (connectapi.CheckShipManager())
+            else if (connectapi.user.ShippingManager)
             {
                 shipmanager = true;
                 attnbttn.Visible = true;
@@ -106,7 +106,7 @@ namespace SearchDataSPM
             {
                 dt.Clear();
                 datarequest = showdatafor;
-                dt = showdatafor == "normal" ? connectapi.ShowshippingHomeData() : showdatafor == "supervisor" ? connectapi.ShowshippingHomeDataforSupervisors(connectapi.getConnectEmployeeId().ToString()) : connectapi.ShowshippingHomeDataforManagers();
+                dt = showdatafor == "normal" ? connectapi.ShowshippingHomeData() : showdatafor == "supervisor" ? connectapi.ShowshippingHomeDataforSupervisors(connectapi.user.ConnectId.ToString()) : connectapi.ShowshippingHomeDataforManagers();
                 if (dt.Rows.Count > 0)
                 {
                     dataGridView.DataSource = dt;
@@ -1112,14 +1112,14 @@ namespace SearchDataSPM
 
         private void Showshippinginvoice(string invoice)
         {
-            string invoiceopen = connectapi.InvoiceOpen(invoice);
+            string invoiceopen = connectapi.InvoiceOpen(invoice, ConnectAPI.CheckInModules.ShipInv.ToString());
             if (invoiceopen.Length > 0)
             {
                 MetroFramework.MetroMessageBox.Show(this, "Inovice is opened for edit by " + invoiceopen + ". ", "SPM Connect - Open Invoice Failed", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
             else
             {
-                if (connectapi.CheckinInvoice(invoice))
+                if (connectapi.CheckinInvoice(invoice, ConnectAPI.CheckInModules.ShipInv.ToString()))
                 {
                     using (InvoiceDetails invoiceDetails = new InvoiceDetails(invoice))
                     {
