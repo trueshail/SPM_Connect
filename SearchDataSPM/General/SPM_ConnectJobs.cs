@@ -867,25 +867,25 @@ namespace SearchDataSPM
                 string sourcepaths300 = "";
                 if (ValueIWantFromProptForm == "project")
                 {
-                    sourcepathseng = connectapi.GetProjectEngSp();
-                    destpatheng = connectapi.GetProjectEngDp() + jobnumber + "_" + customer + "_" + jobdescription;
+                    sourcepathseng = connectapi.GetConnectParameterValue("ProjectEngSp");
+                    destpatheng = connectapi.GetConnectParameterValue("ProjectEngDp") + jobnumber + "_" + customer + "_" + jobdescription;
                     createnewentry(getjob(), getbomitem(), destpatheng, false);
-                    sourcepaths300 = connectapi.GetProjectSalesSp();
-                    destpaths300 = connectapi.GetProjectSalesDp() + jobnumber + "_" + customer + "_" + jobdescription;
+                    sourcepaths300 = connectapi.GetConnectParameterValue("ProjectSalesSp");
+                    destpaths300 = connectapi.GetConnectParameterValue("ProjectSalesDp") + jobnumber + "_" + customer + "_" + jobdescription;
                 }
                 else if (ValueIWantFromProptForm == "spare")
                 {
-                    sourcepathseng = connectapi.GetSpareEngSp();
-                    destpatheng = connectapi.GetSpareEngDp() + jobnumber + "_" + customer + "_Spare Parts";
-                    sourcepaths300 = connectapi.GetSpareSalesSp();
-                    destpaths300 = connectapi.GetSpareSalesDp() + salesorder + "_" + customer + "_Spare Parts";
+                    sourcepathseng = connectapi.GetConnectParameterValue("SpareEngSp");
+                    destpatheng = connectapi.GetConnectParameterValue("SpareEngDp") + jobnumber + "_" + customer + "_Spare Parts";
+                    sourcepaths300 = connectapi.GetConnectParameterValue("SpareSalesSp");
+                    destpaths300 = connectapi.GetConnectParameterValue("SpareSalesDp") + salesorder + "_" + customer + "_Spare Parts";
                 }
                 else if (ValueIWantFromProptForm == "service")
                 {
-                    sourcepathseng = connectapi.GetServiceEngSp();
-                    destpatheng = connectapi.GetServiceEngDp() + jobnumber + "_" + customer + "_Service" + "_" + jobdescription;
-                    sourcepaths300 = connectapi.GetServiceSalesSp();
-                    destpaths300 = connectapi.GetServiceSalesDp() + salesorder + "_" + customer + "_Service" + "_" + jobdescription;
+                    sourcepathseng = connectapi.GetConnectParameterValue("ServiceEngSp");
+                    destpatheng = connectapi.GetConnectParameterValue("ServiceEngDp") + jobnumber + "_" + customer + "_Service" + "_" + jobdescription;
+                    sourcepaths300 = connectapi.GetConnectParameterValue("ServiceSalesSp");
+                    destpaths300 = connectapi.GetConnectParameterValue("ServiceSalesDp") + salesorder + "_" + customer + "_Service" + "_" + jobdescription;
                 }
                 if (ValueIWantFromProptForm == "project" || ValueIWantFromProptForm == "spare" || ValueIWantFromProptForm == "service")
                 {

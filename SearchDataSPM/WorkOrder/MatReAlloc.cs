@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using static SPMConnectAPI.ConnectAPI;
 
 namespace SearchDataSPM
 {
@@ -290,10 +291,10 @@ namespace SearchDataSPM
             string filepath = @"\\spm-adfs\SDBASE\Reports\MaterialReallocations\";
             System.IO.Directory.CreateDirectory(filepath);
             filepath += Invoiceno + ".pdf";
-            savereporttodir(Invoiceno, filepath);
+            Savereporttodir(Invoiceno, filepath);
         }
 
-        private void savereporttodir(string invoiceno, string fileName)
+        private void Savereporttodir(string invoiceno, string fileName)
         {
             RS2005.ReportingService2005 rs;
             RE2005.ReportExecutionService rsExec;
@@ -362,34 +363,17 @@ namespace SearchDataSPM
             }
             finally
             {
-                sendemailtomanagers(invoiceno, fileName);
+                Sendemailtomanagers(invoiceno, fileName);
                 MessageBox.Show("Email successfully sent to managers.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
-        private void sendemailtomanagers(string reqno, string fileName)
+        private void Sendemailtomanagers(string reqno, string fileName)
         {
             //connectapi.SPM_Connect();
-            string[] nameemail = connectapi.getcribshortemails().ToArray();
-            for (int i = 0; i < nameemail.Length; i++)
-            {
-                string[] values = nameemail[i].Replace("][", "~").Split('~');
-
-                for (int a = 0; a < values.Length; a++)
-                {
-                    values[a] = values[a].Trim();
-                }
-                string email = values[0];
-                string name = values[1];
-
-                string[] names = name.Replace(" ", "~").Split('~');
-                for (int b = 0; b < names.Length; b++)
-                {
-                    names[b] = names[b].Trim();
-                }
-                name = names[0];
-                connectapi.Sendemail(email, reqno + " Material Re-Allocation", "Hello " + name + "," + Environment.NewLine + " Please see attached invoice regarding crib shortage", fileName, "");
-            }
+            List<NameEmail> nameemail = connectapi.GetNameEmailByParaValue(UserFields.CribShort, "1");
+            foreach (NameEmail item in nameemail)
+                connectapi.Sendemail(item.email, reqno + " Material Re-Allocation", "Hello " + item.name + "," + Environment.NewLine + " Please see attached invoice regarding crib shortage", fileName, "");
         }
 
         #endregion Save Report
@@ -401,7 +385,7 @@ namespace SearchDataSPM
                 if (ItemTxtBox.Text.Length >= 6)
                 {
                     string item = ItemTxtBox.Text.Trim().Substring(0, 6);
-                    fillselectediteminfo(item);
+                    Fillselectediteminfo(item);
                     notestxt.Focus();
                 }
                 e.Handled = true;
@@ -409,7 +393,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void fillselectediteminfo(string item)
+        private void Fillselectediteminfo(string item)
         {
             DataTable iteminfo = new DataTable();
             iteminfo.Clear();

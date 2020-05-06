@@ -9,6 +9,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static SPMConnectAPI.ConnectAPI;
 
 namespace SearchDataSPM
 {
@@ -379,26 +380,10 @@ namespace SearchDataSPM
 
         private void SendEmailToAccountants(string body)
         {
-            string[] nameemail = connectapi.GetAccountantsNamesAndEmails().ToArray();
-            for (int i = 0; i < nameemail.Length; i++)
-            {
-                string[] values = nameemail[i].Replace("][", "~").Split('~');
+            List<NameEmail> nameemail = connectapi.GetNameEmailByParaValue(UserFields.Department, "Accounting");
+            foreach (NameEmail item in nameemail)
+                connectapi.TriggerEmail(item.email, "Unable to deliver EFT reports ", item.name, Environment.NewLine + "Here is the list of vendors with email address whom report cannot be delivered." + Environment.NewLine + Environment.NewLine + body, "", "", "", "Normal");
 
-                for (int a = 0; a < values.Length; a++)
-                {
-                    values[a] = values[a].Trim();
-                }
-                string email = values[0];
-                string name = values[1];
-
-                string[] names = name.Replace(" ", "~").Split('~');
-                for (int b = 0; b < names.Length; b++)
-                {
-                    names[b] = names[b].Trim();
-                }
-                name = names[0];
-                connectapi.TriggerEmail(email, "Unable to deliver EFT reports ", name, Environment.NewLine + "Here is the list of vendors with email address whom report cannot be delivered." + Environment.NewLine + Environment.NewLine + body, "", "", "", "Normal");
-            }
         }
 
         private void SplashDialog(string message)

@@ -13,6 +13,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static SPMConnectAPI.ConnectAPI;
 using Excel = Microsoft.Office.Interop.Excel;
 
 namespace SearchDataSPM
@@ -2243,28 +2244,15 @@ namespace SearchDataSPM
 
         private void Sendemailtosupervisor(string reqno, string fileName)
         {
-            string nameemail = Getsupervisornameandemail(supervisorid);
+            List<NameEmail> nameemail = connectapi.GetNameEmailByParaValue(UserFields.id, supervisorid.ToString());
 
-            string[] values = nameemail.Replace("][", "~").Split('~');
-            for (int i = 0; i < values.Length; i++)
-            {
-                values[i] = values[i].Trim();
-            }
-            string email = values[0];
-            string name = values[1];
-
-            string[] names = name.Replace(" ", "~").Split('~');
-            for (int i = 0; i < names.Length; i++)
-            {
-                names[i] = names[i].Trim();
-            }
-            name = names[0];
-            Sendemail(email, reqno + " Purchase Req Approval Required - Job " + jobnumbertxt.Text, name, Environment.NewLine + userfullname + " sent this purchase req for approval.", fileName, "");
+            foreach (NameEmail item in nameemail)
+                Sendemail(item.email, reqno + " Purchase Req Approval Required - Job " + jobnumbertxt.Text, item.name, Environment.NewLine + userfullname + " sent this purchase req for approval.", fileName, "");
         }
 
         private void Sendemailtouser(string reqno, string fileName, string requestby, string triggerby, bool rejected)
         {
-            string email = Getusernameandemail(requestby);
+            string email = connectapi.GetNameEmailByParaValue(UserFields.Name, requestby)[0].email;
             if (!rejected)
             {
                 if (triggerby == "supervisor")
@@ -2273,13 +2261,8 @@ namespace SearchDataSPM
                 }
                 else
                 {
-                    string supnameemail = Getsupervisornameandemail(supervisoridfromreq);
-                    string[] values = supnameemail.Replace("][", "~").Split('~');
-                    for (int i = 0; i < values.Length; i++)
-                    {
-                        values[i] = values[i].Trim();
-                    }
-                    string supervisoremail = values[0];
+                    List<NameEmail> supnameemail = connectapi.GetNameEmailByParaValue(UserFields.id, supervisoridfromreq.ToString());
+                    string supervisoremail = supnameemail[0].email;
 
                     if (triggerby == "pbuyer")
                     {
@@ -2299,13 +2282,8 @@ namespace SearchDataSPM
                 }
                 else
                 {
-                    string supnameemail = Getsupervisornameandemail(supervisoridfromreq);
-                    string[] values = supnameemail.Replace("][", "~").Split('~');
-                    for (int i = 0; i < values.Length; i++)
-                    {
-                        values[i] = values[i].Trim();
-                    }
-                    string supervisoremail = values[0];
+                    List<NameEmail> supnameemail = connectapi.GetNameEmailByParaValue(UserFields.id, supervisoridfromreq.ToString());
+                    string supervisoremail = supnameemail[0].email;
 
                     if (triggerby == "highautority")
                     {
@@ -2317,199 +2295,24 @@ namespace SearchDataSPM
 
         private void Sendmailforhapproval(string reqno, string fileName)
         {
-            string[] nameemail = Gethapprovalnamesandemail().ToArray();
-            for (int i = 0; i < nameemail.Length; i++)
-            {
-                string[] values = nameemail[i].Replace("][", "~").Split('~');
+            List<NameEmail> nameemail = connectapi.GetNameEmailByParaValue(UserFields.PurchaseReqApproval2, "1");
+            foreach (NameEmail item in nameemail)
+                Sendemail(item.email, reqno + " Purchase Req Approval Required - 2nd Approval - Job " + jobnumbertxt.Text, item.name, Environment.NewLine + userfullname + " sent this purchase req for second approval.", fileName, "");
 
-                for (int a = 0; a < values.Length; a++)
-                {
-                    values[a] = values[a].Trim();
-                }
-                string email = values[0];
-                string name = values[1];
-
-                string[] names = name.Replace(" ", "~").Split('~');
-                for (int b = 0; b < names.Length; b++)
-                {
-                    names[b] = names[b].Trim();
-                }
-                name = names[0];
-                Sendemail(email, reqno + " Purchase Req Approval Required - 2nd Approval - Job " + jobnumbertxt.Text, name, Environment.NewLine + userfullname + " sent this purchase req for second approval.", fileName, "");
-            }
         }
 
         private void Sendmailtopbuyers(string reqno, string fileName)
         {
-            string[] nameemail = Getpbuyersnamesandemail().ToArray();
-            for (int i = 0; i < nameemail.Length; i++)
-            {
-                string[] values = nameemail[i].Replace("][", "~").Split('~');
-
-                for (int a = 0; a < values.Length; a++)
-                {
-                    values[a] = values[a].Trim();
-                }
-                string email = values[0];
-                string name = values[1];
-
-                string[] names = name.Replace(" ", "~").Split('~');
-                for (int b = 0; b < names.Length; b++)
-                {
-                    names[b] = names[b].Trim();
-                }
-                name = names[0];
-                Sendemail(email, reqno + " Purchase Req needs PO - Notification - Job " + jobnumbertxt.Text, name, Environment.NewLine + userfullname + " apporved this purchase req and on its way to be purchased. ", fileName, "");
-            }
-        }
-
-        private string Getsupervisornameandemail(int id)
-        {
-            string Email = "";
-            string name = "";
-            try
-            {
-                if (connectapi.cn.State == ConnectionState.Closed)
-                    connectapi.cn.Open();
-                SqlCommand cmd = connectapi.cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [id]='" + id + "' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    Email = dr["Email"].ToString();
-                    name = dr["Name"].ToString();
-                }
-            }
-            catch (Exception ex)
-            {
-                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Get Supervisor Name and Email", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                connectapi.cn.Close();
-            }
-            if (Email.Length > 0)
-            {
-                return Email + "][" + name;
-            }
-            else if (name.Length > 0)
-            {
-                return Email + "][" + name;
-            }
-            else
-            {
-                return "][";
-            }
-        }
-
-        private string Getusernameandemail(string requestby)
-        {
-            string Email = "";
-            try
-            {
-                if (connectapi.cn.State == ConnectionState.Closed)
-                    connectapi.cn.Open();
-                SqlCommand cmd = connectapi.cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [Name]='" + requestby.ToString() + "' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    Email = dr["Email"].ToString();
-                }
-            }
-            catch (Exception ex)
-            {
-                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Get User Name and Email", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                connectapi.cn.Close();
-            }
-            if (Email.Length > 0)
-            {
-                return Email;
-            }
-            else
-            {
-                return "";
-            }
-        }
-
-        private List<string> Gethapprovalnamesandemail()
-        {
-            List<string> Happrovalnames = new List<string>();
-
-            try
-            {
-                if (connectapi.cn.State == ConnectionState.Closed)
-                    connectapi.cn.Open();
-                SqlCommand cmd = connectapi.cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [PurchaseReqApproval2] = '1' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    Happrovalnames.Add(dr["Email"].ToString() + "][" + dr["Name"].ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Get User Name and Email", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                connectapi.cn.Close();
-            }
-            return Happrovalnames;
-        }
-
-        private List<string> Getpbuyersnamesandemail()
-        {
-            List<string> Happrovalnames = new List<string>();
-
-            try
-            {
-                if (connectapi.cn.State == ConnectionState.Closed)
-                    connectapi.cn.Open();
-                SqlCommand cmd = connectapi.cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [PurchaseReqBuyer] = '1' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    Happrovalnames.Add(dr["Email"].ToString() + "][" + dr["Name"].ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Get User Name and Email", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                connectapi.cn.Close();
-            }
-            return Happrovalnames;
+            List<NameEmail> nameemail = connectapi.GetNameEmailByParaValue(UserFields.PurchaseReqBuyer, "1");
+            foreach (NameEmail item in nameemail)
+                Sendemail(item.email, reqno + " Purchase Req needs PO - Notification - Job " + jobnumbertxt.Text, item.name, Environment.NewLine + userfullname + " apporved this purchase req and on its way to be purchased. ", fileName, "");
         }
 
         private void Sendemail(string emailtosend, string subject, string name, string body, string filetoattach, string cc)
         {
             if (Sendemailyesno())
             {
-                SPMConnectAPI.SPMSQLCommands connectapi = new SPMConnectAPI.SPMSQLCommands();
+
                 connectapi.TriggerEmail(emailtosend, subject, name, body, filetoattach, cc, "", "Normal");
             }
             else
@@ -2802,7 +2605,6 @@ namespace SearchDataSPM
         private void Printbttn_Click(object sender, EventArgs e)
         {
             // this.TopMost = false;
-
             reportpurchaereq(reqnumber, "Purchasereq");
         }
 

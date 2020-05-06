@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
+using System.Net.Mail;
 using System.Reflection;
 using System.Windows.Forms;
 
@@ -27,43 +30,49 @@ namespace SPMConnectAPI
             public static string ECR = "ECR";
         }
 
-        public enum UserFields
+        public class UserFields
         {
-            Emp_Id,
-            UserName,
-            Department,
-            Name,
-            ActiveBlockNumber,
-            Admin,
-            Developer,
-            Management,
-            Quote,
-            PurchaseReq,
-            PurchaseReqApproval,
-            PurchaseReqApproval2,
-            PurchaseReqBuyer,
-            PriceRight,
-            Shipping,
-            WOScan,
-            CribShort,
-            ECR,
-            ECRApproval,
-            ECRApproval2,
-            ECRHandler,
-            ECRSup,
-            ItemDependencies,
-            WORelease,
-            ShipSupervisor,
-            ShipSup,
-            ShippingManager,
-            CheckDrawing,
-            ApproveDrawing,
-            ReleasePackage,
-            Supervisor,
-            Email,
-            SharesFolder,
-            ReadWhatsNew,
-            id
+            public static string CribShortEmp_Id = "CribShortEmp_Id";
+            public static string UserName = "UserName";
+            public static string Department = "Department";
+            public static string Name = "Name";
+            public static string ActiveBlockNumber = "ActiveBlockNumber";
+            public static string Admin = "Admin";
+            public static string Developer = "Developer";
+            public static string Management = "Management";
+            public static string Quote = " Quote";
+            public static string PurchaseReq = "PurchaseReq";
+            public static string PurchaseReqApproval = "PurchaseReqApproval";
+            public static string PurchaseReqApproval2 = "PurchaseReqApproval2";
+            public static string PurchaseReqBuyer = "PurchaseReqBuyer";
+            public static string PriceRight = "PriceRight";
+            public static string Shipping = "Shipping";
+            public static string WOScan = "WOScan";
+            public static string CribShort = "CribShort";
+            public static string ECR = "ECR";
+            public static string ECRApproval = " ECRApproval";
+            public static string ECRApproval2 = "ECRApproval2";
+            public static string ECRHandler = "ECRHandler";
+            public static string ECRSup = "ECRSup";
+            public static string ItemDependencies = "ItemDependencies";
+            public static string WORelease = "WORelease";
+            public static string ShipSupervisor = " ShipSupervisor";
+            public static string ShipSup = "ShipSup";
+            public static string ShippingManager = "ShippingManager";
+            public static string CheckDrawing = " CheckDrawing";
+            public static string ApproveDrawing = "ApproveDrawing";
+            public static string ReleasePackage = "ReleasePackage";
+            public static string Supervisor = "Supervisor";
+            public static string Email = "Email";
+            public static string SharesFolder = "SharesFolder";
+            public static string ReadWhatsNew = "ReadWhatsNew";
+            public static string id = "id";
+        }
+
+        public struct NameEmail
+        {
+            public string name;
+            public string email;
         }
 
         #endregion Enum, Helpers
@@ -334,6 +343,41 @@ namespace SPMConnectAPI
             return empexists;
         }
 
+        public List<NameEmail> GetNameEmailByParaValue(string parameter, string value)
+        {
+            List<NameEmail> nameEmail = new List<NameEmail>();
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [" + parameter + "] = '" + value + "' ";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    NameEmail nameemail = new NameEmail
+                    {
+                        email = dr["Email"].ToString(),
+                        name = dr["Name"].ToString()
+                    };
+                    nameEmail.Add(nameemail);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Get User Name and Email" + parameter, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return nameEmail;
+        }
+
         #endregion UserInfo/Rights
 
         public string GetConnectParameterValue(string parameter)
@@ -447,5 +491,182 @@ namespace SPMConnectAPI
         }
 
         #endregion Checkin Checkout Check Invoice
+
+        #region EMAIL
+
+        public void Sendemail(string emailtosend, string subject, string body, string filetoattach, string cc)
+        {
+            try
+            {
+                MailMessage message = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient("spmautomation-com0i.mail.protection.outlook.com");
+                message.From = new MailAddress("connect@spm-automation.com", "SPM Connect");
+                System.Net.Mail.Attachment attachment;
+
+                message.To.Add(emailtosend);
+                if (cc == "")
+                {
+                }
+                else
+                {
+                    message.CC.Add(cc);
+                }
+                message.Subject = subject;
+                message.Body = body;
+
+                if (filetoattach == "")
+                {
+                }
+                else
+                {
+                    attachment = new System.Net.Mail.Attachment(filetoattach);
+                    message.Attachments.Add(attachment);
+                }
+                SmtpServer.Port = 25;
+                SmtpServer.UseDefaultCredentials = true;
+                SmtpServer.EnableSsl = true;
+                SmtpServer.Send(message);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Send Email", MessageBoxButtons.OK);
+            }
+        }
+
+        public void SendemailListAttachments(string emailtosend, string subject, string body, List<string> filetoattach, string cc)
+        {
+            try
+            {
+                MailMessage message = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient("spmautomation-com0i.mail.protection.outlook.com");
+                message.From = new MailAddress("connect@spm-automation.com", "SPM Connect");
+                System.Net.Mail.Attachment attachment;
+
+                message.To.Add(emailtosend);
+                if (cc == "")
+                {
+                }
+                else
+                {
+                    message.CC.Add(cc);
+                }
+                message.Subject = subject;
+                message.Body = body;
+
+                if (filetoattach.Count == 0)
+                {
+                }
+                else
+                {
+                    foreach (string file in filetoattach)
+                    {
+                        attachment = new System.Net.Mail.Attachment(file);
+                        message.Attachments.Add(attachment);
+                    }
+                }
+                SmtpServer.Port = 25;
+                SmtpServer.UseDefaultCredentials = true;
+                SmtpServer.EnableSsl = true;
+                SmtpServer.Send(message);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Send Email", MessageBoxButtons.OK);
+            }
+        }
+
+        public bool TriggerEmail(string emailtosend, string subject, string user, string body, string filetoattach, string cc, string extracc, string msgtype)
+        {
+            bool success = false;
+            try
+            {
+                MailMessage message = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient("spmautomation-com0i.mail.protection.outlook.com");
+
+                System.Net.Mail.Attachment attachment;
+
+                message.To.Add(emailtosend);
+                if (cc == "")
+                {
+                }
+                else
+                {
+                    message.CC.Add(cc);
+                }
+                if (extracc == "")
+                {
+                }
+                else
+                {
+                    message.CC.Add(extracc);
+                }
+                message.Subject = subject;
+
+                if (msgtype == "EFT")
+                {
+                    message.From = new MailAddress("connect@spm-automation.com", "SPM Automation");
+                    message.IsBodyHtml = true;
+                    using (StreamReader reader = File.OpenText(Path.Combine(Directory.GetCurrentDirectory() + @"\EmailTemplates\", "EFTEmailTemplate.html"))) // Path to your
+                    {
+                        message.Body = reader.ReadToEnd();  // Load the content from your file...
+                    }
+                    message.Body = message.Body.Replace("{type}", body);
+                }
+                else if (msgtype == "Normal")
+                {
+                    message.From = new MailAddress("connect@spm-automation.com", "SPM Connect");
+                    message.IsBodyHtml = true;
+                    using (StreamReader reader = File.OpenText(Path.Combine(Directory.GetCurrentDirectory() + @"\EmailTemplates\", "EmailTemplate.html"))) // Path to your
+                    {
+                        message.Body = reader.ReadToEnd();
+                    }
+                    message.Body = message.Body.Replace("{message}", body);
+                    message.Body = message.Body.Replace("{username}", user);
+                }
+                else if (msgtype == "update")
+                {
+                    message.From = new MailAddress("connect@spm-automation.com", "SPM Connect");
+                    message.IsBodyHtml = true;
+                    using (StreamReader reader = File.OpenText(Path.Combine(Directory.GetCurrentDirectory() + @"\EmailTemplates\", "update.html"))) // Path to your
+                    {
+                        message.Body = reader.ReadToEnd();  // Load the content from your file...
+                    }
+                }
+                else
+                {
+                    message.From = new MailAddress("connect@spm-automation.com", "SPM Connect");
+                    message.Body = body;
+                }
+
+                if (filetoattach == "")
+                {
+                }
+                else
+                {
+                    attachment = new System.Net.Mail.Attachment(filetoattach);
+                    message.Attachments.Add(attachment);
+                }
+                SmtpServer.Port = 25;
+                SmtpServer.UseDefaultCredentials = true;
+                SmtpServer.EnableSsl = true;
+                try
+                {
+                    SmtpServer.Send(message);
+                    success = true;
+                }
+                catch (Exception)
+                {
+                    success = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Send Email", MessageBoxButtons.OK);
+                success = false;
+            }
+            return success;
+        }
+
+        #endregion
     }
 }

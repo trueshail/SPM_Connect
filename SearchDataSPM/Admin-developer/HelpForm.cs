@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Security;
 using System.Windows.Forms;
+using static SPMConnectAPI.ConnectAPI;
 
 namespace SearchDataSPM
 {
@@ -119,27 +120,9 @@ namespace SearchDataSPM
 
         private void Sendemailtodevelopers(string requser, List<string> files, string subject, string notes)
         {
-            //connectapi.SPM_Connect();
-            string[] nameemail = connectapi.Getdevelopersnamesandemail().ToArray();
-            for (int i = 0; i < nameemail.Length; i++)
-            {
-                string[] values = nameemail[i].Replace("][", "~").Split('~');
-
-                for (int a = 0; a < values.Length; a++)
-                {
-                    values[a] = values[a].Trim();
-                }
-                string email = values[0];
-                string name = values[1];
-
-                string[] names = name.Replace(" ", "~").Split('~');
-                for (int b = 0; b < names.Length; b++)
-                {
-                    names[b] = names[b].Trim();
-                }
-                name = names[0];
-                connectapi.SendemailListAttachments(email, "Connect Error Submitted - " + subject, "Hello " + name + "," + Environment.NewLine + requser + " sent this error report." + Environment.NewLine + notes + Environment.NewLine + Environment.NewLine + "Triggered by " + connectapi.GetUserName(), files, "");
-            }
+            List<NameEmail> nameemail = connectapi.GetNameEmailByParaValue(UserFields.Developer, "1");
+            foreach (NameEmail item in nameemail)
+                connectapi.SendemailListAttachments(item.email, "Connect Error Submitted - " + subject, "Hello " + item.name + "," + Environment.NewLine + requser + " sent this error report." + Environment.NewLine + notes + Environment.NewLine + Environment.NewLine + "Triggered by " + connectapi.user.Name, files, "");
         }
 
         private void nametxt_TextChanged(object sender, EventArgs e)

@@ -32,70 +32,70 @@ namespace SearchDataSPM
             if (reportname == "BOM")
             {
                 this.Text = "Bills of Manufacturing - " + itemnumber;
-                reportViewer1.ServerReport.ReportPath = connectapi.GetReportBOM();
+                reportViewer1.ServerReport.ReportPath = connectapi.GetConnectParameterValue("ReportBOM");
                 this.reportViewer1.RefreshReport();
                 Fillbomreport();
             }
             else if (reportname == "SPAREPARTS")
             {
                 this.Text = "Spare Parts - " + itemnumber;
-                reportViewer1.ServerReport.ReportPath = connectapi.GetReportSpareParts();
+                reportViewer1.ServerReport.ReportPath = connectapi.GetConnectParameterValue("ReportSpareParts");
                 this.reportViewer1.RefreshReport();
                 Fillbomreport();
             }
             else if (reportname == "WorkOrder")
             {
                 this.Text = "Work Order - " + itemnumber;
-                reportViewer1.ServerReport.ReportPath = connectapi.GetReportWorkOrder();
+                reportViewer1.ServerReport.ReportPath = connectapi.GetConnectParameterValue("ReportWorkOrder");
                 this.reportViewer1.RefreshReport();
                 Fillwrokdorderreport();
             }
             else if (reportname == "Purchasereq")
             {
                 this.Text = "Purchase Requisition - " + itemnumber;
-                reportViewer1.ServerReport.ReportPath = connectapi.GetReportPurchaseReq();
+                reportViewer1.ServerReport.ReportPath = connectapi.GetConnectParameterValue("ReportPurchaseReq");
                 this.reportViewer1.RefreshReport();
                 Fillpurchasereq();
             }
             else if (reportname == "ShippingInvCom")
             {
                 this.Text = "Shipping Invoice - " + itemnumber;
-                reportViewer1.ServerReport.ReportPath = connectapi.GetReportShippingInvCom();
+                reportViewer1.ServerReport.ReportPath = connectapi.GetConnectParameterValue("ReportShippingCommercial");
                 this.reportViewer1.RefreshReport();
                 FilloneParamter();
             }
             else if (reportname == "ShippingInvPack")
             {
                 this.Text = "Shipping Invoice - " + itemnumber;
-                reportViewer1.ServerReport.ReportPath = connectapi.GetReportShippingInvPack();
+                reportViewer1.ServerReport.ReportPath = connectapi.GetConnectParameterValue("ReportShippingPacking");
                 this.reportViewer1.RefreshReport();
                 FilloneParamter();
             }
             else if (reportname == "MatReAloc")
             {
                 this.Text = "Material Re-Allocation Invoice - " + itemnumber;
-                reportViewer1.ServerReport.ReportPath = connectapi.GetReportMatReAloc();
+                reportViewer1.ServerReport.ReportPath = connectapi.GetConnectParameterValue("ReportMatReAlloc");
                 this.reportViewer1.RefreshReport();
                 FilloneParamter();
             }
             else if (reportname == "ECR")
             {
                 this.Text = "ECR Invoice - " + itemnumber;
-                reportViewer1.ServerReport.ReportPath = connectapi.GetReportECR();
+                reportViewer1.ServerReport.ReportPath = connectapi.GetConnectParameterValue("ReportECR");
                 this.reportViewer1.RefreshReport();
                 FilloneParamter();
             }
             else if (reportname == "Service")
             {
                 this.Text = "Service Report - " + itemnumber;
-                reportViewer1.ServerReport.ReportPath = connectapi.GetReportService();
+                reportViewer1.ServerReport.ReportPath = connectapi.GetConnectParameterValue("ReportService");
                 this.reportViewer1.RefreshReport();
                 FillServiceReportParamter();
             }
             else if (reportname == "EFT")
             {
                 this.Text = "Service Report - " + itemnumber;
-                reportViewer1.ServerReport.ReportPath = connectapi.GetReportEFT();
+                reportViewer1.ServerReport.ReportPath = connectapi.GetConnectParameterValue("ReportEFT");
                 this.reportViewer1.RefreshReport();
                 FillEFTReportParamter();
             }
