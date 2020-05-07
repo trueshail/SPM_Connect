@@ -14,7 +14,15 @@ namespace SPMConnectAPI
 {
     public class SPMSQLCommands : ConnectAPI
     {
-        public SPMSQLCommands() => user = GetUserDetails(GetUserName());
+        private log4net.ILog log;
+
+        public SPMSQLCommands()
+        {
+
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Accessed SPMSQLCommands Class " + Getassyversionnumber());
+        }
 
         public void Deleteitem(string _itemno)
         {

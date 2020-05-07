@@ -519,7 +519,7 @@ namespace SearchDataSPM
 
         private void cribbttn_Click(object sender, EventArgs e)
         {
-            if (connectapi.EmployeeExitsWithCribRights(connectapi.user.Emp_Id.ToString()))
+            if (connectapi.EmployeeExitsWithCribRights(ConnectAPI.ConnectUser.Emp_Id.ToString()))
             {
                 InvInOut invInOut = new InvInOut();
                 invInOut.Show();

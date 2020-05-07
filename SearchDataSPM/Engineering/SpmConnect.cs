@@ -75,7 +75,7 @@ namespace SearchDataSPM.Engineering
 
         private void Checkdeptsandrights()
         {
-            if (connectapi.user.Dept == ConnectAPI.Department.Controls)
+            if (ConnectAPI.ConnectUser.Dept == ConnectAPI.Department.Controls)
             {
                 controls = true;
                 listView.ContextMenuStrip = Listviewcontextmenu;
@@ -88,19 +88,19 @@ namespace SearchDataSPM.Engineering
                 getnewitembttn.Enabled = true;
 
                 dataGridView.ContextMenuStrip = FormSelectorControls;
-                this.Text = "SPM Connect Controls - " + connectapi.user.Name;
+                this.Text = "SPM Connect Controls - " + ConnectAPI.ConnectUser.Name;
                 connectapi.Chekin("SPM Connect Controls");
 
                 //connectapicntrls.SPM_Connect();
                 //connectapicntrls.SPM_Connectconnectsql();
             }
-            else if (connectapi.user.Dept == ConnectAPI.Department.Eng)
+            else if (ConnectAPI.ConnectUser.Dept == ConnectAPI.Department.Eng)
             {
                 listView.ContextMenuStrip = Listviewcontextmenu;
                 dataGridView.ContextMenuStrip = FormSelectorEng;
                 AddNewBttn.Enabled = true;
                 getnewitembttn.Enabled = true;
-                this.Text = "SPM Connect Engineering - " + connectapi.user.Name;
+                this.Text = "SPM Connect Engineering - " + ConnectAPI.ConnectUser.Name;
                 connectapi.Chekin("SPM Connect Eng");
                 eng = true;
             }
@@ -118,17 +118,17 @@ namespace SearchDataSPM.Engineering
                 FormSelectorEng.Items[4].Visible = false;
                 FormSelectorEng.Items[5].Enabled = false;
                 FormSelectorEng.Items[5].Visible = false;
-                this.Text = "SPM Connect " + connectapi.user.Dept + " - " + connectapi.user.Name;
-                connectapi.Chekin("SPM Connect " + connectapi.user.Dept);
+                this.Text = "SPM Connect " + ConnectAPI.ConnectUser.Dept + " - " + ConnectAPI.ConnectUser.Name;
+                connectapi.Chekin("SPM Connect " + ConnectAPI.ConnectUser.Dept);
                 production = true;
             }
 
-            if (connectapi.user.Admin)
+            if (ConnectAPI.ConnectUser.Admin)
             {
                 admin_bttn.Enabled = true;
             }
 
-            if (connectapi.user.Developer)
+            if (ConnectAPI.ConnectUser.Developer)
             {
                 FormSelectorEng.Items[7].Enabled = true;
                 FormSelectorEng.Items[7].Visible = true;
@@ -1576,7 +1576,7 @@ namespace SearchDataSPM.Engineering
 
         private void listView_Enter(object sender, EventArgs e)
         {
-            if (connectapi.user.Dept == ConnectAPI.Department.Eng)
+            if (ConnectAPI.ConnectUser.Dept == ConnectAPI.Department.Eng)
             {
                 if (listView.Items.Count > 0)
                 {
@@ -1695,7 +1695,7 @@ namespace SearchDataSPM.Engineering
             }
             else
             {
-                string username = connectapi.user.Name;
+                string username = ConnectAPI.ConnectUser.Name;
                 Createentryoninventory(uniqueid, username);
                 Openiteminfo(uniqueid);
             }
@@ -1940,7 +1940,7 @@ namespace SearchDataSPM.Engineering
             {
                 rupture = "NEVER";
             }
-            string username = connectapi.user.Name;
+            string username = ConnectAPI.ConnectUser.Name;
 
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDate = datecreated.ToString("yyyy-MM-dd HH:mm:ss.fff");

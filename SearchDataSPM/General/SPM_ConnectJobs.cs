@@ -41,21 +41,21 @@ namespace SearchDataSPM
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
             Showallitems();
 
-            if (connectapi.user.Management)
+            if (ConnectAPI.ConnectUser.Management)
             {
                 contextMenuStrip1.Items[3].Enabled = true;
                 contextMenuStrip1.Items[3].Visible = true;
             }
-            if (connectapi.user.PurchaseReq)
+            if (ConnectAPI.ConnectUser.PurchaseReq)
             {
                 purchasereq.Enabled = true;
             }
-            if (connectapi.user.Quote)
+            if (ConnectAPI.ConnectUser.Quote)
             {
                 quotebttn.Enabled = true;
             }
 
-            if (connectapi.user.Shipping)
+            if (ConnectAPI.ConnectUser.Shipping)
             {
                 shippingbttn.Enabled = true;
             }
@@ -1071,7 +1071,7 @@ namespace SearchDataSPM
                         PurchaseReqform purchaseReq = new PurchaseReqform();
                         purchaseReq.Show();
                     }
-                    else if (checkmaintenance && connectapi.user.Developer)
+                    else if (checkmaintenance && ConnectAPI.ConnectUser.Developer)
                     {
                         PurchaseReqform purchaseReq = new PurchaseReqform();
                         purchaseReq.Show();
@@ -1227,15 +1227,28 @@ namespace SearchDataSPM
 
         private void cribbttn_Click(object sender, EventArgs e)
         {
-            //if (connectapi.EmployeeExitsWithCribRights(connectapi.Getempid()))
-            //{
-            //    InvInOut invInOut = new InvInOut();
-            //    invInOut.Show();
-            //}
-            //else
-            //{
-            //    MetroFramework.MetroMessageBox.Show(this, "Your request can't be completed based on your security settings.", "SPM Connect - Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //}
+            if (ConnectAPI.ConnectUser.CribCheckout)
+            {
+                InvInOut invInOut = new InvInOut();
+                invInOut.Show();
+            }
+            else
+            {
+                MetroFramework.MetroMessageBox.Show(this, "Your request can't be completed based on your security settings.", "SPM Connect - Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void scanwobttn_Click(object sender, EventArgs e)
+        {
+            if (ConnectAPI.ConnectUser.WOScan)
+            {
+                ScanWO scanWO = new ScanWO();
+                scanWO.Show();
+            }
+            else
+            {
+                MetroFramework.MetroMessageBox.Show(this, "Your request can't be completed based on your security settings.", "SPM Connect - Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
     }
 }

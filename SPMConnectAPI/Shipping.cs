@@ -11,7 +11,15 @@ namespace SPMConnectAPI
     {
         #region Settting up Connetion and Get User
 
-        public Shipping() => user = GetUserDetails(GetUserName());
+        private log4net.ILog log;
+
+        public Shipping()
+        {
+
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Accessed Shipping Class " + Getassyversionnumber());
+        }
 
         public List<string> GetManagersNameandEmail()
         {
@@ -835,7 +843,7 @@ namespace SPMConnectAPI
             string success = "";
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-            string username = user.Name;
+            string username = ConnectUser.Name;
             string newinvoiceno = getnewinvoicenumber();
 
             try
@@ -911,7 +919,7 @@ namespace SPMConnectAPI
         public bool UpdateInvoiceDetsToSql(string inovicenumber, string jobnumber, string salesperson, string requestedby, string carrier, string collectprepaid, string fobpoint, string terms, string currency, string total, string soldto, string shipto, string notes, string carriercode)
         {
             bool success = false;
-            string username = user.Name;
+            string username = ConnectUser.Name;
             DateTime dateedited = DateTime.Now;
             string sqlFormattedDate = dateedited.ToString("yyyy-MM-dd HH:mm:ss");
             if (cn.State == ConnectionState.Closed)
@@ -940,7 +948,7 @@ namespace SPMConnectAPI
         public bool UpdateInvoiceDateCreatedToSql(string inovicenumber, string datecreated)
         {
             bool success = false;
-            string username = user.Name;
+            string username = ConnectUser.Name;
             DateTime dateedited = DateTime.Now;
             string sqlFormattedDate = dateedited.ToString("yyyy-MM-dd HH:mm:ss");
             if (cn.State == ConnectionState.Closed)
@@ -969,7 +977,7 @@ namespace SPMConnectAPI
         public bool UpdateInvoiceDetsToSqlforAuthorisation(string inovicenumber, string typeofsave, int supervisorid)
         {
             bool success = false;
-            string username = user.Name;
+            string username = ConnectUser.Name;
             DateTime dateedited = DateTime.Now;
             string sqlFormattedDate = dateedited.ToString("yyyy-MM-dd HH:mm:ss");
             if (cn.State == ConnectionState.Closed)
@@ -1087,7 +1095,7 @@ namespace SPMConnectAPI
             string success = "";
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-            string username = user.Name;
+            string username = ConnectUser.Name;
             string newinvoiceno = getnewinvoicenumber();
 
             try

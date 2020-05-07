@@ -44,7 +44,7 @@ namespace SearchDataSPM
             {
                 FillInfo();
                 processeditbutton();
-                developer = connectapi.user.Developer;
+                developer = ConnectAPI.ConnectUser.Developer;
                 userinputtime = connectapi.Getuserinputtime();
             }
             else

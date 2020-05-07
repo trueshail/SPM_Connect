@@ -1124,7 +1124,6 @@ namespace SearchDataSPM
         {
             if (Sendemailyesno())
             {
-                SPMConnectAPI.SPMSQLCommands connectapi = new SPMConnectAPI.SPMSQLCommands();
                 connectapi.TriggerEmail(emailtosend, subject, name, body, filetoattach, cc, extracc, "Normal");
             }
             else
@@ -1301,7 +1300,7 @@ namespace SearchDataSPM
 
         private void Sendemailtosupervisor(string fileName)
         {
-            string nameemail = GetUserNameEmail(connectapi.user.ECRSup);
+            string nameemail = GetUserNameEmail(ConnectAPI.ConnectUser.ECRSup);
 
             string[] values = nameemail.Replace("][", "~").Split('~');
             for (int i = 0; i < values.Length; i++)

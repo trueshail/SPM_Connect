@@ -48,7 +48,7 @@ namespace SearchDataSPM
         private void QuoteDetails_Load(object sender, EventArgs e)
         {
             formloading = true;
-            userfullname = connectapi.user.Name;
+            userfullname = ConnectAPI.ConnectUser.Name;
             GetUserCreds();
             this.Text = "Invoice Details - " + Invoice_Number;
             FillFobPoint();
@@ -1015,7 +1015,7 @@ namespace SearchDataSPM
         private void SaveReport(string reqno)
         {
             string fileName = "";
-            string filepath = connectapi.user.SharesFolder + @"\SPM_Connect\ShippingInvoices\";
+            string filepath = ConnectAPI.ConnectUser.SharesFolder + @"\SPM_Connect\ShippingInvoices\";
             System.IO.Directory.CreateDirectory(filepath);
             fileName = filepath + reqno + " - CI.pdf";
             filepath += reqno + " - PL.pdf";
@@ -1355,7 +1355,7 @@ namespace SearchDataSPM
         private void Preparetosendemail(string typeofSave)
         {
             string fileName = "";
-            string filepath = connectapi.user.SharesFolder + @"\SPM_Connect\ShippingInvoices\";
+            string filepath = ConnectAPI.ConnectUser.SharesFolder + @"\SPM_Connect\ShippingInvoices\";
             fileName = filepath + invoicetxtbox.Text + " - CI.pdf";
             filepath += invoicetxtbox.Text + " - PL.pdf";
             if (typeofSave == "Submitted")
@@ -1457,7 +1457,7 @@ namespace SearchDataSPM
 
         private void Sendemailtosupervisor(string fileName)
         {
-            string nameemail = GetUserNameEmail(connectapi.user.ShipSup);
+            string nameemail = GetUserNameEmail(ConnectAPI.ConnectUser.ShipSup);
 
             string[] values = nameemail.Replace("][", "~").Split('~');
             for (int i = 0; i < values.Length; i++)
@@ -1539,7 +1539,6 @@ namespace SearchDataSPM
         {
             if (Sendemailyesno())
             {
-                SPMConnectAPI.SPMSQLCommands connectapi = new SPMConnectAPI.SPMSQLCommands();
                 connectapi.TriggerEmail(emailtosend, subject, name, body, filetoattach, cc, extracc, "Normal");
             }
             else

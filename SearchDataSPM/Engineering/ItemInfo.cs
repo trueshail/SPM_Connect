@@ -23,7 +23,7 @@ namespace SearchDataSPM
         private int PW;
         private bool hiden;
         private bool rootnodedone = false;
-        private SPMConnectAPI.ConnectAPI connectapi = new SPMConnectAPI.ConnectAPI();
+        private SPMConnectAPI.SPMSQLCommands connectapi = new SPMConnectAPI.SPMSQLCommands();
         private log4net.ILog log;
 
         private ErrorHandler errorHandler = new ErrorHandler();
@@ -307,9 +307,8 @@ namespace SearchDataSPM
                     else
                     {
                         //SPM_Connect sPM_Connect = new SPM_Connect();
-                        SPMConnectAPI.SPMSQLCommands sPMSQLCommands = new SPMConnectAPI.SPMSQLCommands();
                         //sPMSQLCommands.SPM_Connect();
-                        sPMSQLCommands.Addcpoieditemtosqltablefromgenius(iteminfo2, iteminfo2);
+                        connectapi.Addcpoieditemtosqltablefromgenius(iteminfo2, iteminfo2);
                         Filldatatable(iteminfo2);
                         //MessageBox.Show("Data not found on SPM Connect server.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         //this.Close();
@@ -1208,10 +1207,10 @@ namespace SearchDataSPM
 
         private void AddItemToAssy(string itemno, string qty, string assyno)
         {
-            SPMSQLCommands connectAPI = new SPMSQLCommands();
+
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-            string username = connectAPI.user.Name;
+            string username = ConnectAPI.ConnectUser.Name;
 
             try
             {

@@ -9,6 +9,7 @@ namespace SPMConnectAPI
     {
         private SqlConnection _connection;
         private SqlCommand _command;
+        private log4net.ILog log;
 
         public Controls()
         {
@@ -30,6 +31,10 @@ namespace SPMConnectAPI
             {
                 MessageBox.Show("Error Connecting to SQL Server.....", "SPM Connect autocad catalog sql", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Accessed Controls Class " + Getassyversionnumber());
         }
 
         public void CheckAutoCad(string ItemNo, string description, string family, string Manufacturer, string oem)

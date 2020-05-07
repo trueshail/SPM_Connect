@@ -113,7 +113,7 @@ namespace SearchDataSPM
 
         private void sendemailbttn_Click(object sender, EventArgs e)
         {
-            Sendemailtodevelopers(connectapi.user.Name, filestoAttach, subtxt.Text, notestxt.Text);
+            Sendemailtodevelopers(ConnectAPI.ConnectUser.Name, filestoAttach, subtxt.Text, notestxt.Text);
             Clearall();
             MessageBox.Show("Email successfully sent to developer.", "SPM Connect - Developer", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
@@ -122,7 +122,7 @@ namespace SearchDataSPM
         {
             List<NameEmail> nameemail = connectapi.GetNameEmailByParaValue(UserFields.Developer, "1");
             foreach (NameEmail item in nameemail)
-                connectapi.SendemailListAttachments(item.email, "Connect Error Submitted - " + subject, "Hello " + item.name + "," + Environment.NewLine + requser + " sent this error report." + Environment.NewLine + notes + Environment.NewLine + Environment.NewLine + "Triggered by " + connectapi.user.Name, files, "");
+                connectapi.SendemailListAttachments(item.email, "Connect Error Submitted - " + subject, "Hello " + item.name + "," + Environment.NewLine + requser + " sent this error report." + Environment.NewLine + notes + Environment.NewLine + Environment.NewLine + "Triggered by " + ConnectAPI.ConnectUser.Name, files, "");
         }
 
         private void nametxt_TextChanged(object sender, EventArgs e)

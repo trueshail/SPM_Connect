@@ -10,8 +10,15 @@ namespace SPMConnectAPI
     {
         #region Settting up Connetion and Get User
 
-        public ECR() => user = GetUserDetails(GetUserName());
+        private log4net.ILog log;
 
+        public ECR()
+        {
+
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Accessed ECR Class " + Getassyversionnumber());
+        }
 
 
         #endregion Settting up Connetion and Get User
@@ -438,10 +445,10 @@ namespace SPMConnectAPI
             )
         {
             bool success = false;
-            string username = user.Name;
+            string username = ConnectUser.Name;
             DateTime dateedited = DateTime.Now;
             string sqlFormattedDate = dateedited.ToString("yyyy-MM-dd HH:mm:ss");
-            int supervisorid = user.ECRSup;
+            int supervisorid = ConnectUser.ECRSup;
             try
             {
                 if (cn.State == ConnectionState.Closed)

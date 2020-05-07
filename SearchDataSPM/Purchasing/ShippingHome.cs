@@ -36,7 +36,7 @@ namespace SearchDataSPM
             collapse();
             dt = new DataTable();
             Checkdeptsandrights();
-            userfullname = connectapi.user.Name;
+            userfullname = ConnectAPI.ConnectUser.Name;
 
             invoiceitemsdataGridView2.DataSource = temptable;
             FillInvoiceItems();
@@ -54,12 +54,12 @@ namespace SearchDataSPM
             string userName = connectapi.GetUserName();
             versionlabel.Text = connectapi.Getassyversionnumber();
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
-            if (connectapi.user.ShipSupervisor)
+            if (ConnectAPI.ConnectUser.ShipSupervisor)
             {
                 shipsupervisor = true;
                 attnbttn.Visible = true;
             }
-            else if (connectapi.user.ShippingManager)
+            else if (ConnectAPI.ConnectUser.ShippingManager)
             {
                 shipmanager = true;
                 attnbttn.Visible = true;
@@ -106,7 +106,7 @@ namespace SearchDataSPM
             {
                 dt.Clear();
                 datarequest = showdatafor;
-                dt = showdatafor == "normal" ? connectapi.ShowshippingHomeData() : showdatafor == "supervisor" ? connectapi.ShowshippingHomeDataforSupervisors(connectapi.user.ConnectId.ToString()) : connectapi.ShowshippingHomeDataforManagers();
+                dt = showdatafor == "normal" ? connectapi.ShowshippingHomeData() : showdatafor == "supervisor" ? connectapi.ShowshippingHomeDataforSupervisors(ConnectAPI.ConnectUser.ConnectId.ToString()) : connectapi.ShowshippingHomeDataforManagers();
                 if (dt.Rows.Count > 0)
                 {
                     dataGridView.DataSource = dt;

@@ -10,7 +10,7 @@ namespace SearchDataSPM
         private log4net.ILog log;
         private int time = 0;
         private ErrorHandler errorHandler = new ErrorHandler();
-        private SPMSQLCommands connectapi = new SPMSQLCommands();
+        private ConnectAPI connectapi = new ConnectAPI();
 
         public SPMConnectHome()
         {
@@ -45,12 +45,12 @@ namespace SearchDataSPM
 
         public void Connect_SPMSQL()
         {
-            SPMConnectAPI.UserInfo user = connectapi.user;
-            if (user.UserName != null || user.UserName.Length > 0)
+            string ca = ConnectAPI.ConnectUser.ActiveBlockNumber;
+            if (ConnectAPI.ConnectUser.UserName != null || ConnectAPI.ConnectUser.UserName.Length > 0)
             {
                 if (!Checkmaintenance())
                 {
-                    if (user.Dept == ConnectAPI.Department.Accounting)
+                    if (ConnectAPI.ConnectUser.Dept == ConnectAPI.Department.Accounting)
                     {
                         var loadspmconnect = new EFTHome();
                         loadspmconnect.Closed += (s, args) => this.Close();
@@ -63,9 +63,9 @@ namespace SearchDataSPM
                         loadspmconnect.Show();
                     }
                 }
-                else if (Checkmaintenance() && user.Developer)
+                else if (Checkmaintenance() && ConnectAPI.ConnectUser.Developer)
                 {
-                    if (user.Dept == ConnectAPI.Department.Accounting)
+                    if (ConnectAPI.ConnectUser.Dept == ConnectAPI.Department.Accounting)
                     {
                         var loadspmconnect = new EFTHome();
                         loadspmconnect.Closed += (s, args) => this.Close();

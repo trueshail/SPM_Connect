@@ -10,7 +10,15 @@ namespace SPMConnectAPI
     {
         #region Settting up Connetion and Get User
 
-        public Service() => user = GetUserDetails(GetUserName());
+        private log4net.ILog log;
+
+        public Service()
+        {
+
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Accessed Service Class " + Getassyversionnumber());
+        }
 
         #endregion Settting up Connetion and Get User
 

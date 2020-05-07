@@ -1,6 +1,8 @@
-﻿namespace SPMConnectAPI
+﻿using static SPMConnectAPI.ConnectAPI;
+
+namespace SPMConnectAPI
 {
-    public class UserInfo : ConnectAPI
+    public class UserInfo
     {
         public int Emp_Id { get; set; }
         public string UserName { get; set; }

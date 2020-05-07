@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SPMConnectAPI;
+using System;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -31,7 +32,7 @@ namespace SearchDataSPM
             collapse();
             dt = new DataTable();
             Checkdeptsandrights();
-            userfullname = connectapi.user.Name;
+            userfullname = ConnectAPI.ConnectUser.Name;
             Showallitems(true);
             txtSearch.Focus();
             formloading = false;

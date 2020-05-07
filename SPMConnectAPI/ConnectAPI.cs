@@ -81,7 +81,9 @@ namespace SPMConnectAPI
 
         public SqlConnection cn;
 
-        public UserInfo user;
+        public static UserInfo ConnectUser { get; set; } = new UserInfo();
+
+        private log4net.ILog log;
 
         public ConnectAPI()
         {
@@ -101,6 +103,11 @@ namespace SPMConnectAPI
                 Application.ExitThread();
                 System.Environment.Exit(0);
             }
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log4net.GlobalContext.Properties["User"] = System.Environment.UserName;
+            log.Info("Accessed Connect API Base Class " + Getassyversionnumber());
+            ConnectUser = GetUserDetails(GetUserName());
         }
 
         public string ConnectConnectionString()

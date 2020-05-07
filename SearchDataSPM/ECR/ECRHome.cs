@@ -36,7 +36,7 @@ namespace SearchDataSPM
             collapse();
             dt = new DataTable();
             Checkdeptsandrights();
-            userfullname = connectapi.user.Name;
+            userfullname = ConnectAPI.ConnectUser.Name;
             Showallitems(true);
             txtSearch.Focus();
             formloading = false;
@@ -51,22 +51,22 @@ namespace SearchDataSPM
             versionlabel.Text = connectapi.Getassyversionnumber();
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
 
-            if (connectapi.user.ECR)
+            if (ConnectAPI.ConnectUser.ECR)
             {
                 addnewbttn.Visible = true;
             }
 
-            if (connectapi.user.ECRApproval)
+            if (ConnectAPI.ConnectUser.ECRApproval)
             {
                 ecrsupervisor = true;
                 attentionbttn.Visible = true;
             }
-            else if (connectapi.user.ECRApproval2)
+            else if (ConnectAPI.ConnectUser.ECRApproval2)
             {
                 ecrapprovee = true;
                 attentionbttn.Visible = true;
             }
-            else if (connectapi.user.ECRHandler)
+            else if (ConnectAPI.ConnectUser.ECRHandler)
             {
                 ecrhandler = true;
                 attentionbttn.Visible = true;
@@ -576,7 +576,7 @@ namespace SearchDataSPM
         {
             if (dataGridView.SelectedCells.Count == 1)
             {
-                showecrinvoice(getselectedinvoicenumber(), false, connectapi.user.Emp_Id.ToString());
+                showecrinvoice(getselectedinvoicenumber(), false, ConnectAPI.ConnectUser.Emp_Id.ToString());
             }
         }
 
@@ -1048,12 +1048,12 @@ namespace SearchDataSPM
 
             if (result == DialogResult.Yes)
             {
-                if (connectapi.user.Emp_Id != 0)
+                if (ConnectAPI.ConnectUser.Emp_Id != 0)
                 {
-                    string status = connectapi.CreatenewECR(connectapi.user.Emp_Id.ToString());
+                    string status = connectapi.CreatenewECR(ConnectAPI.ConnectUser.Emp_Id.ToString());
                     if (status.Length > 1)
                     {
-                        showecrinvoice(status, true, connectapi.user.Emp_Id.ToString());
+                        showecrinvoice(status, true, ConnectAPI.ConnectUser.Emp_Id.ToString());
                     }
                 }
                 else
@@ -1097,11 +1097,11 @@ namespace SearchDataSPM
             }
             else
             {
-                if (connectapi.user.Emp_Id != 0)
+                if (ConnectAPI.ConnectUser.Emp_Id != 0)
                 {
                     if (connectapi.CheckinInvoice(invoice, ConnectAPI.CheckInModules.ECR))
                     {
-                        using (ECRDetails invoiceDetails = new ECRDetails(connectapi.user.Name, invoice))
+                        using (ECRDetails invoiceDetails = new ECRDetails(ConnectAPI.ConnectUser.Name, invoice))
                         {
                             invoiceDetails.ShowDialog();
                             this.Enabled = true;
@@ -1172,7 +1172,7 @@ namespace SearchDataSPM
 
         private void invoiceinfostripmenu_Click(object sender, EventArgs e)
         {
-            showecrinvoice(getselectedinvoicenumber(), false, connectapi.user.Emp_Id.ToString());
+            showecrinvoice(getselectedinvoicenumber(), false, ConnectAPI.ConnectUser.Emp_Id.ToString());
         }
 
         private void ContextMenuStripShipping_Opening(object sender, CancelEventArgs e)
@@ -1184,7 +1184,7 @@ namespace SearchDataSPM
 
         private void attentionbttn_Click(object sender, EventArgs e)
         {
-            int empidtomach = connectapi.user.ConnectId;
+            int empidtomach = ConnectAPI.ConnectUser.ConnectId;
             if (ecrsupervisor)
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter("SELECT *,CONCAT([ECRNo], ' ',[JobNo],' ',[JobName],' ',[SANo],' ',[SAName],' ',RequestedBy) AS FullSearch FROM [SPM_Database].[dbo].[ECR] WHERE Submitted = '1' AND SupApproval = '0' AND Approved = '0' AND Completed = '0' AND SupervisorId = '" + empidtomach + "' ORDER BY ECRNo DESC", connectapi.cn))
