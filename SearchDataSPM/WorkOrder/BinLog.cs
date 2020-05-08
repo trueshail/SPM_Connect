@@ -144,6 +144,7 @@ namespace SearchDataSPM
 
                 inbuiltlabel.Text = "In-Mech-Build : " + r["Inbuilt"].ToString();
                 joblbl.Text = "Job : " + r["Job"].ToString();
+                loclbl.Text = "Location : " + (r["Location"].ToString() == null ? "" : r["Location"].ToString());
 
                 if (r["Inbuilt"].ToString().Trim() == "Yes")
                 {
@@ -207,6 +208,7 @@ namespace SearchDataSPM
                 engchkbox.SetItemCheckState(0, CheckState.Checked);
                 engchkbox.SetItemCheckState(1, CheckState.Checked);
                 engchkbox.SetItemCheckState(2, CheckState.Checked);
+                engchkbox.Items[0] = "Eng. Checked In";
                 engchkbox.Items[1] = "Check In By : " + r["EngWho"].ToString();
                 engchkbox.Items[2] = "Check In On : " + r["EngWhen"].ToString();
                 engchkbox.BackColor = Color.Green;
@@ -230,6 +232,7 @@ namespace SearchDataSPM
                 engchkbox.SetItemCheckState(0, CheckState.Checked);
                 engchkbox.SetItemCheckState(1, CheckState.Checked);
                 engchkbox.SetItemCheckState(2, CheckState.Checked);
+                engchkbox.Items[0] = "Controls Checked In";
                 engchkbox.Items[1] = "Check In By : " + r["CtrlWho"].ToString();
                 engchkbox.Items[2] = "Check In On : " + r["CtrlWhen"].ToString();
                 engchkbox.BackColor = Color.Green;

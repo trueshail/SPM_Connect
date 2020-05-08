@@ -371,7 +371,9 @@ namespace SearchDataSPM
                                         }
                                         else if (result == DialogResult.No)
                                         {
+                                            string location = connectapi.CaptureLocation();
                                             connectapi.CheckWOInFromBuilt(woid_txtbox.Text.Trim(), empid_txtbox.Text.Trim(), apprvlidtxt.Text.Trim(), "0");
+                                            connectapi.UpdateWOBinCribLocation(woid_txtbox.Text.Trim(), location);
                                             showaddedtodg();
                                         }
                                     }
@@ -380,7 +382,8 @@ namespace SearchDataSPM
                                         DialogResult result = MessageBox.Show("Check out this work order from crib to built?", "Check Out WO?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                                         if (result == DialogResult.Yes)
                                         {
-                                            connectapi.ChekOutWOOutForBuilt(woid_txtbox.Text.Trim(), empid_txtbox.Text.Trim(), apprvlidtxt.Text.Trim());
+                                            string location = connectapi.CaptureLocation();
+                                            connectapi.ChekOutWOOutForBuilt(woid_txtbox.Text.Trim(), empid_txtbox.Text.Trim(), apprvlidtxt.Text.Trim(), location);
                                             showaddedtodg();
                                         }
                                     }
@@ -391,7 +394,8 @@ namespace SearchDataSPM
                                 DialogResult result = MessageBox.Show("Check out this work order from crib to built?", "Check Out WO?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                                 if (result == DialogResult.Yes)
                                 {
-                                    connectapi.ChekOutWOOutForBuilt(woid_txtbox.Text.Trim(), empid_txtbox.Text.Trim(), apprvlidtxt.Text.Trim());
+                                    string location = connectapi.CaptureLocation();
+                                    connectapi.ChekOutWOOutForBuilt(woid_txtbox.Text.Trim(), empid_txtbox.Text.Trim(), apprvlidtxt.Text.Trim(), location);
                                     showaddedtodg();
                                 }
                             }
@@ -406,7 +410,7 @@ namespace SearchDataSPM
                 }
                 else
                 {
-                    MessageBox.Show("Your request for checking in work order can't be completed based on your security settings", "SPM Connect - Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show("Your request for checking in/out work order can't be completed based on your security settings", "SPM Connect - Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     apprvlidtxt.Clear();
                     apprvlidtxt.Focus();
                 }

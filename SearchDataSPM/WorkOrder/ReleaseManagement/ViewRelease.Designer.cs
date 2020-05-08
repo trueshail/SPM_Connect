@@ -728,14 +728,14 @@
             this.RemoveItemToolStripMenuItem,
             this.viewWorkOrderToolStripMenuItem});
             this.Addremovecontextmenu.Name = "contextMenuStrip1";
-            this.Addremovecontextmenu.Size = new System.Drawing.Size(181, 70);
+            this.Addremovecontextmenu.Size = new System.Drawing.Size(161, 48);
             this.Addremovecontextmenu.Opening += new System.ComponentModel.CancelEventHandler(this.Addremovecontextmenu_Opening);
             // 
             // RemoveItemToolStripMenuItem
             // 
             this.RemoveItemToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("RemoveItemToolStripMenuItem.Image")));
             this.RemoveItemToolStripMenuItem.Name = "RemoveItemToolStripMenuItem";
-            this.RemoveItemToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.RemoveItemToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.RemoveItemToolStripMenuItem.Text = "View Release";
             this.RemoveItemToolStripMenuItem.Click += new System.EventHandler(this.RemoveItemToolStripMenuItem_Click);
             // 
@@ -743,7 +743,7 @@
             // 
             this.viewWorkOrderToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("viewWorkOrderToolStripMenuItem.Image")));
             this.viewWorkOrderToolStripMenuItem.Name = "viewWorkOrderToolStripMenuItem";
-            this.viewWorkOrderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.viewWorkOrderToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.viewWorkOrderToolStripMenuItem.Text = "View WorkOrder";
             this.viewWorkOrderToolStripMenuItem.Click += new System.EventHandler(this.viewWorkOrderToolStripMenuItem_Click);
             // 

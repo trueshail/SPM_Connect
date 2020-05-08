@@ -61,10 +61,7 @@ namespace SPMConnectAPI
             do
             {
                 location = Interaction.InputBox("Enter the location where this work order bin is going to be.", "SPM Connect", "");
-                if (location == "")
-                {
-                    return location;
-                }
+
                 if (location.Length > 0)
                 {
                     verfiedloc = true;
@@ -179,6 +176,11 @@ namespace SPMConnectAPI
                     {
                         Enterwototrackcontrols(wo, "Controls Released");
                     }
+                    else
+                    {
+                        MessageBox.Show("Work order has to be initialized in the system by Engineering/Controls department", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    }
                 }
                 else
                 {
@@ -264,7 +266,7 @@ namespace SPMConnectAPI
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[WO_Tracking] (WO, Engin, EngWho, EngWhen, Status) VALUES('" + wo + "','1','" + username + "','" + sqlFormattedDatetime + "','" + dept + "')";
                 cmd.ExecuteNonQuery();
-                MessageBox.Show("Work Order Checked in.", "SPM Connect  - Work Order In Eng", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // MessageBox.Show("Work Order Checked in.", "SPM Connect  - Work Order In Eng", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 cn.Close();
             }
             catch (Exception ex)
@@ -290,7 +292,7 @@ namespace SPMConnectAPI
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[WO_Tracking] (WO, Ctrlin, CtrlWho, CtrlWhen, Status) VALUES('" + wo + "','1','" + username + "','" + sqlFormattedDatetime + "','" + dept + "')";
                 cmd.ExecuteNonQuery();
-                MessageBox.Show("Work Order Checked in.", "SPM Connect  - Work Order In Controls", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // MessageBox.Show("Work Order Checked in.", "SPM Connect  - Work Order In Controls", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 cn.Close();
             }
             catch (Exception ex)
@@ -331,6 +333,33 @@ namespace SPMConnectAPI
             return success;
         }
 
+
+        public bool UpdateWOBinCribLocation(string wo, string location)
+        {
+            bool success = false;
+
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "UPDATE [SPM_Database].[dbo].[WO_Tracking] SET  [CribLocation] = '" + location + "'  WHERE WO = '" + wo + "'";
+                cmd.ExecuteNonQuery();
+                cn.Close();
+                success = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Update WO Crib location", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return success;
+        }
+
         private DataTable GetWOInfo(string wo)
         {
             DataTable dt = new DataTable();
@@ -362,21 +391,22 @@ namespace SPMConnectAPI
             woinfo = GetWOInfo(wo);
             DataRow r = woinfo.Rows[0];
             string engin = r["Engin"].ToString();
+            string cntrlin = r["Ctrlin"].ToString();
             string Prodin = r["Prodin"].ToString();
             string Prodout = r["Prodout"].ToString();
             string Purin = r["Purin"].ToString();
             string Purout = r["Purout"].ToString();
             string Cribin = r["Cribin"].ToString();
             string Cribout = r["Cribout"].ToString();
-            Findwhatstagetoinsert(engin, Prodin, Prodout, Purin, Purout, Cribin, Cribout, department, wo);
+            Findwhatstagetoinsert(engin, cntrlin, Prodin, Prodout, Purin, Purout, Cribin, Cribout, department, wo);
         }
 
-        private void Findwhatstagetoinsert(string engin, string prodin, string prodout, string purin, string purout, string cribin, string cribout, Department department, string wo)
+        private void Findwhatstagetoinsert(string engin, string cntrlin, string prodin, string prodout, string purin, string purout, string cribin, string cribout, Department department, string wo)
         {
             switch (department)
             {
                 case Department.Production:
-                    Checkprodtrack(engin, prodin, prodout, wo);
+                    Checkprodtrack(engin, cntrlin, prodin, prodout, wo);
                     break;
 
                 case Department.Purchasing:
@@ -389,9 +419,9 @@ namespace SPMConnectAPI
             }
         }
 
-        private void Checkprodtrack(string engin, string prodin, string prodout, string wo)
+        private void Checkprodtrack(string engin, string cntrlin, string prodin, string prodout, string wo)
         {
-            if (engin == "1")
+            if (engin == "1" || cntrlin == "1")
             {
                 if (prodin == "0")
                 {
@@ -490,6 +520,7 @@ namespace SPMConnectAPI
 
         private void CheckCribtrack(string prodout, string cribin, string cribout, string purout, string wo)
         {
+            string location = CaptureLocation();
             string status = "";
             status = WOStatustostring(wo);
             if (prodout == "1")
@@ -499,6 +530,7 @@ namespace SPMConnectAPI
                     // insert into crib
                     if (UpdateWOTracking(wo, "Cribin", "CribinWho", "CribinWhen", "1", ConnectUser.Name, status == "" ? "In Crib" : status + " & In Crib"))
                     {
+                        UpdateWOBinCribLocation(wo, location);
                         MessageBox.Show("Work Order Checked into Crib.", "SPM Connect  - Work Order In Crib", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
@@ -788,7 +820,7 @@ namespace SPMConnectAPI
             return wopresent;
         }
 
-        public void ChekOutWOOutForBuilt(string wo, string empid, string approvalid)
+        public void ChekOutWOOutForBuilt(string wo, string empid, string approvalid, string takeoutlocation)
         {
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
@@ -799,7 +831,7 @@ namespace SPMConnectAPI
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[WOInOut] (WO, Emp_idCheckOut, PunchIn, CheckOutApprovedBy,InBuilt) VALUES('" + wo + "','" + empid + "','" + sqlFormattedDatetime + "','" + approvalid + "','1')";
+                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[WOInOut] (WO, Emp_idCheckOut, PunchIn, CheckOutApprovedBy,InBuilt,TakeOutLocation) VALUES('" + wo + "','" + empid + "','" + sqlFormattedDatetime + "','" + approvalid + "','1', '" + takeoutlocation + "')";
                 cmd.ExecuteNonQuery();
                 MessageBox.Show("Work Order Checked out for built.", "SPM Connect  - Work Order Checked Out", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 cn.Close();
@@ -825,7 +857,7 @@ namespace SPMConnectAPI
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "UPDATE [SPM_Database].[dbo].[WOInOut] SET [Emp_idCheckIn] = '" + empid + "', [PunchOut] = '" + sqlFormattedDatetime + "',[CheckInApprovedBy] = '" + approvalid + "',[InBuilt] = '0', [Completed] = '" + completed + "'  WHERE WO = '" + wo + "'";
+                cmd.CommandText = "UPDATE [SPM_Database].[dbo].[WOInOut] SET [Emp_idCheckIn] = '" + empid + "', [PunchOut] = '" + sqlFormattedDatetime + "',[CheckInApprovedBy] = '" + approvalid + "',[InBuilt] = '0', [Completed] = '" + completed + "' WHERE WO = '" + wo + "'";
                 cmd.ExecuteNonQuery();
                 MessageBox.Show("Work Order Checked into Crib.", "SPM Connect  - Work Order Checked In", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 cn.Close();
@@ -1508,6 +1540,7 @@ namespace SPMConnectAPI
                     if (releasetype == "Initial Release")
                     {
                         CopyInitialItems(wo, assyno, releaselogno, jobno, releasetype);
+                        Scanworkorder(wo);
                     }
                     else
                     {

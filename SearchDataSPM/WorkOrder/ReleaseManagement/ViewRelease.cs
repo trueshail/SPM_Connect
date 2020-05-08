@@ -1239,6 +1239,7 @@ namespace SearchDataSPM
                         string rlogno = connectapi.EnterWOToReleaseLog(wo, job, assyno);
                         if (rlogno.Length > 1)
                         {
+
                             ShowReleaseLogDetails(rlogno);
                         }
 
