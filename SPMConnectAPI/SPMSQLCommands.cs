@@ -252,6 +252,8 @@ namespace SPMConnectAPI
             {
                 // MessageBox.Show("Number of open documents in this SOLIDWORKS session: " + count);
                 swModel = swApp.ActiveDoc as ModelDoc2;
+                if (swModel == null)
+                    return "";
 
                 filename = swModel.GetTitle().Substring(0, 6);
             }

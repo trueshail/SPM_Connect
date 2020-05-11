@@ -24,7 +24,7 @@ namespace SearchDataSPM
     {
         #region steupvariables
 
-        private DataTable _acountsTb = null;
+        private DataTable _acountsTb;
         private SPMConnectAPI.SPMSQLCommands connectapi = new SPMSQLCommands();
         private log4net.ILog log;
         private bool doneshowingSplash = false;
@@ -38,6 +38,7 @@ namespace SearchDataSPM
         public NewItem()
         {
             InitializeComponent();
+            _acountsTb = new DataTable();
         }
 
         private string checkedit;
@@ -53,15 +54,15 @@ namespace SearchDataSPM
         {
             this.Text = "Item Details - SPM Connect (" + itemnumber + ")";
 
-            filllistview(itemnumber);
-            filldescriptionsource();
-            fillmanufacturers();
-            filloem();
-            fillmaterials();
-            fillsurface();
-            fillheattreats();
-            fillfamilycodes();
-            filldatatable(itemnumber);
+            Filllistview(itemnumber);
+            Filldescriptionsource();
+            Fillmanufacturers();
+            Filloem();
+            Fillmaterials();
+            Fillsurface();
+            Fillheattreats();
+            Fillfamilycodes();
+            Filldatatable(itemnumber);
             //SPM_Connect sPM_Connect = new SPM_Connect();
             //string editbutton =  sPM_Connect.chekeditbutton.ToString();
             if (checkedit == "yes")
@@ -93,17 +94,28 @@ namespace SearchDataSPM
 
         #region Fillinformation on load
 
-        private void filldatatable(string itemnumber)
+        private void Filldatatable(string itemnumber)
         {
-            String sql = "SELECT *  FROM [SPM_Database].[dbo].[Inventory] WHERE [ItemNumber]='" + itemnumber.ToString() + "'";
+            _acountsTb.Clear();
+            string sql = "SELECT *  FROM [SPM_Database].[dbo].[Inventory] WHERE [ItemNumber]='" + itemnumber.ToString() + "'";
 
             try
             {
                 if (connectapi.cn.State == ConnectionState.Closed)
                     connectapi.cn.Open();
                 SqlDataAdapter _adapter = new SqlDataAdapter(sql, connectapi.cn);
-                _adapter.Fill(_acountsTb);
-                fillinfo();
+                if (_adapter != null)
+                    _adapter.Fill(_acountsTb);
+                if (_acountsTb.Rows.Count > 0)
+                {
+                    Fillinfo();
+                }
+                else
+                {
+                    connectapi.Addcpoieditemtosqltablefromgenius(itemnumber, itemnumber);
+                    Fillinfo();
+                }
+
             }
             catch (SqlException ex)
             {
@@ -115,43 +127,47 @@ namespace SearchDataSPM
             }
         }
 
-        private void fillinfo()
+        private void Fillinfo()
         {
             try
             {
-                DataRow r = _acountsTb.Rows[0];
-                ItemTxtBox.Text = r["ItemNumber"].ToString();
-                Descriptiontxtbox.Text = r["Description"].ToString();
-                oemtxtbox.Text = r["Manufacturer"].ToString();
-                oemitemtxtbox.Text = r["ManufacturerItemNumber"].ToString();
-                //familytxtbox.Text = r["FamilyCode"].ToString();
-                //sparetxtbox.Text = r["Spare"].ToString();
-                mattxt.Text = r["Material"].ToString();
-                designbytxt.Text = r["DesignedBy"].ToString();
-                categorytxtbox.Text = r["FamilyType"].ToString();
-                surfacetxt.Text = r["SurfaceProtection"].ToString();
-                heattreat.Text = r["HeatTreatment"].ToString();
-                datecreatedtxt.Text = r["DateCreated"].ToString();
-                dateeditxt.Text = r["LastEdited"].ToString();
-                Lastsavedtxtbox.Text = r["LastSavedBy"].ToString();
-                Notestextbox.Text = r["Notes"].ToString();
-                rupturetextbox.Text = r["Rupture"].ToString();
-                string famiulycode = r["FamilyCode"].ToString();
-                if (famiulycode.Length > 0)
+                if (_acountsTb.Rows.Count > 0)
                 {
-                    familycombobox.SelectedItem = famiulycode;
-                }
-                else
-                {
-                    familycombobox.SelectedItem = "MA";
-                    categorytxtbox.Text = "Manufactured";
-                    rupturetextbox.Text = "ALWAYS";
+                    DataRow r = _acountsTb.Rows[0];
+                    ItemTxtBox.Text = r["ItemNumber"].ToString();
+                    Descriptiontxtbox.Text = r["Description"].ToString();
+                    oemtxtbox.Text = r["Manufacturer"].ToString();
+                    oemitemtxtbox.Text = r["ManufacturerItemNumber"].ToString();
+                    //familytxtbox.Text = r["FamilyCode"].ToString();
+                    //sparetxtbox.Text = r["Spare"].ToString();
+                    mattxt.Text = r["Material"].ToString();
+                    designbytxt.Text = r["DesignedBy"].ToString();
+                    categorytxtbox.Text = r["FamilyType"].ToString();
+                    surfacetxt.Text = r["SurfaceProtection"].ToString();
+                    heattreat.Text = r["HeatTreatment"].ToString();
+                    datecreatedtxt.Text = r["DateCreated"].ToString();
+                    dateeditxt.Text = r["LastEdited"].ToString();
+                    Lastsavedtxtbox.Text = r["LastSavedBy"].ToString();
+                    Notestextbox.Text = r["Notes"].ToString();
+                    rupturetextbox.Text = r["Rupture"].ToString();
+                    string famiulycode = r["FamilyCode"].ToString();
+                    if (famiulycode.Length > 0)
+                    {
+                        familycombobox.SelectedItem = famiulycode;
+                    }
+                    else
+                    {
+                        familycombobox.SelectedItem = "MA";
+                        categorytxtbox.Text = "Manufactured";
+                        rupturetextbox.Text = "ALWAYS";
+                    }
+
+                    if (r["Spare"].ToString().Equals("SPARE"))
+                    {
+                        checkBox1.Checked = true;
+                    }
                 }
 
-                if (r["Spare"].ToString().Equals("SPARE"))
-                {
-                    checkBox1.Checked = true;
-                }
             }
             catch (Exception ex)
             {
@@ -159,50 +175,50 @@ namespace SearchDataSPM
             }
         }
 
-        private void filldescriptionsource()
+        private void Filldescriptionsource()
         {
             AutoCompleteStringCollection MyCollection = connectapi.Filldescriptionsource();
             Descriptiontxtbox.AutoCompleteCustomSource = MyCollection;
         }
 
-        private void fillmanufacturers()
+        private void Fillmanufacturers()
         {
             AutoCompleteStringCollection MyCollection = connectapi.Fillmanufacturers();
             oemtxtbox.AutoCompleteCustomSource = MyCollection;
         }
 
-        private void filloem()
+        private void Filloem()
         {
             AutoCompleteStringCollection MyCollection = connectapi.Filloem();
             oemitemtxtbox.AutoCompleteCustomSource = MyCollection;
         }
 
-        private void fillmaterials()
+        private void Fillmaterials()
         {
             AutoCompleteStringCollection MyCollection = connectapi.FillnewitemMaterials();
             mattxt.AutoCompleteCustomSource = MyCollection;
         }
 
-        private void fillsurface()
+        private void Fillsurface()
         {
             AutoCompleteStringCollection MyCollection = connectapi.Fillsurface();
             surfacetxt.AutoCompleteCustomSource = MyCollection;
         }
 
-        private void fillheattreats()
+        private void Fillheattreats()
         {
             AutoCompleteStringCollection MyCollection = connectapi.Fillheattreats();
             heattreat.AutoCompleteCustomSource = MyCollection;
         }
 
-        private void fillfamilycodes()
+        private void Fillfamilycodes()
         {
             AutoCompleteStringCollection MyCollection = connectapi.Fillfamilycodes();
             familycombobox.AutoCompleteCustomSource = MyCollection;
             familycombobox.DataSource = MyCollection;
         }
 
-        private void filllistview(string item)
+        private void Filllistview(string item)
         {
             listFiles.Clear();
             listView.Items.Clear();
@@ -439,12 +455,12 @@ namespace SearchDataSPM
             this.Enabled = false;
             graballinfor();
             string lastsavedby = ConnectAPI.ConnectUser.Name;
-            filllistview(ItemTxtBox.Text);
+            Filllistview(ItemTxtBox.Text);
             if (listView.Items.Count == 0)
             {
                 processmodelcreattion(ItemTxtBox.Text);
             }
-            filllistview(ItemTxtBox.Text);
+            Filllistview(ItemTxtBox.Text);
             Chekbeforefillingcustomproperties(ItemTxtBox.Text);
             createnewitemtosql(list[0].ToString(), list[1].ToString(), list[5].ToString(), list[3].ToString(), list[4].ToString(), list[2].ToString(), list[6].ToString(), list[7].ToString(), list[8].ToString(), lastsavedby, list[10].ToString(), list[9].ToString());
             Perfromlockdown();
@@ -768,6 +784,8 @@ namespace SearchDataSPM
                     CustomPropertyManager cusPropMgr;
                     int lRetVal;
                     swModel = (ModelDoc2)swApp.ActiveDoc;
+                    if (swModel == null)
+                        return;
                     ModelDocExtension swModelDocExt = default(ModelDocExtension);
                     swModelDocExt = swModel.Extension;
                     cusPropMgr = swModelDocExt.get_CustomPropertyManager("");
@@ -810,6 +828,8 @@ namespace SearchDataSPM
             if (connectapi.Solidworks_running() == true)
             {
                 string getcurrentfilename = connectapi.Getfilename().ToString();
+                if (getcurrentfilename == "")
+                    return;
                 string olditemnumber = item + "-0";
                 if (getcurrentfilename == item || getcurrentfilename == olditemnumber)
                 {
