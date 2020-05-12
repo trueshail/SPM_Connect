@@ -12,6 +12,7 @@ namespace SearchDataSPM
         [STAThread]
         private static void Main()
         {
+            //this is dev branch
             string appPath = Application.ExecutablePath;
             Microsoft.Win32.Registry.SetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers", appPath, "~ GDIDPISCALING DPIUNAWARE");
             ErrorHandler errorHandler = new ErrorHandler();
