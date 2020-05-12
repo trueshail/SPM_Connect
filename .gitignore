@@ -138,6 +138,10 @@ DocProject/Help/html
 # Click-Once directory
 publish/
 
+
+SPM_Database/
+SPM_ConnectReport Project/
+
 # Publish Web Output
 *.[Pp]ublish.xml
 *.azurePubxml
