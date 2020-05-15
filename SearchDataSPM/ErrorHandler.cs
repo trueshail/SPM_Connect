@@ -1,6 +1,7 @@
 ﻿using SPMConnect;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net.Mail;
 using System.Text;
@@ -15,15 +16,15 @@ namespace SearchDataSPM
             List<string> _emailAttachments = new List<string>();
             //HTML table containing the Exception details for support email
             _errMsg.Append("User: ");
-            _errMsg.Append(System.Environment.UserName + "\n");
+            _errMsg.Append(Environment.UserName).Append('\n');
             _errMsg.Append("Time: ");
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-            _errMsg.Append(sqlFormattedDatetime + "\n");
+            _errMsg.Append(sqlFormattedDatetime).Append('\n');
             _errMsg.Append("Exception Type: ");
-            _errMsg.Append(sender.ToString() + " Exception\n");
+            _errMsg.Append(sender.ToString()).Append(" Exception\n");
 
-            if ((exception) != null)
+            if (exception != null)
             {
                 _errMsg.Append("Message: ");
                 _errMsg.Append(exception.Message.Replace(" at ", " at "));
@@ -31,10 +32,10 @@ namespace SearchDataSPM
                 if (exception.InnerException != null)
                 {
                     _errMsg.Append("Inner Exception: ");
-                    _errMsg.Append(exception.InnerException.Message + "\n");
+                    _errMsg.Append(exception.InnerException.Message).Append('\n');
                 }
                 _errMsg.Append("Stacktrace: ");
-                _errMsg.Append(exception.StackTrace + "\n");
+                _errMsg.Append(exception.StackTrace).Append('\n');
             }
 
             //Write out the logs in memory to file
@@ -56,7 +57,7 @@ namespace SearchDataSPM
             string[] emailArr = emailTo.Split(';', ',');
             foreach (string email in emailArr)
             {
-                if (string.IsNullOrEmpty(email) == false)
+                if (!string.IsNullOrEmpty(email))
                 {
                     message.To.Add(email);
                 }
@@ -64,11 +65,11 @@ namespace SearchDataSPM
 
             message.Subject = emailSubject;
 
-            if ((emailFileAttachments == null) == false)
+            if (emailFileAttachments != null)
             {
                 foreach (string fileAttachment in emailFileAttachments)
                 {
-                    if (string.IsNullOrEmpty(fileAttachment) == false)
+                    if (!string.IsNullOrEmpty(fileAttachment))
                     {
                         attachment = new System.Net.Mail.Attachment(fileAttachment);
                         message.Attachments.Add(attachment);
@@ -88,8 +89,9 @@ namespace SearchDataSPM
                 SmtpServer.Send(message);
                 //System.Windows.Forms.MessageBox.Show("SPM Connect ran into error!! Error report has been sent - PLEASE CONTACT " + "shail@spm-automation.com" + "!", "Email sending Success", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Exclamation);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Debug.Print(ex.Message);
                 //System.Windows.Forms.MessageBox.Show("FAILED TO SEND EMAIL - PLEASE CONTACT " + "shail@spm-automation.com" + "!", "Email sending failed", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Exclamation);
             }
         }

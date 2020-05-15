@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static SPMConnectAPI.ConnectConstants;
 
 namespace SearchDataSPM
 {
@@ -18,11 +19,10 @@ namespace SearchDataSPM
     {
         #region SPM Connect Load
 
-        private DataTable dt;
-        private SPMSQLCommands connectapi = new SPMSQLCommands();
+        private readonly SPMSQLCommands connectapi = new SPMSQLCommands();
+        private readonly DataTable dt;
+        private bool doneshowingSplash;
         private log4net.ILog log;
-        private bool doneshowingSplash = false;
-        private ErrorHandler errorHandler = new ErrorHandler();
 
         public SPM_ConnectJobs()
 
@@ -33,36 +33,13 @@ namespace SearchDataSPM
             //connectapi.SPM_Connect();
         }
 
-        private void SPM_Connect_Load(object sender, EventArgs e)
+        private void Reload_Click(object sender, EventArgs e)
         {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            versionlabel.Text = assembly.GetName().Version.ToString(3);
-            versionlabel.Text = "V" + versionlabel.Text;
-            TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
-            Showallitems();
-
-            if (ConnectAPI.ConnectUser.Management)
-            {
-                contextMenuStrip1.Items[3].Enabled = true;
-                contextMenuStrip1.Items[3].Visible = true;
-            }
-            if (ConnectAPI.ConnectUser.PurchaseReq)
-            {
-                purchasereq.Enabled = true;
-            }
-            if (ConnectAPI.ConnectUser.Quote)
-            {
-                quotebttn.Enabled = true;
-            }
-
-            if (ConnectAPI.ConnectUser.Shipping)
-            {
-                shippingbttn.Enabled = true;
-            }
-
-            log4net.Config.XmlConfigurator.Configure();
-            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened SPM Connect Jobs ");
+            clearandhide();
+            txtSearch.Clear();
+            txtSearch.Focus();
+            SendKeys.Send("~");
+            dataGridView.Refresh();
         }
 
         private void Showallitems()
@@ -110,13 +87,36 @@ namespace SearchDataSPM
             }
         }
 
-        private void Reload_Click(object sender, EventArgs e)
+        private void SPM_Connect_Load(object sender, EventArgs e)
         {
-            clearandhide();
-            txtSearch.Clear();
-            txtSearch.Focus();
-            SendKeys.Send("~");
-            dataGridView.Refresh();
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            versionlabel.Text = assembly.GetName().Version.ToString(3);
+            versionlabel.Text = "V" + versionlabel.Text;
+            TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
+            Showallitems();
+
+            if (ConnectUser.Management)
+            {
+                contextMenuStrip1.Items[3].Enabled = true;
+                contextMenuStrip1.Items[3].Visible = true;
+            }
+            if (ConnectUser.PurchaseReq)
+            {
+                purchasereq.Enabled = true;
+            }
+            if (ConnectUser.Quote)
+            {
+                quotebttn.Enabled = true;
+            }
+
+            if (ConnectUser.Shipping)
+            {
+                shippingbttn.Enabled = true;
+            }
+
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Opened SPM Connect Jobs ");
         }
 
         private void UpdateFont()
@@ -133,15 +133,17 @@ namespace SearchDataSPM
 
         #region Public Table & variables
 
-        // variables required outside the functions to perfrom
-        private string fullsearch = ("FullSearch LIKE '%{0}%'");
-
         //public static string ItemNo;
         public static string description;
 
-        public static string Manufacturer;
-        public static string oem;
         public static string family;
+
+        public static string Manufacturer;
+
+        public static string oem;
+
+        // variables required outside the functions to perfrom
+        private readonly string fullsearch = ("FullSearch LIKE '%{0}%'");
 
         private DataTable table0 = new DataTable();
         private DataTable table1 = new DataTable();
@@ -158,7 +160,7 @@ namespace SearchDataSPM
             if (e.KeyCode == Keys.Return)
 
             {
-                if (Descrip_txtbox.Visible == true)
+                if (Descrip_txtbox.Visible)
                 {
                     clearandhide();
                 }
@@ -190,30 +192,6 @@ namespace SearchDataSPM
             table3.Clear();
         }
 
-        private void mainsearch()
-        {
-            DataView dv = dt.DefaultView;
-            string search1 = txtSearch.Text;
-            try
-            {
-                search1 = search1.Replace("'", "''");
-                search1 = search1.Replace("[", "[[]");
-                dv.RowFilter = string.Format(fullsearch, search1);
-                dataGridView.DataSource = dt;
-                table0 = dv.ToTable();
-                dataGridView.Update();
-                SearchStringPosition(txtSearch.Text);
-                searchtext(txtSearch.Text);
-                dataGridView.Refresh();
-            }
-            catch (Exception)
-
-            {
-                MessageBox.Show("Invalid Search Criteria Operator.", "SPM Connect");
-                txtSearch.Clear();
-            }
-        }
-
         private void Descrip_txtbox_KeyDown(object sender, KeyEventArgs e)
         {
             DataView dv = table0.DefaultView;
@@ -227,12 +205,12 @@ namespace SearchDataSPM
                     search2 = search2.Replace("'", "''");
                     search2 = search2.Replace("[", "[[]");
                     var secondFilter = string.Format(fullsearch, search2);
-                    if (dv.RowFilter == null || dv.RowFilter.Length == 0)
+                    if (string.IsNullOrEmpty(dv.RowFilter))
                         dv.RowFilter = secondFilter;
                     else
                         dv.RowFilter += " AND " + secondFilter;
                     dataGridView.DataSource = dv;
-                    SearchStringPosition(Descrip_txtbox.Text);
+                    SearchStringPosition();
                     searchtext(Descrip_txtbox.Text);
                     table1 = dv.ToTable();
                     dataGridView.Refresh();
@@ -255,10 +233,44 @@ namespace SearchDataSPM
                     filteroemitem_txtbox.Hide();
                     filter4.Hide();
                 }
-                if (Descrip_txtbox.Visible == (false))
+                if (!Descrip_txtbox.Visible)
                 {
                     filteroem_txtbox.Hide();
                 }
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private void filter4_KeyDown(object sender, KeyEventArgs e)
+        {
+            DataView dv = table3.DefaultView;
+            table3 = dv.ToTable();
+            if (e.KeyCode == Keys.Return)
+            {
+                string search5 = filter4.Text;
+                try
+                {
+                    search5 = search5.Replace("'", "''");
+                    search5 = search5.Replace("[", "[[]");
+                    var fifthfilter = string.Format(fullsearch, search5);
+
+                    if (string.IsNullOrEmpty(dv.RowFilter))
+                        dv.RowFilter = fifthfilter;
+                    else
+                        dv.RowFilter += " AND " + fifthfilter;
+                    dataGridView.DataSource = dv;
+                    SearchStringPosition();
+                    searchtext(filter4.Text);
+                    dataGridView.Refresh();
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Invalid Search Criteria Operator.", "SPM Connect");
+                    filter4.Clear();
+                    SendKeys.Send("~");
+                }
+
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
@@ -277,12 +289,12 @@ namespace SearchDataSPM
                     search3 = search3.Replace("'", "''");
                     search3 = search3.Replace("[", "[[]");
                     var thirdFilter = string.Format(fullsearch, search3);
-                    if (dv.RowFilter == null || dv.RowFilter.Length == 0)
+                    if (string.IsNullOrEmpty(dv.RowFilter))
                         dv.RowFilter = thirdFilter;
                     else
                         dv.RowFilter += " AND " + thirdFilter;
                     dataGridView.DataSource = dv;
-                    SearchStringPosition(filteroem_txtbox.Text);
+                    SearchStringPosition();
                     searchtext(filteroem_txtbox.Text);
                     table2 = dv.ToTable();
                     dataGridView.Refresh();
@@ -322,12 +334,12 @@ namespace SearchDataSPM
                     search4 = search4.Replace("[", "[[]");
                     var fourthfilter = string.Format(fullsearch, search4);
 
-                    if (dv.RowFilter == null || dv.RowFilter.Length == 0)
+                    if (string.IsNullOrEmpty(dv.RowFilter))
                         dv.RowFilter = fourthfilter;
                     else
                         dv.RowFilter += " AND " + fourthfilter;
                     dataGridView.DataSource = dv;
-                    SearchStringPosition(filteroemitem_txtbox.Text);
+                    SearchStringPosition();
                     searchtext(filteroemitem_txtbox.Text);
                     table3 = dv.ToTable();
                     dataGridView.Refresh();
@@ -353,37 +365,27 @@ namespace SearchDataSPM
             }
         }
 
-        private void filter4_KeyDown(object sender, KeyEventArgs e)
+        private void mainsearch()
         {
-            DataView dv = table3.DefaultView;
-            table3 = dv.ToTable();
-            if (e.KeyCode == Keys.Return)
+            DataView dv = dt.DefaultView;
+            string search1 = txtSearch.Text;
+            try
             {
-                string search5 = filter4.Text;
-                try
-                {
-                    search5 = search5.Replace("'", "''");
-                    search5 = search5.Replace("[", "[[]");
-                    var fifthfilter = string.Format(fullsearch, search5);
+                search1 = search1.Replace("'", "''");
+                search1 = search1.Replace("[", "[[]");
+                dv.RowFilter = string.Format(fullsearch, search1);
+                dataGridView.DataSource = dt;
+                table0 = dv.ToTable();
+                dataGridView.Update();
+                SearchStringPosition();
+                searchtext(txtSearch.Text);
+                dataGridView.Refresh();
+            }
+            catch (Exception)
 
-                    if (dv.RowFilter == null || dv.RowFilter.Length == 0)
-                        dv.RowFilter = fifthfilter;
-                    else
-                        dv.RowFilter += " AND " + fifthfilter;
-                    dataGridView.DataSource = dv;
-                    SearchStringPosition(filter4.Text);
-                    searchtext(filter4.Text);
-                    dataGridView.Refresh();
-                }
-                catch (Exception)
-                {
-                    MessageBox.Show("Invalid Search Criteria Operator.", "SPM Connect");
-                    filter4.Clear();
-                    SendKeys.Send("~");
-                }
-
-                e.Handled = true;
-                e.SuppressKeyPress = true;
+            {
+                MessageBox.Show("Invalid Search Criteria Operator.", "SPM Connect");
+                txtSearch.Clear();
             }
         }
 
@@ -391,23 +393,13 @@ namespace SearchDataSPM
 
         #region Highlight Search Results
 
-        private bool IsSelected = false;
-
-        private void SearchStringPosition(string Searchstring)
-        {
-            IsSelected = true;
-        }
+        private bool IsSelected;
 
         private string sw;
 
-        private void searchtext(string searchkey)
-        {
-            sw = searchkey;
-        }
-
         private void dataGridView_CellPainting_1(object sender, DataGridViewCellPaintingEventArgs e)
         {
-            if (e.RowIndex >= 0 & e.ColumnIndex >= 0 & IsSelected)
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && IsSelected)
             {
                 e.Handled = true;
                 e.PaintBackground(e.CellBounds, true);
@@ -415,7 +407,7 @@ namespace SearchDataSPM
                 if (!string.IsNullOrEmpty(sw))
                 {
                     string val = (string)e.FormattedValue;
-                    int sindx = val.ToLower().IndexOf(sw.ToLower());
+                    int sindx = val.IndexOf(sw, StringComparison.CurrentCultureIgnoreCase);
                     if (sindx >= 0)
                     {
                         Rectangle hl_rect = new Rectangle
@@ -440,16 +432,9 @@ namespace SearchDataSPM
                             hl_rect.Width = s2.Width - 6;
                         }
 
-                        SolidBrush hl_brush = default(SolidBrush);
-                        if (((e.State & DataGridViewElementStates.Selected) != DataGridViewElementStates.None))
-                        {
-                            hl_brush = new SolidBrush(Color.Black);
-                        }
-                        else
-                        {
-                            hl_brush = new SolidBrush(Color.FromArgb(126, 206, 253));
-                        }
-
+                        SolidBrush hl_brush = (e.State & DataGridViewElementStates.Selected) != DataGridViewElementStates.None
+                            ? new SolidBrush(Color.Black)
+                            : new SolidBrush(Color.FromArgb(126, 206, 253));
                         e.Graphics.FillRectangle(hl_brush, hl_rect);
 
                         hl_brush.Dispose();
@@ -459,18 +444,41 @@ namespace SearchDataSPM
             }
         }
 
+        private void SearchStringPosition()
+        {
+            IsSelected = true;
+        }
+
+        private void searchtext(string searchkey)
+        {
+            sw = searchkey;
+        }
+
         #endregion Highlight Search Results
 
         #region AdminControlLabel
 
         private void SPM_DoubleClick(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("http://www.spm-automation.com/");
+            Process.Start("http://www.spm-automation.com/");
         }
 
         #endregion AdminControlLabel
 
         #region datagridview events
+
+        private void dataGridView_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex == -1) return;
+            _ = dataGridView.Rows[e.RowIndex];
+
+            if (e.Button == MouseButtons.Right)
+            {
+                int columnindex = e.RowIndex;
+                dataGridView.ClearSelection();
+                dataGridView.Rows[columnindex].Selected = true;
+            }
+        }
 
         private void dataGridView_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
         {
@@ -485,20 +493,6 @@ namespace SearchDataSPM
             if (e.RowIndex > 0)
             {
                 dataGridView.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(205, 230, 247);
-            }
-        }
-
-        private void dataGridView_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (e.RowIndex == -1) return;
-
-            DataGridViewRow row = dataGridView.Rows[e.RowIndex];
-
-            if (e.Button == MouseButtons.Right)
-            {
-                int columnindex = e.RowIndex;
-                dataGridView.ClearSelection();
-                dataGridView.Rows[columnindex].Selected = true;
             }
         }
 
@@ -522,41 +516,6 @@ namespace SearchDataSPM
         #endregion Get BOM
 
         #region GetProjectEng
-
-        private void projectEngineeringToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            checksqltable(getjob(), getbomitem());
-        }
-
-        private string getjob()
-        {
-            string job;
-
-            if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
-            {
-                int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
-                DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-                job = Convert.ToString(slectedrow.Cells[0].Value);
-                //MessageBox.Show(job);
-                return job;
-            }
-            return null;
-        }
-
-        private string getbomitem()
-        {
-            string bom;
-
-            if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
-            {
-                int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
-                DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-                bom = Convert.ToString(slectedrow.Cells[3].Value);
-                //MessageBox.Show(job);
-                return bom;
-            }
-            return null;
-        }
 
         private void checksqltable(string job, string bom)
         {
@@ -590,37 +549,9 @@ namespace SearchDataSPM
             }
         }
 
-        private void createnewpath(string job, string bom)
-        {
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                string folderPath = Path.GetDirectoryName(openFileDialog1.FileName);
-                //MessageBox.Show(folderPath);
-                //Process.Start(folderPath);
-                createnewentry(job, bom, folderPath, true);
-
-                //OpenFileDialog folderBrowser = new OpenFileDialog();
-                //// Set validate names and check file exists to false otherwise windows will
-                //// not let you select "Folder Selection."
-                //folderBrowser.ValidateNames = false;
-                //folderBrowser.CheckFileExists = false;
-                //folderBrowser.CheckPathExists = true;
-                //// Always default to Folder Selection.
-                //folderBrowser.FileName = "Folder Selection.";
-                //if (folderBrowser.ShowDialog() == DialogResult.OK)
-                //{
-                //    string folderPath = Path.GetDirectoryName(folderBrowser.FileName);
-                //    MessageBox.Show(folderPath);
-                //    Process.Start(folderPath);
-                //    // ...
-                //}
-            }
-        }
-
         private void createnewentry(string job, string bom, string folderPath, bool openfolder)
         {
-            string sql;
-            sql = "INSERT INTO [SPM_Database].[dbo].[SPMJobsPath] ([JobNo], [BOMNo],[Path])" +
+            string sql = "INSERT INTO [SPM_Database].[dbo].[SPMJobsPath] ([JobNo], [BOMNo],[Path])" +
                 "VALUES( '" + job + "','" + bom + "','" + folderPath + "')";
 
             try
@@ -648,6 +579,59 @@ namespace SearchDataSPM
             {
                 openprojecteng(folderPath);
             }
+        }
+
+        private void createnewpath(string job, string bom)
+        {
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                string folderPath = Path.GetDirectoryName(openFileDialog1.FileName);
+                //MessageBox.Show(folderPath);
+                //Process.Start(folderPath);
+                createnewentry(job, bom, folderPath, true);
+
+                //OpenFileDialog folderBrowser = new OpenFileDialog();
+                //// Set validate names and check file exists to false otherwise windows will
+                //// not let you select "Folder Selection."
+                //folderBrowser.ValidateNames = false;
+                //folderBrowser.CheckFileExists = false;
+                //folderBrowser.CheckPathExists = true;
+                //// Always default to Folder Selection.
+                //folderBrowser.FileName = "Folder Selection.";
+                //if (folderBrowser.ShowDialog() == DialogResult.OK)
+                //{
+                //    string folderPath = Path.GetDirectoryName(folderBrowser.FileName);
+                //    MessageBox.Show(folderPath);
+                //    Process.Start(folderPath);
+                //    // ...
+                //}
+            }
+        }
+
+        private string getbomitem()
+        {
+            if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
+            {
+                int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
+                DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
+
+                //MessageBox.Show(job);
+                return Convert.ToString(slectedrow.Cells[3].Value);
+            }
+            return null;
+        }
+
+        private string getjob()
+        {
+            if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
+            {
+                int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
+                DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
+
+                //MessageBox.Show(job);
+                return Convert.ToString(slectedrow.Cells[0].Value);
+            }
+            return null;
         }
 
         private void grabpathfromtable(string job, string bom)
@@ -679,36 +663,18 @@ namespace SearchDataSPM
             Process.Start(folderPath);
         }
 
+        private void projectEngineeringToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            checksqltable(getjob(), getbomitem());
+        }
+
         #endregion GetProjectEng
 
         #region RemapFolderPath
 
-        private void remapToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //DialogResult result = MessageBox.Show("Would you like to re-assign the folder?", "SPM Connect",
-            //                                  MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            //if (result == DialogResult.Yes)
-            //{
-            //    //code for Yes
-            //    string job = getjob();
-            //    string bom = getbomitem();
-            //    deleterecord(job, bom);
-            //    checksqltable(job, bom);
-            //}
-            //else if (result == DialogResult.No)
-            //{
-            //    //code for No
-            //}
-            string job = getjob();
-            string bom = getbomitem();
-            deleterecord(job, bom);
-            checksqltable(job, bom);
-        }
-
         private void deleterecord(string job, string bom)
         {
-            string sql;
-            sql = "DELETE FROM [SPM_Database].[dbo].[SPMJobsPath] WHERE  JobNo = '" + job + "' AND BOMNo = '" + bom + "'";
+            string sql = "DELETE FROM [SPM_Database].[dbo].[SPMJobsPath] WHERE  JobNo = '" + job + "' AND BOMNo = '" + bom + "'";
 
             try
             {
@@ -731,6 +697,28 @@ namespace SearchDataSPM
             {
                 connectapi.cn.Close();
             }
+        }
+
+        private void remapToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //DialogResult result = MessageBox.Show("Would you like to re-assign the folder?", "SPM Connect",
+            //                                  MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            //if (result == DialogResult.Yes)
+            //{
+            //    //code for Yes
+            //    string job = getjob();
+            //    string bom = getbomitem();
+            //    deleterecord(job, bom);
+            //    checksqltable(job, bom);
+            //}
+            //else if (result == DialogResult.No)
+            //{
+            //    //code for No
+            //}
+            string job = getjob();
+            string bom = getbomitem();
+            deleterecord(job, bom);
+            checksqltable(job, bom);
         }
 
         #endregion RemapFolderPath
@@ -815,14 +803,14 @@ namespace SearchDataSPM
             ecr.Show();
         }
 
-        private void CreatefoldersAsync()
+        private void Createfolders()
         {
             try
             {
-                string jobnumber = Getjobnumber().ToString();
-                string salesorder = getsalesorder().ToString();
-                string jobdescription = getjobdescription().ToString();
-                string customer = connectapi.Getcustomeralias(getcutomerid().ToString()).ToString();
+                string jobnumber = Getjobnumber();
+                string salesorder = getsalesorder();
+                string jobdescription = getjobdescription();
+                string customer = connectapi.Getcustomeralias(getcutomerid());
                 if (customer.Length > 1)
                 {
                     DialogResult result = MessageBox.Show(
@@ -847,20 +835,25 @@ namespace SearchDataSPM
             }
         }
 
+        private void createFoldersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Createfolders();
+        }
+
         private async void Createjobfolders(string jobnumber, string customer, string jobdescription, string salesorder)
         {
             this.Enabled = false;
             Cursor.Current = Cursors.WaitCursor;
             string ValueIWantFromProptForm = "";
             JobType jobtype = new JobType();
-            if (jobtype.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (jobtype.ShowDialog() == DialogResult.OK)
             {
                 ValueIWantFromProptForm = jobtype.ValueIWant;
             }
 
             if (ValueIWantFromProptForm.Length > 0)
             {
-                await Task.Run(() => SplashDialog("Creating Folders....."));
+                await Task.Run(() => SplashDialog("Creating Folders.....")).ConfigureAwait(false);
                 string destpatheng = "";
                 string destpaths300 = "";
                 string sourcepathseng = "";
@@ -883,9 +876,9 @@ namespace SearchDataSPM
                 else if (ValueIWantFromProptForm == "service")
                 {
                     sourcepathseng = connectapi.GetConnectParameterValue("ServiceEngSp");
-                    destpatheng = connectapi.GetConnectParameterValue("ServiceEngDp") + jobnumber + "_" + customer + "_Service" + "_" + jobdescription;
+                    destpatheng = connectapi.GetConnectParameterValue("ServiceEngDp") + jobnumber + "_" + customer + "_Service_" + jobdescription;
                     sourcepaths300 = connectapi.GetConnectParameterValue("ServiceSalesSp");
-                    destpaths300 = connectapi.GetConnectParameterValue("ServiceSalesDp") + salesorder + "_" + customer + "_Service" + "_" + jobdescription;
+                    destpaths300 = connectapi.GetConnectParameterValue("ServiceSalesDp") + salesorder + "_" + customer + "_Service_" + jobdescription;
                 }
                 if (ValueIWantFromProptForm == "project" || ValueIWantFromProptForm == "spare" || ValueIWantFromProptForm == "service")
                 {
@@ -905,77 +898,35 @@ namespace SearchDataSPM
             this.Enabled = true;
         }
 
-        private void SplashDialog(string message)
-        {
-            doneshowingSplash = false;
-            ThreadPool.QueueUserWorkItem((x) =>
-            {
-                using (var splashForm = new Dialog())
-                {
-                    splashForm.TopMost = true;
-                    splashForm.Focus();
-                    splashForm.Activate();
-                    splashForm.Message = message;
-                    splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
-                    splashForm.Show();
-                    while (!doneshowingSplash)
-                        Application.DoEvents();
-                    splashForm.Close();
-                }
-            });
-        }
-
-        private string Getjobnumber()
-        {
-            string jobnumber;
-            if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
-            {
-                int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
-                DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-                jobnumber = Convert.ToString(slectedrow.Cells[0].Value);
-                //MessageBox.Show(ItemNo);
-                return jobnumber;
-            }
-            else
-            {
-                jobnumber = "";
-                return jobnumber;
-            }
-        }
-
         private string GetAssynumber()
         {
-            string assyno;
             if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
             {
                 int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                 DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-                assyno = Convert.ToString(slectedrow.Cells[3].Value);
+
                 //MessageBox.Show(ItemNo);
-                return assyno;
+                return Convert.ToString(slectedrow.Cells[3].Value);
             }
             else
             {
-                assyno = "";
-                return assyno;
+                return "";
             }
         }
 
-        private string getsalesorder()
+        private string getcutomerid()
         {
-            string jobnumber;
             if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
             {
                 int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                 DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-                jobnumber = Convert.ToString(slectedrow.Cells[5].Value);
+
                 //MessageBox.Show(ItemNo);
-                return jobnumber;
+                return Convert.ToString(slectedrow.Cells[10].Value);
             }
             else
             {
-                jobnumber = "";
-                return jobnumber;
+                return "";
             }
         }
 
@@ -991,52 +942,175 @@ namespace SearchDataSPM
 
                 Regex reg = new Regex("[*'\"/,_&#^@]");
                 jobdescription = reg.Replace(jobdescription, "-");
-                jobdescription = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(jobdescription.ToLower());
+                jobdescription = Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(jobdescription.ToLower());
                 return jobdescription;
             }
             else
             {
-                jobdescription = "";
-                return jobdescription;
+                return "";
             }
         }
 
-        private string getcutomerid()
+        private string Getjobnumber()
         {
-            string customer;
             if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
             {
                 int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                 DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-                customer = Convert.ToString(slectedrow.Cells[10].Value);
+
                 //MessageBox.Show(ItemNo);
-                return customer;
+                return Convert.ToString(slectedrow.Cells[0].Value);
             }
             else
             {
-                customer = "";
-                return customer;
+                return "";
             }
         }
 
-        private void createFoldersToolStripMenuItem_Click(object sender, EventArgs e)
+        private string getsalesorder()
         {
-            CreatefoldersAsync();
+            if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
+            {
+                int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
+                DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
+
+                //MessageBox.Show(ItemNo);
+                return Convert.ToString(slectedrow.Cells[5].Value);
+            }
+            else
+            {
+                return "";
+            }
+        }
+
+        private void SplashDialog(string message)
+        {
+            doneshowingSplash = false;
+            ThreadPool.QueueUserWorkItem((_) =>
+            {
+                using (var splashForm = new Dialog())
+                {
+                    splashForm.TopMost = true;
+                    splashForm.Focus();
+                    splashForm.Activate();
+                    splashForm.Message = message;
+                    splashForm.Location = new Point(this.Location.X + ((this.Width - splashForm.Width) / 2), this.Location.Y + ((this.Height - splashForm.Height) / 2));
+                    splashForm.Show();
+                    while (!doneshowingSplash)
+                        Application.DoEvents();
+                    splashForm.Close();
+                }
+            });
         }
 
         #endregion CreateFolders
 
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Home))
+            {
+                Reload.PerformClick();
+                return true;
+            }
+            if (keyData == (Keys.Control | Keys.B))
+            {
+                string item;
+                if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
+                {
+                    int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
+                    DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
+                    item = Convert.ToString(slectedrow.Cells[3].Value);
+                }
+                else
+                {
+                    item = "";
+                }
+                processbom(item);
+
+                return true;
+            }
+
+            if (keyData == (Keys.Control | Keys.W))
+            {
+                this.Close();
+                return true;
+            }
+
+            if (keyData == (Keys.Control | Keys.D))
+            {
+                showworkorder();
+                return true;
+            }
+
+            if (keyData == (Keys.Control | Keys.F))
+            {
+                txtSearch.Focus();
+                txtSearch.SelectAll();
+                return true;
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        private void cribbttn_Click(object sender, EventArgs e)
+        {
+            if (ConnectUser.CribCheckout)
+            {
+                InvInOut invInOut = new InvInOut();
+                invInOut.Show();
+            }
+            else
+            {
+                MetroFramework.MetroMessageBox.Show(this, "Your request can't be completed based on your security settings.", "SPM Connect - Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void Ecrbutton_Click(object sender, EventArgs e)
+        {
+            ECRHome ecr = new ECRHome();
+            ecr.Show();
+        }
+
+        private void GetEstimateBOMToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string item;
+            string estid;
+            if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
+            {
+                int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
+                DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
+                item = Convert.ToString(slectedrow.Cells[3].Value);
+                estid = Convert.ToString(slectedrow.Cells[1].Value);
+                //MessageBox.Show(ItemNo);
+            }
+            else
+            {
+                item = "";
+                estid = "";
+            }
+
+            ProcessbomEstimate(item, estid);
+        }
+
+        private void ProcessbomEstimate(string itemvalue, string estid)
+        {
+            EstimateBOM treeView = new EstimateBOM();
+            treeView.item(itemvalue);
+            treeView.estimate(estid);
+            treeView.Show();
+        }
+
         private void purchasereq_Click(object sender, EventArgs e)
         {
             int openforms = Application.OpenForms.Count;
-            bool checkmaintenance = connectapi.GetConnectParameterValue("PurchaseReqDev") == "1" ? true : false;
+            bool checkmaintenance = connectapi.GetConnectParameterValue("PurchaseReqDev") == "1";
             if (openforms >= 2)
             {
                 bool purchasereqopen = false;
 
                 foreach (Form frm in Application.OpenForms)
                 {
-                    if (frm.Name.ToString() == "PurchaseReqform")
+                    if (frm.Name == "PurchaseReqform")
                     {
                         purchasereqopen = true;
                         if (!checkmaintenance)
@@ -1061,17 +1135,14 @@ namespace SearchDataSPM
                         }
                     }
                 }
-                if (purchasereqopen)
-                {
-                }
-                else
+                if (!purchasereqopen)
                 {
                     if (!checkmaintenance)
                     {
                         PurchaseReqform purchaseReq = new PurchaseReqform();
                         purchaseReq.Show();
                     }
-                    else if (checkmaintenance && ConnectAPI.ConnectUser.Developer)
+                    else if (checkmaintenance && ConnectUser.Developer)
                     {
                         PurchaseReqform purchaseReq = new PurchaseReqform();
                         purchaseReq.Show();
@@ -1131,116 +1202,9 @@ namespace SearchDataSPM
 
         #endregion Quotes
 
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            if (keyData == (Keys.Home))
-            {
-                Reload.PerformClick();
-                return true;
-            }
-            if (keyData == (Keys.Control | Keys.B))
-            {
-                string item;
-                if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
-                {
-                    int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
-                    DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-                    item = Convert.ToString(slectedrow.Cells[3].Value);
-                }
-                else
-                {
-                    item = "";
-                }
-                processbom(item);
-
-                return true;
-            }
-
-            if (keyData == (Keys.Control | Keys.W))
-            {
-                this.Close();
-                return true;
-            }
-
-            if (keyData == (Keys.Control | Keys.D))
-            {
-                showworkorder();
-                return true;
-            }
-
-            if (keyData == (Keys.Control | Keys.F))
-            {
-                txtSearch.Focus();
-                txtSearch.SelectAll();
-                return true;
-            }
-
-            return base.ProcessCmdKey(ref msg, keyData);
-        }
-
-        private void Shippingbttn_Click(object sender, EventArgs e)
-        {
-            ShippingHome shipping = new ShippingHome();
-            shipping.Show();
-        }
-
-        private void GetEstimateBOMToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            string item;
-            string estid;
-            if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
-            {
-                int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
-                DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-                item = Convert.ToString(slectedrow.Cells[3].Value);
-                estid = Convert.ToString(slectedrow.Cells[1].Value);
-                //MessageBox.Show(ItemNo);
-            }
-            else
-            {
-                item = "";
-                estid = "";
-            }
-
-            ProcessbomEstimate(item, estid);
-        }
-
-        private void ProcessbomEstimate(string itemvalue, string estid)
-        {
-            EstimateBOM treeView = new EstimateBOM();
-            treeView.item(itemvalue);
-            treeView.estimate(estid);
-            treeView.Show();
-        }
-
-        private void Ecrbutton_Click(object sender, EventArgs e)
-        {
-            ECRHome ecr = new ECRHome();
-            ecr.Show();
-        }
-
-        private void viewCurrentJobReleaseToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ViewRelease viewRelease = new ViewRelease(wrkorder: Getjobnumber(), job: true, jobassyno: GetAssynumber(), jobno: Getjobnumber());
-            viewRelease.Show();
-        }
-
-        private void cribbttn_Click(object sender, EventArgs e)
-        {
-            if (ConnectAPI.ConnectUser.CribCheckout)
-            {
-                InvInOut invInOut = new InvInOut();
-                invInOut.Show();
-            }
-            else
-            {
-                MetroFramework.MetroMessageBox.Show(this, "Your request can't be completed based on your security settings.", "SPM Connect - Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
-
         private void scanwobttn_Click(object sender, EventArgs e)
         {
-            if (ConnectAPI.ConnectUser.WOScan)
+            if (ConnectUser.WOScan)
             {
                 ScanWO scanWO = new ScanWO();
                 scanWO.Show();
@@ -1249,6 +1213,18 @@ namespace SearchDataSPM
             {
                 MetroFramework.MetroMessageBox.Show(this, "Your request can't be completed based on your security settings.", "SPM Connect - Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        private void Shippingbttn_Click(object sender, EventArgs e)
+        {
+            ShippingHome shipping = new ShippingHome();
+            shipping.Show();
+        }
+
+        private void viewCurrentJobReleaseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ViewRelease viewRelease = new ViewRelease(wrkorder: Getjobnumber(), job: true, jobassyno: GetAssynumber(), jobno: Getjobnumber());
+            viewRelease.Show();
         }
     }
 }

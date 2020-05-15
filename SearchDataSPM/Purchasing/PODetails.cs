@@ -7,15 +7,17 @@ namespace SearchDataSPM.General
     {
         private log4net.ILog log;
 
-        private ErrorHandler errorHandler = new ErrorHandler();
-
         public PODetails()
         {
             InitializeComponent();
         }
 
-        public string ValueIWant { get; set; }
         public string podate { get; set; }
+        public string ValueIWant { get; set; }
+
+        private void dateTimePicker1_KeyDown(object sender, KeyEventArgs e)
+        {
+        }
 
         private void ImportFileSelector_Load(object sender, EventArgs e)
         {
@@ -24,12 +26,15 @@ namespace SearchDataSPM.General
             log.Info("Opened Enter PO Details For PurchaseReq ");
         }
 
-        private void savebttn_Click(object sender, EventArgs e)
+        private void PODetails_FormClosed(object sender, FormClosedEventArgs e)
         {
-            ValueIWant = ponumbertxt.Text.Trim();
-            podate = dateTimePicker1.Value.ToString("yyyy-MM-dd");
-            this.DialogResult = System.Windows.Forms.DialogResult.OK;
-            Close();
+            log.Info("Closed Enter PO Details For PurchaseReq ");
+            this.Dispose();
+        }
+
+        private void PODetails_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (ponumbertxt.Text.Length == 0) e.Cancel = true;
         }
 
         private void ponumbertxt_KeyPress(object sender, KeyPressEventArgs e)
@@ -40,19 +45,12 @@ namespace SearchDataSPM.General
             }
         }
 
-        private void dateTimePicker1_KeyDown(object sender, KeyEventArgs e)
+        private void savebttn_Click(object sender, EventArgs e)
         {
-        }
-
-        private void PODetails_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (!(ponumbertxt.Text.Length > 0)) e.Cancel = true;
-        }
-
-        private void PODetails_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            log.Info("Closed Enter PO Details For PurchaseReq ");
-            this.Dispose();
+            ValueIWant = ponumbertxt.Text.Trim();
+            podate = dateTimePicker1.Value.ToString("yyyy-MM-dd");
+            this.DialogResult = DialogResult.OK;
+            Close();
         }
     }
 }

@@ -12,11 +12,11 @@ namespace SearchDataSPM
         #region steupvariables
 
         private string controluseraction;
-        private int selectedindex = 0;
-        private DataTable dt;
+        private int selectedindex;
+        private readonly DataTable dt;
         private log4net.ILog log;
-        private ErrorHandler errorHandler = new ErrorHandler();
-        private SPMConnectAPI.ConnectAPI connectapi = new SPMConnectAPI.ConnectAPI();
+
+        private readonly SPMConnectAPI.ConnectAPI connectapi = new SPMConnectAPI.ConnectAPI();
 
         #endregion steupvariables
 
@@ -164,10 +164,10 @@ namespace SearchDataSPM
 
         private void Userlistbox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Selectionchanged(selectedindex);
+            Selectionchanged();
         }
 
-        private void Selectionchanged(int index)
+        private void Selectionchanged()
         {
             try
             {
@@ -234,213 +234,45 @@ namespace SearchDataSPM
                     {
                     }
 
-                    if (dr["Admin"].ToString().Equals("1"))
-                    {
-                        admintoggle.Checked = true;
-                    }
-                    else
-                    {
-                        admintoggle.Checked = false;
-                    }
-                    if (dr["Developer"].ToString().Equals("1"))
-                    {
-                        developertoggle.Checked = true;
-                    }
-                    else
-                    {
-                        developertoggle.Checked = false;
-                    }
-                    if (dr["Management"].ToString().Equals("1"))
-                    {
-                        managementtoggle.Checked = true;
-                    }
-                    else
-                    {
-                        managementtoggle.Checked = false;
-                    }
-                    if (dr["Quote"].ToString().Equals("1"))
-                    {
-                        quotetoggle.Checked = true;
-                    }
-                    else
-                    {
-                        quotetoggle.Checked = false;
-                    }
-                    if (dr["PurchaseReqApproval"].ToString().Equals("1"))
-                    {
-                        papprovalchk.Checked = true;
-                    }
-                    else
-                    {
-                        papprovalchk.Checked = false;
-                    }
-                    if (dr["PurchaseReqBuyer"].ToString().Equals("1"))
-                    {
-                        pbuyerchk.Checked = true;
-                    }
-                    else
-                    {
-                        pbuyerchk.Checked = false;
-                    }
-                    if (dr["PurchaseReqApproval2"].ToString().Equals("1"))
-                    {
-                        papproval2chk.Checked = true;
-                    }
-                    else
-                    {
-                        papproval2chk.Checked = false;
-                    }
-                    if (dr["PurchaseReq"].ToString().Equals("1"))
-                    {
-                        purchasereqtoggle.Checked = true;
-                    }
-                    else
-                    {
-                        purchasereqtoggle.Checked = false;
-                    }
-                    if (dr["PriceRight"].ToString().Equals("1"))
-                    {
-                        pricetoggle.Checked = true;
-                    }
-                    else
-                    {
-                        pricetoggle.Checked = false;
-                    }
+                    admintoggle.Checked = dr["Admin"].ToString().Equals("1");
+                    developertoggle.Checked = dr["Developer"].ToString().Equals("1");
+                    managementtoggle.Checked = dr["Management"].ToString().Equals("1");
+                    quotetoggle.Checked = dr["Quote"].ToString().Equals("1");
+                    papprovalchk.Checked = dr["PurchaseReqApproval"].ToString().Equals("1");
+                    pbuyerchk.Checked = dr["PurchaseReqBuyer"].ToString().Equals("1");
+                    papproval2chk.Checked = dr["PurchaseReqApproval2"].ToString().Equals("1");
+                    purchasereqtoggle.Checked = dr["PurchaseReq"].ToString().Equals("1");
+                    pricetoggle.Checked = dr["PriceRight"].ToString().Equals("1");
 
-                    if (dr["Shipping"].ToString().Equals("1"))
-                    {
-                        shiptoggle.Checked = true;
-                    }
-                    else
-                    {
-                        shiptoggle.Checked = false;
-                    }
+                    shiptoggle.Checked = dr["Shipping"].ToString().Equals("1");
 
-                    if (dr["ShipSupervisor"].ToString().Equals("1"))
-                    {
-                        shippingsupchk.Checked = true;
-                    }
-                    else
-                    {
-                        shippingsupchk.Checked = false;
-                    }
+                    shippingsupchk.Checked = dr["ShipSupervisor"].ToString().Equals("1");
 
-                    if (dr["ShippingManager"].ToString().Equals("1"))
-                    {
-                        shippingmanagerchk.Checked = true;
-                    }
-                    else
-                    {
-                        shippingmanagerchk.Checked = false;
-                    }
+                    shippingmanagerchk.Checked = dr["ShippingManager"].ToString().Equals("1");
 
-                    if (dr["CribCheckout"].ToString().Equals("1"))
-                    {
-                        cribouttoggle.Checked = true;
-                    }
-                    else
-                    {
-                        cribouttoggle.Checked = false;
-                    }
+                    cribouttoggle.Checked = dr["CribCheckout"].ToString().Equals("1");
 
-                    if (dr["WOScan"].ToString().Equals("1"))
-                    {
-                        scanwotoggle.Checked = true;
-                    }
-                    else
-                    {
-                        scanwotoggle.Checked = false;
-                    }
+                    scanwotoggle.Checked = dr["WOScan"].ToString().Equals("1");
 
-                    if (dr["CribShort"].ToString().Equals("1"))
-                    {
-                        cribshorttoggle.Checked = true;
-                    }
-                    else
-                    {
-                        cribshorttoggle.Checked = false;
-                    }
+                    cribshorttoggle.Checked = dr["CribShort"].ToString().Equals("1");
                     //ECR
-                    if (dr["ECR"].ToString().Equals("1"))
-                    {
-                        ecrtoggle.Checked = true;
-                    }
-                    else
-                    {
-                        ecrtoggle.Checked = false;
-                    }
+                    ecrtoggle.Checked = dr["ECR"].ToString().Equals("1");
 
-                    if (dr["WORelease"].ToString().Equals("1"))
-                    {
-                        woreleasetoggle.Checked = true;
-                    }
-                    else
-                    {
-                        woreleasetoggle.Checked = false;
-                    }
+                    woreleasetoggle.Checked = dr["WORelease"].ToString().Equals("1");
 
-                    if (dr["ItemDependencies"].ToString().Equals("1"))
-                    {
-                        itmdeptoggle.Checked = true;
-                    }
-                    else
-                    {
-                        itmdeptoggle.Checked = false;
-                    }
+                    itmdeptoggle.Checked = dr["ItemDependencies"].ToString().Equals("1");
 
-                    if (dr["ECRApproval"].ToString().Equals("1"))
-                    {
-                        ecrapprovalchk.Checked = true;
-                    }
-                    else
-                    {
-                        ecrapprovalchk.Checked = false;
-                    }
+                    ecrapprovalchk.Checked = dr["ECRApproval"].ToString().Equals("1");
 
-                    if (dr["ECRApproval2"].ToString().Equals("1"))
-                    {
-                        ecrapproval2chk.Checked = true;
-                    }
-                    else
-                    {
-                        ecrapproval2chk.Checked = false;
-                    }
+                    ecrapproval2chk.Checked = dr["ECRApproval2"].ToString().Equals("1");
 
-                    if (dr["ECRHandler"].ToString().Equals("1"))
-                    {
-                        ecrhandlerchk.Checked = true;
-                    }
-                    else
-                    {
-                        ecrhandlerchk.Checked = false;
-                    }
+                    ecrhandlerchk.Checked = dr["ECRHandler"].ToString().Equals("1");
 
-                    if (dr["CheckDrawing"].ToString().Equals("1"))
-                    {
-                        chkdrwtoggle.Checked = true;
-                    }
-                    else
-                    {
-                        chkdrwtoggle.Checked = false;
-                    }
+                    chkdrwtoggle.Checked = dr["CheckDrawing"].ToString().Equals("1");
 
-                    if (dr["ApproveDrawing"].ToString().Equals("1"))
-                    {
-                        appdrwtoggle.Checked = true;
-                    }
-                    else
-                    {
-                        appdrwtoggle.Checked = false;
-                    }
+                    appdrwtoggle.Checked = dr["ApproveDrawing"].ToString().Equals("1");
 
-                    if (dr["ReleasePackage"].ToString().Equals("1"))
-                    {
-                        rptoggle.Checked = true;
-                    }
-                    else
-                    {
-                        rptoggle.Checked = false;
-                    }
+                    rptoggle.Checked = dr["ReleasePackage"].ToString().Equals("1");
                     Runalltoggle();
                 }
             }
@@ -462,7 +294,7 @@ namespace SearchDataSPM
                     connectapi.cn.Open();
                 SqlCommand cmd = connectapi.cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [id]='" + supervisor.ToString() + "' ";
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [id]='" + supervisor + "' ";
                 cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -605,7 +437,7 @@ namespace SearchDataSPM
             DialogResult result = MessageBox.Show(
                  "Name = " + nametextbox.Text + Environment.NewLine +
                  @"Domain\Username = " + domaintxtbox.Text + Environment.NewLine +
-                 @"Email = " + useremailtxt.Text + Environment.NewLine +
+                 "Email = " + useremailtxt.Text + Environment.NewLine +
                  "Department = " + deptcombobox.SelectedItem.ToString() + Environment.NewLine +
                  "Admin = " + (admintoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                  "Developer = " + (developertoggle.Checked ? "Yes" : "No") + Environment.NewLine +
@@ -643,7 +475,7 @@ namespace SearchDataSPM
                 {
                     SqlCommand cmd = connectapi.cn.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = "DELETE FROM [SPM_Database].[dbo].[Users] WHERE UserName = '" + domaintxtbox.Text.ToString() + "'";
+                    cmd.CommandText = "DELETE FROM [SPM_Database].[dbo].[Users] WHERE UserName = '" + domaintxtbox.Text + "'";
                     cmd.ExecuteNonQuery();
                     connectapi.cn.Close();
                     MessageBox.Show("User deleted successfully", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -738,7 +570,7 @@ namespace SearchDataSPM
             DialogResult result = MessageBox.Show(
                "Name = " + nametextbox.Text + Environment.NewLine +
                @"Domain\Username = " + domaintxtbox.Text + Environment.NewLine +
-               @"Email = " + useremailtxt.Text + Environment.NewLine +
+               "Email = " + useremailtxt.Text + Environment.NewLine +
                "Department = " + deptcombobox.SelectedItem.ToString() + Environment.NewLine +
                "Admin = " + (admintoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                "Developer = " + (developertoggle.Checked ? "Yes" : "No") + Environment.NewLine +
@@ -819,7 +651,7 @@ namespace SearchDataSPM
             DialogResult result = MessageBox.Show(
                "Name = " + nametextbox.Text + Environment.NewLine +
                @"Domain\Username = " + domaintxtbox.Text + Environment.NewLine +
-               @"Email = " + useremailtxt.Text + Environment.NewLine +
+               "Email = " + useremailtxt.Text + Environment.NewLine +
                "Department = " + deptcombobox.SelectedItem.ToString() + Environment.NewLine +
                "Admin = " + (admintoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                "Developer = " + (developertoggle.Checked ? "Yes" : "No") + Environment.NewLine +
@@ -994,7 +826,7 @@ namespace SearchDataSPM
         {
             if (activecadblocktxt.Text.Length > 0)
             {
-                if (Char.IsLetter(activecadblocktxt.Text[0]) == false)
+                if (!Char.IsLetter(activecadblocktxt.Text[0]))
                 {
                     activecadblocktxt.Clear();
                 }
@@ -1021,8 +853,10 @@ namespace SearchDataSPM
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Admin_developer.UserLogs sPM_Connect = new Admin_developer.UserLogs();
-            sPM_Connect.Owner = this;
+            Admin_developer.UserLogs sPM_Connect = new Admin_developer.UserLogs
+            {
+                Owner = this
+            };
             sPM_Connect.ShowDialog();
         }
 
@@ -1033,8 +867,10 @@ namespace SearchDataSPM
 
         private void reluanchbttn_Click(object sender, EventArgs e)
         {
-            Admin_developer.BlockedForms userStatus = new Admin_developer.BlockedForms();
-            userStatus.Owner = this;
+            Admin_developer.BlockedForms userStatus = new Admin_developer.BlockedForms
+            {
+                Owner = this
+            };
             userStatus.ShowDialog();
             //Application.Restart();
             //Environment.Exit(0);
@@ -1042,22 +878,28 @@ namespace SearchDataSPM
 
         private void UserStats_Click(object sender, EventArgs e)
         {
-            Admin_developer.UserStatus userStatus = new Admin_developer.UserStatus();
-            userStatus.Owner = this;
+            Admin_developer.UserStatus userStatus = new Admin_developer.UserStatus
+            {
+                Owner = this
+            };
             userStatus.ShowDialog(this);
         }
 
         private void custbttn_Click(object sender, EventArgs e)
         {
-            ManageCustomers customers = new ManageCustomers();
-            customers.Owner = this;
+            ManageCustomers customers = new ManageCustomers
+            {
+                Owner = this
+            };
             customers.Show();
         }
 
         private void matbttn_Click(object sender, EventArgs e)
         {
-            Materials materials = new Materials();
-            materials.Owner = this;
+            Materials materials = new Materials
+            {
+                Owner = this
+            };
             materials.Show();
         }
 
@@ -1161,7 +1003,7 @@ namespace SearchDataSPM
 
         private void spmadmin_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (updatesavebttn.Visible == true)
+            if (updatesavebttn.Visible)
             {
                 DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to close without saving changes?", "SPM Connect - Save User Details", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)

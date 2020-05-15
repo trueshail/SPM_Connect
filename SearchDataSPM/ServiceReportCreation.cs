@@ -13,15 +13,6 @@ namespace SearchDataSPM
 
         #region Save Report
 
-        private void SaveReport(string reqno)
-        {
-            string fileName = "";
-            string filepath = @"\\spm-adfs\Shares\Shail\vs\";
-            System.IO.Directory.CreateDirectory(filepath);
-            fileName = filepath + reqno + ".pdf";
-            SaveReport(reqno, fileName);
-        }
-
         public void SaveReport(string invoiceno, string fileName)
         {
             RS2005.ReportingService2005 rs;
@@ -38,26 +29,19 @@ namespace SearchDataSPM
             rs.Url = "http://spm-sql/reportserver/reportservice2005.asmx";
             rsExec.Url = "http://spm-sql/reportserver/reportexecution2005.asmx";
 
-            string historyID = null;
-            string deviceInfo = null;
-            string format = "PDF";
+            const string historyID = null;
+            const string deviceInfo = null;
+            const string format = "PDF";
             Byte[] results;
-            string encoding = String.Empty;
-            string mimeType = String.Empty;
-            string extension = String.Empty;
-            RE2005.Warning[] warnings = null;
-            string[] streamIDs = null;
-            string _reportName = @"/GeniusReports/Job/SPM_ServiceReport";
+            const string _reportName = "/GeniusReports/Job/SPM_ServiceReport";
 
-            string _historyID = null;
-            bool _forRendering = false;
+            const string _historyID = null;
+            const bool _forRendering = false;
             RS2005.ParameterValue[] _values = null;
             RS2005.DataSourceCredentials[] _credentials = null;
-            RS2005.ReportParameter[] _parameters = null;
-
             try
             {
-                _parameters = rs.GetReportParameters(_reportName, _historyID, _forRendering, _values, _credentials);
+                RS2005.ReportParameter[] _parameters = rs.GetReportParameters(_reportName, _historyID, _forRendering, _values, _credentials);
                 RE2005.ExecutionInfo ei = rsExec.LoadReport(_reportName, historyID);
                 RE2005.ParameterValue[] parameters = new RE2005.ParameterValue[1];
 
@@ -73,8 +57,8 @@ namespace SearchDataSPM
                 rsExec.SetExecutionParameters(parameters, "en-us");
 
                 results = rsExec.Render(format, deviceInfo,
-                          out extension, out encoding,
-                          out mimeType, out warnings, out streamIDs);
+                          out string extension, out string encoding,
+                          out string mimeType, out RE2005.Warning[] warnings, out string[] streamIDs);
 
                 try
                 {
@@ -88,11 +72,16 @@ namespace SearchDataSPM
             }
             catch (Exception ex)
             {
-                throw ex;
+                Debug.Print(ex.Message);
             }
-            finally
-            {
-            }
+        }
+
+        private void SaveReport(string reqno)
+        {
+            const string filepath = @"\\spm-adfs\Shares\Shail\vs\";
+            Directory.CreateDirectory(filepath);
+            string fileName = filepath + reqno + ".pdf";
+            SaveReport(reqno, fileName);
         }
 
         #endregion Save Report

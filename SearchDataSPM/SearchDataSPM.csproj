@@ -34,7 +34,7 @@
     <MinimumRequiredVersion>7.20.05.01</MinimumRequiredVersion>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationRevision>3</ApplicationRevision>
     <ApplicationVersion>7.20.05.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -101,6 +101,9 @@
   <PropertyGroup />
   <PropertyGroup />
   <PropertyGroup />
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AdvancedDataGridView, Version=0.1.0.10, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ADGV.0.1.0.10\lib\net40\AdvancedDataGridView.dll</HintPath>
@@ -358,12 +361,6 @@
     <Compile Include="Admin-developer\ConverterHash.cs" />
     <Compile Include="Customer.cs">
       <DependentUpon>ConnectCustomers.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Dashboard\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Dashboard\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Dashboard\Dashboard.cs">
       <SubType>Form</SubType>
@@ -718,9 +715,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Admin-developer\Customers.resx">
       <DependentUpon>Customers.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Dashboard\Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dashboard\Dashboard.resx">
       <DependentUpon>Dashboard.cs</DependentUpon>

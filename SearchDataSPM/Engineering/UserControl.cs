@@ -2,7 +2,7 @@
 {
     public class UserControl
     {
-        public string computername { get; set; }
-        public string username { get; set; }
+        public string Computername { get; set; }
+        public string Username { get; set; }
     }
 }

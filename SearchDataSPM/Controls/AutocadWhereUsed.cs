@@ -15,21 +15,19 @@ namespace SearchDataSPM
     {
         #region setup variables
 
-        private string connection;
-        private string cntrlconnection;
-        private DataTable _acountsTb = null;
-        private DataTable _productTB;
-        private SqlConnection _connection;
-        private SqlCommand _command;
+        private readonly string connection;
+        private readonly string cntrlconnection;
+        private readonly DataTable _acountsTb;
+        private readonly DataTable _productTB;
+        private readonly SqlConnection _connection;
+        private readonly SqlCommand _command;
         private SqlDataAdapter _adapter;
 
         //SqlDataAdapter _adapaterproduct;
-        private TreeNode root = new TreeNode();
+        private readonly TreeNode root = new TreeNode();
 
         private string txtvalue;
         private log4net.ILog log;
-
-        private ErrorHandler errorHandler = new ErrorHandler();
 
         #endregion setup variables
 
@@ -39,7 +37,7 @@ namespace SearchDataSPM
         {
             InitializeComponent();
             connection = ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
-            cntrlconnection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cntrlscn"].ConnectionString;
+            cntrlconnection = ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cntrlscn"].ConnectionString;
 
             try
             {
@@ -50,7 +48,7 @@ namespace SearchDataSPM
                 MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            string txtvalue = Assy_txtbox.Text;
+            _ = Assy_txtbox.Text;
             _acountsTb = new DataTable();
             _command = new SqlCommand
             {
@@ -88,7 +86,7 @@ namespace SearchDataSPM
 
         private void filldatatable()
         {
-            String sql = "SELECT *  FROM [SPMControlCatalog].[dbo].[ControlsBOM] ORDER BY [QUERY2]";
+            const String sql = "SELECT *  FROM [SPMControlCatalog].[dbo].[ControlsBOM] ORDER BY [QUERY2]";
             try
             {
                 _acountsTb.Clear();
@@ -197,7 +195,7 @@ namespace SearchDataSPM
                 treeView1.ResetText();
                 Expandchk.Checked = false;
                 //DataRow[] dr = _productTB.Select("ItemNumber = '" + txtvalue.ToString() + "'");
-                DataRow[] dr = _acountsTb.Select("QUERY2 = '" + txtvalue.ToString() + "'");
+                DataRow[] dr = _acountsTb.Select("QUERY2 = '" + txtvalue + "'");
                 if (dr.Length > 0)
                 {
                     root.Text = dr[0]["QUERY2"].ToString() + " - " + dr[0]["DESCRIPTION"].ToString();
@@ -233,7 +231,7 @@ namespace SearchDataSPM
         {
             TreeNode childNode;
 
-            foreach (DataRow dr in _acountsTb.Select("[QUERY2] ='" + parentId.ToString() + "'"))
+            foreach (DataRow dr in _acountsTb.Select("[QUERY2] ='" + parentId + "'"))
             {
                 TreeNode t = new TreeNode
                 {
@@ -258,7 +256,7 @@ namespace SearchDataSPM
                     parentNode.Nodes.Add(t);
                     childNode = t;
                 }
-                PopulateTreeView((dr["AssyNo"].ToString()), childNode);
+                PopulateTreeView(dr["AssyNo"].ToString(), childNode);
             }
 
             treeView1.ExpandAll();
@@ -292,7 +290,7 @@ namespace SearchDataSPM
 
         private void SPM_DoubleClick(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("http://www.spm-automation.com/");
+            Process.Start("http://www.spm-automation.com/");
         }
 
         #endregion assytextbox and button events
@@ -309,7 +307,7 @@ namespace SearchDataSPM
                 first3char = ItemNo.Substring(0, 3) + @"\";
                 //MessageBox.Show(first3char);
 
-                string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
+                const string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
 
                 string Pathpart = (spmcadpath + first3char + ItemNo + ".sldprt");
                 string Pathassy = (spmcadpath + first3char + ItemNo + ".sldasm");
@@ -382,7 +380,7 @@ namespace SearchDataSPM
                 first3char = str.Substring(0, 3) + @"\";
                 //MessageBox.Show(first3char);
 
-                string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
+                const string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
 
                 string Drawpath = (spmcadpath + first3char + str + ".SLDDRW");
 
@@ -431,9 +429,9 @@ namespace SearchDataSPM
 
         #region search tree
 
-        private List<TreeNode> CurrentNodeMatches = new List<TreeNode>();
+        private readonly List<TreeNode> CurrentNodeMatches = new List<TreeNode>();
 
-        private int LastNodeIndex = 0;
+        private int LastNodeIndex;
 
         private string LastSearchText;
 
@@ -443,25 +441,17 @@ namespace SearchDataSPM
             while (StartNode != null)
             {
                 DataRow r = _acountsTb.Rows[int.Parse(StartNode.Tag.ToString())];
-                string searchwithin;
-
-                if (StartNode.Parent != null)
-                {
-                    searchwithin = r["AssyNo"].ToString() + r["AssyDesc"].ToString() + r["AssyManufacturer"].ToString() + r["AssyOem"].ToString();
-                }
-                else
-                {
-                    searchwithin = r["QUERY2"].ToString() + r["DESCRIPTION"].ToString() + r["USER3"].ToString() + r["TEXTVALUE"].ToString();
-                }
-
-                if (searchwithin.ToString().ToLower().Contains(SearchText.ToLower()))
+                string searchwithin = StartNode.Parent != null
+                    ? r["AssyNo"].ToString() + r["AssyDesc"].ToString() + r["AssyManufacturer"].ToString() + r["AssyOem"].ToString()
+                    : r["QUERY2"].ToString() + r["DESCRIPTION"].ToString() + r["USER3"].ToString() + r["TEXTVALUE"].ToString();
+                if (searchwithin.IndexOf(SearchText, StringComparison.CurrentCultureIgnoreCase) >= 0)
                 {
                     CurrentNodeMatches.Add(StartNode);
-                };
+                }
                 if (StartNode.Nodes.Count != 0)
                 {
                     SearchNodes(SearchText, StartNode.Nodes[0]);//Recursive Search
-                };
+                }
                 StartNode = StartNode.NextNode;
             }
         }
@@ -477,7 +467,7 @@ namespace SearchDataSPM
                     if (String.IsNullOrEmpty(searchText))
                     {
                         return;
-                    };
+                    }
 
                     if (LastSearchText != searchText)
                     {
@@ -564,15 +554,15 @@ namespace SearchDataSPM
         {
             if (e.KeyChar == Convert.ToChar(Keys.Down))
             {
-                TreeNode node = new TreeNode();
-                node = treeView1.SelectedNode;
+                _ = new TreeNode();
+                TreeNode node = treeView1.SelectedNode;
                 treeView1.SelectedNode = node.NextVisibleNode;
                 node.TreeView.Focus();
             }
             else if (e.KeyChar == Convert.ToChar(Keys.Up))
             {
-                TreeNode node = new TreeNode();
-                node = treeView1.SelectedNode;
+                _ = new TreeNode();
+                TreeNode node = treeView1.SelectedNode;
                 treeView1.SelectedNode = node.NextVisibleNode;
                 node.TreeView.Focus();
             }

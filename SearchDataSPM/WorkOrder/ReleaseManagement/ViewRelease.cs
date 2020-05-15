@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static SPMConnectAPI.ConnectConstants;
 
 namespace SearchDataSPM
 {
@@ -13,20 +14,19 @@ namespace SearchDataSPM
     {
         #region steupvariables
 
-        private DataTable treeTB;
-        private DataTable woTB;
-        private TreeNode root = new TreeNode();
-        private TreeNode woroot = new TreeNode();
-        private string workOrder;
-        private string assyNumber;
-        private string jobNumber;
-        private bool rootnodedone;
-        private bool worootnodedone;
-        private bool isJob = false;
-        private WorkOrder connectapi = new WorkOrder();
+        private readonly string assyNumber;
+        private readonly WorkOrder connectapi = new WorkOrder();
+        private readonly bool isJob;
+        private readonly string jobNumber;
+        private readonly TreeNode root = new TreeNode();
+        private readonly string workOrder;
+        private readonly TreeNode woroot = new TreeNode();
+        private bool doneshowingSplash;
         private log4net.ILog log;
-        private ErrorHandler errorHandler = new ErrorHandler();
-        private bool doneshowingSplash = false;
+        private bool rootnodedone;
+        private DataTable treeTB;
+        private bool worootnodedone;
+        private DataTable woTB;
 
         #endregion steupvariables
 
@@ -39,6 +39,166 @@ namespace SearchDataSPM
             this.isJob = job;
             this.assyNumber = jobassyno;
             this.jobNumber = jobno;
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Control | Keys.W))
+            {
+                Close();
+                return true;
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        private bool _SearchNodes(string SearchText, TreeNode StartNode)
+        {
+            // TreeNode node = null;
+            bool itemexists = false;
+            while (StartNode != null)
+            {
+                if (StartNode.Text.IndexOf(SearchText, StringComparison.CurrentCultureIgnoreCase) >= 0)
+                {
+                    MessageBox.Show("Item already added to the assembly list", "SPM Conect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    itemexists = true;
+                    Treeview.SelectedNode = StartNode;
+                    CurrentNodeMatches.Add(StartNode);
+                }
+
+                if (StartNode.Nodes.Count != 0)
+                {
+                    _SearchNodes(SearchText, StartNode.Nodes[0]);//Recursive Search
+                }
+
+                StartNode = StartNode.NextNode;
+            }
+            return itemexists;
+        }
+
+        private void Addremovecontextmenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (Treeview.SelectedNode != null)
+            {
+                if (Treeview.SelectedNode.Name != "Releases")
+                {
+                    e.Cancel = true;
+                }
+            }
+            else
+            {
+                e.Cancel = true;
+            }
+        }
+
+        private void CleanupTextboxes()
+        {
+            releaselognotxt.Clear();
+            jobnotxt.Clear();
+            wotxt.Clear();
+            assynotxt.Clear();
+            assydesctxt.Clear();
+            releasetypetxt.Clear();
+            releasenotestxt.Clear();
+            createdbytxt.Clear();
+            datecreatedtxt.Clear();
+            dateeditxt.Clear();
+            Lastsavedtxtbox.Clear();
+            itemnotxt.Clear();
+            itemdestxt.Clear();
+            oemtxt.Clear();
+            oemitemtxt.Clear();
+            qtytxt.Clear();
+            itmnotestxt.Clear();
+        }
+
+        private void contextMenuStrip1_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            //if (woTreeview.SelectedNode != null)
+            //{
+            //}
+            //else
+            //{
+            //    e.Cancel = true;
+            //}
+        }
+
+        private string Getselectedreleaseworkorder(TreeNode treeNode)
+        {
+            string wo = "";
+            if (treeNode != null)
+            {
+                DataRow r = treeTB.Rows[int.Parse(treeNode.Tag.ToString())];
+                wo = r["WO"].ToString();
+            }
+
+            return wo;
+        }
+
+        private string GetselectedreleaseworkorderReleaseNotes(TreeNode treeNode)
+        {
+            string wo = "";
+            if (treeNode != null)
+            {
+                DataRow r = treeTB.Rows[int.Parse(treeNode.Tag.ToString())];
+                wo = r["ReleaseNotes"].ToString();
+            }
+
+            return wo;
+        }
+
+        private string GetselectedreleaseworkorderReleaseType(TreeNode treeNode)
+        {
+            string wo = "";
+            if (treeNode != null)
+            {
+                DataRow r = treeTB.Rows[int.Parse(treeNode.Tag.ToString())];
+                wo = r["ReleaseType"].ToString();
+            }
+            if (wo == "Initial Release")
+                return "";
+            return wo;
+        }
+
+        private string Getselectedworkorder(TreeNode treeNode)
+        {
+            string wo = "";
+            if (treeNode != null)
+            {
+                DataRow r = woTB.Rows[int.Parse(treeNode.Tag.ToString())];
+                wo = r["WO"].ToString();
+            }
+
+            return wo;
+        }
+
+        private void getWOToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ProrcessreportWorkOrder(Getselectedworkorder(woTreeview.SelectedNode), "WorkOrder");
+        }
+
+        private bool IsAssembly(string family)
+        {
+            switch (family.ToLower())
+            {
+                case "as":
+                    return true;
+
+                case "asel":
+                    return true;
+
+                case "aspn":
+                    return true;
+
+                default:
+                    return false;
+            }
+        }
+
+        private void ItemInfo_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            log.Info("Closed WorkOrder Release " + workOrder + " ");
+            Dispose();
         }
 
         private void ParentView_Load(object sender, EventArgs e)
@@ -65,56 +225,22 @@ namespace SearchDataSPM
             log.Info("Opened View WorkOrder Release " + workOrder + " ");
         }
 
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            if (keyData == (Keys.Control | Keys.W))
-            {
-                Close();
-                return true;
-            }
-
-            return base.ProcessCmdKey(ref msg, keyData);
-        }
-
-        private void FillReleaseinfo(DataTable releaseLogDetails)
-        {
-            var r = releaseLogDetails.Rows[0];
-            if (releaseLogDetails.Rows.Count > 0)
-            {
-                releaselognotxt.Text = r["RlogNo"].ToString();
-                jobnotxt.Text = r["JobNo"].ToString();
-                wotxt.Text = r["WO"].ToString();
-                assynotxt.Text = r["AssyNo"].ToString();
-                createdbytxt.Text = r["CreatedBy"].ToString();
-                datecreatedtxt.Text = r["CreatedOn"].ToString();
-                dateeditxt.Text = r["LastSaved"].ToString();
-                Lastsavedtxtbox.Text = r["LastSavedBy"].ToString();
-                releasenotestxt.Text = r["ReleaseNotes"].ToString();
-                releasetypetxt.Text = r["ReleaseType"].ToString();
-
-                var iteminfo = new DataTable();
-                iteminfo.Clear();
-                iteminfo = connectapi.GetIteminfo(assynotxt.Text);
-                var ra = iteminfo.Rows[0];
-                assydesctxt.Text = ra["Description"].ToString();
-                iteminfo.Clear();
-            }
-        }
-
-        private void ItemInfo_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            log.Info("Closed WorkOrder Release " + workOrder + " ");
-            Dispose();
-        }
-
         #region Treeview
 
-        private void Itemnotxt_KeyPress(object sender, KeyPressEventArgs e)
+        public TreeNode publicnode;
+
+        private void CallRecursive()
         {
-            if ((sender as TextBox).SelectionStart == 0)
-                e.Handled = (e.KeyChar == (char)Keys.Space);
-            else
-                e.Handled = false;
+            // Print each node recursively.
+
+            var nodes = Treeview.Nodes;
+            foreach (TreeNode n in nodes)
+            {
+                if (n.Nodes.Count > 0)
+                {
+                    PrintRecursive(n);
+                }
+            }
         }
 
         private void Cleanup()
@@ -126,6 +252,18 @@ namespace SearchDataSPM
             Expandchk.Checked = false;
         }
 
+        private void Expandchk_Click(object sender, EventArgs e)
+        {
+            if (Expandchk.Checked)
+            {
+                Treeview.ExpandAll();
+            }
+            else
+            {
+                Treeview.CollapseAll();
+            }
+        }
+
         private void Fillrootnode()
         {
             try
@@ -135,7 +273,7 @@ namespace SearchDataSPM
                 Treeview.ResetText();
                 Expandchk.Checked = false;
 
-                DataRow[] dr = treeTB.Select("[Parent] ='" + workOrder.ToString() + "'");
+                DataRow[] dr = treeTB.Select("[Parent] ='" + workOrder + "'");
                 if (dr.Length > 0)
                 {
                     if (isJob)
@@ -165,28 +303,16 @@ namespace SearchDataSPM
             }
         }
 
-        private void Startprocessfortreeview()
+        private void Itemnotxt_KeyPress(object sender, KeyPressEventArgs e)
         {
-            try
-            {
-                Treeview.Nodes.Clear();
-                RemoveChildNodes(root);
-                Treeview.ResetText();
-                treeTB.Clear();
-                treeTB = connectapi.GrabReleaseLogsBOM(jobNumber);
-                Fillrootnode();
-                CallRecursive();
-            }
-            catch (Exception)
-            {
-            }
+            e.Handled = (sender as TextBox)?.SelectionStart == 0 && e.KeyChar == (char)Keys.Space;
         }
 
         private void PopulateTreeView(string parentId, TreeNode parentNode)
         {
             TreeNode childNode;
 
-            foreach (DataRow dr in treeTB.Select("[Parent] ='" + parentId.ToString() + "'"))
+            foreach (DataRow dr in treeTB.Select("[Parent] ='" + parentId + "'"))
             {
                 var t = new TreeNode
                 {
@@ -216,46 +342,11 @@ namespace SearchDataSPM
             // treeView1.SelectedNode = treeView1.Nodes[0];
         }
 
-        private void PopulateTreeViewFirst(string parentId, TreeNode parentNode)
-        {
-            TreeNode childNode;
-
-            foreach (DataRow dr in treeTB.Select("[Parent] ='" + parentId.ToString() + "'"))
-            {
-                var t = new TreeNode
-                {
-                    Text = dr["ReleaseType"].ToString() + " - (" + dr["RlogNo"].ToString() + ")",
-                    Name = "Releases",
-                    Tag = treeTB.Rows.IndexOf(dr)
-                };
-                if (parentNode == null)
-                {
-                    var f = new Font("Arial", 9, FontStyle.Italic);
-                    t.NodeFont = f;
-                    t.Text = "Job " + dr["JobNo"].ToString() + " - WO " + workOrder + " - " + dr["Description"].ToString();
-                    t.Tag = treeTB.Rows.IndexOf(dr);
-                    Treeview.Nodes.Add(t);
-                    childNode = t;
-                }
-                else
-                {
-                    var f = new Font("Arial", 9, FontStyle.Bold);
-                    //t.NodeFont = f;
-                    parentNode.Nodes.Add(t);
-                    childNode = t;
-                }
-
-                if (parentId != dr["RlogNo"].ToString())
-                    PopulateTreeViewChilds(dr["RlogNo"].ToString(), childNode);
-            }
-            // treeView1.SelectedNode = treeView1.Nodes[0];
-        }
-
         private void PopulateTreeViewChilds(string parentId, TreeNode parentNode)
         {
             TreeNode childNode;
 
-            foreach (DataRow dr in treeTB.Select("[Parent] ='" + parentId.ToString() + "'"))
+            foreach (DataRow dr in treeTB.Select("[Parent] ='" + parentId + "'"))
             {
                 var t = new TreeNode
                 {
@@ -290,33 +381,39 @@ namespace SearchDataSPM
             }
         }
 
-        private void RemoveChildNodes(TreeNode parentNode)
+        private void PopulateTreeViewFirst(string parentId, TreeNode parentNode)
         {
-            if (parentNode.Nodes.Count > 0)
-            {
-                for (int i = parentNode.Nodes.Count - 1; i >= 0; i--)
-                    parentNode.Nodes[i].Remove();
-            }
-        }
+            TreeNode childNode;
 
-        private void TreeView1_BeforeCollapse(object sender, TreeViewCancelEventArgs e)
-        {
-            // e.Node.SelectedImageIndex = 0;
-            // e.Node.ImageIndex = 0;
-            if (e.Node.ImageIndex == 1)
+            foreach (DataRow dr in treeTB.Select("[Parent] ='" + parentId + "'"))
             {
-                e.Node.SelectedImageIndex = 0;
-                e.Node.ImageIndex = 0;
-            }
-        }
+                var t = new TreeNode
+                {
+                    Text = dr["ReleaseType"].ToString() + " - (" + dr["RlogNo"].ToString() + ")",
+                    Name = "Releases",
+                    Tag = treeTB.Rows.IndexOf(dr)
+                };
+                if (parentNode == null)
+                {
+                    var f = new Font("Arial", 9, FontStyle.Italic);
+                    t.NodeFont = f;
+                    t.Text = "Job " + dr["JobNo"].ToString() + " - WO " + workOrder + " - " + dr["Description"].ToString();
+                    t.Tag = treeTB.Rows.IndexOf(dr);
+                    Treeview.Nodes.Add(t);
+                    childNode = t;
+                }
+                else
+                {
+                    var f = new Font("Arial", 9, FontStyle.Bold);
+                    //t.NodeFont = f;
+                    parentNode.Nodes.Add(t);
+                    childNode = t;
+                }
 
-        private void TreeView1_BeforeExpand(object sender, TreeViewCancelEventArgs e)
-        {
-            if (e.Node.ImageIndex == 0)
-            {
-                e.Node.SelectedImageIndex = 1;
-                e.Node.ImageIndex = 1;
+                if (parentId != dr["RlogNo"].ToString())
+                    PopulateTreeViewChilds(dr["RlogNo"].ToString(), childNode);
             }
+            // treeView1.SelectedNode = treeView1.Nodes[0];
         }
 
         private void PrintRecursive(TreeNode treeNode)
@@ -326,7 +423,7 @@ namespace SearchDataSPM
             {
             }
 
-            if (treeNode.Index == 0 && rootnodedone == false)
+            if (treeNode.Index == 0 && !rootnodedone)
             {
                 rootnodedone = true;
             }
@@ -340,6 +437,25 @@ namespace SearchDataSPM
             // Print each node recursively.
             foreach (TreeNode tn in treeNode.Nodes)
                 PrintRecursive(tn);
+        }
+
+        private void RemoveChildNodes(TreeNode parentNode)
+        {
+            if (parentNode.Nodes.Count > 0)
+            {
+                for (int i = parentNode.Nodes.Count - 1; i >= 0; i--)
+                    parentNode.Nodes[i].Remove();
+            }
+        }
+
+        private void RemoveItemToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Treeview.SelectedNode.Name == "Releases")
+            {
+                DataRow r = treeTB.Rows[int.Parse(Treeview.SelectedNode.Tag.ToString())];
+
+                ShowReleaseLogDetails(r["RlogNo"].ToString());
+            }
         }
 
         private void Setimageaccordingtofamily(string family, TreeNode treeNode)
@@ -384,27 +500,127 @@ namespace SearchDataSPM
             {
                 treeNode.ImageIndex = 10;
             }
-            else if (family == "DR")
-            {
-                treeNode.ImageIndex = 11;
-            }
             else
             {
-                treeNode.ImageIndex = 2;
+                treeNode.ImageIndex = family == "DR" ? 11 : 2;
             }
         }
 
-        private void CallRecursive()
+        private void Startprocessfortreeview()
         {
-            // Print each node recursively.
-
-            var nodes = Treeview.Nodes;
-            foreach (TreeNode n in nodes)
+            try
             {
-                if (n.Nodes.Count > 0)
-                {
-                    PrintRecursive(n);
-                }
+                Treeview.Nodes.Clear();
+                RemoveChildNodes(root);
+                Treeview.ResetText();
+                treeTB.Clear();
+                treeTB = connectapi.GrabReleaseLogsBOM(jobNumber);
+                Fillrootnode();
+                CallRecursive();
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.Message, ex);
+            }
+        }
+
+        private void Treeview_AfterExpand(object sender, TreeViewEventArgs e)
+        {
+            Expandchk.Checked = true;
+        }
+
+        private void Treeview_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            if (publicnode != null)
+            {
+                publicnode.BackColor = Treeview.BackColor;
+                publicnode.ForeColor = Treeview.ForeColor;
+            }
+            if (root.IsSelected)
+            {
+                DataRow r = treeTB.Rows[int.Parse(Treeview.SelectedNode.Tag.ToString())];
+                jobnotxt.Text = r["JobNo"].ToString();
+            }
+            else if (Treeview.SelectedNode.Name == "Assy")
+            {
+                DataRow r = treeTB.Rows[int.Parse(Treeview.SelectedNode.Tag.ToString())];
+                assynotxt.Text = r["AssyNo"].ToString();
+                assydesctxt.Text = r["Description"].ToString();
+                wotxt.Text = r["WO"].ToString();
+            }
+            else if (Treeview.SelectedNode.Name == "Releases")
+            {
+                DataRow r = treeTB.Rows[int.Parse(Treeview.SelectedNode.Tag.ToString())];
+                assynotxt.Text = r["AssyNo"].ToString();
+                assydesctxt.Text = r["Description"].ToString();
+                wotxt.Text = r["WO"].ToString();
+                releaselognotxt.Text = r["RlogNo"].ToString();
+                releasenotestxt.Text = r["ReleaseNotes"].ToString();
+                createdbytxt.Text = r["CreatedBy"].ToString();
+                datecreatedtxt.Text = r["CreatedOn"].ToString();
+                Lastsavedtxtbox.Text = r["LastSavedBy"].ToString();
+                dateeditxt.Text = r["LastSaved"].ToString();
+                releasetypetxt.Text = r["ReleaseType"].ToString();
+            }
+            else if (Treeview.SelectedNode.Name == "Items")
+            {
+                DataRow r = treeTB.Rows[int.Parse(Treeview.SelectedNode.Tag.ToString())];
+
+                wotxt.Text = r["WO"].ToString();
+                releaselognotxt.Text = r["RlogNo"].ToString();
+
+                createdbytxt.Text = r["CreatedBy"].ToString();
+                datecreatedtxt.Text = r["CreatedOn"].ToString();
+                Lastsavedtxtbox.Text = r["LastSavedBy"].ToString();
+                dateeditxt.Text = r["LastSaved"].ToString();
+
+                itemnotxt.Text = r["AssyNo"].ToString();
+                itemdestxt.Text = r["Description"].ToString();
+                oemtxt.Text = r["OEM"].ToString();
+                oemitemtxt.Text = r["OEMItemNo"].ToString();
+                qtytxt.Text = r["ReleaseType"].ToString();
+                itmnotestxt.Text = r["ReleaseNotes"].ToString();
+            }
+        }
+
+        private void Treeview_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                txtSearch.Focus();
+                txtSearch.Select();
+                SendKeys.Send("~");
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private void Treeview_Leave(object sender, EventArgs e)
+        {
+            if (Treeview.Nodes.Count > 0 && Treeview.SelectedNode != null)
+            {
+                publicnode = Treeview.SelectedNode;
+                publicnode.BackColor = Color.LightBlue;
+            }
+        }
+
+        private void TreeView1_BeforeCollapse(object sender, TreeViewCancelEventArgs e)
+        {
+            // e.Node.SelectedImageIndex = 0;
+            // e.Node.ImageIndex = 0;
+            if (e.Node.ImageIndex == 1)
+            {
+                e.Node.SelectedImageIndex = 0;
+                e.Node.ImageIndex = 0;
+            }
+        }
+
+        private void TreeView1_BeforeExpand(object sender, TreeViewCancelEventArgs e)
+        {
+            if (e.Node.ImageIndex == 0)
+            {
+                e.Node.SelectedImageIndex = 1;
+                e.Node.ImageIndex = 1;
             }
         }
 
@@ -483,15 +699,15 @@ namespace SearchDataSPM
         {
             if (e.KeyChar == Convert.ToChar(Keys.Down))
             {
-                var node = new TreeNode();
-                node = Treeview.SelectedNode;
+                _ = new TreeNode();
+                TreeNode node = Treeview.SelectedNode;
                 Treeview.SelectedNode = node.NextVisibleNode;
                 node.TreeView.Focus();
             }
             else if (e.KeyChar == Convert.ToChar(Keys.Up))
             {
-                var node = new TreeNode();
-                node = Treeview.SelectedNode;
+                _ = new TreeNode();
+                TreeNode node = Treeview.SelectedNode;
                 Treeview.SelectedNode = node.NextVisibleNode;
                 node.TreeView.Focus();
             }
@@ -502,117 +718,13 @@ namespace SearchDataSPM
             Treeview.SelectedNode = e.Node;
         }
 
-        private void Treeview_AfterExpand(object sender, TreeViewEventArgs e)
-        {
-            Expandchk.Checked = true;
-        }
-
-        public TreeNode publicnode;
-
-        private void Treeview_Leave(object sender, EventArgs e)
-        {
-            if (Treeview.Nodes.Count > 0 && Treeview.SelectedNode != null)
-            {
-                publicnode = Treeview.SelectedNode;
-                publicnode.BackColor = Color.LightBlue;
-            }
-        }
-
-        private void Treeview_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            if (publicnode != null)
-            {
-                publicnode.BackColor = Treeview.BackColor;
-                publicnode.ForeColor = Treeview.ForeColor;
-            }
-            if (root.IsSelected)
-            {
-                DataRow r = treeTB.Rows[int.Parse(Treeview.SelectedNode.Tag.ToString())];
-                jobnotxt.Text = r["JobNo"].ToString();
-            }
-            else if (Treeview.SelectedNode.Name == "Assy")
-            {
-                DataRow r = treeTB.Rows[int.Parse(Treeview.SelectedNode.Tag.ToString())];
-                assynotxt.Text = r["AssyNo"].ToString();
-                assydesctxt.Text = r["Description"].ToString();
-                wotxt.Text = r["WO"].ToString();
-            }
-            else if (Treeview.SelectedNode.Name == "Releases")
-            {
-                DataRow r = treeTB.Rows[int.Parse(Treeview.SelectedNode.Tag.ToString())];
-                assynotxt.Text = r["AssyNo"].ToString();
-                assydesctxt.Text = r["Description"].ToString();
-                wotxt.Text = r["WO"].ToString();
-                releaselognotxt.Text = r["RlogNo"].ToString();
-                releasenotestxt.Text = r["ReleaseNotes"].ToString();
-                createdbytxt.Text = r["CreatedBy"].ToString();
-                datecreatedtxt.Text = r["CreatedOn"].ToString();
-                Lastsavedtxtbox.Text = r["LastSavedBy"].ToString();
-                dateeditxt.Text = r["LastSaved"].ToString();
-                releasetypetxt.Text = r["ReleaseType"].ToString();
-            }
-            else if (Treeview.SelectedNode.Name == "Items")
-            {
-                DataRow r = treeTB.Rows[int.Parse(Treeview.SelectedNode.Tag.ToString())];
-
-                wotxt.Text = r["WO"].ToString();
-                releaselognotxt.Text = r["RlogNo"].ToString();
-
-                createdbytxt.Text = r["CreatedBy"].ToString();
-                datecreatedtxt.Text = r["CreatedOn"].ToString();
-                Lastsavedtxtbox.Text = r["LastSavedBy"].ToString();
-                dateeditxt.Text = r["LastSaved"].ToString();
-
-                itemnotxt.Text = r["AssyNo"].ToString();
-                itemdestxt.Text = r["Description"].ToString();
-                oemtxt.Text = r["OEM"].ToString();
-                oemitemtxt.Text = r["OEMItemNo"].ToString();
-                qtytxt.Text = r["ReleaseType"].ToString();
-                itmnotestxt.Text = r["ReleaseNotes"].ToString();
-            }
-        }
-
-        private void Expandchk_Click(object sender, EventArgs e)
-        {
-            if (Expandchk.Checked)
-            {
-                Treeview.ExpandAll();
-            }
-            else
-            {
-                Treeview.CollapseAll();
-            }
-        }
-
-        private void Treeview_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Return)
-            {
-                txtSearch.Focus();
-                txtSearch.Select();
-                SendKeys.Send("~");
-                e.Handled = true;
-                e.SuppressKeyPress = true;
-            }
-        }
-
-        private void RemoveItemToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (Treeview.SelectedNode.Name == "Releases")
-            {
-                DataRow r = treeTB.Rows[int.Parse(Treeview.SelectedNode.Tag.ToString())];
-
-                ShowReleaseLogDetails(r["RlogNo"].ToString());
-            }
-        }
-
         #endregion Treeview
 
         #region search tree release log
 
-        private List<TreeNode> CurrentNodeMatches = new List<TreeNode>();
+        private readonly List<TreeNode> CurrentNodeMatches = new List<TreeNode>();
 
-        private int LastNodeIndex = 0;
+        private int LastNodeIndex;
 
         private string LastSearchText;
 
@@ -622,18 +734,16 @@ namespace SearchDataSPM
             while (StartNode != null)
             {
                 DataRow r = treeTB.Rows[int.Parse(StartNode.Tag.ToString())];
-                string searchwithin;
+                string searchwithin = r["WO"].ToString() + r["AssyNo"].ToString() + r["Description"].ToString() + r["OEM"].ToString() + r["OEMItemNo"].ToString() + r["ReleaseType"].ToString() + r["ReleaseNotes"].ToString();
 
-                searchwithin = r["WO"].ToString() + r["AssyNo"].ToString() + r["Description"].ToString() + r["OEM"].ToString() + r["OEMItemNo"].ToString() + r["ReleaseType"].ToString() + r["ReleaseNotes"].ToString();
-
-                if (searchwithin.ToLower().Contains(SearchText.ToLower()))
+                if (searchwithin.IndexOf(SearchText, StringComparison.CurrentCultureIgnoreCase) >= 0)
                 {
                     CurrentNodeMatches.Add(StartNode);
-                };
+                }
                 if (StartNode.Nodes.Count != 0)
                 {
                     SearchNodes(SearchText, StartNode.Nodes[0]);//Recursive Search
-                };
+                }
                 StartNode = StartNode.NextNode;
             }
         }
@@ -651,7 +761,7 @@ namespace SearchDataSPM
                         if (String.IsNullOrEmpty(searchText))
                         {
                             return;
-                        };
+                        }
 
                         if (LastSearchText != searchText)
                         {
@@ -669,9 +779,9 @@ namespace SearchDataSPM
                             this.Treeview.SelectedNode = selectedNode;
                             this.Treeview.SelectedNode.Expand();
                             this.Treeview.Select();
-                            if (txtSearch.Text.Length > 0)
-                                foundlabel.Text = "Found " + LastNodeIndex + " of " + CurrentNodeMatches.Count + " matching items containing keyword \"" + searchText + "\"";
-                            else foundlabel.Text = "Search:";
+                            foundlabel.Text = txtSearch.Text.Length > 0
+                                ? "Found " + LastNodeIndex + " of " + CurrentNodeMatches.Count + " matching items containing keyword \"" + searchText + "\""
+                                : "Search:";
                         }
                         else
                         {
@@ -682,11 +792,15 @@ namespace SearchDataSPM
                         e.SuppressKeyPress = true;
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    log.Error(ex.Message, ex);
                 }
             }
-            else foundlabel.Text = "Search:";
+            else
+            {
+                foundlabel.Text = "Search:";
+            }
         }
 
         private void txtSearch_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -699,9 +813,9 @@ namespace SearchDataSPM
 
         #region search tree genius work order
 
-        private List<TreeNode> GenCurrentNodeMatches = new List<TreeNode>();
+        private readonly List<TreeNode> GenCurrentNodeMatches = new List<TreeNode>();
 
-        private int GenLastNodeIndex = 0;
+        private int GenLastNodeIndex;
 
         private string GenLastSearchText;
 
@@ -711,33 +825,19 @@ namespace SearchDataSPM
             while (StartNode != null)
             {
                 DataRow r = woTB.Rows[int.Parse(StartNode.Tag.ToString())];
-                string searchwithin;
-
-                if (StartNode.Parent == null)
-                {
-                    searchwithin = r["AssyNo"].ToString() + r["Woprec"].ToString() + r["AssyDescription"].ToString() + r["AssyManufacturer"].ToString() + r["AssyManufacturerItemNumber"].ToString();
-                }
-                else
-                {
-                    searchwithin = r["ItemNumber"].ToString() + r["Wo"].ToString() + r["Description"].ToString() + r["Manufacturer"].ToString() + r["ManufacturerItemNumber"].ToString();
-                }
-
-                if (searchwithin.ToLower().Contains(SearchText.ToLower()))
+                string searchwithin = StartNode.Parent == null
+                    ? r["AssyNo"].ToString() + r["Woprec"].ToString() + r["AssyDescription"].ToString() + r["AssyManufacturer"].ToString() + r["AssyManufacturerItemNumber"].ToString()
+                    : r["ItemNumber"].ToString() + r["Wo"].ToString() + r["Description"].ToString() + r["Manufacturer"].ToString() + r["ManufacturerItemNumber"].ToString();
+                if (searchwithin.IndexOf(SearchText, StringComparison.CurrentCultureIgnoreCase) >= 0)
                 {
                     GenCurrentNodeMatches.Add(StartNode);
-                };
+                }
                 if (StartNode.Nodes.Count != 0)
                 {
                     GenSearchNodes(SearchText, StartNode.Nodes[0]);//Recursive Search
-                };
+                }
                 StartNode = StartNode.NextNode;
             }
-        }
-
-        private void woserchtxt_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            txtSearch.Clear();
-            wosearchlabel.Text = "Search:";
         }
 
         private void woserchtxt_KeyDown(object sender, KeyEventArgs e)
@@ -753,7 +853,7 @@ namespace SearchDataSPM
                         if (String.IsNullOrEmpty(searchText))
                         {
                             return;
-                        };
+                        }
 
                         if (GenLastSearchText != searchText)
                         {
@@ -771,9 +871,9 @@ namespace SearchDataSPM
                             this.woTreeview.SelectedNode = selectedNode;
                             this.woTreeview.SelectedNode.Expand();
                             this.woTreeview.Select();
-                            if (woserchtxt.Text.Length > 0)
-                                wosearchlabel.Text = "Found " + GenLastNodeIndex + " of " + GenCurrentNodeMatches.Count + " matching items containing keyword \"" + searchText + "\"";
-                            else wosearchlabel.Text = "Search:";
+                            wosearchlabel.Text = woserchtxt.Text.Length > 0
+                                ? "Found " + GenLastNodeIndex + " of " + GenCurrentNodeMatches.Count + " matching items containing keyword \"" + searchText + "\""
+                                : "Search:";
                         }
                         else
                         {
@@ -784,25 +884,76 @@ namespace SearchDataSPM
                         e.SuppressKeyPress = true;
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    log.Error(ex.Message, ex);
                 }
             }
-            else wosearchlabel.Text = "Search:";
+            else
+            {
+                wosearchlabel.Text = "Search:";
+            }
+        }
+
+        private void woserchtxt_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            txtSearch.Clear();
+            wosearchlabel.Text = "Search:";
         }
 
         #endregion search tree genius work order
 
+        private async void ProcesstreeviewReload()
+        {
+            await Task.Run(() => SplashDialog("Refreshing Data....")).ConfigureAwait(false);
+            Thread.Sleep(1000);
+            Cleanup();
+            CleanupTextboxes();
+            rootnodedone = false;
+            Startprocessfortreeview();
+            doneshowingSplash = true;
+            root.Expand();
+        }
+
+        private void ProrcessReleasereportWorkOrder(string itemvalue, string Reportname, string worelease, string wonotes)
+        {
+            ReportViewer form1 = new ReportViewer(Reportname, itemvalue, wonotes: wonotes, woreleasetype: worelease);
+            form1.Show();
+        }
+
+        private void ProrcessreportWorkOrder(string itemvalue, string Reportname)
+        {
+            ReportViewer form1 = new ReportViewer(Reportname, itemvalue);
+            form1.Show();
+        }
+
+        private void reloadconnectbttn_Click(object sender, EventArgs e)
+        {
+            ProcesstreeviewReload();
+        }
+
+        private async void reloadwobttn_Click(object sender, EventArgs e)
+        {
+            await Task.Run(() => SplashDialog("Refreshing Data....")).ConfigureAwait(false);
+            Thread.Sleep(1000);
+            WOCleanup();
+            CleanupTextboxes();
+            worootnodedone = false;
+            WOStartprocessfortreeview();
+            doneshowingSplash = true;
+            woroot.Expand();
+        }
+
         private void ShowReleaseLogDetails(string invoice)
         {
-            string invoiceopen = connectapi.InvoiceOpen(invoice, ConnectAPI.CheckInModules.WO);
+            string invoiceopen = connectapi.InvoiceOpen(invoice, CheckInModules.WO);
             if (invoiceopen.Length > 0)
             {
                 MetroFramework.MetroMessageBox.Show(this, "Release Document is opened for edit by " + invoiceopen + ". ", "SPM Connect - Open Release Document Failed", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
             else
             {
-                if (connectapi.CheckinInvoice(invoice, ConnectAPI.CheckInModules.WO))
+                if (connectapi.CheckinInvoice(invoice, CheckInModules.WO))
                 {
                     using (AddRelease addrelease = new AddRelease(releaseLogNo: invoice))
                     {
@@ -814,62 +965,148 @@ namespace SearchDataSPM
             }
         }
 
-        private void Addremovecontextmenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            if (Treeview.SelectedNode != null)
-            {
-                if (Treeview.SelectedNode.Name == "Releases")
-                {
-                }
-                else
-                {
-                    e.Cancel = true;
-                }
-            }
-            else
-                e.Cancel = true;
-        }
-
         #region Genius  WO Treeview
 
         public TreeNode genpublicnode;
 
-        private void woTreeview_KeyPress(object sender, KeyPressEventArgs e)
+        private void WOCallRecursive()
         {
-            if (e.KeyChar == Convert.ToChar(Keys.Down))
+            // Print each node recursively.
+
+            var nodes = woTreeview.Nodes;
+            foreach (TreeNode n in nodes)
             {
-                var node = new TreeNode();
-                node = woTreeview.SelectedNode;
-                woTreeview.SelectedNode = node.NextVisibleNode;
-                node.TreeView.Focus();
-            }
-            else if (e.KeyChar == Convert.ToChar(Keys.Up))
-            {
-                var node = new TreeNode();
-                node = woTreeview.SelectedNode;
-                woTreeview.SelectedNode = node.NextVisibleNode;
-                node.TreeView.Focus();
+                if (n.Nodes.Count > 0)
+                {
+                    WOPrintRecursive(n);
+                }
             }
         }
 
-        private void woTreeview_KeyDown(object sender, KeyEventArgs e)
+        private void WOCleanup()
         {
-            if (e.KeyCode == Keys.Return)
+            woTreeview.Nodes.Clear();
+            woTreeview.ResetText();
+            RemoveChildNodes(woroot);
+            woTB.Clear();
+            woexpand.Checked = false;
+        }
+
+        private void woexpand_Click(object sender, EventArgs e)
+        {
+            if (woexpand.Checked)
             {
-                woserchtxt.Focus();
-                woserchtxt.Select();
-                SendKeys.Send("~");
-                e.Handled = true;
-                e.SuppressKeyPress = true;
+                woTreeview.ExpandAll();
+            }
+            else
+            {
+                woTreeview.CollapseAll();
             }
         }
 
-        private void woTreeview_Leave(object sender, EventArgs e)
+        private void WOFillrootnode()
         {
-            if (woTreeview.Nodes.Count > 0 && woTreeview.SelectedNode != null)
+            try
             {
-                genpublicnode = woTreeview.SelectedNode;
-                genpublicnode.BackColor = Color.LightBlue;
+                woTreeview.Nodes.Clear();
+                RemoveChildNodes(woroot);
+                woTreeview.ResetText();
+                woexpand.Checked = false;
+
+                DataRow[] dr = woTB.Select("AssyNo = '" + assyNumber + "'");
+                if (dr.Length > 0)
+                {
+                    woroot.Text = "(" + dr[0]["Job"].ToString() + ") " + dr[0]["AssyNo"].ToString() + " - " + dr[0]["AssyDescription"].ToString();
+                    woroot.Tag = woTB.Rows.IndexOf(dr[0]);
+                    Setimageaccordingtofamily(dr[0]["AssyFamily"].ToString(), woroot);
+                    woTreeview.Nodes.Add(woroot);
+                    WOPopulateTreeView(assyNumber, woroot, connectapi.GrabWOfromAssy(dr[0]["Job"].ToString(), dr[0]["AssyNo"].ToString()));
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                woTreeview.TopNode.Nodes.Clear();
+                woTreeview.Nodes.Clear();
+                RemoveChildNodes(woroot);
+                woTreeview.ResetText();
+            }
+        }
+
+        private void WOPopulateTreeView(string parentId, TreeNode parentNode, string wo)
+        {
+            TreeNode childNode;
+
+            foreach (DataRow dr in woTB.Select("[AssyNo] = '" + parentId + "' AND [Woprec] = '" + wo + "'"))
+            {
+                TreeNode t = new TreeNode
+                {
+                    Text = dr["ItemNumber"].ToString() + " (" + dr["WO"].ToString() + ") - " + dr["Description"].ToString() + " ( " + dr["QuantityPerAssembly"].ToString() + " )",
+                    Name = dr["ItemNumber"].ToString(),
+                    Tag = woTB.Rows.IndexOf(dr)
+                };
+                if (parentNode == null)
+                {
+                    Font f = new Font("Arial", 10, FontStyle.Bold);
+                    t.NodeFont = f;
+                    t.Text = dr["AssyNo"].ToString() + " - " + dr["AssyDescription"].ToString() + " ( " + dr["QuantityPerAssembly"].ToString() + " ) ";
+                    t.Name = dr["ItemNumber"].ToString();
+                    t.Tag = woTB.Rows.IndexOf(dr);
+                    woTreeview.Nodes.Add(t);
+                    childNode = t;
+                }
+                else
+                {
+                    Font f = new Font("Arial", 10, FontStyle.Bold);
+                    // t.NodeFont = f;
+                    parentNode.Nodes.Add(t);
+                    childNode = t;
+                }
+                if (dr["ItemNumber"].ToString() != dr["AssyNo"].ToString())
+                    WOPopulateTreeView(dr["ItemNumber"].ToString(), childNode, dr["Wo"].ToString());
+                //WOPopulateTreeView(dr["ItemNumber"].ToString(), childNode);
+            }
+            // treeView1.SelectedNode = treeView1.Nodes[0];
+        }
+
+        private void WOPrintRecursive(TreeNode treeNode)
+        {
+            // Print the node.
+            if (treeNode.Nodes.Count == 0)
+            {
+            }
+
+            if (treeNode.Index == 0 && !worootnodedone)
+            {
+                worootnodedone = true;
+            }
+            else
+            {
+                DataRow r = woTB.Rows[int.Parse(treeNode.Tag.ToString())];
+                string family = r["ItemFamily"].ToString();
+                Setimageaccordingtofamily(family, treeNode);
+            }
+
+            // Print each node recursively.
+            foreach (TreeNode tn in treeNode.Nodes)
+                WOPrintRecursive(tn);
+        }
+
+        private void WOStartprocessfortreeview()
+        {
+            try
+            {
+                woTreeview.Nodes.Clear();
+                RemoveChildNodes(woroot);
+                woTreeview.ResetText();
+                woTB.Clear();
+                woTB = connectapi.GrabJobWOBOM(isJob ? workOrder : connectapi.GetJobNoFromWO(workOrder));
+                WOFillrootnode();
+                WOCallRecursive();
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.Message, ex);
             }
         }
 
@@ -967,181 +1204,51 @@ namespace SearchDataSPM
             }
         }
 
-        private void woexpand_Click(object sender, EventArgs e)
+        private void woTreeview_KeyDown(object sender, KeyEventArgs e)
         {
-            if (woexpand.Checked)
+            if (e.KeyCode == Keys.Return)
             {
-                woTreeview.ExpandAll();
-            }
-            else
-            {
-                woTreeview.CollapseAll();
+                woserchtxt.Focus();
+                woserchtxt.Select();
+                SendKeys.Send("~");
+                e.Handled = true;
+                e.SuppressKeyPress = true;
             }
         }
 
-        private void WOCleanup()
+        private void woTreeview_KeyPress(object sender, KeyPressEventArgs e)
         {
-            woTreeview.Nodes.Clear();
-            woTreeview.ResetText();
-            RemoveChildNodes(woroot);
-            woTB.Clear();
-            woexpand.Checked = false;
-        }
-
-        private void WOFillrootnode()
-        {
-            try
+            if (e.KeyChar == Convert.ToChar(Keys.Down))
             {
-                woTreeview.Nodes.Clear();
-                RemoveChildNodes(woroot);
-                woTreeview.ResetText();
-                woexpand.Checked = false;
-
-                DataRow[] dr = woTB.Select("AssyNo = '" + assyNumber + "'");
-                if (dr.Length > 0)
-                {
-                    woroot.Text = "(" + dr[0]["Job"].ToString() + ") " + dr[0]["AssyNo"].ToString() + " - " + dr[0]["AssyDescription"].ToString();
-                    woroot.Tag = woTB.Rows.IndexOf(dr[0]);
-                    Setimageaccordingtofamily(dr[0]["AssyFamily"].ToString(), woroot);
-                    woTreeview.Nodes.Add(woroot);
-                    WOPopulateTreeView(assyNumber, woroot, connectapi.GrabWOfromAssy(dr[0]["Job"].ToString(), dr[0]["AssyNo"].ToString()));
-                }
+                _ = new TreeNode();
+                TreeNode node = woTreeview.SelectedNode;
+                woTreeview.SelectedNode = node.NextVisibleNode;
+                node.TreeView.Focus();
             }
-            catch (Exception ex)
+            else if (e.KeyChar == Convert.ToChar(Keys.Up))
             {
-                MessageBox.Show(ex.Message);
-                woTreeview.TopNode.Nodes.Clear();
-                woTreeview.Nodes.Clear();
-                RemoveChildNodes(woroot);
-                woTreeview.ResetText();
+                _ = new TreeNode();
+                TreeNode node = woTreeview.SelectedNode;
+                woTreeview.SelectedNode = node.NextVisibleNode;
+                node.TreeView.Focus();
             }
         }
 
-        private void WOStartprocessfortreeview()
+        private void woTreeview_Leave(object sender, EventArgs e)
         {
-            try
+            if (woTreeview.Nodes.Count > 0 && woTreeview.SelectedNode != null)
             {
-                woTreeview.Nodes.Clear();
-                RemoveChildNodes(woroot);
-                woTreeview.ResetText();
-                woTB.Clear();
-                woTB = connectapi.GrabJobWOBOM(isJob ? workOrder : connectapi.GetJobNoFromWO(workOrder));
-                WOFillrootnode();
-                WOCallRecursive();
+                genpublicnode = woTreeview.SelectedNode;
+                genpublicnode.BackColor = Color.LightBlue;
             }
-            catch (Exception)
-            {
-            }
-        }
-
-        private void WOPopulateTreeView(string parentId, TreeNode parentNode, string wo)
-        {
-            TreeNode childNode;
-
-            foreach (DataRow dr in woTB.Select("[AssyNo] = '" + parentId.ToString() + "' AND [Woprec] = '" + wo.ToString() + "'"))
-            {
-                TreeNode t = new TreeNode
-                {
-                    Text = dr["ItemNumber"].ToString() + " (" + dr["WO"].ToString() + ") - " + dr["Description"].ToString() + " ( " + dr["QuantityPerAssembly"].ToString() + " )",
-                    Name = dr["ItemNumber"].ToString(),
-                    Tag = woTB.Rows.IndexOf(dr)
-                };
-                if (parentNode == null)
-                {
-                    Font f = new Font("Arial", 10, FontStyle.Bold);
-                    t.NodeFont = f;
-                    t.Text = dr["AssyNo"].ToString() + " - " + dr["AssyDescription"].ToString() + " ( " + dr["QuantityPerAssembly"].ToString() + " ) ";
-                    t.Name = dr["ItemNumber"].ToString();
-                    t.Tag = woTB.Rows.IndexOf(dr);
-                    woTreeview.Nodes.Add(t);
-                    childNode = t;
-                }
-                else
-                {
-                    Font f = new Font("Arial", 10, FontStyle.Bold);
-                    // t.NodeFont = f;
-                    parentNode.Nodes.Add(t);
-                    childNode = t;
-                }
-                if (dr["ItemNumber"].ToString() != dr["AssyNo"].ToString())
-                    WOPopulateTreeView(dr["ItemNumber"].ToString(), childNode, dr["Wo"].ToString());
-                //WOPopulateTreeView(dr["ItemNumber"].ToString(), childNode);
-            }
-            // treeView1.SelectedNode = treeView1.Nodes[0];
-        }
-
-        private void WOCallRecursive()
-        {
-            // Print each node recursively.
-
-            var nodes = woTreeview.Nodes;
-            foreach (TreeNode n in nodes)
-            {
-                if (n.Nodes.Count > 0)
-                {
-                    WOPrintRecursive(n);
-                }
-            }
-        }
-
-        private void WOPrintRecursive(TreeNode treeNode)
-        {
-            // Print the node.
-            if (treeNode.Nodes.Count == 0)
-            {
-            }
-
-            if (treeNode.Index == 0 && worootnodedone == false)
-            {
-                worootnodedone = true;
-            }
-            else
-            {
-                DataRow r = woTB.Rows[int.Parse(treeNode.Tag.ToString())];
-                string family = r["ItemFamily"].ToString();
-                Setimageaccordingtofamily(family, treeNode);
-            }
-
-            // Print each node recursively.
-            foreach (TreeNode tn in treeNode.Nodes)
-                WOPrintRecursive(tn);
         }
 
         #endregion Genius  WO Treeview
 
-        private void reloadconnectbttn_Click(object sender, EventArgs e)
-        {
-            ProcesstreeviewReload();
-        }
-
-        private async void ProcesstreeviewReload()
-        {
-            await Task.Run(() => SplashDialog("Refreshing Data...."));
-            Thread.Sleep(1000);
-            Cleanup();
-            CleanupTextboxes();
-            rootnodedone = false;
-            Startprocessfortreeview();
-            doneshowingSplash = true;
-            root.Expand();
-        }
-
-        private async void reloadwobttn_Click(object sender, EventArgs e)
-        {
-            await Task.Run(() => SplashDialog("Refreshing Data...."));
-            Thread.Sleep(1000);
-            WOCleanup();
-            CleanupTextboxes();
-            worootnodedone = false;
-            WOStartprocessfortreeview();
-            doneshowingSplash = true;
-            woroot.Expand();
-        }
-
         private void SplashDialog(string message)
         {
             doneshowingSplash = false;
-            ThreadPool.QueueUserWorkItem((x) =>
+            ThreadPool.QueueUserWorkItem((_) =>
             {
                 using (var splashForm = new Dialog())
                 {
@@ -1149,34 +1256,13 @@ namespace SearchDataSPM
                     splashForm.Focus();
                     splashForm.Activate();
                     splashForm.Message = message;
-                    splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
+                    splashForm.Location = new Point(this.Location.X + ((this.Width - splashForm.Width) / 2), this.Location.Y + ((this.Height - splashForm.Height) / 2));
                     splashForm.Show();
                     while (!doneshowingSplash)
                         Application.DoEvents();
                     splashForm.Close();
                 }
             });
-        }
-
-        private void CleanupTextboxes()
-        {
-            releaselognotxt.Clear();
-            jobnotxt.Clear();
-            wotxt.Clear();
-            assynotxt.Clear();
-            assydesctxt.Clear();
-            releasetypetxt.Clear();
-            releasenotestxt.Clear();
-            createdbytxt.Clear();
-            datecreatedtxt.Clear();
-            dateeditxt.Clear();
-            Lastsavedtxtbox.Clear();
-            itemnotxt.Clear();
-            itemdestxt.Clear();
-            oemtxt.Clear();
-            oemitemtxt.Clear();
-            qtytxt.Clear();
-            itmnotestxt.Clear();
         }
 
         private void Tree_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
@@ -1188,32 +1274,6 @@ namespace SearchDataSPM
             {
                 woTreeview.DoDragDrop(node, DragDropEffects.Copy);
             }
-        }
-
-        private bool IsAssembly(string family)
-        {
-            bool assy = false;
-
-            switch (family.ToLower())
-            {
-                case "as":
-                    assy = true;
-                    break;
-
-                case "asel":
-                    assy = true;
-                    break;
-
-                case "aspn":
-                    assy = true;
-                    break;
-
-                default:
-                    assy = false;
-                    break;
-            }
-
-            return assy;
         }
 
         private void Treeview_DragDrop(object sender, DragEventArgs e)
@@ -1239,7 +1299,6 @@ namespace SearchDataSPM
                         string rlogno = connectapi.EnterWOToReleaseLog(wo, job, assyno);
                         if (rlogno.Length > 1)
                         {
-
                             ShowReleaseLogDetails(rlogno);
                         }
 
@@ -1280,30 +1339,6 @@ namespace SearchDataSPM
             }
         }
 
-        private bool _SearchNodes(string SearchText, TreeNode StartNode)
-        {
-            // TreeNode node = null;
-            bool itemexists = false;
-            while (StartNode != null)
-            {
-                if (StartNode.Text.ToLower().Contains(SearchText.ToLower()))
-                {
-                    MessageBox.Show("Item already added to the assembly list", "SPM Conect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    itemexists = true;
-                    Treeview.SelectedNode = StartNode;
-                    CurrentNodeMatches.Add(StartNode);
-                }
-
-                if (StartNode.Nodes.Count != 0)
-                {
-                    _SearchNodes(SearchText, StartNode.Nodes[0]);//Recursive Search
-                }
-
-                StartNode = StartNode.NextNode;
-            }
-            return itemexists;
-        }
-
         private void Treeview_DragOver(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.None;
@@ -1323,91 +1358,14 @@ namespace SearchDataSPM
             }
         }
 
-        private void getWOToolStripMenuItem_Click(object sender, EventArgs e)
+        private void viewWorkOrderToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ProrcessreportWorkOrder(Getselectedworkorder(woTreeview.SelectedNode), "WorkOrder");
-        }
-
-        private void ProrcessreportWorkOrder(string itemvalue, string Reportname)
-        {
-            ReportViewer form1 = new ReportViewer(Reportname, itemvalue);
-            form1.Show();
-        }
-
-        private void ProrcessReleasereportWorkOrder(string itemvalue, string Reportname, string worelease, string wonotes)
-        {
-            ReportViewer form1 = new ReportViewer(Reportname, itemvalue, wonotes: wonotes, woreleasetype: worelease);
-            form1.Show();
-        }
-
-        private string Getselectedworkorder(TreeNode treeNode)
-        {
-            string wo = "";
-            if (treeNode != null)
-            {
-                DataRow r = woTB.Rows[int.Parse(treeNode.Tag.ToString())];
-                wo = r["WO"].ToString();
-            }
-
-            return wo;
-        }
-
-        private string Getselectedreleaseworkorder(TreeNode treeNode)
-        {
-            string wo = "";
-            if (treeNode != null)
-            {
-                DataRow r = treeTB.Rows[int.Parse(treeNode.Tag.ToString())];
-                wo = r["WO"].ToString();
-            }
-
-            return wo;
-        }
-
-        private string GetselectedreleaseworkorderReleaseNotes(TreeNode treeNode)
-        {
-            string wo = "";
-            if (treeNode != null)
-            {
-                DataRow r = treeTB.Rows[int.Parse(treeNode.Tag.ToString())];
-                wo = r["ReleaseNotes"].ToString();
-            }
-
-            return wo;
-        }
-
-        private string GetselectedreleaseworkorderReleaseType(TreeNode treeNode)
-        {
-            string wo = "";
-            if (treeNode != null)
-            {
-                DataRow r = treeTB.Rows[int.Parse(treeNode.Tag.ToString())];
-                wo = r["ReleaseType"].ToString();
-            }
-            if (wo == "Initial Release")
-                return "";
-            return wo;
-        }
-
-        private void contextMenuStrip1_Opening(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            //if (woTreeview.SelectedNode != null)
-            //{
-            //}
-            //else
-            //{
-            //    e.Cancel = true;
-            //}
+            ProrcessReleasereportWorkOrder(Getselectedreleaseworkorder(Treeview.SelectedNode), "WorkOrder", GetselectedreleaseworkorderReleaseType(Treeview.SelectedNode), GetselectedreleaseworkorderReleaseNotes(Treeview.SelectedNode));
         }
 
         private void woTreeview_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             woTreeview.SelectedNode = e.Node;
-        }
-
-        private void viewWorkOrderToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ProrcessReleasereportWorkOrder(Getselectedreleaseworkorder(Treeview.SelectedNode), "WorkOrder", GetselectedreleaseworkorderReleaseType(Treeview.SelectedNode), GetselectedreleaseworkorderReleaseNotes(Treeview.SelectedNode));
         }
     }
 }

@@ -9,64 +9,14 @@ namespace SearchDataSPM.Admin_developer
 {
     public partial class UserStatus : Form
     {
-        private DataTable dt;
+        private readonly SPMConnectAPI.ConnectAPI connectapi = new SPMConnectAPI.ConnectAPI();
+        private readonly DataTable dt;
         private log4net.ILog log;
-        private ErrorHandler errorHandler = new ErrorHandler();
-        private SPMConnectAPI.ConnectAPI connectapi = new SPMConnectAPI.ConnectAPI();
 
         public UserStatus()
         {
             InitializeComponent();
             dt = new DataTable();
-        }
-
-        private void UserStatus_Load(object sender, EventArgs e)
-        {
-            Checkdeveloper();
-            loaddata();
-            log4net.Config.XmlConfigurator.Configure();
-            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened User Status ");
-        }
-
-        private void loaddata()
-        {
-            try
-            {
-                if (connectapi.cn.State == ConnectionState.Closed)
-                    connectapi.cn.Open();
-
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[Checkin] ORDER BY [Last Login] DESC", connectapi.cn);
-
-                dt.Clear();
-                sda.Fill(dt);
-                dataGridView1.DataSource = dt;
-                dataGridView1.Columns[0].Width = 140;
-                dataGridView1.Columns[1].Width = 160;
-                dataGridView1.Columns[2].Width = 110;
-                UpdateFont();
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Data cannot be retrieved from server. Please contact the admin.", "SPM Connect - SQL SERVER UserStatus", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
-            }
-            finally
-            {
-                connectapi.cn.Close();
-            }
-        }
-
-        private void UpdateFont()
-        {
-            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Tahoma", 9.0F, FontStyle.Bold);
-            dataGridView1.DefaultCellStyle.Font = new Font("Arial", 9.5F, FontStyle.Bold);
-            dataGridView1.DefaultCellStyle.ForeColor = Color.Black;
-            dataGridView1.DefaultCellStyle.BackColor = Color.FromArgb(237, 237, 237);
-            dataGridView1.DefaultCellStyle.SelectionForeColor = Color.Yellow;
-            dataGridView1.DefaultCellStyle.SelectionBackColor = Color.Black;
-            string count = dataGridView1.Rows.Count.ToString();
-            this.Text = "User Status - " + count + " users live";
         }
 
         private void Checkdeveloper()
@@ -104,28 +54,6 @@ namespace SearchDataSPM.Admin_developer
             }
         }
 
-        private void freeuser_Click(object sender, EventArgs e)
-        {
-            string userName = getuserselected().Trim();
-            deleteuser(userName);
-            if (userName == System.Security.Principal.WindowsIdentity.GetCurrent().Name)
-            {
-            }
-            else
-            {
-                try
-                {
-                    dt.Rows.Clear();
-                    dataGridView1.Refresh();
-                    loaddata();
-                }
-                catch (Exception ex)
-                {
-                    MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Delete User", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
-
         private void deleteuser(string username)
         {
             if (username.Length > 0)
@@ -134,7 +62,7 @@ namespace SearchDataSPM.Admin_developer
                     connectapi.cn.Open();
                 try
                 {
-                    string query = "DELETE FROM [SPM_Database].[dbo].[Checkin] WHERE [User Name] ='" + username.ToString() + "'";
+                    string query = "DELETE FROM [SPM_Database].[dbo].[Checkin] WHERE [User Name] ='" + username + "'";
                     SqlCommand sda = new SqlCommand(query, connectapi.cn);
                     sda.ExecuteNonQuery();
                     connectapi.cn.Close();
@@ -151,6 +79,137 @@ namespace SearchDataSPM.Admin_developer
             }
         }
 
+        private void freeuser_Click(object sender, EventArgs e)
+        {
+            string userName = getuserselected().Trim();
+            deleteuser(userName);
+            if (userName != System.Security.Principal.WindowsIdentity.GetCurrent().Name)
+            {
+                try
+                {
+                    dt.Rows.Clear();
+                    dataGridView1.Refresh();
+                    loaddata();
+                }
+                catch (Exception ex)
+                {
+                    MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Delete User", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private string getuserselected()
+        {
+            int selectedclmindex = dataGridView1.SelectedCells[0].ColumnIndex;
+            DataGridViewColumn columnchk = dataGridView1.Columns[selectedclmindex];
+            _ = Convert.ToString(columnchk.Index);
+            if (dataGridView1.SelectedRows.Count == 1 || dataGridView1.SelectedCells.Count == 1)
+            {
+                int selectedrowindex = dataGridView1.SelectedCells[0].RowIndex;
+                DataGridViewRow slectedrow = dataGridView1.Rows[selectedrowindex];
+
+                //MessageBox.Show(ItemNo);
+                return Convert.ToString(slectedrow.Cells[2].Value);
+            }
+            else
+            {
+                return "";
+            }
+        }
+
+        private void loaddata()
+        {
+            try
+            {
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
+
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[Checkin] ORDER BY [Last Login] DESC", connectapi.cn);
+
+                dt.Clear();
+                sda.Fill(dt);
+                dataGridView1.DataSource = dt;
+                dataGridView1.Columns[0].Width = 140;
+                dataGridView1.Columns[1].Width = 160;
+                dataGridView1.Columns[2].Width = 110;
+                UpdateFont();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Data cannot be retrieved from server. Please contact the admin.", "SPM Connect - SQL SERVER UserStatus", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Application.Exit();
+            }
+            finally
+            {
+                connectapi.cn.Close();
+            }
+        }
+
+        private void shutDownAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<string> intList = new List<string>();
+            foreach (DataRow row in dt.Rows)
+            {
+                intList.Add(row["User Name"].ToString());
+            }
+
+            foreach (string user in intList)
+            {
+                deleteuser(user);
+                if (user != System.Security.Principal.WindowsIdentity.GetCurrent().Name)
+                {
+                    try
+                    {
+                        dt.Rows.Clear();
+                        dataGridView1.Refresh();
+                        loaddata();
+                    }
+                    catch (Exception ex)
+                    {
+                        MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Delete User", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        private void updateAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<string> intList = new List<string>();
+            foreach (DataRow row in dt.Rows)
+            {
+                intList.Add(row["User Name"].ToString());
+            }
+            foreach (string user in intList)
+            {
+                UpdateUser(user);
+                if (user != System.Security.Principal.WindowsIdentity.GetCurrent().Name)
+                {
+                    try
+                    {
+                        dt.Rows.Clear();
+                        dataGridView1.Refresh();
+                        loaddata();
+                    }
+                    catch (Exception ex)
+                    {
+                        MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Update User", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        private void UpdateFont()
+        {
+            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Tahoma", 9.0F, FontStyle.Bold);
+            dataGridView1.DefaultCellStyle.Font = new Font("Arial", 9.5F, FontStyle.Bold);
+            dataGridView1.DefaultCellStyle.ForeColor = Color.Black;
+            dataGridView1.DefaultCellStyle.BackColor = Color.FromArgb(237, 237, 237);
+            dataGridView1.DefaultCellStyle.SelectionForeColor = Color.Yellow;
+            dataGridView1.DefaultCellStyle.SelectionBackColor = Color.Black;
+            string count = dataGridView1.Rows.Count.ToString();
+            this.Text = "User Status - " + count + " users live";
+        }
+
         private void UpdateUser(string username)
         {
             if (username.Length > 0)
@@ -161,7 +220,7 @@ namespace SearchDataSPM.Admin_developer
                     connectapi.cn.Open();
                 try
                 {
-                    string query = "UPDATE [SPM_Database].[dbo].[Checkin] SET [Last Login] = '" + sqlFormattedDate + "' WHERE [User Name] ='" + username.ToString() + "'";
+                    string query = "UPDATE [SPM_Database].[dbo].[Checkin] SET [Last Login] = '" + sqlFormattedDate + "' WHERE [User Name] ='" + username + "'";
                     SqlCommand sda = new SqlCommand(query, connectapi.cn);
                     sda.ExecuteNonQuery();
                     connectapi.cn.Close();
@@ -184,107 +243,13 @@ namespace SearchDataSPM.Admin_developer
             this.Dispose();
         }
 
-        private string getuserselected()
+        private void UserStatus_Load(object sender, EventArgs e)
         {
-            int selectedclmindex = dataGridView1.SelectedCells[0].ColumnIndex;
-            DataGridViewColumn columnchk = dataGridView1.Columns[selectedclmindex];
-            string c = Convert.ToString(columnchk.Index);
-            //MessageBox.Show(c);
-            string item;
-            if (dataGridView1.SelectedRows.Count == 1 || dataGridView1.SelectedCells.Count == 1)
-            {
-                int selectedrowindex = dataGridView1.SelectedCells[0].RowIndex;
-                DataGridViewRow slectedrow = dataGridView1.Rows[selectedrowindex];
-                item = Convert.ToString(slectedrow.Cells[2].Value);
-                //MessageBox.Show(ItemNo);
-                return item;
-            }
-            else
-            {
-                item = "";
-                return item;
-            }
-        }
-
-        private string getapplicaitonrunning()
-        {
-            int selectedclmindex = dataGridView1.SelectedCells[0].ColumnIndex;
-            DataGridViewColumn columnchk = dataGridView1.Columns[selectedclmindex];
-            string c = Convert.ToString(columnchk.Index);
-            //MessageBox.Show(c);
-            string item;
-            if (dataGridView1.SelectedRows.Count == 1 || dataGridView1.SelectedCells.Count == 1)
-            {
-                int selectedrowindex = dataGridView1.SelectedCells[0].RowIndex;
-                DataGridViewRow slectedrow = dataGridView1.Rows[selectedrowindex];
-                item = Convert.ToString(slectedrow.Cells[1].Value);
-                //MessageBox.Show(ItemNo);
-                return item;
-            }
-            else
-            {
-                item = "";
-                return item;
-            }
-        }
-
-        private void updateAllToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            List<string> intList = new List<string>();
-            foreach (DataRow row in dt.Rows)
-            {
-                intList.Add(row["User Name"].ToString());
-            }
-            foreach (string user in intList)
-            {
-                UpdateUser(user);
-                if (user == System.Security.Principal.WindowsIdentity.GetCurrent().Name)
-                {
-                }
-                else
-                {
-                    try
-                    {
-                        dt.Rows.Clear();
-                        dataGridView1.Refresh();
-                        loaddata();
-                    }
-                    catch (Exception ex)
-                    {
-                        MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Update User", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-            }
-        }
-
-        private void shutDownAllToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            List<string> intList = new List<string>();
-            foreach (DataRow row in dt.Rows)
-            {
-                intList.Add(row["User Name"].ToString());
-            }
-
-            foreach (string user in intList)
-            {
-                deleteuser(user);
-                if (user == System.Security.Principal.WindowsIdentity.GetCurrent().Name)
-                {
-                }
-                else
-                {
-                    try
-                    {
-                        dt.Rows.Clear();
-                        dataGridView1.Refresh();
-                        loaddata();
-                    }
-                    catch (Exception ex)
-                    {
-                        MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Delete User", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-            }
+            Checkdeveloper();
+            loaddata();
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Opened User Status ");
         }
     }
 }

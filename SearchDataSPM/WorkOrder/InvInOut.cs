@@ -3,20 +3,19 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Windows.Forms;
+using static SPMConnectAPI.ConnectConstants;
 
 namespace SearchDataSPM
 {
     public partial class InvInOut : Form
     {
-        private WorkOrder connectapi = new WorkOrder();
-        private bool credentialsverified = false;
+        private readonly List<char> _barcode = new List<char>(10);
+        private readonly WorkOrder connectapi = new WorkOrder();
+        private readonly int userinputtime = 100;
         private DateTime _lastKeystroke = new DateTime(0);
-        private List<char> _barcode = new List<char>(10);
-        private int userinputtime = 100;
-        private bool developer = false;
+        private bool credentialsverified;
+        private bool developer;
         private log4net.ILog log;
-
-        private ErrorHandler errorHandler = new ErrorHandler();
 
         public InvInOut()
         {
@@ -24,62 +23,6 @@ namespace SearchDataSPM
             timer1.Start();
             //connectapi.SPM_Connect();
             userinputtime = connectapi.Getuserinputtime();
-        }
-
-        private void Home_Load(object sender, EventArgs e)
-        {
-            empid_txtbox.Focus();
-            versionlabel.Text = connectapi.Getassyversionnumber();
-            developer = ConnectAPI.ConnectUser.Developer;
-            log4net.Config.XmlConfigurator.Configure();
-            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened Crib Management ");
-        }
-
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            DateTime datetime = DateTime.Now;
-            DateTimeLbl.Text = datetime.ToString();
-        }
-
-        private void empid_txtbox_Click(object sender, EventArgs e)
-        {
-            if (!empid_txtbox.Focused)
-            {
-                empid_txtbox.Focus();
-            }
-        }
-
-        private void woid_txtbox_Click(object sender, EventArgs e)
-        {
-            if (!woid_txtbox.Focused)
-            {
-                woid_txtbox.Focus();
-            }
-        }
-
-        private void empid_txtbox_TextChanged(object sender, EventArgs e)
-        {
-            if (empid_txtbox.Text.Length == 0)
-                woid_txtbox.Enabled = false;
-        }
-
-        private void showaddedtodg()
-        {
-            timer3.Stop();
-            dataGridView1.Visible = true;
-            timer3.Enabled = true;
-            timer3.Interval = 10000;
-            timer3.Start();
-            DataTable dtb1 = new DataTable();
-            dtb1 = connectapi.ShowWOInOutStatus(woid_txtbox.Text.Trim());
-            dataGridView1.DataSource = dtb1;
-            dataGridView1.Update();
-        }
-
-        private void timer3_Tick(object sender, EventArgs e)
-        {
-            dataGridView1.Visible = false;
         }
 
         private void apprvlidtxt_Click(object sender, EventArgs e)
@@ -90,10 +33,44 @@ namespace SearchDataSPM
             }
         }
 
-        private void woid_txtbox_TextChanged(object sender, EventArgs e)
+        private void apprvlidtxt_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (empid_txtbox.Text.Length == 0)
-                apprvlidtxt.Enabled = false;
+            // check timing (keystrokes within 100 ms)
+            TimeSpan elapsed = (DateTime.Now - _lastKeystroke);
+            if (elapsed.TotalMilliseconds > userinputtime)
+                _barcode.Clear();
+
+            // record keystroke & timestamp
+            _barcode.Add(e.KeyChar);
+            _lastKeystroke = DateTime.Now;
+
+            // process barcode
+            if (e.KeyChar == 13 && _barcode.Count > 0)
+            {
+                string msg = new string(_barcode.ToArray());
+
+                _barcode.Clear();
+                if (msg != "\r" || developer)
+                {
+                    if (e.KeyChar == 13)
+                    {
+                        performapprovedbutton();
+                        e.Handled = true;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("System cannot accept keyboard inputs. Scan with barcode reader", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    apprvlidtxt.Clear();
+                    apprvlidtxt.Focus();
+                }
+            }
+        }
+
+        private void checkInWorkOrderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ScanWO scanWO = new ScanWO();
+            scanWO.Show();
         }
 
         private void clearresettxtboxes()
@@ -105,17 +82,6 @@ namespace SearchDataSPM
             apprvlidtxt.Enabled = false;
             empid_txtbox.Enabled = true;
             empid_txtbox.Focus();
-        }
-
-        private void checkInWorkOrderToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ScanWO scanWO = new ScanWO();
-            scanWO.Show();
-        }
-
-        private void toolStripDropDownButton1_Click(object sender, EventArgs e)
-        {
-            verifysecurity();
         }
 
         private void createNewRequestToolStripMenuItem_Click(object sender, EventArgs e)
@@ -134,77 +100,12 @@ namespace SearchDataSPM
             }
         }
 
-        private void showshippinginvoice(string invoice)
+        private void empid_txtbox_Click(object sender, EventArgs e)
         {
-            using (MatReAlloc matReAlloc = new MatReAlloc())
+            if (!empid_txtbox.Focused)
             {
-                matReAlloc.invoicenumber(invoice);
-                matReAlloc.ShowDialog();
-                this.Enabled = true;
-                this.Show();
-                this.Activate();
-                this.Focus();
+                empid_txtbox.Focus();
             }
-        }
-
-        private void showAllRequestsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MatReAllocHome matReAllocHome = new MatReAllocHome();
-            matReAllocHome.Show();
-        }
-
-        private void toolStripDropDownButton1_DropDownOpening(object sender, EventArgs e)
-        {
-            verifysecurity();
-        }
-
-        private void verifysecurity()
-        {
-            if (!credentialsverified)
-            {
-                string ValueIWantFromProptForm = "";
-                this.Enabled = false;
-                ScanEmpId invoiceFor = new ScanEmpId();
-                if (invoiceFor.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {
-                    ValueIWantFromProptForm = invoiceFor.ValueIWant;
-                }
-                if (ValueIWantFromProptForm.Length > 0)
-                {
-                    if (connectapi.EmployeeExitsWithCribRights(ValueIWantFromProptForm))
-                    {
-                        credentialsverified = true;
-                        toolStripDropDownButton1.DropDownItems[0].Enabled = true;
-                        toolStripDropDownButton1.DropDownItems[1].Enabled = true;
-                        toolStripDropDownButton1.DropDownItems[2].Enabled = true;
-                        toolStripDropDownButton1.DropDownItems[3].Enabled = true;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Your request for gaining access to inventory options can't be completed based on your security settings.", "SPM Connect - Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    }
-                }
-                else
-                {
-                    MetroFramework.MetroMessageBox.Show(this, "Please try again. Employee not found.", "SPM Connect - Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                this.Enabled = true;
-            }
-        }
-
-        private void performlockdown()
-        {
-            credentialsverified = false;
-            toolStripDropDownButton1.DropDownItems[0].Enabled = false;
-            toolStripDropDownButton1.DropDownItems[1].Enabled = false;
-            toolStripDropDownButton1.DropDownItems[2].Enabled = false;
-            toolStripDropDownButton1.DropDownItems[3].Enabled = false;
-        }
-
-        private void inventoryBinStatusToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            BinLog binLog = new BinLog();
-            binLog.Show();
         }
 
         private void empid_txtbox_KeyPress(object sender, KeyPressEventArgs e)
@@ -255,85 +156,32 @@ namespace SearchDataSPM
             }
         }
 
-        private void woid_txtbox_KeyPress(object sender, KeyPressEventArgs e)
-        {  // check timing (keystrokes within 100 ms)
-            TimeSpan elapsed = (DateTime.Now - _lastKeystroke);
-            if (elapsed.TotalMilliseconds > userinputtime)
-                _barcode.Clear();
-
-            // record keystroke & timestamp
-            _barcode.Add(e.KeyChar);
-            _lastKeystroke = DateTime.Now;
-
-            // process barcode
-            if (e.KeyChar == 13 && _barcode.Count > 0)
-            {
-                string msg = new string(_barcode.ToArray());
-
-                _barcode.Clear();
-                if (msg != "\r" || developer)
-                {
-                    if (e.KeyChar == 13)
-                    {
-                        if (connectapi.WOReleased(woid_txtbox.Text.Trim()))
-                        {
-                            apprvlidtxt.Enabled = true;
-                            apprvlidtxt.Focus();
-                            woid_txtbox.Enabled = false;
-                        }
-                        else
-                        {
-                            MessageBox.Show("Please check the work order number.", "SPM Connect - Work Order Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            woid_txtbox.Clear();
-                            woid_txtbox.Focus();
-                            apprvlidtxt.Enabled = false;
-                        }
-
-                        e.Handled = true;
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("System cannot accept keyboard inputs. Scan with barcode reader", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    woid_txtbox.Clear();
-                    woid_txtbox.Focus();
-                    apprvlidtxt.Enabled = false;
-                }
-            }
+        private void empid_txtbox_TextChanged(object sender, EventArgs e)
+        {
+            if (empid_txtbox.Text.Length == 0)
+                woid_txtbox.Enabled = false;
         }
 
-        private void apprvlidtxt_KeyPress(object sender, KeyPressEventArgs e)
+        private void Home_Load(object sender, EventArgs e)
         {
-            // check timing (keystrokes within 100 ms)
-            TimeSpan elapsed = (DateTime.Now - _lastKeystroke);
-            if (elapsed.TotalMilliseconds > userinputtime)
-                _barcode.Clear();
+            empid_txtbox.Focus();
+            versionlabel.Text = connectapi.Getassyversionnumber();
+            developer = ConnectUser.Developer;
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Opened Crib Management ");
+        }
 
-            // record keystroke & timestamp
-            _barcode.Add(e.KeyChar);
-            _lastKeystroke = DateTime.Now;
+        private void inventoryBinStatusToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            BinLog binLog = new BinLog();
+            binLog.Show();
+        }
 
-            // process barcode
-            if (e.KeyChar == 13 && _barcode.Count > 0)
-            {
-                string msg = new string(_barcode.ToArray());
-
-                _barcode.Clear();
-                if (msg != "\r" || developer)
-                {
-                    if (e.KeyChar == 13)
-                    {
-                        performapprovedbutton();
-                        e.Handled = true;
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("System cannot accept keyboard inputs. Scan with barcode reader", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    apprvlidtxt.Clear();
-                    apprvlidtxt.Focus();
-                }
-            }
+        private void InvInOut_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            log.Info("Closed Crib Management ");
+            this.Dispose();
         }
 
         private void performapprovedbutton()
@@ -344,7 +192,7 @@ namespace SearchDataSPM
                 {
                     if (empid_txtbox.Text.Trim() == apprvlidtxt.Text.Trim())
                     {
-                        if (ConnectAPI.ConnectUser.Dept == ConnectAPI.Department.Crib)
+                        if (ConnectUser.Dept == Department.Crib)
                             connectapi.Scanworkorder(woid_txtbox.Text.Trim());
                         else MessageBox.Show("Please ask the admin to set you up on Department == Crib", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
@@ -356,7 +204,9 @@ namespace SearchDataSPM
                             {
                                 //work order is already built
                                 if (connectapi.IsCompletedInvInOut(woid_txtbox.Text.Trim()))
+                                {
                                     MessageBox.Show("Work order has been already closed.", "SPM Connect - WO Closed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
                                 else
                                 {
                                     //updates
@@ -422,15 +272,166 @@ namespace SearchDataSPM
             }
         }
 
+        private void performlockdown()
+        {
+            credentialsverified = false;
+            toolStripDropDownButton1.DropDownItems[0].Enabled = false;
+            toolStripDropDownButton1.DropDownItems[1].Enabled = false;
+            toolStripDropDownButton1.DropDownItems[2].Enabled = false;
+            toolStripDropDownButton1.DropDownItems[3].Enabled = false;
+        }
+
+        private void showaddedtodg()
+        {
+            timer3.Stop();
+            dataGridView1.Visible = true;
+            timer3.Enabled = true;
+            timer3.Interval = 10000;
+            timer3.Start();
+            _ = new DataTable();
+            DataTable dtb1 = connectapi.ShowWOInOutStatus(woid_txtbox.Text.Trim());
+            dataGridView1.DataSource = dtb1;
+            dataGridView1.Update();
+        }
+
+        private void showAllRequestsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MatReAllocHome matReAllocHome = new MatReAllocHome();
+            matReAllocHome.Show();
+        }
+
+        private void showshippinginvoice(string invoice)
+        {
+            using (MatReAlloc matReAlloc = new MatReAlloc())
+            {
+                matReAlloc.invoicenumber(invoice);
+                matReAlloc.ShowDialog();
+                this.Enabled = true;
+                this.Show();
+                this.Activate();
+                this.Focus();
+            }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            DateTime datetime = DateTime.Now;
+            DateTimeLbl.Text = datetime.ToString();
+        }
+
+        private void timer3_Tick(object sender, EventArgs e)
+        {
+            dataGridView1.Visible = false;
+        }
+
+        private void toolStripDropDownButton1_Click(object sender, EventArgs e)
+        {
+            verifysecurity();
+        }
+
         private void toolStripDropDownButton1_DropDownClosed(object sender, EventArgs e)
         {
             performlockdown();
         }
 
-        private void InvInOut_FormClosed(object sender, FormClosedEventArgs e)
+        private void toolStripDropDownButton1_DropDownOpening(object sender, EventArgs e)
         {
-            log.Info("Closed Crib Management ");
-            this.Dispose();
+            verifysecurity();
+        }
+
+        private void verifysecurity()
+        {
+            if (!credentialsverified)
+            {
+                string ValueIWantFromProptForm = "";
+                this.Enabled = false;
+                ScanEmpId invoiceFor = new ScanEmpId();
+                if (invoiceFor.ShowDialog() == DialogResult.OK)
+                {
+                    ValueIWantFromProptForm = invoiceFor.ValueIWant;
+                }
+                if (ValueIWantFromProptForm.Length > 0)
+                {
+                    if (connectapi.EmployeeExitsWithCribRights(ValueIWantFromProptForm))
+                    {
+                        credentialsverified = true;
+                        toolStripDropDownButton1.DropDownItems[0].Enabled = true;
+                        toolStripDropDownButton1.DropDownItems[1].Enabled = true;
+                        toolStripDropDownButton1.DropDownItems[2].Enabled = true;
+                        toolStripDropDownButton1.DropDownItems[3].Enabled = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Your request for gaining access to inventory options can't be completed based on your security settings.", "SPM Connect - Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+                }
+                else
+                {
+                    MetroFramework.MetroMessageBox.Show(this, "Please try again. Employee not found.", "SPM Connect - Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                this.Enabled = true;
+            }
+        }
+
+        private void woid_txtbox_Click(object sender, EventArgs e)
+        {
+            if (!woid_txtbox.Focused)
+            {
+                woid_txtbox.Focus();
+            }
+        }
+
+        private void woid_txtbox_KeyPress(object sender, KeyPressEventArgs e)
+        {  // check timing (keystrokes within 100 ms)
+            TimeSpan elapsed = (DateTime.Now - _lastKeystroke);
+            if (elapsed.TotalMilliseconds > userinputtime)
+                _barcode.Clear();
+
+            // record keystroke & timestamp
+            _barcode.Add(e.KeyChar);
+            _lastKeystroke = DateTime.Now;
+
+            // process barcode
+            if (e.KeyChar == 13 && _barcode.Count > 0)
+            {
+                string msg = new string(_barcode.ToArray());
+
+                _barcode.Clear();
+                if (msg != "\r" || developer)
+                {
+                    if (e.KeyChar == 13)
+                    {
+                        if (connectapi.WOReleased(woid_txtbox.Text.Trim()))
+                        {
+                            apprvlidtxt.Enabled = true;
+                            apprvlidtxt.Focus();
+                            woid_txtbox.Enabled = false;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Please check the work order number.", "SPM Connect - Work Order Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            woid_txtbox.Clear();
+                            woid_txtbox.Focus();
+                            apprvlidtxt.Enabled = false;
+                        }
+
+                        e.Handled = true;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("System cannot accept keyboard inputs. Scan with barcode reader", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    woid_txtbox.Clear();
+                    woid_txtbox.Focus();
+                    apprvlidtxt.Enabled = false;
+                }
+            }
+        }
+
+        private void woid_txtbox_TextChanged(object sender, EventArgs e)
+        {
+            if (empid_txtbox.Text.Length == 0)
+                apprvlidtxt.Enabled = false;
         }
     }
 }

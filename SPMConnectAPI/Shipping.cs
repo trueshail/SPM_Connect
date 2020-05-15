@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Reflection;
 using System.Windows.Forms;
+using static SPMConnectAPI.ConnectConstants;
 
 namespace SPMConnectAPI
 {
@@ -11,11 +11,10 @@ namespace SPMConnectAPI
     {
         #region Settting up Connetion and Get User
 
-        private log4net.ILog log;
+        private readonly log4net.ILog log;
 
         public Shipping()
         {
-
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Accessed Shipping Class " + Getassyversionnumber());
@@ -56,110 +55,6 @@ namespace SPMConnectAPI
 
         #region Datatables to pull out values or records
 
-        public DataTable ShowshippingHomeData()
-        {
-            DataTable dt = new DataTable();
-
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[ShippingBaseWithNames]", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-
-                    dt.Clear();
-                    sda.Fill(dt);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Show all shipping Home", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-            return dt;
-        }
-
-        public DataTable ShowshippingHomeDataforSupervisors(string myid)
-        {
-            DataTable dt = new DataTable();
-
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[ShippingBaseWithNames]WHERE [IsSubmitted] = '1' AND [SubmittedTo] = '" + myid + "'", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-
-                    dt.Clear();
-                    sda.Fill(dt);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Show all shipping Home", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-            return dt;
-        }
-
-        public DataTable ShowshippingHomeDataforManagers()
-        {
-            DataTable dt = new DataTable();
-
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[ShippingBaseWithNames] WHERE [IsApproved] = '1' AND [IsSubmitted] = '1' AND [IsShipped] = '0'", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-
-                    dt.Clear();
-                    sda.Fill(dt);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Show all shipping Home", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-            return dt;
-        }
-
-        public DataTable ShowShippingInvoiceItems()
-        {
-            DataTable dt = new DataTable();
-
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[ShippingItems]", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-
-                    dt.Clear();
-                    sda.Fill(dt);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Show all shipping Inovice Items", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-            return dt;
-        }
-
         public DataTable GetCustomerSoldShipToInfo(string custid)
         {
             DataTable dt = new DataTable();
@@ -177,32 +72,6 @@ namespace SPMConnectAPI
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "SPM Connect - Get Customer Sold - Ship to Information", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-            return dt;
-        }
-
-        public DataTable GetVendorShipSoldToInfo(string custid)
-        {
-            DataTable dt = new DataTable();
-
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[VendorsShipTo] WHERE [Code] = '" + custid + "'", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-
-                    dt.Clear();
-                    sda.Fill(dt);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Get Vendor Sold - Ship to Information", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -238,32 +107,6 @@ namespace SPMConnectAPI
             return dt;
         }
 
-        public DataTable GetVendorShipSoldToInfoname(string name)
-        {
-            DataTable dt = new DataTable();
-
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[VendorsShipTo] WHERE [Name] = '" + name.Replace("'", "''") + "'", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-
-                    dt.Clear();
-                    sda.Fill(dt);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Get Vendor Sold - Ship to Information", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-            return dt;
-        }
-
         public DataTable GetIteminfo(string itemnumber)
         {
             DataTable dt = new DataTable();
@@ -281,32 +124,6 @@ namespace SPMConnectAPI
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "SPM Connect - Get Item Information", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-            return dt;
-        }
-
-        public DataTable GetShippingIteminfo(string itemnumber, string invoicenumber)
-        {
-            DataTable dt = new DataTable();
-
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[ShippingItems] WHERE [Item] = '" + itemnumber + "' and [InvoiceNo] = '" + invoicenumber + "'", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-
-                    dt.Clear();
-                    sda.Fill(dt);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Get Item Information from shippingbase", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -368,46 +185,191 @@ namespace SPMConnectAPI
             return dt;
         }
 
+        public DataTable GetShippingIteminfo(string itemnumber, string invoicenumber)
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[ShippingItems] WHERE [Item] = '" + itemnumber + "' and [InvoiceNo] = '" + invoicenumber + "'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Item Information from shippingbase", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return dt;
+        }
+
+        public DataTable GetVendorShipSoldToInfo(string custid)
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[VendorsShipTo] WHERE [Code] = '" + custid + "'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Vendor Sold - Ship to Information", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return dt;
+        }
+
+        public DataTable GetVendorShipSoldToInfoname(string name)
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[VendorsShipTo] WHERE [Name] = '" + name.Replace("'", "''") + "'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Vendor Sold - Ship to Information", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return dt;
+        }
+
+        public DataTable ShowshippingHomeData()
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[ShippingBaseWithNames]", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Show all shipping Home", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return dt;
+        }
+
+        public DataTable ShowshippingHomeDataforManagers()
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[ShippingBaseWithNames] WHERE [IsApproved] = '1' AND [IsSubmitted] = '1' AND [IsShipped] = '0'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Show all shipping Home", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return dt;
+        }
+
+        public DataTable ShowshippingHomeDataforSupervisors(string myid)
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[ShippingBaseWithNames]WHERE [IsSubmitted] = '1' AND [SubmittedTo] = '" + myid + "'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Show all shipping Home", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return dt;
+        }
+
+        public DataTable ShowShippingInvoiceItems()
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[ShippingItems]", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Show all shipping Inovice Items", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return dt;
+        }
+
         #endregion Datatables to pull out values or records
 
         #region Generating New Ids
-
-        private string getnewinvoicenumber()
-        {
-            string newincoiveno = "";
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT MAX([InvoiceNo]) + 1 as NextQuoteNo FROM [SPM_Database].[dbo].[ShippingBase]";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    newincoiveno = dr["NextQuoteNo"].ToString();
-                }
-                dt.Clear();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Get New Invoice Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-
-            if (newincoiveno == "")
-            {
-                newincoiveno = "1001";
-            }
-
-            return newincoiveno;
-        }
 
         private string getNewCustItemId(string invoiceno)
         {
@@ -438,128 +400,56 @@ namespace SPMConnectAPI
             {
                 cn.Close();
             }
-            if (newcustitemid == "")
+            if (string.IsNullOrEmpty(newcustitemid))
             {
-                newcustitemid = "CT" + invoiceno + "-1";
+                return "CT" + invoiceno + "-1";
             }
             else
             {
-                newcustitemid = "CT" + invoiceno + "-" + newcustitemid;
+                return "CT" + invoiceno + "-" + newcustitemid;
+            }
+        }
+
+        private string getnewinvoicenumber()
+        {
+            string newincoiveno = "";
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT MAX([InvoiceNo]) + 1 as NextQuoteNo FROM [SPM_Database].[dbo].[ShippingBase]";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    newincoiveno = dr["NextQuoteNo"].ToString();
+                }
+                dt.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Get New Invoice Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
             }
 
-            return newcustitemid;
+            if (string.IsNullOrEmpty(newincoiveno))
+            {
+                newincoiveno = "1001";
+            }
+
+            return newincoiveno;
         }
 
         #endregion Generating New Ids
 
         #region FillComboBoxes
-
-        public DataTable GetCustomerSoldShipToData()
-        {
-            DataTable dt = new DataTable();
-
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[CustomersShipTo] where [Nom] is not null order by [Nom]", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-
-                    dt.Clear();
-                    sda.Fill(dt);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Get Customer Sold - Ship to Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-            return dt;
-        }
-
-        public DataTable GetVendorShipSoldToData()
-        {
-            DataTable dt = new DataTable();
-
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[VendorsShipTo] order by [Name]", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-
-                    dt.Clear();
-                    sda.Fill(dt);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Get Vendor Sold - Ship to Information", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-            return dt;
-        }
-
-        public AutoCompleteStringCollection FillShipToShip()
-        {
-            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT [ShipToName] from [dbo].[ShippingBaseWithNames] where [ShipToName] is not null order by [ShipToName]", cn))
-            {
-                try
-                {
-                    cn.Open();
-                    SqlDataReader reader = sqlCommand.ExecuteReader();
-
-                    while (reader.Read())
-                    {
-                        MyCollection.Add(reader.GetString(0));
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Fill Ship To Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-
-            return MyCollection;
-        }
-
-        public AutoCompleteStringCollection FillSoldToShip()
-        {
-            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT [SoldToName] from [dbo].[ShippingBaseWithNames] where SoldToName is not null order by SoldToName", cn))
-            {
-                try
-                {
-                    cn.Open();
-                    SqlDataReader reader = sqlCommand.ExecuteReader();
-
-                    while (reader.Read())
-                    {
-                        MyCollection.Add(reader.GetString(0));
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Fill Sold To Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-            return MyCollection;
-        }
 
         public AutoCompleteStringCollection FillCarrierShip()
         {
@@ -615,6 +505,61 @@ namespace SPMConnectAPI
             return MyCollection;
         }
 
+        public AutoCompleteStringCollection FillFobPoint()
+        {
+            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT [FobPoint] from [dbo].[ShippingBaseWithNames] where [FobPoint] is not null order by [FobPoint]", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        MyCollection.Add(reader.GetString(0));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Fill FOB Point To Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+
+            return MyCollection;
+        }
+
+        public AutoCompleteStringCollection FillitemsShip()
+        {
+            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM [SPM_Database].[dbo].[ItemsToSelect]", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        MyCollection.Add(reader.GetString(0));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Fill Items To Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return MyCollection;
+        }
+
         public AutoCompleteStringCollection FillLastSavedByShip()
         {
             AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
@@ -642,6 +587,34 @@ namespace SPMConnectAPI
             return MyCollection;
         }
 
+        public AutoCompleteStringCollection FillRequistioner()
+        {
+            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT [Requistioner] from [dbo].[ShippingBaseWithNames] where [Requistioner] is not null order by [Requistioner]", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        MyCollection.Add(reader.GetString(0));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Fill FOB Point To Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+
+            return MyCollection;
+        }
+
         public AutoCompleteStringCollection FillSalesPersonShip()
         {
             AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
@@ -666,6 +639,34 @@ namespace SPMConnectAPI
                     cn.Close();
                 }
             }
+            return MyCollection;
+        }
+
+        public AutoCompleteStringCollection FillShipToShip()
+        {
+            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT [ShipToName] from [dbo].[ShippingBaseWithNames] where [ShipToName] is not null order by [ShipToName]", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        MyCollection.Add(reader.GetString(0));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Fill Ship To Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+
             return MyCollection;
         }
 
@@ -723,6 +724,33 @@ namespace SPMConnectAPI
             return MyCollection;
         }
 
+        public AutoCompleteStringCollection FillSoldToShip()
+        {
+            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT [SoldToName] from [dbo].[ShippingBaseWithNames] where SoldToName is not null order by SoldToName", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        MyCollection.Add(reader.GetString(0));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Fill Sold To Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return MyCollection;
+        }
+
         public AutoCompleteStringCollection FillTerms()
         {
             AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
@@ -751,87 +779,56 @@ namespace SPMConnectAPI
             return MyCollection;
         }
 
-        public AutoCompleteStringCollection FillFobPoint()
+        public DataTable GetCustomerSoldShipToData()
         {
-            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT [FobPoint] from [dbo].[ShippingBaseWithNames] where [FobPoint] is not null order by [FobPoint]", cn))
+            DataTable dt = new DataTable();
+
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[CustomersShipTo] where [Nom] is not null order by [Nom]", cn))
             {
                 try
                 {
-                    cn.Open();
-                    SqlDataReader reader = sqlCommand.ExecuteReader();
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
 
-                    while (reader.Read())
-                    {
-                        MyCollection.Add(reader.GetString(0));
-                    }
+                    dt.Clear();
+                    sda.Fill(dt);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "SPM Connect - Fill FOB Point To Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Customer Sold - Ship to Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
                     cn.Close();
                 }
             }
-
-            return MyCollection;
+            return dt;
         }
 
-        public AutoCompleteStringCollection FillRequistioner()
+        public DataTable GetVendorShipSoldToData()
         {
-            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT [Requistioner] from [dbo].[ShippingBaseWithNames] where [Requistioner] is not null order by [Requistioner]", cn))
+            DataTable dt = new DataTable();
+
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[VendorsShipTo] order by [Name]", cn))
             {
                 try
                 {
-                    cn.Open();
-                    SqlDataReader reader = sqlCommand.ExecuteReader();
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
 
-                    while (reader.Read())
-                    {
-                        MyCollection.Add(reader.GetString(0));
-                    }
+                    dt.Clear();
+                    sda.Fill(dt);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "SPM Connect - Fill FOB Point To Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Vendor Sold - Ship to Information", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
                     cn.Close();
                 }
             }
-
-            return MyCollection;
-        }
-
-        public AutoCompleteStringCollection FillitemsShip()
-        {
-            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM [SPM_Database].[dbo].[ItemsToSelect]", cn))
-            {
-                try
-                {
-                    cn.Open();
-                    SqlDataReader reader = sqlCommand.ExecuteReader();
-
-                    while (reader.Read())
-                    {
-                        MyCollection.Add(reader.GetString(0));
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Fill Items To Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-            return MyCollection;
+            return dt;
         }
 
         #endregion FillComboBoxes
@@ -868,28 +865,6 @@ namespace SPMConnectAPI
             return success;
         }
 
-        public void UpdateShippingItemsOrderId(string invoicenumber)
-        {
-            using (SqlCommand sqlCommand = new SqlCommand("with cte as(select *, new_row_id = row_number() over(partition by InvoiceNo order by InvoiceNo)from[dbo].[ShippingItems] where InvoiceNo = @itemnumber)update cte set OrderId = new_row_id", cn))
-            {
-                try
-                {
-                    cn.Open();
-                    sqlCommand.CommandType = CommandType.Text;
-                    sqlCommand.Parameters.AddWithValue("@itemnumber", invoicenumber);
-                    sqlCommand.ExecuteNonQuery();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Update Order Id", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-        }
-
         public bool DeleteItemFromInvoice(string invoicenumber, string itemnumber)
         {
             bool done = false;
@@ -916,27 +891,28 @@ namespace SPMConnectAPI
             return done;
         }
 
-        public bool UpdateInvoiceDetsToSql(string inovicenumber, string jobnumber, string salesperson, string requestedby, string carrier, string collectprepaid, string fobpoint, string terms, string currency, string total, string soldto, string shipto, string notes, string carriercode)
+        public bool InsertShippingItems(string invoicenumber, string itemnumber, string Description1, string Description2, string Description3, string origin, string tariff, string qty, decimal cost, decimal total)
         {
             bool success = false;
-            string username = ConnectUser.Name;
-            DateTime dateedited = DateTime.Now;
-            string sqlFormattedDate = dateedited.ToString("yyyy-MM-dd HH:mm:ss");
-            if (cn.State == ConnectionState.Closed)
-                cn.Open();
+            if (itemnumber.Length == 0)
+            {
+                itemnumber = getNewCustItemId(invoicenumber);
+            }
+
             try
             {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "UPDATE [SPM_Database].[dbo].[ShippingBase] SET [DateLastSaved] = '" + sqlFormattedDate + "',[LastSavedBy] = '" + username + "',[JobNumber] = '" + jobnumber + "',[SalesPerson] = '" + salesperson + "',[Requistioner] = '" + requestedby + "',[Carrier] = '" + carrier + "',[Collect_Prepaid] = '" + collectprepaid + "',[FobPoint] = '" + fobpoint + "',[Terms] = '" + terms + "',[Currency] = '" + currency + "',[Total] =  '" + total + "',[SoldTo] = '" + soldto + "',[ShipTo] = '" + shipto + "',[Notes] = '" + notes + "',[CarrierCode] = '" + carriercode + "' WHERE [InvoiceNo] = '" + inovicenumber + "' ";
-
+                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[ShippingItems] (Item, Description, Origin, TarriffCode, Qty, Cost,Total, InvoiceNo, OrderId) VALUES('" + itemnumber + "','" + Description1 + "'+ CHAR(10) + '" + Description2 + "'+ CHAR(10) +'" + Description3 + "','" + origin + "','" + tariff + "','" + qty + "','" + cost + "','" + total + "','" + invoicenumber + "','1')";
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 success = true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "SPM Connect Invoice Details - Update", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "SPM Connect - Add new shipping item", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -966,6 +942,35 @@ namespace SPMConnectAPI
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "SPM Connect Invoice DateCreated - Update", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return success;
+        }
+
+        public bool UpdateInvoiceDetsToSql(string inovicenumber, string jobnumber, string salesperson, string requestedby, string carrier, string collectprepaid, string fobpoint, string terms, string currency, string total, string soldto, string shipto, string notes, string carriercode)
+        {
+            bool success = false;
+            string username = ConnectUser.Name;
+            DateTime dateedited = DateTime.Now;
+            string sqlFormattedDate = dateedited.ToString("yyyy-MM-dd HH:mm:ss");
+            if (cn.State == ConnectionState.Closed)
+                cn.Open();
+            try
+            {
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "UPDATE [SPM_Database].[dbo].[ShippingBase] SET [DateLastSaved] = '" + sqlFormattedDate + "',[LastSavedBy] = '" + username + "',[JobNumber] = '" + jobnumber + "',[SalesPerson] = '" + salesperson + "',[Requistioner] = '" + requestedby + "',[Carrier] = '" + carrier + "',[Collect_Prepaid] = '" + collectprepaid + "',[FobPoint] = '" + fobpoint + "',[Terms] = '" + terms + "',[Currency] = '" + currency + "',[Total] =  '" + total + "',[SoldTo] = '" + soldto + "',[ShipTo] = '" + shipto + "',[Notes] = '" + notes + "',[CarrierCode] = '" + carriercode + "' WHERE [InvoiceNo] = '" + inovicenumber + "' ";
+
+                cmd.ExecuteNonQuery();
+                cn.Close();
+                success = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect Invoice Details - Update", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -1053,42 +1058,64 @@ namespace SPMConnectAPI
             return success;
         }
 
-        public bool InsertShippingItems(string invoicenumber, string itemnumber, string Description1, string Description2, string Description3, string origin, string tariff, string qty, decimal cost, decimal total)
+        public void UpdateShippingItemsOrderId(string invoicenumber)
         {
-            bool success = false;
-            if (itemnumber.Length > 0)
+            using (SqlCommand sqlCommand = new SqlCommand("with cte as(select *, new_row_id = row_number() over(partition by InvoiceNo order by InvoiceNo)from[dbo].[ShippingItems] where InvoiceNo = @itemnumber)update cte set OrderId = new_row_id", cn))
             {
-            }
-            else
-            {
-                itemnumber = getNewCustItemId(invoicenumber);
-            }
-
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
+                try
+                {
                     cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[ShippingItems] (Item, Description, Origin, TarriffCode, Qty, Cost,Total, InvoiceNo, OrderId) VALUES('" + itemnumber + "','" + Description1 + "'+ CHAR(10) + '" + Description2 + "'+ CHAR(10) +'" + Description3 + "','" + origin + "','" + tariff + "','" + qty + "','" + cost + "','" + total + "','" + invoicenumber + "','1')";
-                cmd.ExecuteNonQuery();
-                cn.Close();
-                success = true;
+                    sqlCommand.CommandType = CommandType.Text;
+                    sqlCommand.Parameters.AddWithValue("@itemnumber", invoicenumber);
+                    sqlCommand.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Update Order Id", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Add new shipping item", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-            return success;
         }
 
         #endregion Perfrom CRUD on invoice details and shipping items
 
         #region Perform Copy and CRUD
+
+        public bool checkitemexistsbeforeadding(string itemid, string invoiceno)
+        {
+            bool itempresent = false;
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[ShippingItems] WHERE [Item]='" + itemid + "' AND InvoiceNo = '" + invoiceno + "'", cn))
+            {
+                try
+                {
+                    cn.Open();
+
+                    int userCount = (int)sqlCommand.ExecuteScalar();
+                    if (userCount == 1)
+                    {
+                        //MessageBox.Show("item already exists");
+                        itempresent = true;
+                    }
+                    else
+                    {
+                        //MessageBox.Show(" move forward");
+                        itempresent = false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Check Item Present On SQL Shipping Item", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return itempresent;
+        }
 
         public string CopyShippingInvoice(string oldinvoiceno)
         {
@@ -1151,26 +1178,31 @@ namespace SPMConnectAPI
             return vendorcust;
         }
 
-        private void copyshippingitems(string newinvoiceno, string oldinvoiceno)
+        public int Getqty(string itemid, string invoiceno)
         {
-            try
+            int qty = 0;
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM [SPM_Database].[dbo].[ShippingItems] WHERE [Item]='" + itemid + "' AND InvoiceNo = '" + invoiceno + "'", cn))
             {
-                if (cn.State == ConnectionState.Closed)
+                try
+                {
                     cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[ShippingItems] (OrderId,Item, Description, Origin, TarriffCode, Qty, Cost, Total, InvoiceNo)SELECT  OrderId,Item, Description, Origin, TarriffCode, Qty, Cost, Total,'" + newinvoiceno + "'FROM  [SPM_Database].[dbo].[ShippingItems] WHERE  InvoiceNo = '" + oldinvoiceno + "'";
-                cmd.ExecuteNonQuery();
-                cn.Close();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        qty = Convert.ToInt32(reader["Qty"]);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Qty", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Copy shipping items to new invoice", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
+            return qty;
         }
 
         public void UpdateShippingItemIdCopy(string newinvoicenumber)
@@ -1217,67 +1249,28 @@ namespace SPMConnectAPI
             }
         }
 
-        public bool checkitemexistsbeforeadding(string itemid, string invoiceno)
+        private void copyshippingitems(string newinvoiceno, string oldinvoiceno)
         {
-            bool itempresent = false;
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[ShippingItems] WHERE [Item]='" + itemid.ToString() + "' AND InvoiceNo = '" + invoiceno + "'", cn))
+            try
             {
-                try
-                {
+                if (cn.State == ConnectionState.Closed)
                     cn.Open();
-
-                    int userCount = (int)sqlCommand.ExecuteScalar();
-                    if (userCount == 1)
-                    {
-                        //MessageBox.Show("item already exists");
-                        itempresent = true;
-                    }
-                    else
-                    {
-                        //MessageBox.Show(" move forward");
-                        itempresent = false;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Check Item Present On SQL Shipping Item", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[ShippingItems] (OrderId,Item, Description, Origin, TarriffCode, Qty, Cost, Total, InvoiceNo)SELECT  OrderId,Item, Description, Origin, TarriffCode, Qty, Cost, Total,'" + newinvoiceno + "'FROM  [SPM_Database].[dbo].[ShippingItems] WHERE  InvoiceNo = '" + oldinvoiceno + "'";
+                cmd.ExecuteNonQuery();
+                cn.Close();
             }
-            return itempresent;
-        }
-
-        public int Getqty(string itemid, string invoiceno)
-        {
-            int qty = 0;
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM [SPM_Database].[dbo].[ShippingItems] WHERE [Item]='" + itemid.ToString() + "' AND InvoiceNo = '" + invoiceno + "'", cn))
+            catch (Exception ex)
             {
-                try
-                {
-                    cn.Open();
-                    SqlDataReader reader = sqlCommand.ExecuteReader();
-
-                    while (reader.Read())
-                    {
-                        qty = Convert.ToInt32(reader["Qty"]);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Get Qty", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
+                MessageBox.Show(ex.Message, "SPM Connect - Copy shipping items to new invoice", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            return qty;
+            finally
+            {
+                cn.Close();
+            }
         }
 
         #endregion Perform Copy and CRUD
-
     }
 }

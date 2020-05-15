@@ -11,29 +11,27 @@ namespace SearchDataSPM
     {
         #region steupvariables
 
-        private DataTable _acountsTb = null;
-        private DataTable _productTB;
-        private TreeNode root = new TreeNode();
-        private TreeNode root2 = new TreeNode();
+        private readonly DataTable _acountsTb;
+        private readonly SPMConnectAPI.ConnectAPI connectapi = new SPMConnectAPI.ConnectAPI();
+        private readonly TreeNode root = new TreeNode();
+        private readonly TreeNode root2 = new TreeNode();
         private string txtvalue;
-        private SPMConnectAPI.ConnectAPI connectapi = new SPMConnectAPI.ConnectAPI();
 
         #endregion steupvariables
 
         #region loadtree
 
+        private string itemnumber;
+
         public Compare()
         {
             InitializeComponent();
-            _productTB = new DataTable();
             Rectangle screen = Screen.PrimaryScreen.WorkingArea;
             int w = Width >= screen.Width ? screen.Width : (screen.Width + Width) / 3;
             int h = Height >= screen.Height ? screen.Height : (screen.Height + Height) / 3;
             this.Location = new Point((screen.Width - w) / 2, (screen.Height - h) / 2);
             this.Size = new Size(w, h);
         }
-
-        private string itemnumber;
 
         public string item(string item)
         {
@@ -59,6 +57,16 @@ namespace SearchDataSPM
 
         #region assytextbox and button events
 
+        private void Assy_txtbox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                startprocessofbom();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
+
         private void Assy_txtbox_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             // treeView1.TopNode.Nodes.Clear();
@@ -83,15 +91,6 @@ namespace SearchDataSPM
             _acountsTb.Clear();
         }
 
-        private void cleanup21()
-        {
-            treeView2.Nodes.Clear();
-            treeView2.ResetText();
-            RemoveChildNodes(root2);
-            _acountsTb.Clear();
-            assytxt2.Clear();
-        }
-
         private void cleaup22()
         {
             treeView2.Nodes.Clear();
@@ -100,48 +99,9 @@ namespace SearchDataSPM
             _acountsTb.Clear();
         }
 
-        private void Assy_txtbox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Return)
-            {
-                startprocessofbom();
-                e.Handled = true;
-                e.SuppressKeyPress = true;
-            }
-        }
-
-        private void startprocessofbom()
-        {
-            txtvalue = Assy_txtbox.Text;
-            try
-            {
-                treeView1.Nodes.Clear();
-                RemoveChildNodes(root);
-                treeView1.ResetText();
-
-                filldatatable();
-                fillrootnode("1");
-            }
-            catch (Exception)
-
-            {
-                if (!String.IsNullOrEmpty(txtvalue) && Char.IsLetter(txtvalue[0]))
-                {
-                    MessageBox.Show(" Item does not contain a Bill OF Material on Genius.", "SPM Connect - Bill Of Manufacturing", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    Assy_txtbox.Clear();
-                }
-                else
-                {
-                    MessageBox.Show("Invalid Search Parameter / Item Not Found On Genius.", "SPM Connect - Bill Of Manufacturing", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    cleaup2();
-                    Assy_txtbox.BackColor = Color.IndianRed;
-                }
-            }
-        }
-
         private void filldatatable()
         {
-            string sql = "SELECT *  FROM [SPM_Database].[dbo].[SPMConnectBOM] ORDER BY [ItemNumber]";
+            const string sql = "SELECT *  FROM [SPM_Database].[dbo].[SPMConnectBOM] ORDER BY [ItemNumber]";
             try
             {
                 _acountsTb.Clear();
@@ -177,7 +137,7 @@ namespace SearchDataSPM
                         treeView1.ResetText();
 
                         //DataRow[] dr = _productTB.Select("ItemNumber = '" + txtvalue.ToString() + "'");
-                        DataRow[] dr = _acountsTb.Select("AssyNo = '" + txtvalue.ToString() + "'");
+                        DataRow[] dr = _acountsTb.Select("AssyNo = '" + txtvalue + "'");
 
                         root.Text = dr[0]["AssyNo"].ToString() + " - " + dr[0]["AssyDescription"].ToString();
                         root.Tag = _acountsTb.Rows.IndexOf(dr[0]);
@@ -199,7 +159,7 @@ namespace SearchDataSPM
                         treeView1.ResetText();
 
                         //DataRow[] dr = _productTB.Select("ItemNumber = '" + txtvalue.ToString() + "'");
-                        DataRow[] dr = _acountsTb.Select("ItemNumber = '" + txtvalue.ToString() + "'");
+                        DataRow[] dr = _acountsTb.Select("ItemNumber = '" + txtvalue + "'");
 
                         root.Text = dr[0]["ItemNumber"].ToString() + " - " + dr[0]["Description"].ToString();
                         root.Tag = _acountsTb.Rows.IndexOf(dr[0]);
@@ -287,7 +247,7 @@ namespace SearchDataSPM
             {
                 TreeNode childNode;
 
-                foreach (DataRow dr in _acountsTb.Select("[AssyNo] ='" + parentId.ToString() + "'"))
+                foreach (DataRow dr in _acountsTb.Select("[AssyNo] ='" + parentId + "'"))
                 {
                     TreeNode t = new TreeNode
                     {
@@ -312,14 +272,14 @@ namespace SearchDataSPM
                         parentNode.Nodes.Add(t);
                         childNode = t;
                     }
-                    PopulateTreeView((dr["ItemNumber"].ToString()), "1", childNode);
+                    PopulateTreeView(dr["ItemNumber"].ToString(), "1", childNode);
                 }
             }
             else
             {
                 TreeNode childNode;
 
-                foreach (DataRow dr in _acountsTb.Select("[AssyNo] ='" + parentId.ToString() + "'"))
+                foreach (DataRow dr in _acountsTb.Select("[AssyNo] ='" + parentId + "'"))
                 {
                     TreeNode t = new TreeNode
                     {
@@ -344,7 +304,7 @@ namespace SearchDataSPM
                         parentNode.Nodes.Add(t);
                         childNode = t;
                     }
-                    PopulateTreeView((dr["ItemNumber"].ToString()), "2", childNode);
+                    PopulateTreeView(dr["ItemNumber"].ToString(), "2", childNode);
                 }
             }
 
@@ -362,6 +322,35 @@ namespace SearchDataSPM
             }
         }
 
+        private void startprocessofbom()
+        {
+            txtvalue = Assy_txtbox.Text;
+            try
+            {
+                treeView1.Nodes.Clear();
+                RemoveChildNodes(root);
+                treeView1.ResetText();
+
+                filldatatable();
+                fillrootnode("1");
+            }
+            catch (Exception)
+
+            {
+                if (!String.IsNullOrEmpty(txtvalue) && Char.IsLetter(txtvalue[0]))
+                {
+                    MessageBox.Show(" Item does not contain a Bill OF Material on Genius.", "SPM Connect - Bill Of Manufacturing", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    Assy_txtbox.Clear();
+                }
+                else
+                {
+                    MessageBox.Show("Invalid Search Parameter / Item Not Found On Genius.", "SPM Connect - Bill Of Manufacturing", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    cleaup2();
+                    Assy_txtbox.BackColor = Color.IndianRed;
+                }
+            }
+        }
+
         #endregion assytextbox and button events
 
         #region treeview events
@@ -373,9 +362,43 @@ namespace SearchDataSPM
 
         #endregion treeview events
 
-        private void TreeView_FormClosed(object sender, FormClosedEventArgs e)
+        public void Compare1(TreeNode t1, TreeNode t2)
         {
-            this.Dispose();
+            foreach (TreeNode item1 in t1.Nodes)
+            {
+                bool isFind = false;
+
+                foreach (TreeNode item2 in t2.Nodes)
+                {
+                    if (item1.Text == item2.Text)
+                    {
+                        //find the same item. Continue to compare its children items.
+
+                        Compare1(item1, item2);
+
+                        isFind = true;
+                        item2.ForeColor = Color.Gray;
+
+                        Font boldFont = new Font(treeView2.Font, FontStyle.Strikeout);
+                        item2.NodeFont = boldFont;
+                        break;
+                    }
+                    if (item2.ForeColor != Color.Gray)
+                    {
+                        item2.ForeColor = Color.Green;
+                    }
+                }
+
+                if (isFind)
+                {
+                    item1.ForeColor = Color.Gray;
+                    continue;
+                }
+                else
+                {
+                    item1.ForeColor = Color.Red;
+                }
+            }
         }
 
         private void assytxt2_KeyDown(object sender, KeyEventArgs e)
@@ -388,68 +411,11 @@ namespace SearchDataSPM
             }
         }
 
-        private void startprocessofbom2()
-        {
-            txtvalue = Assy_txtbox.Text;
-            try
-            {
-                treeView2.Nodes.Clear();
-                RemoveChildNodes(root2);
-                filldatatable();
-                fillrootnode("2");
-                treeView2.ResetText();
-            }
-            catch (Exception)
-
-            {
-                if (!String.IsNullOrEmpty(txtvalue) && Char.IsLetter(txtvalue[0]))
-                {
-                    MessageBox.Show(" Item does not contain a Bill OF Material on Genius.", "SPM Connect - Bill Of Manufacturing", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    // Assy_txtbox.Clear();
-                    this.Hide();
-                    this.Close();
-                }
-                else
-                {
-                    MessageBox.Show("Invalid Search Parameter / Item Not Found On Genius.", "SPM Connect - Bill Of Manufacturing", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    cleaup22();
-                    Assy_txtbox.BackColor = Color.IndianRed; //to add high light
-                    //Assy_txtbox.Clear();
-                }
-            }
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
             CompareTreeNodes(treeView1, treeView2);
             treeView1.ExpandAll();
             treeView2.ExpandAll();
-        }
-
-        //void CompareRecursiveTree(TreeNode tn1, TreeNode tn2)
-        //{
-        //    if (tn1.Text != tn2.Text)
-        //    {
-        //        tn1.ForeColor = Color.Red;
-        //        tn2.ForeColor = Color.Red;
-        //    }
-        //    int compare = Math.Min(tn1.Nodes.Count, tn2.Nodes.Count);
-        //    // ignore extra nodes
-        //    for (int i = 0; i < compare; i++)
-        //    {
-        //        CompareRecursiveTree(tn1.Nodes[i], tn2.Nodes[i]);
-        //    }
-        //}
-
-        private void CompareTreeNodes(System.Windows.Forms.TreeView tv1, System.Windows.Forms.TreeView tv2)
-        {
-            int compare = Math.Max(tv1.Nodes.Count, tv2.Nodes.Count);
-            // ignore extra nodes
-            for (int i = 0; i < compare; i++)
-            {
-                //CompareRecursiveTree(tv1.Nodes[i], tv2.Nodes[i]);
-                Compare1(tv1.Nodes[i], tv2.Nodes[i]);
-            }
         }
 
         private void CompareRecursiveTree(TreeNode tn1, TreeNode tn2)
@@ -487,44 +453,66 @@ namespace SearchDataSPM
             }
         }
 
-        public void Compare1(TreeNode t1, TreeNode t2)
+        private void CompareTreeNodes(System.Windows.Forms.TreeView tv1, System.Windows.Forms.TreeView tv2)
         {
-            foreach (TreeNode item1 in t1.Nodes)
+            int compare = Math.Max(tv1.Nodes.Count, tv2.Nodes.Count);
+            // ignore extra nodes
+            for (int i = 0; i < compare; i++)
             {
-                bool isFind = false;
+                //CompareRecursiveTree(tv1.Nodes[i], tv2.Nodes[i]);
+                Compare1(tv1.Nodes[i], tv2.Nodes[i]);
+            }
+        }
 
-                foreach (TreeNode item2 in t2.Nodes)
+        private void startprocessofbom2()
+        {
+            txtvalue = Assy_txtbox.Text;
+            try
+            {
+                treeView2.Nodes.Clear();
+                RemoveChildNodes(root2);
+                filldatatable();
+                fillrootnode("2");
+                treeView2.ResetText();
+            }
+            catch (Exception)
+
+            {
+                if (!String.IsNullOrEmpty(txtvalue) && Char.IsLetter(txtvalue[0]))
                 {
-                    if (item1.Text.ToString() == item2.Text.ToString())
-                    {
-                        //find the same item. Continue to compare its children items.
-
-                        Compare1(item1, item2);
-
-                        isFind = true;
-                        item2.ForeColor = Color.Gray;
-
-                        Font boldFont = new Font(treeView2.Font, FontStyle.Strikeout);
-                        item2.NodeFont = boldFont;
-                        break;
-                    }
-                    if (item2.ForeColor != Color.Gray)
-                    {
-                        item2.ForeColor = Color.Green;
-                    }
-                }
-
-                if (isFind == true)
-                {
-                    item1.ForeColor = Color.Gray;
-                    continue;
+                    MessageBox.Show(" Item does not contain a Bill OF Material on Genius.", "SPM Connect - Bill Of Manufacturing", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    // Assy_txtbox.Clear();
+                    this.Hide();
+                    this.Close();
                 }
                 else
-
                 {
-                    item1.ForeColor = Color.Red;
+                    MessageBox.Show("Invalid Search Parameter / Item Not Found On Genius.", "SPM Connect - Bill Of Manufacturing", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    cleaup22();
+                    Assy_txtbox.BackColor = Color.IndianRed; //to add high light
+                    //Assy_txtbox.Clear();
                 }
             }
         }
+
+        private void TreeView_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.Dispose();
+        }
+
+        //void CompareRecursiveTree(TreeNode tn1, TreeNode tn2)
+        //{
+        //    if (tn1.Text != tn2.Text)
+        //    {
+        //        tn1.ForeColor = Color.Red;
+        //        tn2.ForeColor = Color.Red;
+        //    }
+        //    int compare = Math.Min(tn1.Nodes.Count, tn2.Nodes.Count);
+        //    // ignore extra nodes
+        //    for (int i = 0; i < compare; i++)
+        //    {
+        //        CompareRecursiveTree(tn1.Nodes[i], tn2.Nodes[i]);
+        //    }
+        //}
     }
 }

@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 
 namespace SearchDataSPM
 {
-    public class pnotifier
+    public class Pnotifier
     {
+        private readonly SPMConnectAPI.ConnectAPI connectapi = new SPMConnectAPI.ConnectAPI();
         private SqlConnection cn;
         private string connection;
+        private bool higherauthority;
+        private bool pbuyer;
 
         // current user creds
-        private bool supervisor = false;
+        private bool supervisor;
 
-        private SPMConnectAPI.ConnectAPI connectapi = new SPMConnectAPI.ConnectAPI();
-        private bool higherauthority = false;
-        private bool pbuyer = false;
-        private int supervisorid = 0;
-        private int myid = 0;
         private string userfullname = "";
 
         //
@@ -27,40 +26,25 @@ namespace SearchDataSPM
         //double total = 0.00;
         ////
 
-        public void SPM_Connect()
-        {
-            connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
-            try
-            {
-                cn = new SqlConnection(connection);
-            }
-            catch (Exception)
-            {
-            }
-        }
-
         public void Currentusercreds()
         {
             SPM_Connect();
             string username = connectapi.GetUserName();
-            string fullname = "";
             try
             {
                 if (cn.State == ConnectionState.Closed)
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + username.ToString() + "' ";
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + username + "' ";
                 cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
                 foreach (DataRow dr in dt.Rows)
                 {
-                    fullname = dr["Name"].ToString();
+                    string fullname = dr["Name"].ToString();
                     userfullname = fullname;
-                    supervisorid = Convert.ToInt32(dr["Supervisor"].ToString());
-                    myid = Convert.ToInt32(dr["id"].ToString());
                     string manager = dr["PurchaseReqApproval"].ToString();
                     string hauthority = dr["PurchaseReqApproval2"].ToString();
                     string PurchaseReqBuyer = dr["PurchaseReqBuyer"].ToString();
@@ -79,8 +63,9 @@ namespace SearchDataSPM
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Debug.Print(ex.Message);
             }
             finally
             {
@@ -88,7 +73,67 @@ namespace SearchDataSPM
             }
         }
 
-        public string showpopupnotifation(int reqno, int validate, int approved, int happroval, int happroved, int papproval, int papproved, string requestname, int supervisorid)
+        public int getsupervisorid(string username)
+        {
+            int fullname = 0;
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + username + "' ";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    fullname = Convert.ToInt32(dr["Supervisor"]);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.Print(ex.Message);
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return fullname;
+        }
+
+        public string getsupervisorname(int id)
+        {
+            string fullname = "";
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [id]='" + id.ToString() + "' ";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    fullname = dr["Name"].ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return fullname;
+        }
+
+        public string showpopupnotifation(int validate, int approved, int happroval, int happroved, int papproval, int papproved, string requestname)
         {
             // SPM_Connect();
             //currentusercreds();
@@ -164,63 +209,17 @@ namespace SearchDataSPM
             return message;
         }
 
-        public string getsupervisorname(int id)
+        public void SPM_Connect()
         {
-            string fullname = "";
+            connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
             try
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [id]='" + id.ToString() + "' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    fullname = dr["Name"].ToString();
-                }
+                cn = new SqlConnection(connection);
             }
             catch (Exception ex)
             {
-                return ex.ToString();
+                Debug.Print(ex.Message);
             }
-            finally
-            {
-                cn.Close();
-            }
-            return fullname;
-        }
-
-        public int getsupervisorid(string username)
-        {
-            int fullname = 0;
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + username.ToString() + "' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    fullname = Convert.ToInt32(dr["Supervisor"]);
-                }
-            }
-            catch (Exception)
-            {
-            }
-            finally
-            {
-                cn.Close();
-            }
-            return fullname;
         }
     }
 }

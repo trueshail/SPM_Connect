@@ -5,25 +5,16 @@ namespace SearchDataSPM
 {
     public partial class lettergame : Form
     {
-        private Random random = new Random();
-        private Stats stats = new Stats();
+        private readonly Random random = new Random();
+        private readonly Stats stats = new Stats();
 
         public lettergame()
         {
             InitializeComponent();
         }
 
-        private void timer_Tick(object sender, EventArgs e)
+        private void correctLabel_Click(object sender, EventArgs e)
         {
-            //Add a random key to the listBox
-
-            letterBox.Items.Add((Keys)random.Next(65, 90));
-            if (letterBox.Items.Count > 7)
-            {
-                letterBox.Items.Clear();
-                letterBox.Items.Add("Game Over!");
-                timer.Stop();
-            }
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -36,11 +27,11 @@ namespace SearchDataSPM
                 letterBox.Items.Remove(e.KeyCode);
                 letterBox.Refresh();
                 if (timer.Interval > 400)
-                    timer.Interval = timer.Interval - 10;
+                    timer.Interval -= 10;
                 if (timer.Interval > 250)
-                    timer.Interval = timer.Interval - 7;
+                    timer.Interval -= 7;
                 if (timer.Interval > 100)
-                    timer.Interval = timer.Interval - 2;
+                    timer.Interval -= 2;
                 progressBar.Value = 800 - timer.Interval;
 
                 //User pressed a correct key, so update the stats object
@@ -60,12 +51,21 @@ namespace SearchDataSPM
             accuracyLabel.Text = "Accuracry: " + stats.Accurate + "%";
         }
 
-        private void correctLabel_Click(object sender, EventArgs e)
+        private void statusStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
         }
 
-        private void statusStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        private void timer_Tick(object sender, EventArgs e)
         {
+            //Add a random key to the listBox
+
+            letterBox.Items.Add((Keys)random.Next(65, 90));
+            if (letterBox.Items.Count > 7)
+            {
+                letterBox.Items.Clear();
+                letterBox.Items.Add("Game Over!");
+                timer.Stop();
+            }
         }
     }
 }

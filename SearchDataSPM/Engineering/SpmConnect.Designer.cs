@@ -337,7 +337,7 @@
             this.txtSearch.Size = new System.Drawing.Size(380, 25);
             this.txtSearch.TabIndex = 106;
             this.TreeViewToolTip.SetToolTip(this.txtSearch, "Enter Search Keyword.\r\n");
-            this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
+            this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtSearch_KeyDown);
             // 
             // filter4
             // 
@@ -354,7 +354,7 @@
             this.filter4.TabIndex = 110;
             this.TreeViewToolTip.SetToolTip(this.filter4, "Enter Keyword 5");
             this.filter4.Visible = false;
-            this.filter4.KeyDown += new System.Windows.Forms.KeyEventHandler(this.filter4_KeyDown);
+            this.filter4.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Filter4_KeyDown);
             // 
             // filteroemitem_txtbox
             // 
@@ -371,7 +371,7 @@
             this.filteroemitem_txtbox.TabIndex = 109;
             this.TreeViewToolTip.SetToolTip(this.filteroemitem_txtbox, "Enter keyworkd 4");
             this.filteroemitem_txtbox.Visible = false;
-            this.filteroemitem_txtbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.filteroemitem_txtbox_KeyDown);
+            this.filteroemitem_txtbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Filteroemitem_txtbox_KeyDown);
             // 
             // filteroem_txtbox
             // 
@@ -388,7 +388,7 @@
             this.filteroem_txtbox.TabIndex = 108;
             this.TreeViewToolTip.SetToolTip(this.filteroem_txtbox, "Enter Keyword 3");
             this.filteroem_txtbox.Visible = false;
-            this.filteroem_txtbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.filteroem_txtbox_KeyDown);
+            this.filteroem_txtbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Filteroem_txtbox_KeyDown);
             // 
             // Descrip_txtbox
             // 
@@ -736,7 +736,7 @@
             this.toolStripMenuItem1.Size = new System.Drawing.Size(176, 22);
             this.toolStripMenuItem1.Text = "Edit Item";
             this.toolStripMenuItem1.ToolTipText = "Edit Selected Item\'s Properties";
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.ToolStripMenuItem1_Click);
             // 
             // toolStripMenuItem2
             // 
@@ -915,7 +915,7 @@
             this.dataGridView.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseDown);
             this.dataGridView.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellMouseLeave);
             this.dataGridView.CellMouseMove += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseMove);
-            this.dataGridView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridView_CellPainting_1);
+            this.dataGridView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.DataGridView_CellPainting_1);
             this.dataGridView.SelectionChanged += new System.EventHandler(this.DataGridView_SelectionChanged);
             this.dataGridView.DragOver += new System.Windows.Forms.DragEventHandler(this.DataGridView_DragOver);
             this.dataGridView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView_KeyDown);

@@ -6,15 +6,13 @@ namespace SearchDataSPM
 {
     public partial class ReportViewer : Form
     {
-        private SPMConnectAPI.SPMSQLCommands connectapi = new SPMSQLCommands();
+        private readonly SPMConnectAPI.SPMSQLCommands connectapi = new SPMSQLCommands();
+        private readonly string itemnumber = "";
+        private readonly string PaymentMode = "";
+        private readonly string reportname = "";
+        private readonly string WONotes = "";
+        private readonly string WORelease = "";
         private log4net.ILog log;
-        private string reportname = "";
-        private string itemnumber = "";
-        private string PaymentMode = "";
-        private string WORelease = "";
-        private string WONotes = "";
-
-        private ErrorHandler errorHandler = new ErrorHandler();
 
         public ReportViewer(string _reportname, string _item, string paymenttype = "", string woreleasetype = "", string wonotes = "")
         {
@@ -25,6 +23,90 @@ namespace SearchDataSPM
             this.PaymentMode = paymenttype;
             this.WONotes = wonotes;
             this.WORelease = woreleasetype;
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Control | Keys.P))
+            {
+                reportViewer1.PrintDialog();
+                return true;
+            }
+            if (keyData == (Keys.Control | Keys.W))
+            {
+                this.Close();
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        private void Fillbomreport()
+        {
+            Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection
+            {
+                new Microsoft.Reporting.WinForms.ReportParameter("pCode", itemnumber)
+            };
+            this.reportViewer1.ServerReport.SetParameters(reportParameters);
+            this.reportViewer1.RefreshReport();
+        }
+
+        private void FillEFTReportParamter()
+        {
+            Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection
+            {
+                new Microsoft.Reporting.WinForms.ReportParameter("pCode", itemnumber),
+                new Microsoft.Reporting.WinForms.ReportParameter("pTransNo", PaymentMode)
+            };
+            this.reportViewer1.ServerReport.SetParameters(reportParameters);
+            this.reportViewer1.RefreshReport();
+        }
+
+        private void FilloneParamter()
+        {
+            Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection
+            {
+                new Microsoft.Reporting.WinForms.ReportParameter("pInvno", itemnumber)
+            };
+            this.reportViewer1.ServerReport.SetParameters(reportParameters);
+            this.reportViewer1.RefreshReport();
+        }
+
+        private void Fillpurchasereq()
+        {
+            Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection
+            {
+                new Microsoft.Reporting.WinForms.ReportParameter("pReqno", itemnumber)
+            };
+            this.reportViewer1.ServerReport.SetParameters(reportParameters);
+            this.reportViewer1.RefreshReport();
+        }
+
+        private void FillServiceReportParamter()
+        {
+            Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection
+            {
+                new Microsoft.Reporting.WinForms.ReportParameter("ReqNumber", itemnumber)
+            };
+            this.reportViewer1.ServerReport.SetParameters(reportParameters);
+            this.reportViewer1.RefreshReport();
+        }
+
+        private void Fillwrokdorderreport()
+        {
+            Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection
+            {
+                new Microsoft.Reporting.WinForms.ReportParameter("pWorkOrder", itemnumber)
+            };
+            if (WORelease != "")
+            {
+                reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("BalloonRef", WORelease));
+            }
+            if (WONotes != "")
+            {
+                reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("Notes", WONotes));
+            }
+            this.reportViewer1.ServerReport.SetParameters(reportParameters);
+            this.reportViewer1.RefreshReport();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -105,82 +187,10 @@ namespace SearchDataSPM
             log.Info("Opened ReportViewer, ReportName : " + reportname + ", ItemNumber : " + itemnumber + " ");
         }
 
-        private void Fillbomreport()
-        {
-            Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection();
-            reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("pCode", itemnumber));
-            this.reportViewer1.ServerReport.SetParameters(reportParameters);
-            this.reportViewer1.RefreshReport();
-        }
-
-        private void Fillwrokdorderreport()
-        {
-            Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection();
-            reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("pWorkOrder", itemnumber));
-            if (WORelease != "")
-            {
-                reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("BalloonRef", WORelease));
-            }
-            if (WONotes != "")
-            {
-                reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("Notes", WONotes));
-            }
-            this.reportViewer1.ServerReport.SetParameters(reportParameters);
-            this.reportViewer1.RefreshReport();
-        }
-
-        private void Fillpurchasereq()
-        {
-            Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection();
-            reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("pReqno", itemnumber));
-            this.reportViewer1.ServerReport.SetParameters(reportParameters);
-            this.reportViewer1.RefreshReport();
-        }
-
-        private void FilloneParamter()
-        {
-            Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection();
-            reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("pInvno", itemnumber));
-            this.reportViewer1.ServerReport.SetParameters(reportParameters);
-            this.reportViewer1.RefreshReport();
-        }
-
-        private void FillServiceReportParamter()
-        {
-            Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection();
-            reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("ReqNumber", itemnumber));
-            this.reportViewer1.ServerReport.SetParameters(reportParameters);
-            this.reportViewer1.RefreshReport();
-        }
-
-        private void FillEFTReportParamter()
-        {
-            Microsoft.Reporting.WinForms.ReportParameterCollection reportParameters = new Microsoft.Reporting.WinForms.ReportParameterCollection();
-            reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("pCode", itemnumber));
-            reportParameters.Add(new Microsoft.Reporting.WinForms.ReportParameter("pTransNo", PaymentMode));
-            this.reportViewer1.ServerReport.SetParameters(reportParameters);
-            this.reportViewer1.RefreshReport();
-        }
-
         private void ReportViewer_FormClosed(object sender, FormClosedEventArgs e)
         {
             log.Info("Closed ReportViewer, ReportName : " + reportname + ", ItemNumber : " + itemnumber + " ");
             this.Dispose();
-        }
-
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            if (keyData == (Keys.Control | Keys.P))
-            {
-                reportViewer1.PrintDialog();
-                return true;
-            }
-            if (keyData == (Keys.Control | Keys.W))
-            {
-                this.Close();
-                return true;
-            }
-            return base.ProcessCmdKey(ref msg, keyData);
         }
     }
 }

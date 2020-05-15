@@ -6,9 +6,8 @@ namespace SearchDataSPM
 {
     public partial class LoginForm : MetroFramework.Forms.MetroForm
     {
+        private readonly SPMConnectAPI.ConnectAPI connectapi = new SPMConnectAPI.ConnectAPI();
         private log4net.ILog log;
-        private SPMConnectAPI.ConnectAPI connectapi = new SPMConnectAPI.ConnectAPI();
-        private ErrorHandler errorHandler = new ErrorHandler();
 
         public LoginForm()
         {
@@ -20,7 +19,7 @@ namespace SearchDataSPM
             this.Activate();
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened Admin Login Form on " + System.Environment.UserName + " system.");
+            log.Info("Opened Admin Login Form on " + Environment.UserName + " system.");
         }
 
         private void LoginBttn_Click(object sender, EventArgs e)
@@ -69,12 +68,10 @@ namespace SearchDataSPM
             }
         }
 
-        private void txtUserName_KeyPress(object sender, KeyPressEventArgs e)
+        private void LoginForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (e.KeyChar == (char)13)
-            {
-                txtPassword.Focus();
-            }
+            log.Info("Closed Admin Login Form on " + Environment.UserName + " system.");
+            this.Dispose();
         }
 
         private void txtPassword_KeyPress(object sender, KeyPressEventArgs e)
@@ -85,10 +82,12 @@ namespace SearchDataSPM
             }
         }
 
-        private void LoginForm_FormClosed(object sender, FormClosedEventArgs e)
+        private void txtUserName_KeyPress(object sender, KeyPressEventArgs e)
         {
-            log.Info("Closed Admin Login Form on " + System.Environment.UserName + " system.");
-            this.Dispose();
+            if (e.KeyChar == (char)13)
+            {
+                txtPassword.Focus();
+            }
         }
     }
 }

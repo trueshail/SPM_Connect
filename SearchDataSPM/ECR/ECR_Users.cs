@@ -9,18 +9,24 @@ namespace SearchDataSPM.ECR
 {
     public partial class ECR_Users : Form
     {
+        private readonly SPMConnectAPI.ECR connectapi = new SPMConnectAPI.ECR();
         private DataTable dt;
-        private bool supervisor;
-        public string ValueIWant { get; set; }
-        private SPMConnectAPI.ECR connectapi = new SPMConnectAPI.ECR();
         private string formlabel = "";
         private log4net.ILog log;
-
-        private ErrorHandler errorHandler = new ErrorHandler();
+        private bool supervisor;
 
         public ECR_Users()
         {
             InitializeComponent();
+        }
+
+        public string ValueIWant { get; set; }
+
+        public string formtext(string formname)
+        {
+            if (formname.Length > 0)
+                return formlabel = formname;
+            return "ECR Select available to user";
         }
 
         public bool IsSupervisor(bool issupervisor)
@@ -28,13 +34,6 @@ namespace SearchDataSPM.ECR
             if (issupervisor)
                 return supervisor = issupervisor;
             return false;
-        }
-
-        public string formtext(string formname)
-        {
-            if (formname.Length > 0)
-                return formlabel = formname;
-            return "ECR Select available to user";
         }
 
         private void dataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -52,8 +51,14 @@ namespace SearchDataSPM.ECR
                 item = "";
             }
             ValueIWant = item;
-            this.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.DialogResult = DialogResult.OK;
             Close();
+        }
+
+        private void ECR_Users_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            log.Info("Closed ECR Users Available ");
+            this.Dispose();
         }
 
         private void ECR_Users_Load(object sender, EventArgs e)
@@ -108,7 +113,7 @@ namespace SearchDataSPM.ECR
             }
 
             dataGridView.DataSource = dt;
-            DataView dv = dt.DefaultView;
+            _ = dt.DefaultView;
             dataGridView.Sort(dataGridView.Columns[1], ListSortDirection.Ascending);
             UpdateFont();
             log4net.Config.XmlConfigurator.Configure();
@@ -124,12 +129,6 @@ namespace SearchDataSPM.ECR
             dataGridView.DefaultCellStyle.BackColor = Color.FromArgb(237, 237, 237);
             dataGridView.DefaultCellStyle.SelectionForeColor = Color.Yellow;
             dataGridView.DefaultCellStyle.SelectionBackColor = Color.Black;
-        }
-
-        private void ECR_Users_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            log.Info("Closed ECR Users Available ");
-            this.Dispose();
         }
     }
 }

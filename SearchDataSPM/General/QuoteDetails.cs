@@ -11,11 +11,11 @@ namespace SearchDataSPM.General
 {
     public partial class QuoteDetails : Form
     {
-        private DataTable dt = new DataTable();
-        private string quoteno2 = "";
+        private readonly SPMConnectAPI.ConnectAPI connectapi = new SPMConnectAPI.ConnectAPI();
+        private readonly DataTable dt = new DataTable();
+        private readonly List<string> list = new List<string>();
+        private readonly string quoteno2 = "";
         private log4net.ILog log;
-        private SPMConnectAPI.ConnectAPI connectapi = new SPMConnectAPI.ConnectAPI();
-        private ErrorHandler errorHandler = new ErrorHandler();
 
         public QuoteDetails(string quoteno)
         {
@@ -24,25 +24,288 @@ namespace SearchDataSPM.General
             dt = new DataTable();
         }
 
-        private void QuoteDetails_Load(object sender, EventArgs e)
+        private static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs)
         {
-            this.Text = "Quote Details - " + quoteno2;
-            Fillcustomers();
-            HowFound();
-            Rating();
-            Category();
-            filldatatable(quoteno2);
+            // Get the subdirectories for the specified directory.
+            DirectoryInfo dir = new DirectoryInfo(sourceDirName);
+
+            if (!dir.Exists)
+            {
+                MessageBox.Show(
+                  "Source directory does not exist or could not be found: "
+                  + sourceDirName);
+                return;
+            }
+            if (Directory.Exists(destDirName))
+            {
+                if (MessageBox.Show(destDirName + " already exists\r\nDo you want to overwrite it?", "Overwrite Folder  - SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button2, MessageBoxOptions.DefaultDesktopOnly) == DialogResult.Yes)
+                {
+                    DirectoryInfo[] dirs = dir.GetDirectories();
+                    // If the destination directory doesn't exist, create it.
+                    if (!Directory.Exists(destDirName))
+                    {
+                        Directory.CreateDirectory(destDirName);
+                    }
+
+                    // Get the files in the directory and copy them to the new location.
+                    FileInfo[] files = dir.GetFiles();
+                    foreach (FileInfo file in files)
+                    {
+                        string temppath = Path.Combine(destDirName, file.Name);
+                        file.CopyTo(temppath, true);
+                    }
+
+                    // If copying subdirectories, copy them and their contents to new location.
+                    if (copySubDirs)
+                    {
+                        foreach (DirectoryInfo subdir in dirs)
+                        {
+                            string temppath = Path.Combine(destDirName, subdir.Name);
+                            DirectoryCopy(subdir.FullName, temppath, copySubDirs);
+                        }
+                    }
+                }
+                else { return; }
+            }
+            else
+            {
+                DirectoryInfo[] dirs = dir.GetDirectories();
+                // If the destination directory doesn't exist, create it.
+                if (!Directory.Exists(destDirName))
+                {
+                    Directory.CreateDirectory(destDirName);
+                }
+
+                // Get the files in the directory and copy them to the new location.
+                FileInfo[] files = dir.GetFiles();
+                foreach (FileInfo file in files)
+                {
+                    string temppath = Path.Combine(destDirName, file.Name);
+                    file.CopyTo(temppath, false);
+                }
+
+                // If copying subdirectories, copy them and their contents to new location.
+                if (copySubDirs)
+                {
+                    foreach (DirectoryInfo subdir in dirs)
+                    {
+                        string temppath = Path.Combine(destDirName, subdir.Name);
+                        DirectoryCopy(subdir.FullName, temppath, copySubDirs);
+                    }
+                }
+            }
+        }
+
+        private void backbttn_Click(object sender, EventArgs e)
+        {
+            if (webBrowser1.CanGoBack)
+                webBrowser1.GoBack();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            using (FolderBrowserDialog fbd = new FolderBrowserDialog() { Description = "Select your path." })
+            {
+                if (fbd.ShowDialog() == DialogResult.OK)
+                {
+                    webBrowser1.Url = new Uri(fbd.SelectedPath);
+                    txtPath.Text = fbd.SelectedPath;
+                }
+            }
+        }
+
+        private void Category()
+        {
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT Category FROM [SPM_Database].[dbo].[QuoteFilters]", connectapi.cn))
+            {
+                try
+                {
+                    if (connectapi.cn.State == ConnectionState.Closed)
+                        connectapi.cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+                    AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
+                    while (reader.Read())
+                    {
+                        MyCollection.Add(reader.GetString(0));
+                    }
+
+                    //familytxtbox.AutoCompleteCustomSource = MyCollection;
+                    Categorycombox.AutoCompleteCustomSource = MyCollection;
+                    Categorycombox.DataSource = MyCollection;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect New Item - Fill Customers Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    connectapi.cn.Close();
+                }
+            }
+        }
+
+        private void closedchkbox_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to make this choice?", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                if (closedchkbox.Checked)
+                {
+                    closedchkbox.Checked = true;
+                    cvttojobchkbox.Checked = false;
+                    cvttojobchkbox.Visible = false;
+                    closedchkbox.Enabled = false;
+                    Regex reg = new Regex("[*'\"/,_&#^@]");
+                    string jobdescription = reg.Replace(Descriptiontxtbox.Text, "");
+                    jobdescription = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(jobdescription.ToLower());
+                    string customer = reg.Replace(familycombobox.Text, "");
+                    //customer = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(customer.ToLower());
+
+                    //string sourcepath = @"\\spm-adfs\SPM\S300 Sales and Project Management\Sales\Opportunities\Q" + ItemTxtBox.Text + "_" + customer + "_" + jobdescription;
+                    string sourcepath = txtPath.Text;
+                    string destinationpath = @"\\spm-adfs\SPM\S300 Sales and Project Management\Sales\Opportunities\Closed Opportunities\Lost or Dead for other Reasons\Q" + ItemTxtBox.Text + "_" + customer + "_" + jobdescription;
+                    movefoldertoscrap(sourcepath, destinationpath);
+                    webBrowser1.Url = new Uri(destinationpath);
+                    txtPath.Text = destinationpath;
+                    perfromsavebttn(false);
+                    MetroFramework.MetroMessageBox.Show(this, "Lost opportunity. Folders moved to new location.", "SPM Connect - Lost Quote", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            else
+            {
+                closedchkbox.Checked = false;
+            }
+        }
+
+        private void createfolders(string quotenumber)
+        {
+            Regex reg = new Regex("[?<>|:*'\"/,_&#^@]");
+            string jobdescription = reg.Replace(Descriptiontxtbox.Text, "");
+            jobdescription = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(jobdescription.ToLower());
+
+            string customer = reg.Replace(familycombobox.Text, "");
+            //customer = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(customer.ToLower());
+
+            string destpaths300 = @"\\spm-adfs\SPM\S300 Sales and Project Management\Sales\Opportunities\Q" + quotenumber + "_" + customer + "_" + jobdescription;
+            const string sourcepaths300 = @"\\spm-adfs\SPM\S300 Sales and Project Management\Sales\Opportunities\#### Sample Opportunity";
+
+            if (!Directory.Exists(destpaths300))
+            {
+                DirectoryCopy(sourcepaths300, destpaths300, true);
+                txtPath.Text = destpaths300 + @"\";
+            }
+        }
+
+        private void createnewitemtosql(string quote, string description, string customer, string category, string rating, string howfound, string quotedprice, string currency, string closed, string convertedtojob, string notes, string user)
+        {
+            DateTime dateedited = DateTime.Now;
+            string sqlFormattedDate = dateedited.ToString("yyyy-MM-dd HH:mm:ss");
+            if (connectapi.cn.State == ConnectionState.Closed)
+                connectapi.cn.Open();
+            try
+            {
+                SqlCommand cmd = connectapi.cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "UPDATE [SPM_Database].[dbo].[Opportunities] SET Title = '" + description + "',Company_Name = '" + customer + "',Category = '" + category + "',Rating = '" + rating + "',How_Found = '" + howfound + "',Est_Revenue = '" + quotedprice + "',Currency = '" + currency + "',Closed = '" + closed + "',Converted_to_Job = '" + convertedtojob + "',Comments = '" + notes + "',LastSavedby = '" + user + "',LastSaved = @value2,FolderPath = '" + txtPath.Text + "' WHERE Quote = '" + quote + "' ";
+
+                cmd.Parameters.AddWithValue("@value2", sqlFormattedDate);
+                cmd.ExecuteNonQuery();
+                connectapi.cn.Close();
+                //MessageBox.Show("Item sucessfully saved SPM Connect Server.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                connectapi.cn.Close();
+            }
+        }
+
+        private void cvttojobchkbox_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to make this choice?", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                if (cvttojobchkbox.Checked)
+                {
+                    cvttojobchkbox.Checked = true;
+                    closedchkbox.Checked = false;
+                    closedchkbox.Visible = false;
+                    cvttojobchkbox.Enabled = false;
+                    Regex reg = new Regex("[*'\"/,_&#^@]");
+                    string jobdescription = reg.Replace(Descriptiontxtbox.Text, "");
+                    jobdescription = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(jobdescription.ToLower());
+                    string customer = reg.Replace(familycombobox.Text, "");
+                    //customer = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(customer.ToLower());
+
+                    //string sourcepath = @"\\spm-adfs\SPM\S300 Sales and Project Management\Sales\Opportunities\Q" + ItemTxtBox.Text + "_" + customer + "_" + jobdescription;
+                    string sourcepath = txtPath.Text;
+                    string destinationpath = @"\\spm-adfs\SPM\S300 Sales and Project Management\Sales\Opportunities\Closed Opportunities\Transfered_to_Jobs\Q" + ItemTxtBox.Text + "_" + customer + "_" + jobdescription;
+                    movefoldertoscrap(sourcepath, destinationpath);
+                    webBrowser1.Url = new Uri(destinationpath);
+                    txtPath.Text = destinationpath;
+                    perfromsavebttn(false);
+                    MetroFramework.MetroMessageBox.Show(this, "Quote converted to job and folders are moved to new location.", "SPM Connect - Move to Job", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            else
+            {
+                cvttojobchkbox.Checked = false;
+            }
+        }
+
+        private void editbttn_Click(object sender, EventArgs e)
+        {
             processeditbutton();
-            log4net.Config.XmlConfigurator.Configure();
-            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened Quote Details " + quoteno2 + " ");
-            if (!(dt.Rows.Count > 0))
-                this.Close();
+        }
+
+        private void familycombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                //familycombobox = this.familycombobox.Text;
+                familycombobox.Focus();
+            }
+        }
+
+        private void Fillcustomers()
+        {
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM [SPM_Database].[dbo].[Customersmerged] ORDER BY Customers", connectapi.cn))
+            {
+                try
+                {
+                    if (connectapi.cn.State == ConnectionState.Closed)
+                        connectapi.cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+                    AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
+                    while (reader.Read())
+                    {
+                        MyCollection.Add(reader.GetString(0));
+                    }
+
+                    //familytxtbox.AutoCompleteCustomSource = MyCollection;
+                    familycombobox.AutoCompleteCustomSource = MyCollection;
+                    familycombobox.DataSource = MyCollection;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect New Item - Fill Customers Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    connectapi.cn.Close();
+                }
+            }
+            familycombobox.SelectedItem = null;
         }
 
         private void filldatatable(string quotenumber)
         {
-            String sql = "SELECT *  FROM [SPM_Database].[dbo].[Opportunities] WHERE [Quote]='" + quotenumber.ToString() + "'";
+            String sql = "SELECT *  FROM [SPM_Database].[dbo].[Opportunities] WHERE [Quote]='" + quotenumber + "'";
             try
             {
                 if (connectapi.cn.State == ConnectionState.Closed)
@@ -148,35 +411,72 @@ namespace SearchDataSPM.General
             }
         }
 
-        private void Fillcustomers()
+        private void forwardbttn_Click(object sender, EventArgs e)
         {
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM [SPM_Database].[dbo].[Customersmerged] ORDER BY Customers", connectapi.cn))
-            {
-                try
-                {
-                    if (connectapi.cn.State == ConnectionState.Closed)
-                        connectapi.cn.Open();
-                    SqlDataReader reader = sqlCommand.ExecuteReader();
-                    AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
-                    while (reader.Read())
-                    {
-                        MyCollection.Add(reader.GetString(0));
-                    }
+            if (webBrowser1.CanGoForward)
+                webBrowser1.GoForward();
+        }
 
-                    //familytxtbox.AutoCompleteCustomSource = MyCollection;
-                    familycombobox.AutoCompleteCustomSource = MyCollection;
-                    familycombobox.DataSource = MyCollection;
-                }
-                catch (Exception ex)
+        private string Getuserfullname(string username)
+        {
+            try
+            {
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
+                SqlCommand cmd = connectapi.cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + username + "' ";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                foreach (DataRow dr in dt.Rows)
                 {
-                    MessageBox.Show(ex.Message, "SPM Connect New Item - Fill Customers Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    connectapi.cn.Close();
+                    string fullname = dr["Name"].ToString();
+                    return fullname;
                 }
             }
-            familycombobox.SelectedItem = null;
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Get Full User Name", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                connectapi.cn.Close();
+            }
+            return null;
+        }
+
+        private void graballinfor()
+        {
+            list.Clear();
+            string quote = ItemTxtBox.Text;
+            string description = Descriptiontxtbox.Text;
+            string customer = familycombobox.Text;
+            string category = Categorycombox.Text;
+            string rating = Ratingcombobox.Text;
+            string howfound = Howfndcombox.Text;
+            string quotedprice = textBox1.Text;
+            string currency = currencycombox.Text;
+            string opportunityclosed = (closedchkbox.Checked ? "1" : "0");
+            string convertedtojob = (cvttojobchkbox.Checked ? "1" : "0");
+            string notes = notestxt.Text;
+            list.Add(quote);
+            list.Add(description);
+            list.Add(customer);
+            list.Add(category);
+            list.Add(rating);
+            list.Add(howfound);
+            list.Add(quotedprice);
+            list.Add(currency);
+            list.Add(opportunityclosed);
+            list.Add(convertedtojob);
+            list.Add(notes);
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                list[i] = list[i].Replace("'", "''");
+            }
         }
 
         private void HowFound()
@@ -209,138 +509,53 @@ namespace SearchDataSPM.General
             }
         }
 
-        private void Rating()
-        {
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT [Rating] FROM [SPM_Database].[dbo].[QuoteFilters]  WHERE [Rating] is not null ", connectapi.cn))
-            {
-                try
-                {
-                    if (connectapi.cn.State == ConnectionState.Closed)
-                        connectapi.cn.Open();
-                    SqlDataReader reader = sqlCommand.ExecuteReader();
-                    AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
-                    while (reader.Read())
-                    {
-                        MyCollection.Add(reader.GetString(0));
-                    }
-
-                    //familytxtbox.AutoCompleteCustomSource = MyCollection;
-                    Ratingcombobox.AutoCompleteCustomSource = MyCollection;
-                    Ratingcombobox.DataSource = MyCollection;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect New Item - Fill Rating Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    connectapi.cn.Close();
-                }
-            }
-        }
-
-        private void Category()
-        {
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT Category FROM [SPM_Database].[dbo].[QuoteFilters]", connectapi.cn))
-            {
-                try
-                {
-                    if (connectapi.cn.State == ConnectionState.Closed)
-                        connectapi.cn.Open();
-                    SqlDataReader reader = sqlCommand.ExecuteReader();
-                    AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
-                    while (reader.Read())
-                    {
-                        MyCollection.Add(reader.GetString(0));
-                    }
-
-                    //familytxtbox.AutoCompleteCustomSource = MyCollection;
-                    Categorycombox.AutoCompleteCustomSource = MyCollection;
-                    Categorycombox.DataSource = MyCollection;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect New Item - Fill Customers Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    connectapi.cn.Close();
-                }
-            }
-        }
-
-        private void textBox1_Leave(object sender, EventArgs e)
-        {
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-            //Remove previous formatting, or the decimal check will fail including leading zeros
-            string value = textBox1.Text.Replace(",", "")
-                .Replace("$", "").Replace(".", "").TrimStart('0');
-            //Check we are indeed handling a number
-            if (decimal.TryParse(value, out decimal ul))
-            {
-                ul /= 100;
-                //Unsub the event so we don't enter a loop
-                textBox1.TextChanged -= textBox1_TextChanged;
-                //Format the text as currency
-                textBox1.Text = string.Format(CultureInfo.CreateSpecificCulture("en-US"), "{0:C2}", ul);
-                textBox1.TextChanged += textBox1_TextChanged;
-                textBox1.Select(textBox1.Text.Length, 0);
-            }
-            bool goodToGo = TextisValid(textBox1.Text);
-        }
-
-        private bool TextisValid(string text)
-        {
-            Regex money = new Regex(@"^\$(\d{1,3}(\,\d{3})*|(\d+))(\.\d{2})?$");
-            return money.IsMatch(text);
-        }
-
-        private string Getuserfullname(string username)
+        private void movefoldertoscrap(string sourcefile, string destfile)
         {
             try
             {
-                if (connectapi.cn.State == ConnectionState.Closed)
-                    connectapi.cn.Open();
-                SqlCommand cmd = connectapi.cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + username.ToString() + "' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    string fullname = dr["Name"].ToString();
-                    return fullname;
-                }
+                Directory.Move(sourcefile, destfile);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "SPM Connect - Get Full User Name", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Move to Lost Opportunity", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            finally
-            {
-                connectapi.cn.Close();
-            }
-            return null;
         }
 
-        private void QuoteDetails_FormClosing(object sender, FormClosingEventArgs e)
+        private void perfromlockdown()
         {
-            if (savbttn.Visible == true)
+            editbttn.Visible = true;
+            button3.Visible = false;
+            savbttn.Enabled = false;
+            savbttn.Visible = false;
+            familycombobox.Enabled = false;
+            Descriptiontxtbox.Enabled = false;
+            Categorycombox.Enabled = false;
+            Ratingcombobox.Enabled = false;
+            textBox1.Enabled = false;
+            Howfndcombox.Enabled = false;
+            currencycombox.Enabled = false;
+            closedchkbox.Enabled = false;
+            cvttojobchkbox.Enabled = false;
+            notestxt.Enabled = false;
+        }
+
+        private void perfromsavebttn(bool createfolder)
+        {
+            Cursor.Current = Cursors.WaitCursor;
+            this.Enabled = false;
+            perfromlockdown();
+            graballinfor();
+            if (createfolder)
             {
-                DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to close without saving changes?", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (result == DialogResult.Yes)
-                {
-                }
-                else
-                {
-                    e.Cancel = (result == DialogResult.No);
-                }
+                createfolders(ItemTxtBox.Text);
             }
+
+            string lastsavedby = Getuserfullname(connectapi.GetUserName());
+            createnewitemtosql(list[0], list[1], list[2], list[3], list[4], list[5], list[6], list[7], list[8], list[9], list[10], lastsavedby);
+
+            this.Enabled = true;
+            Cursor.Current = Cursors.Default;
+            filldatatable(list[0]);
         }
 
         private void processeditbutton()
@@ -380,55 +595,67 @@ namespace SearchDataSPM.General
             }
         }
 
-        private void perfromlockdown()
+        private void QuoteDetails_FormClosed(object sender, FormClosedEventArgs e)
         {
-            editbttn.Visible = true;
-            button3.Visible = false;
-            savbttn.Enabled = false;
-            savbttn.Visible = false;
-            familycombobox.Enabled = false;
-            Descriptiontxtbox.Enabled = false;
-            Categorycombox.Enabled = false;
-            Ratingcombobox.Enabled = false;
-            textBox1.Enabled = false;
-            Howfndcombox.Enabled = false;
-            currencycombox.Enabled = false;
-            closedchkbox.Enabled = false;
-            cvttojobchkbox.Enabled = false;
-            notestxt.Enabled = false;
+            log.Info("Closed Quote Details " + quoteno2 + " ");
+            this.Dispose();
         }
 
-        private List<string> list = new List<string>();
-
-        private void graballinfor()
+        private void QuoteDetails_FormClosing(object sender, FormClosingEventArgs e)
         {
-            list.Clear();
-            string quote = ItemTxtBox.Text;
-            string description = Descriptiontxtbox.Text;
-            string customer = familycombobox.Text;
-            string category = Categorycombox.Text;
-            string rating = Ratingcombobox.Text;
-            string howfound = Howfndcombox.Text;
-            string quotedprice = textBox1.Text;
-            string currency = currencycombox.Text;
-            string opportunityclosed = (closedchkbox.Checked ? "1" : "0");
-            string convertedtojob = (cvttojobchkbox.Checked ? "1" : "0");
-            string notes = notestxt.Text;
-            list.Add(quote);
-            list.Add(description);
-            list.Add(customer);
-            list.Add(category);
-            list.Add(rating);
-            list.Add(howfound);
-            list.Add(quotedprice);
-            list.Add(currency);
-            list.Add(opportunityclosed);
-            list.Add(convertedtojob);
-            list.Add(notes);
-
-            for (int i = 0; i < list.Count; i++)
+            if (savbttn.Visible)
             {
-                list[i] = list[i].Replace("'", "''");
+                DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to close without saving changes?", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result != DialogResult.Yes)
+                {
+                    e.Cancel = (result == DialogResult.No);
+                }
+            }
+        }
+
+        private void QuoteDetails_Load(object sender, EventArgs e)
+        {
+            this.Text = "Quote Details - " + quoteno2;
+            Fillcustomers();
+            HowFound();
+            Rating();
+            Category();
+            filldatatable(quoteno2);
+            processeditbutton();
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Opened Quote Details " + quoteno2 + " ");
+            if (dt.Rows.Count <= 0)
+                this.Close();
+        }
+
+        private void Rating()
+        {
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT [Rating] FROM [SPM_Database].[dbo].[QuoteFilters]  WHERE [Rating] is not null ", connectapi.cn))
+            {
+                try
+                {
+                    if (connectapi.cn.State == ConnectionState.Closed)
+                        connectapi.cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+                    AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
+                    while (reader.Read())
+                    {
+                        MyCollection.Add(reader.GetString(0));
+                    }
+
+                    //familytxtbox.AutoCompleteCustomSource = MyCollection;
+                    Ratingcombobox.AutoCompleteCustomSource = MyCollection;
+                    Ratingcombobox.DataSource = MyCollection;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect New Item - Fill Rating Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    connectapi.cn.Close();
+                }
             }
         }
 
@@ -437,280 +664,33 @@ namespace SearchDataSPM.General
             perfromsavebttn(true);
         }
 
-        private void perfromsavebttn(bool createfolder)
+        private void textBox1_Leave(object sender, EventArgs e)
         {
-            Cursor.Current = Cursors.WaitCursor;
-            this.Enabled = false;
-            perfromlockdown();
-            graballinfor();
-            if (createfolder)
-            {
-                createfolders(ItemTxtBox.Text);
-            }
-
-            string lastsavedby = Getuserfullname(connectapi.GetUserName()).ToString();
-            createnewitemtosql(list[0].ToString(), list[1].ToString(), list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(), list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(), list[10].ToString(), lastsavedby);
-
-            this.Enabled = true;
-            Cursor.Current = Cursors.Default;
-            filldatatable(list[0].ToString());
         }
 
-        private void createnewitemtosql(string quote, string description, string customer, string category, string rating, string howfound, string quotedprice, string currency, string closed, string convertedtojob, string notes, string user)
+        private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            DateTime dateedited = DateTime.Now;
-            string sqlFormattedDate = dateedited.ToString("yyyy-MM-dd HH:mm:ss");
-            if (connectapi.cn.State == ConnectionState.Closed)
-                connectapi.cn.Open();
-            try
+            //Remove previous formatting, or the decimal check will fail including leading zeros
+            string value = textBox1.Text.Replace(",", "")
+                .Replace("$", "").Replace(".", "").TrimStart('0');
+            //Check we are indeed handling a number
+            if (decimal.TryParse(value, out decimal ul))
             {
-                SqlCommand cmd = connectapi.cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "UPDATE [SPM_Database].[dbo].[Opportunities] SET Title = '" + description + "',Company_Name = '" + customer + "',Category = '" + category + "',Rating = '" + rating + "',How_Found = '" + howfound + "',Est_Revenue = '" + quotedprice.ToString() + "',Currency = '" + currency + "',Closed = '" + closed + "',Converted_to_Job = '" + convertedtojob + "',Comments = '" + notes + "',LastSavedby = '" + user + "',LastSaved = @value2,FolderPath = '" + txtPath.Text + "' WHERE Quote = '" + quote + "' ";
-
-                cmd.Parameters.AddWithValue("@value2", sqlFormattedDate);
-                cmd.ExecuteNonQuery();
-                connectapi.cn.Close();
-                //MessageBox.Show("Item sucessfully saved SPM Connect Server.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ul /= 100;
+                //Unsub the event so we don't enter a loop
+                textBox1.TextChanged -= textBox1_TextChanged;
+                //Format the text as currency
+                textBox1.Text = string.Format(CultureInfo.CreateSpecificCulture("en-US"), "{0:C2}", ul);
+                textBox1.TextChanged += textBox1_TextChanged;
+                textBox1.Select(textBox1.Text.Length, 0);
             }
-            catch (Exception ex)
-            {
-                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                connectapi.cn.Close();
-            }
+            bool goodToGo = TextisValid(textBox1.Text);
         }
 
-        private void editbttn_Click(object sender, EventArgs e)
+        private bool TextisValid(string text)
         {
-            processeditbutton();
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            using (FolderBrowserDialog fbd = new FolderBrowserDialog() { Description = "Select your path." })
-            {
-                if (fbd.ShowDialog() == DialogResult.OK)
-                {
-                    webBrowser1.Url = new Uri(fbd.SelectedPath);
-                    txtPath.Text = fbd.SelectedPath;
-                }
-            }
-        }
-
-        private void forwardbttn_Click(object sender, EventArgs e)
-        {
-            if (webBrowser1.CanGoForward)
-                webBrowser1.GoForward();
-        }
-
-        private void backbttn_Click(object sender, EventArgs e)
-        {
-            if (webBrowser1.CanGoBack)
-                webBrowser1.GoBack();
-        }
-
-        private void closedchkbox_Click(object sender, EventArgs e)
-        {
-            DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to make this choice?", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (result == DialogResult.Yes)
-            {
-                if (closedchkbox.Checked == true)
-                {
-                    closedchkbox.Checked = true;
-                    cvttojobchkbox.Checked = false;
-                    cvttojobchkbox.Visible = false;
-                    closedchkbox.Enabled = false;
-                    Regex reg = new Regex("[*'\"/,_&#^@]");
-                    string jobdescription = reg.Replace(Descriptiontxtbox.Text, "");
-                    jobdescription = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(jobdescription.ToLower());
-                    string customer = reg.Replace(familycombobox.Text, "");
-                    //customer = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(customer.ToLower());
-
-                    //string sourcepath = @"\\spm-adfs\SPM\S300 Sales and Project Management\Sales\Opportunities\Q" + ItemTxtBox.Text + "_" + customer + "_" + jobdescription;
-                    string sourcepath = txtPath.Text;
-                    string destinationpath = @"\\spm-adfs\SPM\S300 Sales and Project Management\Sales\Opportunities\Closed Opportunities\Lost or Dead for other Reasons\Q" + ItemTxtBox.Text + "_" + customer + "_" + jobdescription;
-                    movefoldertoscrap(sourcepath, destinationpath);
-                    webBrowser1.Url = new Uri(destinationpath);
-                    txtPath.Text = destinationpath;
-                    perfromsavebttn(false);
-                    MetroFramework.MetroMessageBox.Show(this, "Lost opportunity. Folders moved to new location.", "SPM Connect - Lost Quote", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            }
-            else
-            {
-                closedchkbox.Checked = false;
-            }
-        }
-
-        private void cvttojobchkbox_Click(object sender, EventArgs e)
-        {
-            DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to make this choice?", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (result == DialogResult.Yes)
-            {
-                if (cvttojobchkbox.Checked == true)
-                {
-                    cvttojobchkbox.Checked = true;
-                    closedchkbox.Checked = false;
-                    closedchkbox.Visible = false;
-                    cvttojobchkbox.Enabled = false;
-                    Regex reg = new Regex("[*'\"/,_&#^@]");
-                    string jobdescription = reg.Replace(Descriptiontxtbox.Text, "");
-                    jobdescription = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(jobdescription.ToLower());
-                    string customer = reg.Replace(familycombobox.Text, "");
-                    //customer = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(customer.ToLower());
-
-                    //string sourcepath = @"\\spm-adfs\SPM\S300 Sales and Project Management\Sales\Opportunities\Q" + ItemTxtBox.Text + "_" + customer + "_" + jobdescription;
-                    string sourcepath = txtPath.Text;
-                    string destinationpath = @"\\spm-adfs\SPM\S300 Sales and Project Management\Sales\Opportunities\Closed Opportunities\Transfered_to_Jobs\Q" + ItemTxtBox.Text + "_" + customer + "_" + jobdescription;
-                    movefoldertoscrap(sourcepath, destinationpath);
-                    webBrowser1.Url = new Uri(destinationpath);
-                    txtPath.Text = destinationpath;
-                    perfromsavebttn(false);
-                    MetroFramework.MetroMessageBox.Show(this, "Quote converted to job and folders are moved to new location.", "SPM Connect - Move to Job", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            }
-            else
-            {
-                cvttojobchkbox.Checked = false;
-            }
-        }
-
-        private void movefoldertoscrap(string sourcefile, string destfile)
-        {
-            try
-            {
-                System.IO.Directory.Move(sourcefile, destfile);
-            }
-            catch (Exception ex)
-            {
-                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Move to Lost Opportunity", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void movefoldertojob(string sourcefile, string destfile)
-        {
-            try
-            {
-                System.IO.Directory.Move(sourcefile, destfile);
-            }
-            catch (Exception ex)
-            {
-                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Move to Job", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs)
-        {
-            // Get the subdirectories for the specified directory.
-            DirectoryInfo dir = new DirectoryInfo(sourceDirName);
-
-            if (!dir.Exists)
-            {
-                MessageBox.Show(
-                  "Source directory does not exist or could not be found: "
-                  + sourceDirName);
-                return;
-            }
-            if (Directory.Exists(destDirName))
-            {
-                if (MessageBox.Show(destDirName + " already exists\r\nDo you want to overwrite it?", "Overwrite Folder  - SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button2, MessageBoxOptions.DefaultDesktopOnly) == DialogResult.Yes)
-                {
-                    DirectoryInfo[] dirs = dir.GetDirectories();
-                    // If the destination directory doesn't exist, create it.
-                    if (!Directory.Exists(destDirName))
-                    {
-                        Directory.CreateDirectory(destDirName);
-                    }
-
-                    // Get the files in the directory and copy them to the new location.
-                    FileInfo[] files = dir.GetFiles();
-                    foreach (FileInfo file in files)
-                    {
-                        string temppath = Path.Combine(destDirName, file.Name);
-                        file.CopyTo(temppath, true);
-                    }
-
-                    // If copying subdirectories, copy them and their contents to new location.
-                    if (copySubDirs)
-                    {
-                        foreach (DirectoryInfo subdir in dirs)
-                        {
-                            string temppath = Path.Combine(destDirName, subdir.Name);
-                            DirectoryCopy(subdir.FullName, temppath, copySubDirs);
-                        }
-                    }
-                }
-                else { return; }
-            }
-            else
-            {
-                DirectoryInfo[] dirs = dir.GetDirectories();
-                // If the destination directory doesn't exist, create it.
-                if (!Directory.Exists(destDirName))
-                {
-                    Directory.CreateDirectory(destDirName);
-                }
-
-                // Get the files in the directory and copy them to the new location.
-                FileInfo[] files = dir.GetFiles();
-                foreach (FileInfo file in files)
-                {
-                    string temppath = Path.Combine(destDirName, file.Name);
-                    file.CopyTo(temppath, false);
-                }
-
-                // If copying subdirectories, copy them and their contents to new location.
-                if (copySubDirs)
-                {
-                    foreach (DirectoryInfo subdir in dirs)
-                    {
-                        string temppath = Path.Combine(destDirName, subdir.Name);
-                        DirectoryCopy(subdir.FullName, temppath, copySubDirs);
-                    }
-                }
-            }
-        }
-
-        private void createfolders(string quotenumber)
-        {
-            Regex reg = new Regex("[?<>|:*'\"/,_&#^@]");
-            string jobdescription = reg.Replace(Descriptiontxtbox.Text, "");
-            jobdescription = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(jobdescription.ToLower());
-
-            string customer = reg.Replace(familycombobox.Text, "");
-            //customer = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(customer.ToLower());
-
-            string destpaths300 = @"\\spm-adfs\SPM\S300 Sales and Project Management\Sales\Opportunities\Q" + quotenumber + "_" + customer + "_" + jobdescription;
-            string sourcepaths300 = @"\\spm-adfs\SPM\S300 Sales and Project Management\Sales\Opportunities\#### Sample Opportunity";
-
-            if (Directory.Exists(destpaths300))
-            {
-            }
-            else
-            {
-                DirectoryCopy(sourcepaths300, destpaths300, true);
-                txtPath.Text = destpaths300 + @"\";
-            }
-        }
-
-        private void QuoteDetails_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            log.Info("Closed Quote Details " + quoteno2 + " ");
-            this.Dispose();
-        }
-
-        private void familycombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-        {
-            if (e.KeyCode == Keys.Return)
-            {
-                //familycombobox = this.familycombobox.Text;
-                familycombobox.Focus();
-            }
+            Regex money = new Regex(@"^\$(\d{1,3}(\,\d{3})*|(\d+))(\.\d{2})?$");
+            return money.IsMatch(text);
         }
     }
 }

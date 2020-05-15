@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
-using System.Reflection;
 using System.Windows.Forms;
+using static SPMConnectAPI.ConnectConstants;
 
 namespace SPMConnectAPI
 {
@@ -10,46 +10,18 @@ namespace SPMConnectAPI
     {
         #region Settting up Connetion and Get User
 
-        private log4net.ILog log;
+        private readonly log4net.ILog log;
 
         public ECR()
         {
-
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Accessed ECR Class " + Getassyversionnumber());
         }
 
-
         #endregion Settting up Connetion and Get User
 
         #region Datatables to pull out values or records
-
-        public DataTable ShowAllECRInvoices()
-        {
-            DataTable dt = new DataTable();
-
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT *,CONCAT([ECRNo], ' ',[JobNo],' ',[JobName],' ',[SANo],' ',[SAName],' ',RequestedBy) AS FullSearch FROM [SPM_Database].[dbo].[ECR]", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-
-                    dt.Clear();
-                    sda.Fill(dt);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Show all shipping Home", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-            return dt;
-        }
 
         public string GetJobName(string jobno)
         {
@@ -113,6 +85,32 @@ namespace SPMConnectAPI
             return subassyname;
         }
 
+        public DataTable ShowAllECRInvoices()
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT *,CONCAT([ECRNo], ' ',[JobNo],' ',[JobName],' ',[SANo],' ',[SAName],' ',RequestedBy) AS FullSearch FROM [SPM_Database].[dbo].[ECR]", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Show all shipping Home", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return dt;
+        }
+
         #endregion Datatables to pull out values or records
 
         #region Generating New Ids
@@ -146,7 +144,7 @@ namespace SPMConnectAPI
                 cn.Close();
             }
 
-            if (newincoiveno == "")
+            if (string.IsNullOrEmpty(newincoiveno))
             {
                 newincoiveno = "1001";
             }
@@ -158,10 +156,10 @@ namespace SPMConnectAPI
 
         #region FillComboBoxes
 
-        public AutoCompleteStringCollection FillECRRequestedBy()
+        public AutoCompleteStringCollection FillDepartments()
         {
             AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT [RequestedBy] from [dbo].[ECR] where RequestedBy is not null order by RequestedBy", cn))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT [Departments] from [dbo].[Departments] where[Departments] is not null order by [Departments]", cn))
             {
                 try
                 {
@@ -175,7 +173,7 @@ namespace SPMConnectAPI
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "SPM Connect - Fill Requested by Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "SPM Connect - Fill Departments To Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -183,6 +181,114 @@ namespace SPMConnectAPI
                 }
             }
 
+            return MyCollection;
+        }
+
+        public AutoCompleteStringCollection FillECRApprovedBy()
+        {
+            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT [ApprovedBy] from [dbo].[ECR] where ApprovedBy is not null order by ApprovedBy", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        MyCollection.Add(reader.GetString(0));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Fill Approved By Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return MyCollection;
+        }
+
+        public AutoCompleteStringCollection FillECRCompletedBy()
+        {
+            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT [CompletedBy] from [dbo].[ECR] where [CompletedBy] is not null order by [CompletedBy]", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        MyCollection.Add(reader.GetString(0));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Fill Completed By Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return MyCollection;
+        }
+
+        public AutoCompleteStringCollection FillECRDeptRequested()
+        {
+            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT [Department] from [dbo].[ECR] where Department is not null order by Department", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        MyCollection.Add(reader.GetString(0));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Fill Dept Requested Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return MyCollection;
+        }
+
+        public AutoCompleteStringCollection FillECRJobNumber()
+        {
+            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT [JobNo] from [dbo].[ECR] where JobNo is not null order by JobNo", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        MyCollection.Add(reader.GetString(0));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Fill JobNo Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
             return MyCollection;
         }
 
@@ -204,6 +310,34 @@ namespace SPMConnectAPI
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "SPM Connect - Fill Porject Managers", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+
+            return MyCollection;
+        }
+
+        public AutoCompleteStringCollection FillECRRequestedBy()
+        {
+            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT [RequestedBy] from [dbo].[ECR] where RequestedBy is not null order by RequestedBy", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        MyCollection.Add(reader.GetString(0));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Fill Requested by Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -259,142 +393,6 @@ namespace SPMConnectAPI
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "SPM Connect - Fill Supervisors Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-            return MyCollection;
-        }
-
-        public AutoCompleteStringCollection FillECRJobNumber()
-        {
-            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT [JobNo] from [dbo].[ECR] where JobNo is not null order by JobNo", cn))
-            {
-                try
-                {
-                    cn.Open();
-                    SqlDataReader reader = sqlCommand.ExecuteReader();
-
-                    while (reader.Read())
-                    {
-                        MyCollection.Add(reader.GetString(0));
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Fill JobNo Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-            return MyCollection;
-        }
-
-        public AutoCompleteStringCollection FillECRApprovedBy()
-        {
-            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT [ApprovedBy] from [dbo].[ECR] where ApprovedBy is not null order by ApprovedBy", cn))
-            {
-                try
-                {
-                    cn.Open();
-                    SqlDataReader reader = sqlCommand.ExecuteReader();
-
-                    while (reader.Read())
-                    {
-                        MyCollection.Add(reader.GetString(0));
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Fill Approved By Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-            return MyCollection;
-        }
-
-        public AutoCompleteStringCollection FillECRDeptRequested()
-        {
-            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT [Department] from [dbo].[ECR] where Department is not null order by Department", cn))
-            {
-                try
-                {
-                    cn.Open();
-                    SqlDataReader reader = sqlCommand.ExecuteReader();
-
-                    while (reader.Read())
-                    {
-                        MyCollection.Add(reader.GetString(0));
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Fill Dept Requested Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-            return MyCollection;
-        }
-
-        public AutoCompleteStringCollection FillDepartments()
-        {
-            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT [Departments] from [dbo].[Departments] where[Departments] is not null order by [Departments]", cn))
-            {
-                try
-                {
-                    cn.Open();
-                    SqlDataReader reader = sqlCommand.ExecuteReader();
-
-                    while (reader.Read())
-                    {
-                        MyCollection.Add(reader.GetString(0));
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Fill Departments To Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-
-            return MyCollection;
-        }
-
-        public AutoCompleteStringCollection FillECRCompletedBy()
-        {
-            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT [CompletedBy] from [dbo].[ECR] where [CompletedBy] is not null order by [CompletedBy]", cn))
-            {
-                try
-                {
-                    cn.Open();
-                    SqlDataReader reader = sqlCommand.ExecuteReader();
-
-                    while (reader.Read())
-                    {
-                        MyCollection.Add(reader.GetString(0));
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Fill Completed By Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -593,6 +591,5 @@ namespace SPMConnectAPI
         }
 
         #endregion Perfrom CRUD on invoice details and shipping items
-
     }
 }
