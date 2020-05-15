@@ -23,20 +23,14 @@ namespace SearchDataSPM
         #region Setting up Various Variables to Store information
 
         private readonly SPMConnectAPI.ConnectAPI connectapi = new SPMConnectAPI.ConnectAPI();
-        private readonly DataTable itemstable = new DataTable();
-        private readonly List<string> Itemstodiscard = new List<string>();
-        private readonly string userfullname = "";
         private DataTable dt;
         private bool formloading;
-        private bool higherauthority;
+        private readonly DataTable itemstable = new DataTable();
+        private readonly List<string> Itemstodiscard = new List<string>();
         private log4net.ILog log;
         private PurchaseReq model = new PurchaseReq();
-        private int myid;
-        private bool pbuyer;
         private bool showingwaitingforapproval;
         private bool splashWorkDone;
-        private bool supervisor;
-        private int supervisorid;
         private int supervisoridfromreq;
 
         #endregion Setting up Various Variables to Store information
@@ -48,14 +42,14 @@ namespace SearchDataSPM
             InitializeComponent();
             dt = new DataTable();
             Clear();
-            userfullname = Getuserfullname(connectapi.GetUserName());
+
         }
 
         private void Changecontrolbuttonnames()
         {
             bttnshowmydept.Text = "Show All";
 
-            if (pbuyer)
+            if (ConnectUser.PurchaseReqBuyer)
             {
                 bttnneedapproval.Text = "Need's PO";
                 bttnshowapproved.Text = "Show Purchased";
@@ -65,7 +59,6 @@ namespace SearchDataSPM
         private void Preparedatagrid()
         {
             dataGridView.DataSource = dt;
-            _ = dt.DefaultView;
             dataGridView.Columns[0].Width = 35;
             dataGridView.Columns[0].HeaderText = "Req No";
             dataGridView.Columns[1].Width = 35;
@@ -101,42 +94,42 @@ namespace SearchDataSPM
         private void PurchaseReq_Load(object sender, EventArgs e)
         {
             formloading = true;
-            if (supervisor)
+            if (ConnectUser.PurchaseReqApproval)
             {
                 managergroupbox.Visible = true;
                 managergroupbox.Enabled = true;
                 dataGridView.ContextMenuStrip = ApprovalMenuStrip;
             }
 
-            if (higherauthority || pbuyer)
+            if (ConnectUser.PurchaseReqApproval2 || ConnectUser.PurchaseReqBuyer)
             {
                 managergroupbox.Visible = true;
                 managergroupbox.Enabled = true;
-                if (higherauthority)
+                if (ConnectUser.PurchaseReqApproval2)
                 {
                     dataGridView.ContextMenuStrip = ApprovalMenuStrip;
                 }
                 Changecontrolbuttonnames();
             }
 
-            if (higherauthority || supervisor || pbuyer)
+            if (ConnectUser.PurchaseReqApproval2 || ConnectUser.PurchaseReqApproval || ConnectUser.PurchaseReqBuyer)
             {
                 //bttnneedapproval.PerformClick();
                 PerformNeedApproval(bttnneedapproval);
             }
             else
             {
-                ShowReqSearchItems(userfullname);
+                ShowReqSearchItems(ConnectUser.Name);
             }
 
             formloading = false;
 
-            Debug.WriteLine(myid);
-            Debug.WriteLine(supervisorid);
-            Debug.WriteLine(userfullname);
-            Debug.WriteLine(supervisor);
-            Debug.WriteLine(higherauthority);
-            Debug.WriteLine(pbuyer);
+            Debug.WriteLine(ConnectUser.ConnectId);
+            Debug.WriteLine(ConnectUser.Supervisor);
+            Debug.WriteLine(ConnectUser.Name);
+            Debug.WriteLine(ConnectUser.PurchaseReqApproval);
+            Debug.WriteLine(ConnectUser.PurchaseReqApproval2);
+            Debug.WriteLine(ConnectUser.PurchaseReqBuyer);
             Debug.WriteLine(supervisoridfromreq);
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -177,13 +170,20 @@ namespace SearchDataSPM
 
         private void Checkforeditrights()
         {
-            editbttn.Visible = Getapprovalstatus() == "0";
-
-            if (supervisor)
+            if (Getapprovalstatus().ToString() == "0")
             {
                 editbttn.Visible = true;
             }
-            //if (higherauthority)
+            else
+            {
+                editbttn.Visible = false;
+            }
+
+            if (ConnectUser.PurchaseReqApproval)
+            {
+                editbttn.Visible = true;
+            }
+            //if (ConnectUser.PurchaseReqApproval2)
             //{
             //    editbttn.Visible = false;
             //}
@@ -191,33 +191,37 @@ namespace SearchDataSPM
 
         private string Getapprovalstatus()
         {
+            string approved;
             if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
             {
                 int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                 DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-
+                approved = Convert.ToString(slectedrow.Cells["Approved"].Value);
                 //MessageBox.Show(username);
-                return Convert.ToString(slectedrow.Cells["Approved"].Value);
+                return approved;
             }
             else
             {
-                return "";
+                approved = "";
+                return approved;
             }
         }
 
         private string Getrequestname()
         {
+            string getusername;
             if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
             {
                 int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                 DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-
+                getusername = Convert.ToString(slectedrow.Cells["RequestedBy"].Value);
                 //MessageBox.Show(username);
-                return Convert.ToString(slectedrow.Cells["RequestedBy"].Value);
+                return getusername;
             }
             else
             {
-                return "";
+                getusername = "";
+                return getusername;
             }
         }
 
@@ -225,52 +229,6 @@ namespace SearchDataSPM
 
         #region Get User Full Name
 
-        private string Getuserfullname(string username)
-        {
-            string fullname = "";
-            try
-            {
-                if (connectapi.cn.State == ConnectionState.Closed)
-                    connectapi.cn.Open();
-                SqlCommand cmd = connectapi.cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + username + "' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    fullname = dr["Name"].ToString();
-                    supervisorid = Convert.ToInt32(dr["Supervisor"].ToString());
-                    myid = Convert.ToInt32(dr["id"].ToString());
-                    string manager = dr["PurchaseReqApproval"].ToString();
-                    string hauthority = dr["PurchaseReqApproval2"].ToString();
-                    string PurchaseReqBuyer = dr["PurchaseReqBuyer"].ToString();
-                    if (manager == "1")
-                    {
-                        supervisor = true;
-                    }
-                    if (hauthority == "1")
-                    {
-                        higherauthority = true;
-                    }
-                    if (PurchaseReqBuyer == "1")
-                    {
-                        pbuyer = true;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Error Getting Full User Name", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                connectapi.cn.Close();
-            }
-            return fullname;
-        }
 
         #endregion Get User Full Name
 
@@ -314,7 +272,7 @@ namespace SearchDataSPM
                     }
                     else
                     {
-                        ShowReqSearchItems(userfullname);
+                        ShowReqSearchItems(ConnectUser.Name);
                     }
                 }
 
@@ -326,6 +284,26 @@ namespace SearchDataSPM
         #endregion Purchase Req Item Search
 
         #region Create New Purchase Req
+
+        private void Clearitemsbeforenewreq()
+        {
+            purchreqtxt.Clear();
+            requestbytxt.Clear();
+            lastsavedby.Clear();
+            datecreatedtxt.Clear();
+            jobnumbertxt.Clear();
+            subassytxt.Clear();
+            pricetxt.Text = "$0.00";
+            pricetxt.SelectionStart = pricetxt.Text.Length;
+            editbttn.Visible = false;
+            dataGridView.Enabled = false;
+            dataGridView1.Enabled = true;
+            dataGridView1.DataSource = null;
+            dataGridView1.Rows.Clear();
+            ecitbttn.Visible = true;
+            savebttn.Visible = true;
+            groupBox3.Visible = true;
+        }
 
         private void Createnew()
         {
@@ -339,9 +317,9 @@ namespace SearchDataSPM
                 ecitbttn.Visible = false;
                 int lastreq = Getlastreqnumber();
 
-                if (Createnewreq(lastreq, userfullname))
+                if (Createnewreq(lastreq, ConnectUser.Name.ToString()))
                 {
-                    ShowReqSearchItems(userfullname);
+                    ShowReqSearchItems(ConnectUser.Name);
                     Selectrowbeforeediting(lastreq.ToString());
                     Populatereqdetails(lastreq);
                     PopulateDataGridView();
@@ -365,7 +343,7 @@ namespace SearchDataSPM
             {
                 SqlCommand cmd = connectapi.cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[PurchaseReqBase] (ReqNumber, RequestedBy, DateCreated, DateLastSaved, JobNumber, SubAssyNumber,LastSavedBy, Validate, Approved,Total,Happroved,DateRequired, SupervisorId, DateValidated,PApproval,Papproved) VALUES('" + reqnumber + "','" + employee + "','" + sqlFormattedDate + "','" + sqlFormattedDate + "','','','" + employee + "','0','0','0','0','" + sqlFormattedDate + "', '" + supervisorid + "', null,'0','0')";
+                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[PurchaseReqBase] (ReqNumber, RequestedBy, DateCreated, DateLastSaved, JobNumber, SubAssyNumber,LastSavedBy, Validate, Approved,Total,Happroved,DateRequired, SupervisorId, DateValidated,PApproval,Papproved) VALUES('" + reqnumber + "','" + employee.ToString() + "','" + sqlFormattedDate + "','" + sqlFormattedDate + "','','','" + employee.ToString() + "','0','0','0','0','" + sqlFormattedDate + "', '" + ConnectUser.Supervisor + "', null,'0','0')";
                 cmd.ExecuteNonQuery();
                 connectapi.cn.Close();
                 revtal = true;
@@ -409,13 +387,14 @@ namespace SearchDataSPM
 
         private void Selectrowbeforeediting(string searchValue)
         {
+            int rowIndex = -1;
             if (dataGridView.Rows.Count > 0)
             {
                 foreach (DataGridViewRow row in dataGridView.Rows)
                 {
                     if (row.Cells[0].Value.ToString().Equals(searchValue))
                     {
-                        int rowIndex = row.Index;
+                        rowIndex = row.Index;
                         dataGridView.Rows[rowIndex].Selected = true;
 
                         break;
@@ -437,6 +416,7 @@ namespace SearchDataSPM
             {
                 decimal total = 0.00m;
                 int qty = 1;
+                decimal price = 0.00m;
                 foreach (DataGridViewRow row in dataGridView1.Rows)
                 {
                     if (row.Cells[4].Value.ToString().Length > 0 && row.Cells[4].Value.ToString() != null)
@@ -445,7 +425,14 @@ namespace SearchDataSPM
                     }
                     try
                     {
-                        decimal price = !string.IsNullOrEmpty(row.Cells[8].Value.ToString()) ? Convert.ToDecimal(row.Cells[8].Value.ToString()) : 0;
+                        if (row.Cells[8].Value.ToString() != null && row.Cells[8].Value.ToString().Length > 0)
+                        {
+                            price = Convert.ToDecimal(row.Cells[8].Value.ToString());
+                        }
+                        else
+                        {
+                            price = 0;
+                        }
                         total += (qty * price);
                         totalcostlbl.Text = "Total Cost : $" + string.Format("{0:n}", Convert.ToDecimal(total.ToString()));
 
@@ -518,17 +505,11 @@ namespace SearchDataSPM
                 else
                 {
                     if (qtytxt.Text.Length > 0 && qtytxt.Text != "0")
-                    {
                         errorProvider1.SetError(pricetxt, "Price cannot be null");
-                    }
                     else if (pricetxt.Text != "$0.00" && qtytxt.Text.Length != 1)
-                    {
                         errorProvider1.SetError(qtytxt, "Cannot be null");
-                    }
                     else if (qtytxt.Text == "0")
-                    {
                         errorProvider1.SetError(qtytxt, "Qty cannot be zero");
-                    }
                     else
                     {
                         errorProvider1.SetError(pricetxt, "Price cannot be null");
@@ -559,7 +540,7 @@ namespace SearchDataSPM
 
         private void ecitbttn_Click(object sender, EventArgs e)
         {
-            if (savebttn.Visible)
+            if (savebttn.Visible == true)
             {
                 errorProvider1.SetError(savebttn, "Save before closing");
                 DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to close without saving changes?", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -676,7 +657,14 @@ namespace SearchDataSPM
             notestxt.ReadOnly = false;
             jobnumbertxt.SelectionStart = jobnumbertxt.Text.Length;
             subassytxt.SelectionStart = subassytxt.Text.Length;
-            groupBox3.Visible = !Validatechk.Checked;
+            if (Validatechk.Checked)
+            {
+                groupBox3.Visible = false;
+            }
+            else
+            {
+                groupBox3.Visible = true;
+            }
 
             if (approvechk.Checked)
             {
@@ -688,16 +676,16 @@ namespace SearchDataSPM
                 Validatechk.Visible = true;
             }
 
-            if ((supervisor || pbuyer || higherauthority) && Validatechk.Checked)
+            if ((ConnectUser.PurchaseReqApproval || ConnectUser.PurchaseReqBuyer || ConnectUser.PurchaseReqApproval2) && Validatechk.Checked)
             {
-                if (myid == supervisoridfromreq)
+                if (ConnectUser.ConnectId == supervisoridfromreq)
                 {
                     approvechk.Visible = true;
                     approvechk.Enabled = true;
                 }
 
                 Validatechk.Visible = false;
-                if (userfullname == requestbytxt.Text && !approvechk.Checked)
+                if (ConnectUser.Name == requestbytxt.Text && approvechk.Checked == false)
                 {
                     Validatechk.Enabled = true;
                     Validatechk.Visible = true;
@@ -752,7 +740,7 @@ namespace SearchDataSPM
         {
             try
             {
-                await Task.Run(() => SplashDialog("Saving Data...")).ConfigureAwait(false);
+                await Task.Run(() => SplashDialog("Saving Data..."));
 
                 if (typeofsave != "Papproved")
                 {
@@ -771,9 +759,9 @@ namespace SearchDataSPM
                 if (validatehit)
                 {
                     UpdateReq(Convert.ToInt32(purchreqtxt.Text), typeofsave);
-                    if (!(higherauthority || supervisor || pbuyer))
+                    if (!(ConnectUser.PurchaseReqApproval2 || ConnectUser.PurchaseReqApproval || ConnectUser.PurchaseReqBuyer))
                     {
-                        ShowReqSearchItems(userfullname);
+                        ShowReqSearchItems(ConnectUser.Name);
                     }
                     Clearaddnewtextboxes();
                     Processexitbutton();
@@ -811,7 +799,7 @@ namespace SearchDataSPM
                         }
                         else
                         {
-                            ShowReqSearchItems(userfullname);
+                            ShowReqSearchItems(ConnectUser.Name);
                         }
 
                         Clearaddnewtextboxes();
@@ -862,7 +850,7 @@ namespace SearchDataSPM
                 connectapi.cn.Open();
             try
             {
-                string query = "DELETE FROM [SPM_Database].[dbo].[PurchaseReq] WHERE Item ='" + itemno + "' AND ReqNumber ='" + description + "' ";
+                string query = "DELETE FROM [SPM_Database].[dbo].[PurchaseReq] WHERE Item ='" + itemno.ToString() + "' AND ReqNumber ='" + description.ToString() + "' ";
                 SqlCommand sda = new SqlCommand(query, connectapi.cn);
                 sda.ExecuteNonQuery();
                 connectapi.cn.Close();
@@ -880,7 +868,7 @@ namespace SearchDataSPM
         private async void savebttn_Click(object sender, EventArgs e)
         {
             Itemstodiscard.Clear();
-            await Processsavebutton(false, "Normal").ConfigureAwait(false);
+            await Processsavebutton(false, "Normal");
         }
 
         private void Splittagtovariables(string s)
@@ -935,30 +923,30 @@ namespace SearchDataSPM
 
                 if (typesave == "Normal")
                 {
-                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + userfullname + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',HApproval = '" + (approval ? "1" : "0") + "' WHERE ReqNumber = '" + reqnumber + "' ";
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + ConnectUser.Name.ToString() + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',HApproval = '" + (approval ? "1" : "0") + "' WHERE ReqNumber = '" + reqnumber + "' ";
                 }
 
                 if (typesave == "Validated")
                 {
-                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + userfullname + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',HApproval = '" + (approval ? "1" : "0") + "',DateValidated = '" + (Validatechk.Checked ? sqlFormattedDate : null) + "' WHERE ReqNumber = '" + reqnumber + "' ";
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + ConnectUser.Name.ToString() + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',HApproval = '" + (approval ? "1" : "0") + "',DateValidated = '" + (Validatechk.Checked ? sqlFormattedDate : null) + "' WHERE ReqNumber = '" + reqnumber + "' ";
                 }
 
                 if (typesave == "Approved")
                 {
-                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + userfullname + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',HApproval = '" + (approval ? "1" : "0") + "',ApprovedBy = '" + userfullname + "',DateApproved = '" + (approvechk.Checked ? sqlFormattedDate : "") + "',PApproval ='" + (approval ? "0" : "1") + "' WHERE ReqNumber = '" + reqnumber + "' ";
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + ConnectUser.Name.ToString() + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',HApproval = '" + (approval ? "1" : "0") + "',ApprovedBy = '" + ConnectUser.Name + "',DateApproved = '" + (approvechk.Checked ? sqlFormattedDate : "") + "',PApproval ='" + (approval ? "0" : "1") + "' WHERE ReqNumber = '" + reqnumber + "' ";
                 }
 
                 if (typesave == "ApprovedFalse")
                 {
-                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + userfullname + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',HApproval = '" + (approval ? "1" : "0") + "',ApprovedBy = ' ',DateApproved = null,PApproval = '0' WHERE ReqNumber = '" + reqnumber + "' ";
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + ConnectUser.Name.ToString() + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',HApproval = '" + (approval ? "1" : "0") + "',ApprovedBy = ' ',DateApproved = null,PApproval = '0' WHERE ReqNumber = '" + reqnumber + "' ";
                 }
                 if (typesave == "Rejected")
                 {
-                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + userfullname + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "3" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',HApproval = '" + (approval ? "0" : "0") + "',ApprovedBy = '" + userfullname + "',DateApproved = '" + (approvechk.Checked ? sqlFormattedDate : "") + "',PApproval ='" + (approval ? "0" : "0") + "' WHERE ReqNumber = '" + reqnumber + "' ";
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + ConnectUser.Name.ToString() + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "3" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',HApproval = '" + (approval ? "0" : "0") + "',ApprovedBy = '" + ConnectUser.Name + "',DateApproved = '" + (approvechk.Checked ? sqlFormattedDate : "") + "',PApproval ='" + (approval ? "0" : "0") + "' WHERE ReqNumber = '" + reqnumber + "' ";
                 }
                 if (typesave == "Happroved")
                 {
-                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET HApproved = '" + (happrovechk.Checked ? "1" : "0") + "',HApproval = '" + (approval ? "1" : "0") + "',HApprovedBy = '" + userfullname + "',HDateApproved = '" + (happrovechk.Checked ? sqlFormattedDate : "") + "',PApproval = '1' WHERE ReqNumber = '" + reqnumber + "' ";
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET HApproved = '" + (happrovechk.Checked ? "1" : "0") + "',HApproval = '" + (approval ? "1" : "0") + "',HApprovedBy = '" + ConnectUser.Name + "',HDateApproved = '" + (happrovechk.Checked ? sqlFormattedDate : "") + "',PApproval = '1' WHERE ReqNumber = '" + reqnumber + "' ";
                 }
                 if (typesave == "Happrovedfalse")
                 {
@@ -966,7 +954,7 @@ namespace SearchDataSPM
                 }
                 if (typesave == "HRejected")
                 {
-                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET HApproved = '" + (happrovechk.Checked ? "3" : "0") + "',HApproval = '" + (approval ? "1" : "0") + "',HApprovedBy = '" + userfullname + "',HDateApproved = '" + (happrovechk.Checked ? sqlFormattedDate : "") + "',PApproval = '0' WHERE ReqNumber = '" + reqnumber + "' ";
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET HApproved = '" + (happrovechk.Checked ? "3" : "0") + "',HApproval = '" + (approval ? "1" : "0") + "',HApprovedBy = '" + ConnectUser.Name + "',HDateApproved = '" + (happrovechk.Checked ? sqlFormattedDate : "") + "',PApproval = '0' WHERE ReqNumber = '" + reqnumber + "' ";
                 }
 
                 if (typesave == "Papproved")
@@ -977,13 +965,13 @@ namespace SearchDataSPM
                     pODetails.BringToFront();
                     pODetails.TopMost = true;
                     pODetails.Focus();
-                    if (pODetails.ShowDialog() == DialogResult.OK)
+                    if (pODetails.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {
                         ponumber = pODetails.ValueIWant;
                         pdate = pODetails.podate;
                     }
 
-                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET Papproved = '" + (purchasedchk.Checked ? "1" : "0") + "',PApprovedBy = '" + userfullname + "',PDateApproved = '" + (purchasedchk.Checked ? sqlFormattedDate : "") + "',PApproval = '1',PONumber = '" + ponumber + "',PODate = '" + pdate + "'  WHERE ReqNumber = '" + reqnumber + "' ";
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET Papproved = '" + (purchasedchk.Checked ? "1" : "0") + "',PApprovedBy = '" + ConnectUser.Name + "',PDateApproved = '" + (purchasedchk.Checked ? sqlFormattedDate : "") + "',PApproval = '1',PONumber = '" + ponumber + "',PODate = '" + pdate + "'  WHERE ReqNumber = '" + reqnumber + "' ";
                 }
 
                 if (typesave == "Papprovedfalse")
@@ -993,11 +981,11 @@ namespace SearchDataSPM
 
                 //if (approvechk.Checked)
                 //{
-                //    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + userfullname.ToString() + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',DateValidated = '" + (Validatechk.Checked ? sqlFormattedDate : "") + "',ApprovedBy = '" + userfullname + "',DateApproved = '" + (approvechk.Checked ? sqlFormattedDate : "") + "' WHERE ReqNumber = '" + reqnumber + "' ";
+                //    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + ConnectUser.Name.ToString() + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',DateValidated = '" + (Validatechk.Checked ? sqlFormattedDate : "") + "',ApprovedBy = '" + ConnectUser.Name + "',DateApproved = '" + (approvechk.Checked ? sqlFormattedDate : "") + "' WHERE ReqNumber = '" + reqnumber + "' ";
                 //}
                 //else
                 //{
-                //    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + userfullname.ToString() + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',DateValidated = '" + (Validatechk.Checked ? sqlFormattedDate : null) + "' WHERE ReqNumber = '" + reqnumber + "' ";
+                //    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + ConnectUser.Name.ToString() + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',DateValidated = '" + (Validatechk.Checked ? sqlFormattedDate : null) + "' WHERE ReqNumber = '" + reqnumber + "' ";
                 //}
 
                 cmd.ExecuteNonQuery();
@@ -1030,7 +1018,7 @@ namespace SearchDataSPM
 
         private void Filldatatable(string itemnumber)
         {
-            string sql = "SELECT *  FROM [SPM_Database].[dbo].[UnionInventory] WHERE [ItemNumber]='" + itemnumber + "'";
+            string sql = "SELECT *  FROM [SPM_Database].[dbo].[UnionInventory] WHERE [ItemNumber]='" + itemnumber.ToString() + "'";
             try
             {
                 if (connectapi.cn.State == ConnectionState.Closed)
@@ -1129,7 +1117,7 @@ namespace SearchDataSPM
                 try
                 {
                     DataRow[] dr = dt.Select("ReqNumber = '" + item + "'");
-                    if (dr.Length == 0)
+                    if (!(dr.Length > 0))
                     {
                         return;
                     }
@@ -1198,7 +1186,7 @@ namespace SearchDataSPM
                         apprvonlabel.Visible = false;
                     }
 
-                    if (supervisor && dr[0]["Validate"].ToString().Equals("1"))
+                    if (ConnectUser.PurchaseReqApproval && dr[0]["Validate"].ToString().Equals("1"))
                     {
                         if (dr[0]["Approved"].ToString().Equals("1"))
                         {
@@ -1238,7 +1226,7 @@ namespace SearchDataSPM
                         }
                         else
                         {
-                            if (myid == supervisoridfromreq)
+                            if (ConnectUser.ConnectId == supervisoridfromreq)
                             {
                                 approvechk.Text = "Approve";
                                 approvechk.Checked = false;
@@ -1249,7 +1237,7 @@ namespace SearchDataSPM
                             }
                         }
                     }
-                    else if (supervisor && dr[0]["Validate"].ToString().Equals("0"))
+                    else if (ConnectUser.PurchaseReqApproval && dr[0]["Validate"].ToString().Equals("0"))
                     {
                         approvechk.Text = "Approve";
                         approvechk.Checked = false;
@@ -1261,7 +1249,7 @@ namespace SearchDataSPM
                     {
                         if (dr[0]["Approved"].ToString().Equals("1") && dr[0]["Validate"].ToString().Equals("1"))
                         {
-                            if (higherauthority)
+                            if (ConnectUser.PurchaseReqApproval2)
                             {
                                 if (dr[0]["Happroved"].ToString().Equals("0"))
                                 {
@@ -1283,7 +1271,14 @@ namespace SearchDataSPM
                                 else
                                 {
                                     hauthoritygroupbox.Visible = true;
-                                    hauthoritygroupbox.Enabled = !dr[0]["Papproved"].ToString().Equals("1");
+                                    if (dr[0]["Papproved"].ToString().Equals("1"))
+                                    {
+                                        hauthoritygroupbox.Enabled = false;
+                                    }
+                                    else
+                                    {
+                                        hauthoritygroupbox.Enabled = true;
+                                    }
 
                                     happrovechk.Text = "Final Approved";
                                     happrovechk.Checked = true;
@@ -1292,7 +1287,7 @@ namespace SearchDataSPM
                             }
                             else
                             {
-                                if (supervisor)
+                                if (ConnectUser.PurchaseReqApproval)
                                 {
                                     if (dr[0]["Happroved"].ToString().Equals("1"))
                                     {
@@ -1377,11 +1372,12 @@ namespace SearchDataSPM
 
                     /// pruchasing
                     ///
+
                     if (dr[0]["PApproval"].ToString().Equals("1"))
                     {
                         if (dr[0]["Approved"].ToString().Equals("1") && dr[0]["Validate"].ToString().Equals("1"))
                         {
-                            if (pbuyer)
+                            if (ConnectUser.PurchaseReqBuyer)
                             {
                                 if (dr[0]["Papproved"].ToString().Equals("0"))
                                 {
@@ -1402,7 +1398,7 @@ namespace SearchDataSPM
                             }
                             else
                             {
-                                if (supervisor || higherauthority)
+                                if (ConnectUser.PurchaseReqApproval || ConnectUser.PurchaseReqApproval2)
                                 {
                                     if (dr[0]["Papproved"].ToString().Equals("1"))
                                     {
@@ -1420,12 +1416,19 @@ namespace SearchDataSPM
                                         purchasedchk.Text = "Purchase";
                                         purchasedchk.Checked = false;
                                         //printbttn.Enabled = false;
-                                        if (supervisor && higherauthority)
+                                        if (ConnectUser.PurchaseReqApproval && ConnectUser.PurchaseReqApproval2)
                                         {
                                             editbttn.Visible = true;
-                                            editbttn.Visible = !dr[0]["Happroved"].ToString().Equals("1");
+                                            if (dr[0]["Happroved"].ToString().Equals("1"))
+                                            {
+                                                editbttn.Visible = false;
+                                            }
+                                            else
+                                            {
+                                                editbttn.Visible = true;
+                                            }
                                         }
-                                        else if (supervisor)
+                                        else if (ConnectUser.PurchaseReqApproval)
                                         {
                                             editbttn.Visible = true;
                                             if (dr[0]["Happroved"].ToString().Equals("1"))
@@ -1435,7 +1438,14 @@ namespace SearchDataSPM
                                         }
                                         else
                                         {
-                                            editbttn.Visible = Getrequestname() == userfullname;
+                                            if (Getrequestname() == ConnectUser.Name)
+                                            {
+                                                editbttn.Visible = true;
+                                            }
+                                            else
+                                            {
+                                                editbttn.Visible = false;
+                                            }
                                         }
                                     }
                                 }
@@ -1468,7 +1478,14 @@ namespace SearchDataSPM
                             purchasedchk.Text = "Purchase";
                             purchasedchk.Checked = false;
                             printbttn.Enabled = false;
-                            editbttn.Visible = Getrequestname() == userfullname;
+                            if (Getrequestname() == ConnectUser.Name)
+                            {
+                                editbttn.Visible = true;
+                            }
+                            else
+                            {
+                                editbttn.Visible = false;
+                            }
                         }
                     }
                     else
@@ -1481,7 +1498,7 @@ namespace SearchDataSPM
 
                     ///////////////////////////////////////
 
-                    if (higherauthority && Getrequestname() == userfullname && !happrovechk.Checked && dr[0]["Papproved"].ToString().Equals("0"))
+                    if (ConnectUser.PurchaseReqApproval2 && Getrequestname() == ConnectUser.Name && happrovechk.Checked == false && dr[0]["Papproved"].ToString().Equals("0"))
                     {
                         editbttn.Visible = true;
                     }
@@ -1507,7 +1524,7 @@ namespace SearchDataSPM
 
         private void PurchaseReqform_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (savebttn.Visible)
+            if (savebttn.Visible == true)
             {
                 errorProvider1.Clear();
                 e.Cancel = true;
@@ -1555,7 +1572,14 @@ namespace SearchDataSPM
                 foreach (DataRow dr in dt.Rows)
                 {
                     string useractiveblock = dr["Approved"].ToString();
-                    approved = useractiveblock == "1";
+                    if (useractiveblock == "1")
+                    {
+                        approved = true;
+                    }
+                    else
+                    {
+                        approved = false;
+                    }
                 }
             }
             catch (Exception ex)
@@ -1574,19 +1598,19 @@ namespace SearchDataSPM
         private void SplashDialog(string message)
         {
             splashWorkDone = false;
-            ThreadPool.QueueUserWorkItem((_) =>
-           {
-               using (var splashForm = new Dialog())
-               {
-                   splashForm.TopMost = true;
-                   splashForm.Message = message;
-                   splashForm.Location = new Point(this.Location.X + ((this.Width - splashForm.Width) / 2), this.Location.Y + ((this.Height - splashForm.Height) / 2));
-                   splashForm.Show();
-                   while (!splashWorkDone)
-                       Application.DoEvents();
-                   splashForm.Close();
-               }
-           });
+            ThreadPool.QueueUserWorkItem((x) =>
+            {
+                using (var splashForm = new Dialog())
+                {
+                    splashForm.TopMost = true;
+                    splashForm.Message = message;
+                    splashForm.Location = new Point(this.Location.X + (this.Width - splashForm.Width) / 2, this.Location.Y + (this.Height - splashForm.Height) / 2);
+                    splashForm.Show();
+                    while (!splashWorkDone)
+                        Application.DoEvents();
+                    splashForm.Close();
+                }
+            });
         }
 
         private void Validatechk_CheckedChanged(object sender, EventArgs e)
@@ -1605,7 +1629,7 @@ namespace SearchDataSPM
                 else
                 {
                     groupBox3.Visible = true;
-                    if (supervisor)
+                    if (ConnectUser.PurchaseReqApproval)
                     {
                         approvechk.Visible = false;
                         approvechk.Enabled = false;
@@ -1616,16 +1640,16 @@ namespace SearchDataSPM
 
         private async void Validatechk_Click(object sender, EventArgs e)
         {
-            if (!Validatechk.Checked)
+            if (Validatechk.Checked == false)
             {
                 if (getapprovedstatus(Convert.ToInt32(purchreqtxt.Text)))
                 {
-                    MetroFramework.MetroMessageBox.Show(this, "This purchase requisition is approved. Only supervisor can edit the details.", "SPM Connect - Purchase Req already approved", MessageBoxButtons.OK);
+                    MetroFramework.MetroMessageBox.Show(this, "This purchase requisition is approved. Only ConnectUser.PurchaseReqApproval can edit the details.", "SPM Connect - Purchase Req already approved", MessageBoxButtons.OK);
                     Validatechk.Checked = true;
                     Validatechk.Text = "Invalidate";
                     groupBox3.Visible = false;
                     Processexitbutton();
-                    ShowReqSearchItems(userfullname);
+                    ShowReqSearchItems(ConnectUser.Name);
                 }
                 else
                 {
@@ -1638,16 +1662,16 @@ namespace SearchDataSPM
             {
                 DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to send this purchase req for order?" + Environment.NewLine +
                     " " + Environment.NewLine +
-                    "This will send email to respective supervisor for approval.", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    "This will send email to respective ConnectUser.PurchaseReqApproval for approval.", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (result == DialogResult.Yes)
                 {
                     if (jobnumbertxt.Text.Length > 0 && subassytxt.Text.Length > 0 && dataGridView1.Rows.Count > 0)
                     {
                         string reqno = purchreqtxt.Text;
-                        await Processsavebutton(true, "Validated").ConfigureAwait(false);
+                        await Processsavebutton(true, "Validated");
                         Validatechk.Text = "Invalidate";
-                        await Task.Run(() => SplashDialog("Sending Email...")).ConfigureAwait(false);
+                        await Task.Run(() => SplashDialog("Sending Email..."));
                         Cursor.Current = Cursors.WaitCursor;
                         this.Enabled = false;
                         string filename = Makefilenameforreport(reqno, true);
@@ -1696,9 +1720,9 @@ namespace SearchDataSPM
 
         private async void approvechk_Click(object sender, EventArgs e)
         {
-            if (supervisor)
+            if (ConnectUser.PurchaseReqApproval)
             {
-                if (!approvechk.Checked)
+                if (approvechk.Checked == false)
                 {
                     if (gethapprovedstatus(Convert.ToInt32(purchreqtxt.Text)))
                     {
@@ -1711,7 +1735,7 @@ namespace SearchDataSPM
                     {
                         approvechk.Checked = false;
                         approvechk.Text = "Approve";
-                        await Processsavebutton(true, "ApprovedFalse").ConfigureAwait(false);
+                        await Processsavebutton(true, "ApprovedFalse");
                     }
                 }
                 else
@@ -1728,14 +1752,14 @@ namespace SearchDataSPM
                             string requestby = requestbytxt.Text;
                             bool happroval = Happroval();
 
-                            await Processsavebutton(true, "Approved").ConfigureAwait(false);
+                            await Processsavebutton(true, "Approved");
                             approvechk.Checked = true;
-                            await Task.Run(() => SplashDialog("Sending Email...")).ConfigureAwait(false);
+                            await Task.Run(() => SplashDialog("Sending Email..."));
                             this.Enabled = false;
 
-                            string filename = Makefilenameforreport(reqno, false);
+                            string filename = Makefilenameforreport(reqno, false).ToString();
                             SaveReport(reqno, filename);
-                            Preparetosendemail(reqno, false, requestby, filename, happroval, "supervisor", false);
+                            Preparetosendemail(reqno, false, requestby, filename, happroval, "ConnectUser.PurchaseReqApproval", false);
                             Exporttoexcel();
                             this.Enabled = true;
                             this.Focus();
@@ -1788,7 +1812,14 @@ namespace SearchDataSPM
                 foreach (DataRow dr in dt.Rows)
                 {
                     string happroved = dr["Happroved"].ToString();
-                    approved = happroved == "1";
+                    if (happroved == "1")
+                    {
+                        approved = true;
+                    }
+                    else
+                    {
+                        approved = false;
+                    }
                 }
             }
             catch (Exception ex)
@@ -1811,7 +1842,8 @@ namespace SearchDataSPM
         private void DataGridView_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.RowIndex == -1) return;
-            _ = dataGridView.Rows[e.RowIndex];
+
+            DataGridViewRow row = dataGridView.Rows[e.RowIndex];
 
             if (e.Button == MouseButtons.Right)
             {
@@ -1841,7 +1873,7 @@ namespace SearchDataSPM
                 {
                     try
                     {
-                        await Task.Run(() => SplashDialog("Loading Data...")).ConfigureAwait(false);
+                        await Task.Run(() => SplashDialog("Loading Data..."));
                         Cursor.Current = Cursors.WaitCursor;
                         this.Enabled = false;
                         dataGridView1.AutoGenerateColumns = false;
@@ -1884,7 +1916,8 @@ namespace SearchDataSPM
         private void DataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.RowIndex == -1) return;
-            _ = dataGridView1.Rows[e.RowIndex];
+
+            DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
 
             if (e.Button == MouseButtons.Right)
             {
@@ -1912,7 +1945,7 @@ namespace SearchDataSPM
 
         private void FormSelector_Opening(object sender, CancelEventArgs e)
         {
-            if (dataGridView1.Rows.Count > 0 && !Validatechk.Checked)
+            if (dataGridView1.Rows.Count > 0 && Validatechk.Checked == false)
             {
                 FormSelector.Items[0].Enabled = true;
                 FormSelector.Items[1].Enabled = true;
@@ -1938,7 +1971,7 @@ namespace SearchDataSPM
                     using (SPM_DatabaseEntitiesPurchase db = new SPM_DatabaseEntitiesPurchase())
                     {
                         model = db.PurchaseReqs.Where(x => x.ID == model.ID).FirstOrDefault();
-                        ItemTxtBox.Text = model.Item;
+                        ItemTxtBox.Text = model.Item.ToString();
                         Descriptiontxtbox.Text = model.Description;
                         oemtxt.Text = model.Manufacturer;
                         oemitemnotxt.Text = model.OEMItemNumber;
@@ -1993,10 +2026,15 @@ namespace SearchDataSPM
             rs.Url = "http://spm-sql/reportserver/reportservice2005.asmx";
             rsExec.Url = "http://spm-sql/reportserver/reportexecution2005.asmx";
 
-            const string historyID = null;
-            const string deviceInfo = null;
-            const string format = "PDF";
+            string historyID = null;
+            string deviceInfo = null;
+            string format = "PDF";
             Byte[] results;
+            string encoding = String.Empty;
+            string mimeType = String.Empty;
+            string extension = String.Empty;
+            RE2005.Warning[] warnings = null;
+            string[] streamIDs = null;
 
             // Path of the Report - XLS, PDF etc.
             //string fileName = "";
@@ -2011,14 +2049,16 @@ namespace SearchDataSPM
             //}
 
             // Name of the report - Please note this is not the RDL file.
-            const string _reportName = "/GeniusReports/PurchaseOrder/SPM_PurchaseReq";
-            const string _historyID = null;
-            const bool _forRendering = false;
+            string _reportName = @"/GeniusReports/PurchaseOrder/SPM_PurchaseReq";
+            string _historyID = null;
+            bool _forRendering = false;
             RS2005.ParameterValue[] _values = null;
             RS2005.DataSourceCredentials[] _credentials = null;
+            RS2005.ReportParameter[] _parameters = null;
+
             try
             {
-                RS2005.ReportParameter[] _parameters = rs.GetReportParameters(_reportName, _historyID, _forRendering, _values, _credentials);
+                _parameters = rs.GetReportParameters(_reportName, _historyID, _forRendering, _values, _credentials);
                 RE2005.ExecutionInfo ei = rsExec.LoadReport(_reportName, historyID);
                 RE2005.ParameterValue[] parameters = new RE2005.ParameterValue[1];
 
@@ -2034,8 +2074,8 @@ namespace SearchDataSPM
                 rsExec.SetExecutionParameters(parameters, "en-us");
 
                 results = rsExec.Render(format, deviceInfo,
-                          out string extension, out string encoding,
-                          out string mimeType, out RE2005.Warning[] warnings, out string[] streamIDs);
+                          out extension, out encoding,
+                          out mimeType, out warnings, out streamIDs);
 
                 //using (FileStream stream = File.Open(fileName,FileMode.Open,FileAccess.Write,FileShare.Read))
                 //{
@@ -2070,7 +2110,17 @@ namespace SearchDataSPM
 
         private string Makefilenameforreport(string reqno, bool prelim)
         {
-            string fileName = prelim ? @"\\spm-adfs\SDBASE\Reports\Prelim\" + reqno + ".pdf" : @"\\spm-adfs\SDBASE\Reports\Approved\" + reqno + ".pdf";
+            string fileName = "";
+
+            if (prelim)
+            {
+                fileName = @"\\spm-adfs\SDBASE\Reports\Prelim\" + reqno + ".pdf";
+            }
+            else
+            {
+                fileName = @"\\spm-adfs\SDBASE\Reports\Approved\" + reqno + ".pdf";
+            }
+
             return fileName;
         }
 
@@ -2094,7 +2144,10 @@ namespace SearchDataSPM
                     else
                     {
                         Sendemailtouser(reqno, fileName, requestby, triggerby, false);
-                        if (triggerby != "pbuyer")
+                        if (triggerby == "ConnectUser.PurchaseReqBuyer")
+                        {
+                        }
+                        else
                         {
                             if (Sendemailyesnopbuyer())
                             {
@@ -2108,6 +2161,32 @@ namespace SearchDataSPM
             {
                 Sendemailtouser(reqno, fileName, requestby, triggerby, rejected);
             }
+        }
+
+        private string Savereporttodb(Byte[] username)
+        {
+            try
+            {
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
+
+                using (SqlCommand cmd = new SqlCommand("insert into SavePDFTable " + "(PDFFile)values(@data)", connectapi.cn))
+
+                {
+                    cmd.Parameters.AddWithValue("@data", username);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Error Getting Full User Name", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                connectapi.cn.Close();
+            }
+            return null;
         }
 
         private void Sendemail(string emailtosend, string subject, string name, string body, string filetoattach, string cc)
@@ -2124,8 +2203,10 @@ namespace SearchDataSPM
 
         private void Sendemailtosupervisor(string reqno, string fileName)
         {
-            foreach (NameEmail item in connectapi.GetNameEmailByParaValue(UserFields.id, supervisorid.ToString()))
-                Sendemail(item.email, reqno + " Purchase Req Approval Required - Job " + jobnumbertxt.Text, item.name, Environment.NewLine + userfullname + " sent this purchase req for approval.", fileName, "");
+            List<NameEmail> nameemail = connectapi.GetNameEmailByParaValue(UserFields.id, ConnectUser.Supervisor.ToString());
+
+            foreach (NameEmail item in nameemail)
+                Sendemail(item.email, reqno + " Purchase Req Approval Required - Job " + jobnumbertxt.Text, item.name, Environment.NewLine + ConnectUser.Name + " sent this purchase req for approval.", fileName, "");
         }
 
         private void Sendemailtouser(string reqno, string fileName, string requestby, string triggerby, bool rejected)
@@ -2133,7 +2214,7 @@ namespace SearchDataSPM
             string email = connectapi.GetNameEmailByParaValue(UserFields.Name, requestby)[0].email;
             if (!rejected)
             {
-                if (triggerby == "supervisor")
+                if (triggerby == "ConnectUser.PurchaseReqApproval")
                 {
                     Sendemail(email, reqno + " Purchase Req Approved - Job " + jobnumbertxt.Text, requestby, Environment.NewLine + " Your purchase req is approved.", fileName, "");
                 }
@@ -2142,7 +2223,7 @@ namespace SearchDataSPM
                     List<NameEmail> supnameemail = connectapi.GetNameEmailByParaValue(UserFields.id, supervisoridfromreq.ToString());
                     string supervisoremail = supnameemail[0].email;
 
-                    if (triggerby == "pbuyer")
+                    if (triggerby == "ConnectUser.PurchaseReqBuyer")
                     {
                         Sendemail(email, reqno + " Purchase Req Purchased - Job " + jobnumbertxt.Text, requestby, Environment.NewLine + " Your purchase req is sent out for purchase.", fileName, supervisoremail);
                     }
@@ -2154,7 +2235,7 @@ namespace SearchDataSPM
             }
             else
             {
-                if (triggerby == "supervisor")
+                if (triggerby == "ConnectUser.PurchaseReqApproval")
                 {
                     Sendemail(email, reqno + " Purchase Req Rejected - Job " + jobnumbertxt.Text, requestby, Environment.NewLine + " Your purchase req is not approved.", fileName, "");
                 }
@@ -2204,14 +2285,14 @@ namespace SearchDataSPM
         {
             List<NameEmail> nameemail = connectapi.GetNameEmailByParaValue(UserFields.PurchaseReqApproval2, "1");
             foreach (NameEmail item in nameemail)
-                Sendemail(item.email, reqno + " Purchase Req Approval Required - 2nd Approval - Job " + jobnumbertxt.Text, item.name, Environment.NewLine + userfullname + " sent this purchase req for second approval.", fileName, "");
+                Sendemail(item.email, reqno + " Purchase Req Approval Required - 2nd Approval - Job " + jobnumbertxt.Text, item.name, Environment.NewLine + ConnectUser.Name + " sent this purchase req for second approval.", fileName, "");
         }
 
         private void Sendmailtopbuyers(string reqno, string fileName)
         {
             List<NameEmail> nameemail = connectapi.GetNameEmailByParaValue(UserFields.PurchaseReqBuyer, "1");
             foreach (NameEmail item in nameemail)
-                Sendemail(item.email, reqno + " Purchase Req needs PO - Notification - Job " + jobnumbertxt.Text, item.name, Environment.NewLine + userfullname + " apporved this purchase req and on its way to be purchased. ", fileName, "");
+                Sendemail(item.email, reqno + " Purchase Req needs PO - Notification - Job " + jobnumbertxt.Text, item.name, Environment.NewLine + ConnectUser.Name + " apporved this purchase req and on its way to be purchased. ", fileName, "");
         }
 
         #endregion save report and send email
@@ -2223,7 +2304,7 @@ namespace SearchDataSPM
         public bool CheckItemPresentOnGenius(string itemid)
         {
             bool itempresent = false;
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPMDB].[dbo].[Edb] WHERE [Item]='" + itemid + "'", connectapi.cn))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPMDB].[dbo].[Edb] WHERE [Item]='" + itemid.ToString() + "'", connectapi.cn))
             {
                 try
                 {
@@ -2299,10 +2380,7 @@ namespace SearchDataSPM
                         }
                     }
                 }
-                else
-                {
-                    iteminfo.Clear();
-                }
+                else iteminfo.Clear();
             }
             dontstop = true;
         }
@@ -2339,7 +2417,7 @@ namespace SearchDataSPM
             {
                 if (itemsearchtxtbox.Text.Length >= 6)
                 {
-                    string item = itemsearchtxtbox.Text.Trim().Substring(0, 6);
+                    string item = itemsearchtxtbox.Text.Trim().Substring(0, 6).ToString();
                     if (CheckItemPresentOnGenius(item))
                     {
                         Clearaddnewtextboxes();
@@ -2368,7 +2446,7 @@ namespace SearchDataSPM
 
         private void Jobnumbertxt_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (Regex.IsMatch(e.KeyChar.ToString(), @"[0-9+\b]"))
+            if (System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"[0-9+\b]"))
             {
                 // Stop the character from being entered into the control since it is illegal.
             }
@@ -2431,7 +2509,7 @@ namespace SearchDataSPM
 
         private void qtytxt_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (Regex.IsMatch(e.KeyChar.ToString(), @"[0-9+\b]"))
+            if (System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"[0-9+\b]"))
             {
                 // Stop the character from being entered into the control since it is illegal.
             }
@@ -2443,7 +2521,10 @@ namespace SearchDataSPM
 
         private void Subassytxt_KeyPress(object sender, KeyPressEventArgs e)
         {
-            e.Handled = (sender as TextBox)?.SelectionStart == 0 && e.KeyChar == (char)Keys.Space;
+            if ((sender as TextBox).SelectionStart == 0)
+                e.Handled = (e.KeyChar == (char)Keys.Space);
+            else
+                e.Handled = false;
         }
 
         private void Subassytxt_Leave(object sender, EventArgs e)
@@ -2473,7 +2554,7 @@ namespace SearchDataSPM
 
         private async void bttnshowmydept_Click(object sender, EventArgs e)
         {
-            await Task.Run(() => SplashDialog("Loading Data...")).ConfigureAwait(false);
+            await Task.Run(() => SplashDialog("Loading Data..."));
             this.Enabled = false;
             Showmydeptreq();
             foreach (Control c in managergroupbox.Controls)
@@ -2503,7 +2584,7 @@ namespace SearchDataSPM
 
         private async void PerformNeedApproval(object sender)
         {
-            await Task.Run(() => SplashDialog("Loading Data...")).ConfigureAwait(false);
+            await Task.Run(() => SplashDialog("Loading Data..."));
 
             this.Enabled = false;
             Showwaitingonapproval();
@@ -2525,10 +2606,10 @@ namespace SearchDataSPM
 
         private async void Perfromshowmyreqbuttn()
         {
-            await Task.Run(() => SplashDialog("Loading Data...")).ConfigureAwait(false);
+            await Task.Run(() => SplashDialog("Loading Data..."));
 
             this.Enabled = false;
-            ShowReqSearchItems(userfullname);
+            ShowReqSearchItems(ConnectUser.Name);
             foreach (Control c in managergroupbox.Controls)
             {
                 c.BackColor = Color.Transparent;
@@ -2552,7 +2633,7 @@ namespace SearchDataSPM
 
         private async void ProcessShowApprovedBttn(object sender)
         {
-            await Task.Run(() => SplashDialog("Loading Data...")).ConfigureAwait(false);
+            await Task.Run(() => SplashDialog("Loading Data..."));
             this.Enabled = false;
             Showallapproved();
             foreach (Control c in managergroupbox.Controls)
@@ -2578,7 +2659,7 @@ namespace SearchDataSPM
         {
             showingwaitingforapproval = false;
 
-            if (higherauthority)
+            if (ConnectUser.PurchaseReqApproval2)
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE (Approved = '1' OR Approved = '3') AND Validate = '1' ORDER BY ReqNumber DESC", connectapi.cn))
                 {
@@ -2601,7 +2682,7 @@ namespace SearchDataSPM
                     }
                 }
             }
-            else if (pbuyer)
+            else if (ConnectUser.PurchaseReqBuyer)
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Papproved = '1' ORDER BY ReqNumber DESC", connectapi.cn))
                 {
@@ -2624,9 +2705,9 @@ namespace SearchDataSPM
                     }
                 }
             }
-            else if (supervisor)
+            else if (ConnectUser.PurchaseReqApproval)
             {
-                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE (Approved = '1' OR Approved = '3') AND Validate = '1' AND SupervisorId = '" + myid + "' ORDER BY ReqNumber DESC", connectapi.cn))
+                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE (Approved = '1' OR Approved = '3') AND Validate = '1' AND SupervisorId = '" + ConnectUser.ConnectId + "' ORDER BY ReqNumber DESC", connectapi.cn))
                 {
                     try
                     {
@@ -2652,7 +2733,7 @@ namespace SearchDataSPM
         private void Showmydeptreq()
         {
             showingwaitingforapproval = false;
-            if (higherauthority)
+            if (ConnectUser.PurchaseReqApproval2)
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Validate != '5'  ORDER BY ReqNumber DESC", connectapi.cn))
                 {
@@ -2675,7 +2756,7 @@ namespace SearchDataSPM
                     }
                 }
             }
-            else if (pbuyer)
+            else if (ConnectUser.PurchaseReqBuyer)
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE PApproval = '1'  ORDER BY ReqNumber DESC", connectapi.cn))
                 {
@@ -2699,9 +2780,9 @@ namespace SearchDataSPM
                 }
                 return;
             }
-            else if (supervisor)
+            else if (ConnectUser.PurchaseReqApproval)
             {
-                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE SupervisorId = '" + myid + "' ORDER BY ReqNumber DESC", connectapi.cn))
+                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE SupervisorId = '" + ConnectUser.ConnectId + "' ORDER BY ReqNumber DESC", connectapi.cn))
                 {
                     try
                     {
@@ -2728,7 +2809,7 @@ namespace SearchDataSPM
         {
             showingwaitingforapproval = true;
 
-            if (higherauthority && !supervisor)
+            if (ConnectUser.PurchaseReqApproval2 && !ConnectUser.PurchaseReqApproval)
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '1' AND Validate = '1' AND HApproval = '1' AND Happroved = '0' ORDER BY ReqNumber DESC", connectapi.cn))
                 {
@@ -2751,9 +2832,9 @@ namespace SearchDataSPM
                     }
                 }
             }
-            else if (higherauthority && supervisor)
+            else if (ConnectUser.PurchaseReqApproval2 && ConnectUser.PurchaseReqApproval)
             {
-                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '1' AND Validate = '1' AND HApproval = '1' AND Happroved = '0' UNION SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Validate = '1' AND Approved = '0' AND SupervisorId = '" + myid + "' ORDER BY ReqNumber DESC", connectapi.cn))
+                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '1' AND Validate = '1' AND HApproval = '1' AND Happroved = '0' UNION SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Validate = '1' AND Approved = '0' AND SupervisorId = '" + ConnectUser.ConnectId + "' ORDER BY ReqNumber DESC", connectapi.cn))
                 {
                     try
                     {
@@ -2774,7 +2855,7 @@ namespace SearchDataSPM
                     }
                 }
             }
-            else if (pbuyer)
+            else if (ConnectUser.PurchaseReqBuyer)
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '1' AND Validate = '1' AND PApproval = '1' AND Papproved = '0' ORDER BY ReqNumber DESC", connectapi.cn))
                 {
@@ -2797,9 +2878,9 @@ namespace SearchDataSPM
                     }
                 }
             }
-            else if (supervisor && !higherauthority)
+            else if (ConnectUser.PurchaseReqApproval && !ConnectUser.PurchaseReqApproval2)
             {
-                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '0' AND Validate = '1' AND SupervisorId = '" + myid + "' ORDER BY ReqNumber DESC", connectapi.cn))
+                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '0' AND Validate = '1' AND SupervisorId = '" + ConnectUser.ConnectId + "' ORDER BY ReqNumber DESC", connectapi.cn))
                 {
                     try
                     {
@@ -2828,11 +2909,11 @@ namespace SearchDataSPM
 
         private async void happrovechk_Click(object sender, EventArgs e)
         {
-            if (higherauthority)
+            if (ConnectUser.PurchaseReqApproval2)
             {
-                if (!happrovechk.Checked)
+                if (happrovechk.Checked == false)
                 {
-                    await Processsavebutton(true, "Happrovedfalse").ConfigureAwait(false);
+                    await Processsavebutton(true, "Happrovedfalse");
                 }
                 else
                 {
@@ -2845,12 +2926,12 @@ namespace SearchDataSPM
                         string reqno = purchreqtxt.Text;
                         string requestby = requestbytxt.Text;
 
-                        await Processsavebutton(true, "Happroved").ConfigureAwait(false);
+                        await Processsavebutton(true, "Happroved");
                         happrovechk.Checked = true;
-                        await Task.Run(() => SplashDialog("Sending Email...")).ConfigureAwait(false);
+                        await Task.Run(() => SplashDialog("Sending Email..."));
                         this.Enabled = false;
 
-                        string filename = Makefilenameforreport(reqno, false);
+                        string filename = Makefilenameforreport(reqno, false).ToString();
                         //SaveReport(reqno, filename);
 
                         Preparetosendemail(reqno, false, requestby, filename, false, "highautority", false);
@@ -2903,11 +2984,11 @@ namespace SearchDataSPM
 
         private async void purchasedchk_Click(object sender, EventArgs e)
         {
-            if (pbuyer)
+            if (ConnectUser.PurchaseReqBuyer)
             {
-                if (!purchasedchk.Checked)
+                if (purchasedchk.Checked == false)
                 {
-                    await Processsavebutton(true, "Papprovedfalse").ConfigureAwait(false);
+                    await Processsavebutton(true, "Papprovedfalse");
                 }
                 else
                 {
@@ -2920,17 +3001,17 @@ namespace SearchDataSPM
                         string reqno = purchreqtxt.Text;
                         string requestby = requestbytxt.Text;
 
-                        await Processsavebutton(true, "Papproved").ConfigureAwait(false);
+                        await Processsavebutton(true, "Papproved");
                         DataGridView_SelectionChanged(sender, e);
                         //this.TopMost = false;
 
                         //Thread t = new Thread(new ThreadStart(Splashemail));
                         //t.Start();
-                        await Task.Run(() => SplashDialog("Sending Email...")).ConfigureAwait(false);
+                        await Task.Run(() => SplashDialog("Sending Email..."));
                         this.Enabled = false;
                         purchasedchk.Checked = true;
 
-                        Preparetosendemail(reqno, false, requestby, "", false, "pbuyer", false);
+                        Preparetosendemail(reqno, false, requestby, "", false, "ConnectUser.PurchaseReqBuyer", false);
 
                         //t.Abort();
                         //this.TopMost = true;
@@ -2996,8 +3077,8 @@ namespace SearchDataSPM
                 //sfd.Filter = "Excel Documents (*.xls)|*.xls";
                 //sfd.FileName = "Inventory_Adjustment_Export.xls";
 
-                string filepath = Getsupervisorsharepath(connectapi.GetUserName()) + @"\SPM_Connect\PreliminaryPurchases\";
-                Directory.CreateDirectory(filepath);
+                string filepath = Getsupervisorsharepath(connectapi.GetUserName()).ToString() + @"\SPM_Connect\PreliminaryPurchases\";
+                System.IO.Directory.CreateDirectory(filepath);
                 filepath += purchreqtxt.Text + " - " + requestbytxt.Text + ".xls";
                 // Copy DataGridView results to clipboard
                 CopyAlltoClipboard();
@@ -3019,7 +3100,8 @@ namespace SearchDataSPM
 
                 // For some reason column A is always blank in the worksheet. ¯\_(ツ)_/¯
                 // Delete blank column A and select cell A1
-                Excel.Range delRng = xlWorkSheet.get_Range("G:G").Cells;
+                Excel.Range delRng;
+                delRng = xlWorkSheet.get_Range("G:G").Cells;
                 delRng.Delete();
                 delRng = xlWorkSheet.get_Range("F:F").Cells;
                 delRng.Delete();
@@ -3071,7 +3153,7 @@ namespace SearchDataSPM
                     connectapi.cn.Open();
                 SqlCommand cmd = connectapi.cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + username + "' ";
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + username.ToString() + "' ";
                 cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -3116,7 +3198,10 @@ namespace SearchDataSPM
 
         private void ApprovalMenuStrip_Opening(object sender, CancelEventArgs e)
         {
-            if (dataGridView.SelectedRows.Count != 1 || !showingwaitingforapproval)
+            if (dataGridView.SelectedRows.Count == 1 && showingwaitingforapproval)
+            {
+            }
+            else
             {
                 e.Cancel = true;
             }
@@ -3126,11 +3211,18 @@ namespace SearchDataSPM
         {
             if (!approvechk.Checked)
             {
-                if (supervisor)
+                if (ConnectUser.PurchaseReqApproval)
                 {
-                    approvechk.Checked = !approvechk.Checked;
+                    if (approvechk.Checked)
+                    {
+                        approvechk.Checked = false;
+                    }
+                    else
+                    {
+                        approvechk.Checked = true;
+                    }
 
-                    if (!approvechk.Checked)
+                    if (approvechk.Checked == false)
                     {
                         if (gethapprovedstatus(Convert.ToInt32(purchreqtxt.Text)))
                         {
@@ -3143,7 +3235,7 @@ namespace SearchDataSPM
                         {
                             approvechk.Checked = false;
                             approvechk.Text = "Approve";
-                            await Processsavebutton(true, "ApprovedFalse").ConfigureAwait(false);
+                            await Processsavebutton(true, "ApprovedFalse");
                         }
                     }
                     else
@@ -3159,14 +3251,14 @@ namespace SearchDataSPM
                                 string reqno = purchreqtxt.Text;
                                 string requestby = requestbytxt.Text;
                                 bool happroval = Happroval();
-                                await Processsavebutton(true, "Approved").ConfigureAwait(false);
+                                await Processsavebutton(true, "Approved");
                                 approvechk.Checked = true;
-                                await Task.Run(() => SplashDialog("Sending Email...")).ConfigureAwait(false);
+                                await Task.Run(() => SplashDialog("Sending Email..."));
                                 this.Enabled = false;
 
-                                string filename = Makefilenameforreport(reqno, false);
+                                string filename = Makefilenameforreport(reqno, false).ToString();
                                 SaveReport(reqno, filename);
-                                Preparetosendemail(reqno, false, requestby, filename, happroval, "supervisor", false);
+                                Preparetosendemail(reqno, false, requestby, filename, happroval, "ConnectUser.PurchaseReqApproval", false);
                                 Exporttoexcel();
                                 this.Enabled = true;
                                 this.Focus();
@@ -3202,13 +3294,20 @@ namespace SearchDataSPM
             }
             else if (approvechk.Checked)
             {
-                if (higherauthority)
+                if (ConnectUser.PurchaseReqApproval2)
                 {
-                    happrovechk.Checked = !happrovechk.Checked;
-
-                    if (!happrovechk.Checked)
+                    if (happrovechk.Checked)
                     {
-                        await Processsavebutton(true, "Happrovedfalse").ConfigureAwait(false);
+                        happrovechk.Checked = false;
+                    }
+                    else
+                    {
+                        happrovechk.Checked = true;
+                    }
+
+                    if (happrovechk.Checked == false)
+                    {
+                        await Processsavebutton(true, "Happrovedfalse");
                     }
                     else
                     {
@@ -3221,12 +3320,12 @@ namespace SearchDataSPM
                             string reqno = purchreqtxt.Text;
                             string requestby = requestbytxt.Text;
 
-                            await Processsavebutton(true, "Happroved").ConfigureAwait(false);
+                            await Processsavebutton(true, "Happroved");
                             happrovechk.Checked = true;
-                            await Task.Run(() => SplashDialog("Sending Email...")).ConfigureAwait(false);
+                            await Task.Run(() => SplashDialog("Sending Email..."));
                             this.Enabled = false;
 
-                            string filename = Makefilenameforreport(reqno, false);
+                            string filename = Makefilenameforreport(reqno, false).ToString();
                             //SaveReport(reqno, filename);
 
                             Preparetosendemail(reqno, false, requestby, filename, false, "highautority", false);
@@ -3251,11 +3350,18 @@ namespace SearchDataSPM
         {
             if (!approvechk.Checked)
             {
-                if (supervisor)
+                if (ConnectUser.PurchaseReqApproval)
                 {
-                    approvechk.Checked = !approvechk.Checked;
+                    if (approvechk.Checked)
+                    {
+                        approvechk.Checked = false;
+                    }
+                    else
+                    {
+                        approvechk.Checked = true;
+                    }
 
-                    if (!approvechk.Checked)
+                    if (approvechk.Checked == false)
                     {
                         if (gethapprovedstatus(Convert.ToInt32(purchreqtxt.Text)))
                         {
@@ -3268,7 +3374,7 @@ namespace SearchDataSPM
                         {
                             approvechk.Checked = false;
                             approvechk.Text = "Approve";
-                            await Processsavebutton(true, "ApprovedFalse").ConfigureAwait(false);
+                            await Processsavebutton(true, "ApprovedFalse");
                         }
                     }
                     else
@@ -3284,14 +3390,14 @@ namespace SearchDataSPM
                                 string reqno = purchreqtxt.Text;
                                 string requestby = requestbytxt.Text;
                                 bool happroval = Happroval();
-                                await Processsavebutton(true, "Rejected").ConfigureAwait(false);
+                                await Processsavebutton(true, "Rejected");
                                 approvechk.Checked = true;
-                                await Task.Run(() => SplashDialog("Sending Email...")).ConfigureAwait(false);
+                                await Task.Run(() => SplashDialog("Sending Email..."));
                                 this.Enabled = false;
 
                                 //string filename = makefilenameforreport(reqno, false).ToString();
                                 //SaveReport(reqno, filename);
-                                Preparetosendemail(reqno, false, requestby, "", happroval, "supervisor", true);
+                                Preparetosendemail(reqno, false, requestby, "", happroval, "ConnectUser.PurchaseReqApproval", true);
                                 //exporttoexcel();
                                 //t.Abort();
                                 //this.TopMost = true;
@@ -3329,13 +3435,20 @@ namespace SearchDataSPM
             }
             else if (approvechk.Checked)
             {
-                if (higherauthority)
+                if (ConnectUser.PurchaseReqApproval2)
                 {
-                    happrovechk.Checked = !happrovechk.Checked;
-
-                    if (!happrovechk.Checked)
+                    if (happrovechk.Checked)
                     {
-                        await Processsavebutton(true, "Happrovedfalse").ConfigureAwait(false);
+                        happrovechk.Checked = false;
+                    }
+                    else
+                    {
+                        happrovechk.Checked = true;
+                    }
+
+                    if (happrovechk.Checked == false)
+                    {
+                        await Processsavebutton(true, "Happrovedfalse");
                     }
                     else
                     {
@@ -3348,9 +3461,9 @@ namespace SearchDataSPM
                             string reqno = purchreqtxt.Text;
                             string requestby = requestbytxt.Text;
 
-                            await Processsavebutton(true, "HRejected").ConfigureAwait(false);
+                            await Processsavebutton(true, "HRejected");
                             happrovechk.Checked = true;
-                            await Task.Run(() => SplashDialog("Sending Email...")).ConfigureAwait(false);
+                            await Task.Run(() => SplashDialog("Sending Email..."));
                             this.Enabled = false;
 
                             //string filename = makefilenameforreport(reqno, false).ToString();

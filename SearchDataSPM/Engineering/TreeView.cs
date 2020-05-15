@@ -21,8 +21,7 @@ namespace SearchDataSPM
     {
         #region steupvariables
 
-        private readonly DataTable _acountsTb;
-        private readonly SPMSQLCommands connectapi = new SPMConnectAPI.SPMSQLCommands();
+        private readonly DataTable dt;
         private readonly TreeNode root = new TreeNode();
         private bool eng;
         private string itemnumber;
@@ -30,6 +29,7 @@ namespace SearchDataSPM
         private bool rootnodedone;
         private string txtvalue;
         private UserInfo user;
+        private readonly SPMSQLCommands connectapi = new SPMSQLCommands();
 
         #endregion steupvariables
 
@@ -38,6 +38,7 @@ namespace SearchDataSPM
         public TreeView(string item = "")
         {
             InitializeComponent();
+            dt = new DataTable();
             this.itemnumber = item;
         }
 
@@ -126,7 +127,7 @@ namespace SearchDataSPM
             treeView1.Nodes.Clear();
             treeView1.ResetText();
             RemoveChildNodes(root);
-            _acountsTb.Clear();
+            dt.Clear();
             Assy_txtbox.Clear();
             Expandchk.Checked = false;
             txtSearch.Clear();
@@ -147,7 +148,7 @@ namespace SearchDataSPM
             treeView1.Nodes.Clear();
             treeView1.ResetText();
             RemoveChildNodes(root);
-            _acountsTb.Clear();
+            dt.Clear();
             Expandchk.Checked = false;
             txtSearch.Clear();
             ItemTxtBox.Clear();
@@ -181,12 +182,12 @@ namespace SearchDataSPM
             // String sql2 = "SELECT *  FROM [SPM_Database].[dbo].[UnionInventory]";
             try
             {
-                _acountsTb.Clear();
+                dt.Clear();
                 if (connectapi.cn.State == ConnectionState.Closed)
                     connectapi.cn.Open();
                 SqlDataAdapter _adapter = new SqlDataAdapter(sql, connectapi.cn);
 
-                _adapter.Fill(_acountsTb);
+                _adapter.Fill(dt);
             }
             catch (SqlException ex)
             {
@@ -210,11 +211,11 @@ namespace SearchDataSPM
                 treeView1.ResetText();
                 Expandchk.Checked = false;
                 //DataRow[] dr = _productTB.Select("ItemNumber = '" + txtvalue.ToString() + "'");
-                DataRow[] dr = _acountsTb.Select("AssyNo = '" + txtvalue + "'");
+                DataRow[] dr = dt.Select("AssyNo = '" + txtvalue + "'");
                 if (dr.Length > 0)
                 {
                     root.Text = dr[0]["AssyNo"].ToString() + " - " + dr[0]["AssyDescription"].ToString();
-                    root.Tag = _acountsTb.Rows.IndexOf(dr[0]);
+                    root.Tag = dt.Rows.IndexOf(dr[0]);
                     setimageaccordingtofamily(dr[0]["AssyFamily"].ToString(), root);
                     //Font f = FontStyle.Bold);
                     // root.NodeFont = f;
@@ -240,11 +241,11 @@ namespace SearchDataSPM
                     treeView1.ResetText();
                     Expandchk.Checked = false;
                     //DataRow[] dr = _productTB.Select("ItemNumber = '" + txtvalue.ToString() + "'");
-                    dr = _acountsTb.Select("ItemNumber = '" + txtvalue + "'");
+                    dr = dt.Select("ItemNumber = '" + txtvalue + "'");
                     if (dr.Length > 0)
                     {
                         root.Text = dr[0]["ItemNumber"].ToString() + " - " + dr[0]["Description"].ToString();
-                        root.Tag = _acountsTb.Rows.IndexOf(dr[0]);
+                        root.Tag = dt.Rows.IndexOf(dr[0]);
                         setimageaccordingtofamily(dr[0]["ItemFamily"].ToString(), root);
                         //Font f = FontStyle.Bold);
                         // root.NodeFont = f;
@@ -282,13 +283,13 @@ namespace SearchDataSPM
         {
             TreeNode childNode;
 
-            foreach (DataRow dr in _acountsTb.Select("[AssyNo] ='" + parentId + "'"))
+            foreach (DataRow dr in dt.Select("[AssyNo] ='" + parentId + "'"))
             {
                 TreeNode t = new TreeNode
                 {
                     Text = dr["ItemNumber"].ToString() + " - " + dr["Description"].ToString() + " ( " + dr["QuantityPerAssembly"].ToString() + " ) ",
                     Name = dr["ItemNumber"].ToString(),
-                    Tag = _acountsTb.Rows.IndexOf(dr)
+                    Tag = dt.Rows.IndexOf(dr)
                 };
                 if (parentNode == null)
                 {
@@ -296,7 +297,7 @@ namespace SearchDataSPM
                     t.NodeFont = f;
                     t.Text = dr["AssyNo"].ToString() + " - " + dr["AssyDescription"].ToString() + " ( " + dr["QuantityPerAssembly"].ToString() + " ) ";
                     t.Name = dr["ItemNumber"].ToString();
-                    t.Tag = _acountsTb.Rows.IndexOf(dr);
+                    t.Tag = dt.Rows.IndexOf(dr);
                     treeView1.Nodes.Add(t);
                     childNode = t;
                 }
@@ -405,7 +406,7 @@ namespace SearchDataSPM
             //TreeNode node = null;
             while (StartNode != null)
             {
-                DataRow r = _acountsTb.Rows[int.Parse(StartNode.Tag.ToString())];
+                DataRow r = dt.Rows[int.Parse(StartNode.Tag.ToString())];
                 string searchwithin = StartNode.Parent == null
                     ? r["AssyNo"].ToString() + r["AssyDescription"].ToString() + r["AssyManufacturer"].ToString() + r["AssyManufacturerItemNumber"].ToString()
                     : r["ItemNumber"].ToString() + r["Description"].ToString() + r["Manufacturer"].ToString() + r["ManufacturerItemNumber"].ToString();
@@ -529,7 +530,7 @@ namespace SearchDataSPM
             }
             if (root.IsSelected && chekroot == "Assy")
             {
-                DataRow r = _acountsTb.Rows[int.Parse(treeView1.SelectedNode.Tag.ToString())];
+                DataRow r = dt.Rows[int.Parse(treeView1.SelectedNode.Tag.ToString())];
                 ItemTxtBox.Text = r["AssyNo"].ToString();
                 Descriptiontxtbox.Text = r["AssyDescription"].ToString();
                 oemtxtbox.Text = r["AssyManufacturer"].ToString();
@@ -545,7 +546,7 @@ namespace SearchDataSPM
             }
             else if (root.IsSelected && chekroot == "Item")
             {
-                DataRow r = _acountsTb.Rows[int.Parse(treeView1.SelectedNode.Tag.ToString())];
+                DataRow r = dt.Rows[int.Parse(treeView1.SelectedNode.Tag.ToString())];
                 ItemTxtBox.Text = r["ItemNumber"].ToString();
                 Descriptiontxtbox.Text = r["Description"].ToString();
                 oemtxtbox.Text = r["Manufacturer"].ToString();
@@ -561,7 +562,7 @@ namespace SearchDataSPM
             }
             else
             {
-                DataRow r = _acountsTb.Rows[int.Parse(treeView1.SelectedNode.Tag.ToString())];
+                DataRow r = dt.Rows[int.Parse(treeView1.SelectedNode.Tag.ToString())];
                 ItemTxtBox.Text = r["ItemNumber"].ToString();
                 Descriptiontxtbox.Text = r["Description"].ToString();
                 oemtxtbox.Text = r["Manufacturer"].ToString();
@@ -796,7 +797,7 @@ namespace SearchDataSPM
             }
             else
             {
-                DataRow r = _acountsTb.Rows[int.Parse(treeNode.Tag.ToString())];
+                DataRow r = dt.Rows[int.Parse(treeNode.Tag.ToString())];
                 string family = r["ItemFamily"].ToString();
                 setimageaccordingtofamily(family, treeNode);
             }

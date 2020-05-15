@@ -495,8 +495,9 @@ namespace SearchDataSPM
                     e.SuppressKeyPress = true;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                log.Error(ex.Message, ex);
             }
         }
 
