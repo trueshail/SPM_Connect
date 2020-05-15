@@ -11,7 +11,7 @@ namespace SearchDataSPM
     {
         #region steupvariables
 
-        private readonly DataTable _acountsTb;
+        private readonly DataTable acountsTb;
         private readonly SPMConnectAPI.ConnectAPI connectapi = new SPMConnectAPI.ConnectAPI();
         private readonly TreeNode root = new TreeNode();
         private readonly TreeNode root2 = new TreeNode();
@@ -31,6 +31,7 @@ namespace SearchDataSPM
             int h = Height >= screen.Height ? screen.Height : (screen.Height + Height) / 3;
             this.Location = new Point((screen.Width - w) / 2, (screen.Height - h) / 2);
             this.Size = new Size(w, h);
+            acountsTb = new DataTable();
         }
 
         public string item(string item)
@@ -79,7 +80,7 @@ namespace SearchDataSPM
             treeView1.Nodes.Clear();
             treeView1.ResetText();
             RemoveChildNodes(root);
-            _acountsTb.Clear();
+            acountsTb.Clear();
             Assy_txtbox.Clear();
         }
 
@@ -88,7 +89,7 @@ namespace SearchDataSPM
             treeView1.Nodes.Clear();
             treeView1.ResetText();
             RemoveChildNodes(root);
-            _acountsTb.Clear();
+            acountsTb.Clear();
         }
 
         private void cleaup22()
@@ -96,7 +97,7 @@ namespace SearchDataSPM
             treeView2.Nodes.Clear();
             treeView2.ResetText();
             RemoveChildNodes(root2);
-            _acountsTb.Clear();
+            acountsTb.Clear();
         }
 
         private void filldatatable()
@@ -104,12 +105,12 @@ namespace SearchDataSPM
             const string sql = "SELECT *  FROM [SPM_Database].[dbo].[SPMConnectBOM] ORDER BY [ItemNumber]";
             try
             {
-                _acountsTb.Clear();
+                acountsTb.Clear();
                 if (connectapi.cn.State == ConnectionState.Closed)
                     connectapi.cn.Open();
                 SqlDataAdapter _adapter = new SqlDataAdapter(sql, connectapi.cn);
 
-                _adapter.Fill(_acountsTb);
+                _adapter.Fill(acountsTb);
             }
             catch (SqlException ex)
             {
@@ -137,10 +138,10 @@ namespace SearchDataSPM
                         treeView1.ResetText();
 
                         //DataRow[] dr = _productTB.Select("ItemNumber = '" + txtvalue.ToString() + "'");
-                        DataRow[] dr = _acountsTb.Select("AssyNo = '" + txtvalue + "'");
+                        DataRow[] dr = acountsTb.Select("AssyNo = '" + txtvalue + "'");
 
                         root.Text = dr[0]["AssyNo"].ToString() + " - " + dr[0]["AssyDescription"].ToString();
-                        root.Tag = _acountsTb.Rows.IndexOf(dr[0]);
+                        root.Tag = acountsTb.Rows.IndexOf(dr[0]);
 
                         //Font f = FontStyle.Bold);
                         // root.NodeFont = f;
@@ -159,10 +160,10 @@ namespace SearchDataSPM
                         treeView1.ResetText();
 
                         //DataRow[] dr = _productTB.Select("ItemNumber = '" + txtvalue.ToString() + "'");
-                        DataRow[] dr = _acountsTb.Select("ItemNumber = '" + txtvalue + "'");
+                        DataRow[] dr = acountsTb.Select("ItemNumber = '" + txtvalue + "'");
 
                         root.Text = dr[0]["ItemNumber"].ToString() + " - " + dr[0]["Description"].ToString();
-                        root.Tag = _acountsTb.Rows.IndexOf(dr[0]);
+                        root.Tag = acountsTb.Rows.IndexOf(dr[0]);
 
                         //Font f = FontStyle.Bold);
                         // root.NodeFont = f;
@@ -194,10 +195,10 @@ namespace SearchDataSPM
                         treeView2.ResetText();
 
                         //DataRow[] dr = _productTB.Select("ItemNumber = '" + txtvalue.ToString() + "'");
-                        DataRow[] dr = _acountsTb.Select("AssyNo = '" + assytxt2.Text + "'");
+                        DataRow[] dr = acountsTb.Select("AssyNo = '" + assytxt2.Text + "'");
 
                         root2.Text = dr[0]["AssyNo"].ToString() + " - " + dr[0]["AssyDescription"].ToString();
-                        root2.Tag = _acountsTb.Rows.IndexOf(dr[0]);
+                        root2.Tag = acountsTb.Rows.IndexOf(dr[0]);
 
                         //Font f = FontStyle.Bold);
                         // root.NodeFont = f;
@@ -216,10 +217,10 @@ namespace SearchDataSPM
                         treeView2.ResetText();
 
                         //DataRow[] dr = _productTB.Select("ItemNumber = '" + txtvalue.ToString() + "'");
-                        DataRow[] dr = _acountsTb.Select("ItemNumber = '" + assytxt2.Text + "'");
+                        DataRow[] dr = acountsTb.Select("ItemNumber = '" + assytxt2.Text + "'");
 
                         root2.Text = dr[0]["ItemNumber"].ToString() + " - " + dr[0]["Description"].ToString();
-                        root2.Tag = _acountsTb.Rows.IndexOf(dr[0]);
+                        root2.Tag = acountsTb.Rows.IndexOf(dr[0]);
 
                         //Font f = FontStyle.Bold);
                         // root.NodeFont = f;
@@ -247,13 +248,13 @@ namespace SearchDataSPM
             {
                 TreeNode childNode;
 
-                foreach (DataRow dr in _acountsTb.Select("[AssyNo] ='" + parentId + "'"))
+                foreach (DataRow dr in acountsTb.Select("[AssyNo] ='" + parentId + "'"))
                 {
                     TreeNode t = new TreeNode
                     {
                         Text = dr["ItemNumber"].ToString() + " - " + dr["Description"].ToString() + " ( " + dr["QuantityPerAssembly"].ToString() + " ) ",
                         Name = dr["ItemNumber"].ToString(),
-                        Tag = _acountsTb.Rows.IndexOf(dr)
+                        Tag = acountsTb.Rows.IndexOf(dr)
                     };
                     if (parentNode == null)
                     {
@@ -261,7 +262,7 @@ namespace SearchDataSPM
                         t.NodeFont = f;
                         t.Text = dr["AssyNo"].ToString() + " - " + dr["AssyDescription"].ToString() + " ( " + dr["QuantityPerAssembly"].ToString() + " ) ";
                         t.Name = dr["ItemNumber"].ToString();
-                        t.Tag = _acountsTb.Rows.IndexOf(dr);
+                        t.Tag = acountsTb.Rows.IndexOf(dr);
                         treeView1.Nodes.Add(t);
                         childNode = t;
                     }
@@ -279,13 +280,13 @@ namespace SearchDataSPM
             {
                 TreeNode childNode;
 
-                foreach (DataRow dr in _acountsTb.Select("[AssyNo] ='" + parentId + "'"))
+                foreach (DataRow dr in acountsTb.Select("[AssyNo] ='" + parentId + "'"))
                 {
                     TreeNode t = new TreeNode
                     {
                         Text = dr["ItemNumber"].ToString() + " - " + dr["Description"].ToString() + " ( " + dr["QuantityPerAssembly"].ToString() + " ) ",
                         Name = dr["ItemNumber"].ToString(),
-                        Tag = _acountsTb.Rows.IndexOf(dr)
+                        Tag = acountsTb.Rows.IndexOf(dr)
                     };
                     if (parentNode == null)
                     {
@@ -293,7 +294,7 @@ namespace SearchDataSPM
                         t.NodeFont = f;
                         t.Text = dr["AssyNo"].ToString() + " - " + dr["AssyDescription"].ToString() + " ( " + dr["QuantityPerAssembly"].ToString() + " ) ";
                         t.Name = dr["ItemNumber"].ToString();
-                        t.Tag = _acountsTb.Rows.IndexOf(dr);
+                        t.Tag = acountsTb.Rows.IndexOf(dr);
                         treeView2.Nodes.Add(t);
                         childNode = t;
                     }

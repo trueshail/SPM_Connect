@@ -2751,7 +2751,7 @@ namespace SearchDataSPM.Engineering
             if (result == DialogResult.Yes)
             {
                 //code for Yes
-                connectapicntrls.CheckAutoCad(ItemNo, description, family, Manufacturer, oem);
+                connectapicntrls.CheckAutoCad(ItemNo, description, Manufacturer, oem);
             }
             else if (result == DialogResult.No)
             {
@@ -2781,7 +2781,7 @@ namespace SearchDataSPM.Engineering
                 if (result == DialogResult.Yes)
                 {
                     //code for Yes
-                    int checkutocadforassy = connectapicntrls.CheckAutoCadforassy(ItemNo, description, Manufacturer, oem);
+                    int checkutocadforassy = connectapicntrls.CheckAutoCadforassy(ItemNo);
 
                     if (checkutocadforassy == 1)
                     {

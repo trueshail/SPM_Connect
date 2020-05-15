@@ -13,10 +13,8 @@ namespace SearchDataSPM
     {
         #region steupvariables
 
-        private readonly string connection;
         private readonly string cntrlconnection;
         private readonly SqlConnection _connection;
-        private readonly SqlConnection cn;
         private readonly SqlCommand _command;
         private readonly TreeNode root = new TreeNode();
 
@@ -35,13 +33,10 @@ namespace SearchDataSPM
         public CreateAssyToCatalog()
         {
             InitializeComponent();
-            connection = ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
             cntrlconnection = ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cntrlscn"].ConnectionString;
 
             try
             {
-                cn = new SqlConnection(connection);
-
                 _connection = new SqlConnection(cntrlconnection);
                 _command = new SqlCommand
                 {
@@ -396,7 +391,7 @@ namespace SearchDataSPM
             }
             if (parentchild == "parent")
             {
-                InsertToAutocadAssy(values[0], values[1], values[3], values[4], values[5]);
+                InsertToAutocadAssy(values[0], values[1], values[3], values[4]);
                 assemblylist = values[0];
             }
             else
@@ -405,7 +400,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void InsertToAutocadAssy(string itemno, string description, string manufacturer, string manufactureritemnumber, string qty)
+        private void InsertToAutocadAssy(string itemno, string description, string manufacturer, string manufactureritemnumber)
         {
             string sql = "INSERT INTO [SPMControlCatalog].[dbo].[SPM-Catalog] ([CATALOG], [TEXTVALUE],[QUERY2], [MANUFACTURER],[USER3],[DESCRIPTION],[MISC1],[MISC2],[ASSEMBLYCODE])" +
                 "VALUES(LEFT( '" + manufactureritemnumber + "',50),'" + manufactureritemnumber + "','" + itemno + "',  LEFT('" + manufacturer + "',20)," +
@@ -502,10 +497,6 @@ namespace SearchDataSPM
         #region search tree
 
         private readonly List<TreeNode> CurrentNodeMatches = new List<TreeNode>();
-
-        private int LastNodeIndex;
-
-        private string LastSearchText;
 
         private string itemexists;
 
