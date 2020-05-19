@@ -180,7 +180,7 @@ namespace SearchDataSPM
                 bademails = false;
                 rejectedemailslist.Clear();
 
-                await Task.Run(() => SplashDialog("Sending Email...")).ConfigureAwait(false);
+                await Task.Run(() => SplashDialog("Sending Email...")).ConfigureAwait(true);
                 Cursor.Current = Cursors.WaitCursor;
                 this.Enabled = false;
                 BatchProcess();
@@ -220,7 +220,7 @@ namespace SearchDataSPM
                         EmailSent = Convert.ToString(row.Cells[9].Value),
                         PaymentType = Convert.ToString(row.Cells[5].Value),
                     };
-                    await Task.Run(() => SplashDialog("Sending Email...")).ConfigureAwait(false);
+                    await Task.Run(() => SplashDialog("Sending Email...")).ConfigureAwait(true);
                     Cursor.Current = Cursors.WaitCursor;
                     this.Enabled = false;
                     ProcessReportSending(vendor_);

@@ -853,7 +853,7 @@ namespace SearchDataSPM
 
             if (ValueIWantFromProptForm.Length > 0)
             {
-                await Task.Run(() => SplashDialog("Creating Folders.....")).ConfigureAwait(false);
+                await Task.Run(() => SplashDialog("Creating Folders.....")).ConfigureAwait(true);
                 string destpatheng = "";
                 string destpaths300 = "";
                 string sourcepathseng = "";

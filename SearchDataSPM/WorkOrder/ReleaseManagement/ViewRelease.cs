@@ -905,7 +905,7 @@ namespace SearchDataSPM
 
         private async void ProcesstreeviewReload()
         {
-            await Task.Run(() => SplashDialog("Refreshing Data....")).ConfigureAwait(false);
+            await Task.Run(() => SplashDialog("Refreshing Data....")).ConfigureAwait(true);
             Thread.Sleep(1000);
             Cleanup();
             CleanupTextboxes();
@@ -934,7 +934,7 @@ namespace SearchDataSPM
 
         private async void reloadwobttn_Click(object sender, EventArgs e)
         {
-            await Task.Run(() => SplashDialog("Refreshing Data....")).ConfigureAwait(false);
+            await Task.Run(() => SplashDialog("Refreshing Data....")).ConfigureAwait(true);
             Thread.Sleep(1000);
             WOCleanup();
             CleanupTextboxes();

@@ -570,7 +570,7 @@ namespace SearchDataSPM
                             {
                                 //new Thread(() => new Engineering.WaitFormImport().ShowDialog()).Start();
                                 //Thread.Sleep(3000);
-                                await Task.Run(() => SplashDialog("Importing Model....")).ConfigureAwait(false);
+                                await Task.Run(() => SplashDialog("Importing Model....")).ConfigureAwait(true);
                                 Thread.Sleep(1000);
                                 if (connectapi.Importstepfile(impfilname, filename))
                                 {
@@ -605,7 +605,7 @@ namespace SearchDataSPM
                             {
                                 //new Thread(() => new Engineering.WaitFormImport().ShowDialog()).Start();
                                 //Thread.Sleep(3000);
-                                await Task.Run(() => SplashDialog("Importing Model....")).ConfigureAwait(false);
+                                await Task.Run(() => SplashDialog("Importing Model....")).ConfigureAwait(true);
                                 Thread.Sleep(1000);
 
                                 if (connectapi.Importigesfile(impfilname, filename))
@@ -641,7 +641,7 @@ namespace SearchDataSPM
                             {
                                 //new Thread(() => new Engineering.WaitFormImport().ShowDialog()).Start();
                                 //Thread.Sleep(3000);
-                                await Task.Run(() => SplashDialog("Importing Model....")).ConfigureAwait(false);
+                                await Task.Run(() => SplashDialog("Importing Model....")).ConfigureAwait(true);
                                 Thread.Sleep(1000);
 
                                 if (connectapi.Importparasolidfile(impfilname, filename))
@@ -710,7 +710,7 @@ namespace SearchDataSPM
                 listView.Refresh();
                 if (listView.Items.Count != 0)
                 {
-                    await Task.Run(() => SplashDialog("Saving Model...")).ConfigureAwait(false);
+                    await Task.Run(() => SplashDialog("Saving Model...")).ConfigureAwait(true);
                     processsavebutton();
                     doneshowingSplash = true;
                 }

@@ -1629,7 +1629,7 @@ namespace SearchDataSPM.Engineering
 
         private async void Getitemopenforedit(string item)
         {
-            await Task.Run(() => SplashDialog("Opening Model....")).ConfigureAwait(false);
+            await Task.Run(() => SplashDialog("Opening Model....")).ConfigureAwait(true);
             Thread.Sleep(2000);
             if (connectapi.Getfilename() != item)
             {
@@ -1877,7 +1877,7 @@ namespace SearchDataSPM.Engineering
                     {
                         if (connectapi.Validnumber(lastnumber))
                         {
-                            await Task.Run(() => SplashDialog("Copying Model.....")).ConfigureAwait(false);
+                            await Task.Run(() => SplashDialog("Copying Model.....")).ConfigureAwait(true);
                             Thread.Sleep(3000);
                             Prepareforcopy(activeblock, item, lastnumber);
                         }
