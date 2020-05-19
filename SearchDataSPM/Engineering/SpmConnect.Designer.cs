@@ -155,7 +155,7 @@
             this.bOMToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
             this.bOMToolStripMenuItem.Text = "BOM";
             this.bOMToolStripMenuItem.ToolTipText = "Bills Of Material";
-            this.bOMToolStripMenuItem.Click += new System.EventHandler(this.bOMToolStripMenuItem_Click);
+            this.bOMToolStripMenuItem.Click += new System.EventHandler(this.BOMToolStripMenuItem_Click);
             // 
             // whereUsedToolStripMenuItem
             // 
@@ -164,7 +164,7 @@
             this.whereUsedToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
             this.whereUsedToolStripMenuItem.Text = "Where Used";
             this.whereUsedToolStripMenuItem.ToolTipText = "Check Where Used";
-            this.whereUsedToolStripMenuItem.Click += new System.EventHandler(this.whereUsedToolStripMenuItem_Click);
+            this.whereUsedToolStripMenuItem.Click += new System.EventHandler(this.WhereUsedToolStripMenuItem_Click);
             // 
             // openModelToolStripMenuItem
             // 
@@ -173,7 +173,7 @@
             this.openModelToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
             this.openModelToolStripMenuItem.Text = "Open Model";
             this.openModelToolStripMenuItem.ToolTipText = "Open Selected Item\'s Model";
-            this.openModelToolStripMenuItem.Click += new System.EventHandler(this.openModelToolStripMenuItem_Click);
+            this.openModelToolStripMenuItem.Click += new System.EventHandler(this.OpenModelToolStripMenuItem_Click);
             // 
             // openDrawingToolStripMenuItem
             // 
@@ -182,7 +182,7 @@
             this.openDrawingToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
             this.openDrawingToolStripMenuItem.Text = "Open Drawing";
             this.openDrawingToolStripMenuItem.ToolTipText = "Open Selected Item\'s Drawing";
-            this.openDrawingToolStripMenuItem.Click += new System.EventHandler(this.openDrawingToolStripMenuItem_Click);
+            this.openDrawingToolStripMenuItem.Click += new System.EventHandler(this.OpenDrawingToolStripMenuItem_Click);
             // 
             // editItemToolStripMenuItem
             // 
@@ -191,7 +191,7 @@
             this.editItemToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
             this.editItemToolStripMenuItem.Text = "Edit Item";
             this.editItemToolStripMenuItem.ToolTipText = "Edit Selected Item\'s Properties";
-            this.editItemToolStripMenuItem.Click += new System.EventHandler(this.editItemToolStripMenuItem_Click);
+            this.editItemToolStripMenuItem.Click += new System.EventHandler(this.EditItemToolStripMenuItem_Click);
             // 
             // copySelectedItemToolStripMenuItem
             // 
@@ -200,7 +200,7 @@
             this.copySelectedItemToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
             this.copySelectedItemToolStripMenuItem.Text = "Copy Selected Item";
             this.copySelectedItemToolStripMenuItem.ToolTipText = "Copy selected item to new item number";
-            this.copySelectedItemToolStripMenuItem.Click += new System.EventHandler(this.copySelectedItemToolStripMenuItem_Click);
+            this.copySelectedItemToolStripMenuItem.Click += new System.EventHandler(this.CopySelectedItemToolStripMenuItem_Click);
             // 
             // viewReportBOM
             // 
@@ -220,7 +220,7 @@
             this.billsOfMaunfacturingToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
             this.billsOfMaunfacturingToolStripMenuItem.Text = "Bills of Manufacturing";
             this.billsOfMaunfacturingToolStripMenuItem.ToolTipText = "Preview Bills Of Manufacturing Report";
-            this.billsOfMaunfacturingToolStripMenuItem.Click += new System.EventHandler(this.billsOfMaunfacturingToolStripMenuItem_Click);
+            this.billsOfMaunfacturingToolStripMenuItem.Click += new System.EventHandler(this.BillsOfMaunfacturingToolStripMenuItem_Click);
             // 
             // sparePartsToolStripMenuItem
             // 
@@ -229,7 +229,7 @@
             this.sparePartsToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
             this.sparePartsToolStripMenuItem.Text = "Spare Parts";
             this.sparePartsToolStripMenuItem.ToolTipText = "Preview Spare Parts Report";
-            this.sparePartsToolStripMenuItem.Click += new System.EventHandler(this.sparePartsToolStripMenuItem_Click);
+            this.sparePartsToolStripMenuItem.Click += new System.EventHandler(this.SparePartsToolStripMenuItem_Click);
             // 
             // deleteItemToolStripMenuItem
             // 
@@ -240,7 +240,7 @@
             this.deleteItemToolStripMenuItem.Text = "Delete Item";
             this.deleteItemToolStripMenuItem.ToolTipText = "Delete Selected Item From Connect";
             this.deleteItemToolStripMenuItem.Visible = false;
-            this.deleteItemToolStripMenuItem.Click += new System.EventHandler(this.deleteItemToolStripMenuItem_Click);
+            this.deleteItemToolStripMenuItem.Click += new System.EventHandler(this.DeleteItemToolStripMenuItem_Click);
             // 
             // eModelViewerToolStripMenuItem1
             // 
@@ -250,7 +250,7 @@
             this.eModelViewerToolStripMenuItem1.Text = "E Model Viewer";
             this.eModelViewerToolStripMenuItem1.ToolTipText = "Show E Model";
             this.eModelViewerToolStripMenuItem1.Visible = false;
-            this.eModelViewerToolStripMenuItem1.Click += new System.EventHandler(this.eModelViewerToolStripMenuItem1_Click);
+            this.eModelViewerToolStripMenuItem1.Click += new System.EventHandler(this.EModelViewerToolStripMenuItem1_Click);
             // 
             // addToFavoritesToolStripMenuItem
             // 
@@ -259,7 +259,7 @@
             this.addToFavoritesToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
             this.addToFavoritesToolStripMenuItem.Text = "Add To Favorites";
             this.addToFavoritesToolStripMenuItem.ToolTipText = "Add selected item to favorites";
-            this.addToFavoritesToolStripMenuItem.Click += new System.EventHandler(this.addToFavoritesToolStripMenuItem_Click);
+            this.addToFavoritesToolStripMenuItem.Click += new System.EventHandler(this.AddToFavoritesToolStripMenuItem_Click);
             // 
             // showFavoritesToolStripMenuItem
             // 
@@ -268,7 +268,7 @@
             this.showFavoritesToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
             this.showFavoritesToolStripMenuItem.Text = "Show Favorites";
             this.showFavoritesToolStripMenuItem.ToolTipText = "Show list of your favorite items";
-            this.showFavoritesToolStripMenuItem.Click += new System.EventHandler(this.showFavoritesToolStripMenuItem_Click);
+            this.showFavoritesToolStripMenuItem.Click += new System.EventHandler(this.ShowFavoritesToolStripMenuItem_Click);
             // 
             // removeFromFavoritesToolStripMenuItem
             // 
@@ -279,7 +279,7 @@
             this.removeFromFavoritesToolStripMenuItem.Text = "Remove From Favorites";
             this.removeFromFavoritesToolStripMenuItem.ToolTipText = "Remove selected item from favorites";
             this.removeFromFavoritesToolStripMenuItem.Visible = false;
-            this.removeFromFavoritesToolStripMenuItem.Click += new System.EventHandler(this.removeFromFavoritesToolStripMenuItem_Click);
+            this.removeFromFavoritesToolStripMenuItem.Click += new System.EventHandler(this.RemoveFromFavoritesToolStripMenuItem_Click);
             // 
             // TreeViewToolTip
             // 
@@ -303,7 +303,7 @@
             this.versionlabel.TabIndex = 116;
             this.versionlabel.Text = "V7.20.04.13";
             this.TreeViewToolTip.SetToolTip(this.versionlabel, "SPM Connect V7.6.1");
-            this.versionlabel.DoubleClick += new System.EventHandler(this.versionlabel_DoubleClick);
+            this.versionlabel.DoubleClick += new System.EventHandler(this.Versionlabel_DoubleClick);
             // 
             // Reload
             // 
@@ -420,7 +420,7 @@
             this.advsearchbttn.Text = ">>";
             this.TreeViewToolTip.SetToolTip(this.advsearchbttn, "Show Advance Filters");
             this.advsearchbttn.UseVisualStyleBackColor = true;
-            this.advsearchbttn.Click += new System.EventHandler(this.advsearchbttn_Click);
+            this.advsearchbttn.Click += new System.EventHandler(this.Advsearchbttn_Click);
             // 
             // Manufactureritemcomboxbox
             // 
@@ -453,8 +453,8 @@
             this.familycomboxbox.Size = new System.Drawing.Size(154, 21);
             this.familycomboxbox.TabIndex = 123;
             this.TreeViewToolTip.SetToolTip(this.familycomboxbox, "Filter by family type");
-            this.familycomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.familycomboxbox_KeyDown);
-            this.familycomboxbox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.familycomboxbox_PreviewKeyDown);
+            this.familycomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Familycomboxbox_KeyDown);
+            this.familycomboxbox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.Familycomboxbox_PreviewKeyDown);
             // 
             // lastsavedbycombo
             // 
@@ -470,8 +470,8 @@
             this.lastsavedbycombo.Size = new System.Drawing.Size(154, 21);
             this.lastsavedbycombo.TabIndex = 127;
             this.TreeViewToolTip.SetToolTip(this.lastsavedbycombo, "Filter by last saved");
-            this.lastsavedbycombo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lastsavedbycombo_KeyDown);
-            this.lastsavedbycombo.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.lastsavedbycombo_PreviewKeyDown);
+            this.lastsavedbycombo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Lastsavedbycombo_KeyDown);
+            this.lastsavedbycombo.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.Lastsavedbycombo_PreviewKeyDown);
             // 
             // oemitemcombobox
             // 
@@ -490,8 +490,8 @@
             this.oemitemcombobox.Size = new System.Drawing.Size(154, 21);
             this.oemitemcombobox.TabIndex = 124;
             this.TreeViewToolTip.SetToolTip(this.oemitemcombobox, "Filter by manufacture");
-            this.oemitemcombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.oemitemcombobox_KeyDown);
-            this.oemitemcombobox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.oemitemcombobox_PreviewKeyDown);
+            this.oemitemcombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Oemitemcombobox_KeyDown);
+            this.oemitemcombobox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.Oemitemcombobox_PreviewKeyDown);
             // 
             // ActiveCadblockcombobox
             // 
@@ -528,8 +528,8 @@
             this.designedbycombobox.Size = new System.Drawing.Size(154, 21);
             this.designedbycombobox.TabIndex = 122;
             this.TreeViewToolTip.SetToolTip(this.designedbycombobox, "Filter Designed by");
-            this.designedbycombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.designedbycombobox_KeyDown);
-            this.designedbycombobox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.designedbycombobox_PreviewKeyDown);
+            this.designedbycombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Designedbycombobox_KeyDown);
+            this.designedbycombobox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.Designedbycombobox_PreviewKeyDown);
             // 
             // MaterialcomboBox
             // 
@@ -654,7 +654,7 @@
             this.jobsbttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TreeViewToolTip.SetToolTip(this.jobsbttn, "SPM Job Numbers\r\nCTRL + J");
             this.jobsbttn.UseVisualStyleBackColor = false;
-            this.jobsbttn.Click += new System.EventHandler(this.jobsbttn_Click);
+            this.jobsbttn.Click += new System.EventHandler(this.Jobsbttn_Click);
             // 
             // admin_bttn
             // 
@@ -678,7 +678,7 @@
             this.admin_bttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TreeViewToolTip.SetToolTip(this.admin_bttn, "Adminstrative Control");
             this.admin_bttn.UseVisualStyleBackColor = false;
-            this.admin_bttn.Click += new System.EventHandler(this.admin_bttn_Click);
+            this.admin_bttn.Click += new System.EventHandler(this.Admin_bttn_Click);
             // 
             // imageList
             // 
@@ -709,7 +709,7 @@
             this.bomlistviewmenustrpc.Size = new System.Drawing.Size(176, 22);
             this.bomlistviewmenustrpc.Text = "BOM";
             this.bomlistviewmenustrpc.ToolTipText = "Bills Of Material";
-            this.bomlistviewmenustrpc.Click += new System.EventHandler(this.bomlistviewmenustrpc_Click);
+            this.bomlistviewmenustrpc.Click += new System.EventHandler(this.Bomlistviewmenustrpc_Click);
             // 
             // whereusedlistviewStripMenu
             // 
@@ -718,7 +718,7 @@
             this.whereusedlistviewStripMenu.Size = new System.Drawing.Size(176, 22);
             this.whereusedlistviewStripMenu.Text = "Where Used";
             this.whereusedlistviewStripMenu.ToolTipText = "Check Where Used";
-            this.whereusedlistviewStripMenu.Click += new System.EventHandler(this.whereusedlistviewStripMenu_Click);
+            this.whereusedlistviewStripMenu.Click += new System.EventHandler(this.WhereusedlistviewStripMenu_Click);
             // 
             // iteminfolistviewStripMenu
             // 
@@ -727,7 +727,7 @@
             this.iteminfolistviewStripMenu.Size = new System.Drawing.Size(176, 22);
             this.iteminfolistviewStripMenu.Text = "Get Item Info";
             this.iteminfolistviewStripMenu.ToolTipText = "Get Selected Item\'s Info.";
-            this.iteminfolistviewStripMenu.Click += new System.EventHandler(this.iteminfolistviewStripMenu_Click);
+            this.iteminfolistviewStripMenu.Click += new System.EventHandler(this.IteminfolistviewStripMenu_Click);
             // 
             // toolStripMenuItem1
             // 
@@ -745,7 +745,7 @@
             this.toolStripMenuItem2.Size = new System.Drawing.Size(176, 22);
             this.toolStripMenuItem2.Text = "Copy Selected Item";
             this.toolStripMenuItem2.ToolTipText = "Copy selected item to new item number";
-            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.ToolStripMenuItem2_Click);
             // 
             // toolStripMenuItem3
             // 
@@ -755,7 +755,7 @@
             this.toolStripMenuItem3.Text = "E Model Viewer";
             this.toolStripMenuItem3.ToolTipText = "Open Selected Item in Emodel Viewer";
             this.toolStripMenuItem3.Visible = false;
-            this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
+            this.toolStripMenuItem3.Click += new System.EventHandler(this.ToolStripMenuItem3_Click);
             // 
             // revelInExplorerToolStripMenuItem
             // 
@@ -763,7 +763,7 @@
             this.revelInExplorerToolStripMenuItem.Name = "revelInExplorerToolStripMenuItem";
             this.revelInExplorerToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.revelInExplorerToolStripMenuItem.Text = "Reveal in Explorer";
-            this.revelInExplorerToolStripMenuItem.Click += new System.EventHandler(this.revelInExplorerToolStripMenuItem_Click);
+            this.revelInExplorerToolStripMenuItem.Click += new System.EventHandler(this.RevelInExplorerToolStripMenuItem_Click);
             // 
             // dELETEToolStripMenuItem
             // 
@@ -773,7 +773,7 @@
             this.dELETEToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.dELETEToolStripMenuItem.Text = "Delete File";
             this.dELETEToolStripMenuItem.Visible = false;
-            this.dELETEToolStripMenuItem.Click += new System.EventHandler(this.dELETEToolStripMenuItem_Click);
+            this.dELETEToolStripMenuItem.Click += new System.EventHandler(this.DELETEToolStripMenuItem_Click);
             // 
             // splitContainer1
             // 
@@ -874,11 +874,11 @@
             this.listView.TabIndex = 112;
             this.listView.UseCompatibleStateImageBehavior = false;
             this.listView.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.ListView_ItemDrag);
-            this.listView.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.listView_ItemSelectionChanged);
-            this.listView.SelectedIndexChanged += new System.EventHandler(this.listView_SelectedIndexChanged);
+            this.listView.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.ListView_ItemSelectionChanged);
+            this.listView.SelectedIndexChanged += new System.EventHandler(this.ListView_SelectedIndexChanged);
             this.listView.DragOver += new System.Windows.Forms.DragEventHandler(this.ListView_DragOver);
-            this.listView.Enter += new System.EventHandler(this.listView_Enter);
-            this.listView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.listView_KeyDown);
+            this.listView.Enter += new System.EventHandler(this.ListView_Enter);
+            this.listView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ListView_KeyDown);
             this.listView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ListView_MouseDoubleClick);
             // 
             // dataGridView
@@ -911,14 +911,14 @@
             this.dataGridView.RowHeadersVisible = false;
             this.dataGridView.Size = new System.Drawing.Size(868, 387);
             this.dataGridView.TabIndex = 111;
-            this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellDoubleClick);
-            this.dataGridView.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseDown);
-            this.dataGridView.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellMouseLeave);
-            this.dataGridView.CellMouseMove += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseMove);
+            this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView_CellDoubleClick);
+            this.dataGridView.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView_CellMouseDown);
+            this.dataGridView.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView_CellMouseLeave);
+            this.dataGridView.CellMouseMove += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView_CellMouseMove);
             this.dataGridView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.DataGridView_CellPainting_1);
             this.dataGridView.SelectionChanged += new System.EventHandler(this.DataGridView_SelectionChanged);
             this.dataGridView.DragOver += new System.Windows.Forms.DragEventHandler(this.DataGridView_DragOver);
-            this.dataGridView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView_KeyDown);
+            this.dataGridView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DataGridView_KeyDown);
             this.dataGridView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.DataGridView_MouseDoubleClick);
             this.dataGridView.MouseMove += new System.Windows.Forms.MouseEventHandler(this.DataGridView_MouseMove);
             // 
@@ -988,7 +988,7 @@
             this.clrfiltersbttn.TabIndex = 129;
             this.clrfiltersbttn.Text = "Clear Filters";
             this.clrfiltersbttn.UseVisualStyleBackColor = true;
-            this.clrfiltersbttn.Click += new System.EventHandler(this.clrfiltersbttn_Click);
+            this.clrfiltersbttn.Click += new System.EventHandler(this.Clrfiltersbttn_Click);
             // 
             // label6
             // 
@@ -1076,7 +1076,7 @@
             this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
             this.notifyIcon1.Text = "SPM Connect";
             this.notifyIcon1.Visible = true;
-            this.notifyIcon1.BalloonTipClicked += new System.EventHandler(this.notifyIcon1_BalloonTipClicked);
+            this.notifyIcon1.BalloonTipClicked += new System.EventHandler(this.NotifyIcon1_BalloonTipClicked);
             // 
             // trayiconstrip
             // 
@@ -1095,7 +1095,7 @@
             this.showToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.showToolStripMenuItem.Text = "Show";
             this.showToolStripMenuItem.ToolTipText = "Show SPM Connect Home Screen";
-            this.showToolStripMenuItem.Click += new System.EventHandler(this.showToolStripMenuItem_Click);
+            this.showToolStripMenuItem.Click += new System.EventHandler(this.ShowToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
@@ -1104,7 +1104,7 @@
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.ToolTipText = "Close SPM Connect";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
             // FormSelectorControls
             // 
@@ -1130,7 +1130,7 @@
             this.addToCatalogToolStripMenuItem.Name = "addToCatalogToolStripMenuItem";
             this.addToCatalogToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
             this.addToCatalogToolStripMenuItem.Text = "Add To Catalog";
-            this.addToCatalogToolStripMenuItem.Click += new System.EventHandler(this.addToCatalogToolStripMenuItem_Click);
+            this.addToCatalogToolStripMenuItem.Click += new System.EventHandler(this.AddToCatalogToolStripMenuItem_Click);
             // 
             // createAssemblyToolStripMenuItem
             // 
@@ -1138,7 +1138,7 @@
             this.createAssemblyToolStripMenuItem.Name = "createAssemblyToolStripMenuItem";
             this.createAssemblyToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
             this.createAssemblyToolStripMenuItem.Text = "Create Assembly";
-            this.createAssemblyToolStripMenuItem.Click += new System.EventHandler(this.createAssemblyToolStripMenuItem_Click);
+            this.createAssemblyToolStripMenuItem.Click += new System.EventHandler(this.CreateAssemblyToolStripMenuItem_Click);
             // 
             // toolStripMenuupdateitem
             // 
@@ -1147,7 +1147,7 @@
             this.toolStripMenuupdateitem.Size = new System.Drawing.Size(198, 22);
             this.toolStripMenuupdateitem.Text = "Update Item Properties";
             this.toolStripMenuupdateitem.ToolTipText = "Update Item Properties from Genius";
-            this.toolStripMenuupdateitem.Click += new System.EventHandler(this.toolStripMenuupdateitem_Click);
+            this.toolStripMenuupdateitem.Click += new System.EventHandler(this.ToolStripMenuupdateitem_Click);
             // 
             // toolStripMenuItem4
             // 
@@ -1167,7 +1167,7 @@
             this.autoCadCatalogToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.autoCadCatalogToolStripMenuItem.Text = "AutoCad Catalog";
             this.autoCadCatalogToolStripMenuItem.ToolTipText = "Displays assy from AutoCad Catalog";
-            this.autoCadCatalogToolStripMenuItem.Click += new System.EventHandler(this.autoCadCatalogToolStripMenuItem_Click);
+            this.autoCadCatalogToolStripMenuItem.Click += new System.EventHandler(this.AutoCadCatalogToolStripMenuItem_Click);
             // 
             // geniusToolStripMenuItem
             // 
@@ -1176,7 +1176,7 @@
             this.geniusToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.geniusToolStripMenuItem.Text = "SPM Jobs";
             this.geniusToolStripMenuItem.ToolTipText = "Display BOM from Genius";
-            this.geniusToolStripMenuItem.Click += new System.EventHandler(this.geniusToolStripMenuItem_Click);
+            this.geniusToolStripMenuItem.Click += new System.EventHandler(this.GeniusToolStripMenuItem_Click);
             // 
             // toolStripMenuItem5
             // 
@@ -1196,7 +1196,7 @@
             this.autoCadCatalogToolStripMenuItem1.Size = new System.Drawing.Size(165, 22);
             this.autoCadCatalogToolStripMenuItem1.Text = "AutoCad Catalog";
             this.autoCadCatalogToolStripMenuItem1.ToolTipText = "Check where used on Autocad Catalog";
-            this.autoCadCatalogToolStripMenuItem1.Click += new System.EventHandler(this.autoCadCatalogToolStripMenuItem1_Click);
+            this.autoCadCatalogToolStripMenuItem1.Click += new System.EventHandler(this.AutoCadCatalogToolStripMenuItem1_Click);
             // 
             // geniusJobsToolStripMenuItem
             // 
@@ -1205,7 +1205,7 @@
             this.geniusJobsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.geniusJobsToolStripMenuItem.Text = "SPM Jobs";
             this.geniusJobsToolStripMenuItem.ToolTipText = "Check where used on Genius";
-            this.geniusJobsToolStripMenuItem.Click += new System.EventHandler(this.geniusJobsToolStripMenuItem_Click);
+            this.geniusJobsToolStripMenuItem.Click += new System.EventHandler(this.GeniusJobsToolStripMenuItem_Click);
             // 
             // toolStripMenuItem6
             // 
@@ -1225,7 +1225,7 @@
             this.toolStripMenuItem7.Size = new System.Drawing.Size(191, 22);
             this.toolStripMenuItem7.Text = "Bills of Manufacturing";
             this.toolStripMenuItem7.ToolTipText = "Preview Bills Of Manufacturing Report";
-            this.toolStripMenuItem7.Click += new System.EventHandler(this.toolStripMenuItem7_Click);
+            this.toolStripMenuItem7.Click += new System.EventHandler(this.ToolStripMenuItem7_Click);
             // 
             // toolStripMenuItem8
             // 
@@ -1234,7 +1234,7 @@
             this.toolStripMenuItem8.Size = new System.Drawing.Size(191, 22);
             this.toolStripMenuItem8.Text = "Spare Parts";
             this.toolStripMenuItem8.ToolTipText = "Preview Spare Parts Report";
-            this.toolStripMenuItem8.Click += new System.EventHandler(this.toolStripMenuItem8_Click);
+            this.toolStripMenuItem8.Click += new System.EventHandler(this.ToolStripMenuItem8_Click);
             // 
             // eModelViewerToolStripMenuItem
             // 
@@ -1244,7 +1244,7 @@
             this.eModelViewerToolStripMenuItem.Text = "E Model Viewer";
             this.eModelViewerToolStripMenuItem.ToolTipText = "Show 3d Model";
             this.eModelViewerToolStripMenuItem.Visible = false;
-            this.eModelViewerToolStripMenuItem.Click += new System.EventHandler(this.eModelViewerToolStripMenuItem_Click);
+            this.eModelViewerToolStripMenuItem.Click += new System.EventHandler(this.EModelViewerToolStripMenuItem_Click);
             // 
             // toolStripMenuItem9
             // 
@@ -1253,7 +1253,7 @@
             this.toolStripMenuItem9.Size = new System.Drawing.Size(198, 22);
             this.toolStripMenuItem9.Text = "Add To Favorites";
             this.toolStripMenuItem9.ToolTipText = "Add selected item to favorites";
-            this.toolStripMenuItem9.Click += new System.EventHandler(this.addToFavoritesToolStripMenuItem_Click);
+            this.toolStripMenuItem9.Click += new System.EventHandler(this.AddToFavoritesToolStripMenuItem_Click);
             // 
             // toolStripMenuItem10
             // 
@@ -1262,7 +1262,7 @@
             this.toolStripMenuItem10.Size = new System.Drawing.Size(198, 22);
             this.toolStripMenuItem10.Text = "Show Favorites";
             this.toolStripMenuItem10.ToolTipText = "Show list of your favorite items";
-            this.toolStripMenuItem10.Click += new System.EventHandler(this.showFavoritesToolStripMenuItem_Click);
+            this.toolStripMenuItem10.Click += new System.EventHandler(this.ShowFavoritesToolStripMenuItem_Click);
             // 
             // toolStripMenuItem11
             // 
@@ -1273,7 +1273,7 @@
             this.toolStripMenuItem11.Text = "Remove From Favorites";
             this.toolStripMenuItem11.ToolTipText = "Remove selected item from favorites";
             this.toolStripMenuItem11.Visible = false;
-            this.toolStripMenuItem11.Click += new System.EventHandler(this.removeFromFavoritesToolStripMenuItem_Click);
+            this.toolStripMenuItem11.Click += new System.EventHandler(this.RemoveFromFavoritesToolStripMenuItem_Click);
             // 
             // SpmConnect
             // 

@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Windows.Forms;
+using static SPMConnectAPI.ConnectConstants;
 
 namespace SearchDataSPM.Admin_developer
 {
@@ -21,40 +22,21 @@ namespace SearchDataSPM.Admin_developer
 
         private void Checkdeveloper()
         {
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND Developer = '1'", connectapi.cn))
+            if (ConnectUser.Developer)
             {
-                try
-                {
-                    connectapi.cn.Open();
-                    sqlCommand.Parameters.AddWithValue("@username", connectapi.GetUserName());
-
-                    int userCount = (int)sqlCommand.ExecuteScalar();
-                    if (userCount == 1)
-                    {
-                        dataGridView1.ContextMenuStrip = Listviewcontextmenu;
-                        Listviewcontextmenu.Enabled = true;
-                        Listviewcontextmenu.Visible = true;
-                    }
-                    else
-                    {
-                        dataGridView1.ContextMenuStrip = null;
-                        Listviewcontextmenu.Enabled = false;
-                        Listviewcontextmenu.Visible = false;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Application.Exit();
-                }
-                finally
-                {
-                    connectapi.cn.Close();
-                }
+                dataGridView1.ContextMenuStrip = Listviewcontextmenu;
+                Listviewcontextmenu.Enabled = true;
+                Listviewcontextmenu.Visible = true;
+            }
+            else
+            {
+                dataGridView1.ContextMenuStrip = null;
+                Listviewcontextmenu.Enabled = false;
+                Listviewcontextmenu.Visible = false;
             }
         }
 
-        private void deleteuser(string username)
+        private void Deleteuser(string username)
         {
             if (username.Length > 0)
             {
@@ -79,17 +61,18 @@ namespace SearchDataSPM.Admin_developer
             }
         }
 
-        private void freeuser_Click(object sender, EventArgs e)
+        private void Freeuser_Click(object sender, EventArgs e)
         {
-            string userName = getuserselected().Trim();
-            deleteuser(userName);
-            if (userName != System.Security.Principal.WindowsIdentity.GetCurrent().Name)
+            string userName = Getuserselected().Trim();
+
+            if (userName != ConnectUser.UserName)
             {
+                Deleteuser(userName);
                 try
                 {
                     dt.Rows.Clear();
                     dataGridView1.Refresh();
-                    loaddata();
+                    Loaddata();
                 }
                 catch (Exception ex)
                 {
@@ -98,7 +81,7 @@ namespace SearchDataSPM.Admin_developer
             }
         }
 
-        private string getuserselected()
+        private string Getuserselected()
         {
             int selectedclmindex = dataGridView1.SelectedCells[0].ColumnIndex;
             DataGridViewColumn columnchk = dataGridView1.Columns[selectedclmindex];
@@ -117,7 +100,7 @@ namespace SearchDataSPM.Admin_developer
             }
         }
 
-        private void loaddata()
+        private void Loaddata()
         {
             try
             {
@@ -145,24 +128,27 @@ namespace SearchDataSPM.Admin_developer
             }
         }
 
-        private void shutDownAllToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ShutDownAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
             List<string> intList = new List<string>();
             foreach (DataRow row in dt.Rows)
             {
-                intList.Add(row["User Name"].ToString());
+                if (row["User Name"].ToString() != ConnectUser.UserName)
+                {
+                    intList.Add(row["User Name"].ToString());
+                }
             }
 
             foreach (string user in intList)
             {
-                deleteuser(user);
                 if (user != System.Security.Principal.WindowsIdentity.GetCurrent().Name)
                 {
+                    Deleteuser(user);
                     try
                     {
                         dt.Rows.Clear();
                         dataGridView1.Refresh();
-                        loaddata();
+                        Loaddata();
                     }
                     catch (Exception ex)
                     {
@@ -172,23 +158,26 @@ namespace SearchDataSPM.Admin_developer
             }
         }
 
-        private void updateAllToolStripMenuItem_Click(object sender, EventArgs e)
+        private void UpdateAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
             List<string> intList = new List<string>();
             foreach (DataRow row in dt.Rows)
             {
-                intList.Add(row["User Name"].ToString());
+                if (row["User Name"].ToString() != ConnectUser.UserName)
+                {
+                    intList.Add(row["User Name"].ToString());
+                }
             }
             foreach (string user in intList)
             {
-                UpdateUser(user);
                 if (user != System.Security.Principal.WindowsIdentity.GetCurrent().Name)
                 {
+                    UpdateUser(user);
                     try
                     {
                         dt.Rows.Clear();
                         dataGridView1.Refresh();
-                        loaddata();
+                        Loaddata();
                     }
                     catch (Exception ex)
                     {
@@ -246,7 +235,7 @@ namespace SearchDataSPM.Admin_developer
         private void UserStatus_Load(object sender, EventArgs e)
         {
             Checkdeveloper();
-            loaddata();
+            Loaddata();
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened User Status ");

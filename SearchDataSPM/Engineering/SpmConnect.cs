@@ -35,11 +35,7 @@ namespace SearchDataSPM.Engineering
         private int _advcollapse;
         private bool showingduplicates;
         private bool doneshowingSplash;
-
-        //bool purchasereqnotification = false;
         private bool showingfavorites;
-
-        //SearchDataSPM.pnotifier purchaseReq = new SearchDataSPM.pnotifier();
         private readonly SPMSQLCommands connectapi = new SPMSQLCommands();
 
         private readonly Controls connectapicntrls = new Controls();
@@ -146,12 +142,12 @@ namespace SearchDataSPM.Engineering
         {
             Cursor.Current = Cursors.WaitCursor;
             formloading = true;
-            fillfamilycodes();
-            fillmanufacturers();
-            filloem();
-            filldesignedby();
-            filllastsavedby();
-            filluserwithblock();
+            Fillfamilycodes();
+            Fillmanufacturers();
+            Filloem();
+            Filldesignedby();
+            Filllastsavedby();
+            Filluserwithblock();
             FillMaterials();
             Clearfilercombos();
             formloading = false;
@@ -237,117 +233,33 @@ namespace SearchDataSPM.Engineering
 
         #endregion SPM Connect Load
 
-        #region Monitor Purchase Req
-
-        //SqlTableDependency<PurhcaseReqSQL> _preqdependency;
-
-        //public void watchpreqtable()
-        //{
-        //    var mapper = new ModelToTableMapper<PurhcaseReqSQL>();
-        //    mapper.AddMapping(c => c.reqnumber, "ReqNumber");
-        //    mapper.AddMapping(c => c.requestname, "RequestedBy");
-        //    mapper.AddMapping(c => c.supervisorid, "SupervisorId");
-        //    mapper.AddMapping(c => c.validate, "Validate");
-        //    mapper.AddMapping(c => c.approved, "Approved");
-        //    mapper.AddMapping(c => c.happroval, "HApproval");
-        //    mapper.AddMapping(c => c.happroved, "Happroved");
-        //    mapper.AddMapping(c => c.papproval, "PApproval");
-        //    mapper.AddMapping(c => c.papproved, "Papproved");
-
-        //    _preqdependency = new SqlTableDependency<PurhcaseReqSQL>(connection, tableName: "PurchaseReqBase", mapper: mapper);
-        //    _preqdependency.OnChanged += _preqdependency_OnChanged;
-        //    _preqdependency.OnError += _preqdependency_OnError;
-        //    _preqdependency.Start();
-
-        //}
-
-        //private void _preqdependency_OnChanged(object sender, TableDependency.SqlClient.Base.EventArgs.RecordChangedEventArgs<PurhcaseReqSQL> e)
-        //{
-        //    var changedEntity = e.Entity;
-        //    string type = e.ChangeType.ToString();
-
-        //    if (type == "Update")
-        //    {
-        //        string requestname = "";
-        //        int reqno = 0, validate = 0, approved = 0, happroval = 0, happroved = 0, papproval = 0, papproved = 0, supervisoridfromreq = 0;
-        //        reqno = changedEntity.reqnumber;
-        //        validate = changedEntity.validate;
-        //        approved = changedEntity.approved;
-        //        happroval = changedEntity.happroval;
-        //        happroved = changedEntity.happroved;
-        //        papproval = changedEntity.papproval;
-        //        papproved = changedEntity.papproved;
-        //        supervisoridfromreq = changedEntity.supervisorid;
-        //        requestname = string.Format((changedEntity.requestname));
-
-        //        if (requestname == userfullname && validate == 1)
-        //        {
-        //            string message = purchaseReq.showpopupnotifation(reqno, validate, approved, happroval, happroved, papproval, papproved, requestname, supervisoridfromreq).ToString();
-        //            if (message != "no")
-        //            {
-        //                notifyIcon1.ShowBalloonTip(1000, reqno.ToString(), message + " \r\nClick to know more", ToolTipIcon.Info);
-        //            }
-
-        //        }
-        //    }
-        //    //
-        //}
-
-        //private void _preqdependency_OnError(object sender, TableDependency.SqlClient.Base.EventArgs.ErrorEventArgs e)
-        //{
-        //    throw e.Error;
-        //}
-
-        #endregion Monitor Purchase Req
-
         #region Monitorusertable
 
         private SqlTableDependency<UserControl> _dependency;
 
         public void Sqlnotifier()
         {
-            // The mapper object is used to map model properties
-            // that do not have a corresponding table column name.
-            // In case all properties of your model have same name
-            // of table columns, you can avoid to use the mapper.
             var mapper = new ModelToTableMapper<UserControl>();
             mapper.AddMapping(c => c.Username, "User Name");
             mapper.AddMapping(c => c.Computername, "Computer Name");
-
-            // Here - as second parameter - we pass table name:
-            // this is necessary only if the model name is different from table name
-            // (in our case we have Customer vs Customers).
-            // If needed, you can also specifiy schema name.
+            mapper.AddMapping(c => c.Application, "Application Running");
 
             _dependency = new SqlTableDependency<UserControl>(connectapi.ConnectConnectionString(), tableName: "Checkin", mapper: mapper);
             _dependency.OnChanged += Dependency_OnChanged;
             _dependency.OnError += Dependency_OnError;
             _dependency.Start();
-            //using (var dep = new SqlTableDependency<cust>(_con, tableName: "USER", mapper: mapper))
-            //{
-            //    dep.OnChanged += Changed;
-            //    dep.Start();
-
-            //    Console.WriteLine("Press a key to exit");
-            //    Console.ReadKey();
-
-            //    dep.Stop();
-            //}
         }
 
         private void Dependency_OnChanged(object sender, TableDependency.SqlClient.Base.EventArgs.RecordChangedEventArgs<UserControl> e)
         {
             string changed;
             var changedEntity = e.Entity;
-            //Console.WriteLine("DML operation: " + e.ChangeType);
-            // //Console.WriteLine("ID: " + changedEntity.Id);
-            //Console.WriteLine("Name: " + changedEntity.Name);
-            //Console.WriteLine("Surame: " + changedEntity.Surname);
             string type = e.ChangeType.ToString();
             changed = string.Format(changedEntity.Username);
+            string application = string.Format(changedEntity.Application);
             string userName = connectapi.GetUserName();
             // MessageBox.Show(changed);
-            if (changed == userName && type == "Update")
+            if (changed == userName && type == "Update" && (application == "SPM Connect " + ConnectUser.Dept))
             {
                 //MessageBox.Show(this,"Developer has kicked you out due to maintenance issues.");
                 _dependency.Stop();
@@ -361,7 +273,7 @@ namespace SearchDataSPM.Engineering
                     log.Error(ex.Message, ex);
                 }
             }
-            else if (changed == userName && type == "Delete")
+            else if (changed == userName && type == "Delete" && (application == "SPM Connect " + ConnectUser.Dept))
             {
                 System.Environment.Exit(0);
             }
@@ -369,7 +281,7 @@ namespace SearchDataSPM.Engineering
 
         private void Dependency_OnError(object sender, TableDependency.SqlClient.Base.EventArgs.ErrorEventArgs e)
         {
-            throw e.Error;
+            log.Error(e);
         }
 
         #endregion Monitorusertable
@@ -378,6 +290,7 @@ namespace SearchDataSPM.Engineering
 
         // variables required outside the functions to perfrom
         private readonly string fullsearch = ("Description LIKE '%{0}%' OR Manufacturer LIKE '%{0}%' OR ManufacturerItemNumber LIKE '%{0}%' OR ItemNumber LIKE '%{0}%'");
+
         //private readonly string fullsearch = ("FullSearch LIKE '%{0}%'");
 
         //string ItemNo;
@@ -419,10 +332,9 @@ namespace SearchDataSPM.Engineering
                 }
                 if (!showingfavorites && !showingduplicates)
                 {
-                    if (string.IsNullOrEmpty(designedbycombobox.Text) && string.IsNullOrEmpty(lastsavedbycombo.Text) && string.IsNullOrEmpty(familycomboxbox.Text) && string.IsNullOrEmpty(Manufactureritemcomboxbox.Text) && string.IsNullOrEmpty(oemitemcombobox.Text) && string.IsNullOrEmpty(ActiveCadblockcombobox.Text) && string.IsNullOrEmpty(MaterialcomboBox.Text))
+                    if (string.IsNullOrEmpty(designedbycombobox.Text) && string.IsNullOrEmpty(lastsavedbycombo.Text) && string.IsNullOrEmpty(familycomboxbox.Text) && string.IsNullOrEmpty(Manufactureritemcomboxbox.Text) && string.IsNullOrEmpty(oemitemcombobox.Text) && string.IsNullOrEmpty(ActiveCadblockcombobox.Text) && string.IsNullOrEmpty(MaterialcomboBox.Text) && txtSearch.Text.Length == 0)
                     {
-                        if (txtSearch.Text.Length == 0)
-                            Showallitems();
+                        Showallitems();
                     }
                 }
                 else if (showingfavorites && !showingduplicates)
@@ -792,7 +704,7 @@ namespace SearchDataSPM.Engineering
 
         #region OpenModel and datagridview events
 
-        private void dataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void DataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             string itemnumber;
 
@@ -826,7 +738,7 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void dataGridView_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        private void DataGridView_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.RowIndex == -1) return;
             _ = dataGridView.Rows[e.RowIndex];
@@ -839,7 +751,7 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void openModelToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OpenModelToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
             DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
@@ -856,7 +768,7 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void openDrawingToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OpenDrawingToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
             DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
@@ -873,7 +785,7 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void dataGridView_CellMouseMove(object sender, DataGridViewCellMouseEventArgs e)
+        private void DataGridView_CellMouseMove(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.RowIndex > -1)
             {
@@ -885,7 +797,7 @@ namespace SearchDataSPM.Engineering
             // dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = Color.Blue; // just to highlight single column
         }
 
-        private void dataGridView_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
+        private void DataGridView_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex > -1)
             {
@@ -893,18 +805,18 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void jobsbttn_Click(object sender, EventArgs e)
+        private void Jobsbttn_Click(object sender, EventArgs e)
         {
-            openjobmodule();
+            Openjobmodule();
         }
 
-        private void openjobmodule()
+        private void Openjobmodule()
         {
             SPM_ConnectJobs sPM_ConnectJobs = new SPM_ConnectJobs();
             sPM_ConnectJobs.Show();
         }
 
-        private void dataGridView_KeyDown(object sender, KeyEventArgs e)
+        private void DataGridView_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Tab)
             {
@@ -984,7 +896,7 @@ namespace SearchDataSPM.Engineering
 
         #region AdminControl
 
-        private void label1_DoubleClick(object sender, EventArgs e)
+        private void Label1_DoubleClick(object sender, EventArgs e)
         {
         }
 
@@ -993,7 +905,7 @@ namespace SearchDataSPM.Engineering
             Process.Start("http://www.spm-automation.com/");
         }
 
-        private void admin_bttn_Click(object sender, EventArgs e)
+        private void Admin_bttn_Click(object sender, EventArgs e)
         {
             AdminControl spmadmin = new AdminControl
             {
@@ -1027,10 +939,10 @@ namespace SearchDataSPM.Engineering
                 item = "";
             }
 
-            processwhereused(item);
+            Processwhereused(item);
         }
 
-        private void processwhereused(string item)
+        private void Processwhereused(string item)
         {
             //whereused = item;
             WhereUsed whereUsed = new WhereUsed(item: item);
@@ -1038,7 +950,7 @@ namespace SearchDataSPM.Engineering
             //whereused = null;
         }
 
-        private void whereUsedToolStripMenuItem_Click(object sender, EventArgs e)
+        private void WhereUsedToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int selectedclmindex = dataGridView.SelectedCells[0].ColumnIndex;
             DataGridViewColumn columnchk = dataGridView.Columns[selectedclmindex];
@@ -1057,7 +969,7 @@ namespace SearchDataSPM.Engineering
                 item = "";
             }
 
-            processwhereused(item);
+            Processwhereused(item);
         }
 
         #endregion ParentView
@@ -1092,7 +1004,7 @@ namespace SearchDataSPM.Engineering
             treeView.Show();
         }
 
-        private void bOMToolStripMenuItem_Click(object sender, EventArgs e)
+        private void BOMToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int selectedclmindex = dataGridView.SelectedCells[0].ColumnIndex;
             DataGridViewColumn columnchk = dataGridView.Columns[selectedclmindex];
@@ -1162,40 +1074,19 @@ namespace SearchDataSPM.Engineering
                 {
                     e.Cancel = false;
 
-                    closeallconnections();
+                    Closeallconnections();
                 }
             }
             else
             {
-                closeallconnections();
+                Closeallconnections();
             }
         }
 
-        private void closeallconnections()
+        private void Closeallconnections()
         {
             Cursor.Current = Cursors.WaitCursor;
             _dependency.Stop();
-            //if (purchasereqnotification)
-            //{
-            //    _preqdependency.Stop();
-            //}
-
-            //Properties.Settings.Default.F1State = this.WindowState;
-            //if (this.WindowState == FormWindowState.Normal)
-            //{
-            //    // save location and size if the state is normal
-            //    Properties.Settings.Default.F1Location = this.Location;
-            //    Properties.Settings.Default.F1Size = this.Size;
-            //}
-            //else
-            //{
-            //    // save the RestoreBounds if the form is minimized or maximized!
-            //    Properties.Settings.Default.F1Location = this.RestoreBounds.Location;
-            //    Properties.Settings.Default.F1Size = this.RestoreBounds.Size;
-            //}
-
-            //// don't forget to save the settings
-            //Properties.Settings.Default.Save();
             connectapi.Checkout();
             Cursor.Current = Cursors.Default;
         }
@@ -1204,7 +1095,7 @@ namespace SearchDataSPM.Engineering
 
         #region DELETE Item
 
-        private void deleteItemToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DeleteItemToolStripMenuItem_Click(object sender, EventArgs e)
         {
             connectapi.Deleteitem(Getitemnumberselected());
         }
@@ -1252,7 +1143,7 @@ namespace SearchDataSPM.Engineering
                     item = "";
                 }
 
-                processwhereused(item);
+                Processwhereused(item);
                 return true;
             }
             if (keyData == (Keys.Control | Keys.F))
@@ -1277,7 +1168,7 @@ namespace SearchDataSPM.Engineering
             }
             if (keyData == (Keys.Control | Keys.J))
             {
-                openjobmodule();
+                Openjobmodule();
 
                 return true;
             }
@@ -1336,7 +1227,7 @@ namespace SearchDataSPM.Engineering
 
         #region ItemListView events
 
-        private void getitemstodisplay(string Pathpart, string selecteditem)
+        private void Getitemstodisplay(string Pathpart, string selecteditem)
         {
             if (Directory.Exists(Pathpart))
             {
@@ -1378,7 +1269,7 @@ namespace SearchDataSPM.Engineering
         private readonly List<string> listFiles = new List<string>();
         //private EModelViewControl axEModelViewControl1;
 
-        private void listView_SelectedIndexChanged(object sender, EventArgs e)
+        private void ListView_SelectedIndexChanged(object sender, EventArgs e)
         {
             //if (listView.FocusedItem != null)
             // Process.Start(listFiles[listView.FocusedItem.Index]);
@@ -1442,7 +1333,7 @@ namespace SearchDataSPM.Engineering
         private void ListView_ItemDrag(object sender, ItemDragEventArgs e)
         {
             string[] fList = new string[1];
-            fList[0] = makepathfordrag();
+            fList[0] = Makepathfordrag();
             DataObject dataObj = new DataObject(DataFormats.FileDrop, fList);
             _ = DoDragDrop(dataObj, DragDropEffects.Move | DragDropEffects.Copy);
             // listView.DoDragDrop(listView.SelectedItems, DragDropEffects.Copy);
@@ -1487,7 +1378,7 @@ namespace SearchDataSPM.Engineering
 
                     if (fileCount > 0)
                     {
-                        getitemstodisplay(Pathpart, item);
+                        Getitemstodisplay(Pathpart, item);
                     }
                 }
             }
@@ -1496,9 +1387,7 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        //string Pathpart;
-
-        private void listView_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        private void ListView_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             if (listView.FocusedItem != null)
             {
@@ -1506,20 +1395,15 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private string makepathfordrag()
+        private string Makepathfordrag()
         {
             string txt = listView.FocusedItem.Text;
-            //string txt = listView.SelectedItems[0].Text;
-            //string path = listView.FocusedItem.Text;
             string first3char = txt.Substring(0, 3) + @"\";
-            // //MessageBox.Show(first3char);
             const string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
-            string Pathpart = (spmcadpath + first3char + txt);
-            //MessageBox.Show(Pathpart);
-            return Pathpart;
+            return spmcadpath + first3char + txt;
         }
 
-        private void listView_KeyDown(object sender, KeyEventArgs e)
+        private void ListView_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -1535,7 +1419,7 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void listView_Enter(object sender, EventArgs e)
+        private void ListView_Enter(object sender, EventArgs e)
         {
             if (ConnectUser.Dept == Department.Eng)
             {
@@ -1547,7 +1431,7 @@ namespace SearchDataSPM.Engineering
 
         #region listview menu strip
 
-        private void bomlistviewmenustrpc_Click(object sender, EventArgs e)
+        private void Bomlistviewmenustrpc_Click(object sender, EventArgs e)
         {
             if (listView.FocusedItem != null)
             {
@@ -1557,17 +1441,17 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void whereusedlistviewStripMenu_Click(object sender, EventArgs e)
+        private void WhereusedlistviewStripMenu_Click(object sender, EventArgs e)
         {
             if (listView.FocusedItem != null)
             {
                 string txt = listView.FocusedItem.Text;
                 txt = txt.Substring(0, 6);
-                processwhereused(txt);
+                Processwhereused(txt);
             }
         }
 
-        private void iteminfolistviewStripMenu_Click(object sender, EventArgs e)
+        private void IteminfolistviewStripMenu_Click(object sender, EventArgs e)
         {
             if (listView.FocusedItem != null)
             {
@@ -1682,7 +1566,7 @@ namespace SearchDataSPM.Engineering
             newItem.Dispose();
         }
 
-        private void editbttn_Click(object sender, EventArgs e)
+        private void Editbttn_Click(object sender, EventArgs e)
         {
             Processeditbutton(Getitemnumberselected());
         }
@@ -1964,7 +1848,7 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void editItemToolStripMenuItem_Click(object sender, EventArgs e)
+        private void EditItemToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Processeditbutton(Getitemnumberselected());
         }
@@ -1973,12 +1857,12 @@ namespace SearchDataSPM.Engineering
 
         #region Copy Item
 
-        private void saveascopybttn_Click(object sender, EventArgs e)
+        private void Saveascopybttn_Click(object sender, EventArgs e)
         {
-            perfomcopybuttonclick(Getitemnumberselected());
+            Perfomcopybuttonclick(Getitemnumberselected());
         }
 
-        private async void perfomcopybuttonclick(string item)
+        private async void Perfomcopybuttonclick(string item)
         {
             DialogResult result = MessageBox.Show("Are you sure want to copy item no. " + item + " to a new item?", "SPM Connect - Copy Item?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
@@ -2170,22 +2054,22 @@ namespace SearchDataSPM.Engineering
             form1.Show();
         }
 
-        private void billsOfMaunfacturingToolStripMenuItem_Click(object sender, EventArgs e)
+        private void BillsOfMaunfacturingToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Prorcessreportbom(Getitemnumberselected(), "BOM");
         }
 
-        private void sparePartsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SparePartsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Prorcessreportbom(Getitemnumberselected(), "SPAREPARTS");
         }
 
-        private void copySelectedItemToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CopySelectedItemToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            perfomcopybuttonclick(Getitemnumberselected());
+            Perfomcopybuttonclick(Getitemnumberselected());
         }
 
-        private void pictureBox1_DoubleClick(object sender, EventArgs e)
+        private void PictureBox1_DoubleClick(object sender, EventArgs e)
         {
             Process.Start("http://www.spm-automation.com/");
         }
@@ -2200,17 +2084,17 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        private void ToolStripMenuItem2_Click(object sender, EventArgs e)
         {
             if (listView.FocusedItem != null)
             {
                 string txt = listView.FocusedItem.Text;
                 txt = txt.Substring(0, 6);
-                perfomcopybuttonclick(txt);
+                Perfomcopybuttonclick(txt);
             }
         }
 
-        private void eModelViewerToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void EModelViewerToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             Emodelviewtoolstrp();
         }
@@ -2270,7 +2154,7 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void toolStripMenuItem3_Click(object sender, EventArgs e)
+        private void ToolStripMenuItem3_Click(object sender, EventArgs e)
         {
             if (listView.FocusedItem != null)
             {
@@ -2291,7 +2175,7 @@ namespace SearchDataSPM.Engineering
 
         #region Advance Filters
 
-        private void advsearchbttn_Click(object sender, EventArgs e)
+        private void Advsearchbttn_Click(object sender, EventArgs e)
         {
             Advsearchbttnclick();
         }
@@ -2494,42 +2378,42 @@ namespace SearchDataSPM.Engineering
 
         #region fillcomboboxes
 
-        private void filldesignedby()
+        private void Filldesignedby()
         {
             AutoCompleteStringCollection MyCollection = connectapi.Filldesignedby();
             designedbycombobox.AutoCompleteCustomSource = MyCollection;
             designedbycombobox.DataSource = MyCollection;
         }
 
-        private void filllastsavedby()
+        private void Filllastsavedby()
         {
             AutoCompleteStringCollection MyCollection = connectapi.Filllastsavedby();
             lastsavedbycombo.AutoCompleteCustomSource = MyCollection;
             lastsavedbycombo.DataSource = MyCollection;
         }
 
-        private void fillmanufacturers()
+        private void Fillmanufacturers()
         {
             AutoCompleteStringCollection MyCollection = connectapi.Fillmanufacturers();
             oemitemcombobox.AutoCompleteCustomSource = MyCollection;
             oemitemcombobox.DataSource = MyCollection;
         }
 
-        private void filloem()
+        private void Filloem()
         {
             AutoCompleteStringCollection MyCollection = connectapi.Filloem();
             Manufactureritemcomboxbox.AutoCompleteCustomSource = MyCollection;
             Manufactureritemcomboxbox.DataSource = MyCollection;
         }
 
-        private void fillfamilycodes()
+        private void Fillfamilycodes()
         {
             AutoCompleteStringCollection MyCollection = connectapi.Fillfamilycodes();
             familycomboxbox.AutoCompleteCustomSource = MyCollection;
             familycomboxbox.DataSource = MyCollection;
         }
 
-        private void filluserwithblock()
+        private void Filluserwithblock()
         {
             AutoCompleteStringCollection MyCollection = connectapi.Filluserwithblock();
             ActiveCadblockcombobox.AutoCompleteCustomSource = MyCollection;
@@ -2547,7 +2431,7 @@ namespace SearchDataSPM.Engineering
 
         #region advance filters events
 
-        private void clrfiltersbttn_Click(object sender, EventArgs e)
+        private void Clrfiltersbttn_Click(object sender, EventArgs e)
         {
             Performreload();
         }
@@ -2562,7 +2446,7 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void oemitemcombobox_KeyDown(object sender, KeyEventArgs e)
+        private void Oemitemcombobox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -2572,7 +2456,7 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void designedbycombobox_KeyDown(object sender, KeyEventArgs e)
+        private void Designedbycombobox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -2582,7 +2466,7 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void lastsavedbycombo_KeyDown(object sender, KeyEventArgs e)
+        private void Lastsavedbycombo_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -2602,7 +2486,7 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void familycomboxbox_KeyDown(object sender, KeyEventArgs e)
+        private void Familycomboxbox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -2622,7 +2506,7 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void designedbycombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        private void Designedbycombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -2630,7 +2514,7 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void familycomboxbox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        private void Familycomboxbox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -2638,7 +2522,7 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void oemitemcombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        private void Oemitemcombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -2662,7 +2546,7 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void lastsavedbycombo_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        private void Lastsavedbycombo_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -2684,7 +2568,7 @@ namespace SearchDataSPM.Engineering
 
         #region notification ballon
 
-        private void notifyIcon1_BalloonTipClicked(object sender, EventArgs e)
+        private void NotifyIcon1_BalloonTipClicked(object sender, EventArgs e)
         {
             int openforms = Application.OpenForms.Count;
             if (openforms > 2)
@@ -2711,7 +2595,7 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void showToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ShowToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Show();
             this.Activate();
@@ -2719,7 +2603,7 @@ namespace SearchDataSPM.Engineering
             this.WindowState = FormWindowState.Normal;
         }
 
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
         }
@@ -2781,13 +2665,13 @@ namespace SearchDataSPM.Engineering
 
                     if (checkutocadforassy == 1)
                     {
-                        openassytocatalog(ItemNo);
+                        Openassytocatalog(ItemNo);
                     }
                     else if (checkutocadforassy == 3)
                     {
                         if (connectapicntrls.CheckAssyOnGenius(ItemNo))
                         {
-                            createassycatalog(ItemNo, description, Manufacturer, oem, family);
+                            Createassycatalog(ItemNo, description, Manufacturer, oem, family);
                         }
                     }
                 }
@@ -2802,7 +2686,7 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void createassycatalog(string ItemNo, string description, string Manufacturer, string oem, string family)
+        private void Createassycatalog(string ItemNo, string description, string Manufacturer, string oem, string family)
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
@@ -2812,7 +2696,7 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void openassytocatalog(string ItemNo)
+        private void Openassytocatalog(string ItemNo)
         {
             AutocadAssembly treeView = new AutocadAssembly();
             treeView.Item(ItemNo);
@@ -2823,49 +2707,49 @@ namespace SearchDataSPM.Engineering
 
         #region Controls ToolStrip
 
-        private void addToCatalogToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AddToCatalogToolStripMenuItem_Click(object sender, EventArgs e)
         {
             GetRowInfo();
         }
 
-        private void createAssemblyToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CreateAssemblyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             GetRowInfoforassy();
         }
 
-        private void autoCadCatalogToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AutoCadCatalogToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            openassytocatalog(Getitemnumberselected());
+            Openassytocatalog(Getitemnumberselected());
         }
 
-        private void geniusToolStripMenuItem_Click(object sender, EventArgs e)
+        private void GeniusToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Processbom(Getitemnumberselected());
         }
 
-        private void autoCadCatalogToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void AutoCadCatalogToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             AutocadWhereUsed treeView = new AutocadWhereUsed();
             treeView.item(Getitemnumberselected());
             treeView.Show();
         }
 
-        private void geniusJobsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void GeniusJobsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            processwhereused(Getitemnumberselected());
+            Processwhereused(Getitemnumberselected());
         }
 
-        private void toolStripMenuItem7_Click(object sender, EventArgs e)
+        private void ToolStripMenuItem7_Click(object sender, EventArgs e)
         {
             Prorcessreportbom(Getitemnumberselected(), "BOM");
         }
 
-        private void toolStripMenuItem8_Click(object sender, EventArgs e)
+        private void ToolStripMenuItem8_Click(object sender, EventArgs e)
         {
             Prorcessreportbom(Getitemnumberselected(), "SPAREPARTS");
         }
 
-        private void eModelViewerToolStripMenuItem_Click(object sender, EventArgs e)
+        private void EModelViewerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Emodelviewtoolstrp();
         }
@@ -2907,7 +2791,7 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void versionlabel_DoubleClick(object sender, EventArgs e)
+        private void Versionlabel_DoubleClick(object sender, EventArgs e)
         {
             this.Size = new Size(900, 750);
             this.CenterToScreen();
@@ -2915,12 +2799,12 @@ namespace SearchDataSPM.Engineering
 
         #region AddtoFavorites
 
-        private void addToFavoritesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AddToFavoritesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             connectapi.Addtofavorites(Getitemnumberselected());
         }
 
-        private void showFavoritesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ShowFavoritesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Showfavorites();
         }
@@ -2940,7 +2824,7 @@ namespace SearchDataSPM.Engineering
             recordlabel.Text = "Showing " + dataGridView.Rows.Count + " favorite items.";
         }
 
-        private void removeFromFavoritesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void RemoveFromFavoritesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             connectapi.Removefromfavorites(Getitemnumberselected());
             Showfavorites();
@@ -2952,69 +2836,20 @@ namespace SearchDataSPM.Engineering
         {
             Showhelp();
         }
-
-        //public string getcustomproperties(string filename, string configname, string FieldName)
-        //{
-        //    SwDMClassFactory swCf = new SwDMClassFactory();
-        //    SwDMApplication swDocMgr;
-        //    SwDMDocument10 swDoc12;
-        //    SwDmDocumentType dt;
-        //    ISwDMConfiguration5 activeConfig;
-        //    swDocMgr = swCf.GetApplication("SPMAutomationCanadaInc:swdocmgr_general-11785-02051-00064-01025-08567-34307-00007-51296-06983-58295-08079-08260-59507-48091-55300-35256-58158-03544-34582-20709-37723-23578-16716-01333-53717-46525-53637-48549-03513-47493-37253-09605-36281-14337-27748-52314-50378-25690-25696-966");
-        //    SwDmDocumentOpenError res;
-        //    dt = SwDmDocumentType.swDmDocumentPart;
-        //    try
-        //    {
-        //        swDoc12 = swDocMgr.GetDocument(filename, dt, false, out res) as SwDMDocument10;
-
-        //        CustomPropertyManager configMgr;
-        //        // Will open the configuation
-        //        try
-        //        {
-        //            //activeConfig = (ISwDMConfiguration5)configMgr.GetConfigurationByName(configname);
-
-        //            string linkedTo;
-        //            SwDmCustomInfoType customtype;
-        //            string cpValue;
-        //            try
-        //            {
-        //                cpValue = swDoc12.GetCustomPropertyValues(FieldName, out customtype, out linkedTo);
-        //                return cpValue;
-        //            }
-        //            catch
-        //            {
-        //                return "FieldName dose not exist";
-        //            }
-        //        }
-        //        catch
-        //        {
-        //            return "Config dose not exist";
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        return "File dose not exist";
-        //    }
-        //}
-
         private void Showhelp()
         {
-            //SwDMDocument12 swDoc = (SwDMDocument12)swDM.GetDocument("", SwDmDocumentType.swDmDocumentDrawing, false, out mOpenErrors);
-            //swDoc.AddCustomProperty("FieldName", SwDmCustomInfoType.swDmCustomInfoText, "the value");
-            //swDoc.CloseDoc();
-            //MessageBox.Show(getcustomproperties(@"\\spm-adfs\CAD Data\AAACAD\A80\A80482.sldprt", "Default", "Description"));
             HelpForm helpForm = new HelpForm();
             helpForm.ShowDialog();
         }
 
-        private void toolStripMenuupdateitem_Click(object sender, EventArgs e)
+        private void ToolStripMenuupdateitem_Click(object sender, EventArgs e)
         {
             connectapicntrls.updateitempropertiesfromgenius(Getitemnumberselected());
         }
 
-        private void revelInExplorerToolStripMenuItem_Click(object sender, EventArgs e)
+        private void RevelInExplorerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string filePath = makepathfordrag();
+            string filePath = Makepathfordrag();
             if (!File.Exists(filePath))
             {
                 return;
@@ -3023,13 +2858,13 @@ namespace SearchDataSPM.Engineering
             Process.Start("explorer.exe", argument);
         }
 
-        private void dELETEToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DELETEToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show("Are you sure want to delete this file?", "SPM Connect - Delete File?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result == DialogResult.Yes)
             {
-                string filePath = makepathfordrag();
+                string filePath = Makepathfordrag();
                 if (!File.Exists(filePath))
                 {
                     return;

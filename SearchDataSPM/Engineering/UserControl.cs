@@ -4,5 +4,6 @@
     {
         public string Computername { get; set; }
         public string Username { get; set; }
+        public string Application { get; set; }
     }
 }

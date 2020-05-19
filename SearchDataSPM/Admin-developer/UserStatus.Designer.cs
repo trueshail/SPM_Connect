@@ -75,7 +75,7 @@
             this.freeuser.Size = new System.Drawing.Size(180, 22);
             this.freeuser.Text = "Free Up User";
             this.freeuser.ToolTipText = "Free User Licence";
-            this.freeuser.Click += new System.EventHandler(this.freeuser_Click);
+            this.freeuser.Click += new System.EventHandler(this.Freeuser_Click);
             // 
             // updateAllToolStripMenuItem
             // 
@@ -83,7 +83,7 @@
             this.updateAllToolStripMenuItem.Name = "updateAllToolStripMenuItem";
             this.updateAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.updateAllToolStripMenuItem.Text = "Update All";
-            this.updateAllToolStripMenuItem.Click += new System.EventHandler(this.updateAllToolStripMenuItem_Click);
+            this.updateAllToolStripMenuItem.Click += new System.EventHandler(this.UpdateAllToolStripMenuItem_Click);
             // 
             // shutDownAllToolStripMenuItem
             // 
@@ -91,7 +91,7 @@
             this.shutDownAllToolStripMenuItem.Name = "shutDownAllToolStripMenuItem";
             this.shutDownAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.shutDownAllToolStripMenuItem.Text = "Shut Down All";
-            this.shutDownAllToolStripMenuItem.Click += new System.EventHandler(this.shutDownAllToolStripMenuItem_Click);
+            this.shutDownAllToolStripMenuItem.Click += new System.EventHandler(this.ShutDownAllToolStripMenuItem_Click);
             // 
             // UserStatus
             // 

@@ -155,6 +155,7 @@ namespace SPMConnectAPI
             }
             return dt;
         }
+
         public DataTable ShowFilterallitems(string filter, bool wherecond)
         {
             DataTable dt = new DataTable();
@@ -180,6 +181,7 @@ namespace SPMConnectAPI
             }
             return dt;
         }
+
         public DataTable ShowFavorites()
         {
             DataTable dt = new DataTable();
