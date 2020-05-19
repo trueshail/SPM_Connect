@@ -194,6 +194,9 @@ namespace SearchDataSPM.Engineering
             dataGridView.Columns[11].Visible = false;
             dataGridView.Columns[12].Visible = false;
             dataGridView.Columns[13].Visible = false;
+            dataGridView.Columns[14].Visible = false;
+            dataGridView.Columns[15].Visible = false;
+            dataGridView.Columns[16].Visible = false;
             dataGridView.Columns[0].Width = 60;
             dataGridView.Columns[2].Width = 55;
             dataGridView.Columns[1].Width = 300;
@@ -374,8 +377,8 @@ namespace SearchDataSPM.Engineering
         #region Public Table & variables
 
         // variables required outside the functions to perfrom
-        // string fullsearch = ("Description LIKE '%{0}%' OR Manufacturer LIKE '%{0}%' OR ManufacturerItemNumber LIKE '%{0}%' OR ItemNumber LIKE '%{0}%'");
-        private readonly string fullsearch = ("FullSearch LIKE '%{0}%'");
+        private readonly string fullsearch = ("Description LIKE '%{0}%' OR Manufacturer LIKE '%{0}%' OR ManufacturerItemNumber LIKE '%{0}%' OR ItemNumber LIKE '%{0}%'");
+        //private readonly string fullsearch = ("FullSearch LIKE '%{0}%'");
 
         //string ItemNo;
         //string str;
@@ -405,7 +408,7 @@ namespace SearchDataSPM.Engineering
                     lettergame.Show();
                     return;
                 }
-                if (string.Equals(txtSearch.Text, "showduplicates", StringComparison.CurrentCultureIgnoreCase))
+                else if (string.Equals(txtSearch.Text, "showduplicates", StringComparison.CurrentCultureIgnoreCase))
                 {
                     Showduplicates();
                     return;
@@ -418,7 +421,8 @@ namespace SearchDataSPM.Engineering
                 {
                     if (string.IsNullOrEmpty(designedbycombobox.Text) && string.IsNullOrEmpty(lastsavedbycombo.Text) && string.IsNullOrEmpty(familycomboxbox.Text) && string.IsNullOrEmpty(Manufactureritemcomboxbox.Text) && string.IsNullOrEmpty(oemitemcombobox.Text) && string.IsNullOrEmpty(ActiveCadblockcombobox.Text) && string.IsNullOrEmpty(MaterialcomboBox.Text))
                     {
-                        Showallitems();
+                        if (txtSearch.Text.Length == 0)
+                            Showallitems();
                     }
                 }
                 else if (showingfavorites && !showingduplicates)
@@ -495,9 +499,6 @@ namespace SearchDataSPM.Engineering
         private void Mainsearch()
         {
             formloading = true;
-            //DataView dv = dt.DefaultView;
-            DataView dv = (dataGridView.DataSource as DataTable)?.DefaultView;
-            dt = dv.ToTable();
             string search1 = txtSearch.Text;
             if (search1.Length > 3)
             {
@@ -505,12 +506,11 @@ namespace SearchDataSPM.Engineering
                 {
                     try
                     {
-                        const string fullsearch1 = ("ItemNumber LIKE '%{0}%'");
                         search1 = search1.Replace("'", "''");
                         search1 = search1.Replace("[", "[[]");
-                        dv.RowFilter = string.Format(fullsearch1, search1);
-
-                        table0 = dv.ToTable();
+                        const string fullsearch1 = "ItemNumber LIKE '%{0}%'";
+                        string s = string.Format(fullsearch1, search1);
+                        table0 = connectapi.ShowFilterallitems(s, true);
                         dataGridView.DataSource = table0;
                         dataGridView.Update();
                         SearchStringPosition();
@@ -532,9 +532,7 @@ namespace SearchDataSPM.Engineering
                     {
                         search1 = search1.Replace("'", "''");
                         search1 = search1.Replace("[", "[[]");
-                        dv.RowFilter = string.Format(fullsearch, search1);
-
-                        table0 = dv.ToTable();
+                        table0 = connectapi.ShowFilterallitems(search1, false);
                         dataGridView.DataSource = table0;
                         dataGridView.Update();
                         SearchStringPosition();
@@ -557,9 +555,7 @@ namespace SearchDataSPM.Engineering
                 {
                     search1 = search1.Replace("'", "''");
                     search1 = search1.Replace("[", "[[]");
-                    dv.RowFilter = string.Format(fullsearch, search1);
-
-                    table0 = dv.ToTable();
+                    table0 = connectapi.ShowFilterallitems(search1, false);
                     dataGridView.DataSource = table0;
                     dataGridView.Update();
                     SearchStringPosition();

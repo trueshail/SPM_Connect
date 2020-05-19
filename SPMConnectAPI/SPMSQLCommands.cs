@@ -134,7 +134,7 @@ namespace SPMConnectAPI
         {
             DataTable dt = new DataTable();
 
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[UnionInventory] ORDER BY ItemNumber DESC", cn))
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[Inventory] ORDER BY ItemNumber DESC", cn))
             {
                 try
                 {
@@ -155,7 +155,31 @@ namespace SPMConnectAPI
             }
             return dt;
         }
+        public DataTable ShowFilterallitems(string filter, bool wherecond)
+        {
+            DataTable dt = new DataTable();
 
+            using (SqlDataAdapter sda = new SqlDataAdapter(wherecond ? "SELECT * FROM [SPM_Database].[dbo].[Inventory] WHERE " + filter + " ORDER BY ItemNumber DESC" : "SELECT * FROM [SPM_Database].[dbo].[Inventory] WHERE Description LIKE '%" + filter + "%' OR Manufacturer LIKE '%" + filter + "%' OR ManufacturerItemNumber LIKE '%" + filter + "%' OR ItemNumber LIKE '%" + filter + "%' ORDER BY ItemNumber DESC", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Show all items Inventory", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return dt;
+        }
         public DataTable ShowFavorites()
         {
             DataTable dt = new DataTable();
@@ -422,7 +446,7 @@ namespace SPMConnectAPI
                         cn.Open();
                     SqlCommand cmd = cn.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = "SELECT MAX(RIGHT(ItemNumber,5)) AS " + blocknumber + " FROM [SPM_Database].[dbo].[UnionInventory] WHERE ItemNumber like '" + blocknumber + "%' AND LEN(ItemNumber)=6";
+                    cmd.CommandText = "SELECT MAX(RIGHT(ItemNumber,5)) AS " + blocknumber + " FROM [SPM_Database].[dbo].[Inventory] WHERE ItemNumber like '" + blocknumber + "%' AND LEN(ItemNumber)=6";
                     cmd.ExecuteNonQuery();
                     DataTable dt = new DataTable();
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -464,7 +488,7 @@ namespace SPMConnectAPI
                         cn.Open();
                     SqlCommand cmd = cn.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = "SELECT MAX(RIGHT(ItemNumber,5)) AS " + blocknumber + " FROM [SPM_Database].[dbo].[UnionInventory] WHERE ItemNumber like '" + blocknumber + "%' AND LEN(ItemNumber)=6";
+                    cmd.CommandText = "SELECT MAX(RIGHT(ItemNumber,5)) AS " + blocknumber + " FROM [SPM_Database].[dbo].[Inventory] WHERE ItemNumber like '" + blocknumber + "%' AND LEN(ItemNumber)=6";
                     cmd.ExecuteNonQuery();
                     DataTable dt = new DataTable();
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -673,7 +697,7 @@ namespace SPMConnectAPI
         public AutoCompleteStringCollection Filldesignedby()
         {
             AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT DesignedBy from [dbo].[UnionInventory] where DesignedBy is not null order by DesignedBy", cn))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT DesignedBy from [dbo].[Inventory] where DesignedBy is not null order by DesignedBy", cn))
             {
                 try
                 {
@@ -700,7 +724,7 @@ namespace SPMConnectAPI
         public AutoCompleteStringCollection Filllastsavedby()
         {
             AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT LastSavedBy from [dbo].[UnionInventory] where LastSavedBy is not null order by LastSavedBy", cn))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT LastSavedBy from [dbo].[Inventory] where LastSavedBy is not null order by LastSavedBy", cn))
             {
                 try
                 {

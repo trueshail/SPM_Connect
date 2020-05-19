@@ -11,8 +11,8 @@ namespace SearchDataSPM
     {
         #region SPM Connect Load
 
-        private readonly SPMConnectAPI.ConnectAPI connectapi = new SPMConnectAPI.ConnectAPI();
-        private readonly DataTable dt;
+        private readonly SPMConnectAPI.SPMSQLCommands connectapi = new SPMConnectAPI.SPMSQLCommands();
+        private DataTable dt;
         private log4net.ILog log;
 
         public SPM_ConnectItems()
@@ -35,14 +35,10 @@ namespace SearchDataSPM
         {
             try
             {
-                if (connectapi.cn.State == ConnectionState.Closed)
-                    connectapi.cn.Open();
-
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[UnionInventory] ORDER BY ItemNumber DESC", connectapi.cn);
-
                 dt.Clear();
-                sda.Fill(dt);
+                dt = connectapi.Showallitems();
                 dataGridView.DataSource = dt;
+                _ = dt.DefaultView;
 
                 UpdateFont();
             }
@@ -72,6 +68,9 @@ namespace SearchDataSPM
             dataGridView.Columns[11].Visible = false;
             dataGridView.Columns[12].Visible = false;
             dataGridView.Columns[13].Visible = false;
+            dataGridView.Columns[14].Visible = false;
+            dataGridView.Columns[15].Visible = false;
+            dataGridView.Columns[16].Visible = false;
             dataGridView.Columns[0].Width = 60;
             dataGridView.Columns[2].Width = 55;
             dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
