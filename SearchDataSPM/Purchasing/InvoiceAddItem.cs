@@ -81,7 +81,7 @@ namespace SearchDataSPM
                     }
                     else
                     {
-                        if (connectapi.checkitemexistsbeforeadding(ItemTxtBox.Text.Trim(), Invoice_Number))
+                        if (connectapi.Checkitemexistsbeforeadding(ItemTxtBox.Text.Trim(), Invoice_Number))
                         {
                             int qty = connectapi.Getqty(ItemTxtBox.Text.Trim(), Invoice_Number);
                             if (qty > 0)
@@ -481,7 +481,7 @@ namespace SearchDataSPM
                     iteminfo.Clear();
                     DataTable priceinfo = new DataTable();
                     priceinfo.Clear();
-                    priceinfo = connectapi.getpriceforitem(item);
+                    priceinfo = connectapi.Getpriceforitem(item);
                     if (priceinfo.Rows.Count > 0)
                     {
                         DataRow r = priceinfo.Rows[0];

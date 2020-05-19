@@ -12,10 +12,10 @@ namespace SearchDataSPM.General
             InitializeComponent();
         }
 
-        public string podate { get; set; }
+        public string Podate { get; set; }
         public string ValueIWant { get; set; }
 
-        private void dateTimePicker1_KeyDown(object sender, KeyEventArgs e)
+        private void DateTimePicker1_KeyDown(object sender, KeyEventArgs e)
         {
         }
 
@@ -37,7 +37,7 @@ namespace SearchDataSPM.General
             if (ponumbertxt.Text.Length == 0) e.Cancel = true;
         }
 
-        private void ponumbertxt_KeyPress(object sender, KeyPressEventArgs e)
+        private void Ponumbertxt_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)13)
             {
@@ -45,10 +45,10 @@ namespace SearchDataSPM.General
             }
         }
 
-        private void savebttn_Click(object sender, EventArgs e)
+        private void Savebttn_Click(object sender, EventArgs e)
         {
             ValueIWant = ponumbertxt.Text.Trim();
-            podate = dateTimePicker1.Value.ToString("yyyy-MM-dd");
+            Podate = dateTimePicker1.Value.ToString("yyyy-MM-dd");
             this.DialogResult = DialogResult.OK;
             Close();
         }

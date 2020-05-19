@@ -24,17 +24,12 @@ namespace SearchDataSPM
         private string custvendor = "";
         private DataTable dtsoldtoCust = new DataTable();
         private DataTable dtsoldtoVend = new DataTable();
-        private bool ecrcreator;
+        private bool shipInvCreator;
         private bool formloading;
         private log4net.ILog log;
-        private int myid;
-        private bool shippingmanager;
-        private bool shippingsup;
         private string shiptoid = "";
         private string soldtoid = "";
         private bool splashWorkDone;
-        private int supervisorid;
-        private string userfullname = "";
 
         public InvoiceDetails(string number)
         {
@@ -70,51 +65,9 @@ namespace SearchDataSPM
             return fillled;
         }
 
-        private void GetUserCreds()
-        {
-            try
-            {
-                if (connectapi.cn.State == ConnectionState.Closed)
-                    connectapi.cn.Open();
-                SqlCommand cmd = connectapi.cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + connectapi.GetUserName() + "' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    supervisorid = Convert.ToInt32(dr["ShipSup"].ToString());
-                    myid = Convert.ToInt32(dr["id"].ToString());
-                    string ecrsupstring = dr["ShipSupervisor"].ToString();
-                    string ecrmanagerstring = dr["ShippingManager"].ToString();
-
-                    if (ecrsupstring == "1")
-                    {
-                        shippingsup = true;
-                    }
-                    if (ecrmanagerstring == "1")
-                    {
-                        shippingmanager = true;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Error Getting User credentials", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                connectapi.cn.Close();
-            }
-        }
-
         private void QuoteDetails_Load(object sender, EventArgs e)
         {
             formloading = true;
-            userfullname = ConnectUser.Name;
-            GetUserCreds();
             this.Text = "Invoice Details - " + Invoice_Number;
             FillFobPoint();
             FillSalesPerson();
@@ -157,9 +110,9 @@ namespace SearchDataSPM
 
             createdbyname = invoiceCreatedBy;
 
-            if (invoiceCreatedBy == userfullname)
+            if (invoiceCreatedBy == ConnectUser.Name)
             {
-                ecrcreator = true;
+                shipInvCreator = true;
             }
 
             LastSavedOn.Text = "Last Saved By : " + r["LastSavedby"].ToString();
@@ -250,10 +203,10 @@ namespace SearchDataSPM
             string submittedtomanager = r["IsApproved"].ToString();
             string ecrcomplete = r["IsShipped"].ToString();
 
-            handleCheckBoxes(submittedtosup, submittedtomanager, ecrcomplete, invoiceCreatedBy, r["ApprovedBy"].ToString(),
+            HandleCheckBoxes(submittedtosup, submittedtomanager, ecrcomplete, invoiceCreatedBy, r["ApprovedBy"].ToString(),
                r["ShippedBy"].ToString(), r["SubmittedOn"].ToString(), r["ApprovedOn"].ToString(), r["ShippedOn"].ToString());
 
-            CheckEditButtonRights(Convert.ToInt32(r["SubmittedTo"].ToString()) == myid);
+            CheckEditButtonRights(Convert.ToInt32(r["SubmittedTo"].ToString()) == ConnectUser.ConnectId);
         }
 
         private void FillShipToInformation(string custid, string vendorcust)
@@ -459,13 +412,13 @@ namespace SearchDataSPM
 
         #region DataGridView
 
-        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void DataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (!editbttn.Visible)
-                updateitem();
+                Updateitem();
         }
 
-        private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        private void DataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.RowIndex == -1) return;
             _ = dataGridView1.Rows[e.RowIndex];
@@ -478,7 +431,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void dataGridView1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        private void DataGridView1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
             if (dataGridView1.Rows.Count > 0)
                 PrintToolStrip.Enabled = true;
@@ -498,7 +451,7 @@ namespace SearchDataSPM
                 _adapter.Fill(shippingitems);
                 dataGridView1.DataSource = shippingitems;
                 UpdateFont();
-                calculatetotal();
+                Calculatetotal();
                 fillled = true;
             }
             catch (SqlException ex)
@@ -567,7 +520,7 @@ namespace SearchDataSPM
 
         private readonly List<string> list = new List<string>();
 
-        private void graballinfor()
+        private void Graballinfor()
         {
             list.Clear();
             Regex reg = new Regex("['\",_^]");
@@ -606,15 +559,15 @@ namespace SearchDataSPM
         {
             Cursor.Current = Cursors.WaitCursor;
             this.Enabled = false;
-            await Task.Run(() => SplashDialog("Saving Data...")).ConfigureAwait(false);
+            await Task.Run(() => SplashDialog("Saving Data...")).ConfigureAwait(true);
             Perfromlockdown();
-            graballinfor();
+            Graballinfor();
             SaveReport(invoicetxtbox.Text);
             if (connectapi.UpdateInvoiceDetsToSql(list[0], list[1], list[2], list[3], list[4], list[5], list[6], list[7], list[8], list[9], list[10], list[11], list[12], list[13]))
             {
                 if (typeofsave != "normal")
                 {
-                    connectapi.UpdateInvoiceDetsToSqlforAuthorisation(list[0], typeofsave, supervisorid);
+                    connectapi.UpdateInvoiceDetsToSqlforAuthorisation(list[0], typeofsave, ConnectUser.ShipSup);
                 }
                 if (GetShippingBaseInfo(list[0]))
                 {
@@ -635,7 +588,7 @@ namespace SearchDataSPM
             Cursor.Current = Cursors.Default;
         }
 
-        private async void savbttn_Click(object sender, EventArgs e)
+        private async void Savbttn_Click(object sender, EventArgs e)
         {
             await Perfromsavebttn("normal").ConfigureAwait(false);
         }
@@ -662,12 +615,12 @@ namespace SearchDataSPM
 
         #region Process Edit
 
-        private void editbttn_Click(object sender, EventArgs e)
+        private void Editbttn_Click(object sender, EventArgs e)
         {
-            processeditbutton();
+            Processeditbutton();
         }
 
-        private void processeditbutton()
+        private void Processeditbutton()
         {
             editbttn.Visible = false;
             savbttn.Enabled = true;
@@ -688,7 +641,7 @@ namespace SearchDataSPM
 
         private string totalvalue = "";
 
-        private void calculatetotal()
+        private void Calculatetotal()
         {
             totalvalue = "";
             if (dataGridView1.Rows.Count > 0)
@@ -727,7 +680,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void collectchkbox_CheckedChanged(object sender, EventArgs e)
+        private void Collectchkbox_CheckedChanged(object sender, EventArgs e)
         {
             if (collectchkbox.Checked)
             {
@@ -754,12 +707,12 @@ namespace SearchDataSPM
             }
         }
 
-        private void prepaidchkbox_CheckedChanged(object sender, EventArgs e)
+        private void Prepaidchkbox_CheckedChanged(object sender, EventArgs e)
         {
             collectchkbox.Checked = !prepaidchkbox.Checked;
         }
 
-        private void requestcomboBox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        private void RequestcomboBox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -775,7 +728,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void shiptocombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        private void Shiptocombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -783,7 +736,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void shiptocombobox_SelectedIndexChanged(object sender, EventArgs e)
+        private void Shiptocombobox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (!formloading)
             {
@@ -822,7 +775,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void soldtocombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        private void Soldtocombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -830,7 +783,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void soldtocombobox_SelectedIndexChanged(object sender, EventArgs e)
+        private void Soldtocombobox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (custvendor == "1")
             {
@@ -878,7 +831,7 @@ namespace SearchDataSPM
 
         #region ContextMenuStrip
 
-        private void addItemToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AddItemToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (InvoiceAddItem invoiceAddItem = new InvoiceAddItem())
             {
@@ -898,7 +851,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void deleteItemToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DeleteItemToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (connectapi.DeleteItemFromInvoice(invoicetxtbox.Text, Getselecteditemnumber()))
             {
@@ -911,9 +864,9 @@ namespace SearchDataSPM
             }
         }
 
-        private void editItemToolStripMenuItem_Click(object sender, EventArgs e)
+        private void EditItemToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            updateitem();
+            Updateitem();
         }
 
         private void FormSelector_Opening(object sender, System.ComponentModel.CancelEventArgs e)
@@ -938,7 +891,7 @@ namespace SearchDataSPM
 
         #region Perform Update
 
-        private void updateitem()
+        private void Updateitem()
         {
             using (InvoiceAddItem invoiceAddItem = new InvoiceAddItem())
             {
@@ -963,7 +916,7 @@ namespace SearchDataSPM
 
         private void CheckEditButtonRights(bool mine)
         {
-            if (ecrcreator && !shipsupervisorheckBox.Checked)
+            if (shipInvCreator && !shipsupervisorheckBox.Checked)
             {
                 supcheckBox.Enabled = true;
                 editbttn.Visible = true;
@@ -973,29 +926,37 @@ namespace SearchDataSPM
                 supcheckBox.Enabled = false;
                 editbttn.Visible = false;
             }
-            if (shippingsup && mine && supcheckBox.Checked && !shipmanagercheckBox.Checked)
+
+            if (ConnectUser.ShipSupervisor && mine && supcheckBox.Checked && !shipmanagercheckBox.Checked)
             {
                 shipsupervisorheckBox.Enabled = true;
                 editbttn.Visible = true;
             }
+            else
+            {
+                shipsupervisorheckBox.Enabled = false;
+            }
 
-            if (shippingmanager && shipsupervisorheckBox.Checked)
+            if (ConnectUser.ShippingManager && shipsupervisorheckBox.Checked)
             {
                 shipmanagercheckBox.Enabled = true;
                 editbttn.Visible = true;
+                if (mine && supcheckBox.Checked && !shipmanagercheckBox.Checked)
+                    shipsupervisorheckBox.Enabled = true;
             }
             else
             {
-                shipsupervisorheckBox.Enabled = shippingsup;
+                if (supcheckBox.Checked)
+                    shipsupervisorheckBox.Enabled = ConnectUser.ShipSupervisor;
 
-                if (shippingmanager && supcheckBox.Checked)
+                if (ConnectUser.ShippingManager && supcheckBox.Checked)
                 {
                     shipsupervisorheckBox.Enabled = true;
                 }
                 shipmanagercheckBox.Enabled = false;
             }
 
-            if (shipmanagercheckBox.Checked && !shippingmanager)
+            if (shipmanagercheckBox.Checked && !ConnectUser.ShippingManager)
             {
                 Perfromlockdown();
                 editbttn.Visible = false;
@@ -1029,7 +990,7 @@ namespace SearchDataSPM
             }
         }
 
-        private async void ecrhandlercheckBox_Click(object sender, EventArgs e)
+        private async void EcrhandlercheckBox_Click(object sender, EventArgs e)
         {
             if (!shipmanagercheckBox.Checked)
             {
@@ -1082,13 +1043,13 @@ namespace SearchDataSPM
 
         #region Print Reports
 
-        private void print1ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Print1ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ReportViewer form1 = new ReportViewer("ShippingInvPack", invoicetxtbox.Text);
             form1.Show();
         }
 
-        private void print2ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Print2ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ReportViewer form1 = new ReportViewer("ShippingInvCom", invoicetxtbox.Text);
             form1.Show();
@@ -1180,87 +1141,7 @@ namespace SearchDataSPM
 
         #endregion Save Report
 
-        private string Getusernameandemail(string requestby)
-        {
-            string Email = "";
-            try
-            {
-                if (connectapi.cn.State == ConnectionState.Closed)
-                    connectapi.cn.Open();
-                SqlCommand cmd = connectapi.cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [Name]='" + requestby + "' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    Email = dr["Email"].ToString();
-                }
-            }
-            catch (Exception ex)
-            {
-                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Get User Name and Email", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                connectapi.cn.Close();
-            }
-            if (Email.Length > 0)
-            {
-                return Email;
-            }
-            else
-            {
-                return "";
-            }
-        }
-
-        private string GetUserNameEmail(int id)
-        {
-            string Email = "";
-            string name = "";
-            try
-            {
-                if (connectapi.cn.State == ConnectionState.Closed)
-                    connectapi.cn.Open();
-                SqlCommand cmd = connectapi.cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [id]='" + id + "' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    Email = dr["Email"].ToString();
-                    name = dr["Name"].ToString();
-                }
-            }
-            catch (Exception ex)
-            {
-                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Get Supervisor Name and Email", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                connectapi.cn.Close();
-            }
-            if (Email.Length > 0)
-            {
-                return Email + "][" + name;
-            }
-            else if (name.Length > 0)
-            {
-                return Email + "][" + name;
-            }
-            else
-            {
-                return "][";
-            }
-        }
-
-        private void handleCheckBoxes(string submittedtosup, string sumbittedtomanager, string complete,
+        private void HandleCheckBoxes(string submittedtosup, string sumbittedtomanager, string complete,
             string createdby, string approvedby, string completedby, string submittedon, string SupApprovedOn, string completedon)
         {
             if (submittedtosup == "1")
@@ -1303,7 +1184,7 @@ namespace SearchDataSPM
             this.Dispose();
         }
 
-        private async void managercheckBox_Click(object sender, EventArgs e)
+        private async void ManagercheckBox_Click(object sender, EventArgs e)
         {
             if (!shipsupervisorheckBox.Checked)
             {
@@ -1375,53 +1256,20 @@ namespace SearchDataSPM
 
         private void SendemailtoManager(string fileName)
         {
-            string[] nameemail = connectapi.GetManagersNameandEmail().ToArray();
-            for (int i = 0; i < nameemail.Length; i++)
-            {
-                string[] values = nameemail[i].Replace("][", "~").Split('~');
-
-                for (int a = 0; a < values.Length; a++)
-                {
-                    values[a] = values[a].Trim();
-                }
-                string email = values[0];
-                string name = values[1];
-
-                string[] names = name.Replace(" ", "~").Split('~');
-                for (int b = 0; b < names.Length; b++)
-                {
-                    names[b] = names[b].Trim();
-                }
-                name = names[0];
-                Sendemail(email, invoicetxtbox.Text.Trim() + " Shipment to be shipped", name, Environment.NewLine + userfullname + " sent this shipping request for shipping.", fileName, "", "");
-            }
+            foreach (NameEmail item in connectapi.GetNameEmailByParaValue(UserFields.ShippingManager, "1"))
+                Sendemail(item.email, invoicetxtbox.Text.Trim() + " Shipment to be shipped", item.name, Environment.NewLine + ConnectUser.Name + " sent this shipping request for shipping.", fileName, "", "");
         }
 
         private void Sendemailtosupervisor(string fileName)
         {
-            string nameemail = GetUserNameEmail(ConnectUser.ShipSup);
-
-            string[] values = nameemail.Replace("][", "~").Split('~');
-            for (int i = 0; i < values.Length; i++)
-            {
-                values[i] = values[i].Trim();
-            }
-            string email = values[0];
-            string name = values[1];
-
-            string[] names = name.Replace(" ", "~").Split('~');
-            for (int i = 0; i < names.Length; i++)
-            {
-                names[i] = names[i].Trim();
-            }
-            name = names[0];
-            Sendemail(email, invoicetxtbox.Text + " Shipping Request Approval Required", name, Environment.NewLine + userfullname + " sent this shipping request for approval.", fileName, "", "");
+            foreach (NameEmail item in connectapi.GetNameEmailByParaValue(UserFields.ShipSup, ConnectUser.ShipSup.ToString()))
+                Sendemail(item.email, invoicetxtbox.Text + " Shipping Request Approval Required", item.name, Environment.NewLine + ConnectUser.Name + " sent this shipping request for approval.", fileName, "", "");
         }
 
         private void Sendemailtouser(string fileName, string triggerby)
         {
             DataRow r = dt.Rows[0];
-            string userreqemail = Getusernameandemail(createdbyname);
+            string userreqemail = connectapi.GetNameEmailByParaValue(UserFields.Name, createdbyname)[0].email;
             if (string.IsNullOrEmpty(userreqemail))
             {
                 MessageBox.Show("Email not found for user. Cannot notify the user.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1433,60 +1281,20 @@ namespace SearchDataSPM
             }
             else if (triggerby == "manager")
             {
-                string supnameemail = GetUserNameEmail(Convert.ToInt32(r["SubmittedTo"].ToString()));
-                string[] values = supnameemail.Replace("][", "~").Split('~');
-                for (int i = 0; i < values.Length; i++)
-                {
-                    values[i] = values[i].Trim();
-                }
-                string supervisoremail = values[0];
-                string name = values[1];
-
-                string[] names = name.Replace(" ", "~").Split('~');
-                for (int i = 0; i < names.Length; i++)
-                {
-                    names[i] = names[i].Trim();
-                }
-                _ = names[0];
-
-                Sendemail(userreqemail, invoicetxtbox.Text.Trim() + " Shipping Request Completed ", createdbyname, Environment.NewLine + " Your shipping request has been completed and being processed for shipping.", fileName, supervisoremail, "");
+                Sendemail(userreqemail, invoicetxtbox.Text.Trim() + " Shipping Request Completed ", createdbyname, Environment.NewLine + " Your shipping request has been completed and being processed for shipping.", fileName, connectapi.GetNameEmailByParaValue(UserFields.id, r["SubmittedTo"].ToString())[0].email, "");
             }
         }
 
         private bool Sendemailyesno()
         {
-            bool sendemail = false;
-            string limit = "";
-            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'EmailShipping'", connectapi.cn))
-            {
-                try
-                {
-                    if (connectapi.cn.State == ConnectionState.Closed)
-                        connectapi.cn.Open();
-                    limit = (string)cmd.ExecuteScalar();
-                    connectapi.cn.Close();
-                }
-                catch (Exception ex)
-                {
-                    MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Get Email access for shipping", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    connectapi.cn.Close();
-                }
-            }
-            if (limit == "1")
-            {
-                sendemail = true;
-            }
-            return sendemail;
+            return connectapi.GetConnectParameterValue("EmailShipping") == "1";
         }
 
-        private async void supcheckBox_Click(object sender, EventArgs e)
+        private async void SupcheckBox_Click(object sender, EventArgs e)
         {
             if (jobtxt.Text.Trim().Length > 0 && shiptocombobox.Text.Trim().Length > 0)
             {
-                if (ecrcreator)
+                if (shipInvCreator)
                 {
                     if (!supcheckBox.Checked)
                     {

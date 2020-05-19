@@ -200,8 +200,8 @@
             this.soldtocombobox.Size = new System.Drawing.Size(370, 21);
             this.soldtocombobox.TabIndex = 2;
             this.TreeViewToolTip.SetToolTip(this.soldtocombobox, "Select Sold to Customer/Vendor");
-            this.soldtocombobox.SelectedIndexChanged += new System.EventHandler(this.soldtocombobox_SelectedIndexChanged);
-            this.soldtocombobox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.soldtocombobox_PreviewKeyDown);
+            this.soldtocombobox.SelectedIndexChanged += new System.EventHandler(this.Soldtocombobox_SelectedIndexChanged);
+            this.soldtocombobox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.Soldtocombobox_PreviewKeyDown);
             // 
             // shippinggroupBox
             // 
@@ -238,7 +238,7 @@
             this.prepaidchkbox.TabIndex = 10;
             this.prepaidchkbox.Text = "Prepaid";
             this.prepaidchkbox.UseVisualStyleBackColor = true;
-            this.prepaidchkbox.CheckedChanged += new System.EventHandler(this.prepaidchkbox_CheckedChanged);
+            this.prepaidchkbox.CheckedChanged += new System.EventHandler(this.Prepaidchkbox_CheckedChanged);
             // 
             // collectchkbox
             // 
@@ -249,7 +249,7 @@
             this.collectchkbox.TabIndex = 11;
             this.collectchkbox.Text = "Collect";
             this.collectchkbox.UseVisualStyleBackColor = true;
-            this.collectchkbox.CheckedChanged += new System.EventHandler(this.collectchkbox_CheckedChanged);
+            this.collectchkbox.CheckedChanged += new System.EventHandler(this.Collectchkbox_CheckedChanged);
             // 
             // FOBPointcombox
             // 
@@ -319,7 +319,7 @@
             this.requestcomboBox.Size = new System.Drawing.Size(202, 21);
             this.requestcomboBox.TabIndex = 7;
             this.TreeViewToolTip.SetToolTip(this.requestcomboBox, "Requested by");
-            this.requestcomboBox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.requestcomboBox_PreviewKeyDown);
+            this.requestcomboBox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.RequestcomboBox_PreviewKeyDown);
             // 
             // Salespersoncombobox
             // 
@@ -622,8 +622,8 @@
             this.shiptocombobox.Size = new System.Drawing.Size(370, 21);
             this.shiptocombobox.TabIndex = 3;
             this.TreeViewToolTip.SetToolTip(this.shiptocombobox, "Select Ship to Customer/Vendor");
-            this.shiptocombobox.SelectedIndexChanged += new System.EventHandler(this.shiptocombobox_SelectedIndexChanged);
-            this.shiptocombobox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.shiptocombobox_PreviewKeyDown);
+            this.shiptocombobox.SelectedIndexChanged += new System.EventHandler(this.Shiptocombobox_SelectedIndexChanged);
+            this.shiptocombobox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.Shiptocombobox_PreviewKeyDown);
             // 
             // ship2fax
             // 
@@ -806,7 +806,7 @@
             this.TreeViewToolTip.SetToolTip(this.savbttn, "Save Invoice Details");
             this.savbttn.UseVisualStyleBackColor = false;
             this.savbttn.Visible = false;
-            this.savbttn.Click += new System.EventHandler(this.savbttn_Click);
+            this.savbttn.Click += new System.EventHandler(this.Savbttn_Click);
             // 
             // editbttn
             // 
@@ -827,7 +827,7 @@
             this.TreeViewToolTip.SetToolTip(this.editbttn, "Edit Invoice Details");
             this.editbttn.UseVisualStyleBackColor = false;
             this.editbttn.Visible = false;
-            this.editbttn.Click += new System.EventHandler(this.editbttn_Click);
+            this.editbttn.Click += new System.EventHandler(this.Editbttn_Click);
             // 
             // carrriercodetxt
             // 
@@ -1290,7 +1290,7 @@
             this.print2ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.print2ToolStripMenuItem.Text = "Commercial Invoice";
             this.print2ToolStripMenuItem.ToolTipText = "Print Commercial Invoice";
-            this.print2ToolStripMenuItem.Click += new System.EventHandler(this.print2ToolStripMenuItem_Click);
+            this.print2ToolStripMenuItem.Click += new System.EventHandler(this.Print2ToolStripMenuItem_Click);
             // 
             // print1ToolStripMenuItem
             // 
@@ -1299,7 +1299,7 @@
             this.print1ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.print1ToolStripMenuItem.Text = "Packing List";
             this.print1ToolStripMenuItem.ToolTipText = "Print Packing List";
-            this.print1ToolStripMenuItem.Click += new System.EventHandler(this.print1ToolStripMenuItem_Click);
+            this.print1ToolStripMenuItem.Click += new System.EventHandler(this.Print1ToolStripMenuItem_Click);
             // 
             // dataGridView1
             // 
@@ -1335,9 +1335,9 @@
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.Size = new System.Drawing.Size(998, 284);
             this.dataGridView1.TabIndex = 15;
-            this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
-            this.dataGridView1.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDown);
-            this.dataGridView1.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridView1_RowsAdded);
+            this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1_CellDoubleClick);
+            this.dataGridView1.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView1_CellMouseDown);
+            this.dataGridView1.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.DataGridView1_RowsAdded);
             // 
             // FormSelector
             // 
@@ -1356,7 +1356,7 @@
             this.addItemToolStripMenuItem.Name = "addItemToolStripMenuItem";
             this.addItemToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.addItemToolStripMenuItem.Text = "Add Item";
-            this.addItemToolStripMenuItem.Click += new System.EventHandler(this.addItemToolStripMenuItem_Click);
+            this.addItemToolStripMenuItem.Click += new System.EventHandler(this.AddItemToolStripMenuItem_Click);
             // 
             // editItemToolStripMenuItem
             // 
@@ -1365,7 +1365,7 @@
             this.editItemToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.editItemToolStripMenuItem.Text = "Update Item";
             this.editItemToolStripMenuItem.ToolTipText = "Update Selected Item";
-            this.editItemToolStripMenuItem.Click += new System.EventHandler(this.editItemToolStripMenuItem_Click);
+            this.editItemToolStripMenuItem.Click += new System.EventHandler(this.EditItemToolStripMenuItem_Click);
             // 
             // deleteItemToolStripMenuItem
             // 
@@ -1374,7 +1374,7 @@
             this.deleteItemToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.deleteItemToolStripMenuItem.Text = "Delete Item";
             this.deleteItemToolStripMenuItem.ToolTipText = "Delete Selected Item ";
-            this.deleteItemToolStripMenuItem.Click += new System.EventHandler(this.deleteItemToolStripMenuItem_Click);
+            this.deleteItemToolStripMenuItem.Click += new System.EventHandler(this.DeleteItemToolStripMenuItem_Click);
             // 
             // SPM
             // 
@@ -1433,7 +1433,7 @@
             this.shipmanagercheckBox.TabIndex = 3;
             this.shipmanagercheckBox.Text = "Mark Shipping Request Complete";
             this.shipmanagercheckBox.UseVisualStyleBackColor = true;
-            this.shipmanagercheckBox.Click += new System.EventHandler(this.ecrhandlercheckBox_Click);
+            this.shipmanagercheckBox.Click += new System.EventHandler(this.EcrhandlercheckBox_Click);
             // 
             // shipsupervisorheckBox
             // 
@@ -1446,7 +1446,7 @@
             this.shipsupervisorheckBox.TabIndex = 1;
             this.shipsupervisorheckBox.Text = "Submit to Shipping Manager";
             this.shipsupervisorheckBox.UseVisualStyleBackColor = true;
-            this.shipsupervisorheckBox.Click += new System.EventHandler(this.managercheckBox_Click);
+            this.shipsupervisorheckBox.Click += new System.EventHandler(this.ManagercheckBox_Click);
             // 
             // supcheckBox
             // 
@@ -1459,7 +1459,7 @@
             this.supcheckBox.TabIndex = 0;
             this.supcheckBox.Text = "Submit to Supervisor";
             this.supcheckBox.UseVisualStyleBackColor = true;
-            this.supcheckBox.Click += new System.EventHandler(this.supcheckBox_Click);
+            this.supcheckBox.Click += new System.EventHandler(this.SupcheckBox_Click);
             // 
             // InvoiceDetails
             // 

@@ -159,7 +159,7 @@ namespace SPMConnectAPI
             return dt;
         }
 
-        public DataTable getpriceforitem(string itemnumber)
+        public DataTable Getpriceforitem(string itemnumber)
         {
             DataTable dt = new DataTable();
 
@@ -371,7 +371,7 @@ namespace SPMConnectAPI
 
         #region Generating New Ids
 
-        private string getNewCustItemId(string invoiceno)
+        private string GetNewCustItemId(string invoiceno)
         {
             string newcustitemid = "";
             try
@@ -410,7 +410,7 @@ namespace SPMConnectAPI
             }
         }
 
-        private string getnewinvoicenumber()
+        private string Getnewinvoicenumber()
         {
             string newincoiveno = "";
             try
@@ -841,7 +841,7 @@ namespace SPMConnectAPI
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
             string username = ConnectUser.Name;
-            string newinvoiceno = getnewinvoicenumber();
+            string newinvoiceno = Getnewinvoicenumber();
 
             try
             {
@@ -896,7 +896,7 @@ namespace SPMConnectAPI
             bool success = false;
             if (itemnumber.Length == 0)
             {
-                itemnumber = getNewCustItemId(invoicenumber);
+                itemnumber = GetNewCustItemId(invoicenumber);
             }
 
             try
@@ -1084,7 +1084,7 @@ namespace SPMConnectAPI
 
         #region Perform Copy and CRUD
 
-        public bool checkitemexistsbeforeadding(string itemid, string invoiceno)
+        public bool Checkitemexistsbeforeadding(string itemid, string invoiceno)
         {
             bool itempresent = false;
             using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[ShippingItems] WHERE [Item]='" + itemid + "' AND InvoiceNo = '" + invoiceno + "'", cn))
@@ -1123,7 +1123,7 @@ namespace SPMConnectAPI
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
             string username = ConnectUser.Name;
-            string newinvoiceno = getnewinvoicenumber();
+            string newinvoiceno = Getnewinvoicenumber();
 
             try
             {
@@ -1143,7 +1143,7 @@ namespace SPMConnectAPI
             finally
             {
                 cn.Close();
-                copyshippingitems(newinvoiceno, oldinvoiceno);
+                Copyshippingitems(newinvoiceno, oldinvoiceno);
                 UpdateShippingItemsOrderId(newinvoiceno);
                 UpdateShippingItemIdCopy(newinvoiceno);
             }
@@ -1249,7 +1249,7 @@ namespace SPMConnectAPI
             }
         }
 
-        private void copyshippingitems(string newinvoiceno, string oldinvoiceno)
+        private void Copyshippingitems(string newinvoiceno, string oldinvoiceno)
         {
             try
             {

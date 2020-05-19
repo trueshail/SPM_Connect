@@ -44,7 +44,7 @@
             this.ponumbertxt.Name = "ponumbertxt";
             this.ponumbertxt.Size = new System.Drawing.Size(200, 26);
             this.ponumbertxt.TabIndex = 0;
-            this.ponumbertxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ponumbertxt_KeyPress);
+            this.ponumbertxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Ponumbertxt_KeyPress);
             // 
             // label1
             // 
@@ -64,7 +64,7 @@
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(200, 26);
             this.dateTimePicker1.TabIndex = 9;
-            this.dateTimePicker1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dateTimePicker1_KeyDown);
+            this.dateTimePicker1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DateTimePicker1_KeyDown);
             // 
             // label2
             // 
@@ -90,7 +90,7 @@
             this.savebttn.TabIndex = 11;
             this.savebttn.Text = "Save";
             this.savebttn.UseVisualStyleBackColor = true;
-            this.savebttn.Click += new System.EventHandler(this.savebttn_Click);
+            this.savebttn.Click += new System.EventHandler(this.Savebttn_Click);
             // 
             // PODetails
             // 

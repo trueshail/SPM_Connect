@@ -914,7 +914,7 @@ namespace SearchDataSPM
                     if (pODetails.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {
                         ponumber = pODetails.ValueIWant;
-                        pdate = pODetails.podate;
+                        pdate = pODetails.Podate;
                     }
 
                     cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET Papproved = '" + (purchasedchk.Checked ? "1" : "0") + "',PApprovedBy = '" + ConnectUser.Name + "',PDateApproved = '" + (purchasedchk.Checked ? sqlFormattedDate : "") + "',PApproval = '1',PONumber = '" + ponumber + "',PODate = '" + pdate + "'  WHERE ReqNumber = '" + reqnumber + "' ";

@@ -2787,7 +2787,14 @@ namespace SearchDataSPM.Engineering
             {
                 string newid = connectapi.Spmnew_idincrement(connectapi.Getlastnumber(), connectapi.Getactiveblock());
                 MessageBox.Show("Your next ItemNumber to use is :- " + newid, "SPM Connect - New Item Number", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                Clipboard.SetText(newid);
+                try
+                {
+                    Clipboard.SetText(newid);
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex.Message, ex);
+                }
             }
         }
 
