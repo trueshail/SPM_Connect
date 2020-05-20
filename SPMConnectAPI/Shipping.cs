@@ -319,7 +319,7 @@ namespace SPMConnectAPI
         {
             DataTable dt = new DataTable();
 
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[ShippingBaseWithNames]WHERE [IsSubmitted] = '1' AND [SubmittedTo] = '" + myid + "'", cn))
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[ShippingBaseWithNames] WHERE [IsSubmitted] = '1' AND [SubmittedTo] = '" + myid + "' AND [IsApproved] = '0'", cn))
             {
                 try
                 {

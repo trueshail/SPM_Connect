@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data;
-using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -110,6 +109,7 @@ namespace SearchDataSPM
 
         // variables required outside the functions to perfrom
         private readonly string fullsearch = ("Description LIKE '%{0}%' OR Manufacturer LIKE '%{0}%' OR ManufacturerItemNumber LIKE '%{0}%' OR ItemNumber LIKE '%{0}%'");
+
         // private readonly string fullsearch = ("FullSearch LIKE '%{0}%'");
 
         private DataTable table0 = new DataTable();

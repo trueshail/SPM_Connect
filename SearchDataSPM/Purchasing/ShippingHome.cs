@@ -19,8 +19,6 @@ namespace SearchDataSPM
         private bool formloading;
         private DataTable invoiceitems = new DataTable();
         private log4net.ILog log;
-        private bool shipmanager;
-        private bool shipsupervisor;
         private DataTable temptable = new DataTable();
 
         public ShippingHome()
@@ -35,12 +33,10 @@ namespace SearchDataSPM
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
             if (ConnectUser.ShipSupervisor)
             {
-                shipsupervisor = true;
                 attnbttn.Visible = true;
             }
             else if (ConnectUser.ShippingManager)
             {
-                shipmanager = true;
                 attnbttn.Visible = true;
             }
         }
@@ -1161,11 +1157,11 @@ namespace SearchDataSPM
 
         private void attnbttn_Click(object sender, EventArgs e)
         {
-            if (shipsupervisor)
+            if (ConnectUser.ShipSupervisor)
             {
                 Showallitems("supervisor");
             }
-            else if (shipmanager)
+            else if (ConnectUser.ShippingManager)
             {
                 Showallitems("manager");
             }
