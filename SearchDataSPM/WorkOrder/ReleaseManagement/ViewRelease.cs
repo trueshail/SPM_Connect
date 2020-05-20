@@ -52,30 +52,6 @@ namespace SearchDataSPM
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        private bool _SearchNodes(string SearchText, TreeNode StartNode)
-        {
-            // TreeNode node = null;
-            bool itemexists = false;
-            while (StartNode != null)
-            {
-                if (StartNode.Text.IndexOf(SearchText, StringComparison.CurrentCultureIgnoreCase) >= 0)
-                {
-                    MessageBox.Show("Item already added to the assembly list", "SPM Conect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    itemexists = true;
-                    Treeview.SelectedNode = StartNode;
-                    CurrentNodeMatches.Add(StartNode);
-                }
-
-                if (StartNode.Nodes.Count != 0)
-                {
-                    _SearchNodes(SearchText, StartNode.Nodes[0]);//Recursive Search
-                }
-
-                StartNode = StartNode.NextNode;
-            }
-            return itemexists;
-        }
-
         private void Addremovecontextmenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (Treeview.SelectedNode != null)
@@ -112,7 +88,7 @@ namespace SearchDataSPM
             itmnotestxt.Clear();
         }
 
-        private void contextMenuStrip1_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        private void ContextMenuStrip1_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             //if (woTreeview.SelectedNode != null)
             //{
@@ -172,7 +148,7 @@ namespace SearchDataSPM
             return wo;
         }
 
-        private void getWOToolStripMenuItem_Click(object sender, EventArgs e)
+        private void GetWOToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ProrcessreportWorkOrder(Getselectedworkorder(woTreeview.SelectedNode), "WorkOrder");
         }
@@ -748,7 +724,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void txtSearch_KeyDown(object sender, KeyEventArgs e)
+        private void TxtSearch_KeyDown(object sender, KeyEventArgs e)
         {
             if (txtSearch.Text.Length > 0)
             {
@@ -803,7 +779,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void txtSearch_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void TxtSearch_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             txtSearch.Clear();
             foundlabel.Text = "Search:";
@@ -840,7 +816,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void woserchtxt_KeyDown(object sender, KeyEventArgs e)
+        private void Woserchtxt_KeyDown(object sender, KeyEventArgs e)
         {
             if (woserchtxt.Text.Length > 0)
             {
@@ -895,7 +871,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void woserchtxt_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void Woserchtxt_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             txtSearch.Clear();
             wosearchlabel.Text = "Search:";
@@ -927,12 +903,14 @@ namespace SearchDataSPM
             form1.Show();
         }
 
-        private void reloadconnectbttn_Click(object sender, EventArgs e)
+        private void Reloadconnectbttn_Click(object sender, EventArgs e)
         {
+            LastSearchText = "";
+            GenLastSearchText = "";
             ProcesstreeviewReload();
         }
 
-        private async void reloadwobttn_Click(object sender, EventArgs e)
+        private async void Reloadwobttn_Click(object sender, EventArgs e)
         {
             await Task.Run(() => SplashDialog("Refreshing Data....")).ConfigureAwait(true);
             Thread.Sleep(1000);
@@ -992,7 +970,7 @@ namespace SearchDataSPM
             woexpand.Checked = false;
         }
 
-        private void woexpand_Click(object sender, EventArgs e)
+        private void Woexpand_Click(object sender, EventArgs e)
         {
             if (woexpand.Checked)
             {
@@ -1110,12 +1088,12 @@ namespace SearchDataSPM
             }
         }
 
-        private void woTreeview_AfterExpand(object sender, TreeViewEventArgs e)
+        private void WoTreeview_AfterExpand(object sender, TreeViewEventArgs e)
         {
             woexpand.Checked = true;
         }
 
-        private void woTreeview_BeforeCollapse(object sender, TreeViewCancelEventArgs e)
+        private void WoTreeview_BeforeCollapse(object sender, TreeViewCancelEventArgs e)
         {
             if (e.Node.ImageIndex == 1)
             {
@@ -1124,7 +1102,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void woTreeview_BeforeExpand(object sender, TreeViewCancelEventArgs e)
+        private void WoTreeview_BeforeExpand(object sender, TreeViewCancelEventArgs e)
         {
             if (e.Node.ImageIndex == 0)
             {
@@ -1133,7 +1111,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void woTreeview_BeforeSelect(object sender, TreeViewCancelEventArgs e)
+        private void WoTreeview_BeforeSelect(object sender, TreeViewCancelEventArgs e)
         {
             switch (e.Node.ImageIndex)
             {
@@ -1204,7 +1182,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void woTreeview_KeyDown(object sender, KeyEventArgs e)
+        private void WoTreeview_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -1216,7 +1194,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void woTreeview_KeyPress(object sender, KeyPressEventArgs e)
+        private void WoTreeview_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == Convert.ToChar(Keys.Down))
             {
@@ -1234,7 +1212,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void woTreeview_Leave(object sender, EventArgs e)
+        private void WoTreeview_Leave(object sender, EventArgs e)
         {
             if (woTreeview.Nodes.Count > 0 && woTreeview.SelectedNode != null)
             {
@@ -1358,12 +1336,12 @@ namespace SearchDataSPM
             }
         }
 
-        private void viewWorkOrderToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ViewWorkOrderToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ProrcessReleasereportWorkOrder(Getselectedreleaseworkorder(Treeview.SelectedNode), "WorkOrder", GetselectedreleaseworkorderReleaseType(Treeview.SelectedNode), GetselectedreleaseworkorderReleaseNotes(Treeview.SelectedNode));
         }
 
-        private void woTreeview_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        private void WoTreeview_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             woTreeview.SelectedNode = e.Node;
         }
