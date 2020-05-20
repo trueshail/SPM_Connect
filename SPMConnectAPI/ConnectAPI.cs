@@ -171,6 +171,9 @@ namespace SPMConnectAPI
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
+                cn.Close();
+                if (dt.Rows.Count == 0)
+                    return "";
                 fullname = dt.Rows[0]["Name"].ToString();
                 dt.Clear();
             }
@@ -199,6 +202,9 @@ namespace SPMConnectAPI
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
+                cn.Close();
+                if (dt.Rows.Count == 0)
+                    return "";
                 fullname = dt.Rows[0]["Name"].ToString();
                 dt.Clear();
             }
@@ -266,41 +272,41 @@ namespace SPMConnectAPI
                 {
                     DataRow dr = dt.Rows[0];
                     userDet.ActiveBlockNumber = dr["ActiveBlockNumber"].ToString();
-                    userDet.Admin = Convert.ToInt32(dr["Admin"].ToString()) == 1;
-                    userDet.ApproveDrawing = Convert.ToInt32(dr["ApproveDrawing"].ToString()) == 1;
-                    userDet.CheckDrawing = Convert.ToInt32(dr["CheckDrawing"].ToString()) == 1;
-                    userDet.CribCheckout = Convert.ToInt32(dr["CribCheckout"].ToString()) == 1;
-                    userDet.CribShort = Convert.ToInt32(dr["CribShort"].ToString()) == 1;
+                    userDet.Admin = Convert.ToBoolean(dr["Admin"]);
+                    userDet.ApproveDrawing = Convert.ToBoolean(dr["ApproveDrawing"]);
+                    userDet.CheckDrawing = Convert.ToBoolean(dr["CheckDrawing"]);
+                    userDet.CribCheckout = Convert.ToBoolean(dr["CribCheckout"]);
+                    userDet.CribShort = Convert.ToBoolean(dr["CribShort"]);
                     userDet.Dept = AttachDepartment(dr["Department"].ToString());
-                    userDet.Developer = Convert.ToInt32(dr["Developer"].ToString()) == 1;
-                    userDet.ECR = Convert.ToInt32(dr["ECR"].ToString()) == 1;
-                    userDet.ECRApproval = Convert.ToInt32(dr["ECRApproval"].ToString()) == 1;
-                    userDet.ECRApproval2 = Convert.ToInt32(dr["ECRApproval2"].ToString()) == 1;
-                    userDet.ECRHandler = Convert.ToInt32(dr["ECRHandler"].ToString()) == 1;
+                    userDet.Developer = Convert.ToBoolean(dr["Developer"]);
+                    userDet.ECR = Convert.ToBoolean(dr["ECR"]);
+                    userDet.ECRApproval = Convert.ToBoolean(dr["ECRApproval"]);
+                    userDet.ECRApproval2 = Convert.ToBoolean(dr["ECRApproval2"]);
+                    userDet.ECRHandler = Convert.ToBoolean(dr["ECRHandler"]);
                     userDet.ECRSup = Convert.ToInt32(dr["ECRSup"].ToString());
                     userDet.Email = dr["Email"].ToString();
                     userDet.Emp_Id = Convert.ToInt32(dr["Emp_Id"].ToString());
                     userDet.ConnectId = Convert.ToInt32(dr["id"].ToString());
-                    userDet.ItemDependencies = Convert.ToInt32(dr["ItemDependencies"].ToString()) == 1;
-                    userDet.Management = Convert.ToInt32(dr["Management"].ToString()) == 1;
+                    userDet.ItemDependencies = Convert.ToBoolean(dr["ItemDependencies"]);
+                    userDet.Management = Convert.ToBoolean(dr["Management"]);
                     userDet.Name = dr["Name"].ToString();
-                    userDet.PriceRight = Convert.ToInt32(dr["PriceRight"].ToString()) == 1;
-                    userDet.PurchaseReq = Convert.ToInt32(dr["PurchaseReq"].ToString()) == 1;
-                    userDet.PurchaseReqApproval = Convert.ToInt32(dr["PurchaseReqApproval"].ToString()) == 1;
-                    userDet.PurchaseReqApproval2 = Convert.ToInt32(dr["PurchaseReqApproval2"].ToString()) == 1;
-                    userDet.PurchaseReqBuyer = Convert.ToInt32(dr["PurchaseReqBuyer"].ToString()) == 1;
-                    userDet.Quote = Convert.ToInt32(dr["Quote"].ToString()) == 1;
-                    userDet.ReadWhatsNew = Convert.ToInt32(dr["ReadWhatsNew"].ToString()) == 1;
-                    userDet.ReleasePackage = Convert.ToInt32(dr["ReleasePackage"].ToString()) == 1;
+                    userDet.PriceRight = Convert.ToBoolean(dr["PriceRight"]);
+                    userDet.PurchaseReq = Convert.ToBoolean(dr["PurchaseReq"]);
+                    userDet.PurchaseReqApproval = Convert.ToBoolean(dr["PurchaseReqApproval"]);
+                    userDet.PurchaseReqApproval2 = Convert.ToBoolean(dr["PurchaseReqApproval2"]);
+                    userDet.PurchaseReqBuyer = Convert.ToBoolean(dr["PurchaseReqBuyer"]);
+                    userDet.Quote = Convert.ToBoolean(dr["Quote"]);
+                    userDet.ReadWhatsNew = Convert.ToBoolean(dr["ReadWhatsNew"]);
+                    userDet.ReleasePackage = Convert.ToBoolean(dr["ReleasePackage"]);
                     userDet.SharesFolder = dr["SharesFolder"].ToString();
-                    userDet.Shipping = Convert.ToInt32(dr["Shipping"].ToString()) == 1;
-                    userDet.ShippingManager = Convert.ToInt32(dr["ShippingManager"].ToString()) == 1;
+                    userDet.Shipping = Convert.ToBoolean(dr["Shipping"]);
+                    userDet.ShippingManager = Convert.ToBoolean(dr["ShippingManager"]);
                     userDet.ShipSup = Convert.ToInt32(dr["ShipSup"].ToString());
-                    userDet.ShipSupervisor = Convert.ToInt32(dr["ShipSupervisor"].ToString()) == 1;
+                    userDet.ShipSupervisor = Convert.ToBoolean(dr["ShipSupervisor"]);
                     userDet.Supervisor = Convert.ToInt32(dr["Supervisor"].ToString());
                     userDet.UserName = dr["UserName"].ToString();
-                    userDet.WORelease = Convert.ToInt32(dr["WORelease"].ToString()) == 1;
-                    userDet.WOScan = Convert.ToInt32(dr["WOScan"].ToString()) == 1;
+                    userDet.WORelease = Convert.ToBoolean(dr["WORelease"]);
+                    userDet.WOScan = Convert.ToBoolean(dr["WOScan"]);
                 }
                 dt.Clear();
             }
@@ -313,6 +319,79 @@ namespace SPMConnectAPI
                 cn.Close();
             }
             return userDet;
+        }
+
+        public List<UserInfo> GetConnectUsersList()
+        {
+            List<UserInfo> userlist = new List<UserInfo>();
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] ";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        UserInfo userDet = new UserInfo
+                        {
+                            ActiveBlockNumber = dr["ActiveBlockNumber"].ToString(),
+                            Admin = Convert.ToBoolean(dr["Admin"]),
+                            ApproveDrawing = Convert.ToBoolean(dr["ApproveDrawing"]),
+                            CheckDrawing = Convert.ToBoolean(dr["CheckDrawing"]),
+                            CribCheckout = Convert.ToBoolean(dr["CribCheckout"]),
+                            CribShort = Convert.ToBoolean(dr["CribShort"]),
+                            Dept = AttachDepartment(dr["Department"].ToString()),
+                            Developer = Convert.ToBoolean(dr["Developer"]),
+                            ECR = Convert.ToBoolean(dr["ECR"]),
+                            ECRApproval = Convert.ToBoolean(dr["ECRApproval"]),
+                            ECRApproval2 = Convert.ToBoolean(dr["ECRApproval2"]),
+                            ECRHandler = Convert.ToBoolean(dr["ECRHandler"]),
+                            ECRSup = Convert.ToInt32(dr["ECRSup"].ToString()),
+                            Email = dr["Email"].ToString(),
+                            Emp_Id = Convert.ToInt32(dr["Emp_Id"].ToString()),
+                            ConnectId = Convert.ToInt32(dr["id"].ToString()),
+                            ItemDependencies = Convert.ToBoolean(dr["ItemDependencies"]),
+                            Management = Convert.ToBoolean(dr["Management"]),
+                            Name = dr["Name"].ToString(),
+                            PriceRight = Convert.ToBoolean(dr["PriceRight"]),
+                            PurchaseReq = Convert.ToBoolean(dr["PurchaseReq"]),
+                            PurchaseReqApproval = Convert.ToBoolean(dr["PurchaseReqApproval"]),
+                            PurchaseReqApproval2 = Convert.ToBoolean(dr["PurchaseReqApproval2"]),
+                            PurchaseReqBuyer = Convert.ToBoolean(dr["PurchaseReqBuyer"]),
+                            Quote = Convert.ToBoolean(dr["Quote"]),
+                            ReadWhatsNew = Convert.ToBoolean(dr["ReadWhatsNew"]),
+                            ReleasePackage = Convert.ToBoolean(dr["ReleasePackage"]),
+                            SharesFolder = dr["SharesFolder"].ToString(),
+                            Shipping = Convert.ToBoolean(dr["Shipping"]),
+                            ShippingManager = Convert.ToBoolean(dr["ShippingManager"]),
+                            ShipSup = Convert.ToInt32(dr["ShipSup"].ToString()),
+                            ShipSupervisor = Convert.ToBoolean(dr["ShipSupervisor"]),
+                            Supervisor = Convert.ToInt32(dr["Supervisor"].ToString()),
+                            UserName = dr["UserName"].ToString(),
+                            WORelease = Convert.ToBoolean(dr["WORelease"]),
+                            WOScan = Convert.ToBoolean(dr["WOScan"])
+                        };
+                        userlist.Add(userDet);
+                    }
+                }
+                dt.Clear();
+            }
+            catch (Exception ex)
+            {
+                MetroFramework.MetroMessageBox.Show(null, ex.Message, "SPM Connect - Error Getting User List", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return userlist;
         }
 
         private Department AttachDepartment(string dept)

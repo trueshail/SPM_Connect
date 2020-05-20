@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SPMConnectAPI;
+using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
@@ -15,8 +17,8 @@ namespace SearchDataSPM
         private int selectedindex;
         private readonly DataTable dt;
         private log4net.ILog log;
-
-        private readonly SPMConnectAPI.ConnectAPI connectapi = new SPMConnectAPI.ConnectAPI();
+        private List<UserInfo> users = new List<UserInfo>();
+        private readonly ConnectAPI connectapi = new ConnectAPI();
 
         #endregion steupvariables
 
@@ -40,25 +42,15 @@ namespace SearchDataSPM
         }
 
         private void Connect_SPMSQL(int index)
-
         {
             try
             {
+                Userlistbox.DataSource = null;
                 Userlistbox.Items.Clear();
-                if (connectapi.cn.State == ConnectionState.Closed)
-                    connectapi.cn.Open();
-                SqlCommand cmd = connectapi.cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT Name FROM [SPM_Database].[dbo].[Users] order by Name";
-                cmd.ExecuteNonQuery();
-
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                dt.Clear();
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    Userlistbox.Items.Add(dr["Name"].ToString());
-                }
+                users.Clear();
+                users = connectapi.GetConnectUsersList();
+                Userlistbox.DataSource = users;
+                Userlistbox.DisplayMember = "Name";
                 if (Userlistbox.Items.Count > 0)
                 {
                     Userlistbox.SelectedItem = Userlistbox.Items[index];
@@ -164,163 +156,99 @@ namespace SearchDataSPM
 
         private void Userlistbox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Selectionchanged();
-        }
-
-        private void Selectionchanged()
-        {
-            try
+            if (Userlistbox.SelectedIndex > -1)
             {
-                if (connectapi.cn.State == ConnectionState.Closed)
-                    connectapi.cn.Open();
-                SqlCommand cmd = connectapi.cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] where Name ='" + Userlistbox.SelectedItem.ToString() + "'";
-                //cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter sda = new SqlDataAdapter(cmd);
-                sda.Fill(dt);
-
-                foreach (DataRow dr in dt.Rows)
-                {
-                    nametextbox.Text = dr["Name"].ToString();
-                    domaintxtbox.Text = dr["UserName"].ToString();
-                    activecadblocktxt.Text = dr["ActiveBlockNumber"].ToString();
-                    useremailtxt.Text = dr["Email"].ToString();
-                    sharepathtxt.Text = dr["SharesFolder"].ToString();
-                    idlabel.Text = "Id : " + dr["id"].ToString();
-                    empidtxt.Text = dr["Emp_Id"].ToString();
-
-                    if (dr["Supervisor"].ToString().Length > 0)
-                    {
-                        string MyString = dr["Supervisor"].ToString();
-                        MyString += " ";
-                        MyString += getuserfullname(dr["Supervisor"].ToString());
-                        supervisorcombox.SelectedItem = MyString;
-                    }
-                    else
-                    {
-                    }
-
-                    if (dr["ECRSup"].ToString().Length > 0)
-                    {
-                        string MyString = dr["ECRSup"].ToString();
-                        MyString += " ";
-                        MyString += getuserfullname(dr["ECRSup"].ToString());
-                        ecrSupervisorcomboBox.SelectedItem = MyString;
-                    }
-                    else
-                    {
-                    }
-
-                    if (dr["ShipSup"].ToString().Length > 0)
-                    {
-                        string MyString = dr["ShipSup"].ToString();
-                        MyString += " ";
-                        MyString += getuserfullname(dr["ShipSup"].ToString());
-                        shippingSupervisorcomboBox.SelectedItem = MyString;
-                    }
-                    else
-                    {
-                    }
-
-                    if (dr["Department"].ToString().Length > 0)
-                    {
-                        string department = dr["Department"].ToString();
-
-                        deptcombobox.SelectedItem = department;
-                    }
-                    else
-                    {
-                    }
-
-                    admintoggle.Checked = dr["Admin"].ToString().Equals("1");
-                    developertoggle.Checked = dr["Developer"].ToString().Equals("1");
-                    managementtoggle.Checked = dr["Management"].ToString().Equals("1");
-                    quotetoggle.Checked = dr["Quote"].ToString().Equals("1");
-                    papprovalchk.Checked = dr["PurchaseReqApproval"].ToString().Equals("1");
-                    pbuyerchk.Checked = dr["PurchaseReqBuyer"].ToString().Equals("1");
-                    papproval2chk.Checked = dr["PurchaseReqApproval2"].ToString().Equals("1");
-                    purchasereqtoggle.Checked = dr["PurchaseReq"].ToString().Equals("1");
-                    pricetoggle.Checked = dr["PriceRight"].ToString().Equals("1");
-
-                    shiptoggle.Checked = dr["Shipping"].ToString().Equals("1");
-
-                    shippingsupchk.Checked = dr["ShipSupervisor"].ToString().Equals("1");
-
-                    shippingmanagerchk.Checked = dr["ShippingManager"].ToString().Equals("1");
-
-                    cribouttoggle.Checked = dr["CribCheckout"].ToString().Equals("1");
-
-                    scanwotoggle.Checked = dr["WOScan"].ToString().Equals("1");
-
-                    cribshorttoggle.Checked = dr["CribShort"].ToString().Equals("1");
-                    //ECR
-                    ecrtoggle.Checked = dr["ECR"].ToString().Equals("1");
-
-                    woreleasetoggle.Checked = dr["WORelease"].ToString().Equals("1");
-
-                    itmdeptoggle.Checked = dr["ItemDependencies"].ToString().Equals("1");
-
-                    ecrapprovalchk.Checked = dr["ECRApproval"].ToString().Equals("1");
-
-                    ecrapproval2chk.Checked = dr["ECRApproval2"].ToString().Equals("1");
-
-                    ecrhandlerchk.Checked = dr["ECRHandler"].ToString().Equals("1");
-
-                    chkdrwtoggle.Checked = dr["CheckDrawing"].ToString().Equals("1");
-
-                    appdrwtoggle.Checked = dr["ApproveDrawing"].ToString().Equals("1");
-
-                    rptoggle.Checked = dr["ReleasePackage"].ToString().Equals("1");
-                    Runalltoggle();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                connectapi.cn.Close();
+                Selectionchanged(users[Userlistbox.SelectedIndex]);
             }
         }
 
-        private string getuserfullname(string supervisor)
+        private void Selectionchanged(UserInfo user)
         {
-            try
+            nametextbox.Text = user.Name;
+            domaintxtbox.Text = user.UserName;
+            activecadblocktxt.Text = user.ActiveBlockNumber;
+            useremailtxt.Text = user.Email;
+            sharepathtxt.Text = user.SharesFolder;
+            idlabel.Text = "Id : " + user.ConnectId;
+            empidtxt.Text = user.Emp_Id.ToString();
+
+            if (user.Supervisor.ToString().Length > 0)
             {
-                if (connectapi.cn.State == ConnectionState.Closed)
-                    connectapi.cn.Open();
-                SqlCommand cmd = connectapi.cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [id]='" + supervisor + "' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    string fullname = dr["Name"].ToString();
-                    return fullname;
-                }
+                string MyString = user.Supervisor.ToString();
+                MyString += " ";
+                MyString += connectapi.GetNameByConnectEmpId(user.Supervisor.ToString());
+                supervisorcombox.SelectedItem = MyString;
             }
-            catch (Exception ex)
+
+            if (user.ECRSup.ToString().Length > 0)
             {
-                MessageBox.Show(ex.Message, "SPM Connect - Get Full Supervisor Name", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                string MyString = user.ECRSup.ToString();
+                MyString += " ";
+                MyString += connectapi.GetNameByConnectEmpId(user.ECRSup.ToString());
+                ecrSupervisorcomboBox.SelectedItem = MyString;
             }
-            finally
+
+            if (user.ShipSup.ToString().Length > 0)
             {
-                connectapi.cn.Close();
+                string MyString = user.ShipSup.ToString();
+                MyString += " ";
+                MyString += connectapi.GetNameByConnectEmpId(user.ShipSup.ToString());
+                shippingSupervisorcomboBox.SelectedItem = MyString;
             }
-            return null;
+
+            if (user.Dept.ToString().Length > 0)
+            {
+                deptcombobox.SelectedItem = user.Dept.ToString();
+            }
+
+            admintoggle.Checked = user.Admin;
+            developertoggle.Checked = user.Developer;
+            managementtoggle.Checked = user.Management;
+            quotetoggle.Checked = user.Quote;
+            papprovalchk.Checked = user.PurchaseReqApproval;
+            pbuyerchk.Checked = user.PurchaseReqBuyer;
+            papproval2chk.Checked = user.PurchaseReqApproval2;
+            purchasereqtoggle.Checked = user.PurchaseReq;
+            pricetoggle.Checked = user.PriceRight;
+
+            shiptoggle.Checked = user.Shipping;
+
+            shippingsupchk.Checked = user.ShipSupervisor;
+
+            shippingmanagerchk.Checked = user.ShippingManager;
+
+            cribouttoggle.Checked = user.CribCheckout;
+
+            scanwotoggle.Checked = user.WOScan;
+
+            cribshorttoggle.Checked = user.CribShort;
+            //ECR
+            ecrtoggle.Checked = user.ECR;
+
+            woreleasetoggle.Checked = user.WORelease;
+
+            itmdeptoggle.Checked = user.ItemDependencies;
+
+            ecrapprovalchk.Checked = user.ECRApproval;
+
+            ecrapproval2chk.Checked = user.ECRApproval2;
+
+            ecrhandlerchk.Checked = user.ECRHandler;
+
+            chkdrwtoggle.Checked = user.CheckDrawing;
+
+            appdrwtoggle.Checked = user.ApproveDrawing;
+
+            rptoggle.Checked = user.ReleasePackage;
+
+            Runalltoggle();
         }
 
         #endregion Fillinfo
 
         #region Perfrom CRUD
 
-        private void addnewbttn_Click(object sender, EventArgs e)
+        private void Addnewbttn_Click(object sender, EventArgs e)
         {
             Performaddnewbutton();
         }
@@ -725,7 +653,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void cnclbttn_Click(object sender, EventArgs e)
+        private void Cnclbttn_Click(object sender, EventArgs e)
         {
             Performcancelbutton();
         }
@@ -776,7 +704,7 @@ namespace SearchDataSPM
             Connect_SPMSQL(selectedindex);
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        private void CheckBox1_CheckedChanged(object sender, EventArgs e)
         {
             if (papprovalchk.Checked)
             {
@@ -785,7 +713,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        private void CheckBox2_CheckedChanged(object sender, EventArgs e)
         {
             if (pbuyerchk.Checked)
             {
@@ -794,7 +722,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        private void CheckBox3_CheckedChanged(object sender, EventArgs e)
         {
             if (papproval2chk.Checked)
             {
@@ -803,7 +731,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void selectfolder_Click(object sender, EventArgs e)
+        private void Selectfolder_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
@@ -811,7 +739,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void activecadblocktxt_TextChanged(object sender, EventArgs e)
+        private void Activecadblocktxt_TextChanged(object sender, EventArgs e)
         {
             if (activecadblocktxt.Text.Length > 0)
             {
@@ -822,7 +750,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void activecadblocktxt_KeyPress(object sender, KeyPressEventArgs e)
+        private void Activecadblocktxt_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (activecadblocktxt.Text.Length > 0)
             {
@@ -851,7 +779,7 @@ namespace SearchDataSPM
 
         #region Button Click Events
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Button1_Click(object sender, EventArgs e)
         {
             Admin_developer.UserLogs sPM_Connect = new Admin_developer.UserLogs
             {
@@ -865,15 +793,13 @@ namespace SearchDataSPM
             System.Diagnostics.Process.Start("http://www.spm-automation.com/");
         }
 
-        private void reluanchbttn_Click(object sender, EventArgs e)
+        private void Reluanchbttn_Click(object sender, EventArgs e)
         {
             Admin_developer.BlockedForms userStatus = new Admin_developer.BlockedForms
             {
                 Owner = this
             };
             userStatus.ShowDialog();
-            //Application.Restart();
-            //Environment.Exit(0);
         }
 
         private void UserStats_Click(object sender, EventArgs e)
@@ -885,7 +811,7 @@ namespace SearchDataSPM
             userStatus.ShowDialog(this);
         }
 
-        private void custbttn_Click(object sender, EventArgs e)
+        private void Custbttn_Click(object sender, EventArgs e)
         {
             ManageCustomers customers = new ManageCustomers
             {
@@ -894,7 +820,7 @@ namespace SearchDataSPM
             customers.Show();
         }
 
-        private void matbttn_Click(object sender, EventArgs e)
+        private void Matbttn_Click(object sender, EventArgs e)
         {
             Materials materials = new Materials
             {
@@ -903,13 +829,13 @@ namespace SearchDataSPM
             materials.Show();
         }
 
-        private void spmadmin_FormClosed(object sender, FormClosedEventArgs e)
+        private void Spmadmin_FormClosed(object sender, FormClosedEventArgs e)
         {
             log.Info("Closed Admin Control");
             this.Dispose();
         }
 
-        private void parametersbttn_Click(object sender, EventArgs e)
+        private void Parametersbttn_Click(object sender, EventArgs e)
         {
             ConnectParameters parameters = new ConnectParameters();
             parameters.ShowDialog();
@@ -919,7 +845,7 @@ namespace SearchDataSPM
 
         #region Toggle Events
 
-        private void admintoggle_CheckChanged(object sender, EventArgs e)
+        private void Admintoggle_CheckChanged(object sender, EventArgs e)
         {
             ToggleAction(sender as ToggleSlider.ToggleSliderComponent);
         }
@@ -1001,7 +927,7 @@ namespace SearchDataSPM
 
         #endregion shortcuts
 
-        private void spmadmin_FormClosing(object sender, FormClosingEventArgs e)
+        private void Spmadmin_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (updatesavebttn.Visible)
             {
@@ -1018,7 +944,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void ecrapprovalchk_CheckedChanged(object sender, EventArgs e)
+        private void Ecrapprovalchk_CheckedChanged(object sender, EventArgs e)
         {
             if (ecrapprovalchk.Checked)
             {
@@ -1027,7 +953,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void ecrhandlerchk_CheckedChanged(object sender, EventArgs e)
+        private void Ecrhandlerchk_CheckedChanged(object sender, EventArgs e)
         {
             if (ecrhandlerchk.Checked)
             {
@@ -1036,7 +962,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void ecrapproval2chk_CheckedChanged(object sender, EventArgs e)
+        private void Ecrapproval2chk_CheckedChanged(object sender, EventArgs e)
         {
             if (ecrapproval2chk.Checked)
             {
@@ -1045,7 +971,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void supervisorcombox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        private void Supervisorcombox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -1053,7 +979,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void ecrSupervisorcomboBox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        private void EcrSupervisorcomboBox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -1061,7 +987,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void shippingmanagerchk_CheckedChanged(object sender, EventArgs e)
+        private void Shippingmanagerchk_CheckedChanged(object sender, EventArgs e)
         {
             if (shippingmanagerchk.Checked)
             {
@@ -1069,7 +995,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void shippingsupchk_CheckedChanged(object sender, EventArgs e)
+        private void Shippingsupchk_CheckedChanged(object sender, EventArgs e)
         {
             if (shippingsupchk.Checked)
             {

@@ -47,8 +47,8 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(829, 609);
             this.dataGridView1.TabIndex = 0;
-            this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
-            this.dataGridView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView1_KeyDown);
+            this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1_CellDoubleClick);
+            this.dataGridView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DataGridView1_KeyDown);
             // 
             // savebttn
             // 
@@ -63,7 +63,7 @@
             this.savebttn.TabIndex = 1;
             this.savebttn.Text = "Save";
             this.savebttn.UseVisualStyleBackColor = true;
-            this.savebttn.Click += new System.EventHandler(this.savebttn_Click);
+            this.savebttn.Click += new System.EventHandler(this.Savebttn_Click);
             // 
             // ConnectParameters
             // 

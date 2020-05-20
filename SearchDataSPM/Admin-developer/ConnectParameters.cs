@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SPMConnectAPI;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
@@ -10,6 +11,7 @@ namespace SearchDataSPM
     {
         private readonly BindingSource bindingSource1 = new BindingSource();
         private SqlDataAdapter dataAdapter = new SqlDataAdapter();
+        private readonly ConnectAPI connectapi = new ConnectAPI();
         private log4net.ILog log;
 
         public ConnectParameters()
@@ -32,7 +34,7 @@ namespace SearchDataSPM
             log.Info("Opened Connect Parameters");
         }
 
-        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void DataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex != -1)
             {
@@ -51,7 +53,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
+        private void DataGridView1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Delete)
             {
@@ -64,9 +66,7 @@ namespace SearchDataSPM
         {
             try
             {
-                // Populate a new data table and bind it to the BindingSource.
-                string connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
-                dataAdapter = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[ConnectParamaters] ORDER BY Id", connection);
+                dataAdapter = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[ConnectParamaters] ORDER BY Id", connectapi.ConnectConnectionString());
 
                 // Create a command builder to generate SQL update, insert, and
                 // delete commands based on selectCommand.
@@ -86,15 +86,13 @@ namespace SearchDataSPM
                 dataGridView1.Columns[0].ReadOnly = true;
                 dataGridView1.Columns[1].ReadOnly = true;
             }
-            catch (SqlException)
+            catch (Exception ex)
             {
-                MessageBox.Show("To run this example, replace the value of the " +
-                    "connectionString variable with a connection string that is " +
-                    "valid for your system.");
+                log.Error(ex.Message, ex);
             }
         }
 
-        private void savebttn_Click(object sender, EventArgs e)
+        private void Savebttn_Click(object sender, EventArgs e)
         {
             bindingSource1.EndEdit();
             dataAdapter.Update((DataTable)bindingSource1.DataSource);
