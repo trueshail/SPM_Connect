@@ -13,7 +13,6 @@ namespace SearchDataSPM
         [STAThread]
         private static void Main()
         {
-            //this is dev branch
             AddRegistry();
             ErrorHandler errorHandler = new ErrorHandler();
             log4net.ILog log;
