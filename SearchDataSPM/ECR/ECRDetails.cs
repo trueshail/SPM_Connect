@@ -1,10 +1,8 @@
 ﻿using ExtractLargeIconFromFile;
 using SearchDataSPM.ECR;
-using SPMConnectAPI;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -13,6 +11,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using static SPMConnectAPI.ConnectConstants;
 
 namespace SearchDataSPM
 {
@@ -20,35 +19,24 @@ namespace SearchDataSPM
     {
         #region Load Invoice Details and setting Parameters
 
+        private readonly SPMConnectAPI.ECR connectapi = new SPMConnectAPI.ECR();
         private DataTable dt;
-        private string Invoice_Number = "";
-        private SPMConnectAPI.ECR connectapi = new SPMConnectAPI.ECR();
-
-        private bool ecrcreator = false;
-        private bool ecrsup = false;
-        private bool ecrmanager = false;
-        private bool ecrhandler = false;
-        private int myid = 0;
-        private int supervisorid = 0;
-        private string userfullname = "";
-
+        private readonly string Invoice_Number = "";
+        private bool ecrcreator;
         private log4net.ILog log;
-
-        private ErrorHandler errorHandler = new ErrorHandler();
+        private readonly string userfullname = "";
 
         public ECRDetails(string username, string invoiceno)
         {
             InitializeComponent();
             dt = new DataTable();
-            this.userfullname = username;
+            userfullname = username;
             this.Invoice_Number = invoiceno;
         }
 
         private void ECRDetails_Load(object sender, EventArgs e)
         {
             this.Text = "SPM Connect ECR Details - " + Invoice_Number;
-            GetUserCreds();
-
             FillProjectManagers();
             FillRequestedBy();
             FillDepartments();
@@ -58,7 +46,7 @@ namespace SearchDataSPM
                 FillECRDetails();
                 if (!supcheckBox.Checked)
                 {
-                    processeditbutton();
+                    Processeditbutton();
                 }
             }
             log4net.Config.XmlConfigurator.Configure();
@@ -66,79 +54,67 @@ namespace SearchDataSPM
             log.Info("Opened ECR Detail " + Invoice_Number + " ");
         }
 
-        private void GetUserCreds()
-        {
-            try
-            {
-                if (connectapi.cn.State == ConnectionState.Closed)
-                    connectapi.cn.Open();
-                SqlCommand cmd = connectapi.cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + connectapi.GetUserName() + "' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    supervisorid = Convert.ToInt32(dr["ECRSup"].ToString());
-                    myid = Convert.ToInt32(dr["id"].ToString());
-                    string ecrsupstring = dr["ECRApproval"].ToString();
-                    string ecrmanagerstring = dr["ECRApproval2"].ToString();
-                    string ecrhandlerstring = dr["ECRHandler"].ToString();
-
-                    if (ecrsupstring == "1")
-                    {
-                        ecrsup = true;
-                    }
-                    if (ecrmanagerstring == "1")
-                    {
-                        ecrmanager = true;
-                    }
-                    if (ecrhandlerstring == "1")
-                    {
-                        ecrhandler = true;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Error Getting Full User Name", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                connectapi.cn.Close();
-            }
-        }
-
         private bool GetECRInfo(string invoicenumber)
         {
-            bool fillled = false;
-            string sql = "SELECT * FROM [SPM_Database].[dbo].[ECR] WHERE ECRNo = '" + invoicenumber + "'";
-            try
-            {
-                if (connectapi.cn.State == ConnectionState.Closed)
-                    connectapi.cn.Open();
-                SqlDataAdapter da = new SqlDataAdapter(sql, connectapi.cn);
-                dt.Clear();
-                da.Fill(dt);
-
-                fillled = true;
-            }
-            catch (SqlException ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Get ECR Base Info From SQL", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                connectapi.cn.Close();
-            }
-            return fillled;
+            dt.Clear();
+            dt = connectapi.GetECRInfo(invoicenumber);
+            return dt.Rows.Count > 0;
         }
 
         #endregion Load Invoice Details and setting Parameters
 
         #region Fill information on controls
+
+        private void CheckEditButtonRights(int supervisorid, int managerid, int assignedto)
+        {
+            //if ((!ecrcreator) && (!supcheckBox.Checked))
+            //{
+            //    return;
+            //}
+            if (ecrcreator && (!managercheckBox.Checked))
+            {
+                supcheckBox.Enabled = true;
+            }
+
+            if (supervisorid == ConnectUser.ConnectId && ConnectUser.ECRApproval && !submitecrhandlercheckBox.Checked)
+            {
+                managercheckBox.Enabled = true;
+                rejectbttn.Visible = !managercheckBox.Checked;
+            }
+            else if (managerid == ConnectUser.ConnectId && ConnectUser.ECRApproval2 && !ecrhandlercheckBox.Checked)
+            {
+                submitecrhandlercheckBox.Enabled = true;
+                rejectbttn.Visible = !submitecrhandlercheckBox.Checked;
+                attachlbl.Visible = false;
+                browsebttn.Visible = false;
+                delbttn.Visible = false;
+                iteminfogroupBox.Enabled = false;
+                descriptiontxtbox.Enabled = false;
+            }
+            else if (assignedto == ConnectUser.ConnectId && ConnectUser.ECRHandler)
+            {
+                attachlbl.Visible = false;
+                browsebttn.Visible = false;
+                delbttn.Visible = false;
+                ecrhandlercheckBox.Enabled = true;
+                iteminfogroupBox.Enabled = false;
+                descriptiontxtbox.Enabled = false;
+            }
+            else
+            {
+                if (!ecrcreator)
+                    PerfromEditlockdown();
+                if (ecrcreator && submitecrhandlercheckBox.Checked)
+                    PerfromEditlockdown();
+            }
+        }
+
+        private void FetchJobSaNames(string jobno, string sano)
+        {
+            jobnamelbl.Text = jobno.Length == 5 ? connectapi.GetJobName(jobno) : "Job Name :";
+
+            subassylbl.Text = sano.Length == 6 ? connectapi.GetSAName(sano) : "Sub Assy Name :";
+        }
 
         private void FillECRDetails()
         {
@@ -151,7 +127,7 @@ namespace SearchDataSPM
             satxt.Text = r["SANo"].ToString();
             partnotxt.Text = r["PartNo"].ToString();
 
-            fetchJobSaNames(r["JobNo"].ToString(), r["SANo"].ToString());
+            FetchJobSaNames(r["JobNo"].ToString(), r["SANo"].ToString());
 
             Createdon.Text = "Created On : " + r["DateCreated"].ToString();
 
@@ -168,7 +144,7 @@ namespace SearchDataSPM
             string submittedtoecrhandler = r["Approved"].ToString();
             string ecrcomplete = r["Completed"].ToString();
 
-            handleCheckBoxes(submittedtosup, submittedtomanager, submittedtoecrhandler, ecrcomplete, r["SupervisorId"].ToString(),
+            HandleCheckBoxes(submittedtosup, submittedtomanager, submittedtoecrhandler, ecrcomplete, r["SupervisorId"].ToString(),
                 r["SubmitToId"].ToString(), r["AssignedTo"].ToString(), r["CompletedBy"].ToString(), r["SubmittedOn"].ToString(), r["SupApprovedOn"].ToString(), r["ApprovedOn"].ToString(), r["CompletedOn"].ToString());
 
             string projectmanager = r["ProjectManager"].ToString();
@@ -197,32 +173,11 @@ namespace SearchDataSPM
                 ecrcreator = true;
             }
 
-            checkEditButtonRights(Convert.ToInt32(r["SupervisorId"].ToString()), Convert.ToInt32(r["SubmitToId"].ToString()), Convert.ToInt32(r["AssignedTo"].ToString()));
-            filllistview(ecrnotxtbox.Text);
+            CheckEditButtonRights(Convert.ToInt32(r["SupervisorId"].ToString()), Convert.ToInt32(r["SubmitToId"].ToString()), Convert.ToInt32(r["AssignedTo"].ToString()));
+            Filllistview(ecrnotxtbox.Text);
         }
 
-        private void fetchJobSaNames(string jobno, string sano)
-        {
-            if (jobno.Length == 5)
-            {
-                jobnamelbl.Text = connectapi.GetJobName(jobno);
-            }
-            else
-            {
-                jobnamelbl.Text = "Job Name :";
-            }
-
-            if (sano.Length == 6)
-            {
-                subassylbl.Text = connectapi.GetSAName(sano);
-            }
-            else
-            {
-                subassylbl.Text = "Sub Assy Name :";
-            }
-        }
-
-        private void handleCheckBoxes(string submittedtosup, string submittedtomanager, string submittedtoecrhandler, string ecrcomplete,
+        private void HandleCheckBoxes(string submittedtosup, string submittedtomanager, string submittedtoecrhandler, string ecrcomplete,
             string supervisorid, string managerid, string assignedto, string completedby, string submittedon, string SupApprovedOn, string approvedon, string completedon)
         {
             if (submittedtosup == "1")
@@ -287,65 +242,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void checkEditButtonRights(int supervisorid, int managerid, int assignedto)
-        {
-            //if ((!ecrcreator) && (!supcheckBox.Checked))
-            //{
-            //    return;
-            //}
-            if (ecrcreator && (!managercheckBox.Checked))
-            {
-                supcheckBox.Enabled = true;
-            }
-
-            if (supervisorid == myid && ecrsup && !submitecrhandlercheckBox.Checked)
-            {
-                managercheckBox.Enabled = true;
-                if (managercheckBox.Checked)
-                {
-                    rejectbttn.Visible = false;
-                }
-                else
-                {
-                    rejectbttn.Visible = true;
-                }
-            }
-            else if (managerid == myid && ecrmanager && !ecrhandlercheckBox.Checked)
-            {
-                submitecrhandlercheckBox.Enabled = true;
-                if (submitecrhandlercheckBox.Checked)
-                {
-                    rejectbttn.Visible = false;
-                }
-                else
-                {
-                    rejectbttn.Visible = true;
-                }
-                attachlbl.Visible = false;
-                browsebttn.Visible = false;
-                delbttn.Visible = false;
-                iteminfogroupBox.Enabled = false;
-                descriptiontxtbox.Enabled = false;
-            }
-            else if (assignedto == myid && ecrhandler)
-            {
-                attachlbl.Visible = false;
-                browsebttn.Visible = false;
-                delbttn.Visible = false;
-                ecrhandlercheckBox.Enabled = true;
-                iteminfogroupBox.Enabled = false;
-                descriptiontxtbox.Enabled = false;
-            }
-            else
-            {
-                if (!ecrcreator)
-                    perfromEditlockdown();
-                if (ecrcreator && submitecrhandlercheckBox.Checked)
-                    perfromEditlockdown();
-            }
-        }
-
-        private void perfromEditlockdown()
+        private void PerfromEditlockdown()
         {
             editbttn.Visible = false;
             savbttn.Enabled = false;
@@ -395,7 +292,7 @@ namespace SearchDataSPM
             }
             if (keyData == (Keys.Control | Keys.S))
             {
-                perfromsavebttn("", true, false);
+                Perfromsavebttn("", true, false);
                 return true;
             }
             return base.ProcessCmdKey(ref msg, keyData);
@@ -407,12 +304,12 @@ namespace SearchDataSPM
 
         private void QuoteDetails_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (savbttn.Visible == true)
+            if (savbttn.Visible)
             {
                 DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to close without saving changes?", "SPM Connect - Save Invoice Details", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {
-                    connectapi.CheckoutInvoice(ecrnotxtbox.Text.Trim(), ConnectAPI.CheckInModules.ECR);
+                    connectapi.CheckoutInvoice(ecrnotxtbox.Text.Trim(), CheckInModules.ECR);
                     this.Dispose();
                 }
                 else
@@ -422,7 +319,7 @@ namespace SearchDataSPM
             }
             else
             {
-                connectapi.CheckoutInvoice(ecrnotxtbox.Text.Trim(), ConnectAPI.CheckInModules.ECR);
+                connectapi.CheckoutInvoice(ecrnotxtbox.Text.Trim(), CheckInModules.ECR);
             }
         }
 
@@ -430,25 +327,9 @@ namespace SearchDataSPM
 
         #region Process Save
 
-        private void perfromlockdown()
-        {
-            editbttn.Visible = true;
-            savbttn.Enabled = false;
-            savbttn.Visible = false;
-            notestxt.ReadOnly = true;
-            descriptiontxtbox.ReadOnly = true;
-            iteminfogroupBox.Enabled = false;
-            submissiongroupBox.Enabled = false;
-            browsebttn.Enabled = false;
-            delbttn.Enabled = false;
-            browsebttn.Visible = false;
-            delbttn.Visible = false;
-            attachlbl.Visible = false;
-        }
+        private readonly List<string> list = new List<string>();
 
-        private List<string> list = new List<string>();
-
-        private void graballinfor()
+        private void Graballinfor()
         {
             list.Clear();
             Regex reg = new Regex("['\",_^]");
@@ -481,21 +362,32 @@ namespace SearchDataSPM
             list.Add(reg.Replace(notestxt.Text, "''"));
         }
 
-        private void savbttn_Click(object sender, EventArgs e)
+        private void Perfromlockdown()
         {
-            perfromsavebttn("", true, false);
+            editbttn.Visible = true;
+            savbttn.Enabled = false;
+            savbttn.Visible = false;
+            notestxt.ReadOnly = true;
+            descriptiontxtbox.ReadOnly = true;
+            iteminfogroupBox.Enabled = false;
+            submissiongroupBox.Enabled = false;
+            browsebttn.Enabled = false;
+            delbttn.Enabled = false;
+            browsebttn.Visible = false;
+            delbttn.Visible = false;
+            attachlbl.Visible = false;
         }
 
-        private void perfromsavebttn(string typeofSave, bool buttonclick, bool rejectbutton)
+        private void Perfromsavebttn(string typeofSave, bool buttonclick, bool rejectbutton)
         {
             Cursor.Current = Cursors.WaitCursor;
             this.Enabled = false;
             this.BackColor = Color.SteelBlue;
-            perfromlockdown();
-            graballinfor();
-            if (processSaveType(typeofSave, buttonclick, rejectbutton))
+            Perfromlockdown();
+            Graballinfor();
+            if (ProcessSaveType(typeofSave, buttonclick, rejectbutton))
             {
-                if (GetECRInfo(list[0].ToString()))
+                if (GetECRInfo(list[0]))
                 {
                     FillECRDetails();
                 }
@@ -503,7 +395,7 @@ namespace SearchDataSPM
             else
             {
                 MetroFramework.MetroMessageBox.Show(this, "Error occured while saving data.", "SPM Connect?", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                if (GetECRInfo(list[0].ToString()))
+                if (GetECRInfo(list[0]))
                 {
                     FillECRDetails();
                 }
@@ -512,48 +404,48 @@ namespace SearchDataSPM
             Cursor.Current = Cursors.Default;
         }
 
-        private bool processSaveType(string typeofSave, bool savebttn, bool rejectbttn)
+        private bool ProcessSaveType(string typeofSave, bool savebttn, bool rejectbttn)
         {
             bool success = false;
             if (savebttn)
             {
                 if (ecrcreator)
                 {
-                    success = connectapi.UpdateECRDetsToSql("Creator", list[0].ToString(), list[1].ToString(),
-                     list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(),
-                     list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(),
-                     list[10].ToString(), 0, 0, 0, 0, "", "", rejectbttn);
+                    success = connectapi.UpdateECRDetsToSql("Creator", list[0], list[1],
+                     list[2], list[3], list[4], list[5],
+                     list[6], list[7], list[8], list[9],
+                     list[10], 0, 0, 0, 0, "", "", rejectbttn);
                 }
-                else if (ecrsup)
+                else if (ConnectUser.ECRApproval)
                 {
-                    success = connectapi.UpdateECRDetsToSql("Supervisor", list[0].ToString(), list[1].ToString(),
-                    list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(),
-                    list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(),
-                    list[10].ToString(), 0, 0, 0, 0, "", "", rejectbttn);
+                    success = connectapi.UpdateECRDetsToSql("Supervisor", list[0], list[1],
+                    list[2], list[3], list[4], list[5],
+                    list[6], list[7], list[8], list[9],
+                    list[10], 0, 0, 0, 0, "", "", rejectbttn);
                 }
-                else if (ecrmanager)
+                else if (ConnectUser.ECRApproval2)
                 {
-                    success = connectapi.UpdateECRDetsToSql("Manager", list[0].ToString(), list[1].ToString(),
-                    list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(),
-                    list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(),
-                    list[10].ToString(), 0, 0, 0, 0, "", "", rejectbttn);
+                    success = connectapi.UpdateECRDetsToSql("Manager", list[0], list[1],
+                    list[2], list[3], list[4], list[5],
+                    list[6], list[7], list[8], list[9],
+                    list[10], 0, 0, 0, 0, "", "", rejectbttn);
                 }
-                else if (ecrhandler)
+                else if (ConnectUser.ECRHandler)
                 {
-                    success = connectapi.UpdateECRDetsToSql("Handler", list[0].ToString(), list[1].ToString(),
-                    list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(),
-                    list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(),
-                    list[10].ToString(), 0, 0, 0, 0, "", "", rejectbttn);
+                    success = connectapi.UpdateECRDetsToSql("Handler", list[0], list[1],
+                    list[2], list[3], list[4], list[5],
+                    list[6], list[7], list[8], list[9],
+                    list[10], 0, 0, 0, 0, "", "", rejectbttn);
                 }
             }
             else
             {
                 if (typeofSave == "Submitted")
                 {
-                    success = connectapi.UpdateECRDetsToSql(typeofSave, list[0].ToString(), list[1].ToString(),
-                       list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(),
-                       list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(),
-                       list[10].ToString(), 1, 0, 0, 0, "", "", rejectbttn);
+                    success = connectapi.UpdateECRDetsToSql(typeofSave, list[0], list[1],
+                       list[2], list[3], list[4], list[5],
+                       list[6], list[7], list[8], list[9],
+                       list[10], 1, 0, 0, 0, "", "", rejectbttn);
                 }
                 else if (typeofSave == "SupSubmit")
                 {
@@ -566,17 +458,17 @@ namespace SearchDataSPM
                         ecrUser.IsSupervisor(true);
                         ecrUser.formtext("ECR - Select available user to send this ECR for approval.");
 
-                        if (ecrUser.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                        if (ecrUser.ShowDialog() == DialogResult.OK)
                         {
                             managerid = ecrUser.ValueIWant;
                         }
 
                         if (managerid.Length > 0)
                         {
-                            success = connectapi.UpdateECRDetsToSql(typeofSave, list[0].ToString(), list[1].ToString(),
-                            list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(),
-                            list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(),
-                            list[10].ToString(), 0, 1, 0, 0, managerid, "", rejectbttn);
+                            success = connectapi.UpdateECRDetsToSql(typeofSave, list[0], list[1],
+                            list[2], list[3], list[4], list[5],
+                            list[6], list[7], list[8], list[9],
+                            list[10], 0, 1, 0, 0, managerid, "", rejectbttn);
                         }
                         else
                         {
@@ -585,21 +477,21 @@ namespace SearchDataSPM
                     }
                     else
                     {
-                        success = connectapi.UpdateECRDetsToSql(typeofSave, list[0].ToString(), list[1].ToString(),
-                       list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(),
-                       list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(),
-                       list[10].ToString(), 0, 1, 0, 0, managerid, "", rejectbttn);
+                        success = connectapi.UpdateECRDetsToSql(typeofSave, list[0], list[1],
+                       list[2], list[3], list[4], list[5],
+                       list[6], list[7], list[8], list[9],
+                       list[10], 0, 1, 0, 0, managerid, "", rejectbttn);
                     }
                 }
                 else if (typeofSave == "SupSubmitFalse")
                 {
                     // Get the option to select the available managers
 
-                    string managerid = "";
-                    success = connectapi.UpdateECRDetsToSql(typeofSave, list[0].ToString(), list[1].ToString(),
-                    list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(),
-                    list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(),
-                    list[10].ToString(), 0, rejectbttn ? 3 : 0, 0, 0, managerid, "", rejectbttn);
+                    const string managerid = "";
+                    success = connectapi.UpdateECRDetsToSql(typeofSave, list[0], list[1],
+                    list[2], list[3], list[4], list[5],
+                    list[6], list[7], list[8], list[9],
+                    list[10], 0, rejectbttn ? 3 : 0, 0, 0, managerid, "", rejectbttn);
                 }
                 else if (typeofSave == "ManagerApproved")
                 {
@@ -613,16 +505,16 @@ namespace SearchDataSPM
                         ecrUser.IsSupervisor(false);
                         ecrUser.formtext("ECR - Select available user to send this ECR for changes to be completed.");
 
-                        if (ecrUser.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                        if (ecrUser.ShowDialog() == DialogResult.OK)
                         {
                             ecrhandler = ecrUser.ValueIWant;
                         }
                         if (ecrhandler.Length > 0)
                         {
-                            success = connectapi.UpdateECRDetsToSql(typeofSave, list[0].ToString(), list[1].ToString(),
-                            list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(),
-                            list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(),
-                            list[10].ToString(), 0, 0, 1, 0, "", ecrhandler, rejectbttn);
+                            success = connectapi.UpdateECRDetsToSql(typeofSave, list[0], list[1],
+                            list[2], list[3], list[4], list[5],
+                            list[6], list[7], list[8], list[9],
+                            list[10], 0, 0, 1, 0, "", ecrhandler, rejectbttn);
                         }
                         else
                         {
@@ -631,57 +523,60 @@ namespace SearchDataSPM
                     }
                     else
                     {
-                        success = connectapi.UpdateECRDetsToSql(typeofSave, list[0].ToString(), list[1].ToString(),
-                        list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(),
-                        list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(),
-                        list[10].ToString(), 0, 0, 1, 0, "", ecrhandler, rejectbttn);
+                        success = connectapi.UpdateECRDetsToSql(typeofSave, list[0], list[1],
+                        list[2], list[3], list[4], list[5],
+                        list[6], list[7], list[8], list[9],
+                        list[10], 0, 0, 1, 0, "", ecrhandler, rejectbttn);
                     }
                 }
                 else if (typeofSave == "ManagerApprovedFalse")
                 {
                     // Get the option to select the available ecr handlers
-                    string ecrhandler = "";
-                    success = connectapi.UpdateECRDetsToSql(typeofSave, list[0].ToString(), list[1].ToString(),
-                    list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(),
-                    list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(),
-                    list[10].ToString(), 0, 0, rejectbttn ? 3 : 0, 0, "", ecrhandler, rejectbttn);
+                    const string ecrhandler = "";
+                    success = connectapi.UpdateECRDetsToSql(typeofSave, list[0], list[1],
+                    list[2], list[3], list[4], list[5],
+                    list[6], list[7], list[8], list[9],
+                    list[10], 0, 0, rejectbttn ? 3 : 0, 0, "", ecrhandler, rejectbttn);
                 }
                 else if (typeofSave == "Completed")
                 {
-                    success = connectapi.UpdateECRDetsToSql(typeofSave, list[0].ToString(), list[1].ToString(),
-                    list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(),
-                    list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(),
-                    list[10].ToString(), 0, 0, 0, 1, "", "", rejectbttn);
-                }
-                else if (typeofSave == "CompletedFalse")
-                {
-                    success = connectapi.UpdateECRDetsToSql(typeofSave, list[0].ToString(), list[1].ToString(),
-                    list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(),
-                    list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(),
-                    list[10].ToString(), 0, 0, 0, 0, "", "", rejectbttn);
+                    success = connectapi.UpdateECRDetsToSql(typeofSave, list[0], list[1],
+                    list[2], list[3], list[4], list[5],
+                    list[6], list[7], list[8], list[9],
+                    list[10], 0, 0, 0, 1, "", "", rejectbttn);
                 }
                 else
                 {
-                    success = connectapi.UpdateECRDetsToSql(typeofSave, list[0].ToString(), list[1].ToString(),
-                    list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(),
-                    list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(),
-                    list[10].ToString(), 0, 0, 0, 0, "", "", rejectbttn);
+                    success = typeofSave == "CompletedFalse"
+                        ? connectapi.UpdateECRDetsToSql(typeofSave, list[0], list[1],
+                                        list[2], list[3], list[4], list[5],
+                                        list[6], list[7], list[8], list[9],
+                                        list[10], 0, 0, 0, 0, "", "", rejectbttn)
+                        : connectapi.UpdateECRDetsToSql(typeofSave, list[0], list[1],
+                                        list[2], list[3], list[4], list[5],
+                                        list[6], list[7], list[8], list[9],
+                                        list[10], 0, 0, 0, 0, "", "", rejectbttn);
                 }
                 SaveReport(ecrnotxtbox.Text);
             }
             return success;
         }
 
+        private void Savbttn_Click(object sender, EventArgs e)
+        {
+            Perfromsavebttn("", true, false);
+        }
+
         #endregion Process Save
 
         #region Process Edit
 
-        private void editbttn_Click(object sender, EventArgs e)
+        private void Editbttn_Click(object sender, EventArgs e)
         {
-            processeditbutton();
+            Processeditbutton();
         }
 
-        private void processeditbutton()
+        private void Processeditbutton()
         {
             this.BackColor = Color.FromArgb(62, 69, 76);
             editbttn.Visible = false;
@@ -697,14 +592,14 @@ namespace SearchDataSPM
             delbttn.Visible = true;
             attachlbl.Visible = true;
             DataRow r = dt.Rows[0];
-            checkEditButtonRights(Convert.ToInt32(r["SupervisorId"].ToString()), Convert.ToInt32(r["SubmitToId"].ToString()), Convert.ToInt32(r["AssignedTo"].ToString()));
+            CheckEditButtonRights(Convert.ToInt32(r["SupervisorId"].ToString()), Convert.ToInt32(r["SubmitToId"].ToString()), Convert.ToInt32(r["AssignedTo"].ToString()));
         }
 
         #endregion Process Edit
 
         #region Print Reports
 
-        private void toolStripSplitButton1_ButtonClick(object sender, EventArgs e)
+        private void ToolStripSplitButton1_ButtonClick(object sender, EventArgs e)
         {
             ReportViewer form1 = new ReportViewer("ECR", ecrnotxtbox.Text);
             form1.Show();
@@ -713,15 +608,6 @@ namespace SearchDataSPM
         #endregion Print Reports
 
         #region Save Report
-
-        private void SaveReport(string reqno)
-        {
-            string fileName = "";
-            string filepath = @"\\spm-adfs\SDBASE\Reports\ECR_Reports\";
-            System.IO.Directory.CreateDirectory(filepath);
-            fileName = filepath + reqno + ".pdf";
-            SaveReport(reqno, fileName);
-        }
 
         public void SaveReport(string invoiceno, string fileName)
         {
@@ -739,26 +625,19 @@ namespace SearchDataSPM
             rs.Url = "http://spm-sql/reportserver/reportservice2005.asmx";
             rsExec.Url = "http://spm-sql/reportserver/reportexecution2005.asmx";
 
-            string historyID = null;
-            string deviceInfo = null;
-            string format = "PDF";
+            const string historyID = null;
+            const string deviceInfo = null;
+            const string format = "PDF";
             Byte[] results;
-            string encoding = String.Empty;
-            string mimeType = String.Empty;
-            string extension = String.Empty;
-            RE2005.Warning[] warnings = null;
-            string[] streamIDs = null;
-            string _reportName = @"/GeniusReports/Job/SPM_ECR";
+            const string _reportName = "/GeniusReports/Job/SPM_ECR";
 
-            string _historyID = null;
-            bool _forRendering = false;
+            const string _historyID = null;
+            const bool _forRendering = false;
             RS2005.ParameterValue[] _values = null;
             RS2005.DataSourceCredentials[] _credentials = null;
-            RS2005.ReportParameter[] _parameters = null;
-
             try
             {
-                _parameters = rs.GetReportParameters(_reportName, _historyID, _forRendering, _values, _credentials);
+                RS2005.ReportParameter[] _parameters = rs.GetReportParameters(_reportName, _historyID, _forRendering, _values, _credentials);
                 RE2005.ExecutionInfo ei = rsExec.LoadReport(_reportName, historyID);
                 RE2005.ParameterValue[] parameters = new RE2005.ParameterValue[1];
 
@@ -774,8 +653,8 @@ namespace SearchDataSPM
                 rsExec.SetExecutionParameters(parameters, "en-us");
 
                 results = rsExec.Render(format, deviceInfo,
-                          out extension, out encoding,
-                          out mimeType, out warnings, out streamIDs);
+                          out string extension, out string encoding,
+                          out string mimeType, out RE2005.Warning[] warnings, out string[] streamIDs);
 
                 try
                 {
@@ -789,204 +668,37 @@ namespace SearchDataSPM
             }
             catch (Exception ex)
             {
-                throw ex;
+                log.Error(ex.Message, ex);
             }
-            finally
-            {
-            }
+        }
+
+        private void SaveReport(string reqno)
+        {
+            const string filepath = @"\\spm-adfs\SDBASE\Reports\ECR_Reports\";
+            Directory.CreateDirectory(filepath);
+            string fileName = filepath + reqno + ".pdf";
+            SaveReport(reqno, fileName);
         }
 
         #endregion Save Report
 
-        private void SupcheckBox_Click(object sender, EventArgs e)
+        private void DepartmentcomboBox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
-            if (supcheckBox.Checked == false)
+            if (e.KeyCode == Keys.Return)
             {
-                DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to remove this ECR from approval?", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                if (result == DialogResult.Yes)
-                {
-                    supcheckBox.Text = "Submit to Supervisor";
-                    supcheckBox.Checked = false;
-                    perfromsavebttn("SubmittedFalse", false, false);
-                    //preparetosendemail(reqno, true, "", filename, false, "user", false);
-                }
-                else
-                {
-                    supcheckBox.Checked = true;
-                }
-            }
-            else
-            {
-                DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to send this ECR for approval?" + Environment.NewLine +
-                    " " + Environment.NewLine +
-                    "This will send an email to respective supervisor for approval.", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                if (result == DialogResult.Yes)
-                {
-                    errorProvider1.Clear();
-                    if (jobtxt.Text.Length > 0 && satxt.Text.Length > 0 && descriptiontxtbox.Text.Length > 0)
-                    {
-                        supcheckBox.Text = "Submitted to Supervisor";
-                        perfromsavebttn("Submitted", false, false);
-                        Preparetosendemail("Submitted", false);
-                    }
-                    else
-                    {
-                        errorProvider1.Clear();
-                        if (satxt.Text.Length == 0)
-                        {
-                            errorProvider1.SetError(satxt, "Sub Assy No cannot be empty");
-                        }
-                        if (jobtxt.Text.Length == 0)
-                        {
-                            errorProvider1.SetError(jobtxt, "Job Number cannot be empty");
-                        }
-                        if (descriptiontxtbox.Text.Length == 0)
-                        {
-                            errorProvider1.SetError(descriptiontxtbox, "Description cannot be empty");
-                        }
-                        if (jobtxt.Text.Length > 0 && satxt.Text.Length > 0 && descriptiontxtbox.Text.Length > 0)
-                        {
-                            errorProvider1.Clear();
-                        }
-                        supcheckBox.Checked = false;
-                    }
-                }
-                else
-                {
-                    supcheckBox.Checked = false;
-                }
+                departmentcomboBox.Focus();
             }
         }
 
-        private void ManagercheckBox_Click(object sender, EventArgs e)
+        private void ECRDetails_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (managercheckBox.Checked == false)
-            {
-                DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to remove this ECR from approval?", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                if (result == DialogResult.Yes)
-                {
-                    managercheckBox.Checked = false;
-                    managercheckBox.Text = "Submit to ECR Manager";
-                    perfromsavebttn("SupSubmitFalse", false, false);
-                    //preparetosendemail(reqno, true, "", filename, false, "user", false);
-                }
-                else
-                {
-                    managercheckBox.Checked = true;
-                }
-            }
-            else
-            {
-                errorProvider1.Clear();
-                DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to send this ECR for approval?" + Environment.NewLine +
-                    "Please select available manager on your next step." + Environment.NewLine +
-                    "This will send an email to respective ECR manager for approval.", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                if (result == DialogResult.Yes)
-                {
-                    if (jobtxt.Text.Length > 0 && satxt.Text.Length > 0 && descriptiontxtbox.Text.Length > 0)
-                    {
-                        managercheckBox.Text = "Submitted to ECR Manager";
-                        perfromsavebttn("SupSubmit", false, false);
-                        Preparetosendemail("SupSubmit", false);
-                    }
-                    else
-                    {
-                        errorProvider1.Clear();
-                        if (satxt.Text.Length == 0)
-                        {
-                            errorProvider1.SetError(satxt, "Sub Assy No cannot be empty");
-                        }
-                        if (jobtxt.Text.Length == 0)
-                        {
-                            errorProvider1.SetError(jobtxt, "Job Number cannot be empty");
-                        }
-                        if (descriptiontxtbox.Text.Length == 0)
-                        {
-                            errorProvider1.SetError(descriptiontxtbox, "Description cannot be empty");
-                        }
-                        if (jobtxt.Text.Length > 0 && satxt.Text.Length > 0 && descriptiontxtbox.Text.Length > 0)
-                        {
-                            errorProvider1.Clear();
-                        }
-                        managercheckBox.Checked = false;
-                    }
-                }
-                else
-                {
-                    managercheckBox.Checked = false;
-                }
-            }
-        }
-
-        private void SubmitecrhandlercheckBox_Click(object sender, EventArgs e)
-        {
-            if (submitecrhandlercheckBox.Checked == false)
-            {
-                DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to remove this ECR from process?", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                if (result == DialogResult.Yes)
-                {
-                    submitecrhandlercheckBox.Checked = false;
-                    submitecrhandlercheckBox.Text = "Submit to ECR Handler";
-                    perfromsavebttn("ManagerApprovedFalse", false, false);
-                    //preparetosendemail(reqno, true, "", filename, false, "user", false);
-                }
-                else
-                {
-                    submitecrhandlercheckBox.Checked = true;
-                }
-            }
-            else
-            {
-                DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to send this ECR for approval?" + Environment.NewLine +
-                    "Please select available ECR Handler on your next step." + Environment.NewLine +
-                    "This will notify respective ECR handler.", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                if (result == DialogResult.Yes)
-                {
-                    errorProvider1.Clear();
-                    if (jobtxt.Text.Length > 0 && satxt.Text.Length > 0 && descriptiontxtbox.Text.Length > 0)
-                    {
-                        submitecrhandlercheckBox.Text = "Submitted to ECR Handler";
-                        perfromsavebttn("ManagerApproved", false, false);
-                        Preparetosendemail("ManagerApproved", false);
-                    }
-                    else
-                    {
-                        errorProvider1.Clear();
-                        if (satxt.Text.Length == 0)
-                        {
-                            errorProvider1.SetError(satxt, "Sub Assy No cannot be empty");
-                        }
-                        if (jobtxt.Text.Length == 0)
-                        {
-                            errorProvider1.SetError(jobtxt, "Job Number cannot be empty");
-                        }
-                        if (descriptiontxtbox.Text.Length == 0)
-                        {
-                            errorProvider1.SetError(descriptiontxtbox, "Description cannot be empty");
-                        }
-                        if (jobtxt.Text.Length > 0 && satxt.Text.Length > 0 && descriptiontxtbox.Text.Length > 0)
-                        {
-                            errorProvider1.Clear();
-                        }
-                        submitecrhandlercheckBox.Checked = false;
-                    }
-                }
-                else
-                {
-                    submitecrhandlercheckBox.Checked = false;
-                }
-            }
+            log.Info("Closed ECR Detail " + Invoice_Number + " ");
+            this.Dispose();
         }
 
         private void EcrhandlercheckBox_Click(object sender, EventArgs e)
         {
-            if (ecrhandlercheckBox.Checked == false)
+            if (!ecrhandlercheckBox.Checked)
             {
                 DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to mark this ECR not completed?", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
@@ -994,7 +706,7 @@ namespace SearchDataSPM
                 {
                     ecrhandlercheckBox.Checked = false;
                     ecrhandlercheckBox.Text = "Close ECR Request";
-                    perfromsavebttn("CompletedFalse", false, false);
+                    Perfromsavebttn("CompletedFalse", false, false);
                     //preparetosendemail(reqno, true, "", filename, false, "user", false);
                 }
                 else
@@ -1014,7 +726,7 @@ namespace SearchDataSPM
                     if (jobtxt.Text.Length > 0 && satxt.Text.Length > 0 && descriptiontxtbox.Text.Length > 0)
                     {
                         ecrhandlercheckBox.Text = "Completed";
-                        perfromsavebttn("Completed", false, false);
+                        Perfromsavebttn("Completed", false, false);
                         Preparetosendemail("Completed", false);
                     }
                     else
@@ -1046,33 +758,9 @@ namespace SearchDataSPM
             }
         }
 
-        private void jobtxt_TextChanged(object sender, EventArgs e)
+        private void Jobtxt_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (jobtxt.Text.Length == 5)
-            {
-                fetchJobSaNames(jobtxt.Text.Trim(), satxt.Text.Trim());
-            }
-            else
-            {
-                jobnamelbl.Text = "Job Name :";
-            }
-        }
-
-        private void satxt_TextChanged(object sender, EventArgs e)
-        {
-            if (satxt.Text.Length == 6 && Char.IsLetter(satxt.Text[0]))
-            {
-                fetchJobSaNames(jobtxt.Text.Trim(), satxt.Text.Trim());
-            }
-            else
-            {
-                subassylbl.Text = "Sub Assy Name :";
-            }
-        }
-
-        private void jobtxt_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"[0-9+\b]"))
+            if (Regex.IsMatch(e.KeyChar.ToString(), @"[0-9+\b]"))
             {
                 // Stop the character from being entered into the control since it is illegal.
             }
@@ -1082,17 +770,128 @@ namespace SearchDataSPM
             }
         }
 
-        private void satxt_KeyPress(object sender, KeyPressEventArgs e)
+        private void Jobtxt_TextChanged(object sender, EventArgs e)
         {
-            if ((sender as TextBox).SelectionStart == 0)
-                e.Handled = (e.KeyChar == (char)Keys.Space);
+            if (jobtxt.Text.Length == 5)
+            {
+                FetchJobSaNames(jobtxt.Text.Trim(), satxt.Text.Trim());
+            }
             else
-                e.Handled = false;
+            {
+                jobnamelbl.Text = "Job Name :";
+            }
         }
 
-        private void rejectbttn_Click(object sender, EventArgs e)
+        private void ListView_DragDrop(object sender, DragEventArgs e)
         {
-            if (ecrsup)
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (files.Length > 0)
+            {
+                Cursor.Current = Cursors.WaitCursor;
+                var failedToUploads = new List<string>();
+                var uploads = new List<string>();
+                string str = @"\\spm-adfs\SDBASE\Reports\ECR_Attachments\" + ecrnotxtbox.Text + "\\";
+                if (!Directory.Exists(str))
+                {
+                    Directory.CreateDirectory(str);
+                }
+
+                foreach (string file in files)
+                {
+                    if (CopyFile(file, str + Path.GetRandomFileName().Replace(".", string.Empty) + Path.GetExtension(file)))
+                        uploads.Add(file);
+                    else
+                        failedToUploads.Add(file);
+                }
+                var message = string.Format("Files Attached: \n {0}", string.Join("\n", uploads.ToArray()));
+                if (failedToUploads.Count > 0)
+                {
+                    message += string.Format("\nFailed to Attach: \n {0}", string.Join("\n", failedToUploads.ToArray()));
+                    MessageBox.Show(message);
+                }
+                Filllistview(ecrnotxtbox.Text);
+                Cursor.Current = Cursors.Default;
+            }
+        }
+
+        private void ListView_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Copy;
+        }
+
+        private void ManagercheckBox_Click(object sender, EventArgs e)
+        {
+            if (!managercheckBox.Checked)
+            {
+                DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to remove this ECR from approval?", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    managercheckBox.Checked = false;
+                    managercheckBox.Text = "Submit to ECR Manager";
+                    Perfromsavebttn("SupSubmitFalse", false, false);
+                    //preparetosendemail(reqno, true, "", filename, false, "user", false);
+                }
+                else
+                {
+                    managercheckBox.Checked = true;
+                }
+            }
+            else
+            {
+                errorProvider1.Clear();
+                DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to send this ECR for approval?" + Environment.NewLine +
+                    "Please select available manager on your next step." + Environment.NewLine +
+                    "This will send an email to respective ECR manager for approval.", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    if (jobtxt.Text.Length > 0 && satxt.Text.Length > 0 && descriptiontxtbox.Text.Length > 0)
+                    {
+                        managercheckBox.Text = "Submitted to ECR Manager";
+                        Perfromsavebttn("SupSubmit", false, false);
+                        Preparetosendemail("SupSubmit", false);
+                    }
+                    else
+                    {
+                        errorProvider1.Clear();
+                        if (satxt.Text.Length == 0)
+                        {
+                            errorProvider1.SetError(satxt, "Sub Assy No cannot be empty");
+                        }
+                        if (jobtxt.Text.Length == 0)
+                        {
+                            errorProvider1.SetError(jobtxt, "Job Number cannot be empty");
+                        }
+                        if (descriptiontxtbox.Text.Length == 0)
+                        {
+                            errorProvider1.SetError(descriptiontxtbox, "Description cannot be empty");
+                        }
+                        if (jobtxt.Text.Length > 0 && satxt.Text.Length > 0 && descriptiontxtbox.Text.Length > 0)
+                        {
+                            errorProvider1.Clear();
+                        }
+                        managercheckBox.Checked = false;
+                    }
+                }
+                else
+                {
+                    managercheckBox.Checked = false;
+                }
+            }
+        }
+
+        private void Projectmanagercombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                projectmanagercombobox.Focus();
+            }
+        }
+
+        private void Rejectbttn_Click(object sender, EventArgs e)
+        {
+            if (ConnectUser.ECRApproval)
             {
                 DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to reject this ECR?" + Environment.NewLine +
                     " " + Environment.NewLine +
@@ -1100,11 +899,11 @@ namespace SearchDataSPM
 
                 if (result == DialogResult.Yes)
                 {
-                    perfromsavebttn("SupSubmitFalse", false, true);
+                    Perfromsavebttn("SupSubmitFalse", false, true);
                     Preparetosendemail("SupSubmitFalse", true);
                 }
             }
-            else if (ecrmanager)
+            else if (ConnectUser.ECRApproval2)
             {
                 DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to reject this ECR?" + Environment.NewLine +
                     " " + Environment.NewLine +
@@ -1112,60 +911,167 @@ namespace SearchDataSPM
 
                 if (result == DialogResult.Yes)
                 {
-                    perfromsavebttn("ManagerApprovedFalse", false, true);
+                    Perfromsavebttn("ManagerApprovedFalse", false, true);
                     Preparetosendemail("ManagerApprovedFalse", true);
+                }
+            }
+        }
+
+        private void Requestedbycombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                requestedbycombobox.Focus();
+            }
+        }
+
+        private void Satxt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = (sender as TextBox)?.SelectionStart == 0 && e.KeyChar == (char)Keys.Space;
+        }
+
+        private void Satxt_TextChanged(object sender, EventArgs e)
+        {
+            if (satxt.Text.Length == 6 && Char.IsLetter(satxt.Text[0]))
+            {
+                FetchJobSaNames(jobtxt.Text.Trim(), satxt.Text.Trim());
+            }
+            else
+            {
+                subassylbl.Text = "Sub Assy Name :";
+            }
+        }
+
+        private void SubmitecrhandlercheckBox_Click(object sender, EventArgs e)
+        {
+            if (!submitecrhandlercheckBox.Checked)
+            {
+                DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to remove this ECR from process?", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    submitecrhandlercheckBox.Checked = false;
+                    submitecrhandlercheckBox.Text = "Submit to ECR Handler";
+                    Perfromsavebttn("ManagerApprovedFalse", false, false);
+                    //preparetosendemail(reqno, true, "", filename, false, "user", false);
+                }
+                else
+                {
+                    submitecrhandlercheckBox.Checked = true;
+                }
+            }
+            else
+            {
+                DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to send this ECR for approval?" + Environment.NewLine +
+                    "Please select available ECR Handler on your next step." + Environment.NewLine +
+                    "This will notify respective ECR handler.", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    errorProvider1.Clear();
+                    if (jobtxt.Text.Length > 0 && satxt.Text.Length > 0 && descriptiontxtbox.Text.Length > 0)
+                    {
+                        submitecrhandlercheckBox.Text = "Submitted to ECR Handler";
+                        Perfromsavebttn("ManagerApproved", false, false);
+                        Preparetosendemail("ManagerApproved", false);
+                    }
+                    else
+                    {
+                        errorProvider1.Clear();
+                        if (satxt.Text.Length == 0)
+                        {
+                            errorProvider1.SetError(satxt, "Sub Assy No cannot be empty");
+                        }
+                        if (jobtxt.Text.Length == 0)
+                        {
+                            errorProvider1.SetError(jobtxt, "Job Number cannot be empty");
+                        }
+                        if (descriptiontxtbox.Text.Length == 0)
+                        {
+                            errorProvider1.SetError(descriptiontxtbox, "Description cannot be empty");
+                        }
+                        if (jobtxt.Text.Length > 0 && satxt.Text.Length > 0 && descriptiontxtbox.Text.Length > 0)
+                        {
+                            errorProvider1.Clear();
+                        }
+                        submitecrhandlercheckBox.Checked = false;
+                    }
+                }
+                else
+                {
+                    submitecrhandlercheckBox.Checked = false;
+                }
+            }
+        }
+
+        private void SupcheckBox_Click(object sender, EventArgs e)
+        {
+            if (!supcheckBox.Checked)
+            {
+                DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to remove this ECR from approval?", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    supcheckBox.Text = "Submit to Supervisor";
+                    supcheckBox.Checked = false;
+                    Perfromsavebttn("SubmittedFalse", false, false);
+                    //preparetosendemail(reqno, true, "", filename, false, "user", false);
+                }
+                else
+                {
+                    supcheckBox.Checked = true;
+                }
+            }
+            else
+            {
+                DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to send this ECR for approval?" + Environment.NewLine +
+                    " " + Environment.NewLine +
+                    "This will send an email to respective supervisor for approval.", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    errorProvider1.Clear();
+                    if (jobtxt.Text.Length > 0 && satxt.Text.Length > 0 && descriptiontxtbox.Text.Length > 0)
+                    {
+                        supcheckBox.Text = "Submitted to Supervisor";
+                        Perfromsavebttn("Submitted", false, false);
+                        Preparetosendemail("Submitted", false);
+                    }
+                    else
+                    {
+                        errorProvider1.Clear();
+                        if (satxt.Text.Length == 0)
+                        {
+                            errorProvider1.SetError(satxt, "Sub Assy No cannot be empty");
+                        }
+                        if (jobtxt.Text.Length == 0)
+                        {
+                            errorProvider1.SetError(jobtxt, "Job Number cannot be empty");
+                        }
+                        if (descriptiontxtbox.Text.Length == 0)
+                        {
+                            errorProvider1.SetError(descriptiontxtbox, "Description cannot be empty");
+                        }
+                        if (jobtxt.Text.Length > 0 && satxt.Text.Length > 0 && descriptiontxtbox.Text.Length > 0)
+                        {
+                            errorProvider1.Clear();
+                        }
+                        supcheckBox.Checked = false;
+                    }
+                }
+                else
+                {
+                    supcheckBox.Checked = false;
                 }
             }
         }
 
         #region Sending Email
 
-        private void Sendemail(string emailtosend, string subject, string name, string body, string filetoattach, string cc, string extracc)
-        {
-            if (Sendemailyesno())
-            {
-                connectapi.TriggerEmail(emailtosend, subject, name, body, filetoattach, cc, extracc, "Normal");
-            }
-            else
-            {
-                MessageBox.Show("Email turned off.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-        }
-
-        private bool Sendemailyesno()
-        {
-            bool sendemail = false;
-            string limit = "";
-            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = 'EmailECR'", connectapi.cn))
-            {
-                try
-                {
-                    if (connectapi.cn.State == ConnectionState.Closed)
-                        connectapi.cn.Open();
-                    limit = (string)cmd.ExecuteScalar();
-                    connectapi.cn.Close();
-                }
-                catch (Exception ex)
-                {
-                    MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Get Limit for purchasing", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    connectapi.cn.Close();
-                }
-            }
-            if (limit == "1")
-            {
-                sendemail = true;
-            }
-            return sendemail;
-        }
-
         private void Preparetosendemail(string typeofSave, bool rejectbttn)
         {
-            string fileName = "";
-            string filepath = @"\\spm-adfs\SDBASE\Reports\ECR_Reports\";
-            fileName = filepath + ecrnotxtbox.Text.Trim() + ".pdf";
+            const string filepath = @"\\spm-adfs\SDBASE\Reports\ECR_Reports\";
+            string fileName = filepath + ecrnotxtbox.Text.Trim() + ".pdf";
             if (typeofSave == "Submitted")
             {
                 Sendemailtosupervisor(fileName);
@@ -1218,155 +1124,42 @@ namespace SearchDataSPM
             }
         }
 
-        private string GetUserNameEmail(int id)
+        private void Sendemail(string emailtosend, string subject, string name, string body, string filetoattach, string cc, string extracc)
         {
-            string Email = "";
-            string name = "";
-            try
+            if (Sendemailyesno())
             {
-                if (connectapi.cn.State == ConnectionState.Closed)
-                    connectapi.cn.Open();
-                SqlCommand cmd = connectapi.cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [id]='" + id + "' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    Email = dr["Email"].ToString();
-                    name = dr["Name"].ToString();
-                }
-            }
-            catch (Exception ex)
-            {
-                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Get Supervisor Name and Email", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                connectapi.cn.Close();
-            }
-            if (Email.Length > 0)
-            {
-                return Email + "][" + name;
-            }
-            else if (name.Length > 0)
-            {
-                return Email + "][" + name;
+                connectapi.TriggerEmail(emailtosend, subject, name, body, filetoattach, cc, extracc, "Normal");
             }
             else
             {
-                return "][";
+                MessageBox.Show("Email turned off.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-        }
-
-        private string Getusernameandemail(string requestby)
-        {
-            string Email = "";
-            try
-            {
-                if (connectapi.cn.State == ConnectionState.Closed)
-                    connectapi.cn.Open();
-                SqlCommand cmd = connectapi.cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [Name]='" + requestby.ToString() + "' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    Email = dr["Email"].ToString();
-                }
-            }
-            catch (Exception ex)
-            {
-                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Get User Name and Email", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                connectapi.cn.Close();
-            }
-            if (Email.Length > 0)
-            {
-                return Email;
-            }
-            else
-            {
-                return "";
-            }
-        }
-
-        private void Sendemailtosupervisor(string fileName)
-        {
-            string nameemail = GetUserNameEmail(ConnectAPI.ConnectUser.ECRSup);
-
-            string[] values = nameemail.Replace("][", "~").Split('~');
-            for (int i = 0; i < values.Length; i++)
-            {
-                values[i] = values[i].Trim();
-            }
-            string email = values[0];
-            string name = values[1];
-
-            string[] names = name.Replace(" ", "~").Split('~');
-            for (int i = 0; i < names.Length; i++)
-            {
-                names[i] = names[i].Trim();
-            }
-            name = names[0];
-            Sendemail(email, ecrnotxtbox.Text + " ECR Approval Required", name, Environment.NewLine + userfullname + " sent this engineering change request for approval.", fileName, "", "");
-        }
-
-        private void SendemailtoManager(string fileName)
-        {
-            DataRow r = dt.Rows[0];
-            string supnameemail = GetUserNameEmail(Convert.ToInt32(r["SubmitToId"].ToString()));
-            string[] values = supnameemail.Replace("][", "~").Split('~');
-            for (int i = 0; i < values.Length; i++)
-            {
-                values[i] = values[i].Trim();
-            }
-            string manageremail = values[0];
-            string name = values[1];
-
-            string[] names = name.Replace(" ", "~").Split('~');
-            for (int i = 0; i < names.Length; i++)
-            {
-                names[i] = names[i].Trim();
-            }
-            name = names[0];
-
-            Sendemail(manageremail, ecrnotxtbox.Text.Trim() + " ECR Approval Required", name, Environment.NewLine + r["SupApprovalBy"].ToString() + " sent this engineering change request for approval.", fileName, "", "");
         }
 
         private void SendemailtoHandler(string fileName)
         {
             DataRow r = dt.Rows[0];
-            string supnameemail = GetUserNameEmail(Convert.ToInt32(r["AssignedTo"].ToString()));
-            string[] values = supnameemail.Replace("][", "~").Split('~');
-            for (int i = 0; i < values.Length; i++)
-            {
-                values[i] = values[i].Trim();
-            }
-            string manageremail = values[0];
-            string name = values[1];
+            NameEmail supnameemail = connectapi.GetNameEmailByParaValue(UserFields.id, r["AssignedTo"].ToString())[0];
+            Sendemail(supnameemail.email, ecrnotxtbox.Text.Trim() + " ECR Completion Required", supnameemail.name, Environment.NewLine + r["ApprovedBy"].ToString() + " sent this engineering change request for completion and changes to be made.", fileName, "", "");
+        }
 
-            string[] names = name.Replace(" ", "~").Split('~');
-            for (int i = 0; i < names.Length; i++)
-            {
-                names[i] = names[i].Trim();
-            }
-            name = names[0];
+        private void SendemailtoManager(string fileName)
+        {
+            DataRow r = dt.Rows[0];
+            NameEmail supnameemail = connectapi.GetNameEmailByParaValue(UserFields.id, r["SubmitToId"].ToString())[0];
+            Sendemail(supnameemail.email, ecrnotxtbox.Text.Trim() + " ECR Approval Required", supnameemail.name, Environment.NewLine + r["SupApprovalBy"].ToString() + " sent this engineering change request for approval.", fileName, "", "");
+        }
 
-            Sendemail(manageremail, ecrnotxtbox.Text.Trim() + " ECR Completion Required", name, Environment.NewLine + r["ApprovedBy"].ToString() + " sent this engineering change request for completion and changes to be made.", fileName, "", "");
+        private void Sendemailtosupervisor(string fileName)
+        {
+            NameEmail supnameemail = connectapi.GetNameEmailByParaValue(UserFields.id, ConnectUser.ECRSup.ToString())[0];
+            Sendemail(supnameemail.email, ecrnotxtbox.Text + " ECR Approval Required", supnameemail.name, Environment.NewLine + userfullname + " sent this engineering change request for approval.", fileName, "", "");
         }
 
         private void Sendemailtouser(string fileName, string triggerby, bool rejected)
         {
             DataRow r = dt.Rows[0];
-            string userreqemail = Getusernameandemail(requestedbycombobox.Text);
+            string userreqemail = connectapi.GetNameEmailByParaValue(UserFields.Name, requestedbycombobox.Text)[0].email;
             if (rejected)
             {
                 if (triggerby == "supervisor")
@@ -1375,23 +1168,9 @@ namespace SearchDataSPM
                 }
                 else if (triggerby == "manager")
                 {
-                    string supnameemail = GetUserNameEmail(Convert.ToInt32(r["SupervisorId"].ToString()));
-                    string[] values = supnameemail.Replace("][", "~").Split('~');
-                    for (int i = 0; i < values.Length; i++)
-                    {
-                        values[i] = values[i].Trim();
-                    }
-                    string supervisoremail = values[0];
-                    string name = values[1];
+                    NameEmail supnameemail = connectapi.GetNameEmailByParaValue(UserFields.id, r["SupervisorId"].ToString())[0];
 
-                    string[] names = name.Replace(" ", "~").Split('~');
-                    for (int i = 0; i < names.Length; i++)
-                    {
-                        names[i] = names[i].Trim();
-                    }
-                    name = names[0];
-
-                    Sendemail(userreqemail, ecrnotxtbox.Text.Trim() + "ECR Rejected ", name, requestedbycombobox.Text + "," + Environment.NewLine + " Your engineering change request got rejected by " + departmentcomboBox.Text + ".", fileName, supervisoremail, "");
+                    Sendemail(userreqemail, ecrnotxtbox.Text.Trim() + "ECR Rejected ", supnameemail.name, requestedbycombobox.Text + "," + Environment.NewLine + " Your engineering change request got rejected by " + departmentcomboBox.Text + ".", fileName, supnameemail.email, "");
                 }
             }
             else
@@ -1402,144 +1181,39 @@ namespace SearchDataSPM
                 }
                 else if (triggerby == "manager")
                 {
-                    string supnameemail = GetUserNameEmail(Convert.ToInt32(r["SupervisorId"].ToString()));
-                    string[] values = supnameemail.Replace("][", "~").Split('~');
-                    for (int i = 0; i < values.Length; i++)
-                    {
-                        values[i] = values[i].Trim();
-                    }
-                    string supervisoremail = values[0];
-                    string name = values[1];
-
-                    string[] names = name.Replace(" ", "~").Split('~');
-                    for (int i = 0; i < names.Length; i++)
-                    {
-                        names[i] = names[i].Trim();
-                    }
-                    name = names[0];
-
-                    Sendemail(supervisoremail, ecrnotxtbox.Text.Trim() + " ECR Approved ", name, Environment.NewLine + " Your engineering change request has been approved and being assigned to " + connectapi.GetNameByConnectEmpId(r["AssignedTo"].ToString()) + ".", fileName, userreqemail, "");
+                    NameEmail supnameemail = connectapi.GetNameEmailByParaValue(UserFields.id, r["SupervisorId"].ToString())[0];
+                    Sendemail(supnameemail.email, ecrnotxtbox.Text.Trim() + " ECR Approved ", supnameemail.name, Environment.NewLine + " Your engineering change request has been approved and being assigned to " + connectapi.GetNameByConnectEmpId(r["AssignedTo"].ToString()) + ".", fileName, userreqemail, "");
                 }
                 else if (triggerby == "ecrhandler")
                 {
-                    string supnameemail = GetUserNameEmail(Convert.ToInt32(r["SupervisorId"].ToString()));
-                    string[] values = supnameemail.Replace("][", "~").Split('~');
-                    for (int i = 0; i < values.Length; i++)
-                    {
-                        values[i] = values[i].Trim();
-                    }
-                    string supervisoremail = values[0];
-                    string name = values[1];
-
-                    string[] names = name.Replace(" ", "~").Split('~');
-                    for (int i = 0; i < names.Length; i++)
-                    {
-                        names[i] = names[i].Trim();
-                    }
-                    name = names[0];
-
-                    string managernameemail = GetUserNameEmail(Convert.ToInt32(r["SubmitToId"].ToString()));
-                    string[] managervalues = managernameemail.Replace("][", "~").Split('~');
-                    for (int i = 0; i < managervalues.Length; i++)
-                    {
-                        managervalues[i] = managervalues[i].Trim();
-                    }
-                    string manageremail = managervalues[0];
+                    string supervisoremail = connectapi.GetNameEmailByParaValue(UserFields.id, r["SupervisorId"].ToString())[0].email;
+                    string manageremail = connectapi.GetNameEmailByParaValue(UserFields.id, r["SubmitToId"].ToString())[0].email;
 
                     Sendemail(userreqemail, ecrnotxtbox.Text.Trim() + " ECR Approved ", requestedbycombobox.Text, Environment.NewLine + " Your engineering change request has been approved and being assigned to " + connectapi.GetNameByConnectEmpId(r["AssignedTo"].ToString()) + ".", fileName, supervisoremail, manageremail);
                 }
             }
         }
 
+        private bool Sendemailyesno()
+        {
+            return connectapi.GetConnectParameterValue("EmailECR") == "1";
+        }
+
         #endregion Sending Email
 
         #region Attachments
 
-        private void filllistview(string item)
-        {
-            try
-            {
-                listFiles.Clear();
-                listView.Items.Clear();
-                string first3char = item.Substring(0, 3) + @"\";
+        private readonly List<string> listFiles = new List<string>();
 
-                string spmcadpath = @"\\spm-adfs\SDBASE\Reports\ECR_Attachments\" + ecrnotxtbox.Text + "\\";
-
-                getitemstodisplay(spmcadpath, item);
-
-                if (listView.Items.Count > 0)
-                {
-                    fileslabel.Text = "Files attached : " + listView.Items.Count;
-                }
-                else
-                {
-                    fileslabel.Text = "No files attached";
-                }
-            }
-            catch
-            {
-                return;
-            }
-        }
-
-        private void getitemstodisplay(string Pathpart, string ItemNo)
-        {
-            if (Directory.Exists(Pathpart))
-            {
-                foreach (string item in Directory.GetFiles(Pathpart))
-                {
-                    try
-                    {
-                        string sDocFileName = item;
-                        //wpfThumbnailCreator pvf;
-                        //pvf = new wpfThumbnailCreator();
-                        //System.Drawing.Size size = new Size
-                        //{
-                        //    Width = 128,
-                        //    Height = 128
-                        //};
-                        //pvf.DesiredSize = size;
-                        //System.Drawing.Bitmap pic = pvf.GetThumbNail(sDocFileName);
-                        //imageList.Images.Add(pic);
-                        var size = ShellEx.IconSizeEnum.ExtraLargeIcon;
-                        imageList.Images.Add(ShellEx.GetBitmapFromFilePath(item, size));
-                        //axEModelViewControl1 = new EModelViewControl();
-                        //axEModelViewControl1.OpenDoc(item, false, false, true, "");
-                    }
-                    catch (Exception ex)
-                    {
-                        log.Error(ex.Message, ex);
-                    }
-                    // imageList.Images.Add(GetIcon(item));
-                    FileInfo fi = new FileInfo(item);
-                    listFiles.Add(fi.FullName);
-                    listView.Items.Add(fi.Name, imageList.Images.Count - 1);
-                }
-            }
-        }
-
-        private List<string> listFiles = new List<string>();
-
-        [DllImport("shell32.dll")]
-        private static extern IntPtr ExtractAssociatedIcon(IntPtr hInst,
-        StringBuilder lpIconPath, out ushort lpiIcon);
-
-        public static Icon GetIconOldSchool(string fileName)
-        {
-            StringBuilder strB = new StringBuilder(fileName);
-            IntPtr handle = ExtractAssociatedIcon(IntPtr.Zero, strB, out ushort uicon);
-            Icon ico = Icon.FromHandle(handle);
-
-            return ico;
-        }
+        private string Pathpart;
 
         public static Icon GetIcon(string fileName)
         {
             try
             {
                 Icon icon = Icon.ExtractAssociatedIcon(fileName);
-                ShellEx.IconSizeEnum ExtraLargeIcon = default(ShellEx.IconSizeEnum);
-                var size = (ShellEx.IconSizeEnum)ExtraLargeIcon;
+                const ShellEx.IconSizeEnum ExtraLargeIcon = default;
+                const ShellEx.IconSizeEnum size = (ShellEx.IconSizeEnum)ExtraLargeIcon;
 
                 ShellEx.GetBitmapFromFilePath(fileName, size);
 
@@ -1559,64 +1233,20 @@ namespace SearchDataSPM
             }
         }
 
-        private void listView_ItemDrag(object sender, ItemDragEventArgs e)
+        public static Icon GetIconOldSchool(string fileName)
         {
-            string[] fList = new string[1];
-            fList[0] = Pathpart;
-            DataObject dataObj = new DataObject(DataFormats.FileDrop, fList);
-            DragDropEffects eff = DoDragDrop(dataObj, DragDropEffects.Link | DragDropEffects.Copy);
+            StringBuilder strB = new StringBuilder(fileName);
+            IntPtr handle = ExtractAssociatedIcon(IntPtr.Zero, strB, out _);
+            Icon ico = Icon.FromHandle(handle);
+
+            return ico;
         }
 
-        private void listView_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Return)
-            {
-                try
-                {
-                    if (listView.FocusedItem != null)
-                        Process.Start(listFiles[listView.FocusedItem.Index]);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect");
-                }
-            }
-        }
+        [DllImport("shell32.dll")]
+        private static extern IntPtr ExtractAssociatedIcon(IntPtr hInst,
+        StringBuilder lpIconPath, out ushort lpiIcon);
 
-        private string Pathpart;
-
-        private void listView_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
-        {
-            if (listView.FocusedItem != null)
-            {
-                string txt = listView.FocusedItem.Text;
-                //string txt = listView.SelectedItems[0].Text;
-                //string path = listView.FocusedItem.Text;
-                string first3char = txt.Substring(0, 3) + @"\";
-                // //MessageBox.Show(first3char);
-                string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
-                Pathpart = (spmcadpath + first3char + txt);
-                // //MessageBox.Show(Pathpart);
-            }
-        }
-
-        private void listView_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                try
-                {
-                    if (listView.FocusedItem != null)
-                        Process.Start(listFiles[listView.FocusedItem.Index]);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect");
-                }
-            }
-        }
-
-        private void browsebttn_Click(object sender, EventArgs e)
+        private void Browsebttn_Click(object sender, EventArgs e)
         {
             DialogResult result = openFileDialog1.ShowDialog(); // Show the dialog.
 
@@ -1633,7 +1263,7 @@ namespace SearchDataSPM
 
                 openFileDialog1.FileNames.ToList().ForEach(file =>
                 {
-                    if (copyFile(file, str + Path.GetFileName(file)))
+                    if (CopyFile(file, str + Path.GetFileName(file)))
                         uploads.Add(file);
                     else
                         failedToUploads.Add(file);
@@ -1644,15 +1274,14 @@ namespace SearchDataSPM
                     message += string.Format("\nFailed to Attach: \n {0}", string.Join("\n", failedToUploads.ToArray()));
                     MessageBox.Show(message);
                 }
-                filllistview(ecrnotxtbox.Text);
+                Filllistview(ecrnotxtbox.Text);
                 Cursor.Current = Cursors.Default;
             }
         }
 
-        private bool copyFile(string file, string destfile)
+        private bool CopyFile(string file, string destfile)
         {
-            bool success = false;
-
+            bool success;
             try
             {
                 File.Copy(file, destfile, true);
@@ -1666,7 +1295,7 @@ namespace SearchDataSPM
             return success;
         }
 
-        private void delbttn_Click(object sender, EventArgs e)
+        private void Delbttn_Click(object sender, EventArgs e)
         {
             if (listView.Items.Count > 0)
             {
@@ -1677,81 +1306,106 @@ namespace SearchDataSPM
                 {
                     string str = @"\\spm-adfs\SDBASE\Reports\ECR_Attachments\" + ecrnotxtbox.Text + "\\";
                     Array.ForEach(Directory.GetFiles(str), File.Delete);
-                    filllistview(ecrnotxtbox.Text);
+                    Filllistview(ecrnotxtbox.Text);
                 }
-                else
+            }
+        }
+
+        private void Filllistview(string item)
+        {
+            try
+            {
+                listFiles.Clear();
+                listView.Items.Clear();
+                string first3char = item.Substring(0, 3) + @"\";
+
+                string spmcadpath = @"\\spm-adfs\SDBASE\Reports\ECR_Attachments\" + ecrnotxtbox.Text + "\\";
+
+                Getitemstodisplay(spmcadpath);
+
+                fileslabel.Text = listView.Items.Count > 0 ? "Files attached : " + listView.Items.Count : "No files attached";
+            }
+            catch
+            {
+                return;
+            }
+        }
+
+        private void Getitemstodisplay(string Pathpart)
+        {
+            if (Directory.Exists(Pathpart))
+            {
+                foreach (string item in Directory.GetFiles(Pathpart))
                 {
+                    try
+                    {
+                        string sDocFileName = item;
+                        const ShellEx.IconSizeEnum size = ShellEx.IconSizeEnum.ExtraLargeIcon;
+                        imageList.Images.Add(ShellEx.GetBitmapFromFilePath(item, size));
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error(ex.Message, ex);
+                    }
+                    // imageList.Images.Add(GetIcon(item));
+                    FileInfo fi = new FileInfo(item);
+                    listFiles.Add(fi.FullName);
+                    listView.Items.Add(fi.Name, imageList.Images.Count - 1);
+                }
+            }
+        }
+
+        private void ListView_ItemDrag(object sender, ItemDragEventArgs e)
+        {
+            string[] fList = new string[1];
+            fList[0] = Pathpart;
+            DataObject dataObj = new DataObject(DataFormats.FileDrop, fList);
+            _ = DoDragDrop(dataObj, DragDropEffects.Link | DragDropEffects.Copy);
+        }
+
+        private void ListView_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            if (listView.FocusedItem != null)
+            {
+                string txt = listView.FocusedItem.Text;
+                string first3char = txt.Substring(0, 3) + @"\";
+                const string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
+                Pathpart = (spmcadpath + first3char + txt);
+            }
+        }
+
+        private void ListView_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                try
+                {
+                    if (listView.FocusedItem != null)
+                        Process.Start(listFiles[listView.FocusedItem.Index]);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect");
+                }
+            }
+        }
+
+        private void ListView_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                try
+                {
+                    if (listView.FocusedItem != null)
+                        Process.Start(listFiles[listView.FocusedItem.Index]);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect");
                 }
             }
         }
 
         #endregion Attachments
-
-        private void ECRDetails_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            log.Info("Closed ECR Detail " + Invoice_Number + " ");
-            this.Dispose();
-        }
-
-        private void listView_DragEnter(object sender, DragEventArgs e)
-        {
-            e.Effect = DragDropEffects.Copy;
-        }
-
-        private void listView_DragDrop(object sender, DragEventArgs e)
-        {
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            if (files.Length > 0)
-            {
-                Cursor.Current = Cursors.WaitCursor;
-                var failedToUploads = new List<string>();
-                var uploads = new List<string>();
-                string str = @"\\spm-adfs\SDBASE\Reports\ECR_Attachments\" + ecrnotxtbox.Text + "\\";
-                if (!Directory.Exists(str))
-                {
-                    Directory.CreateDirectory(str);
-                }
-
-                foreach (string file in files)
-                {
-                    if (copyFile(file, str + Path.GetRandomFileName().Replace(".", string.Empty) + Path.GetExtension(file)))
-                        uploads.Add(file);
-                    else
-                        failedToUploads.Add(file);
-                }
-                var message = string.Format("Files Attached: \n {0}", string.Join("\n", uploads.ToArray()));
-                if (failedToUploads.Count > 0)
-                {
-                    message += string.Format("\nFailed to Attach: \n {0}", string.Join("\n", failedToUploads.ToArray()));
-                    MessageBox.Show(message);
-                }
-                filllistview(ecrnotxtbox.Text);
-                Cursor.Current = Cursors.Default;
-            }
-        }
-
-        private void projectmanagercombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-        {
-            if (e.KeyCode == Keys.Return)
-            {
-                projectmanagercombobox.Focus();
-            }
-        }
-
-        private void departmentcomboBox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-        {
-            if (e.KeyCode == Keys.Return)
-            {
-                departmentcomboBox.Focus();
-            }
-        }
-
-        private void requestedbycombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-        {
-            if (e.KeyCode == Keys.Return)
-            {
-                requestedbycombobox.Focus();
-            }
-        }
     }
 }

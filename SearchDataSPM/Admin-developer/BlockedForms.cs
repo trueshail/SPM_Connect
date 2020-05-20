@@ -8,66 +8,14 @@ namespace SearchDataSPM.Admin_developer
 {
     public partial class BlockedForms : Form
     {
-        private DataTable dt;
+        private readonly SPMConnectAPI.ConnectAPI connectapi = new SPMConnectAPI.ConnectAPI();
+        private readonly DataTable dt;
         private log4net.ILog log;
-        private SPMConnectAPI.ConnectAPI connectapi = new SPMConnectAPI.ConnectAPI();
-
-        private ErrorHandler errorHandler = new ErrorHandler();
 
         public BlockedForms()
         {
             InitializeComponent();
             dt = new DataTable();
-        }
-
-        private void UserStatus_Load(object sender, EventArgs e)
-        {
-            Checkdeveloper();
-            loaddata();
-            log4net.Config.XmlConfigurator.Configure();
-            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened Blocked Forms");
-        }
-
-        private void loaddata()
-        {
-            try
-            {
-                if (connectapi.cn.State == ConnectionState.Closed)
-                    connectapi.cn.Open();
-
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[UserHolding] ORDER BY [CheckInDateTime] DESC", connectapi.cn);
-
-                dt.Clear();
-                sda.Fill(dt);
-                dataGridView1.DataSource = dt;
-                dataGridView1.Columns[0].Width = 140;
-                dataGridView1.Columns[1].Width = 160;
-                dataGridView1.Columns[2].Width = 110;
-                dataGridView1.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                UpdateFont();
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Data cannot be retrieved from server. Please contact the admin.", "SPM Connect - SQL SERVER UserStatus", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
-            }
-            finally
-            {
-                connectapi.cn.Close();
-            }
-        }
-
-        private void UpdateFont()
-        {
-            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Tahoma", 9.0F, FontStyle.Bold);
-            dataGridView1.DefaultCellStyle.Font = new Font("Arial", 9.5F, FontStyle.Bold);
-            dataGridView1.DefaultCellStyle.ForeColor = Color.Black;
-            dataGridView1.DefaultCellStyle.BackColor = Color.FromArgb(237, 237, 237);
-            dataGridView1.DefaultCellStyle.SelectionForeColor = Color.Yellow;
-            dataGridView1.DefaultCellStyle.SelectionBackColor = Color.Black;
-            string count = dataGridView1.Rows.Count.ToString();
-            this.Text = "Blocked Forms - " + count;
         }
 
         private void Checkdeveloper()
@@ -131,8 +79,8 @@ namespace SearchDataSPM.Admin_developer
                     connectapi.cn.Open();
                 try
                 {
-                    string query = "DELETE FROM [SPM_Database].[dbo].[UserHolding] WHERE [UserName] ='" + username.ToString() + "'" +
-                        " and [App] ='" + app.ToString() + "' and [ItemId] = '" + itemid.ToString() + "' ";
+                    string query = "DELETE FROM [SPM_Database].[dbo].[UserHolding] WHERE [UserName] ='" + username + "'" +
+                        " and [App] ='" + app + "' and [ItemId] = '" + itemid + "' ";
                     SqlCommand sda = new SqlCommand(query, connectapi.cn);
                     sda.ExecuteNonQuery();
                     connectapi.cn.Close();
@@ -149,31 +97,22 @@ namespace SearchDataSPM.Admin_developer
             }
         }
 
-        private void UserStatus_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            log.Info("Closed Blocked Forms");
-            this.Dispose();
-        }
-
-        private string getuserselected()
+        private string getapplicaitonrunning()
         {
             int selectedclmindex = dataGridView1.SelectedCells[0].ColumnIndex;
             DataGridViewColumn columnchk = dataGridView1.Columns[selectedclmindex];
-            string c = Convert.ToString(columnchk.Index);
-            //MessageBox.Show(c);
-            string item;
+            _ = Convert.ToString(columnchk.Index);
             if (dataGridView1.SelectedRows.Count == 1 || dataGridView1.SelectedCells.Count == 1)
             {
                 int selectedrowindex = dataGridView1.SelectedCells[0].RowIndex;
                 DataGridViewRow slectedrow = dataGridView1.Rows[selectedrowindex];
-                item = Convert.ToString(slectedrow.Cells[1].Value);
+
                 //MessageBox.Show(ItemNo);
-                return item;
+                return Convert.ToString(slectedrow.Cells[0].Value);
             }
             else
             {
-                item = "";
-                return item;
+                return "";
             }
         }
 
@@ -181,44 +120,94 @@ namespace SearchDataSPM.Admin_developer
         {
             int selectedclmindex = dataGridView1.SelectedCells[0].ColumnIndex;
             DataGridViewColumn columnchk = dataGridView1.Columns[selectedclmindex];
-            string c = Convert.ToString(columnchk.Index);
-            //MessageBox.Show(c);
-            string item;
+            _ = Convert.ToString(columnchk.Index);
             if (dataGridView1.SelectedRows.Count == 1 || dataGridView1.SelectedCells.Count == 1)
             {
                 int selectedrowindex = dataGridView1.SelectedCells[0].RowIndex;
                 DataGridViewRow slectedrow = dataGridView1.Rows[selectedrowindex];
-                item = Convert.ToString(slectedrow.Cells[2].Value);
+
                 //MessageBox.Show(ItemNo);
-                return item;
+                return Convert.ToString(slectedrow.Cells[2].Value);
             }
             else
             {
-                item = "";
-                return item;
+                return "";
             }
         }
 
-        private string getapplicaitonrunning()
+        private string getuserselected()
         {
             int selectedclmindex = dataGridView1.SelectedCells[0].ColumnIndex;
             DataGridViewColumn columnchk = dataGridView1.Columns[selectedclmindex];
-            string c = Convert.ToString(columnchk.Index);
-            //MessageBox.Show(c);
-            string item;
+            _ = Convert.ToString(columnchk.Index);
             if (dataGridView1.SelectedRows.Count == 1 || dataGridView1.SelectedCells.Count == 1)
             {
                 int selectedrowindex = dataGridView1.SelectedCells[0].RowIndex;
                 DataGridViewRow slectedrow = dataGridView1.Rows[selectedrowindex];
-                item = Convert.ToString(slectedrow.Cells[0].Value);
+
                 //MessageBox.Show(ItemNo);
-                return item;
+                return Convert.ToString(slectedrow.Cells[1].Value);
             }
             else
             {
-                item = "";
-                return item;
+                return "";
             }
+        }
+
+        private void loaddata()
+        {
+            try
+            {
+                if (connectapi.cn.State == ConnectionState.Closed)
+                    connectapi.cn.Open();
+
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[UserHolding] ORDER BY [CheckInDateTime] DESC", connectapi.cn);
+
+                dt.Clear();
+                sda.Fill(dt);
+                dataGridView1.DataSource = dt;
+                dataGridView1.Columns[0].Width = 140;
+                dataGridView1.Columns[1].Width = 160;
+                dataGridView1.Columns[2].Width = 110;
+                dataGridView1.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                UpdateFont();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Data cannot be retrieved from server. Please contact the admin.", "SPM Connect - SQL SERVER UserStatus", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Application.Exit();
+            }
+            finally
+            {
+                connectapi.cn.Close();
+            }
+        }
+
+        private void UpdateFont()
+        {
+            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Tahoma", 9.0F, FontStyle.Bold);
+            dataGridView1.DefaultCellStyle.Font = new Font("Arial", 9.5F, FontStyle.Bold);
+            dataGridView1.DefaultCellStyle.ForeColor = Color.Black;
+            dataGridView1.DefaultCellStyle.BackColor = Color.FromArgb(237, 237, 237);
+            dataGridView1.DefaultCellStyle.SelectionForeColor = Color.Yellow;
+            dataGridView1.DefaultCellStyle.SelectionBackColor = Color.Black;
+            string count = dataGridView1.Rows.Count.ToString();
+            this.Text = "Blocked Forms - " + count;
+        }
+
+        private void UserStatus_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            log.Info("Closed Blocked Forms");
+            this.Dispose();
+        }
+
+        private void UserStatus_Load(object sender, EventArgs e)
+        {
+            Checkdeveloper();
+            loaddata();
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Opened Blocked Forms");
         }
     }
 }

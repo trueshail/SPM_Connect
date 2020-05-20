@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SPMConnectAPI;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
@@ -8,23 +9,20 @@ namespace SearchDataSPM
 {
     public partial class ConnectParameters : Form
     {
-        private BindingSource bindingSource1 = new BindingSource();
+        private readonly BindingSource bindingSource1 = new BindingSource();
         private SqlDataAdapter dataAdapter = new SqlDataAdapter();
+        private readonly ConnectAPI connectapi = new ConnectAPI();
         private log4net.ILog log;
-
-        private ErrorHandler errorHandler = new ErrorHandler();
 
         public ConnectParameters()
         {
             InitializeComponent();
         }
 
-        private void savebttn_Click(object sender, EventArgs e)
+        private void ConnectParameters_FormClosed(object sender, FormClosedEventArgs e)
         {
-            bindingSource1.EndEdit();
-            dataAdapter.Update((DataTable)bindingSource1.DataSource);
-            GetData();
-            MessageBox.Show("You have successfully saved changes.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            log.Info("Closed Connect Parameters");
+            this.Dispose();
         }
 
         private void ConnectParameters_Load(object sender, EventArgs e)
@@ -36,13 +34,39 @@ namespace SearchDataSPM
             log.Info("Opened Connect Parameters");
         }
 
+        private void DataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex != -1)
+            {
+                if (dataGridView1.Rows[e.RowIndex].IsNewRow)
+                {
+                    dataGridView1.Columns[1].ReadOnly = false;
+                    dataGridView1.BeginEdit(true);
+                }
+                else
+                {
+                    dataGridView1.Columns[1].ReadOnly = true;
+                    dataGridView1.BeginEdit(true);
+                    if (dataGridView1.CurrentCell.ColumnIndex.Equals(1) && e.RowIndex != -1)
+                        MessageBox.Show("Not allowed to edit parameters name as they are being used by the program.", "SPM Connect - Allow Edit", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+        }
+
+        private void DataGridView1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+            {
+                if (MessageBox.Show("Are you sure want to delete this record?", "Delete Parameter", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    bindingSource1.RemoveCurrent();
+            }
+        }
+
         private void GetData()
         {
             try
             {
-                // Populate a new data table and bind it to the BindingSource.
-                string connection = System.Configuration.ConfigurationManager.ConnectionStrings["SearchDataSPM.Properties.Settings.cn"].ConnectionString;
-                dataAdapter = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[ConnectParamaters] ORDER BY Id", connection);
+                dataAdapter = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[ConnectParamaters] ORDER BY Id", connectapi.ConnectConnectionString());
 
                 // Create a command builder to generate SQL update, insert, and
                 // delete commands based on selectCommand.
@@ -62,46 +86,18 @@ namespace SearchDataSPM
                 dataGridView1.Columns[0].ReadOnly = true;
                 dataGridView1.Columns[1].ReadOnly = true;
             }
-            catch (SqlException)
+            catch (Exception ex)
             {
-                MessageBox.Show("To run this example, replace the value of the " +
-                    "connectionString variable with a connection string that is " +
-                    "valid for your system.");
+                log.Error(ex.Message, ex);
             }
         }
 
-        private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
+        private void Savebttn_Click(object sender, EventArgs e)
         {
-            if (e.KeyCode == Keys.Delete)
-            {
-                if (MessageBox.Show("Are you sure want to delete this record?", "Delete Parameter", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                    bindingSource1.RemoveCurrent();
-            }
-        }
-
-        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex != -1)
-            {
-                if (dataGridView1.Rows[e.RowIndex].IsNewRow)
-                {
-                    dataGridView1.Columns[1].ReadOnly = false;
-                    dataGridView1.BeginEdit(true);
-                }
-                else
-                {
-                    dataGridView1.Columns[1].ReadOnly = true;
-                    dataGridView1.BeginEdit(true);
-                    if (dataGridView1.CurrentCell.ColumnIndex.Equals(1) && e.RowIndex != -1)
-                        MessageBox.Show("Not allowed to edit parameters name as they are being used by the program.", "SPM Connect - Allow Edit", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-            }
-        }
-
-        private void ConnectParameters_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            log.Info("Closed Connect Parameters");
-            this.Dispose();
+            bindingSource1.EndEdit();
+            dataAdapter.Update((DataTable)bindingSource1.DataSource);
+            GetData();
+            MessageBox.Show("You have successfully saved changes.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

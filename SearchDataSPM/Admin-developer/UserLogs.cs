@@ -7,11 +7,25 @@ namespace SearchDataSPM.Admin_developer
     {
         private log4net.ILog log;
 
-        private ErrorHandler errorHandler = new ErrorHandler();
-
         public UserLogs()
         {
             InitializeComponent();
+        }
+
+        private void advancedDataGridView_FilterStringChanged(object sender, EventArgs e)
+        {
+            this.logBindingSource.Filter = this.advancedDataGridView1.FilterString;
+        }
+
+        private void advancedDataGridView_SortStringChanged(object sender, EventArgs e)
+        {
+            this.logBindingSource.Sort = this.advancedDataGridView1.SortString;
+        }
+
+        private void UserLogs_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            log.Info("Closed User Actions Log ");
+            this.Dispose();
         }
 
         private void UserLogs_Load(object sender, EventArgs e)
@@ -22,22 +36,6 @@ namespace SearchDataSPM.Admin_developer
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened User Action Logs");
-        }
-
-        private void advancedDataGridView_SortStringChanged(object sender, EventArgs e)
-        {
-            this.logBindingSource.Sort = this.advancedDataGridView1.SortString;
-        }
-
-        private void advancedDataGridView_FilterStringChanged(object sender, EventArgs e)
-        {
-            this.logBindingSource.Filter = this.advancedDataGridView1.FilterString;
-        }
-
-        private void UserLogs_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            log.Info("Closed User Actions Log ");
-            this.Dispose();
         }
     }
 }

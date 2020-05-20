@@ -1,23 +1,20 @@
 ﻿using Microsoft.VisualBasic;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.IO;
-using System.Net.Mail;
-using System.Reflection;
 using System.Windows.Forms;
+using static SPMConnectAPI.ConnectConstants;
 
 namespace SPMConnectAPI
 {
     public class WorkOrder : ConnectAPI
     {
         #region User Details and connections
-        private log4net.ILog log;
+
+        private readonly log4net.ILog log;
 
         public WorkOrder()
         {
-
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Accessed Work Order Class " + Getassyversionnumber());
@@ -56,8 +53,8 @@ namespace SPMConnectAPI
 
         public string CaptureLocation()
         {
-            string location = "";
             bool verfiedloc = false;
+            string location;
             do
             {
                 location = Interaction.InputBox("Enter the location where this work order bin is going to be.", "SPM Connect", "");
@@ -70,9 +67,55 @@ namespace SPMConnectAPI
                 {
                     MessageBox.Show("Invalid location. Please try again", "SPM Connect - Capture Location", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-            } while (verfiedloc == false);
+            } while (!verfiedloc);
 
             return location;
+        }
+
+        public void Scanworkorder(string wo)
+        {
+            Department department = ConnectUser.Dept;
+            if (WoExistsOnWotrack(wo))
+            {
+                if (department == Department.Eng || department == Department.Controls)
+                {
+                    MessageBox.Show("Work order has already been entered into the system", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    DoWorkOrderTacking(wo, department);
+                }
+            }
+            else
+            {
+                // workorder not started into the system
+                if (WOReleased(wo))
+                {
+                    if (department == Department.Eng)
+                    {
+                        Enterwototrackeng(wo, "Eng. Released");
+                    }
+                    else if (department == Department.Controls)
+                    {
+                        Enterwototrackcontrols(wo, "Controls Released");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Work order has to be initialized in the system by Engineering/Controls department", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                else
+                {
+                    if (department == Department.Eng || department == Department.Controls)
+                    {
+                        MessageBox.Show("Please check the work order number.", "Work Order not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Work order has not been initialized in the system by Engineering/Controls", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
         }
 
         public DataTable ShowAllWorkOrders()
@@ -127,101 +170,30 @@ namespace SPMConnectAPI
             return dt;
         }
 
-        private string WOStatustostring(string wo)
+        public bool UpdateWOBinCribLocation(string wo, string location)
         {
-            string status = "";
+            bool success = false;
+
             try
             {
-                DataTable dt = new DataTable();
-                dt = GetWOInfo(wo);
-
-                foreach (DataRow dr in dt.Rows)
-                {
-                    if (dr["Purin"].ToString() == "1" || dr["Cribin"].ToString() == "1")
-                        status = dr["Status"].ToString();
-                }
-                dt.Clear();
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "UPDATE [SPM_Database].[dbo].[WO_Tracking] SET  [CribLocation] = '" + location + "'  WHERE WO = '" + wo + "'";
+                cmd.ExecuteNonQuery();
+                cn.Close();
+                success = true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve WO Status", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "SPM Connect - Update WO Crib location", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            return status;
-        }
-
-        public void Scanworkorder(string wo)
-        {
-            Department department = ConnectUser.Dept;
-            if (WoExistsOnWotrack(wo))
+            finally
             {
-                if (department == Department.Eng || department == Department.Controls)
-                {
-                    MessageBox.Show("Work order has already been entered into the system", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    DoWorkOrderTacking(wo, department);
-                }
+                cn.Close();
             }
-            else
-            {
-                // workorder not started into the system
-                if (WOReleased(wo))
-                {
-                    if (department == Department.Eng)
-                    {
-                        Enterwototrackeng(wo, "Eng. Released");
-                    }
-                    else if (department == Department.Controls)
-                    {
-                        Enterwototrackcontrols(wo, "Controls Released");
-                    }
-                    else
-                    {
-                        MessageBox.Show("Work order has to be initialized in the system by Engineering/Controls department", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    }
-                }
-                else
-                {
-                    if (department == Department.Eng || department == Department.Controls)
-                    {
-                        MessageBox.Show("Please check the work order number.", "Work Order not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Work order has not been initialized in the system by Engineering/Controls", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                }
-            }
-        }
-
-        private bool WoExistsOnWotrack(string wo)
-        {
-            bool wopresent = false;
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[WO_Tracking] WHERE [WO]='" + wo + "'", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-                    int userCount = (int)sqlCommand.ExecuteScalar();
-                    if (userCount == 1)
-                    {
-                        wopresent = true;
-                    }
-                    cn.Close();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Check WO Present on Tracking", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-            return wopresent;
+            return success;
         }
 
         public bool WOReleased(string wo)
@@ -253,282 +225,23 @@ namespace SPMConnectAPI
             return wopresent;
         }
 
-        private void Enterwototrackeng(string wo, string dept)
+        private string Calculatetimedifference(DateTime A, DateTime B)
         {
-            DateTime datecreated = DateTime.Now;
-            string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-            string username = ConnectUser.Name;
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[WO_Tracking] (WO, Engin, EngWho, EngWhen, Status) VALUES('" + wo + "','1','" + username + "','" + sqlFormattedDatetime + "','" + dept + "')";
-                cmd.ExecuteNonQuery();
-                // MessageBox.Show("Work Order Checked in.", "SPM Connect  - Work Order In Eng", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                cn.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Create New WO to track", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-        }
-
-        private void Enterwototrackcontrols(string wo, string dept)
-        {
-            DateTime datecreated = DateTime.Now;
-            string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-            string username = ConnectUser.Name;
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[WO_Tracking] (WO, Ctrlin, CtrlWho, CtrlWhen, Status) VALUES('" + wo + "','1','" + username + "','" + sqlFormattedDatetime + "','" + dept + "')";
-                cmd.ExecuteNonQuery();
-                // MessageBox.Show("Work Order Checked in.", "SPM Connect  - Work Order In Controls", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                cn.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Create New WO to track", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-        }
-
-        private bool UpdateWOTracking(string wo, string parameter1, string parameter2, string parameter3, string para1value1, string para1value2, string status)
-        {
-            bool success = false;
-            DateTime datecreated = DateTime.Now;
-            string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "UPDATE [SPM_Database].[dbo].[WO_Tracking] SET " + parameter1 + " = '" + para1value1 + "'," + parameter2 + " = '" + para1value2 + "'," + parameter3 + " = '" + sqlFormattedDatetime + "',Status = '" + status + "'  WHERE WO = '" + wo + "'";
-                cmd.ExecuteNonQuery();
-                cn.Close();
-                success = true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Update WO Status", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-            return success;
-        }
-
-
-        public bool UpdateWOBinCribLocation(string wo, string location)
-        {
-            bool success = false;
-
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "UPDATE [SPM_Database].[dbo].[WO_Tracking] SET  [CribLocation] = '" + location + "'  WHERE WO = '" + wo + "'";
-                cmd.ExecuteNonQuery();
-                cn.Close();
-                success = true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Update WO Crib location", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-            return success;
-        }
-
-        private DataTable GetWOInfo(string wo)
-        {
-            DataTable dt = new DataTable();
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[WO_Tracking] WHERE [WO] = '" + wo + "'", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-                    dt.Clear();
-                    sda.Fill(dt);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Get WO Information", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-            return dt;
-        }
-
-        private void DoWorkOrderTacking(string wo, Department department)
-        {
-            DataTable woinfo = new DataTable();
-            woinfo.Clear();
-            woinfo = GetWOInfo(wo);
-            DataRow r = woinfo.Rows[0];
-            string engin = r["Engin"].ToString();
-            string cntrlin = r["Ctrlin"].ToString();
-            string Prodin = r["Prodin"].ToString();
-            string Prodout = r["Prodout"].ToString();
-            string Purin = r["Purin"].ToString();
-            string Purout = r["Purout"].ToString();
-            string Cribin = r["Cribin"].ToString();
-            string Cribout = r["Cribout"].ToString();
-            Findwhatstagetoinsert(engin, cntrlin, Prodin, Prodout, Purin, Purout, Cribin, Cribout, department, wo);
-        }
-
-        private void Findwhatstagetoinsert(string engin, string cntrlin, string prodin, string prodout, string purin, string purout, string cribin, string cribout, Department department, string wo)
-        {
-            switch (department)
-            {
-                case Department.Production:
-                    Checkprodtrack(engin, cntrlin, prodin, prodout, wo);
-                    break;
-
-                case Department.Purchasing:
-                    Checkpurtrack(prodout, purin, purout, wo);
-                    break;
-
-                case Department.Crib:
-                    CheckCribtrack(prodout, cribin, cribout, purout, wo);
-                    break;
-            }
-        }
-
-        private void Checkprodtrack(string engin, string cntrlin, string prodin, string prodout, string wo)
-        {
-            if (engin == "1" || cntrlin == "1")
-            {
-                if (prodin == "0")
-                {
-                    // insert into production
-                    if (UpdateWOTracking(wo, "Prodin", "ProdinWho", "ProdinWhen", "1", ConnectUser.Name, "InProduction"))
-                        MessageBox.Show("Work Order Checked into Production.", "SPM Connect  - Work Order In Production", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    else MessageBox.Show("Error Updating WO Tracking. Please contact the admin for line 385", "SPM Connect - Error Work Order In Production", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                else
-                {
-                    if (prodout == "0")
-                    {
-                        // insert into production checkout
-                        DialogResult result = MessageBox.Show("Check out this work order from production?", "Check Out WO?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                        if (result == DialogResult.Yes)
-                        {
-                            if (UpdateWOTracking(wo, "Prodout", "ProdoutWho", "ProdoutWhen", "1", ConnectUser.Name, "OutProduction"))
-                            {
-                                string timespan = Calculatetimedifference(Fetchdatetime("ProdoutWhen", wo), Fetchdatetime("ProdinWhen", wo));
-                                UpdateWOTrackingTimeSpan(wo, "TimeInProd", timespan);
-                                MessageBox.Show("Work Order Checked out of Production.", "SPM Connect  - Work Order out Production", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            }
-                            else
-                            {
-                                MessageBox.Show("Error Updating WO Tracking. Please contact the admin for line 404", "SPM Connect - Error Work Order Out Production", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        // this workorder has been already checkout from your system
-                        MessageBox.Show("Work order has been already checked out from Production department.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                }
-            }
-            else
-            {
-                //Work order not has been initialized by eng
-                MessageBox.Show("Work order has not been initialized in the system by Engineering or Controls department.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            }
-        }
-
-        private void Checkpurtrack(string prodout, string purin, string purout, string wo)
-        {
-            string status = "";
-            status = WOStatustostring(wo);
-            if (prodout == "1")
-            {
-                if (purin == "0")
-                {
-                    // insert into purchasing
-
-                    if (UpdateWOTracking(wo, "Purin", "PurinWho", "PurinWhen", "1", ConnectUser.Name, status == "" ? "In Purchasing" : status + " & In Purchasing"))
-                    {
-                        MessageBox.Show("Work Order Checked into Purchasing.", "SPM Connect  - Work Order In Purchasing", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Error Updating WO Tracking. Please contact the admin for line 439", "SPM Connect - Error Work Order In Purchasing", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-                else
-                {
-                    if (purout == "0")
-                    {
-                        // insert into pruchase checkout
-                        DialogResult result = MessageBox.Show("Check out this work order from Purchasing?", "Check Out WO?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                        if (result == DialogResult.Yes)
-                        {
-                            status = RemoveStatus(status, "In Purchasing");
-                            if (UpdateWOTracking(wo, "Purout", "PuroutWho", "PuroutWhen", "1", ConnectUser.Name, status == "" || status == "In Purchasing" ? "Out Purchasing" : status + " & Out Purchasing"))
-                            {
-                                string timespan = Calculatetimedifference(Fetchdatetime("PuroutWhen", wo), Fetchdatetime("PurinWhen", wo));
-                                UpdateWOTrackingTimeSpan(wo, "TimeInPur", timespan);
-                                MessageBox.Show("Work Order Checked out of Purchasing.", "SPM Connect  - Work Order out Purchasing", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            }
-                            else
-                            {
-                                MessageBox.Show("Error Updating WO Tracking. Please contact the admin for line 459", "SPM Connect - Error Work Order Out Purchasing", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        // this wo has already been checkout of system
-                        MessageBox.Show("Work order has been already checkout from Purchasing department.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                }
-            }
-            else
-            {
-                //Work order not has been initialized by production
-                MessageBox.Show("Work order has not been checked out from production", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            }
+            TimeSpan span = (A - B);
+            return string.Format("{0} days, {1} hours, {2} minutes, {3} seconds",
+                           span.Days, span.Hours, span.Minutes, span.Seconds);
         }
 
         private void CheckCribtrack(string prodout, string cribin, string cribout, string purout, string wo)
         {
             string location = CaptureLocation();
-            string status = "";
-            status = WOStatustostring(wo);
+            string status = WOStatustostring(wo);
             if (prodout == "1")
             {
                 if (cribin == "0")
                 {
                     // insert into crib
-                    if (UpdateWOTracking(wo, "Cribin", "CribinWho", "CribinWhen", "1", ConnectUser.Name, status == "" ? "In Crib" : status + " & In Crib"))
+                    if (UpdateWOTracking(wo, "Cribin", "CribinWho", "CribinWhen", "1", ConnectUser.Name, string.IsNullOrEmpty(status) ? "In Crib" : status + " & In Crib"))
                     {
                         UpdateWOBinCribLocation(wo, location);
                         MessageBox.Show("Work Order Checked into Crib.", "SPM Connect  - Work Order In Crib", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -598,32 +311,176 @@ namespace SPMConnectAPI
             }
         }
 
-        private string RemoveStatus(string status, string requestby)
+        private void Checkprodtrack(string engin, string cntrlin, string prodin, string prodout, string wo)
         {
-            string setstatus = "";
-            string incrib = requestby;
-            // Split string on spaces (this will separate all the words).
-            string[] words = status.Split('&');
-            foreach (string word in words)
+            if (engin == "1" || cntrlin == "1")
             {
-                if (word.Trim() == incrib)
+                if (prodin == "0")
                 {
+                    // insert into production
+                    if (UpdateWOTracking(wo, "Prodin", "ProdinWho", "ProdinWhen", "1", ConnectUser.Name, "InProduction"))
+                        MessageBox.Show("Work Order Checked into Production.", "SPM Connect  - Work Order In Production", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    else MessageBox.Show("Error Updating WO Tracking. Please contact the admin for line 385", "SPM Connect - Error Work Order In Production", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
                 {
-                    setstatus += word.Trim();
-                    if (word.Trim() != "")
-                        setstatus += "";
+                    if (prodout == "0")
+                    {
+                        // insert into production checkout
+                        DialogResult result = MessageBox.Show("Check out this work order from production?", "Check Out WO?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (result == DialogResult.Yes)
+                        {
+                            if (UpdateWOTracking(wo, "Prodout", "ProdoutWho", "ProdoutWhen", "1", ConnectUser.Name, "OutProduction"))
+                            {
+                                string timespan = Calculatetimedifference(Fetchdatetime("ProdoutWhen", wo), Fetchdatetime("ProdinWhen", wo));
+                                UpdateWOTrackingTimeSpan(wo, "TimeInProd", timespan);
+                                MessageBox.Show("Work Order Checked out of Production.", "SPM Connect  - Work Order out Production", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Error Updating WO Tracking. Please contact the admin for line 404", "SPM Connect - Error Work Order Out Production", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // this workorder has been already checkout from your system
+                        MessageBox.Show("Work order has been already checked out from Production department.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
             }
-            return setstatus.Trim();
+            else
+            {
+                //Work order not has been initialized by eng
+                MessageBox.Show("Work order has not been initialized in the system by Engineering or Controls department.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+
+        private void Checkpurtrack(string prodout, string purin, string purout, string wo)
+        {
+            string status = WOStatustostring(wo);
+            if (prodout == "1")
+            {
+                if (purin == "0")
+                {
+                    // insert into purchasing
+
+                    if (UpdateWOTracking(wo, "Purin", "PurinWho", "PurinWhen", "1", ConnectUser.Name, string.IsNullOrEmpty(status) ? "In Purchasing" : status + " & In Purchasing"))
+                    {
+                        MessageBox.Show("Work Order Checked into Purchasing.", "SPM Connect  - Work Order In Purchasing", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error Updating WO Tracking. Please contact the admin for line 439", "SPM Connect - Error Work Order In Purchasing", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else
+                {
+                    if (purout == "0")
+                    {
+                        // insert into pruchase checkout
+                        DialogResult result = MessageBox.Show("Check out this work order from Purchasing?", "Check Out WO?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (result == DialogResult.Yes)
+                        {
+                            status = RemoveStatus(status, "In Purchasing");
+                            if (UpdateWOTracking(wo, "Purout", "PuroutWho", "PuroutWhen", "1", ConnectUser.Name, string.IsNullOrEmpty(status) || status == "In Purchasing" ? "Out Purchasing" : status + " & Out Purchasing"))
+                            {
+                                string timespan = Calculatetimedifference(Fetchdatetime("PuroutWhen", wo), Fetchdatetime("PurinWhen", wo));
+                                UpdateWOTrackingTimeSpan(wo, "TimeInPur", timespan);
+                                MessageBox.Show("Work Order Checked out of Purchasing.", "SPM Connect  - Work Order out Purchasing", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Error Updating WO Tracking. Please contact the admin for line 459", "SPM Connect - Error Work Order Out Purchasing", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // this wo has already been checkout of system
+                        MessageBox.Show("Work order has been already checkout from Purchasing department.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            else
+            {
+                //Work order not has been initialized by production
+                MessageBox.Show("Work order has not been checked out from production", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+
+        private void DoWorkOrderTacking(string wo, Department department)
+        {
+            DataTable woinfo = new DataTable();
+            woinfo.Clear();
+            woinfo = GetWOInfo(wo);
+            DataRow r = woinfo.Rows[0];
+            string engin = r["Engin"].ToString();
+            string cntrlin = r["Ctrlin"].ToString();
+            string Prodin = r["Prodin"].ToString();
+            string Prodout = r["Prodout"].ToString();
+            string Purin = r["Purin"].ToString();
+            string Purout = r["Purout"].ToString();
+            string Cribin = r["Cribin"].ToString();
+            string Cribout = r["Cribout"].ToString();
+            Findwhatstagetoinsert(engin, cntrlin, Prodin, Prodout, Purin, Purout, Cribin, Cribout, department, wo);
+        }
+
+        private void Enterwototrackcontrols(string wo, string dept)
+        {
+            DateTime datecreated = DateTime.Now;
+            string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
+            string username = ConnectUser.Name;
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[WO_Tracking] (WO, Ctrlin, CtrlWho, CtrlWhen, Status) VALUES('" + wo + "','1','" + username + "','" + sqlFormattedDatetime + "','" + dept + "')";
+                cmd.ExecuteNonQuery();
+                // MessageBox.Show("Work Order Checked in.", "SPM Connect  - Work Order In Controls", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                cn.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Create New WO to track", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+        }
+
+        private void Enterwototrackeng(string wo, string dept)
+        {
+            DateTime datecreated = DateTime.Now;
+            string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
+            string username = ConnectUser.Name;
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[WO_Tracking] (WO, Engin, EngWho, EngWhen, Status) VALUES('" + wo + "','1','" + username + "','" + sqlFormattedDatetime + "','" + dept + "')";
+                cmd.ExecuteNonQuery();
+                // MessageBox.Show("Work Order Checked in.", "SPM Connect  - Work Order In Eng", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                cn.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Create New WO to track", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
         }
 
         private DateTime Fetchdatetime(string columname, string wo)
         {
-            DateTime dateTime;
-
-            dateTime = DateTime.Now;
+            DateTime dateTime = DateTime.Now;
             try
             {
                 DataTable dt = new DataTable();
@@ -643,15 +500,92 @@ namespace SPMConnectAPI
             return dateTime;
         }
 
-        private string Calculatetimedifference(DateTime A, DateTime B)
+        private void Findwhatstagetoinsert(string engin, string cntrlin, string prodin, string prodout, string purin, string purout, string cribin, string cribout, Department department, string wo)
         {
-            string timediff;
-            TimeSpan span = (A - B);
+            switch (department)
+            {
+                case Department.Production:
+                    Checkprodtrack(engin, cntrlin, prodin, prodout, wo);
+                    break;
 
-            timediff = string.Format("{0} days, {1} hours, {2} minutes, {3} seconds",
-               span.Days, span.Hours, span.Minutes, span.Seconds);
+                case Department.Purchasing:
+                    Checkpurtrack(prodout, purin, purout, wo);
+                    break;
 
-            return timediff;
+                case Department.Crib:
+                    CheckCribtrack(prodout, cribin, cribout, purout, wo);
+                    break;
+            }
+        }
+
+        private DataTable GetWOInfo(string wo)
+        {
+            DataTable dt = new DataTable();
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[WO_Tracking] WHERE [WO] = '" + wo + "'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    dt.Clear();
+                    sda.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get WO Information", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return dt;
+        }
+
+        private string RemoveStatus(string status, string requestby)
+        {
+            string setstatus = "";
+            string incrib = requestby;
+            // Split string on spaces (this will separate all the words).
+            string[] words = status.Split('&');
+            foreach (string word in words)
+            {
+                if (word.Trim() != incrib)
+                {
+                    setstatus += word.Trim();
+                    if (word.Trim() != "")
+                        setstatus += "";
+                }
+            }
+            return setstatus.Trim();
+        }
+
+        private bool UpdateWOTracking(string wo, string parameter1, string parameter2, string parameter3, string para1value1, string para1value2, string status)
+        {
+            bool success = false;
+            DateTime datecreated = DateTime.Now;
+            string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
+
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "UPDATE [SPM_Database].[dbo].[WO_Tracking] SET " + parameter1 + " = '" + para1value1 + "'," + parameter2 + " = '" + para1value2 + "'," + parameter3 + " = '" + sqlFormattedDatetime + "',Status = '" + status + "'  WHERE WO = '" + wo + "'";
+                cmd.ExecuteNonQuery();
+                cn.Close();
+                success = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Update WO Status", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return success;
         }
 
         private bool UpdateWOTrackingTimeSpan(string wo, string parameter1, string para1value1)
@@ -680,33 +614,57 @@ namespace SPMConnectAPI
             return success;
         }
 
-        #region Wo In out
-
-        public DataTable ShowWOInOutStatus(string wo)
+        private bool WoExistsOnWotrack(string wo)
         {
-            DataTable dt = new DataTable();
-
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[WOInOutStatus] WHERE WO = '" + wo + "'", cn))
+            bool wopresent = false;
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[WO_Tracking] WHERE [WO]='" + wo + "'", cn))
             {
                 try
                 {
                     if (cn.State == ConnectionState.Closed)
                         cn.Open();
-
-                    dt.Clear();
-                    sda.Fill(dt);
+                    int userCount = (int)sqlCommand.ExecuteScalar();
+                    if (userCount == 1)
+                    {
+                        wopresent = true;
+                    }
+                    cn.Close();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "SPM Connect - Show All Work Status In Out", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "SPM Connect - Check WO Present on Tracking", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
                     cn.Close();
                 }
             }
-            return dt;
+            return wopresent;
         }
+
+        private string WOStatustostring(string wo)
+        {
+            string status = "";
+            try
+            {
+                DataTable dt = new DataTable();
+                dt = GetWOInfo(wo);
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    if (dr["Purin"].ToString() == "1" || dr["Cribin"].ToString() == "1")
+                        status = dr["Status"].ToString();
+                }
+                dt.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve WO Status", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            return status;
+        }
+
+        #region Wo In out
 
         public bool CheckWoExistsOnInvInOut(string wo)
         {
@@ -736,60 +694,30 @@ namespace SPMConnectAPI
             return wopresent;
         }
 
-        public bool IsCompletedInvInOut(string wo)
+        public void CheckWOInFromBuilt(string wo, string empid, string approvalid, string completed)
         {
-            bool completed = false;
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[WOInOut] WHERE [WO]='" + wo + "' and [Completed] = '1'", cn))
+            DateTime datecreated = DateTime.Now;
+            string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
+            _ = ConnectUser.Name;
+            try
             {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-                    int userCount = (int)sqlCommand.ExecuteScalar();
-                    if (userCount > 0)
-                    {
-                        completed = true;
-                    }
-                    cn.Close();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Check WO Completed Build", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "UPDATE [SPM_Database].[dbo].[WOInOut] SET [Emp_idCheckIn] = '" + empid + "', [PunchOut] = '" + sqlFormattedDatetime + "',[CheckInApprovedBy] = '" + approvalid + "',[InBuilt] = '0', [Completed] = '" + completed + "' WHERE WO = '" + wo + "'";
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("Work Order Checked into Crib.", "SPM Connect  - Work Order Checked In", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                cn.Close();
             }
-            return completed;
-        }
-
-        public bool EmployeeExitsWithCribRights(string empid)
-        {
-            bool empexists = false;
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE [Emp_Id]='" + empid + "' and [CribCheckout] = '1' ", cn))
+            catch (Exception ex)
             {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-                    int userCount = (int)sqlCommand.ExecuteScalar();
-                    if (userCount == 1)
-                    {
-                        empexists = true;
-                    }
-                    cn.Close();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Check Employee With Crib Rights", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
+                MessageBox.Show(ex.Message, "SPM Connect - Check in WO into Crib", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            return empexists;
+            finally
+            {
+                cn.Close();
+            }
         }
 
         public bool CheckWOIntoCrib(string wo)
@@ -824,7 +752,7 @@ namespace SPMConnectAPI
         {
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-            string username = ConnectUser.Name;
+            _ = ConnectUser.Name;
             try
             {
                 if (cn.State == ConnectionState.Closed)
@@ -846,30 +774,32 @@ namespace SPMConnectAPI
             }
         }
 
-        public void CheckWOInFromBuilt(string wo, string empid, string approvalid, string completed)
+        public bool EmployeeExitsWithCribRights(string empid)
         {
-            DateTime datecreated = DateTime.Now;
-            string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-            string username = ConnectUser.Name;
-            try
+            bool empexists = false;
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE [Emp_Id]='" + empid + "' and [CribCheckout] = '1' ", cn))
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "UPDATE [SPM_Database].[dbo].[WOInOut] SET [Emp_idCheckIn] = '" + empid + "', [PunchOut] = '" + sqlFormattedDatetime + "',[CheckInApprovedBy] = '" + approvalid + "',[InBuilt] = '0', [Completed] = '" + completed + "' WHERE WO = '" + wo + "'";
-                cmd.ExecuteNonQuery();
-                MessageBox.Show("Work Order Checked into Crib.", "SPM Connect  - Work Order Checked In", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                cn.Close();
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    int userCount = (int)sqlCommand.ExecuteScalar();
+                    if (userCount == 1)
+                    {
+                        empexists = true;
+                    }
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Check Employee With Crib Rights", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Check in WO into Crib", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
+            return empexists;
         }
 
         public bool InBuiltInvInOut(string wo)
@@ -900,46 +830,63 @@ namespace SPMConnectAPI
             return completed;
         }
 
+        public bool IsCompletedInvInOut(string wo)
+        {
+            bool completed = false;
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[WOInOut] WHERE [WO]='" + wo + "' and [Completed] = '1'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    int userCount = (int)sqlCommand.ExecuteScalar();
+                    if (userCount > 0)
+                    {
+                        completed = true;
+                    }
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Check WO Completed Build", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return completed;
+        }
+
+        public DataTable ShowWOInOutStatus(string wo)
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[WOInOutStatus] WHERE WO = '" + wo + "'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Show All Work Status In Out", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return dt;
+        }
+
         #endregion Wo In out
 
         #region Material ReAllocation
-
-        private string Getnewinvoicenumber()
-        {
-            string newincoiveno = "";
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT MAX([InvoiceNo]) + 1 as NextQuoteNo FROM [SPM_Database].[dbo].[MaterialReallocation]";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    newincoiveno = dr["NextQuoteNo"].ToString();
-                }
-                dt.Clear();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Get New Invoice Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-
-            if (newincoiveno == "")
-            {
-                newincoiveno = "1001";
-            }
-
-            return newincoiveno;
-        }
 
         public string CreateNewMatReallocation()
         {
@@ -962,64 +909,6 @@ namespace SPMConnectAPI
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "SPM Connect - Create New Mat Reallocation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-            return success;
-        }
-
-        public DataTable ShowMatInvoice(string invoiceno)
-        {
-            DataTable dt = new DataTable();
-
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[MaterialReallocation] WHERE InvoiceNo = '" + invoiceno + "'", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-
-                    dt.Clear();
-                    sda.Fill(dt);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Get Material Reallocation Invoice", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-            return dt;
-        }
-
-        public bool UpdateInvoiceDetsToSql(string inovicenumber, string notes, string itemid, string description, string oem, string oemitem, string empid, string empname, string appid, string appname, string jobreq, string woreq, string jobtaken, string wotaken, string qty)
-        {
-            bool success = false;
-            string username = ConnectUser.Name;
-            DateTime dateedited = DateTime.Now;
-            string sqlFormattedDate = dateedited.ToString("yyyy-MM-dd HH:mm:ss");
-            if (cn.State == ConnectionState.Closed)
-                cn.Open();
-            try
-            {
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "UPDATE [SPM_Database].[dbo].[MaterialReallocation] SET [LastSavedOn] = '" + sqlFormattedDate + "',[LastSavedBy] = '" + username + "'," +
-                    "[Notes] = '" + notes + "',[ItemId] = '" + itemid + "',[Description] = '" + description + "',[OEM] = '" + oem + "',[OEMItem] = '" + oemitem + "'," +
-                    "[EmployeeId] = '" + empid + "',[EmployeeName] = '" + empname + "',[ApprovedId] = '" + appid + "',[ApprovedName] =  '" + appname + "',[JobReq] = '" + jobreq + "'," +
-                    "[WOReq] = '" + woreq + "',[JobTaken] = '" + jobtaken + "',[WOTaken] = '" + wotaken + "',[Qty] = '" + qty + "'  WHERE [InvoiceNo] = '" + inovicenumber + "' ";
-
-                cmd.ExecuteNonQuery();
-                cn.Close();
-                success = true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect Invoice Details Material - Update", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -1080,7 +969,129 @@ namespace SPMConnectAPI
             return dt;
         }
 
+        public DataTable ShowMatInvoice(string invoiceno)
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[MaterialReallocation] WHERE InvoiceNo = '" + invoiceno + "'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Material Reallocation Invoice", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return dt;
+        }
+
+        public bool UpdateInvoiceDetsToSql(string inovicenumber, string notes, string itemid, string description, string oem, string oemitem, string empid, string empname, string appid, string appname, string jobreq, string woreq, string jobtaken, string wotaken, string qty)
+        {
+            bool success = false;
+            string username = ConnectUser.Name;
+            DateTime dateedited = DateTime.Now;
+            string sqlFormattedDate = dateedited.ToString("yyyy-MM-dd HH:mm:ss");
+            if (cn.State == ConnectionState.Closed)
+                cn.Open();
+            try
+            {
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "UPDATE [SPM_Database].[dbo].[MaterialReallocation] SET [LastSavedOn] = '" + sqlFormattedDate + "',[LastSavedBy] = '" + username + "'," +
+                    "[Notes] = '" + notes + "',[ItemId] = '" + itemid + "',[Description] = '" + description + "',[OEM] = '" + oem + "',[OEMItem] = '" + oemitem + "'," +
+                    "[EmployeeId] = '" + empid + "',[EmployeeName] = '" + empname + "',[ApprovedId] = '" + appid + "',[ApprovedName] =  '" + appname + "',[JobReq] = '" + jobreq + "'," +
+                    "[WOReq] = '" + woreq + "',[JobTaken] = '" + jobtaken + "',[WOTaken] = '" + wotaken + "',[Qty] = '" + qty + "'  WHERE [InvoiceNo] = '" + inovicenumber + "' ";
+
+                cmd.ExecuteNonQuery();
+                cn.Close();
+                success = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect Invoice Details Material - Update", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return success;
+        }
+
+        private string Getnewinvoicenumber()
+        {
+            string newincoiveno = "";
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT MAX([InvoiceNo]) + 1 as NextQuoteNo FROM [SPM_Database].[dbo].[MaterialReallocation]";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    newincoiveno = dr["NextQuoteNo"].ToString();
+                }
+                dt.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Get New Invoice Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+
+            if (string.IsNullOrEmpty(newincoiveno))
+            {
+                newincoiveno = "1001";
+            }
+
+            return newincoiveno;
+        }
+
         #region Fill Comboboxes
+
+        public AutoCompleteStringCollection FillApprovedBy()
+        {
+            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT [ApprovedName] from [dbo].[MaterialReallocation] where ApprovedName is not null order by ApprovedName", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        MyCollection.Add(reader.GetString(0));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Fill Approved By", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return MyCollection;
+        }
 
         public AutoCompleteStringCollection FillItems()
         {
@@ -1110,10 +1121,10 @@ namespace SPMConnectAPI
             return MyCollection;
         }
 
-        public AutoCompleteStringCollection FillRequestedBy()
+        public AutoCompleteStringCollection Filljobreq()
         {
             AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT [EmployeeName] from [dbo].[MaterialReallocation] where EmployeeName is not null order by EmployeeName", cn))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT [JobReq] from [dbo].[MaterialReallocation] where JobReq is not null order by JobReq", cn))
             {
                 try
                 {
@@ -1127,61 +1138,7 @@ namespace SPMConnectAPI
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "SPM Connect - Fill Requested By", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-            return MyCollection;
-        }
-
-        public AutoCompleteStringCollection FillApprovedBy()
-        {
-            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT [ApprovedName] from [dbo].[MaterialReallocation] where ApprovedName is not null order by ApprovedName", cn))
-            {
-                try
-                {
-                    cn.Open();
-                    SqlDataReader reader = sqlCommand.ExecuteReader();
-
-                    while (reader.Read())
-                    {
-                        MyCollection.Add(reader.GetString(0));
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Fill Approved By", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-            return MyCollection;
-        }
-
-        public AutoCompleteStringCollection FillWorkOrderReq()
-        {
-            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT [WOReq] from [dbo].[MaterialReallocation] where WOReq is not null order by WOReq", cn))
-            {
-                try
-                {
-                    cn.Open();
-                    SqlDataReader reader = sqlCommand.ExecuteReader();
-
-                    while (reader.Read())
-                    {
-                        MyCollection.Add(reader.GetString(0));
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Fill WO Required", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "SPM Connect - Fill Job Req", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -1218,10 +1175,10 @@ namespace SPMConnectAPI
             return MyCollection;
         }
 
-        public AutoCompleteStringCollection Filljobreq()
+        public AutoCompleteStringCollection FillRequestedBy()
         {
             AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT [JobReq] from [dbo].[MaterialReallocation] where JobReq is not null order by JobReq", cn))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT [EmployeeName] from [dbo].[MaterialReallocation] where EmployeeName is not null order by EmployeeName", cn))
             {
                 try
                 {
@@ -1235,7 +1192,34 @@ namespace SPMConnectAPI
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "SPM Connect - Fill Job Req", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "SPM Connect - Fill Requested By", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return MyCollection;
+        }
+
+        public AutoCompleteStringCollection FillWorkOrderReq()
+        {
+            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT [WOReq] from [dbo].[MaterialReallocation] where WOReq is not null order by WOReq", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        MyCollection.Add(reader.GetString(0));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Fill WO Required", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -1303,32 +1287,6 @@ namespace SPMConnectAPI
             return dt;
         }
 
-        public DataTable ShowWOStatusBinWithEMPName()
-        {
-            DataTable dt = new DataTable();
-
-            using (SqlDataAdapter sda = new SqlDataAdapter(" SELECT * FROM [SPM_Database].[dbo].[WO_BinStatus] ORDER BY WO DESC, Id DESC", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-
-                    dt.Clear();
-                    sda.Fill(dt);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Show All Work Order Status With Emp Names", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-            return dt;
-        }
-
         public DataTable ShowWODetails(string wo)
         {
             DataTable dt = new DataTable();
@@ -1346,6 +1304,32 @@ namespace SPMConnectAPI
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "SPM Connect - Show Work Order Details", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return dt;
+        }
+
+        public DataTable ShowWOStatusBinWithEMPName()
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlDataAdapter sda = new SqlDataAdapter(" SELECT * FROM [SPM_Database].[dbo].[WO_BinStatus] ORDER BY WO DESC, Id DESC", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Show All Work Order Status With Emp Names", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -1385,416 +1369,11 @@ namespace SPMConnectAPI
 
         #region WorkOrderRelease
 
-        private string GetNewReleaseLogNo()
-        {
-            string newincoiveno = "";
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT MAX([RlogNo]) + 1 as NextQuoteNo FROM [SPM_Database].[dbo].[WOReleaseLog]";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    newincoiveno = dr["NextQuoteNo"].ToString();
-                }
-                dt.Clear();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Get New Release Log Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-
-            if (newincoiveno == "")
-            {
-                newincoiveno = "1001";
-            }
-
-            return newincoiveno;
-        }
-
-        private int GetNextReleaseNo(string wo)
-        {
-            int nextreleaseno = 0;
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT MAX([NxtReleaseNo])+1 as NextQuoteNo FROM [SPM_Database].[dbo].[WOReleaseLog] WHERE WO = '" + wo + "'";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                if (dt.Rows.Count > 0)
-                {
-                    foreach (DataRow dr in dt.Rows)
-                    {
-                        if (!(dr["NextQuoteNo"] is DBNull))
-                            nextreleaseno = Convert.ToInt32(dr["NextQuoteNo"]);
-                    }
-                }
-
-                dt.Clear();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Get New Release Log Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-
-            return nextreleaseno;
-        }
-
-        private string GetNextReleaseLabel(int nxtrelno)
-        {
-            string nextreleaseno = "";
-
-            if (nxtrelno == 0)
-            {
-                nextreleaseno = "Initial Release";
-            }
-            else
-            {
-                nextreleaseno = "Release " + nxtrelno;
-            }
-
-            return nextreleaseno;
-        }
-
-        public bool CheckWoExistsOnReleaseLog(string wo, string releasetype)
-        {
-            bool wopresent = false;
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[WOReleaseLog] WHERE [WO]='" + wo + "' AND [ReleaseType]='" + releasetype + "'", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-                    int userCount = (int)sqlCommand.ExecuteScalar();
-                    if (userCount > 0)
-                    {
-                        wopresent = true;
-                    }
-                    cn.Close();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Check WO Present on Release Log", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-            return wopresent;
-        }
-
-        public string EnterWOToReleaseLog(string wo, string jobno, string assyno)
-        {
-            string success = "";
-            DateTime datecreated = DateTime.Now;
-            string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-            string username = ConnectUser.Name;
-            string releaselogno = GetNewReleaseLogNo();
-            int nxtreaseno = GetNextReleaseNo(wo);
-
-            string releasetype = GetNextReleaseLabel(nxtreaseno);
-
-            if (!(CheckWoExistsOnReleaseLog(wo, releasetype)))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-                    SqlCommand cmd = cn.CreateCommand();
-                    cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[WOReleaseLog] (RlogNo, WO,JobNo, AssyNo, ReleaseType, CreatedBy, CreatedOn, LastSavedBy, LastSaved, NxtReleaseNo)" +
-                        " VALUES('" + releaselogno + "','" + wo + "','" + jobno + "','" + assyno + "','" + releasetype + "','" + username + "','" + sqlFormattedDatetime + "','" + username + "','" + sqlFormattedDatetime + "','" + nxtreaseno + "')";
-                    cmd.ExecuteNonQuery();
-                    MessageBox.Show("Work Order Checked in for new release.", "SPM Connect  - Work Order Release Log", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    cn.Close();
-                    success = releaselogno;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Add Work Order To Release Log", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    success = "";
-                }
-                finally
-                {
-                    cn.Close();
-                    if (releasetype == "Initial Release")
-                    {
-                        CopyInitialItems(wo, assyno, releaselogno, jobno, releasetype);
-                        Scanworkorder(wo);
-                    }
-                    else
-                    {
-                        DataTable dt = new DataTable();
-                        dt = GrabReleaseSuggestions(wo, jobno, assyno);
-                        if (dt.Rows.Count > 0)
-                            foreach (DataRow dr in dt.Select())
-                            {
-                                CopyNewReleaseItems(wo, assyno, releaselogno, jobno, releasetype, dr["ItemId"].ToString(), dr["Qty"].ToString(), dr["Order"].ToString());
-                                UpdateBallonRefToEst(dr["ItemId"].ToString(), releasetype, jobno, assyno);
-                                UpdateBallonRefToWorkOrder(dr["ItemId"].ToString(), releasetype, jobno, assyno, wo, dr["Order"].ToString());
-                            }
-                    }
-                }
-                return success;
-            }
-            else
-            {
-                // return error intial release done already
-                MessageBox.Show("Work Order has been already checked into this release.", "SPM Connect  - Work Order In Release", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return success = "";
-            }
-        }
-
-        public DataTable GrabReleaseLogDetails(string rlogno)
-        {
-            DataTable dt = new DataTable();
-
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[WOReleaseLog] WHERE [RlogNo] = '" + rlogno + "'", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-
-                    dt.Clear();
-                    sda.Fill(dt);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Get Work Order Release Log Details", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-            return dt;
-        }
-
-        public DataTable GrabReleaseLogsBOM(string job)
-        {
-            DataTable dt = new DataTable();
-
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[VReleaseBOM] WHERE [JobNo]= '" + job + "' ORDER BY CreatedOn DESC", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-
-                    dt.Clear();
-                    sda.Fill(dt);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Get Work Order Release Logs BIG BOM", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-            return dt;
-        }
-
-        public DataTable GrabReleaseLogs(string wo)
-        {
-            DataTable dt = new DataTable();
-
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[VReleaseLogs] WHERE [WO] = '" + wo + "'", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-
-                    dt.Clear();
-                    sda.Fill(dt);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Get Work Order Release Logs", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-            return dt;
-        }
-
-        public DataTable ShowAllReleaseLogs()
-        {
-            DataTable dt = new DataTable();
-
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[VReleaseLogs] ORDER BY WO DESC", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-
-                    dt.Clear();
-                    sda.Fill(dt);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Show All Work Orders Release Logs", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-            return dt;
-        }
-
-        public DataTable GrabReleaseLogItemDetails(string wo, string rlogno)
-        {
-            DataTable dt = new DataTable();
-
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[VWOReleaseDetails] WHERE [WO] = '" + wo + "' AND [RlogNo] = '" + rlogno + "'", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-
-                    dt.Clear();
-                    sda.Fill(dt);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Get Work Order Release Log Details", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-            return dt;
-        }
-
-        public DataTable GrabJobWOBOM(string jobno)
-        {
-            DataTable dt = new DataTable();
-
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[SPMConnectWOBOM] WHERE Job = '" + jobno + "' ", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-
-                    dt.Clear();
-                    sda.Fill(dt);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Get Work Order BIG BOM by Job", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-            return dt;
-        }
-
-        public string GrabWOfromAssy(string jobno, string assyno)
-        {
-            string estId = "";
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[SPMConnectWOBOM] WHERE Job = '" + jobno + "' AND ItemNumber = '" + assyno + "'";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                if (dt.Rows.Count > 0)
-                {
-                    foreach (DataRow dr in dt.Rows)
-                    {
-                        estId = dr["Wo"].ToString();
-                    }
-                }
-
-                dt.Clear();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve Job workOrder", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-            return estId;
-        }
-
-        public DataTable GrabReleaseSuggestions(string wo, string job, string assyno)
-        {
-            DataTable dt = new DataTable();
-
-            using (SqlCommand sqlCommand = new SqlCommand("GetReleaseSuggestions", cn) { CommandType = System.Data.CommandType.StoredProcedure })
-            {
-                cn.Open();
-
-                sqlCommand.Parameters.AddWithValue("@job", job);
-                sqlCommand.Parameters.AddWithValue("@assyno", assyno);
-                sqlCommand.Parameters.AddWithValue("@wo", wo);
-                using (SqlDataAdapter sda = new SqlDataAdapter(sqlCommand))
-                {
-                    try
-                    {
-                        if (cn.State == ConnectionState.Closed)
-                            cn.Open();
-
-                        dt.Clear();
-                        sda.Fill(dt);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message, "SPM Connect - Get Work Order Release Item Suggestions", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    finally
-                    {
-                        cn.Close();
-                    }
-                }
-            }
-            return dt;
-        }
-
         public void AddItemToReleaseLog(string wo, string assyno, string rlogno, string itemno, string qty, string itemnotes, string jobno, string releasetype, string isrevised, string order)
         {
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-            string username = ConnectAPI.ConnectUser.Name;
+            string username = ConnectUser.Name;
             try
             {
                 if (cn.State == ConnectionState.Closed)
@@ -1815,88 +1394,6 @@ namespace SPMConnectAPI
             {
                 cn.Close();
             }
-        }
-
-        public void Deleteassy(string rlogno)
-        {
-            string sql;
-            sql = "DELETE FROM [SPM_Database].[dbo].[WOReleaseDetails] WHERE [RlogNo] = '" + rlogno + "' ";
-
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = sql;
-                cmd.ExecuteNonQuery();
-                cn.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Error deleting items for release log", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-        }
-
-        public bool UpdateReleaseLogNotes(string rlogno, string notes)
-        {
-            bool success = false;
-            string username = ConnectUser.Name;
-            DateTime dateedited = DateTime.Now;
-            string sqlFormattedDate = dateedited.ToString("yyyy-MM-dd HH:mm:ss");
-            if (cn.State == ConnectionState.Closed)
-                cn.Open();
-            try
-            {
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "UPDATE [SPM_Database].[dbo].[WOReleaseLog] SET [LastSaved] = '" + sqlFormattedDate + "',[LastSavedBy] = '" + username + "',[ReleaseNotes] = '" + notes + "' WHERE [RlogNo] = '" + rlogno + "' ";
-
-                cmd.ExecuteNonQuery();
-                cn.Close();
-                success = true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect ReleaseLog - Update Notes", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-            return success;
-        }
-
-        public bool UpdateBallonRefToEst(string itemId, string ballonref, string job, string assy)
-        {
-            bool success = false;
-            string estId = GetEstId(job);
-
-            if (cn.State == ConnectionState.Closed)
-                cn.Open();
-            try
-            {
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "UPDATE [SPMDB].[dbo].[tcBomItemVersion] SET [Ballon] = '" + ballonref + "' WHERE [Item] = '" + itemId + "' AND [BomVersionId]  = '" + estId + "' AND [Produit] = '" + assy + "'";
-
-                cmd.ExecuteNonQuery();
-                cn.Close();
-                success = true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect Update Ballon Ref To Estimate", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-            return success;
         }
 
         public bool CheckItemExistsOnEst(string itemId, string job, string assy)
@@ -1926,35 +1423,6 @@ namespace SPMConnectAPI
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "SPM Connect Check item exists on Estimate", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-            return success;
-        }
-
-        public bool UpdateBallonRefToWorkOrder(string itemId, string ballonref, string job, string assy, string wo, string order)
-        {
-            bool success = false;
-
-            if (cn.State == ConnectionState.Closed)
-                cn.Open();
-            try
-            {
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                if (order == "5445")
-                    cmd.CommandText = "UPDATE [SPMDB].[dbo].[Mrpres] SET [Ballon] = '" + ballonref + "' WHERE [Item] = '" + itemId + "' AND [Job]  = '" + job + "' AND [Piece] = '" + assy + "' AND [Woprec]  = '" + wo + "' AND RML_Active = '1'";
-                else
-                    cmd.CommandText = "UPDATE [SPMDB].[dbo].[Mrpres] SET [Ballon] = '" + ballonref + "' WHERE [Item] = '" + itemId + "' AND [Job]  = '" + job + "' AND [Piece] = '" + assy + "' AND [Woprec]  = '" + wo + "' AND [Ordre] = '" + order + "' AND RML_Active = '1'";
-                cmd.ExecuteNonQuery();
-                cn.Close();
-                success = true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect Update Ballon Ref To Work Order", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -1997,44 +1465,36 @@ namespace SPMConnectAPI
             return success;
         }
 
-        public string GetEstId(string job)
+        public bool CheckWoExistsOnReleaseLog(string wo, string releasetype)
         {
-            string estId = "";
-            try
+            bool wopresent = false;
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[WOReleaseLog] WHERE [WO]='" + wo + "' AND [ReleaseType]='" + releasetype + "'", cn))
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[SPMJobs] WHERE [Job]='" + job + "' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                if (dt.Rows.Count > 0)
+                try
                 {
-                    foreach (DataRow dr in dt.Rows)
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    int userCount = (int)sqlCommand.ExecuteScalar();
+                    if (userCount > 0)
                     {
-                        estId = dr["EstId"].ToString();
+                        wopresent = true;
                     }
+                    cn.Close();
                 }
-
-                dt.Clear();
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Check WO Present on Release Log", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve Job Est Id", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-            return estId;
+            return wopresent;
         }
 
         public void CopyInitialItems(string wo, string assyno, string rlogno, string jobno, string releasetype)
         {
-
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
             string username = ConnectUser.Name;
@@ -2089,6 +1549,129 @@ namespace SPMConnectAPI
             {
                 cn.Close();
             }
+        }
+
+        public void Deleteassy(string rlogno)
+        {
+            string sql = "DELETE FROM [SPM_Database].[dbo].[WOReleaseDetails] WHERE [RlogNo] = '" + rlogno + "' ";
+
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = sql;
+                cmd.ExecuteNonQuery();
+                cn.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Error deleting items for release log", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+        }
+
+        public string EnterWOToReleaseLog(string wo, string jobno, string assyno)
+        {
+            string success = "";
+            DateTime datecreated = DateTime.Now;
+            string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
+            string username = ConnectUser.Name;
+            string releaselogno = GetNewReleaseLogNo();
+            int nxtreaseno = GetNextReleaseNo(wo);
+
+            string releasetype = GetNextReleaseLabel(nxtreaseno);
+
+            if (!CheckWoExistsOnReleaseLog(wo, releasetype))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    SqlCommand cmd = cn.CreateCommand();
+                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[WOReleaseLog] (RlogNo, WO,JobNo, AssyNo, ReleaseType, CreatedBy, CreatedOn, LastSavedBy, LastSaved, NxtReleaseNo)" +
+                        " VALUES('" + releaselogno + "','" + wo + "','" + jobno + "','" + assyno + "','" + releasetype + "','" + username + "','" + sqlFormattedDatetime + "','" + username + "','" + sqlFormattedDatetime + "','" + nxtreaseno + "')";
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("Work Order Checked in for new release.", "SPM Connect  - Work Order Release Log", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    cn.Close();
+                    success = releaselogno;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Add Work Order To Release Log", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    success = "";
+                }
+                finally
+                {
+                    cn.Close();
+                    if (releasetype == "Initial Release")
+                    {
+                        CopyInitialItems(wo, assyno, releaselogno, jobno, releasetype);
+                        Scanworkorder(wo);
+                    }
+                    else
+                    {
+                        _ = new DataTable();
+                        DataTable dt = GrabReleaseSuggestions(wo, jobno, assyno);
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dt.Select())
+                            {
+                                CopyNewReleaseItems(wo, assyno, releaselogno, jobno, releasetype, dr["ItemId"].ToString(), dr["Qty"].ToString(), dr["Order"].ToString());
+                                UpdateBallonRefToEst(dr["ItemId"].ToString(), releasetype, jobno, assyno);
+                                UpdateBallonRefToWorkOrder(dr["ItemId"].ToString(), releasetype, jobno, assyno, wo, dr["Order"].ToString());
+                            }
+                        }
+                    }
+                }
+                return success;
+            }
+            else
+            {
+                // return error intial release done already
+                MessageBox.Show("Work Order has been already checked into this release.", "SPM Connect  - Work Order In Release", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return "";
+            }
+        }
+
+        public string GetEstId(string job)
+        {
+            string estId = "";
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[SPMJobs] WHERE [Job]='" + job + "' ";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        estId = dr["EstId"].ToString();
+                    }
+                }
+
+                dt.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve Job Est Id", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return estId;
         }
 
         public string GetJobAssyNo(string jobno)
@@ -2155,7 +1738,403 @@ namespace SPMConnectAPI
             return assnyno;
         }
 
-        #endregion WorkOrderRelease
+        public DataTable GrabJobWOBOM(string jobno)
+        {
+            DataTable dt = new DataTable();
 
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[SPMConnectWOBOM] WHERE Job = '" + jobno + "' ", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Work Order BIG BOM by Job", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return dt;
+        }
+
+        public DataTable GrabReleaseLogDetails(string rlogno)
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[WOReleaseLog] WHERE [RlogNo] = '" + rlogno + "'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Work Order Release Log Details", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return dt;
+        }
+
+        public DataTable GrabReleaseLogItemDetails(string wo, string rlogno)
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[VWOReleaseDetails] WHERE [WO] = '" + wo + "' AND [RlogNo] = '" + rlogno + "'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Work Order Release Log Details", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return dt;
+        }
+
+        public DataTable GrabReleaseLogs(string wo)
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[VReleaseLogs] WHERE [WO] = '" + wo + "'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Work Order Release Logs", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return dt;
+        }
+
+        public DataTable GrabReleaseLogsBOM(string job)
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[VReleaseBOM] WHERE [JobNo]= '" + job + "' ORDER BY CreatedOn DESC", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Work Order Release Logs BIG BOM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return dt;
+        }
+
+        public DataTable GrabReleaseSuggestions(string wo, string job, string assyno)
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlCommand sqlCommand = new SqlCommand("GetReleaseSuggestions", cn) { CommandType = System.Data.CommandType.StoredProcedure })
+            {
+                cn.Open();
+
+                sqlCommand.Parameters.AddWithValue("@job", job);
+                sqlCommand.Parameters.AddWithValue("@assyno", assyno);
+                sqlCommand.Parameters.AddWithValue("@wo", wo);
+                using (SqlDataAdapter sda = new SqlDataAdapter(sqlCommand))
+                {
+                    try
+                    {
+                        if (cn.State == ConnectionState.Closed)
+                            cn.Open();
+
+                        dt.Clear();
+                        sda.Fill(dt);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "SPM Connect - Get Work Order Release Item Suggestions", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    finally
+                    {
+                        cn.Close();
+                    }
+                }
+            }
+            return dt;
+        }
+
+        public string GrabWOfromAssy(string jobno, string assyno)
+        {
+            string estId = "";
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[SPMConnectWOBOM] WHERE Job = '" + jobno + "' AND ItemNumber = '" + assyno + "'";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        estId = dr["Wo"].ToString();
+                    }
+                }
+
+                dt.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve Job workOrder", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return estId;
+        }
+
+        public DataTable ShowAllReleaseLogs()
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[VReleaseLogs] ORDER BY WO DESC", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Show All Work Orders Release Logs", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return dt;
+        }
+
+        public bool UpdateBallonRefToEst(string itemId, string ballonref, string job, string assy)
+        {
+            bool success = false;
+            string estId = GetEstId(job);
+
+            if (cn.State == ConnectionState.Closed)
+                cn.Open();
+            try
+            {
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "UPDATE [SPMDB].[dbo].[tcBomItemVersion] SET [Ballon] = '" + ballonref + "' WHERE [Item] = '" + itemId + "' AND [BomVersionId]  = '" + estId + "' AND [Produit] = '" + assy + "'";
+
+                cmd.ExecuteNonQuery();
+                cn.Close();
+                success = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect Update Ballon Ref To Estimate", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return success;
+        }
+
+        public bool UpdateBallonRefToWorkOrder(string itemId, string ballonref, string job, string assy, string wo, string order)
+        {
+            bool success = false;
+
+            if (cn.State == ConnectionState.Closed)
+                cn.Open();
+            try
+            {
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                if (order == "5445")
+                    cmd.CommandText = "UPDATE [SPMDB].[dbo].[Mrpres] SET [Ballon] = '" + ballonref + "' WHERE [Item] = '" + itemId + "' AND [Job]  = '" + job + "' AND [Piece] = '" + assy + "' AND [Woprec]  = '" + wo + "' AND RML_Active = '1'";
+                else
+                    cmd.CommandText = "UPDATE [SPMDB].[dbo].[Mrpres] SET [Ballon] = '" + ballonref + "' WHERE [Item] = '" + itemId + "' AND [Job]  = '" + job + "' AND [Piece] = '" + assy + "' AND [Woprec]  = '" + wo + "' AND [Ordre] = '" + order + "' AND RML_Active = '1'";
+                cmd.ExecuteNonQuery();
+                cn.Close();
+                success = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect Update Ballon Ref To Work Order", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return success;
+        }
+
+        public bool UpdateReleaseLogNotes(string rlogno, string notes)
+        {
+            bool success = false;
+            string username = ConnectUser.Name;
+            DateTime dateedited = DateTime.Now;
+            string sqlFormattedDate = dateedited.ToString("yyyy-MM-dd HH:mm:ss");
+            if (cn.State == ConnectionState.Closed)
+                cn.Open();
+            try
+            {
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "UPDATE [SPM_Database].[dbo].[WOReleaseLog] SET [LastSaved] = '" + sqlFormattedDate + "',[LastSavedBy] = '" + username + "',[ReleaseNotes] = '" + notes + "' WHERE [RlogNo] = '" + rlogno + "' ";
+
+                cmd.ExecuteNonQuery();
+                cn.Close();
+                success = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect ReleaseLog - Update Notes", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return success;
+        }
+
+        private string GetNewReleaseLogNo()
+        {
+            string newincoiveno = "";
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT MAX([RlogNo]) + 1 as NextQuoteNo FROM [SPM_Database].[dbo].[WOReleaseLog]";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    newincoiveno = dr["NextQuoteNo"].ToString();
+                }
+                dt.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Get New Release Log Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+
+            if (string.IsNullOrEmpty(newincoiveno))
+            {
+                newincoiveno = "1001";
+            }
+
+            return newincoiveno;
+        }
+
+        private string GetNextReleaseLabel(int nxtrelno)
+        {
+            if (nxtrelno == 0)
+            {
+                return "Initial Release";
+            }
+            else
+            {
+                return "Release " + nxtrelno;
+            }
+        }
+
+        private int GetNextReleaseNo(string wo)
+        {
+            int nextreleaseno = 0;
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT MAX([NxtReleaseNo])+1 as NextQuoteNo FROM [SPM_Database].[dbo].[WOReleaseLog] WHERE WO = '" + wo + "'";
+                cmd.ExecuteNonQuery();
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        if (!(dr["NextQuoteNo"] is DBNull))
+                            nextreleaseno = Convert.ToInt32(dr["NextQuoteNo"]);
+                    }
+                }
+
+                dt.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Get New Release Log Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+
+            return nextreleaseno;
+        }
+
+        #endregion WorkOrderRelease
     }
 }

@@ -11,14 +11,11 @@ namespace SearchDataSPM
     {
         #region Shipping Home Load
 
+        private readonly Service connectapi = new SPMConnectAPI.Service();
+        private int _advcollapse;
         private DataTable dt;
-        private bool formloading = false;
-        private string userfullname = "";
-        private int _advcollapse = 0;
-        private SPMConnectAPI.Service connectapi = new SPMConnectAPI.Service();
+        private bool formloading;
         private log4net.ILog log;
-
-        private ErrorHandler errorHandler = new ErrorHandler();
 
         public ServiceReportHome()
         {
@@ -26,42 +23,10 @@ namespace SearchDataSPM
             formloading = true;
         }
 
-        private void SPM_Connect_Load(object sender, EventArgs e)
-        {
-            formloading = true;
-            collapse();
-            dt = new DataTable();
-            Checkdeptsandrights();
-            userfullname = ConnectAPI.ConnectUser.Name;
-            Showallitems(true);
-            txtSearch.Focus();
-            formloading = false;
-            log4net.Config.XmlConfigurator.Configure();
-            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened Service Report Home ");
-        }
-
         private void Checkdeptsandrights()
         {
-            string userName = connectapi.GetUserName();
             versionlabel.Text = connectapi.Getassyversionnumber();
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
-        }
-
-        private void fillinfo()
-        {
-            Cursor.Current = Cursors.WaitCursor;
-            formloading = true;
-            FillCustomers();
-            FillProjectManagers();
-            FillTechnicians();
-            FillJobNumbers();
-            FillAuthorizedBy();
-            FillEquipment();
-            FillRefJob();
-            clearfilercombos();
-            formloading = false;
-            Cursor.Current = Cursors.Default;
         }
 
         private void clearfilercombos()
@@ -83,6 +48,36 @@ namespace SearchDataSPM
             equipmentcomboBox.Text = null;
         }
 
+        private void fillinfo()
+        {
+            Cursor.Current = Cursors.WaitCursor;
+            formloading = true;
+            FillCustomers();
+            FillProjectManagers();
+            FillTechnicians();
+            FillJobNumbers();
+            FillAuthorizedBy();
+            FillEquipment();
+            FillRefJob();
+            clearfilercombos();
+            formloading = false;
+            Cursor.Current = Cursors.Default;
+        }
+
+        private void performreload()
+        {
+            clearandhide();
+            txtSearch.Clear();
+            txtSearch.Focus();
+            SendKeys.Send("~");
+            dataGridView.Refresh();
+        }
+
+        private void Reload_Click(object sender, EventArgs e)
+        {
+            performreload();
+        }
+
         private void Showallitems(bool showall)
         {
             if (showall)
@@ -92,7 +87,7 @@ namespace SearchDataSPM
             }
 
             dataGridView.DataSource = dt;
-            DataView dv = dt.DefaultView;
+            _ = dt.DefaultView;
             //
 
             dataGridView.Columns[2].Visible = false;
@@ -112,18 +107,18 @@ namespace SearchDataSPM
             UpdateFont();
         }
 
-        private void Reload_Click(object sender, EventArgs e)
+        private void SPM_Connect_Load(object sender, EventArgs e)
         {
-            performreload();
-        }
-
-        private void performreload()
-        {
-            clearandhide();
-            txtSearch.Clear();
+            formloading = true;
+            collapse();
+            dt = new DataTable();
+            Checkdeptsandrights();
+            Showallitems(true);
             txtSearch.Focus();
-            SendKeys.Send("~");
-            dataGridView.Refresh();
+            formloading = false;
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Opened Service Report Home ");
         }
 
         private void UpdateFont()
@@ -142,7 +137,9 @@ namespace SearchDataSPM
 
         // variables required outside the functions to perfrom
         // string fullsearch = ("ECRNo LIKE '%{0}%' ");
-        private string fullsearch = ("FullSearch LIKE '%{0}%'");
+        private readonly string fullsearch = ("FullSearch LIKE '%{0}%'");
+
+        private DataTable dataTable = new DataTable();
 
         //string ItemNo;
         //string str;
@@ -152,7 +149,6 @@ namespace SearchDataSPM
         private DataTable table2 = new DataTable();
         private DataTable table3 = new DataTable();
         private DataTable table4 = new DataTable();
-        private DataTable dataTable = new DataTable();
 
         #endregion Public Table & variables
 
@@ -164,12 +160,12 @@ namespace SearchDataSPM
             {
                 formloading = true;
 
-                if (Descrip_txtbox.Visible == true)
+                if (Descrip_txtbox.Visible)
                 {
                     clearandhide();
                 }
 
-                if (jobnumbercombobox.Text == "" && authorizedbycombo.Text == "" && customercomboxbox.Text == "" && technamecomboxbox.Text == "" && projectmangercombobox.Text == "" && refjobcombobox.Text == "" && equipmentcomboBox.Text == "")
+                if (string.IsNullOrEmpty(jobnumbercombobox.Text) && string.IsNullOrEmpty(authorizedbycombo.Text) && string.IsNullOrEmpty(customercomboxbox.Text) && string.IsNullOrEmpty(technamecomboxbox.Text) && string.IsNullOrEmpty(projectmangercombobox.Text) && string.IsNullOrEmpty(refjobcombobox.Text) && string.IsNullOrEmpty(equipmentcomboBox.Text))
                 {
                     Showallitems(true);
                 }
@@ -181,7 +177,7 @@ namespace SearchDataSPM
                 }
                 else
                 {
-                    SearchStringPosition(txtSearch.Text);
+                    SearchStringPosition();
                     searchtext(txtSearch.Text);
                 }
 
@@ -223,43 +219,6 @@ namespace SearchDataSPM
             formloading = false;
         }
 
-        private void mainsearch()
-        {
-            formloading = true;
-            //DataView dv = dt.DefaultView;
-            DataView dv = (dataGridView.DataSource as DataTable).DefaultView;
-            dt = dv.ToTable();
-            string search1 = txtSearch.Text;
-            try
-            {
-                search1 = search1.Replace("'", "''");
-                search1 = search1.Replace("[", "[[]");
-                dv.RowFilter = string.Format(fullsearch, search1);
-
-                table0 = dv.ToTable();
-                dataGridView.DataSource = table0;
-                dataGridView.Update();
-                SearchStringPosition(search1);
-                searchtext(search1);
-                dataGridView.Refresh();
-                recordlabel.Text = "Found " + table0.Rows.Count.ToString() + " Matching Items.";
-            }
-            catch (Exception)
-
-            {
-                MessageBox.Show("Invalid Search Criteria Operator.", "SPM Connect - Search1");
-                txtSearch.Clear();
-                SendKeys.Send("~");
-            }
-            finally
-            {
-                search1 = null;
-                dv = null;
-            }
-
-            formloading = false;
-        }
-
         private void Descrip_txtbox_KeyDown(object sender, KeyEventArgs e)
         {
             DataView dv = table0.DefaultView;
@@ -275,13 +234,13 @@ namespace SearchDataSPM
                     search2 = search2.Replace("'", "''");
                     search2 = search2.Replace("[", "[[]");
                     var secondFilter = string.Format(fullsearch, search2);
-                    if (dv.RowFilter == null || dv.RowFilter.Length == 0)
+                    if (string.IsNullOrEmpty(dv.RowFilter))
                         dv.RowFilter = secondFilter;
                     else
                         dv.RowFilter += " AND " + secondFilter;
                     table1 = dv.ToTable();
                     dataGridView.DataSource = table1;
-                    SearchStringPosition(Descrip_txtbox.Text);
+                    SearchStringPosition();
                     searchtext(Descrip_txtbox.Text);
                     dataGridView.Refresh();
                     recordlabel.Text = "Found " + table1.Rows.Count.ToString() + " Matching Items.";
@@ -294,8 +253,6 @@ namespace SearchDataSPM
                 }
                 finally
                 {
-                    search2 = null;
-                    dv = null;
                 }
 
                 if (Descrip_txtbox.Text.Length > 0)
@@ -309,10 +266,52 @@ namespace SearchDataSPM
                     filteroemitem_txtbox.Hide();
                     filter4.Hide();
                 }
-                if (Descrip_txtbox.Visible == (false))
+                if (!Descrip_txtbox.Visible)
                 {
                     filteroem_txtbox.Hide();
                 }
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                formloading = false;
+            }
+        }
+
+        private void filter4_KeyDown(object sender, KeyEventArgs e)
+        {
+            DataView dv = table3.DefaultView;
+            table3 = dv.ToTable();
+            if (e.KeyCode == Keys.Return)
+            {
+                formloading = true;
+                string search5 = filter4.Text;
+
+                try
+                {
+                    search5 = search5.Replace("'", "''");
+                    search5 = search5.Replace("[", "[[]");
+                    var fifthfilter = string.Format(fullsearch, search5);
+
+                    if (string.IsNullOrEmpty(dv.RowFilter))
+                        dv.RowFilter = fifthfilter;
+                    else
+                        dv.RowFilter += " AND " + fifthfilter;
+                    table4 = dv.ToTable();
+                    dataGridView.DataSource = table4;
+                    SearchStringPosition();
+                    searchtext(filter4.Text);
+                    dataGridView.Refresh();
+                    recordlabel.Text = "Found " + dataGridView.Rows.Count.ToString() + " Matching Items.";
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Invalid Search Criteria Operator.", "SPM Connect - Search5");
+                    filter4.Clear();
+                    SendKeys.Send("~");
+                }
+                finally
+                {
+                }
+
                 e.Handled = true;
                 e.SuppressKeyPress = true;
                 formloading = false;
@@ -334,14 +333,14 @@ namespace SearchDataSPM
                     search3 = search3.Replace("'", "''");
                     search3 = search3.Replace("[", "[[]");
                     var thirdFilter = string.Format(fullsearch, search3);
-                    if (dv.RowFilter == null || dv.RowFilter.Length == 0)
+                    if (string.IsNullOrEmpty(dv.RowFilter))
                         dv.RowFilter = thirdFilter;
                     else
                         dv.RowFilter += " AND " + thirdFilter;
 
                     table2 = dv.ToTable();
                     dataGridView.DataSource = table2;
-                    SearchStringPosition(filteroem_txtbox.Text);
+                    SearchStringPosition();
                     searchtext(filteroem_txtbox.Text);
                     dataGridView.Refresh();
                     recordlabel.Text = "Found " + table2.Rows.Count.ToString() + " Matching Items.";
@@ -354,10 +353,8 @@ namespace SearchDataSPM
                 }
                 finally
                 {
-                    search3 = null;
-                    dv = null;
                 }
-                if (splitContainer1.Panel2Collapsed == false && this.Width <= 800)
+                if (!splitContainer1.Panel2Collapsed && this.Width <= 800)
                 {
                     this.Size = new Size(1200, this.Height);
                 }
@@ -393,14 +390,14 @@ namespace SearchDataSPM
                     search4 = search4.Replace("[", "[[]");
                     var fourthfilter = string.Format(fullsearch, search4);
 
-                    if (dv.RowFilter == null || dv.RowFilter.Length == 0)
+                    if (string.IsNullOrEmpty(dv.RowFilter))
                         dv.RowFilter = fourthfilter;
                     else
                         dv.RowFilter += " AND " + fourthfilter;
 
                     table3 = dv.ToTable();
                     dataGridView.DataSource = table3;
-                    SearchStringPosition(filteroemitem_txtbox.Text);
+                    SearchStringPosition();
                     searchtext(filteroemitem_txtbox.Text);
                     dataGridView.Refresh();
                     recordlabel.Text = "Found " + table3.Rows.Count.ToString() + " Matching Items.";
@@ -413,10 +410,8 @@ namespace SearchDataSPM
                 }
                 finally
                 {
-                    search4 = null;
-                    dv = null;
                 }
-                if (splitContainer1.Panel2Collapsed == false && this.Width <= 800)
+                if (!splitContainer1.Panel2Collapsed && this.Width <= 800)
                 {
                     this.Size = new Size(1200, this.Height);
                 }
@@ -436,59 +431,56 @@ namespace SearchDataSPM
             }
         }
 
-        private void filter4_KeyDown(object sender, KeyEventArgs e)
+        private void mainsearch()
         {
-            DataView dv = table3.DefaultView;
-            table3 = dv.ToTable();
-            if (e.KeyCode == Keys.Return)
+            formloading = true;
+            //DataView dv = dt.DefaultView;
+            DataView dv = (dataGridView.DataSource as DataTable)?.DefaultView;
+            dt = dv.ToTable();
+            string search1 = txtSearch.Text;
+            try
             {
-                formloading = true;
-                string search5 = filter4.Text;
+                search1 = search1.Replace("'", "''");
+                search1 = search1.Replace("[", "[[]");
+                dv.RowFilter = string.Format(fullsearch, search1);
 
-                try
-                {
-                    search5 = search5.Replace("'", "''");
-                    search5 = search5.Replace("[", "[[]");
-                    var fifthfilter = string.Format(fullsearch, search5);
-
-                    if (dv.RowFilter == null || dv.RowFilter.Length == 0)
-                        dv.RowFilter = fifthfilter;
-                    else
-                        dv.RowFilter += " AND " + fifthfilter;
-                    table4 = dv.ToTable();
-                    dataGridView.DataSource = table4;
-                    SearchStringPosition(filter4.Text);
-                    searchtext(filter4.Text);
-                    dataGridView.Refresh();
-                    recordlabel.Text = "Found " + dataGridView.Rows.Count.ToString() + " Matching Items.";
-                }
-                catch (Exception)
-                {
-                    MessageBox.Show("Invalid Search Criteria Operator.", "SPM Connect - Search5");
-                    filter4.Clear();
-                    SendKeys.Send("~");
-                }
-                finally
-                {
-                    search5 = null;
-                    dv = null;
-                }
-
-                e.Handled = true;
-                e.SuppressKeyPress = true;
-                formloading = false;
+                table0 = dv.ToTable();
+                dataGridView.DataSource = table0;
+                dataGridView.Update();
+                SearchStringPosition();
+                searchtext(search1);
+                dataGridView.Refresh();
+                recordlabel.Text = "Found " + table0.Rows.Count.ToString() + " Matching Items.";
             }
+            catch (Exception)
+
+            {
+                MessageBox.Show("Invalid Search Criteria Operator.", "SPM Connect - Search1");
+                txtSearch.Clear();
+                SendKeys.Send("~");
+            }
+            finally
+            {
+            }
+
+            formloading = false;
         }
 
         #endregion Search Parameters
 
         #region datagridview events
 
+        private void dataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dataGridView.SelectedCells.Count == 1)
+            {
+            }
+        }
+
         private void dataGridView_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.RowIndex == -1) return;
-
-            DataGridViewRow row = dataGridView.Rows[e.RowIndex];
+            _ = dataGridView.Rows[e.RowIndex];
 
             if (e.Button == MouseButtons.Right)
             {
@@ -498,19 +490,19 @@ namespace SearchDataSPM
             }
         }
 
-        private void dataGridView_CellMouseMove(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (e.RowIndex > -1)
-            {
-                dataGridView.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(205, 230, 247);
-            }
-        }
-
         private void dataGridView_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex > -1)
             {
                 dataGridView.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(237, 237, 237);
+            }
+        }
+
+        private void dataGridView_CellMouseMove(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex > -1)
+            {
+                dataGridView.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(205, 230, 247);
             }
         }
 
@@ -525,25 +517,18 @@ namespace SearchDataSPM
             }
         }
 
-        private void dataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (dataGridView.SelectedCells.Count == 1)
-            {
-            }
-        }
-
         #endregion datagridview events
 
         #region Highlight Search Results
 
-        private bool IsSelected = false;
+        private bool IsSelected;
 
-        public void SearchStringPosition(string Searchstring)
+        private string sw;
+
+        public void SearchStringPosition()
         {
             IsSelected = true;
         }
-
-        private string sw;
 
         public void searchtext(string searchkey)
         {
@@ -552,7 +537,7 @@ namespace SearchDataSPM
 
         private void dataGridView_CellPainting_1(object sender, DataGridViewCellPaintingEventArgs e)
         {
-            if (e.RowIndex >= 0 & e.ColumnIndex >= 0 & IsSelected)
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && IsSelected)
             {
                 e.Handled = true;
                 e.PaintBackground(e.CellBounds, true);
@@ -560,7 +545,7 @@ namespace SearchDataSPM
                 if (!string.IsNullOrEmpty(sw))
                 {
                     string val = (string)e.FormattedValue;
-                    int sindx = val.ToLower().IndexOf(sw.ToLower());
+                    int sindx = val.IndexOf(sw, StringComparison.CurrentCultureIgnoreCase);
                     if (sindx >= 0)
                     {
                         Rectangle hl_rect = new Rectangle
@@ -585,16 +570,9 @@ namespace SearchDataSPM
                             hl_rect.Width = s2.Width - 6;
                         }
 
-                        SolidBrush hl_brush = default(SolidBrush);
-                        if (((e.State & DataGridViewElementStates.Selected) != DataGridViewElementStates.None))
-                        {
-                            hl_brush = new SolidBrush(Color.Black);
-                        }
-                        else
-                        {
-                            hl_brush = new SolidBrush(Color.FromArgb(126, 206, 253));
-                        }
-
+                        SolidBrush hl_brush = (e.State & DataGridViewElementStates.Selected) != DataGridViewElementStates.None
+                            ? new SolidBrush(Color.Black)
+                            : new SolidBrush(Color.FromArgb(126, 206, 253));
                         e.Graphics.FillRectangle(hl_brush, hl_rect);
 
                         hl_brush.Dispose();
@@ -641,7 +619,7 @@ namespace SearchDataSPM
 
             if (keyData == (Keys.Shift | Keys.OemPeriod))
             {
-                if (splitContainer1.Panel2Collapsed == true)
+                if (splitContainer1.Panel2Collapsed)
                 {
                     advsearchbttnclick();
                 }
@@ -650,7 +628,7 @@ namespace SearchDataSPM
 
             if (keyData == (Keys.Shift | Keys.Oemcomma))
             {
-                if (splitContainer1.Panel2Collapsed == false)
+                if (!splitContainer1.Panel2Collapsed)
                 {
                     advsearchbttnclick();
                 }
@@ -663,6 +641,65 @@ namespace SearchDataSPM
         #endregion shortcuts
 
         #region Advance Filtersf
+
+        private void advfiltertables(string filter)
+        {
+            if (!Descrip_txtbox.Visible)
+            {
+                dataGridView.DataSource = dt;
+                dataTable.Clear();
+                ((dataGridView.DataSource as DataTable)?.DefaultView.ToTable()).DefaultView.RowFilter = filter;
+                dataTable = (dataGridView.DataSource as DataTable)?.DefaultView.ToTable();
+                dataGridView.DataSource = dataTable;
+                recordlabel.Text = "Found " + dataGridView.Rows.Count.ToString() + " Matching Items.";
+            }
+            if (Descrip_txtbox.Visible)
+            {
+                dataGridView.DataSource = table0;
+                dataTable.Clear();
+                dataGridView.Refresh();
+                table0.DefaultView.RowFilter = filter;
+                dataTable = (dataGridView.DataSource as DataTable)?.DefaultView.ToTable();
+                dataGridView.DataSource = dataTable;
+                recordlabel.Text = "Found " + dataGridView.Rows.Count.ToString() + " Matching Items.";
+            }
+            if (filteroem_txtbox.Visible)
+            {
+                dataGridView.DataSource = table1;
+                dataTable.Clear();
+                table1.DefaultView.RowFilter = filter;
+                dataTable = (dataGridView.DataSource as DataTable)?.DefaultView.ToTable();
+                dataGridView.DataSource = dataTable;
+                recordlabel.Text = "Found " + dataGridView.Rows.Count.ToString() + " Matching Items.";
+            }
+            if (filteroemitem_txtbox.Visible)
+            {
+                dataGridView.DataSource = table2;
+                dataTable.Clear();
+                table2.DefaultView.RowFilter = filter;
+                dataTable = (dataGridView.DataSource as DataTable)?.DefaultView.ToTable();
+                dataGridView.DataSource = dataTable;
+                recordlabel.Text = "Found " + dataGridView.Rows.Count.ToString() + " Matching Items.";
+            }
+            if (filter4.Visible)
+            {
+                dataGridView.DataSource = table3;
+                dataTable.Clear();
+                table3.DefaultView.RowFilter = filter;
+                dataTable = (dataGridView.DataSource as DataTable)?.DefaultView.ToTable();
+                dataGridView.DataSource = dataTable;
+                recordlabel.Text = "Found " + dataGridView.Rows.Count.ToString() + " Matching Items.";
+            }
+            else
+            {
+                dataGridView.DataSource = (dataGridView.DataSource as DataTable)?.DefaultView.ToTable();
+                dataTable.Clear();
+                ((dataGridView.DataSource as DataTable)?.DefaultView.ToTable()).DefaultView.RowFilter = filter;
+                dataTable = (dataGridView.DataSource as DataTable)?.DefaultView.ToTable();
+                dataGridView.DataSource = dataTable;
+                recordlabel.Text = "Found " + dataGridView.Rows.Count.ToString() + " Matching Items.";
+            }
+        }
 
         private void advsearchbttn_Click(object sender, EventArgs e)
         {
@@ -681,7 +718,7 @@ namespace SearchDataSPM
 
         private void collapse()
         {
-            if (splitContainer1.Panel2Collapsed == true)
+            if (splitContainer1.Panel2Collapsed)
             {
                 advsearchbttn.Text = "<<";
                 splitContainer1.Panel2Collapsed = false;
@@ -701,10 +738,7 @@ namespace SearchDataSPM
 
         private void FilterProducts()
         {
-            if (formloading)
-            {
-            }
-            else
+            if (!formloading)
             {
                 string filter = "";
                 if (jobnumbercombobox.Text.Length > 0)
@@ -712,11 +746,11 @@ namespace SearchDataSPM
                     if (filter.Length > 0)
                     {
                         //filter += "AND";
-                        filter += string.Format("AND [Job No] = '{0}'", jobnumbercombobox.Text.ToString());
+                        filter += string.Format("AND [Job No] = '{0}'", jobnumbercombobox.Text);
                     }
                     else
                     {
-                        filter += string.Format("[Job No] = '{0}'", jobnumbercombobox.Text.ToString());
+                        filter += string.Format("[Job No] = '{0}'", jobnumbercombobox.Text);
                     }
                 }
                 if (projectmangercombobox.Text.Length > 0)
@@ -724,11 +758,11 @@ namespace SearchDataSPM
                     if (filter.Length > 0)
                     {
                         //filter += "AND";
-                        filter += string.Format(" AND ProjectManager = '{0}'", projectmangercombobox.Text.ToString());
+                        filter += string.Format(" AND ProjectManager = '{0}'", projectmangercombobox.Text);
                     }
                     else
                     {
-                        filter += string.Format("ProjectManager = '{0}'", projectmangercombobox.Text.ToString());
+                        filter += string.Format("ProjectManager = '{0}'", projectmangercombobox.Text);
                     }
                 }
                 if (authorizedbycombo.Text.Length > 0)
@@ -736,11 +770,11 @@ namespace SearchDataSPM
                     if (filter.Length > 0)
                     {
                         //filter += "AND";
-                        filter += string.Format(" AND Authorizedby = '{0}'", authorizedbycombo.Text.ToString());
+                        filter += string.Format(" AND Authorizedby = '{0}'", authorizedbycombo.Text);
                     }
                     else
                     {
-                        filter += string.Format("Authorizedby = '{0}'", authorizedbycombo.Text.ToString());
+                        filter += string.Format("Authorizedby = '{0}'", authorizedbycombo.Text);
                     }
                 }
                 if (customercomboxbox.Text.Length > 0)
@@ -748,11 +782,11 @@ namespace SearchDataSPM
                     if (filter.Length > 0)
                     {
                         //filter += "AND";
-                        filter += string.Format(" AND Customer = '{0}'", customercomboxbox.Text.ToString());
+                        filter += string.Format(" AND Customer = '{0}'", customercomboxbox.Text);
                     }
                     else
                     {
-                        filter += string.Format("Customer = '{0}'", customercomboxbox.Text.ToString());
+                        filter += string.Format("Customer = '{0}'", customercomboxbox.Text);
                     }
                 }
                 if (technamecomboxbox.Text.Length > 0)
@@ -760,11 +794,11 @@ namespace SearchDataSPM
                     if (filter.Length > 0)
                     {
                         //filter += "AND";
-                        filter += string.Format(" AND [Tech Name] LIKE '%{0}%'", technamecomboxbox.Text.ToString());
+                        filter += string.Format(" AND [Tech Name] LIKE '%{0}%'", technamecomboxbox.Text);
                     }
                     else
                     {
-                        filter += string.Format("[Tech Name] LIKE '%{0}%'", technamecomboxbox.Text.ToString());
+                        filter += string.Format("[Tech Name] LIKE '%{0}%'", technamecomboxbox.Text);
                     }
                 }
                 if (refjobcombobox.Text.Length > 0)
@@ -772,11 +806,11 @@ namespace SearchDataSPM
                     if (filter.Length > 0)
                     {
                         //filter += "AND";
-                        filter += string.Format(" AND RefJob  LIKE '%{0}%'", refjobcombobox.Text.ToString());
+                        filter += string.Format(" AND RefJob  LIKE '%{0}%'", refjobcombobox.Text);
                     }
                     else
                     {
-                        filter += string.Format("RefJob  LIKE '%{0}%'", refjobcombobox.Text.ToString());
+                        filter += string.Format("RefJob  LIKE '%{0}%'", refjobcombobox.Text);
                     }
                 }
                 if (equipmentcomboBox.Text.Length > 0)
@@ -784,11 +818,11 @@ namespace SearchDataSPM
                     if (filter.Length > 0)
                     {
                         //filter += "AND";
-                        filter += string.Format(" AND Equipment LIKE '%{0}%'", equipmentcomboBox.Text.ToString());
+                        filter += string.Format(" AND Equipment LIKE '%{0}%'", equipmentcomboBox.Text);
                     }
                     else
                     {
-                        filter += string.Format("Equipment LIKE '%{0}%'", equipmentcomboBox.Text.ToString());
+                        filter += string.Format("Equipment LIKE '%{0}%'", equipmentcomboBox.Text);
                     }
                 }
 
@@ -799,93 +833,13 @@ namespace SearchDataSPM
             }
         }
 
-        private void advfiltertables(string filter)
-        {
-            if (!Descrip_txtbox.Visible)
-            {
-                dataGridView.DataSource = dt;
-                dataTable.Clear();
-                (dataGridView.DataSource as DataTable).DefaultView.RowFilter = filter;
-                dataTable = (dataGridView.DataSource as DataTable).DefaultView.ToTable();
-                dataGridView.DataSource = dataTable;
-                recordlabel.Text = "Found " + dataGridView.Rows.Count.ToString() + " Matching Items.";
-            }
-            if (Descrip_txtbox.Visible)
-            {
-                dataGridView.DataSource = table0;
-                dataTable.Clear();
-                dataGridView.Refresh();
-                table0.DefaultView.RowFilter = filter;
-                dataTable = (dataGridView.DataSource as DataTable).DefaultView.ToTable();
-                dataGridView.DataSource = dataTable;
-                recordlabel.Text = "Found " + dataGridView.Rows.Count.ToString() + " Matching Items.";
-            }
-            if (filteroem_txtbox.Visible)
-            {
-                dataGridView.DataSource = table1;
-                dataTable.Clear();
-                table1.DefaultView.RowFilter = filter;
-                dataTable = (dataGridView.DataSource as DataTable).DefaultView.ToTable();
-                dataGridView.DataSource = dataTable;
-                recordlabel.Text = "Found " + dataGridView.Rows.Count.ToString() + " Matching Items.";
-            }
-            if (filteroemitem_txtbox.Visible)
-            {
-                dataGridView.DataSource = table2;
-                dataTable.Clear();
-                table2.DefaultView.RowFilter = filter;
-                dataTable = (dataGridView.DataSource as DataTable).DefaultView.ToTable();
-                dataGridView.DataSource = dataTable;
-                recordlabel.Text = "Found " + dataGridView.Rows.Count.ToString() + " Matching Items.";
-            }
-            if (filter4.Visible)
-            {
-                dataGridView.DataSource = table3;
-                dataTable.Clear();
-                table3.DefaultView.RowFilter = filter;
-                dataTable = (dataGridView.DataSource as DataTable).DefaultView.ToTable();
-                dataGridView.DataSource = dataTable;
-                recordlabel.Text = "Found " + dataGridView.Rows.Count.ToString() + " Matching Items.";
-            }
-            else
-            {
-                dataGridView.DataSource = (dataGridView.DataSource as DataTable).DefaultView.ToTable();
-                dataTable.Clear();
-                (dataGridView.DataSource as DataTable).DefaultView.RowFilter = filter;
-                dataTable = (dataGridView.DataSource as DataTable).DefaultView.ToTable();
-                dataGridView.DataSource = dataTable;
-                recordlabel.Text = "Found " + dataGridView.Rows.Count.ToString() + " Matching Items.";
-            }
-        }
-
         #region fillcomboboxes
-
-        private void FillJobNumbers()
-        {
-            AutoCompleteStringCollection MyCollection = connectapi.FillReportJobNumbers();
-            jobnumbercombobox.AutoCompleteCustomSource = MyCollection;
-            jobnumbercombobox.DataSource = MyCollection;
-        }
 
         private void FillAuthorizedBy()
         {
             AutoCompleteStringCollection MyCollection = connectapi.FillAuthorizedBy();
             authorizedbycombo.AutoCompleteCustomSource = MyCollection;
             authorizedbycombo.DataSource = MyCollection;
-        }
-
-        private void FillProjectManagers()
-        {
-            AutoCompleteStringCollection MyCollection = connectapi.FillProjectManagers();
-            projectmangercombobox.AutoCompleteCustomSource = MyCollection;
-            projectmangercombobox.DataSource = MyCollection;
-        }
-
-        private void FillTechnicians()
-        {
-            AutoCompleteStringCollection MyCollection = connectapi.FillTechnicians();
-            technamecomboxbox.AutoCompleteCustomSource = MyCollection;
-            technamecomboxbox.DataSource = MyCollection;
         }
 
         private void FillCustomers()
@@ -902,6 +856,20 @@ namespace SearchDataSPM
             equipmentcomboBox.DataSource = MyCollection;
         }
 
+        private void FillJobNumbers()
+        {
+            AutoCompleteStringCollection MyCollection = connectapi.FillReportJobNumbers();
+            jobnumbercombobox.AutoCompleteCustomSource = MyCollection;
+            jobnumbercombobox.DataSource = MyCollection;
+        }
+
+        private void FillProjectManagers()
+        {
+            AutoCompleteStringCollection MyCollection = connectapi.FillProjectManagers();
+            projectmangercombobox.AutoCompleteCustomSource = MyCollection;
+            projectmangercombobox.DataSource = MyCollection;
+        }
+
         private void FillRefJob()
         {
             AutoCompleteStringCollection MyCollection = connectapi.FillRefJob();
@@ -909,14 +877,16 @@ namespace SearchDataSPM
             refjobcombobox.DataSource = MyCollection;
         }
 
+        private void FillTechnicians()
+        {
+            AutoCompleteStringCollection MyCollection = connectapi.FillTechnicians();
+            technamecomboxbox.AutoCompleteCustomSource = MyCollection;
+            technamecomboxbox.DataSource = MyCollection;
+        }
+
         #endregion fillcomboboxes
 
         #region advance filters events
-
-        private void clrfiltersbttn_Click(object sender, EventArgs e)
-        {
-            performreload();
-        }
 
         private void ActiveCadblockcombobox_KeyDown(object sender, KeyEventArgs e)
         {
@@ -928,7 +898,12 @@ namespace SearchDataSPM
             }
         }
 
-        private void oemitemcombobox_KeyDown(object sender, KeyEventArgs e)
+        private void clrfiltersbttn_Click(object sender, EventArgs e)
+        {
+            performreload();
+        }
+
+        private void designedbycombobox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -938,7 +913,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void designedbycombobox_KeyDown(object sender, KeyEventArgs e)
+        private void familycomboxbox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -968,7 +943,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void familycomboxbox_KeyDown(object sender, KeyEventArgs e)
+        private void MaterialcomboBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -978,7 +953,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void MaterialcomboBox_KeyDown(object sender, KeyEventArgs e)
+        private void oemitemcombobox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -994,6 +969,27 @@ namespace SearchDataSPM
 
         #region Invoice
 
+        private void ContextMenuStripShipping_Opening(object sender, CancelEventArgs e)
+        {
+            if (!(dataGridView.Rows.Count > 0 && dataGridView.SelectedRows.Count == 1)) e.Cancel = true;
+        }
+
+        private string getselectedinvoicenumber()
+        {
+            if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
+            {
+                int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
+                DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
+
+                //MessageBox.Show(item);
+                return Convert.ToString(slectedrow.Cells[0].Value);
+            }
+            else
+            {
+                return "";
+            }
+        }
+
         private void invoiceinfostripmenu_Click(object sender, EventArgs e)
         {
             string report = getselectedinvoicenumber();
@@ -1003,36 +999,21 @@ namespace SearchDataSPM
             form1.Show();
         }
 
-        private string getselectedinvoicenumber()
-        {
-            string item;
-            if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
-            {
-                int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
-                DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-                item = Convert.ToString(slectedrow.Cells[0].Value);
-                //MessageBox.Show(item);
-                return item;
-            }
-            else
-            {
-                item = "";
-                return item;
-            }
-        }
-
-        private void ContextMenuStripShipping_Opening(object sender, CancelEventArgs e)
-        {
-            if (!(dataGridView.Rows.Count > 0 && dataGridView.SelectedRows.Count == 1)) e.Cancel = true;
-        }
-
         #endregion Invoice
 
-        private void jobnumbercombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        private void approvedbycombo_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
-                jobnumbercombobox.Focus();
+                authorizedbycombo.Focus();
+            }
+        }
+
+        private void completedbycombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                refjobcombobox.Focus();
             }
         }
 
@@ -1052,6 +1033,14 @@ namespace SearchDataSPM
             }
         }
 
+        private void jobnumbercombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                jobnumbercombobox.Focus();
+            }
+        }
+
         private void requestedbycomboxbox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
@@ -1065,22 +1054,6 @@ namespace SearchDataSPM
             if (e.KeyCode == Keys.Return)
             {
                 equipmentcomboBox.Focus();
-            }
-        }
-
-        private void approvedbycombo_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-        {
-            if (e.KeyCode == Keys.Return)
-            {
-                authorizedbycombo.Focus();
-            }
-        }
-
-        private void completedbycombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-        {
-            if (e.KeyCode == Keys.Return)
-            {
-                refjobcombobox.Focus();
             }
         }
     }

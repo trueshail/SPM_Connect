@@ -7,7 +7,7 @@ namespace SearchDataSPM.Edrawings
 {
     public partial class EModelViewer : Form
     {
-        private eDrawingControl ctrl = null;
+        private readonly eDrawingControl ctrl;
         private string filename = "";
 
         public EModelViewer()
@@ -41,20 +41,6 @@ namespace SearchDataSPM.Edrawings
             if (item.Length > 0)
                 return filename = item;
             return null;
-        }
-
-        private void openfile(string filename)
-        {
-            try
-            {
-                if (File.Exists(filename)) { }
-                ctrl.eDrawingControlWrapper.OpenDoc(filename, false, false, true, "");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Emodel Viewer Failed to File", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                this.Close();
-            }
         }
 
         private void EModelViewer_Load(object sender, System.EventArgs e)

@@ -1,4 +1,5 @@
 ﻿using ExceptionReporting;
+using Microsoft.Win32;
 using System;
 using System.Windows.Forms;
 
@@ -12,8 +13,8 @@ namespace SearchDataSPM
         [STAThread]
         private static void Main()
         {
-            string appPath = Application.ExecutablePath;
-            Microsoft.Win32.Registry.SetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers", appPath, "~ GDIDPISCALING DPIUNAWARE");
+            //this is dev branch
+            AddRegistry();
             ErrorHandler errorHandler = new ErrorHandler();
             log4net.ILog log;
             log4net.Config.XmlConfigurator.Configure();
@@ -83,6 +84,22 @@ namespace SearchDataSPM
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new SPMConnectHome());
+        }
+
+        private static void AddRegistry()
+        {
+            string appPath = Application.ExecutablePath;
+            Registry.SetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers", appPath, "~ GDIDPISCALING DPIUNAWARE");
+            //string str2 = "\"" + appPath + "\",0";
+            //RegistryKey icon = Registry.ClassesRoot.CreateSubKey("spmconnect", true);
+            //Registry.ClassesRoot.CreateSubKey(@"spmconnect\DefaultIcon", true).SetValue("", str2);
+            //icon.SetValue("", "URL:spmconnect");
+            //icon.SetValue("URL Protocol", "");
+            //Registry.ClassesRoot.CreateSubKey(@"spmconnect\shell", true).SetValue("", "open");
+            //Registry.ClassesRoot.CreateSubKey(@"spmconnect\shell\open", true).SetValue("", "");
+            //string str = "\"" + appPath + "\" ";
+            //str += "\"%1\"";
+            //Registry.ClassesRoot.CreateSubKey(@"spmconnect\shell\open\command", true).SetValue("", str);
         }
     }
 }

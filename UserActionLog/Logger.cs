@@ -11,7 +11,7 @@ namespace SPMConnect.UserActionLog
         #region "Private Member Variables"
 
         private const string ACTIONLOGFILEIDENTIFIER = "ActionLog_";
-        private static readonly int _maxNumerOfLogsInMemory = 512;
+        private const int _maxNumerOfLogsInMemory = 512;
         private static List<string> _theUserActions = new List<string>();
         private static string _actionLoggerDirectory = string.Empty;
 

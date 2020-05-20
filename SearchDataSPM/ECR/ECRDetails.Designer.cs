@@ -142,7 +142,7 @@
             this.departmentcomboBox.Size = new System.Drawing.Size(202, 24);
             this.departmentcomboBox.TabIndex = 4;
             this.TreeViewToolTip.SetToolTip(this.departmentcomboBox, "Select Department");
-            this.departmentcomboBox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.departmentcomboBox_PreviewKeyDown);
+            this.departmentcomboBox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.DepartmentcomboBox_PreviewKeyDown);
             // 
             // projectmanagercombobox
             // 
@@ -159,7 +159,7 @@
             this.projectmanagercombobox.Size = new System.Drawing.Size(202, 24);
             this.projectmanagercombobox.TabIndex = 3;
             this.TreeViewToolTip.SetToolTip(this.projectmanagercombobox, "Project Manager");
-            this.projectmanagercombobox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.projectmanagercombobox_PreviewKeyDown);
+            this.projectmanagercombobox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.Projectmanagercombobox_PreviewKeyDown);
             // 
             // label3
             // 
@@ -230,7 +230,7 @@
             this.requestedbycombobox.Size = new System.Drawing.Size(202, 24);
             this.requestedbycombobox.TabIndex = 5;
             this.TreeViewToolTip.SetToolTip(this.requestedbycombobox, "Requested by");
-            this.requestedbycombobox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.requestedbycombobox_PreviewKeyDown);
+            this.requestedbycombobox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.Requestedbycombobox_PreviewKeyDown);
             // 
             // jobtxt
             // 
@@ -246,8 +246,8 @@
             this.jobtxt.Size = new System.Drawing.Size(69, 22);
             this.jobtxt.TabIndex = 0;
             this.TreeViewToolTip.SetToolTip(this.jobtxt, "Job Number");
-            this.jobtxt.TextChanged += new System.EventHandler(this.jobtxt_TextChanged);
-            this.jobtxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.jobtxt_KeyPress);
+            this.jobtxt.TextChanged += new System.EventHandler(this.Jobtxt_TextChanged);
+            this.jobtxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Jobtxt_KeyPress);
             // 
             // satxt
             // 
@@ -264,8 +264,8 @@
             this.satxt.Size = new System.Drawing.Size(69, 22);
             this.satxt.TabIndex = 1;
             this.TreeViewToolTip.SetToolTip(this.satxt, "Sub Assy number \r\nStarting with Letter \'A\' or \'B\' or \'C\'");
-            this.satxt.TextChanged += new System.EventHandler(this.satxt_TextChanged);
-            this.satxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.satxt_KeyPress);
+            this.satxt.TextChanged += new System.EventHandler(this.Satxt_TextChanged);
+            this.satxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Satxt_KeyPress);
             // 
             // partnotxt
             // 
@@ -302,7 +302,7 @@
             this.TreeViewToolTip.SetToolTip(this.savbttn, "Save Invoice Details");
             this.savbttn.UseVisualStyleBackColor = false;
             this.savbttn.Visible = false;
-            this.savbttn.Click += new System.EventHandler(this.savbttn_Click);
+            this.savbttn.Click += new System.EventHandler(this.Savbttn_Click);
             // 
             // editbttn
             // 
@@ -321,7 +321,7 @@
             this.editbttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.TreeViewToolTip.SetToolTip(this.editbttn, "Edit Invoice Details");
             this.editbttn.UseVisualStyleBackColor = false;
-            this.editbttn.Click += new System.EventHandler(this.editbttn_Click);
+            this.editbttn.Click += new System.EventHandler(this.Editbttn_Click);
             // 
             // rejectbttn
             // 
@@ -342,7 +342,7 @@
             this.TreeViewToolTip.SetToolTip(this.rejectbttn, "Reject ECR Approval");
             this.rejectbttn.UseVisualStyleBackColor = false;
             this.rejectbttn.Visible = false;
-            this.rejectbttn.Click += new System.EventHandler(this.rejectbttn_Click);
+            this.rejectbttn.Click += new System.EventHandler(this.Rejectbttn_Click);
             // 
             // delbttn
             // 
@@ -358,7 +358,7 @@
             this.TreeViewToolTip.SetToolTip(this.delbttn, "Removed all attached files");
             this.delbttn.UseVisualStyleBackColor = false;
             this.delbttn.Visible = false;
-            this.delbttn.Click += new System.EventHandler(this.delbttn_Click);
+            this.delbttn.Click += new System.EventHandler(this.Delbttn_Click);
             // 
             // commentslbl
             // 
@@ -560,7 +560,7 @@
             this.toolStripSplitButton1.Size = new System.Drawing.Size(64, 20);
             this.toolStripSplitButton1.Text = "Print";
             this.toolStripSplitButton1.ToolTipText = "Print Invoice";
-            this.toolStripSplitButton1.ButtonClick += new System.EventHandler(this.toolStripSplitButton1_ButtonClick);
+            this.toolStripSplitButton1.ButtonClick += new System.EventHandler(this.ToolStripSplitButton1_ButtonClick);
             // 
             // submissiongroupBox
             // 
@@ -686,7 +686,7 @@
             this.browsebttn.Text = "Browse Files";
             this.browsebttn.UseVisualStyleBackColor = false;
             this.browsebttn.Visible = false;
-            this.browsebttn.Click += new System.EventHandler(this.browsebttn_Click);
+            this.browsebttn.Click += new System.EventHandler(this.Browsebttn_Click);
             // 
             // attachlbl
             // 
@@ -713,12 +713,12 @@
             this.listView.Size = new System.Drawing.Size(697, 110);
             this.listView.TabIndex = 108;
             this.listView.UseCompatibleStateImageBehavior = false;
-            this.listView.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.listView_ItemDrag);
-            this.listView.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.listView_ItemSelectionChanged);
-            this.listView.DragDrop += new System.Windows.Forms.DragEventHandler(this.listView_DragDrop);
-            this.listView.DragEnter += new System.Windows.Forms.DragEventHandler(this.listView_DragEnter);
-            this.listView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.listView_KeyDown);
-            this.listView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView_MouseDoubleClick);
+            this.listView.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.ListView_ItemDrag);
+            this.listView.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.ListView_ItemSelectionChanged);
+            this.listView.DragDrop += new System.Windows.Forms.DragEventHandler(this.ListView_DragDrop);
+            this.listView.DragEnter += new System.Windows.Forms.DragEventHandler(this.ListView_DragEnter);
+            this.listView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ListView_KeyDown);
+            this.listView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ListView_MouseDoubleClick);
             // 
             // imageList
             // 

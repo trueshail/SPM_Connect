@@ -2,14 +2,14 @@
 {
     public class PurhcaseReqSQL
     {
-        public string requestname { get; set; }
-        public int reqnumber { get; set; }
-        public int validate { get; set; }
-        public int approved { get; set; }
-        public int happroval { get; set; }
-        public int happroved { get; set; }
-        public int papproval { get; set; }
-        public int papproved { get; set; }
-        public int supervisorid { get; set; }
+        public int Approved { get; set; }
+        public int Happroval { get; set; }
+        public int Happroved { get; set; }
+        public int Papproval { get; set; }
+        public int Papproved { get; set; }
+        public int Reqnumber { get; set; }
+        public string Requestname { get; set; }
+        public int Supervisorid { get; set; }
+        public int Validate { get; set; }
     }
 }

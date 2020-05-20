@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
+using static SPMConnectAPI.ConnectConstants;
 
 namespace SearchDataSPM
 {
@@ -11,11 +12,9 @@ namespace SearchDataSPM
     {
         #region SPM Connect Load
 
-        private WorkOrder connectapi = new WorkOrder();
+        private readonly WorkOrder connectapi = new WorkOrder();
         private DataTable dt;
         private log4net.ILog log;
-
-        private ErrorHandler errorHandler = new ErrorHandler();
 
         public ReleaseLogs()
         {
@@ -24,19 +23,19 @@ namespace SearchDataSPM
             dt = new DataTable();
         }
 
-        private void SPM_Connect_Load(object sender, EventArgs e)
-        {
-            Showallitems();
-            GetVersionLabel();
-            log4net.Config.XmlConfigurator.Configure();
-            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened Work Order Release Log ");
-        }
-
         private void GetVersionLabel()
         {
             versionlabel.Text = connectapi.Getassyversionnumber();
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
+        }
+
+        private void Reload_Click(object sender, EventArgs e)
+        {
+            Clearandhide();
+            txtSearch.Clear();
+            txtSearch.Focus();
+            SendKeys.Send("~");
+            dataGridView.Refresh();
         }
 
         private void Showallitems()
@@ -75,13 +74,13 @@ namespace SearchDataSPM
             }
         }
 
-        private void Reload_Click(object sender, EventArgs e)
+        private void SPM_Connect_Load(object sender, EventArgs e)
         {
-            Clearandhide();
-            txtSearch.Clear();
-            txtSearch.Focus();
-            SendKeys.Send("~");
-            dataGridView.Refresh();
+            Showallitems();
+            GetVersionLabel();
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Opened Work Order Release Log ");
         }
 
         private void UpdateFont()
@@ -98,14 +97,18 @@ namespace SearchDataSPM
 
         #region Public Table & variables
 
-        // variables required outside the functions to perfrom
-        private string fullsearch = ("FullSearch LIKE '%{0}%'");
+        public static string description;
+
+        public static string family;
 
         public static string ItemNo;
-        public static string description;
+
         public static string Manufacturer;
+
         public static string oem;
-        public static string family;
+
+        // variables required outside the functions to perfrom
+        private readonly string fullsearch = ("FullSearch LIKE '%{0}%'");
 
         private DataTable table0 = new DataTable();
         private DataTable table1 = new DataTable();
@@ -128,21 +131,6 @@ namespace SearchDataSPM
             }
         }
 
-        private void Performjobsearch(string job)
-        {
-            if (Descrip_txtbox.Visible == true)
-            {
-                Clearandhide();
-            }
-            Showallitems();
-            Mainsearch(job);
-            if (txtSearch.Text.Length > 0)
-            {
-                Descrip_txtbox.Show();
-                SendKeys.Send("{TAB}");
-            }
-        }
-
         private void Clearandhide()
         {
             Descrip_txtbox.Hide();
@@ -159,30 +147,6 @@ namespace SearchDataSPM
             table3.Clear();
         }
 
-        private void Mainsearch(string jobnumber)
-        {
-            DataView dv = dt.DefaultView;
-
-            try
-            {
-                jobnumber = jobnumber.Replace("'", "''");
-                jobnumber = jobnumber.Replace("[", "[[]");
-                dv.RowFilter = string.Format(fullsearch, jobnumber);
-                dataGridView.DataSource = dt;
-                table0 = dv.ToTable();
-                dataGridView.Update();
-                SearchStringPosition(txtSearch.Text);
-                searchtext(txtSearch.Text);
-                dataGridView.Refresh();
-            }
-            catch (Exception)
-
-            {
-                MessageBox.Show("Invalid Search Criteria Operator.", "SPM Connect");
-                txtSearch.Clear();
-            }
-        }
-
         private void Descrip_txtbox_KeyDown(object sender, KeyEventArgs e)
         {
             DataView dv = table0.DefaultView;
@@ -196,12 +160,12 @@ namespace SearchDataSPM
                     search2 = search2.Replace("'", "''");
                     search2 = search2.Replace("[", "[[]");
                     var secondFilter = string.Format(fullsearch, search2);
-                    if (dv.RowFilter == null || dv.RowFilter.Length == 0)
+                    if (string.IsNullOrEmpty(dv.RowFilter))
                         dv.RowFilter = secondFilter;
                     else
                         dv.RowFilter += " AND " + secondFilter;
                     dataGridView.DataSource = dv;
-                    SearchStringPosition(Descrip_txtbox.Text);
+                    SearchStringPosition();
                     searchtext(Descrip_txtbox.Text);
                     table1 = dv.ToTable();
                     dataGridView.Refresh();
@@ -224,10 +188,44 @@ namespace SearchDataSPM
                     filteroemitem_txtbox.Hide();
                     filter4.Hide();
                 }
-                if (Descrip_txtbox.Visible == (false))
+                if (!Descrip_txtbox.Visible)
                 {
                     filteroem_txtbox.Hide();
                 }
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private void Filter4_KeyDown(object sender, KeyEventArgs e)
+        {
+            DataView dv = table3.DefaultView;
+            table3 = dv.ToTable();
+            if (e.KeyCode == Keys.Return)
+            {
+                string search5 = filter4.Text;
+                try
+                {
+                    search5 = search5.Replace("'", "''");
+                    search5 = search5.Replace("[", "[[]");
+                    var fifthfilter = string.Format(fullsearch, search5);
+
+                    if (string.IsNullOrEmpty(dv.RowFilter))
+                        dv.RowFilter = fifthfilter;
+                    else
+                        dv.RowFilter += " AND " + fifthfilter;
+                    dataGridView.DataSource = dv;
+                    SearchStringPosition();
+                    searchtext(filter4.Text);
+                    dataGridView.Refresh();
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Invalid Search Criteria Operator.", "SPM Connect");
+                    filter4.Clear();
+                    SendKeys.Send("~");
+                }
+
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
@@ -246,12 +244,12 @@ namespace SearchDataSPM
                     search3 = search3.Replace("'", "''");
                     search3 = search3.Replace("[", "[[]");
                     var thirdFilter = string.Format(fullsearch, search3);
-                    if (dv.RowFilter == null || dv.RowFilter.Length == 0)
+                    if (string.IsNullOrEmpty(dv.RowFilter))
                         dv.RowFilter = thirdFilter;
                     else
                         dv.RowFilter += " AND " + thirdFilter;
                     dataGridView.DataSource = dv;
-                    SearchStringPosition(filteroem_txtbox.Text);
+                    SearchStringPosition();
                     searchtext(filteroem_txtbox.Text);
                     table2 = dv.ToTable();
                     dataGridView.Refresh();
@@ -291,12 +289,12 @@ namespace SearchDataSPM
                     search4 = search4.Replace("[", "[[]");
                     var fourthfilter = string.Format(fullsearch, search4);
 
-                    if (dv.RowFilter == null || dv.RowFilter.Length == 0)
+                    if (string.IsNullOrEmpty(dv.RowFilter))
                         dv.RowFilter = fourthfilter;
                     else
                         dv.RowFilter += " AND " + fourthfilter;
                     dataGridView.DataSource = dv;
-                    SearchStringPosition(filteroemitem_txtbox.Text);
+                    SearchStringPosition();
                     searchtext(filteroemitem_txtbox.Text);
                     table3 = dv.ToTable();
                     dataGridView.Refresh();
@@ -322,37 +320,42 @@ namespace SearchDataSPM
             }
         }
 
-        private void Filter4_KeyDown(object sender, KeyEventArgs e)
+        private void Mainsearch(string jobnumber)
         {
-            DataView dv = table3.DefaultView;
-            table3 = dv.ToTable();
-            if (e.KeyCode == Keys.Return)
+            DataView dv = dt.DefaultView;
+
+            try
             {
-                string search5 = filter4.Text;
-                try
-                {
-                    search5 = search5.Replace("'", "''");
-                    search5 = search5.Replace("[", "[[]");
-                    var fifthfilter = string.Format(fullsearch, search5);
+                jobnumber = jobnumber.Replace("'", "''");
+                jobnumber = jobnumber.Replace("[", "[[]");
+                dv.RowFilter = string.Format(fullsearch, jobnumber);
+                dataGridView.DataSource = dt;
+                table0 = dv.ToTable();
+                dataGridView.Update();
+                SearchStringPosition();
+                searchtext(txtSearch.Text);
+                dataGridView.Refresh();
+            }
+            catch (Exception)
 
-                    if (dv.RowFilter == null || dv.RowFilter.Length == 0)
-                        dv.RowFilter = fifthfilter;
-                    else
-                        dv.RowFilter += " AND " + fifthfilter;
-                    dataGridView.DataSource = dv;
-                    SearchStringPosition(filter4.Text);
-                    searchtext(filter4.Text);
-                    dataGridView.Refresh();
-                }
-                catch (Exception)
-                {
-                    MessageBox.Show("Invalid Search Criteria Operator.", "SPM Connect");
-                    filter4.Clear();
-                    SendKeys.Send("~");
-                }
+            {
+                MessageBox.Show("Invalid Search Criteria Operator.", "SPM Connect");
+                txtSearch.Clear();
+            }
+        }
 
-                e.Handled = true;
-                e.SuppressKeyPress = true;
+        private void Performjobsearch(string job)
+        {
+            if (Descrip_txtbox.Visible)
+            {
+                Clearandhide();
+            }
+            Showallitems();
+            Mainsearch(job);
+            if (txtSearch.Text.Length > 0)
+            {
+                Descrip_txtbox.Show();
+                SendKeys.Send("{TAB}");
             }
         }
 
@@ -360,23 +363,13 @@ namespace SearchDataSPM
 
         #region Highlight Search Results
 
-        private bool IsSelected = false;
-
-        private void SearchStringPosition(string Searchstring)
-        {
-            IsSelected = true;
-        }
+        private bool IsSelected;
 
         private string sw;
 
-        private void searchtext(string searchkey)
-        {
-            sw = searchkey;
-        }
-
         private void dataGridView_CellPainting_1(object sender, DataGridViewCellPaintingEventArgs e)
         {
-            if (e.RowIndex >= 0 & e.ColumnIndex >= 0 & IsSelected)
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && IsSelected)
             {
                 e.Handled = true;
                 e.PaintBackground(e.CellBounds, true);
@@ -384,7 +377,7 @@ namespace SearchDataSPM
                 if (!string.IsNullOrEmpty(sw))
                 {
                     string val = (string)e.FormattedValue;
-                    int sindx = val.ToLower().IndexOf(sw.ToLower());
+                    int sindx = val.IndexOf(sw, StringComparison.CurrentCultureIgnoreCase);
                     if (sindx >= 0)
                     {
                         Rectangle hl_rect = new Rectangle
@@ -409,16 +402,9 @@ namespace SearchDataSPM
                             hl_rect.Width = s2.Width - 6;
                         }
 
-                        SolidBrush hl_brush = default(SolidBrush);
-                        if (((e.State & DataGridViewElementStates.Selected) != DataGridViewElementStates.None))
-                        {
-                            hl_brush = new SolidBrush(Color.Black);
-                        }
-                        else
-                        {
-                            hl_brush = new SolidBrush(Color.FromArgb(126, 206, 253));
-                        }
-
+                        SolidBrush hl_brush = (e.State & DataGridViewElementStates.Selected) != DataGridViewElementStates.None
+                            ? new SolidBrush(Color.Black)
+                            : new SolidBrush(Color.FromArgb(126, 206, 253));
                         e.Graphics.FillRectangle(hl_brush, hl_rect);
 
                         hl_brush.Dispose();
@@ -426,6 +412,16 @@ namespace SearchDataSPM
                 }
                 e.PaintContent(e.CellBounds);
             }
+        }
+
+        private void SearchStringPosition()
+        {
+            IsSelected = true;
+        }
+
+        private void searchtext(string searchkey)
+        {
+            sw = searchkey;
         }
 
         #endregion Highlight Search Results
@@ -440,6 +436,19 @@ namespace SearchDataSPM
         #endregion AdminControlLabel
 
         #region datagridview events
+
+        private void dataGridView_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex == -1) return;
+            _ = dataGridView.Rows[e.RowIndex];
+
+            if (e.Button == MouseButtons.Right)
+            {
+                int columnindex = e.RowIndex;
+                dataGridView.ClearSelection();
+                dataGridView.Rows[columnindex].Selected = true;
+            }
+        }
 
         private void dataGridView_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
         {
@@ -457,81 +466,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void dataGridView_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (e.RowIndex == -1) return;
-
-            DataGridViewRow row = dataGridView.Rows[e.RowIndex];
-
-            if (e.Button == MouseButtons.Right)
-            {
-                int columnindex = e.RowIndex;
-                dataGridView.ClearSelection();
-                dataGridView.Rows[columnindex].Selected = true;
-            }
-        }
-
         #endregion datagridview events
-
-        private void getBOMToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            string item;
-            if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
-            {
-                int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
-                DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-                item = Convert.ToString(slectedrow.Cells[4].Value);
-            }
-            else
-            {
-                item = "";
-            }
-            Processbom(item);
-        }
-
-        private void ProrcessreportWorkOrder(string itemvalue, string Reportname)
-        {
-            ReportViewer form1 = new ReportViewer(Reportname, itemvalue);
-            form1.Show();
-        }
-
-        private string Getselectedworkorder()
-        {
-            string wo = "";
-            if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
-            {
-                int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
-                DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-                wo = Convert.ToString(slectedrow.Cells[3].Value);
-            }
-            return wo;
-        }
-
-        private void SPM_ConnectWM_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            log.Info("Closed Work Order Release Logs ");
-            this.Dispose();
-        }
-
-        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
-        {
-            if (!(dataGridView.SelectedRows.Count == 1))
-            {
-                e.Cancel = true;
-            }
-        }
-
-        #region Get BOM
-
-        // public static string jobtree;
-
-        private void Processbom(string itemvalue)
-        {
-            TreeView treeView = new TreeView(item: itemvalue);
-            treeView.Show();
-        }
-
-        #endregion Get BOM
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -580,38 +515,12 @@ namespace SearchDataSPM
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        private void ShowReleaseLogDetails(string invoice)
+        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
-            string invoiceopen = connectapi.InvoiceOpen(invoice, ConnectAPI.CheckInModules.WO);
-            if (invoiceopen.Length > 0)
+            if (dataGridView.SelectedRows.Count != 1)
             {
-                MetroFramework.MetroMessageBox.Show(this, "Release Document is opened for edit by " + invoiceopen + ". ", "SPM Connect - Open Release Document Failed", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                e.Cancel = true;
             }
-            else
-            {
-                if (connectapi.CheckinInvoice(invoice, ConnectAPI.CheckInModules.WO))
-                {
-                    AddRelease addrelease = new AddRelease(releaseLogNo: invoice);
-                    addrelease.Show();
-                }
-            }
-        }
-
-        private string GetSelectedRlogNo()
-        {
-            string rlogno = "";
-            if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
-            {
-                int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
-                DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-                rlogno = Convert.ToString(slectedrow.Cells[0].Value);
-            }
-            return rlogno;
-        }
-
-        private void viewReleaseToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowReleaseLogDetails(GetSelectedRlogNo());
         }
 
         private void dataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -622,27 +531,20 @@ namespace SearchDataSPM
             }
         }
 
-        private string GetSelectedJobNo()
+        private void getBOMToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string jobno = "";
+            string item;
             if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
             {
                 int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
                 DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
-                jobno = Convert.ToString(slectedrow.Cells[1].Value);
+                item = Convert.ToString(slectedrow.Cells[4].Value);
             }
-            return jobno;
-        }
-
-        private void getWoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ProrcessreportWorkOrder(Getselectedworkorder(), "WorkOrder");
-        }
-
-        private void viewCurrentJobReleaseToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ViewRelease viewRelease = new ViewRelease(wrkorder: GetSelectedJobNo(), job: true, jobassyno: connectapi.GetJobAssyNo(GetSelectedJobNo()), jobno: GetSelectedJobNo());
-            viewRelease.Show();
+            else
+            {
+                item = "";
+            }
+            Processbom(item);
         }
 
         private string GetselectedAssyno()
@@ -657,10 +559,103 @@ namespace SearchDataSPM
             return wo;
         }
 
+        private string GetSelectedJobNo()
+        {
+            string jobno = "";
+            if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
+            {
+                int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
+                DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
+                jobno = Convert.ToString(slectedrow.Cells[1].Value);
+            }
+            return jobno;
+        }
+
+        private string GetSelectedRlogNo()
+        {
+            string rlogno = "";
+            if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
+            {
+                int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
+                DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
+                rlogno = Convert.ToString(slectedrow.Cells[0].Value);
+            }
+            return rlogno;
+        }
+
+        private string Getselectedworkorder()
+        {
+            string wo = "";
+            if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
+            {
+                int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
+                DataGridViewRow slectedrow = dataGridView.Rows[selectedrowindex];
+                wo = Convert.ToString(slectedrow.Cells[3].Value);
+            }
+            return wo;
+        }
+
+        private void getWoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ProrcessreportWorkOrder(Getselectedworkorder(), "WorkOrder");
+        }
+
+        private void ProrcessreportWorkOrder(string itemvalue, string Reportname)
+        {
+            ReportViewer form1 = new ReportViewer(Reportname, itemvalue);
+            form1.Show();
+        }
+
+        private void ShowReleaseLogDetails(string invoice)
+        {
+            string invoiceopen = connectapi.InvoiceOpen(invoice, CheckInModules.WO);
+            if (invoiceopen.Length > 0)
+            {
+                MetroFramework.MetroMessageBox.Show(this, "Release Document is opened for edit by " + invoiceopen + ". ", "SPM Connect - Open Release Document Failed", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+            else
+            {
+                if (connectapi.CheckinInvoice(invoice, CheckInModules.WO))
+                {
+                    AddRelease addrelease = new AddRelease(releaseLogNo: invoice);
+                    addrelease.Show();
+                }
+            }
+        }
+
+        private void SPM_ConnectWM_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            log.Info("Closed Work Order Release Logs ");
+            this.Dispose();
+        }
+
+        #region Get BOM
+
+        // public static string jobtree;
+
+        private void Processbom(string itemvalue)
+        {
+            TreeView treeView = new TreeView(item: itemvalue);
+            treeView.Show();
+        }
+
+        #endregion Get BOM
+
         private void viewAssyReleasesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ViewRelease viewRelease = new ViewRelease(wrkorder: Getselectedworkorder(), job: false, jobassyno: GetselectedAssyno(), jobno: GetSelectedJobNo());
             viewRelease.Show();
+        }
+
+        private void viewCurrentJobReleaseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ViewRelease viewRelease = new ViewRelease(wrkorder: GetSelectedJobNo(), job: true, jobassyno: connectapi.GetJobAssyNo(GetSelectedJobNo()), jobno: GetSelectedJobNo());
+            viewRelease.Show();
+        }
+
+        private void viewReleaseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowReleaseLogDetails(GetSelectedRlogNo());
         }
     }
 }

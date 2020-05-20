@@ -98,8 +98,8 @@
             // 
             // reloadbttn
             // 
-            this.reloadbttn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.reloadbttn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.reloadbttn.BackColor = System.Drawing.Color.Transparent;
             this.reloadbttn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
@@ -137,7 +137,7 @@
             this.woid_txtbox.MaxLength = 32767;
             this.woid_txtbox.Name = "woid_txtbox";
             this.woid_txtbox.PasswordChar = '\0';
-            this.woid_txtbox.PromptText = "Scan Work Order";
+            this.woid_txtbox.WaterMark = "Scan Work Order";
             this.woid_txtbox.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.woid_txtbox.SelectedText = "";
             this.woid_txtbox.SelectionLength = 0;

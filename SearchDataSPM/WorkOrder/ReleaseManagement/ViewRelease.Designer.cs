@@ -359,8 +359,8 @@
             this.txtSearch.Size = new System.Drawing.Size(411, 26);
             this.txtSearch.TabIndex = 76;
             this.LabelTooltips.SetToolTip(this.txtSearch, "Enter Search Keyword");
-            this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
-            this.txtSearch.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.txtSearch_MouseDoubleClick);
+            this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtSearch_KeyDown);
+            this.txtSearch.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.TxtSearch_MouseDoubleClick);
             // 
             // Expandchk
             // 
@@ -393,7 +393,7 @@
             this.woexpand.Text = "+/-";
             this.LabelTooltips.SetToolTip(this.woexpand, "Expand/Collapse Tree");
             this.woexpand.UseVisualStyleBackColor = true;
-            this.woexpand.Click += new System.EventHandler(this.woexpand_Click);
+            this.woexpand.Click += new System.EventHandler(this.Woexpand_Click);
             // 
             // woserchtxt
             // 
@@ -409,8 +409,8 @@
             this.woserchtxt.Size = new System.Drawing.Size(388, 26);
             this.woserchtxt.TabIndex = 76;
             this.LabelTooltips.SetToolTip(this.woserchtxt, "Enter Search Keyword");
-            this.woserchtxt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.woserchtxt_KeyDown);
-            this.woserchtxt.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.woserchtxt_MouseDoubleClick);
+            this.woserchtxt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Woserchtxt_KeyDown);
+            this.woserchtxt.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Woserchtxt_MouseDoubleClick);
             // 
             // Costlbl
             // 
@@ -690,7 +690,7 @@
             this.reloadconnectbttn.TabIndex = 124;
             this.reloadconnectbttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.reloadconnectbttn.UseVisualStyleBackColor = false;
-            this.reloadconnectbttn.Click += new System.EventHandler(this.reloadconnectbttn_Click);
+            this.reloadconnectbttn.Click += new System.EventHandler(this.Reloadconnectbttn_Click);
             // 
             // Treeview
             // 
@@ -745,7 +745,7 @@
             this.viewWorkOrderToolStripMenuItem.Name = "viewWorkOrderToolStripMenuItem";
             this.viewWorkOrderToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.viewWorkOrderToolStripMenuItem.Text = "View WorkOrder";
-            this.viewWorkOrderToolStripMenuItem.Click += new System.EventHandler(this.viewWorkOrderToolStripMenuItem_Click);
+            this.viewWorkOrderToolStripMenuItem.Click += new System.EventHandler(this.ViewWorkOrderToolStripMenuItem_Click);
             // 
             // imageList1
             // 
@@ -959,7 +959,7 @@
             this.reloadwobttn.TabIndex = 125;
             this.reloadwobttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.reloadwobttn.UseVisualStyleBackColor = false;
-            this.reloadwobttn.Click += new System.EventHandler(this.reloadwobttn_Click);
+            this.reloadwobttn.Click += new System.EventHandler(this.Reloadwobttn_Click);
             // 
             // woTreeview
             // 
@@ -979,14 +979,14 @@
             this.woTreeview.ShowNodeToolTips = true;
             this.woTreeview.Size = new System.Drawing.Size(394, 653);
             this.woTreeview.TabIndex = 72;
-            this.woTreeview.BeforeCollapse += new System.Windows.Forms.TreeViewCancelEventHandler(this.woTreeview_BeforeCollapse);
-            this.woTreeview.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.woTreeview_BeforeExpand);
-            this.woTreeview.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.woTreeview_AfterExpand);
-            this.woTreeview.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.woTreeview_BeforeSelect);
-            this.woTreeview.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.woTreeview_NodeMouseClick);
-            this.woTreeview.KeyDown += new System.Windows.Forms.KeyEventHandler(this.woTreeview_KeyDown);
-            this.woTreeview.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.woTreeview_KeyPress);
-            this.woTreeview.Leave += new System.EventHandler(this.woTreeview_Leave);
+            this.woTreeview.BeforeCollapse += new System.Windows.Forms.TreeViewCancelEventHandler(this.WoTreeview_BeforeCollapse);
+            this.woTreeview.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.WoTreeview_BeforeExpand);
+            this.woTreeview.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.WoTreeview_AfterExpand);
+            this.woTreeview.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.WoTreeview_BeforeSelect);
+            this.woTreeview.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.WoTreeview_NodeMouseClick);
+            this.woTreeview.KeyDown += new System.Windows.Forms.KeyEventHandler(this.WoTreeview_KeyDown);
+            this.woTreeview.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.WoTreeview_KeyPress);
+            this.woTreeview.Leave += new System.EventHandler(this.WoTreeview_Leave);
             this.woTreeview.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Tree_MouseDown);
             // 
             // contextMenuStrip1
@@ -995,7 +995,7 @@
             this.toolStripMenuItem2});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(161, 26);
-            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
+            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStrip1_Opening);
             // 
             // toolStripMenuItem2
             // 
@@ -1004,7 +1004,7 @@
             this.toolStripMenuItem2.Size = new System.Drawing.Size(160, 22);
             this.toolStripMenuItem2.Text = "View WorkOrder";
             this.toolStripMenuItem2.ToolTipText = "Preview Work Order Details";
-            this.toolStripMenuItem2.Click += new System.EventHandler(this.getWOToolStripMenuItem_Click);
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.GetWOToolStripMenuItem_Click);
             // 
             // wosearchlabel
             // 

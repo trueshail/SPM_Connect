@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using static SPMConnectAPI.ConnectAPI;
+using static SPMConnectAPI.ConnectConstants;
 
 namespace SearchDataSPM
 {
@@ -14,16 +14,14 @@ namespace SearchDataSPM
     {
         #region Load Invoice Details and setting Parameters
 
+        private readonly List<char> _barcode = new List<char>(10);
+        private readonly WorkOrder connectapi = new WorkOrder();
+        private DateTime _lastKeystroke = new DateTime(0);
+        private bool developer;
         private DataTable dt = new DataTable();
         private string Invoice_Number = "";
-        private WorkOrder connectapi = new WorkOrder();
-        private DateTime _lastKeystroke = new DateTime(0);
-        private List<char> _barcode = new List<char>(10);
-        private int userinputtime = 100;
-        private bool developer = false;
         private log4net.ILog log;
-
-        private ErrorHandler errorHandler = new ErrorHandler();
+        private int userinputtime = 100;
 
         public MatReAlloc()
         {
@@ -38,25 +36,7 @@ namespace SearchDataSPM
             return null;
         }
 
-        private void QuoteDetails_Load(object sender, EventArgs e)
-        {
-            if (GetMatReInfo(Invoice_Number))
-            {
-                FillInfo();
-                processeditbutton();
-                developer = ConnectAPI.ConnectUser.Developer;
-                userinputtime = connectapi.Getuserinputtime();
-            }
-            else
-            {
-                this.Close();
-            }
-            log4net.Config.XmlConfigurator.Configure();
-            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened Material Re-Alloc Invoice " + Invoice_Number + " ");
-        }
-
-        private bool GetMatReInfo(string id)
+        private bool GetMatReInfo()
         {
             bool fillled = false;
             try
@@ -70,6 +50,24 @@ namespace SearchDataSPM
                 MessageBox.Show(ex.Message, "SPM Connect  - Get Material Reallocation Invoice", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             return fillled;
+        }
+
+        private void QuoteDetails_Load(object sender, EventArgs e)
+        {
+            if (GetMatReInfo())
+            {
+                FillInfo();
+                processeditbutton();
+                developer = ConnectUser.Developer;
+                userinputtime = connectapi.Getuserinputtime();
+            }
+            else
+            {
+                this.Close();
+            }
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Opened Material Re-Alloc Invoice " + Invoice_Number + " ");
         }
 
         #endregion Load Invoice Details and setting Parameters
@@ -150,7 +148,7 @@ namespace SearchDataSPM
 
         private void QuoteDetails_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (savbttn.Visible == true)
+            if (savbttn.Visible)
             {
                 errorProvider1.Clear();
                 e.Cancel = true;
@@ -173,18 +171,7 @@ namespace SearchDataSPM
 
         #region Process Save
 
-        private void perfromlockdown()
-        {
-            editbttn.Visible = true;
-            savbttn.Enabled = false;
-            savbttn.Visible = false;
-            ItemsGrpBox.Enabled = false;
-            wogroupbox.Enabled = false;
-            empgrpbox.Enabled = false;
-            notesgroupbox.Enabled = false;
-        }
-
-        private List<string> list = new List<string>();
+        private readonly List<string> list = new List<string>();
 
         private void graballinfor()
         {
@@ -213,9 +200,15 @@ namespace SearchDataSPM
             list.Add(reg.Replace(qtytxt.Text, "''"));
         }
 
-        private void savbttn_Click(object sender, EventArgs e)
+        private void perfromlockdown()
         {
-            perfromsavebttn();
+            editbttn.Visible = true;
+            savbttn.Enabled = false;
+            savbttn.Visible = false;
+            ItemsGrpBox.Enabled = false;
+            wogroupbox.Enabled = false;
+            empgrpbox.Enabled = false;
+            notesgroupbox.Enabled = false;
         }
 
         private void perfromsavebttn()
@@ -232,9 +225,9 @@ namespace SearchDataSPM
                 this.Enabled = false;
                 perfromlockdown();
                 graballinfor();
-                if (connectapi.UpdateInvoiceDetsToSql(list[0].ToString(), list[1].ToString(), list[2].ToString(), list[3].ToString(), list[4].ToString(), list[5].ToString(), list[6].ToString(), list[7].ToString(), list[8].ToString(), list[9].ToString(), list[10].ToString(), list[11].ToString(), list[12].ToString(), list[13].ToString(), list[14].ToString()))
+                if (connectapi.UpdateInvoiceDetsToSql(list[0], list[1], list[2], list[3], list[4], list[5], list[6], list[7], list[8], list[9], list[10], list[11], list[12], list[13], list[14]))
                 {
-                    if (GetMatReInfo(list[0].ToString()))
+                    if (GetMatReInfo())
                     {
                         FillInfo();
                         SaveReport(invoicetxtbox.Text);
@@ -243,6 +236,11 @@ namespace SearchDataSPM
                 this.Enabled = true;
                 Cursor.Current = Cursors.Default;
             }
+        }
+
+        private void savbttn_Click(object sender, EventArgs e)
+        {
+            perfromsavebttn();
         }
 
         #endregion Process Save
@@ -289,7 +287,7 @@ namespace SearchDataSPM
         private void SaveReport(string Invoiceno)
         {
             string filepath = @"\\spm-adfs\SDBASE\Reports\MaterialReallocations\";
-            System.IO.Directory.CreateDirectory(filepath);
+            Directory.CreateDirectory(filepath);
             filepath += Invoiceno + ".pdf";
             Savereporttodir(Invoiceno, filepath);
         }
@@ -310,27 +308,18 @@ namespace SearchDataSPM
             rs.Url = "http://spm-sql/reportserver/reportservice2005.asmx";
             rsExec.Url = "http://spm-sql/reportserver/reportexecution2005.asmx";
 
-            string historyID = null;
-            string deviceInfo = null;
-            string format = "PDF";
+            const string historyID = null;
+            const string deviceInfo = null;
+            const string format = "PDF";
             Byte[] results;
-            string encoding = string.Empty;
-            string mimeType = string.Empty;
-            string extension = string.Empty;
-            RE2005.Warning[] warnings = null;
-            string[] streamIDs = null;
-            string _reportName = "";
-
-            _reportName = @"/GeniusReports/WorkOrder/SPM_Connect_MatReAloc";
-            string _historyID = null;
-            bool _forRendering = false;
+            const string _reportName = "/GeniusReports/WorkOrder/SPM_Connect_MatReAloc";
+            const string _historyID = null;
+            const bool _forRendering = false;
             RS2005.ParameterValue[] _values = null;
             RS2005.DataSourceCredentials[] _credentials = null;
-            RS2005.ReportParameter[] _parameters = null;
-
             try
             {
-                _parameters = rs.GetReportParameters(_reportName, _historyID, _forRendering, _values, _credentials);
+                RS2005.ReportParameter[] _parameters = rs.GetReportParameters(_reportName, _historyID, _forRendering, _values, _credentials);
                 RE2005.ExecutionInfo ei = rsExec.LoadReport(_reportName, historyID);
                 RE2005.ParameterValue[] parameters = new RE2005.ParameterValue[1];
 
@@ -346,8 +335,8 @@ namespace SearchDataSPM
                 rsExec.SetExecutionParameters(parameters, "en-us");
 
                 results = rsExec.Render(format, deviceInfo,
-                          out extension, out encoding,
-                          out mimeType, out warnings, out streamIDs);
+                          out string extension, out string encoding,
+                          out string mimeType, out RE2005.Warning[] warnings, out string[] streamIDs);
                 try
                 {
                     File.WriteAllBytes(fileName, results);
@@ -359,7 +348,7 @@ namespace SearchDataSPM
             }
             catch (Exception ex)
             {
-                throw ex;
+                log.Error(ex.Message, ex);
             }
             finally
             {
@@ -371,42 +360,56 @@ namespace SearchDataSPM
         private void Sendemailtomanagers(string reqno, string fileName)
         {
             //connectapi.SPM_Connect();
-            List<NameEmail> nameemail = connectapi.GetNameEmailByParaValue(UserFields.CribShort, "1");
-            foreach (NameEmail item in nameemail)
+            foreach (NameEmail item in connectapi.GetNameEmailByParaValue(UserFields.CribShort, "1"))
                 connectapi.Sendemail(item.email, reqno + " Material Re-Allocation", "Hello " + item.name + "," + Environment.NewLine + " Please see attached invoice regarding crib shortage", fileName, "");
         }
 
         #endregion Save Report
 
-        private void ItemTxtBox_KeyDown(object sender, KeyEventArgs e)
+        private void appidtxt_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyCode == Keys.Return)
+            // check timing (keystrokes within 100 ms)
+            TimeSpan elapsed = (DateTime.Now - _lastKeystroke);
+            if (elapsed.TotalMilliseconds > userinputtime)
+                _barcode.Clear();
+
+            // record keystroke & timestamp
+            _barcode.Add(e.KeyChar);
+            _lastKeystroke = DateTime.Now;
+
+            // process barcode
+            if (e.KeyChar == 13 && _barcode.Count > 0)
             {
-                if (ItemTxtBox.Text.Length >= 6)
+                string msg = new string(_barcode.ToArray());
+
+                _barcode.Clear();
+                if (msg != "\r" || developer)
                 {
-                    string item = ItemTxtBox.Text.Trim().Substring(0, 6);
-                    Fillselectediteminfo(item);
-                    notestxt.Focus();
+                    if (e.KeyChar == 13)
+                    {
+                        if (connectapi.EmployeeExitsWithCribRights(appidtxt.Text.Trim()))
+                        {
+                            appnametxt.Text = connectapi.GetNameByEmpId(appidtxt.Text.Trim());
+                            appnametxt.Text = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(appnametxt.Text.ToLower());
+                            jobreqtxt.Focus();
+                        }
+                        else
+                        {
+                            appidtxt.Clear();
+                            appnametxt.Clear();
+                            appidtxt.Focus();
+                            MessageBox.Show("Your request for approving material reallocation can't be completed based on your security settings." + Environment.NewLine + "Please scan in ID with correct privileges.", "SPM Connect - Warning", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                        }
+                        e.Handled = true;
+                    }
                 }
-                e.Handled = true;
-                e.SuppressKeyPress = true;
+                else
+                {
+                    MessageBox.Show("System cannot accept keyboard inputs. Scan with barcode reader", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    appidtxt.Clear();
+                    appidtxt.Focus();
+                }
             }
-        }
-
-        private void Fillselectediteminfo(string item)
-        {
-            DataTable iteminfo = new DataTable();
-            iteminfo.Clear();
-            iteminfo = connectapi.GetIteminfo(item);
-            DataRow r = iteminfo.Rows[0];
-            Descriptiontxtbox.Text = r["Description"].ToString();
-            oemtxt.Text = r["Manufacturer"].ToString();
-            oemitemnotxt.Text = r["ManufacturerItemNumber"].ToString();
-        }
-
-        private void empidtxt_TextChanged(object sender, EventArgs e)
-        {
-            if (empidtxt.Text.Length == 0) empname.Text = "";
         }
 
         private void appidtxt_TextChanged(object sender, EventArgs e)
@@ -460,6 +463,11 @@ namespace SearchDataSPM
             }
         }
 
+        private void empidtxt_TextChanged(object sender, EventArgs e)
+        {
+            if (empidtxt.Text.Length == 0) empname.Text = "";
+        }
+
         private void empname_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == 13)
@@ -469,49 +477,29 @@ namespace SearchDataSPM
             }
         }
 
-        private void appidtxt_KeyPress(object sender, KeyPressEventArgs e)
+        private void Fillselectediteminfo(string item)
         {
-            // check timing (keystrokes within 100 ms)
-            TimeSpan elapsed = (DateTime.Now - _lastKeystroke);
-            if (elapsed.TotalMilliseconds > userinputtime)
-                _barcode.Clear();
+            DataTable iteminfo = new DataTable();
+            iteminfo.Clear();
+            iteminfo = connectapi.GetIteminfo(item);
+            DataRow r = iteminfo.Rows[0];
+            Descriptiontxtbox.Text = r["Description"].ToString();
+            oemtxt.Text = r["Manufacturer"].ToString();
+            oemitemnotxt.Text = r["ManufacturerItemNumber"].ToString();
+        }
 
-            // record keystroke & timestamp
-            _barcode.Add(e.KeyChar);
-            _lastKeystroke = DateTime.Now;
-
-            // process barcode
-            if (e.KeyChar == 13 && _barcode.Count > 0)
+        private void ItemTxtBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
             {
-                string msg = new string(_barcode.ToArray());
-
-                _barcode.Clear();
-                if (msg != "\r" || developer)
+                if (ItemTxtBox.Text.Length >= 6)
                 {
-                    if (e.KeyChar == 13)
-                    {
-                        if (connectapi.EmployeeExitsWithCribRights(appidtxt.Text.Trim()))
-                        {
-                            appnametxt.Text = connectapi.GetNameByEmpId(appidtxt.Text.Trim());
-                            appnametxt.Text = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(appnametxt.Text.ToLower());
-                            jobreqtxt.Focus();
-                        }
-                        else
-                        {
-                            appidtxt.Clear();
-                            appnametxt.Clear();
-                            appidtxt.Focus();
-                            MessageBox.Show("Your request for approving material reallocation can't be completed based on your security settings." + Environment.NewLine + "Please scan in ID with correct privileges.", "SPM Connect - Warning", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                        }
-                        e.Handled = true;
-                    }
+                    string item = ItemTxtBox.Text.Trim().Substring(0, 6);
+                    Fillselectediteminfo(item);
+                    notestxt.Focus();
                 }
-                else
-                {
-                    MessageBox.Show("System cannot accept keyboard inputs. Scan with barcode reader", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    appidtxt.Clear();
-                    appidtxt.Focus();
-                }
+                e.Handled = true;
+                e.SuppressKeyPress = true;
             }
         }
 
@@ -522,6 +510,57 @@ namespace SearchDataSPM
                 woreqtxt.Focus();
                 e.Handled = true;
             }
+        }
+
+        private void MatReAlloc_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            log.Info("Closed Material Re-Alloc Invoice " + Invoice_Number + " ");
+            this.Dispose();
+        }
+
+        private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        {
+        }
+
+        private void PrintToolStrip_Click(object sender, EventArgs e)
+        {
+            reportpurchaereq(Invoice_Number, "MatReAloc");
+        }
+
+        private void qtytxt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 13)
+            {
+                if (string.IsNullOrEmpty(qtytxt.Text) || qtytxt.Text == "0")
+                {
+                    qtytxt.Clear();
+                    qtytxt.Focus();
+                }
+                else
+                {
+                    ItemTxtBox.Focus();
+                }
+
+                e.Handled = true;
+            }
+            if (Regex.IsMatch(e.KeyChar.ToString(), @"[0-9+\b]"))
+            {
+                // Stop the character from being entered into the control since it is illegal.
+            }
+            else
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void qtytxt_Leave(object sender, EventArgs e)
+        {
+        }
+
+        private void reportpurchaereq(string itemvalue, string Reportname)
+        {
+            ReportViewer form1 = new ReportViewer(Reportname, itemvalue);
+            form1.Show();
         }
 
         private void woreqtxt_KeyPress(object sender, KeyPressEventArgs e)
@@ -540,57 +579,6 @@ namespace SearchDataSPM
                 qtytxt.Focus();
                 e.Handled = true;
             }
-        }
-
-        private void qtytxt_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == 13)
-            {
-                if (qtytxt.Text == "" || qtytxt.Text == "0")
-                {
-                    qtytxt.Clear();
-                    qtytxt.Focus();
-                }
-                else
-                {
-                    ItemTxtBox.Focus();
-                }
-
-                e.Handled = true;
-            }
-            if (System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"[0-9+\b]"))
-            {
-                // Stop the character from being entered into the control since it is illegal.
-            }
-            else
-            {
-                e.Handled = true;
-            }
-        }
-
-        private void qtytxt_Leave(object sender, EventArgs e)
-        {
-        }
-
-        private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
-        {
-        }
-
-        private void PrintToolStrip_Click(object sender, EventArgs e)
-        {
-            reportpurchaereq(Invoice_Number, "MatReAloc");
-        }
-
-        private void reportpurchaereq(string itemvalue, string Reportname)
-        {
-            ReportViewer form1 = new ReportViewer(Reportname, itemvalue);
-            form1.Show();
-        }
-
-        private void MatReAlloc_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            log.Info("Closed Material Re-Alloc Invoice " + Invoice_Number + " ");
-            this.Dispose();
         }
     }
 }

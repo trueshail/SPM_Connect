@@ -9,17 +9,17 @@ namespace SearchDataSPM
 {
     public partial class ReleaseSuggestions : Form
     {
+        private readonly WorkOrder connectapi = new WorkOrder();
         private DataTable dt;
-        public string ValueIWant { get; set; }
         private string formlabel = "";
         private log4net.ILog log;
-        private WorkOrder connectapi = new WorkOrder();
-        private ErrorHandler errorHandler = new ErrorHandler();
 
         public ReleaseSuggestions()
         {
             InitializeComponent();
         }
+
+        public string ValueIWant { get; set; }
 
         public string formtext(string formname)
         {
@@ -43,8 +43,14 @@ namespace SearchDataSPM
                 item = "";
             }
             ValueIWant = item;
-            this.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.DialogResult = DialogResult.OK;
             Close();
+        }
+
+        private void ECR_Users_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            log.Info("Closed ECR Users Available ");
+            this.Dispose();
         }
 
         private void ECR_Users_Load(object sender, EventArgs e)
@@ -53,7 +59,7 @@ namespace SearchDataSPM
             dt = new DataTable();
             dt = connectapi.GrabReleaseSuggestions("21761", "50198", "A05831");
             dataGridView.DataSource = dt;
-            DataView dv = dt.DefaultView;
+            _ = dt.DefaultView;
             dataGridView.Sort(dataGridView.Columns[1], ListSortDirection.Ascending);
             UpdateFont();
             log4net.Config.XmlConfigurator.Configure();
@@ -69,12 +75,6 @@ namespace SearchDataSPM
             dataGridView.DefaultCellStyle.BackColor = Color.FromArgb(237, 237, 237);
             dataGridView.DefaultCellStyle.SelectionForeColor = Color.Yellow;
             dataGridView.DefaultCellStyle.SelectionBackColor = Color.Black;
-        }
-
-        private void ECR_Users_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            log.Info("Closed ECR Users Available ");
-            this.Dispose();
         }
     }
 }

@@ -62,7 +62,7 @@
             this.shrtcutbttn.TabIndex = 0;
             this.shrtcutbttn.Text = "Keyboard Shortcuts";
             this.shrtcutbttn.UseVisualStyleBackColor = false;
-            this.shrtcutbttn.Click += new System.EventHandler(this.shrtcutbttn_Click);
+            this.shrtcutbttn.Click += new System.EventHandler(this.Shrtcutbttn_Click);
             // 
             // versionlbl
             // 
@@ -97,7 +97,7 @@
             this.linkLabel1.TabIndex = 1;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "https://github.com/spmconnect/SPM_Connect";
-            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel1_LinkClicked);
             // 
             // panel1
             // 
@@ -150,7 +150,7 @@
             this.notestxt.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.notestxt.Size = new System.Drawing.Size(579, 163);
             this.notestxt.TabIndex = 2;
-            this.notestxt.TextChanged += new System.EventHandler(this.notestxt_TextChanged);
+            this.notestxt.TextChanged += new System.EventHandler(this.Notestxt_TextChanged);
             // 
             // sendemailbttn
             // 
@@ -164,7 +164,7 @@
             this.sendemailbttn.TabIndex = 4;
             this.sendemailbttn.Text = "Send Email To Developer";
             this.sendemailbttn.UseVisualStyleBackColor = false;
-            this.sendemailbttn.Click += new System.EventHandler(this.sendemailbttn_Click);
+            this.sendemailbttn.Click += new System.EventHandler(this.Sendemailbttn_Click);
             // 
             // browsebttn
             // 
@@ -177,7 +177,7 @@
             this.browsebttn.TabIndex = 3;
             this.browsebttn.Text = "Browse";
             this.browsebttn.UseVisualStyleBackColor = false;
-            this.browsebttn.Click += new System.EventHandler(this.browsebttn_Click);
+            this.browsebttn.Click += new System.EventHandler(this.Browsebttn_Click);
             // 
             // label3
             // 

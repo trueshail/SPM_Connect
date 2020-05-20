@@ -7,13 +7,10 @@ namespace SearchDataSPM
 {
     public partial class Dialog : Form
     {
-        private List<Color> colors = new List<Color>();
-        private int cur_color = 0;
+        private readonly List<Color> colors = new List<Color>();
+        private int cur_color;
 
-        public string Message
-        {
-            set { this.bunifuCustomLabel1.Text = value; }
-        }
+        private int dir = 1;
 
         public Dialog()
         {
@@ -26,17 +23,18 @@ namespace SearchDataSPM
             bunifuCircleProgressbar1.ProgressColor = colors[cur_color];
         }
 
-        private void bunifuFlatButton1_Click(object sender, EventArgs e)
+        public string Message
         {
-            this.Close();
-        }
-
-        private void Dialog_Load(object sender, EventArgs e)
-        {
+            set { this.bunifuCustomLabel1.Text = value; }
         }
 
         private void bunifuColorTransition1_OnValueChange(object sender, EventArgs e)
         {
+        }
+
+        private void bunifuFlatButton1_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
 
         private void color_transition_Tick(object sender, EventArgs e)
@@ -54,7 +52,9 @@ namespace SearchDataSPM
             }
         }
 
-        private int dir = 1;
+        private void Dialog_Load(object sender, EventArgs e)
+        {
+        }
 
         private void stretch_Tick(object sender, EventArgs e)
         {

@@ -4,24 +4,22 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
+using static SPMConnectAPI.ConnectConstants;
 
 namespace SearchDataSPM
 {
     public partial class ScanWO : Form
     {
-        private WorkOrder connectapi = new WorkOrder();
+        private readonly WorkOrder connectapi = new WorkOrder();
         private DateTime _lastKeystroke = new DateTime(0);
-        private List<char> _barcode = new List<char>(10);
+        private readonly List<char> _barcode = new List<char>(10);
         private int userinputtime = 100;
-        private bool developer = false;
+        private bool developer;
         private log4net.ILog log;
-
-        private ErrorHandler errorHandler = new ErrorHandler();
 
         public ScanWO()
         {
             InitializeComponent();
-            //connectapi.SPM_Connect();
         }
 
         private void Home_Load(object sender, EventArgs e)
@@ -29,7 +27,7 @@ namespace SearchDataSPM
             timer1.Start();
             woid_txtbox.Focus();
             userinputtime = connectapi.Getuserinputtime();
-            developer = ConnectAPI.ConnectUser.Developer;
+            developer = ConnectUser.Developer;
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Scan Work Order ");
@@ -48,8 +46,8 @@ namespace SearchDataSPM
             timer3.Enabled = true;
             timer3.Interval = 5000;
             timer3.Start();
-            DataTable dtb1 = new DataTable();
-            dtb1 = connectapi.ShowWOTrackingStatus(woid_txtbox.Text.Trim());
+            _ = new DataTable();
+            DataTable dtb1 = connectapi.ShowWOTrackingStatus(woid_txtbox.Text.Trim());
             dataGridView1.DataSource = dtb1;
             dataGridView1.Update();
         }
@@ -60,7 +58,7 @@ namespace SearchDataSPM
         }
 
         private Point myOriginalLocation;
-        private bool positionLocked = false;
+        private bool positionLocked;
 
         private void ScanWO_Move(object sender, EventArgs e)
         {
@@ -105,7 +103,7 @@ namespace SearchDataSPM
                             connectapi.Scanworkorder(woid_txtbox.Text.Trim());
                             showaddedtodg();
                             woid_txtbox.Clear();
-                            ScanWO.ActiveForm.Refresh();
+                            ActiveForm.Refresh();
                         }
                         else
                         {

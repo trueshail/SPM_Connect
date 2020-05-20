@@ -34,7 +34,7 @@
     <MinimumRequiredVersion>7.20.05.01</MinimumRequiredVersion>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationRevision>3</ApplicationRevision>
     <ApplicationVersion>7.20.05.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -45,7 +45,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -101,6 +101,9 @@
   <PropertyGroup />
   <PropertyGroup />
   <PropertyGroup />
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AdvancedDataGridView, Version=0.1.0.10, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ADGV.0.1.0.10\lib\net40\AdvancedDataGridView.dll</HintPath>
@@ -359,12 +362,6 @@
     <Compile Include="Customer.cs">
       <DependentUpon>ConnectCustomers.tt</DependentUpon>
     </Compile>
-    <Compile Include="Dashboard\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Dashboard\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Dashboard\Dashboard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -565,7 +562,6 @@
     <Compile Include="Purchasing\InvoiceFor.Designer.cs">
       <DependentUpon>InvoiceFor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Purchasing\pnotifier.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -719,9 +715,6 @@
     <EmbeddedResource Include="Admin-developer\Customers.resx">
       <DependentUpon>Customers.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dashboard\Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Dashboard\Dashboard.resx">
       <DependentUpon>Dashboard.cs</DependentUpon>
     </EmbeddedResource>
@@ -748,6 +741,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Admin-developer\AdminControl.resx">
       <DependentUpon>AdminControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\AutocadAssembly.resx">
       <DependentUpon>AutocadAssembly.cs</DependentUpon>
@@ -869,6 +863,9 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ConnectCustomers.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="..\.editorconfig">
+      <Link>.editorconfig</Link>
+    </None>
     <None Include="ConnectCustomers.edmx.diagram">
       <DependentUpon>ConnectCustomers.edmx</DependentUpon>
     </None>

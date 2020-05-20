@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
+using static SPMConnectAPI.ConnectConstants;
 
 namespace SearchDataSPM
 {
@@ -11,16 +12,15 @@ namespace SearchDataSPM
     {
         #region steupvariables
 
-        private DataTable treeTB;
-        private TreeNode root = new TreeNode();
-        private string releaseLogNumber;
-        private bool rootnodedone;
-        private WorkOrder connectapi = new WorkOrder();
-        private List<string> Itemstodiscard = new List<string>();
+        private readonly WorkOrder connectapi = new WorkOrder();
+        private readonly List<string> Itemstodiscard = new List<string>();
+        private readonly string releaseLogNumber;
+        private readonly TreeNode root = new TreeNode();
+        private bool itemcleartosave;
         private log4net.ILog log;
-        private ErrorHandler errorHandler = new ErrorHandler();
         private string revised = "";
-        private bool itemcleartosave = false;
+        private bool rootnodedone;
+        private DataTable treeTB;
 
         #endregion steupvariables
 
@@ -29,17 +29,6 @@ namespace SearchDataSPM
             InitializeComponent();
             treeTB = new DataTable();
             releaseLogNumber = releaseLogNo;
-        }
-
-        private void ParentView_Load(object sender, EventArgs e)
-        {
-            Text = "Release Log Details - SPM Connect (" + releaseLogNumber + ")";
-            FillReleaseinfo(connectapi.GrabReleaseLogDetails(releaseLogNumber));
-            Startprocessfortreeview();
-            Treeview.ExpandAll();
-            log4net.Config.XmlConfigurator.Configure();
-            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Opened Item Details " + releaseLogNumber + " ");
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -84,30 +73,122 @@ namespace SearchDataSPM
             Dispose();
         }
 
-        #region Treeview
-
-        private void Itemnotxt_KeyPress(object sender, KeyPressEventArgs e)
+        private void ParentView_Load(object sender, EventArgs e)
         {
-            if ((sender as TextBox).SelectionStart == 0)
-                e.Handled = (e.KeyChar == (char)Keys.Space);
-            else
-                e.Handled = false;
+            Text = "Release Log Details - SPM Connect (" + releaseLogNumber + ")";
+            FillReleaseinfo(connectapi.GrabReleaseLogDetails(releaseLogNumber));
+            Startprocessfortreeview();
+            Treeview.ExpandAll();
+            log4net.Config.XmlConfigurator.Configure();
+            log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Opened Item Details " + releaseLogNumber + " ");
         }
 
-        private void Itemnotxt_TextChanged(object sender, EventArgs e)
+        #region Treeview
+
+        private void Addbutton_Click(object sender, EventArgs e)
         {
-            if (itemnotxt.Text.Length == 6 && char.IsLetter(itemnotxt.Text[0]))
+            try
             {
-                Fetchitemdetails(itemnotxt.Text.Trim());
+                errorProvider1.Clear();
+                if (qtytxtbox.Text.Length > 0 && qtytxtbox.Text != "0" && itemnotxt.Text.Length > 0)
+                {
+                    if (itemnotxt.Text == assynotxt.Text)
+                    {
+                        MessageBox.Show("Cannot add parent item as child", "SPM Conect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        itemnotxt.Clear();
+                        return;
+                    }
+                    var iteminfo = new DataTable();
+                    iteminfo.Clear();
+                    iteminfo = connectapi.GetIteminfo(itemnotxt.Text);
+                    var r = iteminfo.Rows[0];
+                    if (iteminfo.Rows.Count > 0)
+                    {
+                        var _itemno = itemnotxt.Text;
+                        var _description = r["Description"].ToString();
+                        var _family = r["FamilyCode"].ToString();
+                        var _oem = r["Manufacturer"].ToString();
+                        var _manufacturer = r["ManufacturerItemNumber"].ToString();
+                        var qty = qtytxtbox.Text;
+                        var notes = itemnotestxt.Text;
+
+                        _SearchNodes(_itemno, Treeview.Nodes[0]);
+
+                        if (itemexists != "yes")
+                        {
+                            bool isrevised = IsRevised();
+                            var child = new TreeNode
+                            {
+                                Text = _itemno + " - " + _description + " (" + qty + ")",
+                                Tag = _itemno + "][" + _description + "][" + _family + "][" + _manufacturer + "][" + _oem + "][" + qty + "][" + notes + "][" + (isrevised ? "1" : "0") + "][5445"
+                            };
+
+                            Treeview.SelectedNode = Treeview.Nodes[0];
+                            child.BackColor = isrevised ? Color.LightYellow : Color.LightGreen;
+                            root.Nodes.Add(child);
+                            CallRecursive();
+                            if (!root.IsExpanded)
+                            {
+                                Treeview.ExpandAll();
+                            }
+
+                            savbttn.Visible = true;
+                            itemnotxt.Clear();
+                        }
+                        else
+                        {
+                            savbttn.Visible = false;
+                            itemexists = null;
+                            itemnotxt.Clear();
+                        }
+                    }
+                }
+                else
+                {
+                    if (itemnotxt.Text.Length > 0)
+                        errorProvider1.SetError(qtytxtbox, "Qty cannot be null");
+                    else
+                        errorProvider1.SetError(itemnotxt, "ItemNo cannot be null");
+                }
             }
-            else
+            catch
             {
-                qtytxtbox.Clear();
-                itmdeslbl.Text = "Description : ";
-                itmoemlbl.Text = "Manufacturer : ";
-                itemoemitmlbl.Text = "OEM Item No : ";
-                itemnotestxt.Text = "";
+                return;
             }
+        }
+
+        private void AddItems()
+        {
+            // Print each node recursively.
+            var nodes = Treeview.Nodes;
+            foreach (TreeNode n in nodes)
+                SaveRecursive(n);
+
+            Lockdownsave();
+        }
+
+        private void CallRecursive()
+        {
+            // Print each node recursively.
+            var nodes = Treeview.Nodes;
+            foreach (TreeNode n in nodes)
+            {
+                if (n.Nodes.Count > 0)
+                {
+                    PrintRecursive(n);
+                }
+            }
+        }
+
+        private void Cancelbutton_Click(object sender, EventArgs e)
+        {
+            updatebttn.Visible = false;
+            addbutton.Visible = true;
+            savbttn.Visible = true;
+            cancelbutton.Visible = false;
+            itemnotxt.Clear();
+            Addremovecontextmenu.Enabled = true;
         }
 
         private void Fetchitemdetails(string itemno)
@@ -123,28 +204,6 @@ namespace SearchDataSPM
                 itmoemlbl.Text = "Manufacturer : ";
                 itemoemitmlbl.Text = "OEM Item No : ";
             }
-        }
-
-        private void Fillselectediteminfo(string item)
-        {
-            var iteminfo = new DataTable();
-            iteminfo.Clear();
-            iteminfo = connectapi.GetIteminfo(item);
-            if (iteminfo.Rows.Count > 0)
-            {
-                var r = iteminfo.Rows[0];
-                itmdeslbl.Text = "Description : " + r["Description"].ToString();
-                itmoemlbl.Text = "Manufacturer : " + r["Manufacturer"].ToString();
-                itemoemitmlbl.Text = "OEM Item No : " + r["ManufacturerItemNumber"].ToString();
-            }
-        }
-
-        private void Cleanup()
-        {
-            Treeview.Nodes.Clear();
-            Treeview.ResetText();
-            RemoveChildNodes(root);
-            treeTB.Clear();
         }
 
         private void Fillrootnode()
@@ -170,20 +229,103 @@ namespace SearchDataSPM
             }
         }
 
-        private void Startprocessfortreeview()
+        private void Fillselectediteminfo(string item)
         {
-            try
+            var iteminfo = new DataTable();
+            iteminfo.Clear();
+            iteminfo = connectapi.GetIteminfo(item);
+            if (iteminfo.Rows.Count > 0)
             {
-                Treeview.Nodes.Clear();
-                RemoveChildNodes(root);
-                Treeview.ResetText();
-                treeTB.Clear();
-                treeTB = connectapi.GrabReleaseLogItemDetails(wotxt.Text.Trim(), releaseLogNumber.Trim());
-                Fillrootnode();
-                CallRecursive();
+                var r = iteminfo.Rows[0];
+                itmdeslbl.Text = "Description : " + r["Description"].ToString();
+                itmoemlbl.Text = "Manufacturer : " + r["Manufacturer"].ToString();
+                itemoemitmlbl.Text = "OEM Item No : " + r["ManufacturerItemNumber"].ToString();
             }
-            catch (Exception)
+        }
+
+        private void getItemNoFromTag(string s)
+        {
+            string[] values = s.Replace("][", "~").Split('~');
+            //string[] values = s.Split('][');
+            for (int i = 0; i < values.Length; i++)
             {
+                values[i] = values[i].Trim();
+            }
+            UpdateRemoveitemsBallon(values[0], values[8]);
+        }
+
+        private bool IsRevised()
+        {
+            const bool revised = false;
+
+            DialogResult dialogResult = MessageBox.Show("Are you revising this part?", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.Yes)
+            {
+                //do something
+                return true;
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                //do something else
+                return false;
+            }
+
+            return revised;
+        }
+
+        private void ItemInfo_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (savbttn.Visible && itemupdatetools.Visible)
+            {
+                errorProvider1.SetError(savbttn, "Save before closing");
+                var result = MetroFramework.MetroMessageBox.Show(this, "Do you want to save changes?", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (result == DialogResult.Yes)
+                {
+                    ProcessSaveButton();
+                }
+                else
+                {
+                }
+            }
+            connectapi.CheckoutInvoice(releaseLogNumber, CheckInModules.WO);
+        }
+
+        private void Itemnotxt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = (sender as TextBox)?.SelectionStart == 0 && e.KeyChar == (char)Keys.Space;
+        }
+
+        private void Itemnotxt_TextChanged(object sender, EventArgs e)
+        {
+            if (itemnotxt.Text.Length == 6 && char.IsLetter(itemnotxt.Text[0]))
+            {
+                Fetchitemdetails(itemnotxt.Text.Trim());
+            }
+            else
+            {
+                qtytxtbox.Clear();
+                itmdeslbl.Text = "Description : ";
+                itmoemlbl.Text = "Manufacturer : ";
+                itemoemitmlbl.Text = "OEM Item No : ";
+                itemnotestxt.Text = "";
+            }
+        }
+
+        private void Lockdownsave()
+        {
+            Treeview.SelectedNode = root;
+            savbttn.Visible = false;
+            string releasenotes = releasenotestxt.Text.Replace("'", "''");
+            connectapi.UpdateReleaseLogNotes(releaseLogNumber, releasenotes);
+            MessageBox.Show("Release log saved successfully.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            addbutton.Visible = true;
+        }
+
+        private void Performdiscarditem()
+        {
+            foreach (string item in Itemstodiscard)
+            {
+                getItemNoFromTag(item);
             }
         }
 
@@ -191,7 +333,7 @@ namespace SearchDataSPM
         {
             TreeNode childNode;
 
-            foreach (DataRow dr in treeTB.Select("[RlogNo] ='" + parentId.ToString() + "'"))
+            foreach (DataRow dr in treeTB.Select("[RlogNo] ='" + parentId + "'"))
             {
                 var t = new TreeNode
                 {
@@ -227,35 +369,6 @@ namespace SearchDataSPM
             // treeView1.SelectedNode = treeView1.Nodes[0];
         }
 
-        private void RemoveChildNodes(TreeNode parentNode)
-        {
-            if (parentNode.Nodes.Count > 0)
-            {
-                for (int i = parentNode.Nodes.Count - 1; i >= 0; i--)
-                    parentNode.Nodes[i].Remove();
-            }
-        }
-
-        private void TreeView1_BeforeCollapse(object sender, TreeViewCancelEventArgs e)
-        {
-            // e.Node.SelectedImageIndex = 0;
-            // e.Node.ImageIndex = 0;
-            if (e.Node.ImageIndex == 1)
-            {
-                e.Node.SelectedImageIndex = 0;
-                e.Node.ImageIndex = 0;
-            }
-        }
-
-        private void TreeView1_BeforeExpand(object sender, TreeViewCancelEventArgs e)
-        {
-            if (e.Node.ImageIndex == 0)
-            {
-                e.Node.SelectedImageIndex = 1;
-                e.Node.ImageIndex = 1;
-            }
-        }
-
         private void PrintRecursive(TreeNode treeNode)
         {
             // Print the node.
@@ -263,7 +376,7 @@ namespace SearchDataSPM
             {
             }
 
-            if (treeNode.Index == 0 && rootnodedone == false)
+            if (treeNode.Index == 0 && !rootnodedone)
             {
                 rootnodedone = true;
             }
@@ -283,6 +396,131 @@ namespace SearchDataSPM
             // Print each node recursively.
             foreach (TreeNode tn in treeNode.Nodes)
                 PrintRecursive(tn);
+        }
+
+        private void ProcessSaveButton()
+        {
+            Treeview.SelectedNode = Treeview.Nodes[0];
+            if (Treeview.SelectedNode != null && Treeview.SelectedNode.Parent == null)
+            {
+                Treeview.PathSeparator = ".";
+
+                // Get the count of the child tree nodes contained in the SelectedNode.
+                var myNodeCount = Treeview.SelectedNode.GetNodeCount(true);
+                // MessageBox.Show(myNodeCount.ToString());
+                _ = ((decimal)myNodeCount /
+                  (decimal)Treeview.GetNodeCount(true)) * 100;
+
+                if (myNodeCount > 0)
+                {
+                    connectapi.Deleteassy(releaseLogNumber);
+                    if (Itemstodiscard.Count > 0)
+                    {
+                        Performdiscarditem();
+                    }
+                    CheckItems();
+                    if (itemcleartosave)
+                        AddItems();
+                }
+                else
+                {
+                    connectapi.Deleteassy(releaseLogNumber);
+                    if (Itemstodiscard.Count > 0)
+                    {
+                        Performdiscarditem();
+                    }
+
+                    Lockdownsave();
+                    // MessageBox.Show("Assembly list cannot be empty in order to save to AutoCad Catalog.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                }
+            }
+            Itemstodiscard.Clear();
+        }
+
+        private void Qtytxtbox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private void Qtytxtbox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"[0-9+\b]"))
+            {
+                // Stop the character from being entered into the control since it is illegal.
+            }
+            else
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void RemoveChildNodes(TreeNode parentNode)
+        {
+            if (parentNode.Nodes.Count > 0)
+            {
+                for (int i = parentNode.Nodes.Count - 1; i >= 0; i--)
+                    parentNode.Nodes[i].Remove();
+            }
+        }
+
+        private void RemoveItemToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Treeview.SelectedNode != null)
+            {
+                if (Treeview.SelectedNode.Parent == null)
+                {
+                    // treeView1.Nodes.Remove(treeView1.SelectedNode);
+                }
+                else
+                {
+                    var result = MessageBox.Show("Remove item from the dependency list?", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (result == DialogResult.Yes)
+                    {
+                        var s = Treeview.SelectedNode.Tag.ToString();
+                        string[] values = s.Replace("][", "~").Split('~');
+                        for (int i = 0; i < values.Length; i++)
+                            values[i] = values[i].Trim();
+                        Itemstodiscard.Add(s);
+                        Treeview.SelectedNode.Parent.Nodes.Remove(Treeview.SelectedNode);
+                        savbttn.Visible = true;
+                    }
+                    else if (result == DialogResult.No)
+                    {
+                        // code for No
+                    }
+                }
+            }
+        }
+
+        private void Savbttn_Click(object sender, EventArgs e) => ProcessSaveButton();
+
+        private void SaveEachnode(TreeNode treeNode)
+        {
+            if (treeNode.Parent == null)
+            {
+                // string parentnode = treeNode.Tag.ToString();
+                // //MessageBox.Show(parentnode);
+                // Splittagtovariables(parentnode);
+            }
+            else
+            {
+                var childnode = treeNode.Tag.ToString();
+                Splittagtovariables(childnode);
+            }
+        }
+
+        private void SaveRecursive(TreeNode treeNode)
+        {
+            SaveEachnode(treeNode);
+            foreach (TreeNode tn in treeNode.Nodes)
+            {
+                // MessageBox.Show(treeNode.Text);
+                SaveRecursive(tn);
+            }
         }
 
         private void Setimageaccordingtofamily(string family, TreeNode treeNode)
@@ -327,26 +565,65 @@ namespace SearchDataSPM
             {
                 treeNode.ImageIndex = 10;
             }
-            else if (family == "DR")
-            {
-                treeNode.ImageIndex = 11;
-            }
             else
             {
-                treeNode.ImageIndex = 2;
+                treeNode.ImageIndex = family == "DR" ? 11 : 2;
             }
         }
 
-        private void CallRecursive()
+        private void Splittagtovariables(string s)
         {
-            // Print each node recursively.
-            var nodes = Treeview.Nodes;
-            foreach (TreeNode n in nodes)
+            string[] values = s.Replace("][", "~").Split('~');
+
+            // string[] values = s.Split(',');
+            for (int i = 0; i < values.Length; i++)
+                values[i] = values[i].Trim();
+
+            for (int i = 0; i < values.Length; i++)
             {
-                if (n.Nodes.Count > 0)
-                {
-                    PrintRecursive(n);
-                }
+                values[i] = values[i].Replace("'", "''");
+            }
+
+            connectapi.AddItemToReleaseLog(wotxt.Text, assynotxt.Text, releaseLogNumber, values[0], values[5], values[6], jobnotxt.Text, releasetypetxt.Text, values[7], values[8]);
+            connectapi.UpdateBallonRefToEst(values[0], releasetypetxt.Text, jobnotxt.Text, assynotxt.Text);
+            connectapi.UpdateBallonRefToWorkOrder(values[0], releasetypetxt.Text, jobnotxt.Text, assynotxt.Text, wotxt.Text, values[8]);
+        }
+
+        private void Startprocessfortreeview()
+        {
+            try
+            {
+                Treeview.Nodes.Clear();
+                RemoveChildNodes(root);
+                Treeview.ResetText();
+                treeTB.Clear();
+                treeTB = connectapi.GrabReleaseLogItemDetails(wotxt.Text.Trim(), releaseLogNumber.Trim());
+                Fillrootnode();
+                CallRecursive();
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.Message, ex);
+            }
+        }
+
+        private void TreeView1_BeforeCollapse(object sender, TreeViewCancelEventArgs e)
+        {
+            // e.Node.SelectedImageIndex = 0;
+            // e.Node.ImageIndex = 0;
+            if (e.Node.ImageIndex == 1)
+            {
+                e.Node.SelectedImageIndex = 0;
+                e.Node.ImageIndex = 0;
+            }
+        }
+
+        private void TreeView1_BeforeExpand(object sender, TreeViewCancelEventArgs e)
+        {
+            if (e.Node.ImageIndex == 0)
+            {
+                e.Node.SelectedImageIndex = 1;
+                e.Node.ImageIndex = 1;
             }
         }
 
@@ -421,150 +698,6 @@ namespace SearchDataSPM
             }
         }
 
-        private void TreeView1_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == Convert.ToChar(Keys.Down))
-            {
-                var node = new TreeNode();
-                node = Treeview.SelectedNode;
-                Treeview.SelectedNode = node.NextVisibleNode;
-                node.TreeView.Focus();
-            }
-            else if (e.KeyChar == Convert.ToChar(Keys.Up))
-            {
-                var node = new TreeNode();
-                node = Treeview.SelectedNode;
-                Treeview.SelectedNode = node.NextVisibleNode;
-                node.TreeView.Focus();
-            }
-        }
-
-        private void TreeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
-        {
-            Treeview.SelectedNode = e.Node;
-        }
-
-        private void Qtytxtbox_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"[0-9+\b]"))
-            {
-                // Stop the character from being entered into the control since it is illegal.
-            }
-            else
-            {
-                e.Handled = true;
-            }
-        }
-
-        private void Addbutton_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                errorProvider1.Clear();
-                if (qtytxtbox.Text.Length > 0 && qtytxtbox.Text != "0" && itemnotxt.Text.Length > 0)
-                {
-                    if (itemnotxt.Text == assynotxt.Text)
-                    {
-                        MessageBox.Show("Cannot add parent item as child", "SPM Conect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        itemnotxt.Clear();
-                        return;
-                    }
-                    var iteminfo = new DataTable();
-                    iteminfo.Clear();
-                    iteminfo = connectapi.GetIteminfo(itemnotxt.Text);
-                    var r = iteminfo.Rows[0];
-                    if (iteminfo.Rows.Count > 0)
-                    {
-                        var _itemno = itemnotxt.Text;
-                        var _description = r["Description"].ToString();
-                        var _family = r["FamilyCode"].ToString();
-                        var _oem = r["Manufacturer"].ToString();
-                        var _manufacturer = r["ManufacturerItemNumber"].ToString();
-                        var qty = qtytxtbox.Text;
-                        var notes = itemnotestxt.Text;
-
-                        _SearchNodes(_itemno, Treeview.Nodes[0]);
-
-                        if (itemexists != "yes")
-                        {
-                            bool isrevised = IsRevised();
-                            var child = new TreeNode
-                            {
-                                Text = _itemno.ToString() + " - " + _description.ToString() + " (" + qty.ToString() + ")",
-                                Tag = _itemno + "][" + _description + "][" + _family + "][" + _manufacturer + "][" + _oem + "][" + qty + "][" + notes + "][" + (isrevised ? "1" : "0") + "][" + "5445"
-                            };
-
-                            Treeview.SelectedNode = Treeview.Nodes[0];
-                            if (isrevised)
-                            {
-                                child.BackColor = Color.LightYellow;
-                            }
-                            else
-                            {
-                                child.BackColor = Color.LightGreen;
-                            }
-                            root.Nodes.Add(child);
-                            CallRecursive();
-                            if (!(root.IsExpanded))
-                            {
-                                Treeview.ExpandAll();
-                            }
-
-                            savbttn.Visible = true;
-                            itemnotxt.Clear();
-                        }
-                        else
-                        {
-                            savbttn.Visible = false;
-                            itemexists = null;
-                            itemnotxt.Clear();
-                        }
-                    }
-                }
-                else
-                {
-                    if (itemnotxt.Text.Length > 0)
-                        errorProvider1.SetError(qtytxtbox, "Qty cannot be null");
-                    else
-                        errorProvider1.SetError(itemnotxt, "ItemNo cannot be null");
-                }
-            }
-            catch
-            {
-                return;
-            }
-        }
-
-        #region search before addding item
-
-        private List<TreeNode> CurrentNodeMatches = new List<TreeNode>();
-
-        private string itemexists;
-
-        private void _SearchNodes(string SearchText, TreeNode StartNode)
-        {
-            // TreeNode node = null;
-            while (StartNode != null)
-            {
-                if (StartNode.Text.ToLower().Contains(SearchText.ToLower()))
-                {
-                    MessageBox.Show("Item already added to the assembly list", "SPM Conect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    itemexists = "yes";
-                    Treeview.SelectedNode = StartNode;
-                    CurrentNodeMatches.Add(StartNode);
-                }
-
-                if (StartNode.Nodes.Count != 0)
-                {
-                    _SearchNodes(SearchText, StartNode.Nodes[0]);//Recursive Search
-                }
-
-                StartNode = StartNode.NextNode;
-            }
-        }
-
-        #endregion search before addding item
-
         private void TreeView1_DragDrop(object sender, DragEventArgs e)
         {
             var rowToMove = e.Data.GetData(typeof(DataGridViewRow)) as DataGridViewRow;
@@ -588,20 +721,13 @@ namespace SearchDataSPM
                 var child = new TreeNode
                 {
                     Text = itemnumber + " - " + description + " (1)",
-                    Tag = itemnumber + "][" + description + "][" + family + "][" + oem + "][" + oemitem + "][" + "1" + "][" + " " + "][" + (isrevised ? "1" : "0") + "][" + "0"
+                    Tag = itemnumber + "][" + description + "][" + family + "][" + oem + "][" + oemitem + "][1][ ][" + (isrevised ? "1" : "0") + "][0"
                 };
-                if (isrevised)
-                {
-                    child.BackColor = Color.LightYellow;
-                }
-                else
-                {
-                    child.BackColor = Color.LightGreen;
-                }
+                child.BackColor = isrevised ? Color.LightYellow : Color.LightGreen;
                 root.Nodes.Add(child);
 
                 CallRecursive();
-                if (!(root.IsExpanded))
+                if (!root.IsExpanded)
                 {
                     Treeview.ExpandAll();
                 }
@@ -614,235 +740,34 @@ namespace SearchDataSPM
             }
         }
 
-        private bool IsRevised()
-        {
-            bool revised = false;
-
-            DialogResult dialogResult = MessageBox.Show("Are you revising this part?", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (dialogResult == DialogResult.Yes)
-            {
-                //do something
-                revised = true;
-            }
-            else if (dialogResult == DialogResult.No)
-            {
-                //do something else
-                revised = false;
-            }
-
-            return revised;
-        }
-
         private void TreeView1_DragEnter(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.All;
         }
 
-        private void Savbttn_Click(object sender, EventArgs e) => ProcessSaveButton();
-
-        private void ProcessSaveButton()
+        private void TreeView1_KeyPress(object sender, KeyPressEventArgs e)
         {
-            Treeview.SelectedNode = Treeview.Nodes[0];
-            if (Treeview.SelectedNode != null && Treeview.SelectedNode.Parent == null)
+            if (e.KeyChar == Convert.ToChar(Keys.Down))
             {
-                Treeview.PathSeparator = ".";
-
-                // Get the count of the child tree nodes contained in the SelectedNode.
-                var myNodeCount = Treeview.SelectedNode.GetNodeCount(true);
-                // MessageBox.Show(myNodeCount.ToString());
-                var myChildPercentage = ((decimal)myNodeCount /
-                  (decimal)Treeview.GetNodeCount(true)) * 100;
-
-                if (myNodeCount > 0)
-                {
-                    connectapi.Deleteassy(releaseLogNumber);
-                    if (Itemstodiscard.Count > 0)
-                    {
-                        Performdiscarditem();
-                    }
-                    CheckItems();
-                    if (itemcleartosave)
-                        AddItems();
-                }
-                else
-                {
-                    connectapi.Deleteassy(releaseLogNumber);
-                    if (Itemstodiscard.Count > 0)
-                    {
-                        Performdiscarditem();
-                    }
-
-                    Lockdownsave();
-                    // MessageBox.Show("Assembly list cannot be empty in order to save to AutoCad Catalog.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                }
+                _ = new TreeNode();
+                TreeNode node = Treeview.SelectedNode;
+                Treeview.SelectedNode = node.NextVisibleNode;
+                node.TreeView.Focus();
             }
-            Itemstodiscard.Clear();
-        }
-
-        private void Performdiscarditem()
-        {
-            foreach (string item in Itemstodiscard)
+            else if (e.KeyChar == Convert.ToChar(Keys.Up))
             {
-                getItemNoFromTag(item);
+                _ = new TreeNode();
+                TreeNode node = Treeview.SelectedNode;
+                Treeview.SelectedNode = node.NextVisibleNode;
+                node.TreeView.Focus();
             }
-        }
-
-        private void getItemNoFromTag(string s)
-        {
-            string[] values = s.Replace("][", "~").Split('~');
-            //string[] values = s.Split('][');
-            for (int i = 0; i < values.Length; i++)
-            {
-                values[i] = values[i].Trim();
-            }
-            UpdateRemoveitemsBallon(values[0], values[8]);
-        }
-
-        private void UpdateRemoveitemsBallon(string itemno, string order)
-        {
-            connectapi.UpdateBallonRefToEst(itemno, "", jobnotxt.Text, assynotxt.Text);
-            connectapi.UpdateBallonRefToWorkOrder(itemno, "", jobnotxt.Text, assynotxt.Text, wotxt.Text, order);
-        }
-
-        private void AddItems()
-        {
-            // Print each node recursively.
-            var nodes = Treeview.Nodes;
-            foreach (TreeNode n in nodes)
-                SaveRecursive(n);
-
-            Lockdownsave();
-        }
-
-        private void Lockdownsave()
-        {
-            Treeview.SelectedNode = root;
-            savbttn.Visible = false;
-            string releasenotes = releasenotestxt.Text.Replace("'", "''");
-            connectapi.UpdateReleaseLogNotes(releaseLogNumber, releasenotes);
-            MessageBox.Show("Release log saved successfully.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            addbutton.Visible = true;
-        }
-
-        private void SaveEachnode(TreeNode treeNode)
-        {
-            if (treeNode.Parent == null)
-            {
-                // string parentnode = treeNode.Tag.ToString();
-                // //MessageBox.Show(parentnode);
-                // Splittagtovariables(parentnode);
-            }
-            else
-            {
-                var childnode = treeNode.Tag.ToString();
-                Splittagtovariables(childnode);
-            }
-        }
-
-        private void SaveRecursive(TreeNode treeNode)
-        {
-            SaveEachnode(treeNode);
-            foreach (TreeNode tn in treeNode.Nodes)
-                // MessageBox.Show(treeNode.Text);
-                SaveRecursive(tn);
-        }
-
-        private void Splittagtovariables(string s)
-        {
-            string[] values = s.Replace("][", "~").Split('~');
-
-            // string[] values = s.Split(',');
-            for (int i = 0; i < values.Length; i++)
-                values[i] = values[i].Trim();
-
-            for (int i = 0; i < values.Length; i++)
-            {
-                values[i] = values[i].Replace("'", "''");
-            }
-
-            connectapi.AddItemToReleaseLog(wotxt.Text, assynotxt.Text, releaseLogNumber, values[0], values[5], values[6], jobnotxt.Text, releasetypetxt.Text, values[7], values[8]);
-            connectapi.UpdateBallonRefToEst(values[0], releasetypetxt.Text, jobnotxt.Text, assynotxt.Text);
-            connectapi.UpdateBallonRefToWorkOrder(values[0], releasetypetxt.Text, jobnotxt.Text, assynotxt.Text, wotxt.Text, values[8]);
-        }
-
-        private void Qtytxtbox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Return)
-            {
-                e.Handled = true;
-                e.SuppressKeyPress = true;
-            }
-        }
-
-        private void Updatebttn_Click(object sender, EventArgs e)
-        {
-            if (Treeview.SelectedNode != null && !(root.IsSelected))
-            {
-                if (qtytxtbox.Text == "0")
-                {
-                    qtytxtbox.Text = "1";
-                }
-
-                var iteminfo = new DataTable();
-                iteminfo.Clear();
-                iteminfo = connectapi.GetIteminfo(itemnotxt.Text);
-                var r = iteminfo.Rows[0];
-                Treeview.SelectedNode.Text = itemnotxt.Text + " - " + r["Description"].ToString() + " (" + qtytxtbox.Text + ")";
-                Treeview.SelectedNode.Tag = itemnotxt.Text + "][" + r["Description"].ToString() + "][" + r["FamilyCode"].ToString() + "][" + r["Manufacturer"].ToString() + "][" + r["ManufacturerItemNumber"].ToString() + "][" + qtytxtbox.Text + "][" + itemnotestxt.Text + "][" + revised + "][" + "5445";
-                itemnotxt.Clear();
-                savbttn.Visible = true;
-                addbutton.Visible = true;
-                updatebttn.Visible = false;
-                cancelbutton.Visible = false;
-                Treeview.AllowDrop = true;
-                Addremovecontextmenu.Enabled = true;
-                revised = "";
-            }
-        }
-
-        private void RemoveItemToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (Treeview.SelectedNode != null)
-            {
-                if (Treeview.SelectedNode.Parent == null)
-                {
-                    // treeView1.Nodes.Remove(treeView1.SelectedNode);
-                }
-                else
-                {
-                    var result = MessageBox.Show("Remove item from the dependency list?", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    if (result == DialogResult.Yes)
-                    {
-                        var s = Treeview.SelectedNode.Tag.ToString();
-                        string[] values = s.Replace("][", "~").Split('~');
-                        for (int i = 0; i < values.Length; i++)
-                            values[i] = values[i].Trim();
-                        Itemstodiscard.Add(s);
-                        Treeview.SelectedNode.Parent.Nodes.Remove(Treeview.SelectedNode);
-                        savbttn.Visible = true;
-                    }
-                    else if (result == DialogResult.No)
-                    {
-                        // code for No
-                    }
-                }
-            }
-        }
-
-        private void Cancelbutton_Click(object sender, EventArgs e)
-        {
-            updatebttn.Visible = false;
-            addbutton.Visible = true;
-            savbttn.Visible = true;
-            cancelbutton.Visible = false;
-            itemnotxt.Clear();
-            Addremovecontextmenu.Enabled = true;
         }
 
         private void TreeView1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (itemupdatetools.Visible)
-                if (!(root.IsSelected))
+            {
+                if (!root.IsSelected)
                 {
                     Addremovecontextmenu.Enabled = false;
                     addbutton.Visible = false;
@@ -860,23 +785,74 @@ namespace SearchDataSPM
                     itemnotestxt.Text = values[6];
                     revised = values[7];
                 }
+            }
         }
 
-        private void ItemInfo_FormClosing(object sender, FormClosingEventArgs e)
+        private void TreeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            if (savbttn.Visible && itemupdatetools.Visible)
+            Treeview.SelectedNode = e.Node;
+        }
+
+        #region search before addding item
+
+        private readonly List<TreeNode> CurrentNodeMatches = new List<TreeNode>();
+
+        private string itemexists;
+
+        private void _SearchNodes(string SearchText, TreeNode StartNode)
+        {
+            // TreeNode node = null;
+            while (StartNode != null)
             {
-                errorProvider1.SetError(savbttn, "Save before closing");
-                var result = MetroFramework.MetroMessageBox.Show(this, "Do you want to save changes?", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                if (result == DialogResult.Yes)
+                if (StartNode.Text.IndexOf(SearchText, StringComparison.CurrentCultureIgnoreCase) >= 0)
                 {
-                    ProcessSaveButton();
+                    MessageBox.Show("Item already added to the assembly list", "SPM Conect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    itemexists = "yes";
+                    Treeview.SelectedNode = StartNode;
+                    CurrentNodeMatches.Add(StartNode);
                 }
-                else
+
+                if (StartNode.Nodes.Count != 0)
                 {
+                    _SearchNodes(SearchText, StartNode.Nodes[0]);//Recursive Search
                 }
+
+                StartNode = StartNode.NextNode;
             }
-            connectapi.CheckoutInvoice(releaseLogNumber, ConnectAPI.CheckInModules.WO);
+        }
+
+        #endregion search before addding item
+
+        private void Updatebttn_Click(object sender, EventArgs e)
+        {
+            if (Treeview.SelectedNode != null && !root.IsSelected)
+            {
+                if (qtytxtbox.Text == "0")
+                {
+                    qtytxtbox.Text = "1";
+                }
+
+                var iteminfo = new DataTable();
+                iteminfo.Clear();
+                iteminfo = connectapi.GetIteminfo(itemnotxt.Text);
+                var r = iteminfo.Rows[0];
+                Treeview.SelectedNode.Text = itemnotxt.Text + " - " + r["Description"].ToString() + " (" + qtytxtbox.Text + ")";
+                Treeview.SelectedNode.Tag = itemnotxt.Text + "][" + r["Description"].ToString() + "][" + r["FamilyCode"].ToString() + "][" + r["Manufacturer"].ToString() + "][" + r["ManufacturerItemNumber"].ToString() + "][" + qtytxtbox.Text + "][" + itemnotestxt.Text + "][" + revised + "][5445";
+                itemnotxt.Clear();
+                savbttn.Visible = true;
+                addbutton.Visible = true;
+                updatebttn.Visible = false;
+                cancelbutton.Visible = false;
+                Treeview.AllowDrop = true;
+                Addremovecontextmenu.Enabled = true;
+                revised = "";
+            }
+        }
+
+        private void UpdateRemoveitemsBallon(string itemno, string order)
+        {
+            connectapi.UpdateBallonRefToEst(itemno, "", jobnotxt.Text, assynotxt.Text);
+            connectapi.UpdateBallonRefToWorkOrder(itemno, "", jobnotxt.Text, assynotxt.Text, wotxt.Text, order);
         }
 
         #endregion Treeview
@@ -884,6 +860,15 @@ namespace SearchDataSPM
         private void Releasenotestxt_TextChanged(object sender, EventArgs e) => savbttn.Visible = true;
 
         #region CheckItemAddedOnGenius
+
+        private void CheckEachnode(TreeNode treeNode)
+        {
+            if (treeNode.Parent != null)
+            {
+                var childnode = treeNode.Tag.ToString();
+                CheckSplittagtovariables(childnode);
+            }
+        }
 
         private void CheckItems()
         {
@@ -897,19 +882,9 @@ namespace SearchDataSPM
         {
             CheckEachnode(treeNode);
             foreach (TreeNode tn in treeNode.Nodes)
+            {
                 // MessageBox.Show(treeNode.Text);
                 CheckRecursive(tn);
-        }
-
-        private void CheckEachnode(TreeNode treeNode)
-        {
-            if (treeNode.Parent == null)
-            {
-            }
-            else
-            {
-                var childnode = treeNode.Tag.ToString();
-                CheckSplittagtovariables(childnode);
             }
         }
 
@@ -921,7 +896,7 @@ namespace SearchDataSPM
             for (int i = 0; i < values.Length; i++)
                 values[i] = values[i].Trim();
 
-            if (!(connectapi.CheckItemExistsOnEst(values[0], jobnotxt.Text, assynotxt.Text)))
+            if (!connectapi.CheckItemExistsOnEst(values[0], jobnotxt.Text, assynotxt.Text))
             {
                 MetroFramework.MetroMessageBox.Show(this,
                "Item = " + values[0] + Environment.NewLine +
@@ -933,7 +908,7 @@ namespace SearchDataSPM
                                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 itemcleartosave = false;
             }
-            if (!(connectapi.CheckItemExistsOnWorkOrder(values[0], jobnotxt.Text, assynotxt.Text, wotxt.Text)))
+            if (!connectapi.CheckItemExistsOnWorkOrder(values[0], jobnotxt.Text, assynotxt.Text, wotxt.Text))
             {
                 MetroFramework.MetroMessageBox.Show(this,
                "Item = " + values[0] + Environment.NewLine +

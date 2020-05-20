@@ -1,12 +1,10 @@
 ﻿using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
-using System.Net.Mail;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -14,11 +12,10 @@ namespace SPMConnectAPI
 {
     public class SPMSQLCommands : ConnectAPI
     {
-        private log4net.ILog log;
+        private readonly log4net.ILog log;
 
         public SPMSQLCommands()
         {
-
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Accessed SPMSQLCommands Class " + Getassyversionnumber());
@@ -36,7 +33,7 @@ namespace SPMConnectAPI
                         cn.Open();
                     try
                     {
-                        string query = "DELETE FROM [SPM_Database].[dbo].[Inventory] WHERE ItemNumber ='" + _itemno.ToString() + "'";
+                        string query = "DELETE FROM [SPM_Database].[dbo].[Inventory] WHERE ItemNumber ='" + _itemno + "'";
                         SqlCommand sda = new SqlCommand(query, cn);
                         sda.ExecuteNonQuery();
                         cn.Close();
@@ -56,22 +53,21 @@ namespace SPMConnectAPI
 
         public bool ReadWhatsNew()
         {
-            bool read = false;
-            string readnew = "";
+            const bool read = false;
             try
             {
                 if (cn.State == ConnectionState.Closed)
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + GetUserName().ToString() + "' ";
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + GetUserName() + "' ";
                 cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
                 foreach (DataRow dr in dt.Rows)
                 {
-                    readnew = dr["ReadWhatsNew"].ToString();
+                    string readnew = dr["ReadWhatsNew"].ToString();
                 }
                 dt.Clear();
             }
@@ -119,7 +115,7 @@ namespace SPMConnectAPI
                 cn.Open();
             try
             {
-                string query = "DELETE FROM [SPM_Database].[dbo].[Checkin] WHERE [User Name] ='" + GetUserName().ToString() + "'";
+                string query = "DELETE FROM [SPM_Database].[dbo].[Checkin] WHERE [User Name] ='" + GetUserName() + "'";
                 SqlCommand sda = new SqlCommand(query, cn);
                 sda.ExecuteNonQuery();
                 cn.Close();
@@ -138,7 +134,33 @@ namespace SPMConnectAPI
         {
             DataTable dt = new DataTable();
 
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[UnionInventory] ORDER BY ItemNumber DESC", cn))
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[Inventory] ORDER BY ItemNumber DESC", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Show all items Inventory", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return dt;
+        }
+
+        public DataTable ShowFilterallitems(string filter, bool wherecond)
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlDataAdapter sda = new SqlDataAdapter(wherecond ? "SELECT * FROM [SPM_Database].[dbo].[Inventory] WHERE " + filter + " ORDER BY ItemNumber DESC" : "SELECT * FROM [SPM_Database].[dbo].[Inventory] WHERE Description LIKE '%" + filter + "%' OR Manufacturer LIKE '%" + filter + "%' OR ManufacturerItemNumber LIKE '%" + filter + "%' OR ItemNumber LIKE '%" + filter + "%' ORDER BY ItemNumber DESC", cn))
             {
                 try
                 {
@@ -241,12 +263,11 @@ namespace SPMConnectAPI
         public string Getfilename()
         {
             ModelDoc2 swModel;
-            var progId = "SldWorks.Application";
-            SldWorks swApp = System.Runtime.InteropServices.Marshal.GetActiveObject(progId.ToString()) as SolidWorks.Interop.sldworks.SldWorks;
+            const string progId = "SldWorks.Application";
+            SldWorks swApp = System.Runtime.InteropServices.Marshal.GetActiveObject(progId) as SolidWorks.Interop.sldworks.SldWorks;
             string filename = "";
 
-            int count;
-            count = swApp.GetDocumentCount();
+            int count = swApp.GetDocumentCount();
 
             if (count > 0)
             {
@@ -263,8 +284,8 @@ namespace SPMConnectAPI
         public string Get_pathname()
         {
             ModelDoc2 swModel;
-            var progId = "SldWorks.Application";
-            SldWorks swApp = System.Runtime.InteropServices.Marshal.GetActiveObject(progId.ToString()) as SolidWorks.Interop.sldworks.SldWorks;
+            const string progId = "SldWorks.Application";
+            SldWorks swApp = System.Runtime.InteropServices.Marshal.GetActiveObject(progId) as SolidWorks.Interop.sldworks.SldWorks;
 
             int count;
             string pathName = "";
@@ -288,7 +309,7 @@ namespace SPMConnectAPI
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT Category FROM [SPM_Database].[dbo].[FamilyCodes] WHERE [FamilyCodes]='" + familycode.ToString() + "' ";
+                cmd.CommandText = "SELECT Category FROM [SPM_Database].[dbo].[FamilyCodes] WHERE [FamilyCodes]='" + familycode + "' ";
                 cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -317,7 +338,7 @@ namespace SPMConnectAPI
             if (itemnumber.Length > 0)
             {
                 string first3char = itemnumber.Substring(0, 3) + @"\";
-                string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
+                const string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
                 Pathpart = (spmcadpath + first3char);
             }
             return Pathpart;
@@ -326,8 +347,8 @@ namespace SPMConnectAPI
         public bool Checkforreadonly()
         {
             bool notreadonly = true;
-            var progId = "SldWorks.Application";
-            SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
+            const string progId = "SldWorks.Application";
+            SldWorks swApp = Marshal.GetActiveObject(progId) as SldWorks;
             swApp.Visible = true;
             ModelDoc2 swModel = swApp.ActiveDoc as ModelDoc2;
             if (swModel.IsOpenedReadOnly())
@@ -348,7 +369,7 @@ namespace SPMConnectAPI
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT Alias FROM [SPM_Database].[dbo].[Customers] WHERE [CustomerID]='" + customerid.ToString() + "' ";
+                cmd.CommandText = "SELECT Alias FROM [SPM_Database].[dbo].[Customers] WHERE [CustomerID]='" + customerid + "' ";
                 cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -390,7 +411,7 @@ namespace SPMConnectAPI
                 foreach (DataRow dr in dt.Rows)
                 {
                     useractiveblock = dr["ActiveBlockNumber"].ToString();
-                    if (useractiveblock == "")
+                    if (string.IsNullOrEmpty(useractiveblock))
                     {
                         MessageBox.Show("User has not been assigned a block number. Please contact the admin.", "SPM Connect - Get Active Block Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
@@ -412,9 +433,9 @@ namespace SPMConnectAPI
 
         public string Getlastnumber()
         {
-            string blocknumber = Getactiveblock().ToString();
+            string blocknumber = Getactiveblock();
 
-            if (blocknumber == "")
+            if (string.IsNullOrEmpty(blocknumber))
             {
                 return "";
             }
@@ -427,7 +448,7 @@ namespace SPMConnectAPI
                         cn.Open();
                     SqlCommand cmd = cn.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = "SELECT MAX(RIGHT(ItemNumber,5)) AS " + blocknumber.ToString() + " FROM [SPM_Database].[dbo].[UnionInventory] WHERE ItemNumber like '" + blocknumber.ToString() + "%' AND LEN(ItemNumber)=6";
+                    cmd.CommandText = "SELECT MAX(RIGHT(ItemNumber,5)) AS " + blocknumber + " FROM [SPM_Database].[dbo].[Inventory] WHERE ItemNumber like '" + blocknumber + "%' AND LEN(ItemNumber)=6";
                     cmd.ExecuteNonQuery();
                     DataTable dt = new DataTable();
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -435,7 +456,7 @@ namespace SPMConnectAPI
                     foreach (DataRow dr in dt.Rows)
                     {
                         lastnumber = dr[blocknumber].ToString();
-                        if (lastnumber == "")
+                        if (string.IsNullOrEmpty(lastnumber))
                         {
                             lastnumber = blocknumber.Substring(1) + "000";
                         }
@@ -455,30 +476,29 @@ namespace SPMConnectAPI
 
         public bool CheckBaseBlockNumberTaken()
         {
-            string blocknumber = Getactiveblock().ToString();
+            string blocknumber = Getactiveblock();
             bool taken = false;
-            if (blocknumber == "")
+            if (string.IsNullOrEmpty(blocknumber))
             {
                 return taken;
             }
             else
             {
-                string lastnumber = "";
                 try
                 {
                     if (cn.State == ConnectionState.Closed)
                         cn.Open();
                     SqlCommand cmd = cn.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = "SELECT MAX(RIGHT(ItemNumber,5)) AS " + blocknumber.ToString() + " FROM [SPM_Database].[dbo].[UnionInventory] WHERE ItemNumber like '" + blocknumber.ToString() + "%' AND LEN(ItemNumber)=6";
+                    cmd.CommandText = "SELECT MAX(RIGHT(ItemNumber,5)) AS " + blocknumber + " FROM [SPM_Database].[dbo].[Inventory] WHERE ItemNumber like '" + blocknumber + "%' AND LEN(ItemNumber)=6";
                     cmd.ExecuteNonQuery();
                     DataTable dt = new DataTable();
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
                     da.Fill(dt);
                     foreach (DataRow dr in dt.Rows)
                     {
-                        lastnumber = dr[blocknumber].ToString();
-                        if (lastnumber == "")
+                        string lastnumber = dr[blocknumber].ToString();
+                        if (string.IsNullOrEmpty(lastnumber))
                         {
                             taken = false;
                         }
@@ -505,23 +525,21 @@ namespace SPMConnectAPI
             if (!CheckBaseBlockNumberTaken() && lastnumber.Substring(2) == "000")
             {
                 string lastnumbergrp1 = blocknumber.Substring(0, 1).ToUpper();
-                string newid1 = lastnumbergrp1 + lastnumber.ToString();
-                return newid1;
+                return lastnumbergrp1 + lastnumber;
             }
             else
             {
                 string lastnumbergrp = blocknumber.Substring(0, 1).ToUpper();
                 int lastnumbers = Convert.ToInt32(lastnumber);
-                lastnumbers += 1;
-                string newid = lastnumbergrp + lastnumbers.ToString();
-                return newid;
+                lastnumbers++;
+                return lastnumbergrp + lastnumbers.ToString();
             }
         }
 
         public bool Validnumber(string lastnumber)
         {
             bool valid = true;
-            if (lastnumber.ToString() != "")
+            if (lastnumber != "")
             {
                 if (lastnumber.Substring(2) == "999")
                 {
@@ -539,7 +557,7 @@ namespace SPMConnectAPI
         public bool Checkitempresentoninventory(string itemid)
         {
             bool itempresent = false;
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Inventory] WHERE [ItemNumber]='" + itemid.ToString() + "'", cn))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Inventory] WHERE [ItemNumber]='" + itemid + "'", cn))
             {
                 try
                 {
@@ -681,7 +699,7 @@ namespace SPMConnectAPI
         public AutoCompleteStringCollection Filldesignedby()
         {
             AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT DesignedBy from [dbo].[UnionInventory] where DesignedBy is not null order by DesignedBy", cn))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT DesignedBy from [dbo].[Inventory] where DesignedBy is not null order by DesignedBy", cn))
             {
                 try
                 {
@@ -708,7 +726,7 @@ namespace SPMConnectAPI
         public AutoCompleteStringCollection Filllastsavedby()
         {
             AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT LastSavedBy from [dbo].[UnionInventory] where LastSavedBy is not null order by LastSavedBy", cn))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT LastSavedBy from [dbo].[Inventory] where LastSavedBy is not null order by LastSavedBy", cn))
             {
                 try
                 {
@@ -927,15 +945,14 @@ namespace SPMConnectAPI
 
         public void Checkforspmfile(string Item_No)
         {
-            string ItemNumbero;
-            ItemNumbero = Item_No + "-0";
+            string ItemNumbero = Item_No + "-0";
 
             if (!String.IsNullOrWhiteSpace(Item_No) && Item_No.Length == 6)
             {
                 string first3char = Item_No.Substring(0, 3) + @"\";
                 //MessageBox.Show(first3char);
 
-                string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
+                const string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
 
                 string Pathpart = (spmcadpath + first3char + Item_No + ".sldprt");
                 string Pathassy = (spmcadpath + first3char + Item_No + ".sldasm");
@@ -976,7 +993,7 @@ namespace SPMConnectAPI
                 {
                     //Process.Start("explorer.exe", Pathassy);
                     //fName = Pathassy;
-                    if (Solidworks_running() == true)
+                    if (Solidworks_running())
                     {
                         Open_assy(Pathassy);
                     }
@@ -985,7 +1002,7 @@ namespace SPMConnectAPI
                 {
                     //Process.Start("explorer.exe", PathAssyNo);
                     // fName = PathAssyNo;
-                    if (Solidworks_running() == true)
+                    if (Solidworks_running())
                     {
                         Open_assy(PathAssyNo);
                     }
@@ -994,7 +1011,7 @@ namespace SPMConnectAPI
                 {
                     //Process.Start("explorer.exe", Pathpart);
                     //fName = Pathpart;
-                    if (Solidworks_running() == true)
+                    if (Solidworks_running())
                     {
                         Open_model(Pathpart);
                     }
@@ -1003,7 +1020,7 @@ namespace SPMConnectAPI
                 {
                     //Process.Start("explorer.exe", PathPartNo);
                     //fName = PathPartNo;
-                    if (Solidworks_running() == true)
+                    if (Solidworks_running())
                     {
                         Open_model(PathPartNo);
                     }
@@ -1026,7 +1043,7 @@ namespace SPMConnectAPI
                 string first3char = Item_No.Substring(0, 3) + @"\";
                 //MessageBox.Show(first3char);
 
-                string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
+                const string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
 
                 string Drawpath = (spmcadpath + first3char + Item_No + ".SLDDRW");
 
@@ -1040,7 +1057,7 @@ namespace SPMConnectAPI
                 else if (File.Exists(Drawpath))
                 {
                     //Process.Start("explorer.exe", Drawpath);
-                    if (Solidworks_running() == true)
+                    if (Solidworks_running())
                     {
                         Open_drw(Drawpath);
                     }
@@ -1048,7 +1065,7 @@ namespace SPMConnectAPI
                 else if (File.Exists(drawpathno))
                 {
                     //Process.Start("explorer.exe", drawpathno);
-                    if (Solidworks_running() == true)
+                    if (Solidworks_running())
                     {
                         Open_drw(drawpathno);
                     }
@@ -1065,8 +1082,7 @@ namespace SPMConnectAPI
 
         public void Checkforspmfileprod(string ItemNo)
         {
-            string ItemNumbero;
-            ItemNumbero = ItemNo + "-0";
+            string ItemNumbero = ItemNo + "-0";
 
             if (!String.IsNullOrWhiteSpace(ItemNo) && ItemNo.Length == 6)
 
@@ -1074,7 +1090,7 @@ namespace SPMConnectAPI
                 string first3char = ItemNo.Substring(0, 3) + @"\";
                 //MessageBox.Show(first3char);
 
-                string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
+                const string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
 
                 string Pathpart = (spmcadpath + first3char + ItemNo + ".sldprt");
                 string Pathassy = (spmcadpath + first3char + ItemNo + ".sldasm");
@@ -1147,7 +1163,7 @@ namespace SPMConnectAPI
                 string first3char = str.Substring(0, 3) + @"\";
                 //MessageBox.Show(first3char);
 
-                string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
+                const string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
 
                 string Drawpath = (spmcadpath + first3char + str + ".SLDDRW");
 
@@ -1183,7 +1199,7 @@ namespace SPMConnectAPI
                 //mysolidworks.ActiveModelDocChangeNotify += this.mysolidworks_activedocchange;
                 return true;
             }
-            else if ((Process.GetProcessesByName("SLDWORKS").Length == 0))
+            else if (Process.GetProcessesByName("SLDWORKS").Length == 0)
             {
                 MessageBox.Show("Soliworks application needs to be running in order for SPM Connect to perform. Thank you.", "SPM Connect - Solidworks Running", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
@@ -1197,14 +1213,14 @@ namespace SPMConnectAPI
 
         public void Open_model(string filename)
         {
-            var progId = "SldWorks.Application";
-            SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
+            const string progId = "SldWorks.Application";
+            SldWorks swApp = Marshal.GetActiveObject(progId) as SldWorks;
             swApp.Visible = true;
             int err = 0;
             int warn = 0;
-            ModelDoc2 swModel = (ModelDoc2)swApp.OpenDoc6(filename, (int)swDocumentTypes_e.swDocPART, (int)swOpenDocOptions_e.swOpenDocOptions_Silent, "", ref err, ref warn);
+            _ = (ModelDoc2)swApp.OpenDoc6(filename, (int)swDocumentTypes_e.swDocPART, (int)swOpenDocOptions_e.swOpenDocOptions_Silent, "", ref err, ref warn);
             swApp.ActivateDoc(filename);
-            swModel = swApp.ActiveDoc as ModelDoc2;
+            _ = swApp.ActiveDoc as ModelDoc2;
             //swPart = (PartDoc)swModel;
             //swPart = swApp.ActiveDoc;
             //AttachEventHandlersPart();
@@ -1212,28 +1228,28 @@ namespace SPMConnectAPI
 
         public void Open_assy(string filename)
         {
-            var progId = "SldWorks.Application";
-            SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
+            const string progId = "SldWorks.Application";
+            SldWorks swApp = Marshal.GetActiveObject(progId) as SldWorks;
             swApp.Visible = true;
             int err = 0;
             int warn = 0;
-            ModelDoc2 swModel = (ModelDoc2)swApp.OpenDoc6(filename, (int)swDocumentTypes_e.swDocASSEMBLY, (int)swOpenDocOptions_e.swOpenDocOptions_Silent, "", ref err, ref warn);
+            _ = (ModelDoc2)swApp.OpenDoc6(filename, (int)swDocumentTypes_e.swDocASSEMBLY, (int)swOpenDocOptions_e.swOpenDocOptions_Silent, "", ref err, ref warn);
             swApp.ActivateDoc(filename);
-            swModel = swApp.ActiveDoc as ModelDoc2;
+            _ = swApp.ActiveDoc as ModelDoc2;
             //swAssembly = (AssemblyDoc)swModel;
             //AttachEventHandlers();
         }
 
         public void Open_drw(string filename)
         {
-            var progId = "SldWorks.Application";
-            SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
+            const string progId = "SldWorks.Application";
+            SldWorks swApp = Marshal.GetActiveObject(progId) as SldWorks;
             swApp.Visible = true;
             int err = 0;
             int warn = 0;
-            ModelDoc2 swModel = (ModelDoc2)swApp.OpenDoc6(filename, (int)swDocumentTypes_e.swDocDRAWING, (int)swOpenDocOptions_e.swOpenDocOptions_Silent, "", ref err, ref warn);
+            _ = (ModelDoc2)swApp.OpenDoc6(filename, (int)swDocumentTypes_e.swDocDRAWING, (int)swOpenDocOptions_e.swOpenDocOptions_Silent, "", ref err, ref warn);
             swApp.ActivateDoc(filename);
-            swModel = swApp.ActiveDoc as ModelDoc2;
+            _ = swApp.ActiveDoc as ModelDoc2;
         }
 
         #endregion OpenModel & Drawing
@@ -1242,23 +1258,21 @@ namespace SPMConnectAPI
 
         public void Createmodel(string filename)
         {
-            if (Solidworks_running() == true)
+            if (Solidworks_running())
             {
-                var progId = "SldWorks.Application";
-                SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
+                const string progId = "SldWorks.Application";
+                SldWorks swApp = Marshal.GetActiveObject(progId) as SldWorks;
                 swApp.Visible = true;
                 string PartPath = swApp.GetUserPreferenceStringValue((int)swUserPreferenceStringValue_e.swDefaultTemplatePart);
-                ModelDoc2 swModel = swApp.NewDocument(PartPath, 0, 0, 0) as ModelDoc2;
+                _ = swApp.NewDocument(PartPath, 0, 0, 0) as ModelDoc2;
                 swApp.Visible = true;
-                swModel = swApp.ActiveDoc as ModelDoc2;
-                ModelDocExtension swExt;
-                swExt = swModel.Extension;
-                bool boolstatus = false;
-                boolstatus = swExt.SaveAs(filename, 0, (int)swSaveAsOptions_e.swSaveAsOptions_Silent, 0, 0, 0);
+                ModelDoc2 swModel = swApp.ActiveDoc as ModelDoc2;
+                ModelDocExtension swExt = swModel.Extension;
+                bool boolstatus = swExt.SaveAs(filename, 0, (int)swSaveAsOptions_e.swSaveAsOptions_Silent, 0, 0, 0);
                 swApp.ActivateDoc(filename);
-                swModel = swApp.ActiveDoc as ModelDoc2;
+                _ = swApp.ActiveDoc as ModelDoc2;
 
-                if (boolstatus == true)
+                if (boolstatus)
                 {
                     //MessageBox.Show("new part created");
                     Get_pathname();
@@ -1273,24 +1287,22 @@ namespace SPMConnectAPI
 
         public void CreateAssy(string filename)
         {
-            if (Solidworks_running() == true)
+            if (Solidworks_running())
             {
-                var progId = "SldWorks.Application";
-                SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
+                const string progId = "SldWorks.Application";
+                SldWorks swApp = Marshal.GetActiveObject(progId) as SldWorks;
                 swApp.Visible = true;
                 string assytemplate = swApp.GetUserPreferenceStringValue((int)swUserPreferenceStringValue_e.swDefaultTemplateAssembly);
-                ModelDoc2 swModel = swApp.NewDocument(assytemplate, 0, 0, 0) as ModelDoc2;
+                _ = swApp.NewDocument(assytemplate, 0, 0, 0) as ModelDoc2;
                 swApp.Visible = true;
-                swModel = swApp.ActiveDoc as ModelDoc2;
-                ModelDocExtension swExt;
-                swExt = swModel.Extension;
-                bool boolstatus = false;
+                ModelDoc2 swModel = swApp.ActiveDoc as ModelDoc2;
+                ModelDocExtension swExt = swModel.Extension;
                 //boolstatus = swExt.SaveAs(filename, 0, (int)swDocumentTypes_e.swDocASSEMBLY, 0, 0, 0);
-                boolstatus = swExt.SaveAs(filename, 0, (int)swSaveAsOptions_e.swSaveAsOptions_Silent, 0, 0, 0);
+                bool boolstatus = swExt.SaveAs(filename, 0, (int)swSaveAsOptions_e.swSaveAsOptions_Silent, 0, 0, 0);
                 swApp.ActivateDoc(filename);
-                swModel = swApp.ActiveDoc as ModelDoc2;
+                _ = swApp.ActiveDoc as ModelDoc2;
 
-                if (boolstatus == true)
+                if (boolstatus)
                 {
                     //MessageBox.Show("new assy created");
                     Get_pathname();
@@ -1305,10 +1317,10 @@ namespace SPMConnectAPI
 
         public void Createdrawingpart(string filename, string _itemnumber)
         {
-            if (Solidworks_running() == true)
+            if (Solidworks_running())
             {
-                var progId = "SldWorks.Application";
-                SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
+                const string progId = "SldWorks.Application";
+                SldWorks swApp = Marshal.GetActiveObject(progId) as SldWorks;
                 swApp.Visible = true;
                 string template = swApp.GetUserPreferenceStringValue((int)swUserPreferenceStringValue_e.swDefaultTemplateDrawing);
                 ModelDoc2 swModel;
@@ -1316,11 +1328,10 @@ namespace SPMConnectAPI
                 ModelDocExtension swModelDocExt;
 
                 swModel = (ModelDoc2)swApp.NewDocument(template, (int)swDwgPaperSizes_e.swDwgPaperBsize, 0, 0);
-                swDrawing = (DrawingDoc)swModel;
                 swDrawing = swApp.ActiveDoc as DrawingDoc;
                 swModelDocExt = (ModelDocExtension)swModel.Extension;
 
-                string Pathpart = Makepath(_itemnumber).ToString() + _itemnumber + ".sldprt";
+                string Pathpart = Makepath(_itemnumber) + _itemnumber + ".sldprt";
 
                 swDrawing.Create3rdAngleViews2(Pathpart);
 
@@ -1346,11 +1357,10 @@ namespace SPMConnectAPI
 
                 //swView.Position(6, 5);
 
-                bool boolstatus = false;
-                boolstatus = swModelDocExt.SaveAs(filename, 0, (int)swSaveAsOptions_e.swSaveAsOptions_Silent, 0, 0, 0);
+                bool boolstatus = swModelDocExt.SaveAs(filename, 0, (int)swSaveAsOptions_e.swSaveAsOptions_Silent, 0, 0, 0);
                 swApp.QuitDoc(swModel.GetTitle());
 
-                if (boolstatus == true)
+                if (boolstatus)
                 {
                     //MessageBox.Show("new part created");
                     //get_pathname();
@@ -1365,10 +1375,10 @@ namespace SPMConnectAPI
 
         public void Createdrwaingassy(string filename, string _itemnumber)
         {
-            if (Solidworks_running() == true)
+            if (Solidworks_running())
             {
-                var progId = "SldWorks.Application";
-                SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
+                const string progId = "SldWorks.Application";
+                SldWorks swApp = Marshal.GetActiveObject(progId) as SldWorks;
                 swApp.Visible = true;
                 string template = swApp.GetUserPreferenceStringValue((int)swUserPreferenceStringValue_e.swDefaultTemplateDrawing);
                 ModelDoc2 swModel;
@@ -1376,11 +1386,10 @@ namespace SPMConnectAPI
                 ModelDocExtension swModelDocExt;
 
                 swModel = (ModelDoc2)swApp.NewDocument(template, (int)swDwgPaperSizes_e.swDwgPaperBsize, 0, 0);
-                swDrawing = (DrawingDoc)swModel;
                 swDrawing = swApp.ActiveDoc as DrawingDoc;
                 swModelDocExt = (ModelDocExtension)swModel.Extension;
 
-                string Pathpart = Makepath(_itemnumber).ToString() + _itemnumber + ".sldasm";
+                string Pathpart = Makepath(_itemnumber) + _itemnumber + ".sldasm";
 
                 swDrawing.Create3rdAngleViews2(Pathpart);
 
@@ -1406,11 +1415,10 @@ namespace SPMConnectAPI
 
                 //swView.Position(6, 5);
 
-                bool boolstatus = false;
-                boolstatus = swModelDocExt.SaveAs(filename, 0, (int)swSaveAsOptions_e.swSaveAsOptions_Silent, 0, 0, 0);
+                bool boolstatus = swModelDocExt.SaveAs(filename, 0, (int)swSaveAsOptions_e.swSaveAsOptions_Silent, 0, 0, 0);
                 swApp.QuitDoc(swModel.GetTitle());
 
-                if (boolstatus == true)
+                if (boolstatus)
                 {
                     //MessageBox.Show("new part created");
                     //get_pathname();
@@ -1425,19 +1433,15 @@ namespace SPMConnectAPI
 
         public bool Importstepfile(string stepFileName, string savefilename)
         {
-            if (Solidworks_running() == true)
+            if (Solidworks_running())
             {
-                var progId = "SldWorks.Application";
-                SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
-                ModelDoc2 swModel = default(ModelDoc2);
-                ModelDocExtension swModelDocExt = default(ModelDocExtension);
-                ImportStepData swImportStepData = default(ImportStepData);
-
+                const string progId = "SldWorks.Application";
+                SldWorks swApp = Marshal.GetActiveObject(progId) as SldWorks;
                 bool status = false;
                 int errors = 0;
 
                 //Get import information
-                swImportStepData = (ImportStepData)swApp.GetImportFileData(stepFileName);
+                ImportStepData swImportStepData = (ImportStepData)swApp.GetImportFileData(stepFileName);
 
                 //If ImportStepData::MapConfigurationData is not set, then default to
                 //the environment setting swImportStepConfigData; otherwise, override
@@ -1447,12 +1451,13 @@ namespace SPMConnectAPI
                 //Import the STEP file.
                 try
                 {
-                    swModel = (ModelDoc2)swApp.LoadFile4(stepFileName, "r", swImportStepData, ref errors);
-                    swModelDocExt = (ModelDocExtension)swModel.Extension;
+                    ModelDoc2 swModel = (ModelDoc2)swApp.LoadFile4(stepFileName, "r", swImportStepData, ref errors);
+                    ModelDocExtension swModelDocExt = (ModelDocExtension)swModel.Extension;
                     status = swModelDocExt.SaveAs(savefilename, 0, (int)swSaveAsOptions_e.swSaveAsOptions_Silent, 0, 0, 0);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    log.Error(ex.Message, ex);
                 }
 
                 return status;
@@ -1462,26 +1467,23 @@ namespace SPMConnectAPI
 
         public bool Importigesfile(string igesfilename, string savefilename)
         {
-            if (Solidworks_running() == true)
+            if (Solidworks_running())
             {
-                var progId = "SldWorks.Application";
-                SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
-                ModelDoc2 swModel = default(ModelDoc2);
-                ModelDocExtension swModelDocExt = default(ModelDocExtension);
-                ImportIgesData swImportIgesdata = default(ImportIgesData);
-
+                const string progId = "SldWorks.Application";
+                SldWorks swApp = Marshal.GetActiveObject(progId) as SldWorks;
                 bool status = false;
                 int errors = 0;
-                swImportIgesdata = (ImportIgesData)swApp.GetImportFileData(igesfilename);
+                ImportIgesData swImportIgesdata = (ImportIgesData)swApp.GetImportFileData(igesfilename);
                 swImportIgesdata.IncludeSurfaces = true;
                 try
                 {
-                    swModel = (ModelDoc2)swApp.LoadFile4(igesfilename, "r", swImportIgesdata, ref errors);
-                    swModelDocExt = (ModelDocExtension)swModel.Extension;
+                    ModelDoc2 swModel = (ModelDoc2)swApp.LoadFile4(igesfilename, "r", swImportIgesdata, ref errors);
+                    ModelDocExtension swModelDocExt = (ModelDocExtension)swModel.Extension;
                     status = swModelDocExt.SaveAs(savefilename, 0, (int)swSaveAsOptions_e.swSaveAsOptions_Silent, 0, 0, 0);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    log.Error(ex.Message, ex);
                 }
                 return status;
             }
@@ -1490,26 +1492,24 @@ namespace SPMConnectAPI
 
         public bool Importparasolidfile(string parasolidfilename, string savefilename)
         {
-            if (Solidworks_running() == true)
+            if (Solidworks_running())
             {
-                var progId = "SldWorks.Application";
-                SldWorks swApp = Marshal.GetActiveObject(progId.ToString()) as SldWorks;
-                //PartDoc swPart = default(PartDoc);
-                //AssemblyDoc swassy = default(AssemblyDoc);
-                ModelDoc2 swModel = default(ModelDoc2);
-                ModelDocExtension swModelDocExt = default(ModelDocExtension);
-
+                const string progId = "SldWorks.Application";
+                SldWorks swApp = Marshal.GetActiveObject(progId) as SldWorks;
                 bool status = false;
                 int errors = 0;
                 try
                 {
-                    swModel = (ModelDoc2)swApp.LoadFile4(parasolidfilename, "r", null, ref errors);
+                    //PartDoc swPart = default(PartDoc);
+                    //AssemblyDoc swassy = default(AssemblyDoc);
+                    ModelDoc2 swModel = (ModelDoc2)swApp.LoadFile4(parasolidfilename, "r", null, ref errors);
                     //swModel = (ModelDoc2)swPart;
-                    swModelDocExt = (ModelDocExtension)swModel.Extension;
+                    ModelDocExtension swModelDocExt = (ModelDocExtension)swModel.Extension;
                     status = swModelDocExt.SaveAs(savefilename, (int)swSaveAsVersion_e.swSaveAsCurrentVersion, (int)swSaveAsOptions_e.swSaveAsOptions_Silent, 0, 0, 0);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    log.Error(ex.Message, ex);
                 }
 
                 return status;
@@ -1523,7 +1523,7 @@ namespace SPMConnectAPI
 
         public bool Addtofavorites(string itemid)
         {
-            bool completed = false;
+            const bool completed = false;
             if (CheckitempresentonFavorites(itemid))
             {
                 string usernamesfromitem = Getusernamesfromfavorites(itemid);
@@ -1547,7 +1547,7 @@ namespace SPMConnectAPI
 
         public bool Removefromfavorites(string itemid)
         {
-            bool completed = false;
+            const bool completed = false;
 
             string usernamesfromitem = Getusernamesfromfavorites(itemid);
 
@@ -1561,7 +1561,7 @@ namespace SPMConnectAPI
         private bool CheckitempresentonFavorites(string itemid)
         {
             bool itempresent = false;
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[favourite] WHERE [Item]='" + itemid.ToString() + "'", cn))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[favourite] WHERE [Item]='" + itemid + "'", cn))
             {
                 try
                 {
@@ -1700,10 +1700,7 @@ namespace SPMConnectAPI
             string[] words = usernames.Split(',');
             foreach (string word in words)
             {
-                if (word.Trim() == userid)
-                {
-                }
-                else
+                if (word.Trim() != userid)
                 {
                     removedusername += word.Trim();
                     if (word.Trim() != "")
@@ -1714,6 +1711,5 @@ namespace SPMConnectAPI
         }
 
         #endregion Favorites
-
     }
 }

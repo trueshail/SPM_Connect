@@ -91,9 +91,9 @@
             this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView.Size = new System.Drawing.Size(1018, 499);
             this.dataGridView.TabIndex = 2;
-            this.dataGridView.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseDown);
-            this.dataGridView.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridView_RowsAdded);
-            this.dataGridView.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dataGridView_RowsRemoved);
+            this.dataGridView.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView_CellMouseDown);
+            this.dataGridView.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.DataGridView_RowsAdded);
+            this.dataGridView.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.DataGridView_RowsRemoved);
             // 
             // contextMenuStrip1
             // 
@@ -118,7 +118,7 @@
             this.emailtoolstrip.Name = "emailtoolstrip";
             this.emailtoolstrip.Size = new System.Drawing.Size(206, 22);
             this.emailtoolstrip.Text = "Send Email Confirmation";
-            this.emailtoolstrip.Click += new System.EventHandler(this.emailtoolstrip_Click);
+            this.emailtoolstrip.Click += new System.EventHandler(this.Emailtoolstrip_Click);
             // 
             // label1
             // 
@@ -318,7 +318,7 @@
             this.emailallbttn.Text = "Email All";
             this.emailallbttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.emailallbttn.UseVisualStyleBackColor = false;
-            this.emailallbttn.Click += new System.EventHandler(this.emailallbttn_Click);
+            this.emailallbttn.Click += new System.EventHandler(this.Emailallbttn_Click);
             // 
             // SPM
             // 

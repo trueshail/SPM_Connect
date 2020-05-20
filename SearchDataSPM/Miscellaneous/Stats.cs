@@ -2,10 +2,10 @@
 {
     internal class Stats
     {
-        public int Total = 0;
-        public int Missed = 0;
-        public int Accurate = 0;
-        public int Correct = 0;
+        public int Accurate;
+        public int Correct;
+        public int Missed;
+        public int Total;
 
         public void Update(bool correctKey)
         {
