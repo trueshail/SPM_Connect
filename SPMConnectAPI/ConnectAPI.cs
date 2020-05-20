@@ -271,7 +271,7 @@ namespace SPMConnectAPI
                 if (dt.Rows.Count > 0)
                 {
                     DataRow dr = dt.Rows[0];
-                    userDet.ActiveBlockNumber = dr["ActiveBlockNumber"].ToString();
+                    userDet.ActiveBlockNumber = dr[UserFields.ActiveBlockNumber].ToString();
                     userDet.Admin = Convert.ToBoolean(dr["Admin"]);
                     userDet.ApproveDrawing = Convert.ToBoolean(dr["ApproveDrawing"]);
                     userDet.CheckDrawing = Convert.ToBoolean(dr["CheckDrawing"]);

@@ -137,7 +137,7 @@ namespace SearchDataSPM
             this.txtSearch.Size = new System.Drawing.Size(271, 25);
             this.txtSearch.TabIndex = 106;
             this.TreeViewToolTip.SetToolTip(this.txtSearch, "Enter Search Keyword.\r\n");
-            this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
+            this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtSearch_KeyDown);
             // 
             // filter4
             // 
@@ -154,7 +154,7 @@ namespace SearchDataSPM
             this.filter4.TabIndex = 110;
             this.TreeViewToolTip.SetToolTip(this.filter4, "Enter Keyword 5");
             this.filter4.Visible = false;
-            this.filter4.KeyDown += new System.Windows.Forms.KeyEventHandler(this.filter4_KeyDown);
+            this.filter4.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Filter4_KeyDown);
             // 
             // filteroemitem_txtbox
             // 
@@ -171,7 +171,7 @@ namespace SearchDataSPM
             this.filteroemitem_txtbox.TabIndex = 109;
             this.TreeViewToolTip.SetToolTip(this.filteroemitem_txtbox, "Enter keyworkd 4");
             this.filteroemitem_txtbox.Visible = false;
-            this.filteroemitem_txtbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.filteroemitem_txtbox_KeyDown);
+            this.filteroemitem_txtbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Filteroemitem_txtbox_KeyDown);
             // 
             // filteroem_txtbox
             // 
@@ -188,7 +188,7 @@ namespace SearchDataSPM
             this.filteroem_txtbox.TabIndex = 108;
             this.TreeViewToolTip.SetToolTip(this.filteroem_txtbox, "Enter Keyword 3");
             this.filteroem_txtbox.Visible = false;
-            this.filteroem_txtbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.filteroem_txtbox_KeyDown);
+            this.filteroem_txtbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Filteroem_txtbox_KeyDown);
             // 
             // Descrip_txtbox
             // 
@@ -220,7 +220,7 @@ namespace SearchDataSPM
             this.advsearchbttn.Text = ">>";
             this.TreeViewToolTip.SetToolTip(this.advsearchbttn, "Show Advance Filters");
             this.advsearchbttn.UseVisualStyleBackColor = true;
-            this.advsearchbttn.Click += new System.EventHandler(this.advsearchbttn_Click);
+            this.advsearchbttn.Click += new System.EventHandler(this.Advsearchbttn_Click);
             // 
             // requestedbycomboxbox
             // 
@@ -238,7 +238,7 @@ namespace SearchDataSPM
             this.requestedbycomboxbox.TabIndex = 125;
             this.TreeViewToolTip.SetToolTip(this.requestedbycomboxbox, "Filter by ship to");
             this.requestedbycomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Manufactureritemcomboxbox_KeyDown);
-            this.requestedbycomboxbox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.requestedbycomboxbox_PreviewKeyDown);
+            this.requestedbycomboxbox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.Requestedbycomboxbox_PreviewKeyDown);
             // 
             // deptrequestedcomboxbox
             // 
@@ -255,8 +255,8 @@ namespace SearchDataSPM
             this.deptrequestedcomboxbox.Size = new System.Drawing.Size(163, 22);
             this.deptrequestedcomboxbox.TabIndex = 123;
             this.TreeViewToolTip.SetToolTip(this.deptrequestedcomboxbox, "Filter by sales person");
-            this.deptrequestedcomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.familycomboxbox_KeyDown);
-            this.deptrequestedcomboxbox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.deptrequestedcomboxbox_PreviewKeyDown);
+            this.deptrequestedcomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Familycomboxbox_KeyDown);
+            this.deptrequestedcomboxbox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.Deptrequestedcomboxbox_PreviewKeyDown);
             // 
             // approvedbycombo
             // 
@@ -273,8 +273,8 @@ namespace SearchDataSPM
             this.approvedbycombo.Size = new System.Drawing.Size(163, 22);
             this.approvedbycombo.TabIndex = 127;
             this.TreeViewToolTip.SetToolTip(this.approvedbycombo, "Filter by last saved");
-            this.approvedbycombo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lastsavedbycombo_KeyDown);
-            this.approvedbycombo.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.approvedbycombo_PreviewKeyDown);
+            this.approvedbycombo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Lastsavedbycombo_KeyDown);
+            this.approvedbycombo.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.Approvedbycombo_PreviewKeyDown);
             // 
             // ecrstatuscombobox
             // 
@@ -294,8 +294,8 @@ namespace SearchDataSPM
             this.ecrstatuscombobox.Size = new System.Drawing.Size(163, 22);
             this.ecrstatuscombobox.TabIndex = 124;
             this.TreeViewToolTip.SetToolTip(this.ecrstatuscombobox, "Filter by sold to");
-            this.ecrstatuscombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.oemitemcombobox_KeyDown);
-            this.ecrstatuscombobox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.ecrstatuscombobox_PreviewKeyDown);
+            this.ecrstatuscombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Oemitemcombobox_KeyDown);
+            this.ecrstatuscombobox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.Ecrstatuscombobox_PreviewKeyDown);
             // 
             // jobnumbercombobox
             // 
@@ -316,8 +316,8 @@ namespace SearchDataSPM
             this.jobnumbercombobox.Size = new System.Drawing.Size(163, 22);
             this.jobnumbercombobox.TabIndex = 122;
             this.TreeViewToolTip.SetToolTip(this.jobnumbercombobox, "Filter Created by");
-            this.jobnumbercombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.designedbycombobox_KeyDown);
-            this.jobnumbercombobox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.jobnumbercombobox_PreviewKeyDown);
+            this.jobnumbercombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Designedbycombobox_KeyDown);
+            this.jobnumbercombobox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.Jobnumbercombobox_PreviewKeyDown);
             // 
             // supervicsorcomboBox
             // 
@@ -335,7 +335,7 @@ namespace SearchDataSPM
             this.supervicsorcomboBox.TabIndex = 126;
             this.TreeViewToolTip.SetToolTip(this.supervicsorcomboBox, "Filter by carrier");
             this.supervicsorcomboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MaterialcomboBox_KeyDown);
-            this.supervicsorcomboBox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.supervicsorcomboBox_PreviewKeyDown);
+            this.supervicsorcomboBox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.SupervicsorcomboBox_PreviewKeyDown);
             // 
             // completedbycombobox
             // 
@@ -353,7 +353,7 @@ namespace SearchDataSPM
             this.completedbycombobox.TabIndex = 148;
             this.TreeViewToolTip.SetToolTip(this.completedbycombobox, "Filter by last saved");
             this.completedbycombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ActiveCadblockcombobox_KeyDown);
-            this.completedbycombobox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.completedbycombobox_PreviewKeyDown);
+            this.completedbycombobox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.Completedbycombobox_PreviewKeyDown);
             // 
             // addnewbttn
             // 
@@ -374,7 +374,7 @@ namespace SearchDataSPM
             this.TreeViewToolTip.SetToolTip(this.addnewbttn, "Create New Invoice");
             this.addnewbttn.UseVisualStyleBackColor = false;
             this.addnewbttn.Visible = false;
-            this.addnewbttn.Click += new System.EventHandler(this.addnewbttn_Click);
+            this.addnewbttn.Click += new System.EventHandler(this.Addnewbttn_Click);
             // 
             // SPM
             // 
@@ -493,12 +493,12 @@ namespace SearchDataSPM
             this.dataGridView.Size = new System.Drawing.Size(863, 610);
             this.dataGridView.StandardTab = true;
             this.dataGridView.TabIndex = 111;
-            this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellDoubleClick);
-            this.dataGridView.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseDown);
-            this.dataGridView.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellMouseLeave);
-            this.dataGridView.CellMouseMove += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseMove);
-            this.dataGridView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridView_CellPainting_1);
-            this.dataGridView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView_KeyDown);
+            this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView_CellDoubleClick);
+            this.dataGridView.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView_CellMouseDown);
+            this.dataGridView.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView_CellMouseLeave);
+            this.dataGridView.CellMouseMove += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView_CellMouseMove);
+            this.dataGridView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.DataGridView_CellPainting_1);
+            this.dataGridView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DataGridView_KeyDown);
             // 
             // ECRNo
             // 
@@ -572,7 +572,7 @@ namespace SearchDataSPM
             this.invoiceinfostripmenu.Size = new System.Drawing.Size(157, 22);
             this.invoiceinfostripmenu.Text = "Get Invoice Info";
             this.invoiceinfostripmenu.ToolTipText = "Get Selected Invoice Info.";
-            this.invoiceinfostripmenu.Click += new System.EventHandler(this.invoiceinfostripmenu_Click);
+            this.invoiceinfostripmenu.Click += new System.EventHandler(this.Invoiceinfostripmenu_Click);
             // 
             // attentionbttn
             // 
@@ -590,7 +590,7 @@ namespace SearchDataSPM
             this.attentionbttn.TabIndex = 113;
             this.attentionbttn.Text = "Req. Attention";
             this.attentionbttn.UseVisualStyleBackColor = true;
-            this.attentionbttn.Click += new System.EventHandler(this.attentionbttn_Click);
+            this.attentionbttn.Click += new System.EventHandler(this.Attentionbttn_Click);
             // 
             // matlbl
             // 
@@ -618,7 +618,7 @@ namespace SearchDataSPM
             this.clrfiltersbttn.TabIndex = 129;
             this.clrfiltersbttn.Text = "Clear Filters";
             this.clrfiltersbttn.UseVisualStyleBackColor = true;
-            this.clrfiltersbttn.Click += new System.EventHandler(this.clrfiltersbttn_Click);
+            this.clrfiltersbttn.Click += new System.EventHandler(this.Clrfiltersbttn_Click);
             // 
             // label6
             // 

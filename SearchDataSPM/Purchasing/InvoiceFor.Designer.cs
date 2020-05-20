@@ -53,7 +53,7 @@
             this.customer.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
             this.toolTip1.SetToolTip(this.customer, "Create Job folder with regular project template");
             this.customer.UseSelectable = true;
-            this.customer.Click += new System.EventHandler(this.metroTile1_Click);
+            this.customer.Click += new System.EventHandler(this.MetroTile1_Click);
             // 
             // vendor
             // 
@@ -71,7 +71,7 @@
             this.vendor.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
             this.toolTip1.SetToolTip(this.vendor, "Create Job folder with spare project template");
             this.vendor.UseSelectable = true;
-            this.vendor.Click += new System.EventHandler(this.metroTile2_Click);
+            this.vendor.Click += new System.EventHandler(this.MetroTile2_Click);
             // 
             // label1
             // 

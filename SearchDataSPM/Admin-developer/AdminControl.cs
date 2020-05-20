@@ -15,7 +15,6 @@ namespace SearchDataSPM
 
         private string controluseraction;
         private int selectedindex;
-        private readonly DataTable dt;
         private log4net.ILog log;
         private List<UserInfo> users = new List<UserInfo>();
         private readonly ConnectAPI connectapi = new ConnectAPI();
@@ -27,7 +26,6 @@ namespace SearchDataSPM
         public AdminControl()
         {
             InitializeComponent();
-            dt = new DataTable();
         }
 
         private void ParentView_Load(object sender, EventArgs e)

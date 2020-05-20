@@ -15,9 +15,6 @@ namespace SearchDataSPM
         private readonly SPMConnectAPI.ECR connectapi = new SPMConnectAPI.ECR();
         private int _advcollapse;
         private DataTable dt;
-        private bool ecrapprovee;
-        private bool ecrhandler;
-        private bool ecrsupervisor;
         private bool formloading;
         private log4net.ILog log;
 
@@ -29,37 +26,16 @@ namespace SearchDataSPM
 
         private void Checkdeptsandrights()
         {
-            _ = connectapi.GetUserName();
             versionlabel.Text = connectapi.Getassyversionnumber();
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
-
             if (ConnectUser.ECR)
             {
                 addnewbttn.Visible = true;
             }
-
-            if (ConnectUser.ECRApproval)
-            {
-                ecrsupervisor = true;
-                attentionbttn.Visible = true;
-            }
-            else if (ConnectUser.ECRApproval2)
-            {
-                ecrapprovee = true;
-                attentionbttn.Visible = true;
-            }
-            else if (ConnectUser.ECRHandler)
-            {
-                ecrhandler = true;
-                attentionbttn.Visible = true;
-            }
-            else
-            {
-                attentionbttn.Visible = false;
-            }
+            attentionbttn.Visible = ConnectUser.ECRApproval || ConnectUser.ECRApproval2 || ConnectUser.ECRHandler;
         }
 
-        private void clearfilercombos()
+        private void Clearfilercombos()
         {
             jobnumbercombobox.SelectedItem = null;
             ecrstatuscombobox.SelectedItem = null;
@@ -78,25 +54,25 @@ namespace SearchDataSPM
             supervicsorcomboBox.Text = null;
         }
 
-        private void fillinfo()
+        private void Fillinfo()
         {
             Cursor.Current = Cursors.WaitCursor;
             formloading = true;
-            filldeptrequested();
-            fillecrstatus();
-            fillrequestedby();
-            filljobnumber();
-            fillapprovedby();
-            fillsupervisors();
-            fillcompletedby();
-            clearfilercombos();
+            Filldeptrequested();
+            Fillecrstatus();
+            Fillrequestedby();
+            Filljobnumber();
+            Fillapprovedby();
+            Fillsupervisors();
+            Fillcompletedby();
+            Clearfilercombos();
             formloading = false;
             Cursor.Current = Cursors.Default;
         }
 
-        private void performreload()
+        private void Performreload()
         {
-            clearandhide();
+            Clearandhide();
             txtSearch.Clear();
             txtSearch.Focus();
             SendKeys.Send("~");
@@ -105,7 +81,7 @@ namespace SearchDataSPM
 
         private void Reload_Click(object sender, EventArgs e)
         {
-            performreload();
+            Performreload();
         }
 
         private void Showallitems(bool showall)
@@ -158,7 +134,7 @@ namespace SearchDataSPM
         private void SPM_Connect_Load(object sender, EventArgs e)
         {
             formloading = true;
-            collapse();
+            Collapse();
             dt = new DataTable();
             Checkdeptsandrights();
             Showallitems(true);
@@ -202,7 +178,7 @@ namespace SearchDataSPM
 
         #region Search Parameters
 
-        public void txtSearch_KeyDown(object sender, KeyEventArgs e)
+        public void TxtSearch_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -210,7 +186,7 @@ namespace SearchDataSPM
 
                 if (Descrip_txtbox.Visible)
                 {
-                    clearandhide();
+                    Clearandhide();
                 }
 
                 if (string.IsNullOrEmpty(jobnumbercombobox.Text) && string.IsNullOrEmpty(approvedbycombo.Text) && string.IsNullOrEmpty(deptrequestedcomboxbox.Text) && string.IsNullOrEmpty(requestedbycomboxbox.Text) && string.IsNullOrEmpty(ecrstatuscombobox.Text) && string.IsNullOrEmpty(completedbycombobox.Text) && string.IsNullOrEmpty(supervicsorcomboBox.Text))
@@ -221,12 +197,12 @@ namespace SearchDataSPM
                 {
                     Descrip_txtbox.Show();
                     SendKeys.Send("{TAB}");
-                    mainsearch();
+                    Mainsearch();
                 }
                 else
                 {
                     SearchStringPosition();
-                    searchtext(txtSearch.Text);
+                    Searchtext(txtSearch.Text);
                 }
 
                 e.Handled = true;
@@ -236,10 +212,10 @@ namespace SearchDataSPM
             }
         }
 
-        private void clearandhide()
+        private void Clearandhide()
         {
             formloading = true;
-            clearfilercombos();
+            Clearfilercombos();
 
             Descrip_txtbox.Hide();
             Descrip_txtbox.Clear();
@@ -289,7 +265,7 @@ namespace SearchDataSPM
                     table1 = dv.ToTable();
                     dataGridView.DataSource = table1;
                     SearchStringPosition();
-                    searchtext(Descrip_txtbox.Text);
+                    Searchtext(Descrip_txtbox.Text);
                     dataGridView.Refresh();
                     recordlabel.Text = "Found " + table1.Rows.Count.ToString() + " Matching Items.";
                 }
@@ -324,7 +300,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void filter4_KeyDown(object sender, KeyEventArgs e)
+        private void Filter4_KeyDown(object sender, KeyEventArgs e)
         {
             DataView dv = table3.DefaultView;
             table3 = dv.ToTable();
@@ -346,7 +322,7 @@ namespace SearchDataSPM
                     table4 = dv.ToTable();
                     dataGridView.DataSource = table4;
                     SearchStringPosition();
-                    searchtext(filter4.Text);
+                    Searchtext(filter4.Text);
                     dataGridView.Refresh();
                     recordlabel.Text = "Found " + dataGridView.Rows.Count.ToString() + " Matching Items.";
                 }
@@ -366,7 +342,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void filteroem_txtbox_KeyDown(object sender, KeyEventArgs e)
+        private void Filteroem_txtbox_KeyDown(object sender, KeyEventArgs e)
         {
             DataView dv = table1.DefaultView;
             table1 = dv.ToTable();
@@ -389,7 +365,7 @@ namespace SearchDataSPM
                     table2 = dv.ToTable();
                     dataGridView.DataSource = table2;
                     SearchStringPosition();
-                    searchtext(filteroem_txtbox.Text);
+                    Searchtext(filteroem_txtbox.Text);
                     dataGridView.Refresh();
                     recordlabel.Text = "Found " + table2.Rows.Count.ToString() + " Matching Items.";
                 }
@@ -423,7 +399,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void filteroemitem_txtbox_KeyDown(object sender, KeyEventArgs e)
+        private void Filteroemitem_txtbox_KeyDown(object sender, KeyEventArgs e)
         {
             DataView dv = table2.DefaultView;
             table2 = dv.ToTable();
@@ -446,7 +422,7 @@ namespace SearchDataSPM
                     table3 = dv.ToTable();
                     dataGridView.DataSource = table3;
                     SearchStringPosition();
-                    searchtext(filteroemitem_txtbox.Text);
+                    Searchtext(filteroemitem_txtbox.Text);
                     dataGridView.Refresh();
                     recordlabel.Text = "Found " + table3.Rows.Count.ToString() + " Matching Items.";
                 }
@@ -479,7 +455,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void mainsearch()
+        private void Mainsearch()
         {
             formloading = true;
             //DataView dv = dt.DefaultView;
@@ -496,7 +472,7 @@ namespace SearchDataSPM
                 dataGridView.DataSource = table0;
                 dataGridView.Update();
                 SearchStringPosition();
-                searchtext(search1);
+                Searchtext(search1);
                 dataGridView.Refresh();
                 recordlabel.Text = "Found " + table0.Rows.Count.ToString() + " Matching Items.";
             }
@@ -518,15 +494,15 @@ namespace SearchDataSPM
 
         #region datagridview events
 
-        private void dataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void DataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (dataGridView.SelectedCells.Count == 1)
             {
-                showecrinvoice(getselectedinvoicenumber(), false, ConnectUser.Emp_Id.ToString());
+                Showecrinvoice(Getselectedinvoicenumber(), false, ConnectUser.Emp_Id.ToString());
             }
         }
 
-        private void dataGridView_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        private void DataGridView_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.RowIndex == -1) return;
             _ = dataGridView.Rows[e.RowIndex];
@@ -539,7 +515,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void dataGridView_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
+        private void DataGridView_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex > -1)
             {
@@ -547,7 +523,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void dataGridView_CellMouseMove(object sender, DataGridViewCellMouseEventArgs e)
+        private void DataGridView_CellMouseMove(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.RowIndex > -1)
             {
@@ -555,7 +531,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void dataGridView_KeyDown(object sender, KeyEventArgs e)
+        private void DataGridView_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Tab)
             {
@@ -579,12 +555,12 @@ namespace SearchDataSPM
             IsSelected = true;
         }
 
-        public void searchtext(string searchkey)
+        public void Searchtext(string searchkey)
         {
             sw = searchkey;
         }
 
-        private void dataGridView_CellPainting_1(object sender, DataGridViewCellPaintingEventArgs e)
+        private void DataGridView_CellPainting_1(object sender, DataGridViewCellPaintingEventArgs e)
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && IsSelected)
             {
@@ -670,7 +646,7 @@ namespace SearchDataSPM
             {
                 if (splitContainer1.Panel2Collapsed)
                 {
-                    advsearchbttnclick();
+                    Advsearchbttnclick();
                 }
                 return true;
             }
@@ -679,7 +655,7 @@ namespace SearchDataSPM
             {
                 if (!splitContainer1.Panel2Collapsed)
                 {
-                    advsearchbttnclick();
+                    Advsearchbttnclick();
                 }
                 return true;
             }
@@ -691,7 +667,7 @@ namespace SearchDataSPM
 
         #region Advance Filtersf
 
-        private void advfiltertables(string filter)
+        private void Advfiltertables(string filter)
         {
             if (!Descrip_txtbox.Visible)
             {
@@ -750,22 +726,22 @@ namespace SearchDataSPM
             }
         }
 
-        private void advsearchbttn_Click(object sender, EventArgs e)
+        private void Advsearchbttn_Click(object sender, EventArgs e)
         {
-            advsearchbttnclick();
+            Advsearchbttnclick();
         }
 
-        private void advsearchbttnclick()
+        private void Advsearchbttnclick()
         {
             if (_advcollapse == 0)
             {
-                fillinfo();
+                Fillinfo();
                 _advcollapse = 1;
             }
-            collapse();
+            Collapse();
         }
 
-        private void collapse()
+        private void Collapse()
         {
             if (splitContainer1.Panel2Collapsed)
             {
@@ -878,55 +854,55 @@ namespace SearchDataSPM
                 if (jobnumbercombobox.SelectedItem == null && approvedbycombo.SelectedItem == null && deptrequestedcomboxbox.SelectedItem == null && requestedbycomboxbox.SelectedItem == null && ecrstatuscombobox.SelectedItem == null && completedbycombobox.SelectedItem == null && supervicsorcomboBox.SelectedItem == null)
                 {
                 }
-                advfiltertables(filter);
+                Advfiltertables(filter);
             }
         }
 
         #region fillcomboboxes
 
-        private void fillapprovedby()
+        private void Fillapprovedby()
         {
             AutoCompleteStringCollection MyCollection = connectapi.FillECRApprovedBy();
             approvedbycombo.AutoCompleteCustomSource = MyCollection;
             approvedbycombo.DataSource = MyCollection;
         }
 
-        private void fillcompletedby()
+        private void Fillcompletedby()
         {
             AutoCompleteStringCollection MyCollection = connectapi.FillECRCompletedBy();
             completedbycombobox.AutoCompleteCustomSource = MyCollection;
             completedbycombobox.DataSource = MyCollection;
         }
 
-        private void filldeptrequested()
+        private void Filldeptrequested()
         {
             AutoCompleteStringCollection MyCollection = connectapi.FillECRDeptRequested();
             deptrequestedcomboxbox.AutoCompleteCustomSource = MyCollection;
             deptrequestedcomboxbox.DataSource = MyCollection;
         }
 
-        private void fillecrstatus()
+        private void Fillecrstatus()
         {
             AutoCompleteStringCollection MyCollection = connectapi.FillECRStatus();
             ecrstatuscombobox.AutoCompleteCustomSource = MyCollection;
             ecrstatuscombobox.DataSource = MyCollection;
         }
 
-        private void filljobnumber()
+        private void Filljobnumber()
         {
             AutoCompleteStringCollection MyCollection = connectapi.FillECRJobNumber();
             jobnumbercombobox.AutoCompleteCustomSource = MyCollection;
             jobnumbercombobox.DataSource = MyCollection;
         }
 
-        private void fillrequestedby()
+        private void Fillrequestedby()
         {
             AutoCompleteStringCollection MyCollection = connectapi.FillECRRequestedBy();
             requestedbycomboxbox.AutoCompleteCustomSource = MyCollection;
             requestedbycomboxbox.DataSource = MyCollection;
         }
 
-        private void fillsupervisors()
+        private void Fillsupervisors()
         {
             AutoCompleteStringCollection MyCollection = connectapi.FillECRSupervisors();
             supervicsorcomboBox.AutoCompleteCustomSource = MyCollection;
@@ -947,22 +923,12 @@ namespace SearchDataSPM
             }
         }
 
-        private void clrfiltersbttn_Click(object sender, EventArgs e)
+        private void Clrfiltersbttn_Click(object sender, EventArgs e)
         {
-            performreload();
+            Performreload();
         }
 
-        private void designedbycombobox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Return)
-            {
-                FilterProducts();
-                e.Handled = true;
-                e.SuppressKeyPress = true;
-            }
-        }
-
-        private void familycomboxbox_KeyDown(object sender, KeyEventArgs e)
+        private void Designedbycombobox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -972,7 +938,17 @@ namespace SearchDataSPM
             }
         }
 
-        private void lastsavedbycombo_KeyDown(object sender, KeyEventArgs e)
+        private void Familycomboxbox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                FilterProducts();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private void Lastsavedbycombo_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -1002,7 +978,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void oemitemcombobox_KeyDown(object sender, KeyEventArgs e)
+        private void Oemitemcombobox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -1018,7 +994,7 @@ namespace SearchDataSPM
 
         #region Invoice
 
-        private void addnewbttn_Click(object sender, EventArgs e)
+        private void Addnewbttn_Click(object sender, EventArgs e)
         {
             DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to create a new engineering change request?", "SPM Connect - Create New ECR?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
@@ -1029,7 +1005,7 @@ namespace SearchDataSPM
                     string status = connectapi.CreatenewECR(ConnectUser.Emp_Id.ToString());
                     if (status.Length > 1)
                     {
-                        showecrinvoice(status, true, ConnectUser.Emp_Id.ToString());
+                        Showecrinvoice(status, true, ConnectUser.Emp_Id.ToString());
                     }
                 }
                 else
@@ -1048,7 +1024,7 @@ namespace SearchDataSPM
                             string status = connectapi.CreatenewECR(scanEmployeeId);
                             if (status.Length > 1)
                             {
-                                showecrinvoice(status, true, scanEmployeeId);
+                                Showecrinvoice(status, true, scanEmployeeId);
                             }
                         }
                         else
@@ -1069,7 +1045,7 @@ namespace SearchDataSPM
             if (!(dataGridView.Rows.Count > 0 && dataGridView.SelectedRows.Count == 1)) e.Cancel = true;
         }
 
-        private string getselectedinvoicenumber()
+        private string Getselectedinvoicenumber()
         {
             if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
             {
@@ -1085,12 +1061,12 @@ namespace SearchDataSPM
             }
         }
 
-        private void invoiceinfostripmenu_Click(object sender, EventArgs e)
+        private void Invoiceinfostripmenu_Click(object sender, EventArgs e)
         {
-            showecrinvoice(getselectedinvoicenumber(), false, ConnectUser.Emp_Id.ToString());
+            Showecrinvoice(Getselectedinvoicenumber(), false, ConnectUser.Emp_Id.ToString());
         }
 
-        private void showecrinvoice(string invoice, bool newcreated, string empid)
+        private void Showecrinvoice(string invoice, bool newcreated, string empid)
         {
             string invoiceopen = connectapi.InvoiceOpen(invoice, CheckInModules.ECR);
             if (invoiceopen.Length > 0)
@@ -1107,7 +1083,7 @@ namespace SearchDataSPM
                         {
                             invoiceDetails.ShowDialog();
                             this.Enabled = true;
-                            performreload();
+                            Performreload();
                             this.Show();
                             this.Activate();
                             this.Focus();
@@ -1139,7 +1115,7 @@ namespace SearchDataSPM
                             {
                                 invoiceDetails.ShowDialog();
                                 this.Enabled = true;
-                                performreload();
+                                Performreload();
                                 this.Show();
                                 this.Activate();
                                 this.Focus();
@@ -1156,7 +1132,7 @@ namespace SearchDataSPM
 
         #endregion Invoice
 
-        private void approvedbycombo_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        private void Approvedbycombo_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -1164,10 +1140,10 @@ namespace SearchDataSPM
             }
         }
 
-        private void attentionbttn_Click(object sender, EventArgs e)
+        private void Attentionbttn_Click(object sender, EventArgs e)
         {
             int empidtomach = ConnectUser.ConnectId;
-            if (ecrsupervisor)
+            if (ConnectUser.ECRApproval)
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter("SELECT *,CONCAT([ECRNo], ' ',[JobNo],' ',[JobName],' ',[SANo],' ',[SAName],' ',RequestedBy) AS FullSearch FROM [SPM_Database].[dbo].[ECR] WHERE Submitted = '1' AND SupApproval = '0' AND Approved = '0' AND Completed = '0' AND SupervisorId = '" + empidtomach + "' ORDER BY ECRNo DESC", connectapi.cn))
                 {
@@ -1189,7 +1165,7 @@ namespace SearchDataSPM
                     }
                 }
             }
-            else if (ecrapprovee)
+            else if (ConnectUser.ECRApproval2)
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter("SELECT *,CONCAT([ECRNo], ' ',[JobNo],' ',[JobName],' ',[SANo],' ',[SAName],' ',RequestedBy) AS FullSearch FROM [SPM_Database].[dbo].[ECR] WHERE Submitted = '1' AND SupApproval = '1' AND Approved = '0' AND Completed = '0' AND SubmitToId = '" + empidtomach + "' ORDER BY ECRNo DESC", connectapi.cn))
                 {
@@ -1211,7 +1187,7 @@ namespace SearchDataSPM
                     }
                 }
             }
-            else if (ecrhandler)
+            else if (ConnectUser.ECRHandler)
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter("SELECT *,CONCAT([ECRNo], ' ',[JobNo],' ',[JobName],' ',[SANo],' ',[SAName],' ',RequestedBy) AS FullSearch FROM [SPM_Database].[dbo].[ECR] WHERE Submitted = '1' AND SupApproval = '1' AND Approved = '1' AND Completed = '0' AND AssignedTo = '" + empidtomach + "' ORDER BY ECRNo DESC", connectapi.cn))
                 {
@@ -1236,7 +1212,7 @@ namespace SearchDataSPM
             Showallitems(false);
         }
 
-        private void completedbycombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        private void Completedbycombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -1244,7 +1220,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void deptrequestedcomboxbox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        private void Deptrequestedcomboxbox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -1252,7 +1228,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void ecrstatuscombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        private void Ecrstatuscombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -1260,7 +1236,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void jobnumbercombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        private void Jobnumbercombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -1268,7 +1244,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void requestedbycomboxbox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        private void Requestedbycomboxbox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -1276,7 +1252,7 @@ namespace SearchDataSPM
             }
         }
 
-        private void supervicsorcomboBox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        private void SupervicsorcomboBox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {

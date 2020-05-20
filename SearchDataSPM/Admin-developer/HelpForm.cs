@@ -18,7 +18,7 @@ namespace SearchDataSPM
             InitializeComponent();
         }
 
-        private void browsebttn_Click(object sender, EventArgs e)
+        private void Browsebttn_Click(object sender, EventArgs e)
         {
             List<string> filestoattach = Importfilename();
 
@@ -99,22 +99,22 @@ namespace SearchDataSPM
             return files;
         }
 
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("https://github.com/spmconnect/SPM_Connect");
         }
 
-        private void nametxt_TextChanged(object sender, EventArgs e)
+        private void Nametxt_TextChanged(object sender, EventArgs e)
         {
             sendemailbttn.Enabled = notestxt.Text.Length > 0;
         }
 
-        private void notestxt_TextChanged(object sender, EventArgs e)
+        private void Notestxt_TextChanged(object sender, EventArgs e)
         {
             sendemailbttn.Enabled = notestxt.Text.Length > 0;
         }
 
-        private void sendemailbttn_Click(object sender, EventArgs e)
+        private void Sendemailbttn_Click(object sender, EventArgs e)
         {
             Sendemailtodevelopers(ConnectUser.Name, filestoAttach, subtxt.Text, notestxt.Text);
             Clearall();
@@ -127,7 +127,7 @@ namespace SearchDataSPM
                 connectapi.SendemailListAttachments(item.email, "Connect Error Submitted - " + subject, "Hello " + item.name + "," + Environment.NewLine + requser + " sent this error report." + Environment.NewLine + notes + Environment.NewLine + Environment.NewLine + "Triggered by " + ConnectUser.Name, files, "");
         }
 
-        private void shrtcutbttn_Click(object sender, EventArgs e)
+        private void Shrtcutbttn_Click(object sender, EventArgs e)
         {
             try
             {

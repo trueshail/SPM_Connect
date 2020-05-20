@@ -111,11 +111,37 @@ namespace SPMConnectAPI
             return dt;
         }
 
+        public DataTable GetECRInfo(string invoicenumber)
+        {
+            DataTable dt = new DataTable();
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[ECR] WHERE ECRNo = '" + invoicenumber + "'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+
+                    dt.Clear();
+                    sda.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get ECR Info", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    log.Error(ex.Message, ex);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return dt;
+        }
+
         #endregion Datatables to pull out values or records
 
         #region Generating New Ids
 
-        private string getnewECRNo()
+        private string GetnewECRNo()
         {
             string newincoiveno = "";
             try
@@ -412,7 +438,7 @@ namespace SPMConnectAPI
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
             string username = GetNameByEmpId(empid);
-            string newinvoiceno = getnewECRNo();
+            string newinvoiceno = GetnewECRNo();
 
             try
             {
