@@ -1,5 +1,4 @@
 ﻿using SearchDataSPM.Engineering;
-
 using System;
 using System.Windows.Forms;
 using static SPMConnectAPI.ConnectConstants;
@@ -61,7 +60,7 @@ namespace SearchDataSPM
             }
             else
             {
-                MetroFramework.MetroMessageBox.Show(this, "User name " + connectapi.GetUserName() + " does not exists. Please contact the admin.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetroFramework.MetroMessageBox.Show(this, "User name " + GetUserName() + " does not exists. Please contact the admin.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.ExitThread();
                 Environment.Exit(0);
             }

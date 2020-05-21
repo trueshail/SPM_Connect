@@ -135,7 +135,7 @@ namespace SearchDataSPM
             log.Info("Opened Purchase Req ");
             this.BringToFront();
             this.Focus();
-            this.Text = "SPM Connect Purchase Requisition - " + connectapi.GetUserName().Substring(4);
+            this.Text = "SPM Connect Purchase Requisition - " + GetUserName().Substring(4);
         }
 
         private void ShowReqSearchItems(string user)
@@ -2924,7 +2924,7 @@ namespace SearchDataSPM
                 //sfd.Filter = "Excel Documents (*.xls)|*.xls";
                 //sfd.FileName = "Inventory_Adjustment_Export.xls";
 
-                string filepath = Getsupervisorsharepath(connectapi.GetUserName()) + @"\SPM_Connect\PreliminaryPurchases\";
+                string filepath = Getsupervisorsharepath(GetUserName()) + @"\SPM_Connect\PreliminaryPurchases\";
                 System.IO.Directory.CreateDirectory(filepath);
                 filepath += purchreqtxt.Text + " - " + requestbytxt.Text + ".xls";
                 // Copy DataGridView results to clipboard
@@ -2986,7 +2986,8 @@ namespace SearchDataSPM
             }
             catch (Exception ex)
             {
-                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Error Saving excel file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                log.Error(ex.Message, ex);
+                //MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Error Saving excel file", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

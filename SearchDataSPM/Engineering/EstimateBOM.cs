@@ -101,7 +101,7 @@ namespace SearchDataSPM
 
         private void ParentView_Load(object sender, EventArgs e)
         {
-            user = connectapi.GetUserDetails(connectapi.GetUserName());
+            user = connectapi.GetUserDetails(GetUserName());
             Assy_txtbox.Focus();
             Assy_txtbox.Text = itemnumber;
             if (Assy_txtbox.Text.Length == 5 || Assy_txtbox.Text.Length == 6)

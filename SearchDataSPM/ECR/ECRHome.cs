@@ -26,7 +26,7 @@ namespace SearchDataSPM
 
         private void Checkdeptsandrights()
         {
-            versionlabel.Text = connectapi.Getassyversionnumber();
+            versionlabel.Text = Getassyversionnumber();
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
             if (ConnectUser.ECR)
             {

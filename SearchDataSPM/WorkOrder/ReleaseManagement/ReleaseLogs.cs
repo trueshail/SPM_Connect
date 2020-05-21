@@ -25,7 +25,7 @@ namespace SearchDataSPM
 
         private void GetVersionLabel()
         {
-            versionlabel.Text = connectapi.Getassyversionnumber();
+            versionlabel.Text = Getassyversionnumber();
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
         }
 

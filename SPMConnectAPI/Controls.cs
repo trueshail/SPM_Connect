@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
+using static SPMConnectAPI.ConnectConstants;
 
 namespace SPMConnectAPI
 {
@@ -112,9 +113,8 @@ namespace SPMConnectAPI
             return openassycatalog;
         }
 
-        public void updateitempropertiesfromgenius(string item)
+        public void Updateitempropertiesfromgenius(string item)
         {
-            _ = new DataTable();
             DataTable dtb1 = GetGeniusInfoOnItem(item);
             DataRow r = dtb1.Rows[0];
 
@@ -123,7 +123,7 @@ namespace SPMConnectAPI
             string manufacturer = r["Des4"].ToString();
             string oem = r["Des2"].ToString();
 
-            if (checkitemexists(item))
+            if (Checkitemexists(item))
             {
                 if (UpdateItemOnConnect(item, description, family, manufacturer, oem))
                 {
@@ -140,7 +140,7 @@ namespace SPMConnectAPI
             }
         }
 
-        private bool checkitemexists(string itemnumber)
+        private bool Checkitemexists(string itemnumber)
         {
             bool exists = false;
             using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Inventory] WHERE [ItemNumber]='" + itemnumber + "'", cn))

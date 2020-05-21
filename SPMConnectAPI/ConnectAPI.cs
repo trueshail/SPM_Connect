@@ -23,16 +23,6 @@ namespace SPMConnectAPI
             SPM_Connect();
         }
 
-        public string ConnectCntrlsConnectionString()
-        {
-            return "Data Source=spm-sql;Initial Catalog=SPMControlCatalog;User ID=SPM_Controls;password=eyBzJehFP*uO";
-        }
-
-        public string ConnectConnectionString()
-        {
-            return "Data Source=spm-sql;Initial Catalog=SPM_Database;User ID=SPM_Agent;password=spm5445";
-        }
-
         private void SPM_Connect()
         {
             string connection = ConnectConnectionString();
@@ -54,13 +44,6 @@ namespace SPMConnectAPI
         }
 
         #endregion SQL Connection / Connection Strings
-
-        public string Getassyversionnumber()
-        {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            string version = "V" + assembly.GetName().Version.ToString();
-            return version;
-        }
 
         public string GetConnectParameterValue(string parameter)
         {
@@ -85,15 +68,6 @@ namespace SPMConnectAPI
             }
 
             return value;
-        }
-
-        public string GetUserName()
-        {
-            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-            if (userName.Length > 0)
-                return userName;
-            else
-                return null;
         }
 
         #region UserInfo/Rights

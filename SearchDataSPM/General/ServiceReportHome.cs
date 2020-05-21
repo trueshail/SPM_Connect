@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
+using static SPMConnectAPI.ConnectConstants;
+
 
 namespace SearchDataSPM
 {
@@ -25,7 +27,7 @@ namespace SearchDataSPM
 
         private void Checkdeptsandrights()
         {
-            versionlabel.Text = connectapi.Getassyversionnumber();
+            versionlabel.Text = Getassyversionnumber();
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
         }
 

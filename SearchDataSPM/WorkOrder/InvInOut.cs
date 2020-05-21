@@ -165,7 +165,7 @@ namespace SearchDataSPM
         private void Home_Load(object sender, EventArgs e)
         {
             empid_txtbox.Focus();
-            versionlabel.Text = connectapi.Getassyversionnumber();
+            versionlabel.Text = Getassyversionnumber();
             developer = ConnectUser.Developer;
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);

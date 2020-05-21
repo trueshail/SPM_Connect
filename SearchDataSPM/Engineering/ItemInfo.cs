@@ -161,7 +161,7 @@ namespace SearchDataSPM
             if (salepricetext.Text.Length > 0 && qtytxt.Text.Length > 0)
             {
                 string itemnumber = ItemTxtBox.Text;
-                string user = connectapi.GetUserName();
+                string user = GetUserName();
                 string userfullname = Getuserfullname(user);
                 Createnewentry(itemnumber, userfullname);
                 Clearalltextboxes();
@@ -258,7 +258,7 @@ namespace SearchDataSPM
 
         private void CheckItemDependenciesRight()
         {
-            string useradmin = connectapi.GetUserName();
+            string useradmin = GetUserName();
 
             using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND ItemDependencies = '1'", connectapi.cn))
             {
@@ -300,7 +300,7 @@ namespace SearchDataSPM
 
         private void CheckManagement()
         {
-            string useradmin = connectapi.GetUserName();
+            string useradmin = GetUserName();
 
             using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND Management = '1'", connectapi.cn))
             {
@@ -344,7 +344,7 @@ namespace SearchDataSPM
 
         private void CheckPriceRights()
         {
-            string useradmin = connectapi.GetUserName();
+            string useradmin = GetUserName();
 
             using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND PriceRight = '1'", connectapi.cn))
             {
