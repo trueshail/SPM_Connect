@@ -361,7 +361,7 @@ namespace SearchDataSPM
         {
             //connectapi.SPM_Connect();
             foreach (NameEmail item in connectapi.GetNameEmailByParaValue(UserFields.CribShort, "1"))
-                connectapi.Sendemail(item.email, reqno + " Material Re-Allocation", "Hello " + item.name + "," + Environment.NewLine + " Please see attached invoice regarding crib shortage", fileName, "");
+                connectapi.TriggerEmail(item.email, reqno + " Material Re-Allocation", item.name, " Please see attached invoice regarding crib shortage", fileName, "", "", "Normal");
         }
 
         #endregion Save Report
