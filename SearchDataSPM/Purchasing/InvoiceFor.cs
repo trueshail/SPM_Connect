@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.Purchasing
 {
     public partial class InvoiceFor : MetroFramework.Forms.MetroForm
     {

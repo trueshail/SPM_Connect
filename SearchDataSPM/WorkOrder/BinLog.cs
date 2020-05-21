@@ -1,14 +1,13 @@
-﻿using SPMConnectAPI;
-using System;
+﻿using System;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.WorkOrder
 {
     public partial class BinLog : Form
     {
-        private readonly WorkOrder connectapi = new WorkOrder();
+        private readonly SPMConnectAPI.WorkOrder connectapi = new SPMConnectAPI.WorkOrder();
         private bool formloading;
         private log4net.ILog log;
         private DataTable workorderstatus = new DataTable();

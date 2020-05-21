@@ -3,7 +3,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.Admin_developer
 {
     public static class ConverterHash
     {

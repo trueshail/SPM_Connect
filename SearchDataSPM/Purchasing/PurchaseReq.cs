@@ -1,4 +1,4 @@
-﻿using SearchDataSPM.Miscellaneous;
+﻿using SearchDataSPM.Report;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,7 +16,7 @@ using System.Windows.Forms;
 using static SPMConnectAPI.ConnectConstants;
 using Excel = Microsoft.Office.Interop.Excel;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.Purchasing
 {
     public partial class PurchaseReqform : Form
     {
@@ -907,7 +907,7 @@ namespace SearchDataSPM
                 {
                     string ponumber = "";
                     string pdate = "";
-                    General.PODetails pODetails = new SearchDataSPM.General.PODetails();
+                    PODetails pODetails = new PODetails();
                     pODetails.BringToFront();
                     pODetails.TopMost = true;
                     pODetails.Focus();

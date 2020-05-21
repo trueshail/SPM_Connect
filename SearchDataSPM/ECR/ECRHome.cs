@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SearchDataSPM.WorkOrder;
+using System;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
@@ -6,7 +7,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using static SPMConnectAPI.ConnectConstants;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.ECR
 {
     public partial class ECRHome : Form
     {

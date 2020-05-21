@@ -1,5 +1,4 @@
-﻿using ExtractLargeIconFromFile;
-using SPMConnectAPI;
+﻿using SPMConnectAPI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,7 +14,7 @@ using System.Windows.Forms;
 using wpfPreviewFlowControl;
 using static SPMConnectAPI.ConnectConstants;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.Engineering
 {
     public partial class WhereUsed : Form
     {

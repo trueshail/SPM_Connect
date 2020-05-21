@@ -1,4 +1,4 @@
-﻿using SearchDataSPM.Miscellaneous;
+﻿using SearchDataSPM.Report;
 using SPMConnectAPI;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static SPMConnectAPI.ConnectConstants;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.Purchasing
 {
     public partial class InvoiceDetails : Form
     {
@@ -969,7 +969,7 @@ namespace SearchDataSPM
             if (editbttn.Visible)
             {
                 string pdate = "";
-                General.InvoiceDateChange pODetails = new SearchDataSPM.General.InvoiceDateChange();
+                InvoiceDateChange pODetails = new InvoiceDateChange();
 
                 if (pODetails.ShowDialog() == DialogResult.OK)
                 {

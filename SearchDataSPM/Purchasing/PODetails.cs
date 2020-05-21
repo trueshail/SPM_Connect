@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace SearchDataSPM.General
+namespace SearchDataSPM.Purchasing
 {
     public partial class PODetails : Form
     {

@@ -2,7 +2,7 @@
 using System.Data.SqlClient;
 using System.Windows.Forms;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.Admin_developer
 {
     public partial class LoginForm : MetroFramework.Forms.MetroForm
     {

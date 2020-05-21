@@ -6,7 +6,7 @@ using System.IO;
 using System.Windows.Forms;
 using static SPMConnectAPI.ConnectConstants;
 
-namespace SearchDataSPM.General
+namespace SearchDataSPM.Quotes
 {
     public partial class SPM_ConnectQuoteManagement : MetroFramework.Forms.MetroForm
     {

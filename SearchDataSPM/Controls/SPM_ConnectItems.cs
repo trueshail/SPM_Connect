@@ -5,8 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using static SPMConnectAPI.ConnectConstants;
 
-
-namespace SearchDataSPM
+namespace SearchDataSPM.Controls
 {
     public partial class SPM_ConnectItems : Form
 

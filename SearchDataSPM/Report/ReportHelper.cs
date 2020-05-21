@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 
-namespace SearchDataSPM.Miscellaneous
+namespace SearchDataSPM.Report
 {
     public static class ReportHelper
     {
@@ -36,7 +36,6 @@ namespace SearchDataSPM.Miscellaneous
                 RS2005.ReportParameter[] _parameters = rs.GetReportParameters(_reportName, _historyID, _forRendering, _values, _credentials);
                 RE2005.ExecutionInfo ei = rsExec.LoadReport(_reportName, historyID);
                 RE2005.ParameterValue[] parameters = para;
-
 
                 rsExec.SetExecutionParameters(parameters, "en-us");
 

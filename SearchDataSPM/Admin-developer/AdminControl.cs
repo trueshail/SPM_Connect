@@ -7,7 +7,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.Admin_developer
 {
     public partial class AdminControl : Form
     {

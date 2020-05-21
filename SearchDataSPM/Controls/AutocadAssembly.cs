@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.Controls
 {
     public partial class AutocadAssembly : Form
 

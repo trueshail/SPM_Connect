@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.General
 {
     public partial class Compare : Form
 

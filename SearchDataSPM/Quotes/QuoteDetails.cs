@@ -8,8 +8,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using static SPMConnectAPI.ConnectConstants;
 
-
-namespace SearchDataSPM.General
+namespace SearchDataSPM.Quotes
 {
     public partial class QuoteDetails : Form
     {

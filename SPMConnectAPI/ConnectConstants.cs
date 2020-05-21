@@ -13,6 +13,7 @@ namespace SPMConnectAPI
         {
             return "Data Source=spm-sql;Initial Catalog=SPM_Database;User ID=SPM_Agent;password=spm5445";
         }
+
         public static string Getassyversionnumber()
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
@@ -100,6 +101,5 @@ namespace SPMConnectAPI
             public static string WORelease = "WORelease";
             public static string WOScan = "WOScan";
         }
-
     }
 }

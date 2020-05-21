@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 
-namespace ExtractLargeIconFromFile.Shell
+namespace SearchDataSPM.Shell
 {
     [StructLayout(LayoutKind.Sequential)]
     public struct RECT

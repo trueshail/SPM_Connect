@@ -1,5 +1,4 @@
-﻿using SearchDataSPM.Miscellaneous;
-using SPMConnectAPI;
+﻿using SearchDataSPM.Report;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -9,14 +8,14 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using static SPMConnectAPI.ConnectConstants;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.WorkOrder
 {
     public partial class MatReAlloc : Form
     {
         #region Load Invoice Details and setting Parameters
 
         private readonly List<char> _barcode = new List<char>(10);
-        private readonly WorkOrder connectapi = new WorkOrder();
+        private readonly SPMConnectAPI.WorkOrder connectapi = new SPMConnectAPI.WorkOrder();
         private DateTime _lastKeystroke = new DateTime(0);
         private bool developer;
         private DataTable dt = new DataTable();

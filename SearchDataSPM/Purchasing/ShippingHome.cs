@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using static SPMConnectAPI.ConnectConstants;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.Purchasing
 {
     public partial class ShippingHome : Form
     {

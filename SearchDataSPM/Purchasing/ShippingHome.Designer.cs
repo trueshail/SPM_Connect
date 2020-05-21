@@ -1,35 +1,35 @@
 ﻿using System;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.Purchasing
 {
-	partial class ShippingHome
-	{
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.IContainer components = null;
+    partial class ShippingHome
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
 
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing && (components != null))
-			{
-				components.Dispose();
-			}
-			base.Dispose(disposing);
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
 
-		#region Windows Form Designer generated code
+        #region Windows Form Designer generated code
 
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ShippingHome));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -106,12 +106,12 @@ namespace SearchDataSPM
             // 
             // versionlabel
             // 
-            this.versionlabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.versionlabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.versionlabel.AutoSize = true;
             this.versionlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.versionlabel.ForeColor = System.Drawing.Color.White;
-            this.versionlabel.Location = new System.Drawing.Point(833, 6);
+            this.versionlabel.Location = new System.Drawing.Point(820, 6);
             this.versionlabel.MaximumSize = new System.Drawing.Size(35, 8);
             this.versionlabel.MinimumSize = new System.Drawing.Size(26, 8);
             this.versionlabel.Name = "versionlabel";
@@ -122,11 +122,11 @@ namespace SearchDataSPM
             // 
             // Reload
             // 
-            this.Reload.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.Reload.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Reload.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.Reload.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Reload.Location = new System.Drawing.Point(553, 22);
+            this.Reload.Location = new System.Drawing.Point(540, 22);
             this.Reload.MaximumSize = new System.Drawing.Size(140, 30);
             this.Reload.MinimumSize = new System.Drawing.Size(140, 30);
             this.Reload.Name = "Reload";
@@ -140,8 +140,8 @@ namespace SearchDataSPM
             // txtSearch
             // 
             this.txtSearch.AccessibleName = "";
-            this.txtSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSearch.BackColor = System.Drawing.SystemColors.MenuBar;
             this.txtSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -149,15 +149,15 @@ namespace SearchDataSPM
             this.txtSearch.MaximumSize = new System.Drawing.Size(32767, 25);
             this.txtSearch.MinimumSize = new System.Drawing.Size(4, 25);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(338, 25);
+            this.txtSearch.Size = new System.Drawing.Size(325, 25);
             this.txtSearch.TabIndex = 106;
             this.TreeViewToolTip.SetToolTip(this.txtSearch, "Enter Search Keyword.\r\n");
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
             // 
             // filter4
             // 
-            this.filter4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.filter4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.filter4.BackColor = System.Drawing.SystemColors.MenuBar;
             this.filter4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -173,8 +173,8 @@ namespace SearchDataSPM
             // 
             // filteroemitem_txtbox
             // 
-            this.filteroemitem_txtbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.filteroemitem_txtbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.filteroemitem_txtbox.BackColor = System.Drawing.SystemColors.MenuBar;
             this.filteroemitem_txtbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -190,8 +190,8 @@ namespace SearchDataSPM
             // 
             // filteroem_txtbox
             // 
-            this.filteroem_txtbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.filteroem_txtbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.filteroem_txtbox.BackColor = System.Drawing.SystemColors.MenuBar;
             this.filteroem_txtbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -207,8 +207,8 @@ namespace SearchDataSPM
             // 
             // Descrip_txtbox
             // 
-            this.Descrip_txtbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.Descrip_txtbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Descrip_txtbox.BackColor = System.Drawing.SystemColors.MenuBar;
             this.Descrip_txtbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -224,9 +224,9 @@ namespace SearchDataSPM
             // 
             // advsearchbttn
             // 
-            this.advsearchbttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.advsearchbttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.advsearchbttn.Location = new System.Drawing.Point(826, 64);
+            this.advsearchbttn.Location = new System.Drawing.Point(813, 64);
             this.advsearchbttn.MaximumSize = new System.Drawing.Size(35, 25);
             this.advsearchbttn.MinimumSize = new System.Drawing.Size(35, 25);
             this.advsearchbttn.Name = "advsearchbttn";
@@ -239,8 +239,8 @@ namespace SearchDataSPM
             // 
             // Shiptocomboxbox
             // 
-            this.Shiptocomboxbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.Shiptocomboxbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Shiptocomboxbox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.Shiptocomboxbox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
@@ -249,15 +249,15 @@ namespace SearchDataSPM
             this.Shiptocomboxbox.FormattingEnabled = true;
             this.Shiptocomboxbox.Location = new System.Drawing.Point(7, 379);
             this.Shiptocomboxbox.Name = "Shiptocomboxbox";
-            this.Shiptocomboxbox.Size = new System.Drawing.Size(164, 22);
+            this.Shiptocomboxbox.Size = new System.Drawing.Size(172, 22);
             this.Shiptocomboxbox.TabIndex = 125;
             this.TreeViewToolTip.SetToolTip(this.Shiptocomboxbox, "Filter by ship to");
             this.Shiptocomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Manufactureritemcomboxbox_KeyDown);
             // 
             // Salespersoncomboxbox
             // 
-            this.Salespersoncomboxbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.Salespersoncomboxbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Salespersoncomboxbox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.Salespersoncomboxbox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
@@ -266,15 +266,15 @@ namespace SearchDataSPM
             this.Salespersoncomboxbox.FormattingEnabled = true;
             this.Salespersoncomboxbox.Location = new System.Drawing.Point(7, 230);
             this.Salespersoncomboxbox.Name = "Salespersoncomboxbox";
-            this.Salespersoncomboxbox.Size = new System.Drawing.Size(164, 22);
+            this.Salespersoncomboxbox.Size = new System.Drawing.Size(172, 22);
             this.Salespersoncomboxbox.TabIndex = 123;
             this.TreeViewToolTip.SetToolTip(this.Salespersoncomboxbox, "Filter by sales person");
             this.Salespersoncomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.familycomboxbox_KeyDown);
             // 
             // lastsavedbycombo
             // 
-            this.lastsavedbycombo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.lastsavedbycombo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lastsavedbycombo.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.lastsavedbycombo.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
@@ -283,15 +283,15 @@ namespace SearchDataSPM
             this.lastsavedbycombo.FormattingEnabled = true;
             this.lastsavedbycombo.Location = new System.Drawing.Point(7, 520);
             this.lastsavedbycombo.Name = "lastsavedbycombo";
-            this.lastsavedbycombo.Size = new System.Drawing.Size(164, 22);
+            this.lastsavedbycombo.Size = new System.Drawing.Size(172, 22);
             this.lastsavedbycombo.TabIndex = 127;
             this.TreeViewToolTip.SetToolTip(this.lastsavedbycombo, "Filter by last saved");
             this.lastsavedbycombo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lastsavedbycombo_KeyDown);
             // 
             // Soldtocombobox
             // 
-            this.Soldtocombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.Soldtocombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Soldtocombobox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.Soldtocombobox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
@@ -303,15 +303,15 @@ namespace SearchDataSPM
             "SPM AUTOMATION (Canada) INC."});
             this.Soldtocombobox.Location = new System.Drawing.Point(7, 304);
             this.Soldtocombobox.Name = "Soldtocombobox";
-            this.Soldtocombobox.Size = new System.Drawing.Size(164, 22);
+            this.Soldtocombobox.Size = new System.Drawing.Size(172, 22);
             this.Soldtocombobox.TabIndex = 124;
             this.TreeViewToolTip.SetToolTip(this.Soldtocombobox, "Filter by sold to");
             this.Soldtocombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.oemitemcombobox_KeyDown);
             // 
             // custvendcombobox
             // 
-            this.custvendcombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.custvendcombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.custvendcombobox.AutoCompleteCustomSource.AddRange(new string[] {
             "0 - Vendor",
@@ -326,15 +326,15 @@ namespace SearchDataSPM
             "1 - Customer"});
             this.custvendcombobox.Location = new System.Drawing.Point(7, 594);
             this.custvendcombobox.Name = "custvendcombobox";
-            this.custvendcombobox.Size = new System.Drawing.Size(164, 22);
+            this.custvendcombobox.Size = new System.Drawing.Size(172, 22);
             this.custvendcombobox.TabIndex = 128;
             this.TreeViewToolTip.SetToolTip(this.custvendcombobox, "Filter by customer or vendor");
             this.custvendcombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ActiveCadblockcombobox_KeyDown);
             // 
             // Createdbycombobox
             // 
-            this.Createdbycombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.Createdbycombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Createdbycombobox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.Createdbycombobox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
@@ -347,15 +347,15 @@ namespace SearchDataSPM
             "Joel Goldsmith"});
             this.Createdbycombobox.Location = new System.Drawing.Point(7, 153);
             this.Createdbycombobox.Name = "Createdbycombobox";
-            this.Createdbycombobox.Size = new System.Drawing.Size(164, 22);
+            this.Createdbycombobox.Size = new System.Drawing.Size(172, 22);
             this.Createdbycombobox.TabIndex = 122;
             this.TreeViewToolTip.SetToolTip(this.Createdbycombobox, "Filter Created by");
             this.Createdbycombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.designedbycombobox_KeyDown);
             // 
             // CarrierscomboBox
             // 
-            this.CarrierscomboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.CarrierscomboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.CarrierscomboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CarrierscomboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
@@ -364,20 +364,20 @@ namespace SearchDataSPM
             this.CarrierscomboBox.FormattingEnabled = true;
             this.CarrierscomboBox.Location = new System.Drawing.Point(7, 450);
             this.CarrierscomboBox.Name = "CarrierscomboBox";
-            this.CarrierscomboBox.Size = new System.Drawing.Size(164, 22);
+            this.CarrierscomboBox.Size = new System.Drawing.Size(172, 22);
             this.CarrierscomboBox.TabIndex = 126;
             this.TreeViewToolTip.SetToolTip(this.CarrierscomboBox, "Filter by carrier");
             this.CarrierscomboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MaterialcomboBox_KeyDown);
             // 
             // addnewbttn
             // 
-            this.addnewbttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.addnewbttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.addnewbttn.BackColor = System.Drawing.Color.Transparent;
             this.addnewbttn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.addnewbttn.ForeColor = System.Drawing.Color.White;
             this.addnewbttn.Image = ((System.Drawing.Image)(resources.GetObject("addnewbttn.Image")));
-            this.addnewbttn.Location = new System.Drawing.Point(695, 4);
+            this.addnewbttn.Location = new System.Drawing.Point(682, 4);
             this.addnewbttn.MaximumSize = new System.Drawing.Size(65, 56);
             this.addnewbttn.MinimumSize = new System.Drawing.Size(65, 56);
             this.addnewbttn.Name = "addnewbttn";
@@ -391,13 +391,13 @@ namespace SearchDataSPM
             // 
             // attnbttn
             // 
-            this.attnbttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.attnbttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.attnbttn.BackColor = System.Drawing.Color.Transparent;
             this.attnbttn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.attnbttn.ForeColor = System.Drawing.Color.White;
             this.attnbttn.Image = ((System.Drawing.Image)(resources.GetObject("attnbttn.Image")));
-            this.attnbttn.Location = new System.Drawing.Point(766, 4);
+            this.attnbttn.Location = new System.Drawing.Point(753, 4);
             this.attnbttn.MaximumSize = new System.Drawing.Size(65, 56);
             this.attnbttn.MinimumSize = new System.Drawing.Size(65, 56);
             this.attnbttn.Name = "attnbttn";
@@ -459,7 +459,7 @@ namespace SearchDataSPM
             this.splitContainer1.Panel2MinSize = 175;
             this.splitContainer1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.splitContainer1.Size = new System.Drawing.Size(1044, 711);
-            this.splitContainer1.SplitterDistance = 867;
+            this.splitContainer1.SplitterDistance = 861;
             this.splitContainer1.SplitterWidth = 2;
             this.splitContainer1.TabIndex = 105;
             // 
@@ -470,7 +470,7 @@ namespace SearchDataSPM
             this.InvoiceItemsgrp.Font = new System.Drawing.Font("Lucida Console", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.InvoiceItemsgrp.Location = new System.Drawing.Point(0, 510);
             this.InvoiceItemsgrp.Name = "InvoiceItemsgrp";
-            this.InvoiceItemsgrp.Size = new System.Drawing.Size(867, 201);
+            this.InvoiceItemsgrp.Size = new System.Drawing.Size(861, 201);
             this.InvoiceItemsgrp.TabIndex = 123;
             this.InvoiceItemsgrp.TabStop = false;
             this.InvoiceItemsgrp.Text = "Showing items for InvoiceNo: ";
@@ -497,17 +497,17 @@ namespace SearchDataSPM
             this.invoiceitemsdataGridView2.Name = "invoiceitemsdataGridView2";
             this.invoiceitemsdataGridView2.ReadOnly = true;
             this.invoiceitemsdataGridView2.RowHeadersVisible = false;
-            this.invoiceitemsdataGridView2.Size = new System.Drawing.Size(861, 182);
+            this.invoiceitemsdataGridView2.Size = new System.Drawing.Size(855, 182);
             this.invoiceitemsdataGridView2.TabIndex = 0;
             // 
             // recordlabel
             // 
-            this.recordlabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.recordlabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.recordlabel.AutoSize = true;
             this.recordlabel.Font = new System.Drawing.Font("Maiandra GD", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.recordlabel.ForeColor = System.Drawing.Color.Black;
-            this.recordlabel.Location = new System.Drawing.Point(657, 80);
+            this.recordlabel.Location = new System.Drawing.Point(644, 80);
             this.recordlabel.Name = "recordlabel";
             this.recordlabel.Size = new System.Drawing.Size(0, 14);
             this.recordlabel.TabIndex = 119;
@@ -518,8 +518,8 @@ namespace SearchDataSPM
             this.dataGridView.AllowUserToDeleteRows = false;
             this.dataGridView.AllowUserToOrderColumns = true;
             this.dataGridView.AllowUserToResizeRows = false;
-            this.dataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.dataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView.BackgroundColor = System.Drawing.Color.SkyBlue;
@@ -547,7 +547,7 @@ namespace SearchDataSPM
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.ReadOnly = true;
             this.dataGridView.RowHeadersVisible = false;
-            this.dataGridView.Size = new System.Drawing.Size(863, 406);
+            this.dataGridView.Size = new System.Drawing.Size(850, 406);
             this.dataGridView.StandardTab = true;
             this.dataGridView.TabIndex = 111;
             this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellDoubleClick);
@@ -628,8 +628,8 @@ namespace SearchDataSPM
             // 
             // matlbl
             // 
-            this.matlbl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.matlbl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.matlbl.AutoSize = true;
             this.matlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -647,7 +647,7 @@ namespace SearchDataSPM
             this.clrfiltersbttn.Location = new System.Drawing.Point(0, 0);
             this.clrfiltersbttn.MinimumSize = new System.Drawing.Size(0, 40);
             this.clrfiltersbttn.Name = "clrfiltersbttn";
-            this.clrfiltersbttn.Size = new System.Drawing.Size(175, 40);
+            this.clrfiltersbttn.Size = new System.Drawing.Size(181, 40);
             this.clrfiltersbttn.TabIndex = 129;
             this.clrfiltersbttn.Text = "Clear Filters";
             this.clrfiltersbttn.UseVisualStyleBackColor = true;
@@ -655,8 +655,8 @@ namespace SearchDataSPM
             // 
             // label6
             // 
-            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -669,8 +669,8 @@ namespace SearchDataSPM
             // 
             // label5
             // 
-            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -683,8 +683,8 @@ namespace SearchDataSPM
             // 
             // label4
             // 
-            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -697,8 +697,8 @@ namespace SearchDataSPM
             // 
             // label3
             // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -711,8 +711,8 @@ namespace SearchDataSPM
             // 
             // label2
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -725,8 +725,8 @@ namespace SearchDataSPM
             // 
             // actcadblk
             // 
-            this.actcadblk.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.actcadblk.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.actcadblk.AutoSize = true;
             this.actcadblk.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -765,9 +765,9 @@ namespace SearchDataSPM
             this.ContextMenuStripShipping.ResumeLayout(false);
             this.ResumeLayout(false);
 
-		}
+        }
 
-        
+
 
         #endregion
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member 'SPM_Connect.txtSearch'

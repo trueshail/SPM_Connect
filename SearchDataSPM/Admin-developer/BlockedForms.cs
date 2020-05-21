@@ -5,7 +5,6 @@ using System.Drawing;
 using System.Windows.Forms;
 using static SPMConnectAPI.ConnectConstants;
 
-
 namespace SearchDataSPM.Admin_developer
 {
     public partial class BlockedForms : Form

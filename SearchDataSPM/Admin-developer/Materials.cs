@@ -4,7 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.Admin_developer
 {
     public partial class Materials : Form
     {

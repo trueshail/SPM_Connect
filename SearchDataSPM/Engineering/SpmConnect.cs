@@ -1,4 +1,9 @@
-﻿using ExtractLargeIconFromFile;
+﻿using SearchDataSPM.Admin_developer;
+using SearchDataSPM.Controls;
+using SearchDataSPM.General;
+using SearchDataSPM.Miscellaneous;
+using SearchDataSPM.Purchasing;
+using SearchDataSPM.Report;
 using SolidWorks.Interop.sldworks;
 using SPMConnectAPI;
 using System;
@@ -38,7 +43,7 @@ namespace SearchDataSPM.Engineering
         private bool showingfavorites;
         private readonly SPMSQLCommands connectapi = new SPMSQLCommands();
 
-        private readonly Controls connectapicntrls = new Controls();
+        private readonly SPMConnectAPI.Controls connectapicntrls = new SPMConnectAPI.Controls();
 
         public SpmConnect()
         {
@@ -317,7 +322,7 @@ namespace SearchDataSPM.Engineering
                 //autoComplete.Add(txtSearch.Text);
                 if (txtSearch.Text == "playgame")
                 {
-                    lettergame lettergame = new lettergame();
+                    Lettergame lettergame = new Lettergame();
                     lettergame.Show();
                     return;
                 }

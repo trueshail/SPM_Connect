@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace ExtractLargeIconFromFile.Shell
+namespace SearchDataSPM.Shell
 {
     public struct SHFILEINFO
     {

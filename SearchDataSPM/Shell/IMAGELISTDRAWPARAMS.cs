@@ -1,6 +1,6 @@
 using System;
 
-namespace ExtractLargeIconFromFile.Shell
+namespace SearchDataSPM.Shell
 {
     public struct IMAGELISTDRAWPARAMS
     {

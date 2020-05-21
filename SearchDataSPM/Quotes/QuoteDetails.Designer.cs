@@ -1,4 +1,4 @@
-﻿namespace SearchDataSPM.General
+﻿namespace SearchDataSPM.Quotes
 {
     partial class QuoteDetails
     {

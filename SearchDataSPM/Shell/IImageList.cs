@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace ExtractLargeIconFromFile.Shell
+namespace SearchDataSPM.Shell
 {
     [ComImportAttribute()]
     [GuidAttribute("46EB5926-582E-4017-9FDF-E8998DAA0950")]

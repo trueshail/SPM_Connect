@@ -1,4 +1,4 @@
-﻿namespace SearchDataSPM.General
+﻿namespace SearchDataSPM.Purchasing
 {
     partial class InvoiceDateChange
     {

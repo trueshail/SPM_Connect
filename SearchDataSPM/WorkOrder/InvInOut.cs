@@ -1,16 +1,15 @@
-﻿using SPMConnectAPI;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Windows.Forms;
 using static SPMConnectAPI.ConnectConstants;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.WorkOrder
 {
     public partial class InvInOut : Form
     {
         private readonly List<char> _barcode = new List<char>(10);
-        private readonly WorkOrder connectapi = new WorkOrder();
+        private readonly SPMConnectAPI.WorkOrder connectapi = new SPMConnectAPI.WorkOrder();
         private readonly int userinputtime = 100;
         private DateTime _lastKeystroke = new DateTime(0);
         private bool credentialsverified;

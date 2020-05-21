@@ -1,4 +1,4 @@
-﻿namespace SearchDataSPM
+﻿namespace SearchDataSPM.Purchasing
 {
     public class PurhcaseReqSQL
     {

@@ -2,7 +2,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.Report
 {
     public partial class ReportViewer : Form
     {

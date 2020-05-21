@@ -8,7 +8,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.Controls
 {
     public partial class AutocadWhereUsed : Form
 

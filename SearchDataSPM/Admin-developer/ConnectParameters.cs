@@ -6,7 +6,7 @@ using System.Globalization;
 using System.Windows.Forms;
 using static SPMConnectAPI.ConnectConstants;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.Admin_developer
 {
     public partial class ConnectParameters : Form
     {

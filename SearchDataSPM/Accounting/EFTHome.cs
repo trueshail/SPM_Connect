@@ -1,4 +1,4 @@
-﻿using SearchDataSPM.Miscellaneous;
+﻿using SearchDataSPM.Report;
 using SPMConnectAPI;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static SPMConnectAPI.ConnectConstants;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.Accounting
 {
     public partial class EFTHome : MetroFramework.Forms.MetroForm
     {

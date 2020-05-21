@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.Miscellaneous
 {
     public partial class ListOpenWindows : Form
     {

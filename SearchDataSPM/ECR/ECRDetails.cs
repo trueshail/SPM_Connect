@@ -1,6 +1,5 @@
-﻿using ExtractLargeIconFromFile;
-using SearchDataSPM.ECR;
-using SearchDataSPM.Miscellaneous;
+﻿using SearchDataSPM.Engineering;
+using SearchDataSPM.Report;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -14,7 +13,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using static SPMConnectAPI.ConnectConstants;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.ECR
 {
     public partial class ECRDetails : Form
     {
