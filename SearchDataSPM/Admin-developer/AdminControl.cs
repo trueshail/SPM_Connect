@@ -7,7 +7,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.Admin_developer
 {
     public partial class AdminControl : Form
     {
@@ -30,9 +30,6 @@ namespace SearchDataSPM
 
         private void ParentView_Load(object sender, EventArgs e)
         {
-            Fillsupervisor();
-            FillECRsupervisor();
-            FillShippingsupervisor();
             Connect_SPMSQL(0);
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -53,6 +50,10 @@ namespace SearchDataSPM
                 {
                     Userlistbox.SelectedItem = Userlistbox.Items[index];
                 }
+                Fillsupervisor();
+                FillECRsupervisor();
+                FillShippingsupervisor();
+                Selectionchanged(users[index]);
             }
             catch (Exception ex)
             {
@@ -70,6 +71,7 @@ namespace SearchDataSPM
             {
                 try
                 {
+                    supervisorcombox.DataSource = null;
                     if (connectapi.cn.State == ConnectionState.Closed)
                         connectapi.cn.Open();
                     SqlDataReader reader = sqlCommand.ExecuteReader();
@@ -98,6 +100,7 @@ namespace SearchDataSPM
             {
                 try
                 {
+                    ecrSupervisorcomboBox.DataSource = null;
                     if (connectapi.cn.State == ConnectionState.Closed)
                         connectapi.cn.Open();
                     SqlDataReader reader = sqlCommand.ExecuteReader();
@@ -126,6 +129,7 @@ namespace SearchDataSPM
             {
                 try
                 {
+                    shippingSupervisorcomboBox.DataSource = null;
                     if (connectapi.cn.State == ConnectionState.Closed)
                         connectapi.cn.Open();
                     SqlDataReader reader = sqlCommand.ExecuteReader();

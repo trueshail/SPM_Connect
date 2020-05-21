@@ -4,8 +4,9 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using static SPMConnectAPI.ConnectConstants;
 
-namespace SearchDataSPM.General
+namespace SearchDataSPM.Quotes
 {
     public partial class SPM_ConnectQuoteManagement : MetroFramework.Forms.MetroForm
     {
@@ -97,7 +98,7 @@ namespace SearchDataSPM.General
 
             if (result == DialogResult.Yes)
             {
-                string user = Getuserfullname(connectapi.GetUserName());
+                string user = Getuserfullname(GetUserName());
                 string newnunber = getnewnumber();
                 bool status = createnewquote(newnunber, user);
                 if (status)

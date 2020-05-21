@@ -1,4 +1,4 @@
-﻿namespace SearchDataSPM
+﻿namespace SearchDataSPM.Purchasing
 {
     partial class InvoiceFor
     {

@@ -63,7 +63,7 @@ namespace SPMConnectAPI
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[UnionInventory] WHERE [ItemNumber] = '" + sano + "'";
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Inventory] WHERE [ItemNumber] = '" + sano + "'";
                 cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);

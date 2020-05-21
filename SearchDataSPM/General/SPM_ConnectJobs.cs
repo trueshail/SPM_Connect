@@ -1,4 +1,10 @@
-﻿using SPMConnectAPI;
+﻿using SearchDataSPM.ECR;
+using SearchDataSPM.Engineering;
+using SearchDataSPM.Purchasing;
+using SearchDataSPM.Quotes;
+using SearchDataSPM.WorkOrder;
+using SearchDataSPM.WorkOrder.ReleaseManagement;
+using SPMConnectAPI;
 using System;
 using System.ComponentModel;
 using System.Data;
@@ -12,8 +18,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static SPMConnectAPI.ConnectConstants;
+using TreeView = SearchDataSPM.Engineering.TreeView;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.General
 {
     public partial class SPM_ConnectJobs : Form
     {
@@ -502,12 +509,12 @@ namespace SearchDataSPM
 
         private void getBOMToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            processbom(GetAssynumber());
+            Processbom(GetAssynumber());
         }
 
         // public static string jobtree;
 
-        private void processbom(string itemvalue)
+        private void Processbom(string itemvalue)
         {
             TreeView treeView = new TreeView(item: itemvalue);
             treeView.Show();
@@ -1025,7 +1032,7 @@ namespace SearchDataSPM
                 {
                     item = "";
                 }
-                processbom(item);
+                Processbom(item);
 
                 return true;
             }
@@ -1196,7 +1203,7 @@ namespace SearchDataSPM
 
         private void quotebttn_Click_1(object sender, EventArgs e)
         {
-            General.SPM_ConnectQuoteManagement quoteTracking = new General.SPM_ConnectQuoteManagement();
+            SPM_ConnectQuoteManagement quoteTracking = new SPM_ConnectQuoteManagement();
             quoteTracking.Show();
         }
 
@@ -1221,7 +1228,7 @@ namespace SearchDataSPM
             shipping.Show();
         }
 
-        private void viewCurrentJobReleaseToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ViewCurrentJobReleaseToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ViewRelease viewRelease = new ViewRelease(wrkorder: Getjobnumber(), job: true, jobassyno: GetAssynumber(), jobno: Getjobnumber());
             viewRelease.Show();

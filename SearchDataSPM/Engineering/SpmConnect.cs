@@ -1,4 +1,9 @@
-﻿using ExtractLargeIconFromFile;
+﻿using SearchDataSPM.Admin_developer;
+using SearchDataSPM.Controls;
+using SearchDataSPM.General;
+using SearchDataSPM.Miscellaneous;
+using SearchDataSPM.Purchasing;
+using SearchDataSPM.Report;
 using SolidWorks.Interop.sldworks;
 using SPMConnectAPI;
 using System;
@@ -38,7 +43,7 @@ namespace SearchDataSPM.Engineering
         private bool showingfavorites;
         private readonly SPMSQLCommands connectapi = new SPMSQLCommands();
 
-        private readonly Controls connectapicntrls = new Controls();
+        private readonly SPMConnectAPI.Controls connectapicntrls = new SPMConnectAPI.Controls();
 
         public SpmConnect()
         {
@@ -128,7 +133,7 @@ namespace SearchDataSPM.Engineering
                 Listviewcontextmenu.Items[7].Visible = true;
             }
 
-            versionlabel.Text = connectapi.Getassyversionnumber();
+            versionlabel.Text = Getassyversionnumber();
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
         }
 
@@ -244,7 +249,7 @@ namespace SearchDataSPM.Engineering
             mapper.AddMapping(c => c.Computername, "Computer Name");
             mapper.AddMapping(c => c.Application, "Application Running");
 
-            _dependency = new SqlTableDependency<UserControl>(connectapi.ConnectConnectionString(), tableName: "Checkin", mapper: mapper);
+            _dependency = new SqlTableDependency<UserControl>(ConnectConnectionString(), tableName: "Checkin", mapper: mapper);
             _dependency.OnChanged += Dependency_OnChanged;
             _dependency.OnError += Dependency_OnError;
             _dependency.Start();
@@ -257,7 +262,7 @@ namespace SearchDataSPM.Engineering
             string type = e.ChangeType.ToString();
             changed = string.Format(changedEntity.Username);
             string application = string.Format(changedEntity.Application);
-            string userName = connectapi.GetUserName();
+            string userName = GetUserName();
             // MessageBox.Show(changed);
             if (changed == userName && type == "Update" && (application == "SPM Connect " + ConnectUser.Dept))
             {
@@ -317,7 +322,7 @@ namespace SearchDataSPM.Engineering
                 //autoComplete.Add(txtSearch.Text);
                 if (txtSearch.Text == "playgame")
                 {
-                    lettergame lettergame = new lettergame();
+                    Lettergame lettergame = new Lettergame();
                     lettergame.Show();
                     return;
                 }
@@ -1870,7 +1875,7 @@ namespace SearchDataSPM.Engineering
             {
                 if (connectapi.Solidworks_running())
                 {
-                    string user = connectapi.GetUserName();
+                    string user = GetUserName();
                     string activeblock = connectapi.Getactiveblock();
                     string lastnumber = connectapi.Getlastnumber();
                     if (activeblock.Length > 0)
@@ -2852,7 +2857,7 @@ namespace SearchDataSPM.Engineering
 
         private void ToolStripMenuupdateitem_Click(object sender, EventArgs e)
         {
-            connectapicntrls.updateitempropertiesfromgenius(Getitemnumberselected());
+            connectapicntrls.Updateitempropertiesfromgenius(Getitemnumberselected());
         }
 
         private void RevelInExplorerToolStripMenuItem_Click(object sender, EventArgs e)

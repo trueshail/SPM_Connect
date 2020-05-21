@@ -1,15 +1,14 @@
-﻿using SPMConnectAPI;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.WorkOrder.ReleaseManagement
 {
     public partial class ReleaseSuggestions : Form
     {
-        private readonly WorkOrder connectapi = new WorkOrder();
+        private readonly SPMConnectAPI.WorkOrder connectapi = new SPMConnectAPI.WorkOrder();
         private DataTable dt;
         private string formlabel = "";
         private log4net.ILog log;

@@ -1,4 +1,4 @@
-﻿using SPMConnectAPI;
+﻿using SearchDataSPM.Report;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static SPMConnectAPI.ConnectConstants;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.WorkOrder.ReleaseManagement
 {
     public partial class ViewRelease : Form
     {
         #region steupvariables
 
         private readonly string assyNumber;
-        private readonly WorkOrder connectapi = new WorkOrder();
+        private readonly SPMConnectAPI.WorkOrder connectapi = new SPMConnectAPI.WorkOrder();
         private readonly bool isJob;
         private readonly string jobNumber;
         private readonly TreeNode root = new TreeNode();

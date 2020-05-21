@@ -1,4 +1,4 @@
-﻿namespace SearchDataSPM
+﻿namespace SearchDataSPM.Controls
 {
     partial class SPM_ConnectItems
     {

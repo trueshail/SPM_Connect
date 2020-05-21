@@ -1,4 +1,4 @@
-﻿namespace SearchDataSPM
+﻿namespace SearchDataSPM.Miscellaneous
 {
     internal class Stats
     {

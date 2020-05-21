@@ -427,6 +427,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LogDataset.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Report\ReportHelper.cs" />
     <Compile Include="ServiceReportCreation.cs" />
     <Compile Include="WaitForms\Dialog.cs">
       <SubType>Form</SubType>
@@ -446,16 +447,16 @@
     <Compile Include="Purchasing\PODetails.Designer.cs">
       <DependentUpon>PODetails.cs</DependentUpon>
     </Compile>
-    <Compile Include="General\QuoteDetails.cs">
+    <Compile Include="Quotes\QuoteDetails.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="General\QuoteDetails.Designer.cs">
+    <Compile Include="Quotes\QuoteDetails.Designer.cs">
       <DependentUpon>QuoteDetails.cs</DependentUpon>
     </Compile>
-    <Compile Include="General\SPM_ConnectQuoteManagement.cs">
+    <Compile Include="Quotes\SPM_ConnectQuoteManagement.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="General\SPM_ConnectQuoteManagement.Designer.cs">
+    <Compile Include="Quotes\SPM_ConnectQuoteManagement.Designer.cs">
       <DependentUpon>SPM_ConnectQuoteManagement.cs</DependentUpon>
     </Compile>
     <Compile Include="ErrorHandler.cs" />
@@ -549,7 +550,6 @@
     <Compile Include="Admin-developer\LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Miscellaneous\Users.cs" />
     <Compile Include="Purchasing\InvoiceAddItem.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -567,10 +567,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Miscellaneous\ReportViewer.cs">
+    <Compile Include="Report\ReportViewer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Miscellaneous\ReportViewer.Designer.cs">
+    <Compile Include="Report\ReportViewer.Designer.cs">
       <DependentUpon>ReportViewer.cs</DependentUpon>
     </Compile>
     <Compile Include="General\SPM_ConnectJobs.cs">
@@ -776,10 +776,10 @@
     <EmbeddedResource Include="Purchasing\PODetails.resx">
       <DependentUpon>PODetails.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="General\QuoteDetails.resx">
+    <EmbeddedResource Include="Quotes\QuoteDetails.resx">
       <DependentUpon>QuoteDetails.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="General\SPM_ConnectQuoteManagement.resx">
+    <EmbeddedResource Include="Quotes\SPM_ConnectQuoteManagement.resx">
       <DependentUpon>SPM_ConnectQuoteManagement.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WorkOrder\BinLog.resx">
@@ -827,7 +827,7 @@
     <EmbeddedResource Include="Admin-developer\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Miscellaneous\ReportViewer.resx">
+    <EmbeddedResource Include="Report\ReportViewer.resx">
       <DependentUpon>ReportViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Purchasing\InvoiceAddItem.resx">

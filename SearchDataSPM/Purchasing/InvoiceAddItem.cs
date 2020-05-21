@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.Purchasing
 {
     public partial class InvoiceAddItem : Form
     {

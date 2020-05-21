@@ -1,4 +1,4 @@
-﻿namespace SearchDataSPM
+﻿namespace SearchDataSPM.Miscellaneous
 {
     partial class ListOpenWindows
     {

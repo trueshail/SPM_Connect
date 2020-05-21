@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
+using static SPMConnectAPI.ConnectConstants;
 
 namespace SPMConnectAPI
 {
@@ -21,68 +22,6 @@ namespace SPMConnectAPI
         #endregion Settting up Connetion and Get User
 
         #region Datatables to pull out values or records
-
-        public string GetJobName(string jobno)
-        {
-            string jobname = "";
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[SPMJobs] WHERE [Job]='" + jobno + "' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    jobname = dr["Description"].ToString();
-                }
-                dt.Clear();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve job name", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-            return jobname;
-        }
-
-        public string GetSAName(string sano)
-        {
-            string subassyname = "";
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[UnionInventory] WHERE [ItemNumber] = '" + sano + "'";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    subassyname = dr["Description"].ToString();
-                }
-                dt.Clear();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve sub assy name", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-            return subassyname;
-        }
 
         public DataTable ShowAllServiceReports()
         {

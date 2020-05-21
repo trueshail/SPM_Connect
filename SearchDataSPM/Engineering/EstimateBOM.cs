@@ -1,5 +1,4 @@
-﻿using ExtractLargeIconFromFile;
-using SPMConnectAPI;
+﻿using SPMConnectAPI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,7 +14,7 @@ using System.Windows.Forms;
 using wpfPreviewFlowControl;
 using static SPMConnectAPI.ConnectConstants;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.Engineering
 {
     public partial class EstimateBOM : Form
     {
@@ -101,7 +100,7 @@ namespace SearchDataSPM
 
         private void ParentView_Load(object sender, EventArgs e)
         {
-            user = connectapi.GetUserDetails(connectapi.GetUserName());
+            user = connectapi.GetUserDetails(GetUserName());
             Assy_txtbox.Focus();
             Assy_txtbox.Text = itemnumber;
             if (Assy_txtbox.Text.Length == 5 || Assy_txtbox.Text.Length == 6)

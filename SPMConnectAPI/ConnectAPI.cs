@@ -4,7 +4,6 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Net.Mail;
-using System.Reflection;
 using System.Windows.Forms;
 using static SPMConnectAPI.ConnectConstants;
 
@@ -21,16 +20,6 @@ namespace SPMConnectAPI
         public ConnectAPI()
         {
             SPM_Connect();
-        }
-
-        public string ConnectCntrlsConnectionString()
-        {
-            return "Data Source=spm-sql;Initial Catalog=SPMControlCatalog;User ID=SPM_Controls;password=eyBzJehFP*uO";
-        }
-
-        public string ConnectConnectionString()
-        {
-            return "Data Source=spm-sql;Initial Catalog=SPM_Database;User ID=SPM_Agent;password=spm5445";
         }
 
         private void SPM_Connect()
@@ -55,13 +44,6 @@ namespace SPMConnectAPI
 
         #endregion SQL Connection / Connection Strings
 
-        public string Getassyversionnumber()
-        {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            string version = "V" + assembly.GetName().Version.ToString();
-            return version;
-        }
-
         public string GetConnectParameterValue(string parameter)
         {
             string value = "";
@@ -85,15 +67,6 @@ namespace SPMConnectAPI
             }
 
             return value;
-        }
-
-        public string GetUserName()
-        {
-            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-            if (userName.Length > 0)
-                return userName;
-            else
-                return null;
         }
 
         #region UserInfo/Rights
@@ -330,7 +303,7 @@ namespace SPMConnectAPI
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] ";
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] ORDER BY Name";
                 cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -518,39 +491,6 @@ namespace SPMConnectAPI
             cn.Dispose();
         }
 
-        public void Sendemail(string emailtosend, string subject, string body, string filetoattach, string cc)
-        {
-            try
-            {
-                MailMessage message = new MailMessage();
-                SmtpClient SmtpServer = new SmtpClient("spmautomation-com0i.mail.protection.outlook.com");
-                message.From = new MailAddress("connect@spm-automation.com", "SPM Connect");
-                System.Net.Mail.Attachment attachment;
-
-                message.To.Add(emailtosend);
-                if (!string.IsNullOrEmpty(cc))
-                {
-                    message.CC.Add(cc);
-                }
-                message.Subject = subject;
-                message.Body = body;
-
-                if (!string.IsNullOrEmpty(filetoattach))
-                {
-                    attachment = new System.Net.Mail.Attachment(filetoattach);
-                    message.Attachments.Add(attachment);
-                }
-                SmtpServer.Port = 25;
-                SmtpServer.UseDefaultCredentials = true;
-                SmtpServer.EnableSsl = true;
-                SmtpServer.Send(message);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Send Email", MessageBoxButtons.OK);
-            }
-        }
-
         public void SendemailListAttachments(string emailtosend, string subject, string body, List<string> filetoattach, string cc)
         {
             try
@@ -587,7 +527,7 @@ namespace SPMConnectAPI
             }
         }
 
-        public bool TriggerEmail(string emailtosend, string subject, string user, string body, string filetoattach, string cc, string extracc, string msgtype)
+        public bool TriggerEmail(string emailtosend, string subject, string user, string body, string filetoattach, string cc, string extracc, string msgtype, List<string> filestoattach = null)
         {
             bool success;
             try
@@ -643,12 +583,23 @@ namespace SPMConnectAPI
                     message.From = new MailAddress("connect@spm-automation.com", "SPM Connect");
                     message.Body = body;
                 }
-
                 if (!string.IsNullOrEmpty(filetoattach))
                 {
                     attachment = new System.Net.Mail.Attachment(filetoattach);
                     message.Attachments.Add(attachment);
                 }
+                if (filestoattach != null)
+                {
+                    if (filestoattach.Count != 0)
+                    {
+                        foreach (string file in filestoattach)
+                        {
+                            attachment = new System.Net.Mail.Attachment(file);
+                            message.Attachments.Add(attachment);
+                        }
+                    }
+                }
+
                 SmtpServer.Port = 25;
                 SmtpServer.UseDefaultCredentials = true;
                 SmtpServer.EnableSsl = true;

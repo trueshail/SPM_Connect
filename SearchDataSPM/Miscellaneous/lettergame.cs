@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.Miscellaneous
 {
-    public partial class lettergame : Form
+    public partial class Lettergame : Form
     {
         private readonly Random random = new Random();
         private readonly Stats stats = new Stats();
 
-        public lettergame()
+        public Lettergame()
         {
             InitializeComponent();
         }

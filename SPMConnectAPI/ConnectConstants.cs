@@ -1,7 +1,34 @@
-﻿namespace SPMConnectAPI
+﻿using System.Reflection;
+
+namespace SPMConnectAPI
 {
     public static class ConnectConstants
     {
+        public static string ConnectCntrlsConnectionString()
+        {
+            return "Data Source=spm-sql;Initial Catalog=SPMControlCatalog;User ID=SPM_Controls;password=eyBzJehFP*uO";
+        }
+
+        public static string ConnectConnectionString()
+        {
+            return "Data Source=spm-sql;Initial Catalog=SPM_Database;User ID=SPM_Agent;password=spm5445";
+        }
+
+        public static string Getassyversionnumber()
+        {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            return "V" + assembly.GetName().Version.ToString();
+        }
+
+        public static string GetUserName()
+        {
+            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+            if (userName.Length > 0)
+                return userName;
+            else
+                return null;
+        }
+
         public enum Department
         {
             Eng,
@@ -10,6 +37,15 @@
             Accounting,
             Purchasing,
             Crib
+        }
+
+        public enum ReportModules
+        {
+            ECR,
+            EFT,
+            MatReAloc,
+            Service,
+            PurchaseReq,
         }
 
         public static UserInfo ConnectUser { get; set; } = new UserInfo();

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using static SPMConnectAPI.ConnectConstants;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.WorkOrder
 {
     public partial class ScanEmpId : MetroFramework.Forms.MetroForm
     {

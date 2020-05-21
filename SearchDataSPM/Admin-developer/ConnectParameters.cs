@@ -4,8 +4,9 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Windows.Forms;
+using static SPMConnectAPI.ConnectConstants;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.Admin_developer
 {
     public partial class ConnectParameters : Form
     {
@@ -66,7 +67,7 @@ namespace SearchDataSPM
         {
             try
             {
-                dataAdapter = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[ConnectParamaters] ORDER BY Id", connectapi.ConnectConnectionString());
+                dataAdapter = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[ConnectParamaters] ORDER BY Id", ConnectConnectionString());
 
                 // Create a command builder to generate SQL update, insert, and
                 // delete commands based on selectCommand.

@@ -1,18 +1,17 @@
-﻿using SPMConnectAPI;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 using static SPMConnectAPI.ConnectConstants;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.WorkOrder.ReleaseManagement
 {
     public partial class AddRelease : Form
     {
         #region steupvariables
 
-        private readonly WorkOrder connectapi = new WorkOrder();
+        private readonly SPMConnectAPI.WorkOrder connectapi = new SPMConnectAPI.WorkOrder();
         private readonly List<string> Itemstodiscard = new List<string>();
         private readonly string releaseLogNumber;
         private readonly TreeNode root = new TreeNode();

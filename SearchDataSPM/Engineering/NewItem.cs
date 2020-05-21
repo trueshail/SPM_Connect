@@ -1,5 +1,4 @@
-﻿using ExtractLargeIconFromFile;
-using SolidWorks.Interop.sldworks;
+﻿using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using SPMConnectAPI;
 using System;
@@ -18,7 +17,7 @@ using System.Windows.Forms;
 using wpfPreviewFlowControl;
 using static SPMConnectAPI.ConnectConstants;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.Engineering
 {
     public partial class NewItem : Form
 

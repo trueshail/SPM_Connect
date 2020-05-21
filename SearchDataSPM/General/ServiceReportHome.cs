@@ -1,11 +1,13 @@
-﻿using SPMConnectAPI;
+﻿using SearchDataSPM.Report;
+using SPMConnectAPI;
 using System;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
+using static SPMConnectAPI.ConnectConstants;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.General
 {
     public partial class ServiceReportHome : Form
     {
@@ -25,7 +27,7 @@ namespace SearchDataSPM
 
         private void Checkdeptsandrights()
         {
-            versionlabel.Text = connectapi.Getassyversionnumber();
+            versionlabel.Text = Getassyversionnumber();
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
         }
 

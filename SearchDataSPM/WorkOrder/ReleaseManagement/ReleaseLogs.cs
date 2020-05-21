@@ -1,4 +1,4 @@
-﻿using SPMConnectAPI;
+﻿using SearchDataSPM.Report;
 using System;
 using System.ComponentModel;
 using System.Data;
@@ -6,13 +6,13 @@ using System.Drawing;
 using System.Windows.Forms;
 using static SPMConnectAPI.ConnectConstants;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.WorkOrder.ReleaseManagement
 {
     public partial class ReleaseLogs : Form
     {
         #region SPM Connect Load
 
-        private readonly WorkOrder connectapi = new WorkOrder();
+        private readonly SPMConnectAPI.WorkOrder connectapi = new SPMConnectAPI.WorkOrder();
         private DataTable dt;
         private log4net.ILog log;
 
@@ -25,7 +25,7 @@ namespace SearchDataSPM
 
         private void GetVersionLabel()
         {
-            versionlabel.Text = connectapi.Getassyversionnumber();
+            versionlabel.Text = Getassyversionnumber();
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
         }
 
@@ -635,7 +635,7 @@ namespace SearchDataSPM
 
         private void Processbom(string itemvalue)
         {
-            TreeView treeView = new TreeView(item: itemvalue);
+            Engineering.TreeView treeView = new Engineering.TreeView(item: itemvalue);
             treeView.Show();
         }
 

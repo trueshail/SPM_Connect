@@ -1,4 +1,4 @@
-﻿namespace SearchDataSPM
+﻿namespace SearchDataSPM.Admin_developer
 {
     partial class LoginForm
     {

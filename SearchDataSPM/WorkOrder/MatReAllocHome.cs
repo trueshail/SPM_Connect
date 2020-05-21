@@ -1,17 +1,17 @@
-﻿using SPMConnectAPI;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
+using static SPMConnectAPI.ConnectConstants;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.WorkOrder
 {
     public partial class MatReAllocHome : Form
     {
         #region Shipping Home Load
 
-        private readonly WorkOrder connectapi = new WorkOrder();
+        private readonly SPMConnectAPI.WorkOrder connectapi = new SPMConnectAPI.WorkOrder();
         private int _advcollapse;
         private DataTable dt;
         private bool formloading;
@@ -25,7 +25,7 @@ namespace SearchDataSPM
 
         private void checkdeptsandrights()
         {
-            versionlabel.Text = connectapi.Getassyversionnumber();
+            versionlabel.Text = Getassyversionnumber();
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
         }
 

@@ -1,16 +1,15 @@
-﻿using SPMConnectAPI;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 using static SPMConnectAPI.ConnectConstants;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.WorkOrder
 {
     public partial class ScanWO : Form
     {
-        private readonly WorkOrder connectapi = new WorkOrder();
+        private readonly SPMConnectAPI.WorkOrder connectapi = new SPMConnectAPI.WorkOrder();
         private DateTime _lastKeystroke = new DateTime(0);
         private readonly List<char> _barcode = new List<char>(10);
         private int userinputtime = 100;

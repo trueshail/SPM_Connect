@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.General
 {
     public partial class JobType : MetroFramework.Forms.MetroForm
     {

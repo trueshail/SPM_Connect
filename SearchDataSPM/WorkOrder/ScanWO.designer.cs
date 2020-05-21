@@ -1,4 +1,4 @@
-﻿namespace SearchDataSPM
+﻿namespace SearchDataSPM.WorkOrder
 {
     partial class ScanWO
     {

@@ -2,7 +2,7 @@
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace ExtractLargeIconFromFile
+namespace SearchDataSPM.Engineering
 {
     public static class ShellEx
     {

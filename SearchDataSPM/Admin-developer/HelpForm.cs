@@ -5,7 +5,7 @@ using System.Security;
 using System.Windows.Forms;
 using static SPMConnectAPI.ConnectConstants;
 
-namespace SearchDataSPM
+namespace SearchDataSPM.Admin_developer
 {
     public partial class HelpForm : Form
     {
@@ -52,7 +52,7 @@ namespace SearchDataSPM
 
         private void HelpForm_Load(object sender, EventArgs e)
         {
-            versionlbl.Text = string.Format("SPM Connect Version - {0}", connectapi.Getassyversionnumber());
+            versionlbl.Text = string.Format("SPM Connect Version - {0}", Getassyversionnumber());
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Help Form ");
