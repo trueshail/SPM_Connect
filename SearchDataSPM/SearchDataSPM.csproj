@@ -427,6 +427,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LogDataset.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Miscellaneous\ReportHelper.cs" />
     <Compile Include="ServiceReportCreation.cs" />
     <Compile Include="WaitForms\Dialog.cs">
       <SubType>Form</SubType>

@@ -178,8 +178,6 @@ namespace SearchDataSPM
         private void Filldatatable()
         {
             const string sql = "SELECT *  FROM [SPM_Database].[dbo].[SPMConnectBOM] ORDER BY [ItemNumber]";
-
-            // String sql2 = "SELECT *  FROM [SPM_Database].[dbo].[UnionInventory]";
             try
             {
                 dt.Clear();

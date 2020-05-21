@@ -106,9 +106,7 @@ namespace SearchDataSPM
 
         private void filldatatable()
         {
-            const String sql = "SELECT *  FROM [SPMControlCatalog].[dbo].[ControlsBOM] ORDER BY [QUERY2]";
-
-            // String sql2 = "SELECT *  FROM [SPM_Database].[dbo].[UnionInventory]";
+            const string sql = "SELECT *  FROM [SPMControlCatalog].[dbo].[ControlsBOM] ORDER BY [QUERY2]";
             try
             {
                 _acountsTb.Clear();

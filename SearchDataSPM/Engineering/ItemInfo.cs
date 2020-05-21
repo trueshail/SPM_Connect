@@ -475,8 +475,6 @@ namespace SearchDataSPM
         private void Filldatatable(string itemnumber)
         {
             string sql = "SELECT *  FROM [SPM_Database].[dbo].[Inventory] WHERE [ItemNumber]='" + itemnumber + "'";
-
-            // String sql2 = "SELECT *  FROM [SPM_Database].[dbo].[UnionInventory]";
             try
             {
                 if (connectapi.cn.State == ConnectionState.Closed)

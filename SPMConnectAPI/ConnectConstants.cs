@@ -38,6 +38,15 @@ namespace SPMConnectAPI
             Crib
         }
 
+        public enum ReportModules
+        {
+            ECR,
+            EFT,
+            MatReAloc,
+            Service,
+            PurchaseReq,
+        }
+
         public static UserInfo ConnectUser { get; set; } = new UserInfo();
 
         public struct NameEmail
@@ -91,5 +100,6 @@ namespace SPMConnectAPI
             public static string WORelease = "WORelease";
             public static string WOScan = "WOScan";
         }
+
     }
 }
