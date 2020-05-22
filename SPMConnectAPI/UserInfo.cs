@@ -1,4 +1,4 @@
-﻿using static SPMConnectAPI.ConnectConstants;
+﻿using static SPMConnectAPI.ConnectHelper;
 
 namespace SPMConnectAPI
 {

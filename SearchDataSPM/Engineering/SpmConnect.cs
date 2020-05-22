@@ -23,7 +23,7 @@ using System.Windows.Forms;
 using TableDependency.SqlClient;
 using TableDependency.SqlClient.Base;
 using wpfPreviewFlowControl;
-using static SPMConnectAPI.ConnectConstants;
+using static SPMConnectAPI.ConnectHelper;
 
 namespace SearchDataSPM.Engineering
 {
@@ -1563,9 +1563,8 @@ namespace SearchDataSPM.Engineering
 
         private void Openiteminfo(string itemid)
         {
-            NewItem newItem = new NewItem();
-            newItem.item(itemid);
-            newItem.editbtn(chekeditbutton);
+            NewItem newItem = new NewItem(itemid);
+            newItem.Editbtn(chekeditbutton);
             chekeditbutton = "";
             newItem.ShowDialog(this);
             newItem.Dispose();

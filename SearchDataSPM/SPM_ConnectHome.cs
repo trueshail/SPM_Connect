@@ -2,7 +2,7 @@
 using SearchDataSPM.Engineering;
 using System;
 using System.Windows.Forms;
-using static SPMConnectAPI.ConnectConstants;
+using static SPMConnectAPI.ConnectHelper;
 
 namespace SearchDataSPM
 {

@@ -3,7 +3,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using static SPMConnectAPI.ConnectConstants;
+using static SPMConnectAPI.ConnectHelper;
 
 namespace SearchDataSPM.Controls
 {

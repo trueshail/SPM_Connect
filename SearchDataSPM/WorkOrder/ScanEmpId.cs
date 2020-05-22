@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using static SPMConnectAPI.ConnectConstants;
+using static SPMConnectAPI.ConnectHelper;
 
 namespace SearchDataSPM.WorkOrder
 {

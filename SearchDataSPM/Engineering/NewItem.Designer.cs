@@ -522,8 +522,8 @@
             this.listView.Size = new System.Drawing.Size(742, 170);
             this.listView.TabIndex = 10;
             this.listView.UseCompatibleStateImageBehavior = false;
-            this.listView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.listView_KeyDown);
-            this.listView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView_MouseDoubleClick);
+            this.listView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ListView_KeyDown);
+            this.listView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ListView_MouseDoubleClick);
             // 
             // imageList
             // 
@@ -563,7 +563,7 @@
             this.savebttn.TabIndex = 9;
             this.savebttn.Text = "Save";
             this.savebttn.UseVisualStyleBackColor = true;
-            this.savebttn.Click += new System.EventHandler(this.savebttn_Click);
+            this.savebttn.Click += new System.EventHandler(this.Savebttn_Click);
             // 
             // editbttn
             // 
@@ -574,7 +574,7 @@
             this.editbttn.Text = "Edit";
             this.editbttn.UseVisualStyleBackColor = true;
             this.editbttn.Visible = false;
-            this.editbttn.Click += new System.EventHandler(this.editbttn_Click);
+            this.editbttn.Click += new System.EventHandler(this.Editbttn_Click);
             // 
             // familycombobox
             // 
@@ -587,7 +587,7 @@
             this.familycombobox.Name = "familycombobox";
             this.familycombobox.Size = new System.Drawing.Size(325, 24);
             this.familycombobox.TabIndex = 4;
-            this.familycombobox.SelectedIndexChanged += new System.EventHandler(this.familycombobox_SelectedIndexChanged);
+            this.familycombobox.SelectedIndexChanged += new System.EventHandler(this.Familycombobox_SelectedIndexChanged);
             // 
             // openFileDialog1
             // 

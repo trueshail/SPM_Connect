@@ -15,7 +15,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using wpfPreviewFlowControl;
-using static SPMConnectAPI.ConnectConstants;
+using static SPMConnectAPI.ConnectHelper;
 
 namespace SearchDataSPM.Engineering
 {
@@ -35,25 +35,19 @@ namespace SearchDataSPM.Engineering
 
         private string checkedit;
 
-        private string itemnumber;
+        private readonly string itemnumber;
 
-        public NewItem()
+        public NewItem(string item)
         {
             InitializeComponent();
             _acountsTb = new DataTable();
+            this.itemnumber = item;
         }
 
-        public string editbtn(string chekedit)
+        public string Editbtn(string chekedit)
         {
             if (chekedit.Length > 0)
                 return checkedit = chekedit;
-            return null;
-        }
-
-        public string item(string item)
-        {
-            if (item.Length > 0)
-                return itemnumber = item;
             return null;
         }
 
@@ -74,7 +68,7 @@ namespace SearchDataSPM.Engineering
             //string editbutton =  sPM_Connect.chekeditbutton.ToString();
             if (checkedit == "yes")
             {
-                processsavebutton();
+                Processsavebutton();
                 Processeditbutton();
             }
 
@@ -193,7 +187,7 @@ namespace SearchDataSPM.Engineering
         {
             listFiles.Clear();
             listView.Items.Clear();
-            getitemstodisplay(Makepath(item), item);
+            Getitemstodisplay(Makepath(item), item);
         }
 
         private void Fillmanufacturers()
@@ -265,7 +259,7 @@ namespace SearchDataSPM.Engineering
         private static extern IntPtr ExtractAssociatedIcon(IntPtr hInst,
         StringBuilder lpIconPath, out ushort lpiIcon);
 
-        private static String Makepath(string itemnumber)
+        private static string Makepath(string itemnumber)
         {
             if (itemnumber.Length > 0)
             {
@@ -280,7 +274,7 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void getitemstodisplay(string Pathpart, string ItemNo)
+        private void Getitemstodisplay(string Pathpart, string ItemNo)
         {
             if (Directory.Exists(Pathpart))
             {
@@ -319,7 +313,7 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void listView_KeyDown(object sender, KeyEventArgs e)
+        private void ListView_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -335,7 +329,7 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void listView_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void ListView_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
@@ -357,7 +351,7 @@ namespace SearchDataSPM.Engineering
 
         private readonly List<string> list = new List<string>();
 
-        private void createnewitemtosql(string itemnumber, string description, string family, string manufacturer, string oem, string material, string familytype, string surface, string heat, string lastsavedby, string rupture, string notes)
+        private void Createnewitemtosql(string itemnumber, string description, string family, string manufacturer, string oem, string material, string familytype, string surface, string heat, string lastsavedby, string rupture, string notes)
         {
             DateTime dateedited = DateTime.Now;
             string sqlFormattedDate = dateedited.ToString("yyyy-MM-dd HH:mm:ss.fff");
@@ -384,12 +378,12 @@ namespace SearchDataSPM.Engineering
             //perfromlockdown();
         }
 
-        private void editbttn_Click(object sender, EventArgs e)
+        private void Editbttn_Click(object sender, EventArgs e)
         {
             Processeditbutton();
         }
 
-        private void familycombobox_SelectedIndexChanged(object sender, EventArgs e)
+        private void Familycombobox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (familycombobox.Text.Length > 0)
             {
@@ -416,7 +410,7 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void graballinfor()
+        private void Graballinfor()
         {
             list.Clear();
             string itemnumber = ItemTxtBox.Text;
@@ -523,7 +517,7 @@ namespace SearchDataSPM.Engineering
             heattreat.AutoCompleteMode = AutoCompleteMode.Suggest;
         }
 
-        private async void processmodelcreattion(string item)
+        private async void Processmodelcreattion(string item)
         {
             listView.Refresh();
             if (listView.Items.Count == 0)
@@ -564,7 +558,7 @@ namespace SearchDataSPM.Engineering
                         if (fileimporttype == "STEP")
                         {
                             const string stepfilter = "STEP AP203/214/242|*.step;*.stp";
-                            string impfilname = importfilename(stepfilter);
+                            string impfilname = Importfilename(stepfilter);
                             if (string.Equals(Path.GetExtension(impfilname), ".step", StringComparison.CurrentCultureIgnoreCase) || string.Equals(Path.GetExtension(impfilname), ".stp", StringComparison.CurrentCultureIgnoreCase))
                             {
                                 //new Thread(() => new Engineering.WaitFormImport().ShowDialog()).Start();
@@ -599,7 +593,7 @@ namespace SearchDataSPM.Engineering
                         else if (fileimporttype == "IGES")
                         {
                             const string igesfilter = "IGES|*.igs;*.iges";
-                            string impfilname = importfilename(igesfilter);
+                            string impfilname = Importfilename(igesfilter);
                             if (string.Equals(Path.GetExtension(impfilname), ".igs", StringComparison.CurrentCultureIgnoreCase) || string.Equals(Path.GetExtension(impfilname), ".iges", StringComparison.CurrentCultureIgnoreCase))
                             {
                                 //new Thread(() => new Engineering.WaitFormImport().ShowDialog()).Start();
@@ -635,7 +629,7 @@ namespace SearchDataSPM.Engineering
                         else if (fileimporttype == "PARASOLID")
                         {
                             const string parasolidfilter = "Parasolid|*.x_t;*.x_b;*.xmt_txt;*.xmt_bin";
-                            string impfilname = importfilename(parasolidfilter);
+                            string impfilname = Importfilename(parasolidfilter);
                             if (string.Equals(Path.GetExtension(impfilname), ".x_t", StringComparison.CurrentCultureIgnoreCase) || string.Equals(Path.GetExtension(impfilname), ".x_b", StringComparison.CurrentCultureIgnoreCase) || string.Equals(Path.GetExtension(impfilname), ".xmt_txt", StringComparison.CurrentCultureIgnoreCase) || string.Equals(Path.GetExtension(impfilname), ".xmt_bin", StringComparison.CurrentCultureIgnoreCase))
                             {
                                 //new Thread(() => new Engineering.WaitFormImport().ShowDialog()).Start();
@@ -683,26 +677,26 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void processsavebutton()
+        private void Processsavebutton()
         {
             Cursor.Current = Cursors.WaitCursor;
             this.Enabled = false;
-            graballinfor();
+            Graballinfor();
             string lastsavedby = ConnectUser.Name;
             Filllistview(ItemTxtBox.Text);
             if (listView.Items.Count == 0)
             {
-                processmodelcreattion(ItemTxtBox.Text);
+                Processmodelcreattion(ItemTxtBox.Text);
             }
             Filllistview(ItemTxtBox.Text);
             Chekbeforefillingcustomproperties(ItemTxtBox.Text);
-            createnewitemtosql(list[0], list[1], list[5], list[3], list[4], list[2], list[6], list[7], list[8], lastsavedby, list[10], list[9]);
+            Createnewitemtosql(list[0], list[1], list[5], list[3], list[4], list[2], list[6], list[7], list[8], lastsavedby, list[10], list[9]);
             Perfromlockdown();
             this.Enabled = true;
             Cursor.Current = Cursors.Default;
         }
 
-        private async void savebttn_Click(object sender, EventArgs e)
+        private async void Savebttn_Click(object sender, EventArgs e)
         {
             if (connectapi.Solidworks_running())
             {
@@ -710,12 +704,12 @@ namespace SearchDataSPM.Engineering
                 if (listView.Items.Count != 0)
                 {
                     await Task.Run(() => SplashDialog("Saving Model...")).ConfigureAwait(true);
-                    processsavebutton();
+                    Processsavebutton();
                     doneshowingSplash = true;
                 }
                 else
                 {
-                    processsavebutton();
+                    Processsavebutton();
                 }
             }
         }
@@ -744,7 +738,7 @@ namespace SearchDataSPM.Engineering
 
         #region solidworks createmodels and open models
 
-        private string importfilename(string filter)
+        private string Importfilename(string filter)
         {
             openFileDialog1.FileName = "";
             openFileDialog1.Filter = filter;

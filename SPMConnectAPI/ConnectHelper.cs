@@ -2,7 +2,7 @@
 
 namespace SPMConnectAPI
 {
-    public static class ConnectConstants
+    public static class ConnectHelper
     {
         public static string ConnectCntrlsConnectionString()
         {

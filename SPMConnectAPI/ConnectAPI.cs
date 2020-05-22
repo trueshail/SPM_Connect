@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Net.Mail;
 using System.Windows.Forms;
-using static SPMConnectAPI.ConnectConstants;
+using static SPMConnectAPI.ConnectHelper;
 
 namespace SPMConnectAPI
 {

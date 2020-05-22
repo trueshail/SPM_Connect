@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Security;
 using System.Windows.Forms;
-using static SPMConnectAPI.ConnectConstants;
+using static SPMConnectAPI.ConnectHelper;
 
 namespace SearchDataSPM.Admin_developer
 {

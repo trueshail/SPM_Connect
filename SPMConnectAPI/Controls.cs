@@ -2,7 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
-using static SPMConnectAPI.ConnectConstants;
+using static SPMConnectAPI.ConnectHelper;
 
 namespace SPMConnectAPI
 {
