@@ -4,9 +4,9 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
 
-namespace SPMConnect
+namespace SearchDataSPM.Miscellaneous
 {
-    public class Screenshot
+    public static class Screenshot
     {
         public static string TakeScreenshotReturnFilePath()
         {
