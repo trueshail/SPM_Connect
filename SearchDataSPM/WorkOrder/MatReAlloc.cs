@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using static SPMConnectAPI.ConnectConstants;
+using static SPMConnectAPI.ConnectHelper;
 
 namespace SearchDataSPM.WorkOrder
 {
@@ -58,7 +58,7 @@ namespace SearchDataSPM.WorkOrder
             {
                 FillInfo();
                 processeditbutton();
-                developer = ConnectUser.Developer;
+                developer = connectapi.ConnectUser.Developer;
                 userinputtime = connectapi.Getuserinputtime();
             }
             else

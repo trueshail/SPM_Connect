@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>ConnectDB</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{71054813-29f0-4c78-ba07-1505f62d3f36}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>ConnectDB</RootNamespace>
+    <AssemblyName>ConnectDB</AssemblyName>
+    <ModelCollation>1033,CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <DefaultCollation>SQL_Latin1_General_CP1_CI_AS</DefaultCollation>
+    <DefaultFilegroup>PRIMARY</DefaultFilegroup>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Tables\" />
+    <Folder Include="dbo\Views\" />
+    <Folder Include="Storage\" />
+    <Folder Include="Security\" />
+    <Folder Include="dbo\Stored Procedures\" />
+    <Folder Include="dbo\User Defined Types\" />
+    <Folder Include="Service Broker\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\SPMJobsPath.sql" />
+    <Build Include="dbo\Tables\spservicereports.sql" />
+    <Build Include="dbo\Tables\Inventory.sql" />
+    <Build Include="dbo\Tables\favourite.sql" />
+    <Build Include="dbo\Tables\MaterialReallocation.sql" />
+    <Build Include="dbo\Tables\WOReleaseDetails.sql" />
+    <Build Include="dbo\Tables\QuoteFilters.sql" />
+    <Build Include="dbo\Tables\WO_Tracking.sql" />
+    <Build Include="dbo\Tables\UserHolding.sql" />
+    <Build Include="dbo\Tables\FamilyCodes.sql" />
+    <Build Include="dbo\Tables\WOInOut.sql" />
+    <Build Include="dbo\Tables\GenBom.sql" />
+    <Build Include="dbo\Tables\CustomersAAA.sql" />
+    <Build Include="dbo\Tables\spservicereporttasks.sql" />
+    <Build Include="dbo\Tables\UserBlockNumbers.sql" />
+    <Build Include="dbo\Tables\EmployeeLogin.sql" />
+    <Build Include="dbo\Tables\Opportunities.sql" />
+    <Build Include="dbo\Tables\spserviceReportImages.sql" />
+    <Build Include="dbo\Tables\ItemDependencies.sql" />
+    <Build Include="dbo\Tables\Checkin.sql" />
+    <Build Include="dbo\Tables\ShippingItems.sql" />
+    <Build Include="dbo\Tables\Users.sql" />
+    <Build Include="dbo\Tables\inventorybackup.sql" />
+    <Build Include="dbo\Tables\Item_CostRollup.sql" />
+    <Build Include="dbo\Tables\ECR.sql" />
+    <Build Include="dbo\Tables\EFTEmailTracker.sql" />
+    <Build Include="dbo\Tables\UserActions.sql" />
+    <Build Include="dbo\Tables\DrawingApprovals.sql" />
+    <Build Include="dbo\Tables\ConnectGenItemAudit.sql" />
+    <Build Include="dbo\Tables\Customers.sql" />
+    <Build Include="dbo\Tables\Log.sql" />
+    <Build Include="dbo\Tables\Materials.sql" />
+    <Build Include="dbo\Tables\WOReleaseLog.sql" />
+    <Build Include="dbo\Tables\ConnectParamaters.sql" />
+    <Build Include="dbo\Tables\PurchaseReq.sql" />
+    <Build Include="dbo\Tables\Purchase_Order.sql" />
+    <Build Include="dbo\Tables\OperationCostCode.sql" />
+    <Build Include="dbo\Tables\Purchase_Order_Lineitems.sql" />
+    <Build Include="dbo\Tables\Departments.sql" />
+    <Build Include="dbo\Tables\ShippingBase.sql" />
+    <Build Include="dbo\Tables\PurchaseReqBase.sql" />
+    <Build Include="dbo\Views\SPMJobs.sql" />
+    <Build Include="dbo\Views\VReleaseLogs.sql" />
+    <Build Include="dbo\Views\Carriers.sql" />
+    <Build Include="dbo\Views\SPMConnectBOMbACKUP.sql" />
+    <Build Include="dbo\Views\CustomersShipTo.sql" />
+    <Build Include="dbo\Views\VendorsShipTo.sql" />
+    <Build Include="dbo\Views\EmpHoursByJob.sql" />
+    <Build Include="dbo\Views\CostByJobBI.sql" />
+    <Build Include="dbo\Views\Designers.sql" />
+    <Build Include="dbo\Views\SurfaceProtections.sql" />
+    <Build Include="dbo\Views\HeatTreatments.sql" />
+    <Build Include="dbo\Views\TestVlogs.sql" />
+    <Build Include="dbo\Views\Manufacturers.sql" />
+    <Build Include="dbo\Views\ManufacturersItemNumbers.sql" />
+    <Build Include="dbo\Views\Quotes.sql" />
+    <Build Include="dbo\Views\Descriptions.sql" />
+    <Build Include="dbo\Views\ShippingCustInfo.sql" />
+    <Build Include="dbo\Views\SPMConnectEstimate.sql" />
+    <Build Include="dbo\Views\Customersmerged.sql" />
+    <Build Include="dbo\Views\newquotenumber.sql" />
+    <Build Include="dbo\Views\GeniusChildren.sql" />
+    <Build Include="dbo\Views\EFTVendors.sql" />
+    <Build Include="dbo\Views\GeniusParent.sql" />
+    <Build Include="dbo\Views\Purchasereqstatus.sql" />
+    <Build Include="dbo\Views\ItemsDependenciesBOM.sql" />
+    <Build Include="dbo\Views\EFTVendorsToEmail.sql" />
+    <Build Include="dbo\Views\PriceItemsFromPO.sql" />
+    <Build Include="dbo\Views\UnionInventorybck.sql" />
+    <Build Include="dbo\Views\UnionInventory.sql" />
+    <Build Include="dbo\Views\VReleaseBOM.sql" />
+    <Build Include="dbo\Views\SPMConnectBOMWorkOrder.sql" />
+    <Build Include="dbo\Views\workordertemp.sql" />
+    <Build Include="dbo\Views\unioninv.sql" />
+    <Build Include="dbo\Views\WO_BinStatus.sql" />
+    <Build Include="dbo\Views\SPMConnectFavorites.sql" />
+    <Build Include="dbo\Views\SPMConnectWOBOM.sql" />
+    <Build Include="dbo\Views\SpareBOM.sql" />
+    <Build Include="dbo\Views\InventoryBackView.sql" />
+    <Build Include="dbo\Views\VWOReleaseDetails.sql" />
+    <Build Include="dbo\Views\SpareBOMProductDes.sql" />
+    <Build Include="dbo\Views\SPMConnectBOM.sql" />
+    <Build Include="dbo\Views\EFTHome.sql" />
+    <Build Include="dbo\Views\TimeBudgetBI.sql" />
+    <Build Include="dbo\Views\ItemsToSelect.sql" />
+    <Build Include="dbo\Views\ShippingBaseWithNames.sql" />
+    <Build Include="dbo\Views\FilterMaterialsMerged.sql" />
+    <Build Include="dbo\Views\WOInOutTop.sql" />
+    <Build Include="dbo\Views\WorkOrders.sql" />
+    <Build Include="dbo\Views\UnionPurchaseItems.sql" />
+    <Build Include="dbo\Views\UnionLogs.sql" />
+    <Build Include="dbo\Views\WorkOrderManagement.sql" />
+    <Build Include="dbo\Views\ManufactureItemDuplicatesView.sql" />
+    <Build Include="dbo\Views\ServiceReports.sql" />
+    <Build Include="dbo\Views\WOInOutStatus.sql" />
+    <Build Include="dbo\Views\JobBudgetBI.sql" />
+    <Build Include="Storage\ConnectItemSearch.sql" />
+    <Build Include="FullTextIndexes.sql" />
+    <Build Include="Security\SPM_shail.sql" />
+    <Build Include="Security\SPM_shail_1.sql" />
+    <Build Include="Security\SPM_Agent.sql" />
+    <Build Include="Security\SPM_Agent_1.sql" />
+    <Build Include="Security\shail.sql" />
+    <Build Include="Security\RoleMemberships.sql" />
+    <Build Include="dbo\Stored Procedures\insertServiceReport.sql" />
+    <Build Include="dbo\Stored Procedures\ItemNumberStartingLowercase.sql" />
+    <Build Include="dbo\Stored Procedures\getnewquotenumber.sql" />
+    <Build Include="dbo\Stored Procedures\findInventory.sql" />
+    <Build Include="dbo\Stored Procedures\ManufactureItemDuplicates.sql" />
+    <Build Include="dbo\Stored Procedures\UnionItems.sql" />
+    <Build Include="dbo\Stored Procedures\UnionInventoryID.sql" />
+    <Build Include="dbo\Stored Procedures\GetEmployeeLogininfo.sql" />
+    <Build Include="dbo\Stored Procedures\MissingGeniusItems.sql" />
+    <Build Include="dbo\Stored Procedures\GetBOMTree.sql" />
+    <Build Include="dbo\Stored Procedures\inset_user_actions.sql" />
+    <Build Include="dbo\Stored Procedures\ShowAllEFTRecords.sql" />
+    <Build Include="dbo\Stored Procedures\ShowAllRecordsBetween.sql" />
+    <Build Include="dbo\Stored Procedures\ShowAllRecordsByType.sql" />
+    <Build Include="dbo\Stored Procedures\GetReleaseSuggestions.sql" />
+    <Build Include="dbo\Stored Procedures\UpdateOrderId.sql" />
+    <Build Include="dbo\Stored Procedures\GetWhereUsedTree.sql" />
+    <Build Include="dbo\Stored Procedures\UnionInventoryP.sql" />
+    <Build Include="dbo\User Defined Types\InventoryType.sql" />
+    <Build Include="dbo\User Defined Types\UserActionsBulk.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <SqlCmdVariable Include="SPMDB">
+      <DefaultValue>SPMDB</DefaultValue>
+      <Value>$(SqlCmdVar__1)</Value>
+    </SqlCmdVariable>
+  </ItemGroup>
+</Project>

@@ -3,7 +3,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Windows.Forms;
-using static SPMConnectAPI.ConnectConstants;
+using static SPMConnectAPI.ConnectHelper;
 
 namespace SearchDataSPM.Admin_developer
 {
@@ -26,7 +26,7 @@ namespace SearchDataSPM.Admin_developer
                 try
                 {
                     connectapi.cn.Open();
-                    sqlCommand.Parameters.AddWithValue("@username", GetUserName());
+                    sqlCommand.Parameters.AddWithValue("@username", connectapi.ConnectUser.UserName);
 
                     int userCount = (int)sqlCommand.ExecuteScalar();
                     if (userCount == 1)

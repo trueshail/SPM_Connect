@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
-using static SPMConnectAPI.ConnectConstants;
+using static SPMConnectAPI.ConnectHelper;
 
 namespace SearchDataSPM.WorkOrder
 {
@@ -554,7 +554,7 @@ namespace SearchDataSPM.WorkOrder
 
         private void cribbttn_Click(object sender, EventArgs e)
         {
-            if (connectapi.EmployeeExitsWithCribRights(ConnectUser.Emp_Id.ToString()))
+            if (connectapi.EmployeeExitsWithCribRights(connectapi.ConnectUser.Emp_Id.ToString()))
             {
                 InvInOut invInOut = new InvInOut();
                 invInOut.Show();

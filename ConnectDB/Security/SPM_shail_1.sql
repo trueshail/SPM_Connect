@@ -1,0 +1,3 @@
+﻿CREATE LOGIN [SPM\shail]
+    FROM WINDOWS WITH DEFAULT_LANGUAGE = [us_english];
+

@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static SPMConnectAPI.ConnectConstants;
+using static SPMConnectAPI.ConnectHelper;
 
 namespace SearchDataSPM.WorkOrder.ReleaseManagement
 {
@@ -476,9 +476,21 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             {
                 treeNode.ImageIndex = 10;
             }
+            else if (family == "DR")
+            {
+                treeNode.ImageIndex = 11;
+            }
+            else if (family == "N")
+            {
+                treeNode.ImageIndex = 13;
+            }
+            else if (family == "O")
+            {
+                treeNode.ImageIndex = 14;
+            }
             else
             {
-                treeNode.ImageIndex = family == "DR" ? 11 : 2;
+                treeNode.ImageIndex = 2;
             }
         }
 
@@ -1017,12 +1029,29 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
 
             foreach (DataRow dr in woTB.Select("[AssyNo] = '" + parentId + "' AND [Woprec] = '" + wo + "'"))
             {
-                TreeNode t = new TreeNode
+                TreeNode t = new TreeNode();
+
+                if (dr["Priority"].ToString() != "1")
                 {
-                    Text = dr["ItemNumber"].ToString() + " (" + dr["WO"].ToString() + ") - " + dr["Description"].ToString() + " ( " + dr["QuantityPerAssembly"].ToString() + " )",
-                    Name = dr["ItemNumber"].ToString(),
-                    Tag = woTB.Rows.IndexOf(dr)
-                };
+                    if (dr["WO"].ToString() != "0")
+                    {
+                        t.Text = dr["ItemNumber"].ToString() + " (" + dr["WO"].ToString() + ") - " + dr["Description"].ToString() + " ( " + dr["QuantityPerAssembly"].ToString() + " )";
+                        t.Name = dr["ItemNumber"].ToString();
+                        t.Tag = woTB.Rows.IndexOf(dr);
+                    }
+                    else
+                    {
+                        t.Text = dr["ItemNumber"].ToString() + " - " + dr["Description"].ToString() + " ( " + dr["QuantityPerAssembly"].ToString() + " )";
+                        t.Name = dr["ItemNumber"].ToString();
+                        t.Tag = woTB.Rows.IndexOf(dr);
+                    }
+                }
+                else
+                {
+                    t.Text = " (" + dr["WO"].ToString() + ") - " + dr["Description"].ToString() + " ( " + dr["Manufacturer"].ToString() + " )";
+                    t.Name = dr["WO"].ToString();
+                    t.Tag = woTB.Rows.IndexOf(dr);
+                }
                 if (parentNode == null)
                 {
                     Font f = new Font("Arial", 10, FontStyle.Bold);
@@ -1173,6 +1202,14 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
                 case 12:
                     e.Node.SelectedImageIndex = 12;
                     e.Node.ImageIndex = 12;
+                    break;
+                case 13:
+                    e.Node.SelectedImageIndex = 13;
+                    e.Node.ImageIndex = 13;
+                    break;
+                case 14:
+                    e.Node.SelectedImageIndex = 14;
+                    e.Node.ImageIndex = 14;
                     break;
 
                 default:

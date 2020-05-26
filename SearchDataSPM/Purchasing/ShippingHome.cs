@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
-using static SPMConnectAPI.ConnectConstants;
+using static SPMConnectAPI.ConnectHelper;
 
 namespace SearchDataSPM.Purchasing
 {
@@ -31,11 +31,11 @@ namespace SearchDataSPM.Purchasing
         {
             versionlabel.Text = Getassyversionnumber();
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
-            if (ConnectUser.ShipSupervisor)
+            if (connectapi.ConnectUser.ShipSupervisor)
             {
                 attnbttn.Visible = true;
             }
-            else if (ConnectUser.ShippingManager)
+            else if (connectapi.ConnectUser.ShippingManager)
             {
                 attnbttn.Visible = true;
             }
@@ -83,7 +83,7 @@ namespace SearchDataSPM.Purchasing
 
         private void Performreload()
         {
-            clearandhide();
+            Clearandhide();
             datarequest = "normal";
             txtSearch.Clear();
             txtSearch.Focus();
@@ -102,7 +102,7 @@ namespace SearchDataSPM.Purchasing
             {
                 dt.Clear();
                 datarequest = showdatafor;
-                dt = showdatafor == "normal" ? connectapi.ShowshippingHomeData() : showdatafor == "supervisor" ? connectapi.ShowshippingHomeDataforSupervisors(ConnectUser.ConnectId.ToString()) : connectapi.ShowshippingHomeDataforManagers();
+                dt = showdatafor == "normal" ? connectapi.ShowshippingHomeData() : showdatafor == "supervisor" ? connectapi.ShowshippingHomeDataforSupervisors(connectapi.ConnectUser.ConnectId.ToString()) : connectapi.ShowshippingHomeDataforManagers();
                 if (dt.Rows.Count > 0)
                 {
                     dataGridView.DataSource = dt;
@@ -199,7 +199,7 @@ namespace SearchDataSPM.Purchasing
 
         #region Search Parameters
 
-        public void txtSearch_KeyDown(object sender, KeyEventArgs e)
+        public void TxtSearch_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -207,7 +207,7 @@ namespace SearchDataSPM.Purchasing
 
                 if (Descrip_txtbox.Visible)
                 {
-                    clearandhide();
+                    Clearandhide();
                 }
 
                 if (string.IsNullOrEmpty(Createdbycombobox.Text) && string.IsNullOrEmpty(lastsavedbycombo.Text) && string.IsNullOrEmpty(Salespersoncomboxbox.Text) && string.IsNullOrEmpty(Shiptocomboxbox.Text) && string.IsNullOrEmpty(Soldtocombobox.Text) && string.IsNullOrEmpty(custvendcombobox.Text) && string.IsNullOrEmpty(CarrierscomboBox.Text))
@@ -234,7 +234,7 @@ namespace SearchDataSPM.Purchasing
             }
         }
 
-        private void clearandhide()
+        private void Clearandhide()
         {
             formloading = true;
             Clearfilercombos();
@@ -322,7 +322,7 @@ namespace SearchDataSPM.Purchasing
             }
         }
 
-        private void filter4_KeyDown(object sender, KeyEventArgs e)
+        private void Filter4_KeyDown(object sender, KeyEventArgs e)
         {
             DataView dv = table3.DefaultView;
             table3 = dv.ToTable();
@@ -364,7 +364,7 @@ namespace SearchDataSPM.Purchasing
             }
         }
 
-        private void filteroem_txtbox_KeyDown(object sender, KeyEventArgs e)
+        private void Filteroem_txtbox_KeyDown(object sender, KeyEventArgs e)
         {
             DataView dv = table1.DefaultView;
             table1 = dv.ToTable();
@@ -421,7 +421,7 @@ namespace SearchDataSPM.Purchasing
             }
         }
 
-        private void filteroemitem_txtbox_KeyDown(object sender, KeyEventArgs e)
+        private void Filteroemitem_txtbox_KeyDown(object sender, KeyEventArgs e)
         {
             DataView dv = table2.DefaultView;
             table2 = dv.ToTable();
@@ -1155,13 +1155,13 @@ namespace SearchDataSPM.Purchasing
 
         #endregion Invoice
 
-        private void attnbttn_Click(object sender, EventArgs e)
+        private void Attnbttn_Click(object sender, EventArgs e)
         {
-            if (ConnectUser.ShipSupervisor)
+            if (connectapi.ConnectUser.ShipSupervisor)
             {
                 Showallitems("supervisor");
             }
-            else if (ConnectUser.ShippingManager)
+            else if (connectapi.ConnectUser.ShippingManager)
             {
                 Showallitems("manager");
             }
