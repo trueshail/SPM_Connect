@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
-using static SPMConnectAPI.ConnectConstants;
+using static SPMConnectAPI.ConnectHelper;
 
 namespace SearchDataSPM.WorkOrder
 {
@@ -26,19 +26,19 @@ namespace SearchDataSPM.WorkOrder
             timer1.Start();
             woid_txtbox.Focus();
             userinputtime = connectapi.Getuserinputtime();
-            developer = ConnectUser.Developer;
+            developer = connectapi.ConnectUser.Developer;
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Scan Work Order ");
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void Timer1_Tick(object sender, EventArgs e)
         {
             DateTime datetime = DateTime.Now;
             this.time_lbl.Text = datetime.ToString();
         }
 
-        private void showaddedtodg()
+        private void Showaddedtodg()
         {
             timer3.Stop();
             dataGridView1.Visible = true;
@@ -51,7 +51,7 @@ namespace SearchDataSPM.WorkOrder
             dataGridView1.Update();
         }
 
-        private void timer3_Tick(object sender, EventArgs e)
+        private void Timer3_Tick(object sender, EventArgs e)
         {
             dataGridView1.Visible = false;
         }
@@ -76,7 +76,7 @@ namespace SearchDataSPM.WorkOrder
             }
         }
 
-        private void woid_txtbox_KeyPress(object sender, KeyPressEventArgs e)
+        private void Woid_txtbox_KeyPress(object sender, KeyPressEventArgs e)
         {
             // check timing (keystrokes within 100 ms)
             TimeSpan elapsed = (DateTime.Now - _lastKeystroke);
@@ -100,7 +100,7 @@ namespace SearchDataSPM.WorkOrder
                         if (connectapi.WOReleased(woid_txtbox.Text.Trim()))
                         {
                             connectapi.Scanworkorder(woid_txtbox.Text.Trim());
-                            showaddedtodg();
+                            Showaddedtodg();
                             woid_txtbox.Clear();
                             ActiveForm.Refresh();
                         }

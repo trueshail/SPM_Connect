@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using static SPMConnectAPI.ConnectConstants;
+using static SPMConnectAPI.ConnectHelper;
 
 namespace SearchDataSPM.Quotes
 {
@@ -98,7 +98,7 @@ namespace SearchDataSPM.Quotes
 
             if (result == DialogResult.Yes)
             {
-                string user = Getuserfullname(GetUserName());
+                string user = Getuserfullname(connectapi.ConnectUser.UserName);
                 string newnunber = getnewnumber();
                 bool status = createnewquote(newnunber, user);
                 if (status)

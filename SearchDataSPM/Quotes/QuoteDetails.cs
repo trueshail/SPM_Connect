@@ -6,7 +6,7 @@ using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using static SPMConnectAPI.ConnectConstants;
+using static SPMConnectAPI.ConnectHelper;
 
 namespace SearchDataSPM.Quotes
 {
@@ -551,7 +551,7 @@ namespace SearchDataSPM.Quotes
                 createfolders(ItemTxtBox.Text);
             }
 
-            string lastsavedby = Getuserfullname(GetUserName());
+            string lastsavedby = Getuserfullname(connectapi.ConnectUser.UserName);
             createnewitemtosql(list[0], list[1], list[2], list[3], list[4], list[5], list[6], list[7], list[8], list[9], list[10], lastsavedby);
 
             this.Enabled = true;

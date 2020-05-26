@@ -39,6 +39,7 @@ namespace SearchDataSPM
             this.rectangleShape2 = new Microsoft.VisualBasic.PowerPacks.RectangleShape();
             this.rectangleShape1 = new Microsoft.VisualBasic.PowerPacks.RectangleShape();
             this.bunifuElipse1 = new Bunifu.Framework.UI.BunifuElipse(this.components);
+            this.spmconnectlbl = new Bunifu.Framework.UI.BunifuCustomLabel();
             this.SuspendLayout();
             // 
             // metroProgressSpinner1
@@ -60,7 +61,7 @@ namespace SearchDataSPM
             // 
             this.timer1.Enabled = true;
             this.timer1.Interval = 45;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
             // 
             // SPM
             // 
@@ -68,7 +69,7 @@ namespace SearchDataSPM
             this.SPM.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SPM.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.SPM.Image = ((System.Drawing.Image)(resources.GetObject("SPM.Image")));
-            this.SPM.Location = new System.Drawing.Point(11, 39);
+            this.SPM.Location = new System.Drawing.Point(11, 28);
             this.SPM.Name = "SPM";
             this.SPM.Size = new System.Drawing.Size(306, 96);
             this.SPM.TabIndex = 11;
@@ -110,7 +111,7 @@ namespace SearchDataSPM
             this.rectangleShape1.BorderWidth = 4;
             this.rectangleShape1.CornerRadius = 8;
             this.rectangleShape1.FillGradientStyle = Microsoft.VisualBasic.PowerPacks.FillGradientStyle.Horizontal;
-            this.rectangleShape1.Location = new System.Drawing.Point(16, 158);
+            this.rectangleShape1.Location = new System.Drawing.Point(16, 159);
             this.rectangleShape1.Name = "rectangleShape1";
             this.rectangleShape1.Size = new System.Drawing.Size(300, 18);
             this.rectangleShape1.UseWaitCursor = true;
@@ -120,25 +121,39 @@ namespace SearchDataSPM
             this.bunifuElipse1.ElipseRadius = 25;
             this.bunifuElipse1.TargetControl = this;
             // 
-            // SPM_ConnectHome
+            // spmconnectlbl
+            // 
+            this.spmconnectlbl.AutoSize = true;
+            this.spmconnectlbl.Font = new System.Drawing.Font("Cascadia Mono", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.spmconnectlbl.ForeColor = System.Drawing.Color.White;
+            this.spmconnectlbl.Location = new System.Drawing.Point(39, 124);
+            this.spmconnectlbl.Name = "spmconnectlbl";
+            this.spmconnectlbl.Size = new System.Drawing.Size(254, 25);
+            this.spmconnectlbl.TabIndex = 13;
+            this.spmconnectlbl.Text = "SPM Connect V7.20.5.26";
+            this.spmconnectlbl.UseWaitCursor = true;
+            // 
+            // SPMConnectHome
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
             this.ClientSize = new System.Drawing.Size(330, 196);
+            this.Controls.Add(this.spmconnectlbl);
             this.Controls.Add(this.metroProgressSpinner1);
             this.Controls.Add(this.SPM);
             this.Controls.Add(this.shapeContainer1);
             this.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "SPM_ConnectHome";
+            this.Name = "SPMConnectHome";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SPM_ConnectHome";
             this.UseWaitCursor = true;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SPM_ConnectHome_FormClosed);
             this.Load += new System.EventHandler(this.SPM_ConnectHome_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -150,5 +165,6 @@ namespace SearchDataSPM
         private RectangleShape rectangleShape2;
         private RectangleShape rectangleShape1;
         private Bunifu.Framework.UI.BunifuElipse bunifuElipse1;
+        private Bunifu.Framework.UI.BunifuCustomLabel spmconnectlbl;
     }
 }

@@ -106,7 +106,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConnectAPI.cs" />
-    <Compile Include="ConnectConstants.cs" />
+    <Compile Include="ConnectHelper.cs" />
     <Compile Include="Controls.cs" />
     <Compile Include="Service.cs" />
     <Compile Include="Properties\Settings.Designer.cs">

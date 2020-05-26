@@ -2,7 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
-using static SPMConnectAPI.ConnectConstants;
+using static SPMConnectAPI.ConnectHelper;
 
 namespace SPMConnectAPI
 {
@@ -179,7 +179,7 @@ namespace SPMConnectAPI
                 int userCount = (int)sqlCommand.ExecuteScalar();
                 if (userCount == 1)
                 {
-                    // MessageBox.Show("items exists");
+                    // MessageBox.Show("items exists")
                     cn.Close();
                     exists = true;
                     //insert to autocad catalog

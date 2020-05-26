@@ -13,7 +13,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static SPMConnectAPI.ConnectConstants;
+using static SPMConnectAPI.ConnectHelper;
 using Excel = Microsoft.Office.Interop.Excel;
 
 namespace SearchDataSPM.Purchasing
@@ -48,7 +48,7 @@ namespace SearchDataSPM.Purchasing
         {
             bttnshowmydept.Text = "Show All";
 
-            if (ConnectUser.PurchaseReqBuyer)
+            if (connectapi.ConnectUser.PurchaseReqBuyer)
             {
                 bttnneedapproval.Text = "Need's PO";
                 bttnshowapproved.Text = "Show Purchased";
@@ -93,49 +93,49 @@ namespace SearchDataSPM.Purchasing
         private void PurchaseReq_Load(object sender, EventArgs e)
         {
             formloading = true;
-            if (ConnectUser.PurchaseReqApproval)
+            if (connectapi.ConnectUser.PurchaseReqApproval)
             {
                 managergroupbox.Visible = true;
                 managergroupbox.Enabled = true;
                 dataGridView.ContextMenuStrip = ApprovalMenuStrip;
             }
 
-            if (ConnectUser.PurchaseReqApproval2 || ConnectUser.PurchaseReqBuyer)
+            if (connectapi.ConnectUser.PurchaseReqApproval2 || connectapi.ConnectUser.PurchaseReqBuyer)
             {
                 managergroupbox.Visible = true;
                 managergroupbox.Enabled = true;
-                if (ConnectUser.PurchaseReqApproval2)
+                if (connectapi.ConnectUser.PurchaseReqApproval2)
                 {
                     dataGridView.ContextMenuStrip = ApprovalMenuStrip;
                 }
                 Changecontrolbuttonnames();
             }
 
-            if (ConnectUser.PurchaseReqApproval2 || ConnectUser.PurchaseReqApproval || ConnectUser.PurchaseReqBuyer)
+            if (connectapi.ConnectUser.PurchaseReqApproval2 || connectapi.ConnectUser.PurchaseReqApproval || connectapi.ConnectUser.PurchaseReqBuyer)
             {
                 //bttnneedapproval.PerformClick();
                 PerformNeedApproval(bttnneedapproval);
             }
             else
             {
-                ShowReqSearchItems(ConnectUser.Name);
+                ShowReqSearchItems(connectapi.ConnectUser.Name);
             }
 
             formloading = false;
 
-            Debug.WriteLine(ConnectUser.ConnectId);
-            Debug.WriteLine(ConnectUser.Supervisor);
-            Debug.WriteLine(ConnectUser.Name);
-            Debug.WriteLine(ConnectUser.PurchaseReqApproval);
-            Debug.WriteLine(ConnectUser.PurchaseReqApproval2);
-            Debug.WriteLine(ConnectUser.PurchaseReqBuyer);
+            Debug.WriteLine(connectapi.ConnectUser.ConnectId);
+            Debug.WriteLine(connectapi.ConnectUser.Supervisor);
+            Debug.WriteLine(connectapi.ConnectUser.Name);
+            Debug.WriteLine(connectapi.ConnectUser.PurchaseReqApproval);
+            Debug.WriteLine(connectapi.ConnectUser.PurchaseReqApproval2);
+            Debug.WriteLine(connectapi.ConnectUser.PurchaseReqBuyer);
             Debug.WriteLine(supervisoridfromreq);
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Purchase Req ");
             this.BringToFront();
             this.Focus();
-            this.Text = "SPM Connect Purchase Requisition - " + GetUserName().Substring(4);
+            this.Text = "SPM Connect Purchase Requisition - " + connectapi.ConnectUser.UserName.Substring(4);
         }
 
         private void ShowReqSearchItems(string user)
@@ -171,11 +171,11 @@ namespace SearchDataSPM.Purchasing
         {
             editbttn.Visible = Getapprovalstatus() == "0";
 
-            if (ConnectUser.PurchaseReqApproval)
+            if (connectapi.ConnectUser.PurchaseReqApproval)
             {
                 editbttn.Visible = true;
             }
-            //if (ConnectUser.PurchaseReqApproval2)
+            //if (connectapi.ConnectUser.PurchaseReqApproval2)
             //{
             //    editbttn.Visible = false;
             //}
@@ -255,7 +255,7 @@ namespace SearchDataSPM.Purchasing
                     }
                     else
                     {
-                        ShowReqSearchItems(ConnectUser.Name);
+                        ShowReqSearchItems(connectapi.ConnectUser.Name);
                     }
                 }
 
@@ -280,9 +280,9 @@ namespace SearchDataSPM.Purchasing
                 ecitbttn.Visible = false;
                 int lastreq = Getlastreqnumber();
 
-                if (Createnewreq(lastreq, ConnectUser.Name))
+                if (Createnewreq(lastreq, connectapi.ConnectUser.Name))
                 {
-                    ShowReqSearchItems(ConnectUser.Name);
+                    ShowReqSearchItems(connectapi.ConnectUser.Name);
                     Selectrowbeforeediting(lastreq.ToString());
                     Populatereqdetails(lastreq);
                     PopulateDataGridView();
@@ -306,7 +306,7 @@ namespace SearchDataSPM.Purchasing
             {
                 SqlCommand cmd = connectapi.cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[PurchaseReqBase] (ReqNumber, RequestedBy, DateCreated, DateLastSaved, JobNumber, SubAssyNumber,LastSavedBy, Validate, Approved,Total,Happroved,DateRequired, SupervisorId, DateValidated,PApproval,Papproved) VALUES('" + reqnumber + "','" + employee + "','" + sqlFormattedDate + "','" + sqlFormattedDate + "','','','" + employee + "','0','0','0','0','" + sqlFormattedDate + "', '" + ConnectUser.Supervisor + "', null,'0','0')";
+                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[PurchaseReqBase] (ReqNumber, RequestedBy, DateCreated, DateLastSaved, JobNumber, SubAssyNumber,LastSavedBy, Validate, Approved,Total,Happroved,DateRequired, SupervisorId, DateValidated,PApproval,Papproved) VALUES('" + reqnumber + "','" + employee + "','" + sqlFormattedDate + "','" + sqlFormattedDate + "','','','" + employee + "','0','0','0','0','" + sqlFormattedDate + "', '" + connectapi.ConnectUser.Supervisor + "', null,'0','0')";
                 cmd.ExecuteNonQuery();
                 connectapi.cn.Close();
                 revtal = true;
@@ -631,16 +631,16 @@ namespace SearchDataSPM.Purchasing
                 Validatechk.Visible = true;
             }
 
-            if ((ConnectUser.PurchaseReqApproval || ConnectUser.PurchaseReqBuyer || ConnectUser.PurchaseReqApproval2) && Validatechk.Checked)
+            if ((connectapi.ConnectUser.PurchaseReqApproval || connectapi.ConnectUser.PurchaseReqBuyer || connectapi.ConnectUser.PurchaseReqApproval2) && Validatechk.Checked)
             {
-                if (ConnectUser.ConnectId == supervisoridfromreq)
+                if (connectapi.ConnectUser.ConnectId == supervisoridfromreq)
                 {
                     approvechk.Visible = true;
                     approvechk.Enabled = true;
                 }
 
                 Validatechk.Visible = false;
-                if (ConnectUser.Name == requestbytxt.Text && !approvechk.Checked)
+                if (connectapi.ConnectUser.Name == requestbytxt.Text && !approvechk.Checked)
                 {
                     Validatechk.Enabled = true;
                     Validatechk.Visible = true;
@@ -705,9 +705,9 @@ namespace SearchDataSPM.Purchasing
                 if (validatehit)
                 {
                     UpdateReq(Convert.ToInt32(purchreqtxt.Text), typeofsave);
-                    if (!(ConnectUser.PurchaseReqApproval2 || ConnectUser.PurchaseReqApproval || ConnectUser.PurchaseReqBuyer))
+                    if (!(connectapi.ConnectUser.PurchaseReqApproval2 || connectapi.ConnectUser.PurchaseReqApproval || connectapi.ConnectUser.PurchaseReqBuyer))
                     {
-                        ShowReqSearchItems(ConnectUser.Name);
+                        ShowReqSearchItems(connectapi.ConnectUser.Name);
                     }
                     Clearaddnewtextboxes();
                     Processexitbutton();
@@ -745,7 +745,7 @@ namespace SearchDataSPM.Purchasing
                         }
                         else
                         {
-                            ShowReqSearchItems(ConnectUser.Name);
+                            ShowReqSearchItems(connectapi.ConnectUser.Name);
                         }
 
                         Clearaddnewtextboxes();
@@ -869,30 +869,30 @@ namespace SearchDataSPM.Purchasing
 
                 if (typesave == "Normal")
                 {
-                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + ConnectUser.Name + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',HApproval = '" + (approval ? "1" : "0") + "' WHERE ReqNumber = '" + reqnumber + "' ";
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + connectapi.ConnectUser.Name + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',HApproval = '" + (approval ? "1" : "0") + "' WHERE ReqNumber = '" + reqnumber + "' ";
                 }
 
                 if (typesave == "Validated")
                 {
-                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + ConnectUser.Name + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',HApproval = '" + (approval ? "1" : "0") + "',DateValidated = '" + (Validatechk.Checked ? sqlFormattedDate : null) + "' WHERE ReqNumber = '" + reqnumber + "' ";
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + connectapi.ConnectUser.Name + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',HApproval = '" + (approval ? "1" : "0") + "',DateValidated = '" + (Validatechk.Checked ? sqlFormattedDate : null) + "' WHERE ReqNumber = '" + reqnumber + "' ";
                 }
 
                 if (typesave == "Approved")
                 {
-                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + ConnectUser.Name + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',HApproval = '" + (approval ? "1" : "0") + "',ApprovedBy = '" + ConnectUser.Name + "',DateApproved = '" + (approvechk.Checked ? sqlFormattedDate : "") + "',PApproval ='" + (approval ? "0" : "1") + "' WHERE ReqNumber = '" + reqnumber + "' ";
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + connectapi.ConnectUser.Name + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',HApproval = '" + (approval ? "1" : "0") + "',ApprovedBy = '" + connectapi.ConnectUser.Name + "',DateApproved = '" + (approvechk.Checked ? sqlFormattedDate : "") + "',PApproval ='" + (approval ? "0" : "1") + "' WHERE ReqNumber = '" + reqnumber + "' ";
                 }
 
                 if (typesave == "ApprovedFalse")
                 {
-                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + ConnectUser.Name + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',HApproval = '" + (approval ? "1" : "0") + "',ApprovedBy = ' ',DateApproved = null,PApproval = '0' WHERE ReqNumber = '" + reqnumber + "' ";
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + connectapi.ConnectUser.Name + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',HApproval = '" + (approval ? "1" : "0") + "',ApprovedBy = ' ',DateApproved = null,PApproval = '0' WHERE ReqNumber = '" + reqnumber + "' ";
                 }
                 if (typesave == "Rejected")
                 {
-                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + ConnectUser.Name + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "3" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',HApproval = '" + (approval ? "0" : "0") + "',ApprovedBy = '" + ConnectUser.Name + "',DateApproved = '" + (approvechk.Checked ? sqlFormattedDate : "") + "',PApproval ='" + (approval ? "0" : "0") + "' WHERE ReqNumber = '" + reqnumber + "' ";
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + connectapi.ConnectUser.Name + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "3" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',HApproval = '" + (approval ? "0" : "0") + "',ApprovedBy = '" + connectapi.ConnectUser.Name + "',DateApproved = '" + (approvechk.Checked ? sqlFormattedDate : "") + "',PApproval ='" + (approval ? "0" : "0") + "' WHERE ReqNumber = '" + reqnumber + "' ";
                 }
                 if (typesave == "Happroved")
                 {
-                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET HApproved = '" + (happrovechk.Checked ? "1" : "0") + "',HApproval = '" + (approval ? "1" : "0") + "',HApprovedBy = '" + ConnectUser.Name + "',HDateApproved = '" + (happrovechk.Checked ? sqlFormattedDate : "") + "',PApproval = '1' WHERE ReqNumber = '" + reqnumber + "' ";
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET HApproved = '" + (happrovechk.Checked ? "1" : "0") + "',HApproval = '" + (approval ? "1" : "0") + "',HApprovedBy = '" + connectapi.ConnectUser.Name + "',HDateApproved = '" + (happrovechk.Checked ? sqlFormattedDate : "") + "',PApproval = '1' WHERE ReqNumber = '" + reqnumber + "' ";
                 }
                 if (typesave == "Happrovedfalse")
                 {
@@ -900,7 +900,7 @@ namespace SearchDataSPM.Purchasing
                 }
                 if (typesave == "HRejected")
                 {
-                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET HApproved = '" + (happrovechk.Checked ? "3" : "0") + "',HApproval = '" + (approval ? "1" : "0") + "',HApprovedBy = '" + ConnectUser.Name + "',HDateApproved = '" + (happrovechk.Checked ? sqlFormattedDate : "") + "',PApproval = '0' WHERE ReqNumber = '" + reqnumber + "' ";
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET HApproved = '" + (happrovechk.Checked ? "3" : "0") + "',HApproval = '" + (approval ? "1" : "0") + "',HApprovedBy = '" + connectapi.ConnectUser.Name + "',HDateApproved = '" + (happrovechk.Checked ? sqlFormattedDate : "") + "',PApproval = '0' WHERE ReqNumber = '" + reqnumber + "' ";
                 }
 
                 if (typesave == "Papproved")
@@ -917,7 +917,7 @@ namespace SearchDataSPM.Purchasing
                         pdate = pODetails.Podate;
                     }
 
-                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET Papproved = '" + (purchasedchk.Checked ? "1" : "0") + "',PApprovedBy = '" + ConnectUser.Name + "',PDateApproved = '" + (purchasedchk.Checked ? sqlFormattedDate : "") + "',PApproval = '1',PONumber = '" + ponumber + "',PODate = '" + pdate + "'  WHERE ReqNumber = '" + reqnumber + "' ";
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET Papproved = '" + (purchasedchk.Checked ? "1" : "0") + "',PApprovedBy = '" + connectapi.ConnectUser.Name + "',PDateApproved = '" + (purchasedchk.Checked ? sqlFormattedDate : "") + "',PApproval = '1',PONumber = '" + ponumber + "',PODate = '" + pdate + "'  WHERE ReqNumber = '" + reqnumber + "' ";
                 }
 
                 if (typesave == "Papprovedfalse")
@@ -927,11 +927,11 @@ namespace SearchDataSPM.Purchasing
 
                 //if (approvechk.Checked)
                 //{
-                //    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + ConnectUser.Name.ToString() + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',DateValidated = '" + (Validatechk.Checked ? sqlFormattedDate : "") + "',ApprovedBy = '" + ConnectUser.Name + "',DateApproved = '" + (approvechk.Checked ? sqlFormattedDate : "") + "' WHERE ReqNumber = '" + reqnumber + "' ";
+                //    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + connectapi.ConnectUser.Name.ToString() + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',DateValidated = '" + (Validatechk.Checked ? sqlFormattedDate : "") + "',ApprovedBy = '" + connectapi.ConnectUser.Name + "',DateApproved = '" + (approvechk.Checked ? sqlFormattedDate : "") + "' WHERE ReqNumber = '" + reqnumber + "' ";
                 //}
                 //else
                 //{
-                //    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + ConnectUser.Name.ToString() + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',DateValidated = '" + (Validatechk.Checked ? sqlFormattedDate : null) + "' WHERE ReqNumber = '" + reqnumber + "' ";
+                //    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[PurchaseReqBase] SET DateLastSaved = '" + sqlFormattedDate + "',JobNumber = '" + jobnumber + "',SubAssyNumber = '" + subassy + "' ,Notes = '" + notes + "',LastSavedBy = '" + connectapi.ConnectUser.Name.ToString() + "',DateRequired = '" + datereq + "',Total = '" + totalvalue + "',Approved = '" + (approvechk.Checked ? "1" : "0") + "',Validate = '" + (Validatechk.Checked ? "1" : "0") + "',DateValidated = '" + (Validatechk.Checked ? sqlFormattedDate : null) + "' WHERE ReqNumber = '" + reqnumber + "' ";
                 //}
 
                 cmd.ExecuteNonQuery();
@@ -1131,7 +1131,7 @@ namespace SearchDataSPM.Purchasing
                         apprvonlabel.Visible = false;
                     }
 
-                    if (ConnectUser.PurchaseReqApproval && dr[0]["Validate"].ToString().Equals("1"))
+                    if (connectapi.ConnectUser.PurchaseReqApproval && dr[0]["Validate"].ToString().Equals("1"))
                     {
                         if (dr[0]["Approved"].ToString().Equals("1"))
                         {
@@ -1171,7 +1171,7 @@ namespace SearchDataSPM.Purchasing
                         }
                         else
                         {
-                            if (ConnectUser.ConnectId == supervisoridfromreq)
+                            if (connectapi.ConnectUser.ConnectId == supervisoridfromreq)
                             {
                                 approvechk.Text = "Approve";
                                 approvechk.Checked = false;
@@ -1182,7 +1182,7 @@ namespace SearchDataSPM.Purchasing
                             }
                         }
                     }
-                    else if (ConnectUser.PurchaseReqApproval && dr[0]["Validate"].ToString().Equals("0"))
+                    else if (connectapi.ConnectUser.PurchaseReqApproval && dr[0]["Validate"].ToString().Equals("0"))
                     {
                         approvechk.Text = "Approve";
                         approvechk.Checked = false;
@@ -1194,7 +1194,7 @@ namespace SearchDataSPM.Purchasing
                     {
                         if (dr[0]["Approved"].ToString().Equals("1") && dr[0]["Validate"].ToString().Equals("1"))
                         {
-                            if (ConnectUser.PurchaseReqApproval2)
+                            if (connectapi.ConnectUser.PurchaseReqApproval2)
                             {
                                 if (dr[0]["Happroved"].ToString().Equals("0"))
                                 {
@@ -1225,7 +1225,7 @@ namespace SearchDataSPM.Purchasing
                             }
                             else
                             {
-                                if (ConnectUser.PurchaseReqApproval)
+                                if (connectapi.ConnectUser.PurchaseReqApproval)
                                 {
                                     if (dr[0]["Happroved"].ToString().Equals("1"))
                                     {
@@ -1314,7 +1314,7 @@ namespace SearchDataSPM.Purchasing
                     {
                         if (dr[0]["Approved"].ToString().Equals("1") && dr[0]["Validate"].ToString().Equals("1"))
                         {
-                            if (ConnectUser.PurchaseReqBuyer)
+                            if (connectapi.ConnectUser.PurchaseReqBuyer)
                             {
                                 if (dr[0]["Papproved"].ToString().Equals("0"))
                                 {
@@ -1335,7 +1335,7 @@ namespace SearchDataSPM.Purchasing
                             }
                             else
                             {
-                                if (ConnectUser.PurchaseReqApproval || ConnectUser.PurchaseReqApproval2)
+                                if (connectapi.ConnectUser.PurchaseReqApproval || connectapi.ConnectUser.PurchaseReqApproval2)
                                 {
                                     if (dr[0]["Papproved"].ToString().Equals("1"))
                                     {
@@ -1353,12 +1353,12 @@ namespace SearchDataSPM.Purchasing
                                         purchasedchk.Text = "Purchase";
                                         purchasedchk.Checked = false;
                                         //printbttn.Enabled = false;
-                                        if (ConnectUser.PurchaseReqApproval && ConnectUser.PurchaseReqApproval2)
+                                        if (connectapi.ConnectUser.PurchaseReqApproval && connectapi.ConnectUser.PurchaseReqApproval2)
                                         {
                                             editbttn.Visible = true;
                                             editbttn.Visible = !dr[0]["Happroved"].ToString().Equals("1");
                                         }
-                                        else if (ConnectUser.PurchaseReqApproval)
+                                        else if (connectapi.ConnectUser.PurchaseReqApproval)
                                         {
                                             editbttn.Visible = true;
                                             if (dr[0]["Happroved"].ToString().Equals("1"))
@@ -1368,7 +1368,7 @@ namespace SearchDataSPM.Purchasing
                                         }
                                         else
                                         {
-                                            editbttn.Visible = Getrequestname() == ConnectUser.Name;
+                                            editbttn.Visible = Getrequestname() == connectapi.ConnectUser.Name;
                                         }
                                     }
                                 }
@@ -1401,7 +1401,7 @@ namespace SearchDataSPM.Purchasing
                             purchasedchk.Text = "Purchase";
                             purchasedchk.Checked = false;
                             printbttn.Enabled = false;
-                            editbttn.Visible = Getrequestname() == ConnectUser.Name;
+                            editbttn.Visible = Getrequestname() == connectapi.ConnectUser.Name;
                         }
                     }
                     else
@@ -1414,7 +1414,7 @@ namespace SearchDataSPM.Purchasing
 
                     ///////////////////////////////////////
 
-                    if (ConnectUser.PurchaseReqApproval2 && Getrequestname() == ConnectUser.Name && !happrovechk.Checked && dr[0]["Papproved"].ToString().Equals("0"))
+                    if (connectapi.ConnectUser.PurchaseReqApproval2 && Getrequestname() == connectapi.ConnectUser.Name && !happrovechk.Checked && dr[0]["Papproved"].ToString().Equals("0"))
                     {
                         editbttn.Visible = true;
                     }
@@ -1538,7 +1538,7 @@ namespace SearchDataSPM.Purchasing
                 else
                 {
                     groupBox3.Visible = true;
-                    if (ConnectUser.PurchaseReqApproval)
+                    if (connectapi.ConnectUser.PurchaseReqApproval)
                     {
                         approvechk.Visible = false;
                         approvechk.Enabled = false;
@@ -1553,12 +1553,12 @@ namespace SearchDataSPM.Purchasing
             {
                 if (Getapprovedstatus(Convert.ToInt32(purchreqtxt.Text)))
                 {
-                    MetroFramework.MetroMessageBox.Show(this, "This purchase requisition is approved. Only ConnectUser.PurchaseReqApproval can edit the details.", "SPM Connect - Purchase Req already approved", MessageBoxButtons.OK);
+                    MetroFramework.MetroMessageBox.Show(this, "This purchase requisition is approved. Only connectapi.ConnectUser.PurchaseReqApproval can edit the details.", "SPM Connect - Purchase Req already approved", MessageBoxButtons.OK);
                     Validatechk.Checked = true;
                     Validatechk.Text = "Invalidate";
                     groupBox3.Visible = false;
                     Processexitbutton();
-                    ShowReqSearchItems(ConnectUser.Name);
+                    ShowReqSearchItems(connectapi.ConnectUser.Name);
                 }
                 else
                 {
@@ -1571,7 +1571,7 @@ namespace SearchDataSPM.Purchasing
             {
                 DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to send this purchase req for order?" + Environment.NewLine +
                     " " + Environment.NewLine +
-                    "This will send email to respective ConnectUser.PurchaseReqApproval for approval.", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    "This will send email to respective connectapi.ConnectUser.PurchaseReqApproval for approval.", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (result == DialogResult.Yes)
                 {
@@ -1629,7 +1629,7 @@ namespace SearchDataSPM.Purchasing
 
         private async void Approvechk_Click(object sender, EventArgs e)
         {
-            if (ConnectUser.PurchaseReqApproval)
+            if (connectapi.ConnectUser.PurchaseReqApproval)
             {
                 if (!approvechk.Checked)
                 {
@@ -1668,7 +1668,7 @@ namespace SearchDataSPM.Purchasing
 
                             string filename = Makefilenameforreport(reqno, false);
                             SaveReport(reqno, filename);
-                            Preparetosendemail(reqno, false, requestby, filename, happroval, "ConnectUser.PurchaseReqApproval", false);
+                            Preparetosendemail(reqno, false, requestby, filename, happroval, "connectapi.ConnectUser.PurchaseReqApproval", false);
                             Exporttoexcel();
                             this.Enabled = true;
                             this.Focus();
@@ -1947,7 +1947,7 @@ namespace SearchDataSPM.Purchasing
                     else
                     {
                         Sendemailtouser(reqno, fileName, requestby, triggerby, false);
-                        if (triggerby != "ConnectUser.PurchaseReqBuyer")
+                        if (triggerby != "connectapi.ConnectUser.PurchaseReqBuyer")
                         {
                             if (Sendemailyesnopbuyer())
                             {
@@ -1977,8 +1977,8 @@ namespace SearchDataSPM.Purchasing
 
         private void Sendemailtosupervisor(string reqno, string fileName)
         {
-            foreach (NameEmail item in connectapi.GetNameEmailByParaValue(UserFields.id, ConnectUser.Supervisor.ToString()))
-                Sendemail(item.email, reqno + " Purchase Req Approval Required - Job " + jobnumbertxt.Text, item.name, Environment.NewLine + ConnectUser.Name + " sent this purchase req for approval.", fileName, "");
+            foreach (NameEmail item in connectapi.GetNameEmailByParaValue(UserFields.id, connectapi.ConnectUser.Supervisor.ToString()))
+                Sendemail(item.email, reqno + " Purchase Req Approval Required - Job " + jobnumbertxt.Text, item.name, Environment.NewLine + connectapi.ConnectUser.Name + " sent this purchase req for approval.", fileName, "");
         }
 
         private void Sendemailtouser(string reqno, string fileName, string requestby, string triggerby, bool rejected)
@@ -1986,7 +1986,7 @@ namespace SearchDataSPM.Purchasing
             string email = connectapi.GetNameEmailByParaValue(UserFields.Name, requestby)[0].email;
             if (!rejected)
             {
-                if (triggerby == "ConnectUser.PurchaseReqApproval")
+                if (triggerby == "connectapi.ConnectUser.PurchaseReqApproval")
                 {
                     Sendemail(email, reqno + " Purchase Req Approved - Job " + jobnumbertxt.Text, requestby, Environment.NewLine + " Your purchase req is approved.", fileName, "");
                 }
@@ -1995,7 +1995,7 @@ namespace SearchDataSPM.Purchasing
                     List<NameEmail> supnameemail = connectapi.GetNameEmailByParaValue(UserFields.id, supervisoridfromreq.ToString());
                     string supervisoremail = supnameemail[0].email;
 
-                    if (triggerby == "ConnectUser.PurchaseReqBuyer")
+                    if (triggerby == "connectapi.ConnectUser.PurchaseReqBuyer")
                     {
                         Sendemail(email, reqno + " Purchase Req Purchased - Job " + jobnumbertxt.Text, requestby, Environment.NewLine + " Your purchase req is sent out for purchase.", fileName, supervisoremail);
                     }
@@ -2007,7 +2007,7 @@ namespace SearchDataSPM.Purchasing
             }
             else
             {
-                if (triggerby == "ConnectUser.PurchaseReqApproval")
+                if (triggerby == "connectapi.ConnectUser.PurchaseReqApproval")
                 {
                     Sendemail(email, reqno + " Purchase Req Rejected - Job " + jobnumbertxt.Text, requestby, Environment.NewLine + " Your purchase req is not approved.", fileName, "");
                 }
@@ -2056,13 +2056,13 @@ namespace SearchDataSPM.Purchasing
         private void Sendmailforhapproval(string reqno, string fileName)
         {
             foreach (NameEmail item in connectapi.GetNameEmailByParaValue(UserFields.PurchaseReqApproval2, "1"))
-                Sendemail(item.email, reqno + " Purchase Req Approval Required - 2nd Approval - Job " + jobnumbertxt.Text, item.name, Environment.NewLine + ConnectUser.Name + " sent this purchase req for second approval.", fileName, "");
+                Sendemail(item.email, reqno + " Purchase Req Approval Required - 2nd Approval - Job " + jobnumbertxt.Text, item.name, Environment.NewLine + connectapi.ConnectUser.Name + " sent this purchase req for second approval.", fileName, "");
         }
 
         private void Sendmailtopbuyers(string reqno, string fileName)
         {
             foreach (NameEmail item in connectapi.GetNameEmailByParaValue(UserFields.PurchaseReqBuyer, "1"))
-                Sendemail(item.email, reqno + " Purchase Req needs PO - Notification - Job " + jobnumbertxt.Text, item.name, Environment.NewLine + ConnectUser.Name + " apporved this purchase req and on its way to be purchased. ", fileName, "");
+                Sendemail(item.email, reqno + " Purchase Req needs PO - Notification - Job " + jobnumbertxt.Text, item.name, Environment.NewLine + connectapi.ConnectUser.Name + " apporved this purchase req and on its way to be purchased. ", fileName, "");
         }
 
         #endregion save report and send email
@@ -2379,7 +2379,7 @@ namespace SearchDataSPM.Purchasing
             await Task.Run(() => SplashDialog("Loading Data...")).ConfigureAwait(true);
 
             this.Enabled = false;
-            ShowReqSearchItems(ConnectUser.Name);
+            ShowReqSearchItems(connectapi.ConnectUser.Name);
             foreach (Control c in managergroupbox.Controls)
             {
                 c.BackColor = Color.Transparent;
@@ -2429,7 +2429,7 @@ namespace SearchDataSPM.Purchasing
         {
             showingwaitingforapproval = false;
 
-            if (ConnectUser.PurchaseReqApproval2)
+            if (connectapi.ConnectUser.PurchaseReqApproval2)
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE (Approved = '1' OR Approved = '3') AND Validate = '1' ORDER BY ReqNumber DESC", connectapi.cn))
                 {
@@ -2452,7 +2452,7 @@ namespace SearchDataSPM.Purchasing
                     }
                 }
             }
-            else if (ConnectUser.PurchaseReqBuyer)
+            else if (connectapi.ConnectUser.PurchaseReqBuyer)
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Papproved = '1' ORDER BY ReqNumber DESC", connectapi.cn))
                 {
@@ -2475,9 +2475,9 @@ namespace SearchDataSPM.Purchasing
                     }
                 }
             }
-            else if (ConnectUser.PurchaseReqApproval)
+            else if (connectapi.ConnectUser.PurchaseReqApproval)
             {
-                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE (Approved = '1' OR Approved = '3') AND Validate = '1' AND SupervisorId = '" + ConnectUser.ConnectId + "' ORDER BY ReqNumber DESC", connectapi.cn))
+                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE (Approved = '1' OR Approved = '3') AND Validate = '1' AND SupervisorId = '" + connectapi.ConnectUser.ConnectId + "' ORDER BY ReqNumber DESC", connectapi.cn))
                 {
                     try
                     {
@@ -2503,7 +2503,7 @@ namespace SearchDataSPM.Purchasing
         private void Showmydeptreq()
         {
             showingwaitingforapproval = false;
-            if (ConnectUser.PurchaseReqApproval2)
+            if (connectapi.ConnectUser.PurchaseReqApproval2)
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Validate != '5'  ORDER BY ReqNumber DESC", connectapi.cn))
                 {
@@ -2526,7 +2526,7 @@ namespace SearchDataSPM.Purchasing
                     }
                 }
             }
-            else if (ConnectUser.PurchaseReqBuyer)
+            else if (connectapi.ConnectUser.PurchaseReqBuyer)
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE PApproval = '1'  ORDER BY ReqNumber DESC", connectapi.cn))
                 {
@@ -2550,9 +2550,9 @@ namespace SearchDataSPM.Purchasing
                 }
                 return;
             }
-            else if (ConnectUser.PurchaseReqApproval)
+            else if (connectapi.ConnectUser.PurchaseReqApproval)
             {
-                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE SupervisorId = '" + ConnectUser.ConnectId + "' ORDER BY ReqNumber DESC", connectapi.cn))
+                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE SupervisorId = '" + connectapi.ConnectUser.ConnectId + "' ORDER BY ReqNumber DESC", connectapi.cn))
                 {
                     try
                     {
@@ -2579,7 +2579,7 @@ namespace SearchDataSPM.Purchasing
         {
             showingwaitingforapproval = true;
 
-            if (ConnectUser.PurchaseReqApproval2 && !ConnectUser.PurchaseReqApproval)
+            if (connectapi.ConnectUser.PurchaseReqApproval2 && !connectapi.ConnectUser.PurchaseReqApproval)
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '1' AND Validate = '1' AND HApproval = '1' AND Happroved = '0' ORDER BY ReqNumber DESC", connectapi.cn))
                 {
@@ -2602,9 +2602,9 @@ namespace SearchDataSPM.Purchasing
                     }
                 }
             }
-            else if (ConnectUser.PurchaseReqApproval2 && ConnectUser.PurchaseReqApproval)
+            else if (connectapi.ConnectUser.PurchaseReqApproval2 && connectapi.ConnectUser.PurchaseReqApproval)
             {
-                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '1' AND Validate = '1' AND HApproval = '1' AND Happroved = '0' UNION SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Validate = '1' AND Approved = '0' AND SupervisorId = '" + ConnectUser.ConnectId + "' ORDER BY ReqNumber DESC", connectapi.cn))
+                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '1' AND Validate = '1' AND HApproval = '1' AND Happroved = '0' UNION SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Validate = '1' AND Approved = '0' AND SupervisorId = '" + connectapi.ConnectUser.ConnectId + "' ORDER BY ReqNumber DESC", connectapi.cn))
                 {
                     try
                     {
@@ -2625,7 +2625,7 @@ namespace SearchDataSPM.Purchasing
                     }
                 }
             }
-            else if (ConnectUser.PurchaseReqBuyer)
+            else if (connectapi.ConnectUser.PurchaseReqBuyer)
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '1' AND Validate = '1' AND PApproval = '1' AND Papproved = '0' ORDER BY ReqNumber DESC", connectapi.cn))
                 {
@@ -2648,9 +2648,9 @@ namespace SearchDataSPM.Purchasing
                     }
                 }
             }
-            else if (ConnectUser.PurchaseReqApproval && !ConnectUser.PurchaseReqApproval2)
+            else if (connectapi.ConnectUser.PurchaseReqApproval && !connectapi.ConnectUser.PurchaseReqApproval2)
             {
-                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '0' AND Validate = '1' AND SupervisorId = '" + ConnectUser.ConnectId + "' ORDER BY ReqNumber DESC", connectapi.cn))
+                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[PurchaseReqBase] WHERE Approved = '0' AND Validate = '1' AND SupervisorId = '" + connectapi.ConnectUser.ConnectId + "' ORDER BY ReqNumber DESC", connectapi.cn))
                 {
                     try
                     {
@@ -2679,7 +2679,7 @@ namespace SearchDataSPM.Purchasing
 
         private async void Happrovechk_Click(object sender, EventArgs e)
         {
-            if (ConnectUser.PurchaseReqApproval2)
+            if (connectapi.ConnectUser.PurchaseReqApproval2)
             {
                 if (!happrovechk.Checked)
                 {
@@ -2754,7 +2754,7 @@ namespace SearchDataSPM.Purchasing
 
         private async void Purchasedchk_Click(object sender, EventArgs e)
         {
-            if (ConnectUser.PurchaseReqBuyer)
+            if (connectapi.ConnectUser.PurchaseReqBuyer)
             {
                 if (!purchasedchk.Checked)
                 {
@@ -2781,7 +2781,7 @@ namespace SearchDataSPM.Purchasing
                         this.Enabled = false;
                         purchasedchk.Checked = true;
 
-                        Preparetosendemail(reqno, false, requestby, "", false, "ConnectUser.PurchaseReqBuyer", false);
+                        Preparetosendemail(reqno, false, requestby, "", false, "connectapi.ConnectUser.PurchaseReqBuyer", false);
 
                         //t.Abort();
                         //this.TopMost = true;
@@ -2847,7 +2847,7 @@ namespace SearchDataSPM.Purchasing
                 //sfd.Filter = "Excel Documents (*.xls)|*.xls";
                 //sfd.FileName = "Inventory_Adjustment_Export.xls";
 
-                string filepath = Getsupervisorsharepath(GetUserName()) + @"\SPM_Connect\PreliminaryPurchases\";
+                string filepath = Getsupervisorsharepath(connectapi.ConnectUser.UserName) + @"\SPM_Connect\PreliminaryPurchases\";
                 System.IO.Directory.CreateDirectory(filepath);
                 filepath += purchreqtxt.Text + " - " + requestbytxt.Text + ".xls";
                 // Copy DataGridView results to clipboard
@@ -2978,7 +2978,7 @@ namespace SearchDataSPM.Purchasing
         {
             if (!approvechk.Checked)
             {
-                if (ConnectUser.PurchaseReqApproval)
+                if (connectapi.ConnectUser.PurchaseReqApproval)
                 {
                     approvechk.Checked = !approvechk.Checked;
 
@@ -3018,7 +3018,7 @@ namespace SearchDataSPM.Purchasing
 
                                 string filename = Makefilenameforreport(reqno, false);
                                 SaveReport(reqno, filename);
-                                Preparetosendemail(reqno, false, requestby, filename, happroval, "ConnectUser.PurchaseReqApproval", false);
+                                Preparetosendemail(reqno, false, requestby, filename, happroval, "connectapi.ConnectUser.PurchaseReqApproval", false);
                                 Exporttoexcel();
                                 this.Enabled = true;
                                 this.Focus();
@@ -3054,7 +3054,7 @@ namespace SearchDataSPM.Purchasing
             }
             else if (approvechk.Checked)
             {
-                if (ConnectUser.PurchaseReqApproval2)
+                if (connectapi.ConnectUser.PurchaseReqApproval2)
                 {
                     happrovechk.Checked = !happrovechk.Checked;
 
@@ -3103,7 +3103,7 @@ namespace SearchDataSPM.Purchasing
         {
             if (!approvechk.Checked)
             {
-                if (ConnectUser.PurchaseReqApproval)
+                if (connectapi.ConnectUser.PurchaseReqApproval)
                 {
                     approvechk.Checked = !approvechk.Checked;
 
@@ -3143,7 +3143,7 @@ namespace SearchDataSPM.Purchasing
 
                                 //string filename = makefilenameforreport(reqno, false).ToString();
                                 //SaveReport(reqno, filename);
-                                Preparetosendemail(reqno, false, requestby, "", happroval, "ConnectUser.PurchaseReqApproval", true);
+                                Preparetosendemail(reqno, false, requestby, "", happroval, "connectapi.ConnectUser.PurchaseReqApproval", true);
                                 //exporttoexcel();
                                 //t.Abort();
                                 //this.TopMost = true;
@@ -3181,7 +3181,7 @@ namespace SearchDataSPM.Purchasing
             }
             else if (approvechk.Checked)
             {
-                if (ConnectUser.PurchaseReqApproval2)
+                if (connectapi.ConnectUser.PurchaseReqApproval2)
                 {
                     happrovechk.Checked = !happrovechk.Checked;
 

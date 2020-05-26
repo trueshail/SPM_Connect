@@ -427,6 +427,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LogDataset.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Miscellaneous\Screenshot.cs" />
     <Compile Include="Report\ReportHelper.cs" />
     <Compile Include="ServiceReportCreation.cs" />
     <Compile Include="WaitForms\Dialog.cs">
@@ -1169,10 +1170,6 @@
     <ProjectReference Include="..\SPMConnectAPI\SPMConnectAPI.csproj">
       <Project>{fd0f6e6e-b1cd-498b-b634-19b23053c5d1}</Project>
       <Name>SPMConnectAPI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\UserActionLog\UserActionLog.csproj">
-      <Project>{54ea61b1-ab46-4580-86cf-cff082f078de}</Project>
-      <Name>UserActionLog</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

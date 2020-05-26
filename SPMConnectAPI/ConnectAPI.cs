@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Net.Mail;
 using System.Windows.Forms;
-using static SPMConnectAPI.ConnectConstants;
+using static SPMConnectAPI.ConnectHelper;
 
 namespace SPMConnectAPI
 {
@@ -14,6 +14,7 @@ namespace SPMConnectAPI
         #region SQL Connection / Connection Strings
 
         public SqlConnection cn;
+        public UserInfo ConnectUser { get; set; } = new UserInfo();
 
         private log4net.ILog log;
 
@@ -34,6 +35,11 @@ namespace SPMConnectAPI
                 MetroFramework.MetroMessageBox.Show(null, "Cannot connect through the server. Please check the network connection.", "SPM Connect Home - SQL Server Connection Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.ExitThread();
                 System.Environment.Exit(0);
+            }
+            finally
+            {
+                if (cn.State == ConnectionState.Open)
+                    cn.Close();
             }
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -74,7 +80,7 @@ namespace SPMConnectAPI
         public bool CheckRights(string Module)
         {
             bool rightsAllowed = false;
-            string useradmin = GetUserName();
+            string useradmin = ConnectUser.UserName;
 
             using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND " + Module + " = '1'", cn))
             {
@@ -133,30 +139,23 @@ namespace SPMConnectAPI
         public string GetNameByConnectEmpId(string empid)
         {
             string fullname = "";
-            try
+            using (SqlCommand cmd = new SqlCommand("SELECT [Name] FROM [SPM_Database].[dbo].[Users] WHERE [id]='" + empid + "' ", cn))
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [id]='" + empid + "' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                cn.Close();
-                if (dt.Rows.Count == 0)
-                    return "";
-                fullname = dt.Rows[0]["Name"].ToString();
-                dt.Clear();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve user full name", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    fullname = (string)cmd.ExecuteScalar();
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve user full name by connect id", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
             }
             return fullname;
         }
@@ -164,132 +163,125 @@ namespace SPMConnectAPI
         public string GetNameByEmpId(string empid)
         {
             string fullname = "";
-            try
+            using (SqlCommand cmd = new SqlCommand("SELECT [Name] FROM [SPM_Database].[dbo].[Users] WHERE [Emp_Id]='" + empid + "' ", cn))
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [Emp_Id]='" + empid + "' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                cn.Close();
-                if (dt.Rows.Count == 0)
-                    return "";
-                fullname = dt.Rows[0]["Name"].ToString();
-                dt.Clear();
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    fullname = (string)cmd.ExecuteScalar();
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve user full name", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve user full name", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
+
             return fullname;
         }
 
         public List<NameEmail> GetNameEmailByParaValue(string parameter, string value)
         {
             List<NameEmail> nameEmail = new List<NameEmail>();
-            try
+            using (SqlDataAdapter sda = new SqlDataAdapter("[dbo].[User_GetNameEmail]", cn))
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [" + parameter + "] = '" + value + "' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
+                sda.SelectCommand.CommandType = CommandType.StoredProcedure;
+                sda.SelectCommand.Parameters.AddWithValue("@column", parameter);
+                sda.SelectCommand.Parameters.AddWithValue("@value", value);
+                try
                 {
-                    NameEmail nameemail = new NameEmail
+                    DataTable dt = new DataTable();
+                    sda.Fill(dt);
+                    foreach (DataRow dr in dt.Rows)
                     {
-                        email = dr["Email"].ToString(),
-                        name = dr["Name"].ToString()
-                    };
-                    nameEmail.Add(nameemail);
+                        NameEmail nameemail = new NameEmail
+                        {
+                            email = dr["Email"].ToString(),
+                            name = dr["Name"].ToString()
+                        };
+                        nameEmail.Add(nameemail);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get User Name and Email " + parameter, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Get User Name and Email" + parameter, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
+
             return nameEmail;
         }
 
         public UserInfo GetUserDetails(string userName)
         {
             UserInfo userDet = new UserInfo();
-            try
+            using (SqlDataAdapter sda = new SqlDataAdapter("[dbo].[User_ByUsername]", cn))
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + userName + "' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                if (dt.Rows.Count > 0)
+                sda.SelectCommand.CommandType = CommandType.StoredProcedure;
+                sda.SelectCommand.Parameters.AddWithValue("@username", userName);
+                try
                 {
-                    DataRow dr = dt.Rows[0];
-                    userDet.ActiveBlockNumber = dr[UserFields.ActiveBlockNumber].ToString();
-                    userDet.Admin = Convert.ToBoolean(dr["Admin"]);
-                    userDet.ApproveDrawing = Convert.ToBoolean(dr["ApproveDrawing"]);
-                    userDet.CheckDrawing = Convert.ToBoolean(dr["CheckDrawing"]);
-                    userDet.CribCheckout = Convert.ToBoolean(dr["CribCheckout"]);
-                    userDet.CribShort = Convert.ToBoolean(dr["CribShort"]);
-                    userDet.Dept = AttachDepartment(dr["Department"].ToString());
-                    userDet.Developer = Convert.ToBoolean(dr["Developer"]);
-                    userDet.ECR = Convert.ToBoolean(dr["ECR"]);
-                    userDet.ECRApproval = Convert.ToBoolean(dr["ECRApproval"]);
-                    userDet.ECRApproval2 = Convert.ToBoolean(dr["ECRApproval2"]);
-                    userDet.ECRHandler = Convert.ToBoolean(dr["ECRHandler"]);
-                    userDet.ECRSup = Convert.ToInt32(dr["ECRSup"].ToString());
-                    userDet.Email = dr["Email"].ToString();
-                    userDet.Emp_Id = Convert.ToInt32(dr["Emp_Id"].ToString());
-                    userDet.ConnectId = Convert.ToInt32(dr["id"].ToString());
-                    userDet.ItemDependencies = Convert.ToBoolean(dr["ItemDependencies"]);
-                    userDet.Management = Convert.ToBoolean(dr["Management"]);
-                    userDet.Name = dr["Name"].ToString();
-                    userDet.PriceRight = Convert.ToBoolean(dr["PriceRight"]);
-                    userDet.PurchaseReq = Convert.ToBoolean(dr["PurchaseReq"]);
-                    userDet.PurchaseReqApproval = Convert.ToBoolean(dr["PurchaseReqApproval"]);
-                    userDet.PurchaseReqApproval2 = Convert.ToBoolean(dr["PurchaseReqApproval2"]);
-                    userDet.PurchaseReqBuyer = Convert.ToBoolean(dr["PurchaseReqBuyer"]);
-                    userDet.Quote = Convert.ToBoolean(dr["Quote"]);
-                    userDet.ReadWhatsNew = Convert.ToBoolean(dr["ReadWhatsNew"]);
-                    userDet.ReleasePackage = Convert.ToBoolean(dr["ReleasePackage"]);
-                    userDet.SharesFolder = dr["SharesFolder"].ToString();
-                    userDet.Shipping = Convert.ToBoolean(dr["Shipping"]);
-                    userDet.ShippingManager = Convert.ToBoolean(dr["ShippingManager"]);
-                    userDet.ShipSup = Convert.ToInt32(dr["ShipSup"].ToString());
-                    userDet.ShipSupervisor = Convert.ToBoolean(dr["ShipSupervisor"]);
-                    userDet.Supervisor = Convert.ToInt32(dr["Supervisor"].ToString());
-                    userDet.UserName = dr["UserName"].ToString();
-                    userDet.WORelease = Convert.ToBoolean(dr["WORelease"]);
-                    userDet.WOScan = Convert.ToBoolean(dr["WOScan"]);
+                    DataTable dt = new DataTable();
+                    sda.Fill(dt);
+                    if (dt.Rows.Count > 0)
+                    {
+                        DataRow dr = dt.Rows[0];
+                        userDet.ActiveBlockNumber = dr[UserFields.ActiveBlockNumber].ToString();
+                        userDet.Admin = Convert.ToBoolean(dr["Admin"]);
+                        userDet.ApproveDrawing = Convert.ToBoolean(dr["ApproveDrawing"]);
+                        userDet.CheckDrawing = Convert.ToBoolean(dr["CheckDrawing"]);
+                        userDet.CribCheckout = Convert.ToBoolean(dr["CribCheckout"]);
+                        userDet.CribShort = Convert.ToBoolean(dr["CribShort"]);
+                        userDet.Dept = AttachDepartment(dr["Department"].ToString());
+                        userDet.Developer = Convert.ToBoolean(dr["Developer"]);
+                        userDet.ECR = Convert.ToBoolean(dr["ECR"]);
+                        userDet.ECRApproval = Convert.ToBoolean(dr["ECRApproval"]);
+                        userDet.ECRApproval2 = Convert.ToBoolean(dr["ECRApproval2"]);
+                        userDet.ECRHandler = Convert.ToBoolean(dr["ECRHandler"]);
+                        userDet.ECRSup = Convert.ToInt32(dr["ECRSup"].ToString());
+                        userDet.Email = dr["Email"].ToString();
+                        userDet.Emp_Id = Convert.ToInt32(dr["Emp_Id"].ToString());
+                        userDet.ConnectId = Convert.ToInt32(dr["id"].ToString());
+                        userDet.ItemDependencies = Convert.ToBoolean(dr["ItemDependencies"]);
+                        userDet.Management = Convert.ToBoolean(dr["Management"]);
+                        userDet.Name = dr["Name"].ToString();
+                        userDet.PriceRight = Convert.ToBoolean(dr["PriceRight"]);
+                        userDet.PurchaseReq = Convert.ToBoolean(dr["PurchaseReq"]);
+                        userDet.PurchaseReqApproval = Convert.ToBoolean(dr["PurchaseReqApproval"]);
+                        userDet.PurchaseReqApproval2 = Convert.ToBoolean(dr["PurchaseReqApproval2"]);
+                        userDet.PurchaseReqBuyer = Convert.ToBoolean(dr["PurchaseReqBuyer"]);
+                        userDet.Quote = Convert.ToBoolean(dr["Quote"]);
+                        userDet.ReadWhatsNew = Convert.ToBoolean(dr["ReadWhatsNew"]);
+                        userDet.ReleasePackage = Convert.ToBoolean(dr["ReleasePackage"]);
+                        userDet.SharesFolder = dr["SharesFolder"].ToString();
+                        userDet.Shipping = Convert.ToBoolean(dr["Shipping"]);
+                        userDet.ShippingManager = Convert.ToBoolean(dr["ShippingManager"]);
+                        userDet.ShipSup = Convert.ToInt32(dr["ShipSup"].ToString());
+                        userDet.ShipSupervisor = Convert.ToBoolean(dr["ShipSupervisor"]);
+                        userDet.Supervisor = Convert.ToInt32(dr["Supervisor"].ToString());
+                        userDet.UserName = dr["UserName"].ToString();
+                        userDet.WORelease = Convert.ToBoolean(dr["WORelease"]);
+                        userDet.WOScan = Convert.ToBoolean(dr["WOScan"]);
+                    }
                 }
-                dt.Clear();
-            }
-            catch (Exception ex)
-            {
-                MetroFramework.MetroMessageBox.Show(null, ex.Message, "SPM Connect - Error Getting User Information", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
+                catch (Exception ex)
+                {
+                    MetroFramework.MetroMessageBox.Show(null, ex.Message, "SPM Connect - Error Getting User Information", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Application.ExitThread();
+                    Environment.Exit(0);
+                }
+                finally
+                {
+                    cn.Close();
+                }
             }
             return userDet;
         }
@@ -297,73 +289,71 @@ namespace SPMConnectAPI
         public List<UserInfo> GetConnectUsersList()
         {
             List<UserInfo> userlist = new List<UserInfo>();
-            try
+            using (SqlDataAdapter sda = new SqlDataAdapter("[dbo].[User_GetAll]", cn))
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] ORDER BY Name";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                if (dt.Rows.Count > 0)
+                sda.SelectCommand.CommandType = CommandType.StoredProcedure;
+                try
                 {
-                    foreach (DataRow dr in dt.Rows)
+                    DataTable dt = new DataTable();
+                    sda.Fill(dt);
+                    if (dt.Rows.Count > 0)
                     {
-                        UserInfo userDet = new UserInfo
+                        foreach (DataRow dr in dt.Rows)
                         {
-                            ActiveBlockNumber = dr["ActiveBlockNumber"].ToString(),
-                            Admin = Convert.ToBoolean(dr["Admin"]),
-                            ApproveDrawing = Convert.ToBoolean(dr["ApproveDrawing"]),
-                            CheckDrawing = Convert.ToBoolean(dr["CheckDrawing"]),
-                            CribCheckout = Convert.ToBoolean(dr["CribCheckout"]),
-                            CribShort = Convert.ToBoolean(dr["CribShort"]),
-                            Dept = AttachDepartment(dr["Department"].ToString()),
-                            Developer = Convert.ToBoolean(dr["Developer"]),
-                            ECR = Convert.ToBoolean(dr["ECR"]),
-                            ECRApproval = Convert.ToBoolean(dr["ECRApproval"]),
-                            ECRApproval2 = Convert.ToBoolean(dr["ECRApproval2"]),
-                            ECRHandler = Convert.ToBoolean(dr["ECRHandler"]),
-                            ECRSup = Convert.ToInt32(dr["ECRSup"].ToString()),
-                            Email = dr["Email"].ToString(),
-                            Emp_Id = Convert.ToInt32(dr["Emp_Id"].ToString()),
-                            ConnectId = Convert.ToInt32(dr["id"].ToString()),
-                            ItemDependencies = Convert.ToBoolean(dr["ItemDependencies"]),
-                            Management = Convert.ToBoolean(dr["Management"]),
-                            Name = dr["Name"].ToString(),
-                            PriceRight = Convert.ToBoolean(dr["PriceRight"]),
-                            PurchaseReq = Convert.ToBoolean(dr["PurchaseReq"]),
-                            PurchaseReqApproval = Convert.ToBoolean(dr["PurchaseReqApproval"]),
-                            PurchaseReqApproval2 = Convert.ToBoolean(dr["PurchaseReqApproval2"]),
-                            PurchaseReqBuyer = Convert.ToBoolean(dr["PurchaseReqBuyer"]),
-                            Quote = Convert.ToBoolean(dr["Quote"]),
-                            ReadWhatsNew = Convert.ToBoolean(dr["ReadWhatsNew"]),
-                            ReleasePackage = Convert.ToBoolean(dr["ReleasePackage"]),
-                            SharesFolder = dr["SharesFolder"].ToString(),
-                            Shipping = Convert.ToBoolean(dr["Shipping"]),
-                            ShippingManager = Convert.ToBoolean(dr["ShippingManager"]),
-                            ShipSup = Convert.ToInt32(dr["ShipSup"].ToString()),
-                            ShipSupervisor = Convert.ToBoolean(dr["ShipSupervisor"]),
-                            Supervisor = Convert.ToInt32(dr["Supervisor"].ToString()),
-                            UserName = dr["UserName"].ToString(),
-                            WORelease = Convert.ToBoolean(dr["WORelease"]),
-                            WOScan = Convert.ToBoolean(dr["WOScan"])
-                        };
-                        userlist.Add(userDet);
+                            UserInfo userDet = new UserInfo
+                            {
+                                ActiveBlockNumber = dr["ActiveBlockNumber"].ToString(),
+                                Admin = Convert.ToBoolean(dr["Admin"]),
+                                ApproveDrawing = Convert.ToBoolean(dr["ApproveDrawing"]),
+                                CheckDrawing = Convert.ToBoolean(dr["CheckDrawing"]),
+                                CribCheckout = Convert.ToBoolean(dr["CribCheckout"]),
+                                CribShort = Convert.ToBoolean(dr["CribShort"]),
+                                Dept = AttachDepartment(dr["Department"].ToString()),
+                                Developer = Convert.ToBoolean(dr["Developer"]),
+                                ECR = Convert.ToBoolean(dr["ECR"]),
+                                ECRApproval = Convert.ToBoolean(dr["ECRApproval"]),
+                                ECRApproval2 = Convert.ToBoolean(dr["ECRApproval2"]),
+                                ECRHandler = Convert.ToBoolean(dr["ECRHandler"]),
+                                ECRSup = Convert.ToInt32(dr["ECRSup"].ToString()),
+                                Email = dr["Email"].ToString(),
+                                Emp_Id = Convert.ToInt32(dr["Emp_Id"].ToString()),
+                                ConnectId = Convert.ToInt32(dr["id"].ToString()),
+                                ItemDependencies = Convert.ToBoolean(dr["ItemDependencies"]),
+                                Management = Convert.ToBoolean(dr["Management"]),
+                                Name = dr["Name"].ToString(),
+                                PriceRight = Convert.ToBoolean(dr["PriceRight"]),
+                                PurchaseReq = Convert.ToBoolean(dr["PurchaseReq"]),
+                                PurchaseReqApproval = Convert.ToBoolean(dr["PurchaseReqApproval"]),
+                                PurchaseReqApproval2 = Convert.ToBoolean(dr["PurchaseReqApproval2"]),
+                                PurchaseReqBuyer = Convert.ToBoolean(dr["PurchaseReqBuyer"]),
+                                Quote = Convert.ToBoolean(dr["Quote"]),
+                                ReadWhatsNew = Convert.ToBoolean(dr["ReadWhatsNew"]),
+                                ReleasePackage = Convert.ToBoolean(dr["ReleasePackage"]),
+                                SharesFolder = dr["SharesFolder"].ToString(),
+                                Shipping = Convert.ToBoolean(dr["Shipping"]),
+                                ShippingManager = Convert.ToBoolean(dr["ShippingManager"]),
+                                ShipSup = Convert.ToInt32(dr["ShipSup"].ToString()),
+                                ShipSupervisor = Convert.ToBoolean(dr["ShipSupervisor"]),
+                                Supervisor = Convert.ToInt32(dr["Supervisor"].ToString()),
+                                UserName = dr["UserName"].ToString(),
+                                WORelease = Convert.ToBoolean(dr["WORelease"]),
+                                WOScan = Convert.ToBoolean(dr["WOScan"])
+                            };
+                            userlist.Add(userDet);
+                        }
                     }
+                    dt.Clear();
                 }
-                dt.Clear();
+                catch (Exception ex)
+                {
+                    MetroFramework.MetroMessageBox.Show(null, ex.Message, "SPM Connect - Error Getting User List", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
             }
-            catch (Exception ex)
-            {
-                MetroFramework.MetroMessageBox.Show(null, ex.Message, "SPM Connect - Error Getting User List", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
+
             return userlist;
         }
 
@@ -399,6 +389,54 @@ namespace SPMConnectAPI
 
         #region Checkin Checkout Check Invoice
 
+        public void CheckinApp(string applicationname)
+        {
+            DateTime datecreated = DateTime.Now;
+            string sqlFormattedDate = datecreated.ToString("dd-MM-yyyy HH:mm tt");
+            string computername = System.Environment.MachineName;
+
+            if (cn.State == ConnectionState.Closed)
+                cn.Open();
+            try
+            {
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Checkin] ([Last Login],[Application Running],[User Name], [Computer Name], [Version]) VALUES('" + sqlFormattedDate + "', '" + applicationname + "', '" + ConnectUser.UserName + "', '" + computername + "','" + Getassyversionnumber() + "')";
+                cmd.ExecuteNonQuery();
+                cn.Close();
+                //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - User Checkin", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+        }
+
+        public void CheckoutApp(string applicationname)
+        {
+            if (cn.State == ConnectionState.Closed)
+                cn.Open();
+            try
+            {
+                string query = "DELETE FROM [SPM_Database].[dbo].[Checkin] WHERE [User Name] ='" + ConnectUser.UserName + "' AND [Application Running] = '" + applicationname + "' ";
+                SqlCommand sda = new SqlCommand(query, cn);
+                sda.ExecuteNonQuery();
+                cn.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SPM Connect - Checkout User", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+        }
+
         public bool CheckinInvoice(string invoicenumber, string app)
         {
             bool success = false;
@@ -411,7 +449,7 @@ namespace SPMConnectAPI
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[UserHolding] (App, UserName, ItemId,CheckInDateTime) VALUES('" + app + "','" + GetUserName() + "','" + invoicenumber + "','" + sqlFormattedDatetime + "')";
+                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[UserHolding] (App, UserName, ItemId,CheckInDateTime) VALUES('" + app + "','" + ConnectUser.UserName + "','" + invoicenumber + "','" + sqlFormattedDatetime + "')";
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 success = true;
@@ -437,7 +475,7 @@ namespace SPMConnectAPI
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "DELETE FROM [SPM_Database].[dbo].[UserHolding] where App = '" + app + "' AND UserName = '" + GetUserName() + "' AND ItemId = '" + invoicenumber + "'";
+                cmd.CommandText = "DELETE FROM [SPM_Database].[dbo].[UserHolding] where App = '" + app + "' AND UserName = '" + ConnectUser.UserName + "' AND ItemId = '" + invoicenumber + "'";
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 success = true;
@@ -622,5 +660,271 @@ namespace SPMConnectAPI
         }
 
         #endregion EMAIL
+
+        #region Favorites
+
+        public bool Addtofavorites(string itemid, bool addin)
+        {
+            log.Info("Addtofavorites");
+            if (string.IsNullOrEmpty(itemid))
+            {
+                return false;
+            }
+            const bool completed = false;
+            if (addin && !ValidfileName(itemid))
+            {
+                MessageBox.Show($"A file with the part number " + itemid + " does not have Solidworks CAD Model or SPM item number assigned. Cannot add or remove from favorites. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            if (CheckitempresentonFavorites(itemid, addin))
+            {
+                string usernamesfromitem = Getusernamesfromfavorites(itemid);
+                if (!Userexists(usernamesfromitem))
+                {
+                    string newuseradded = usernamesfromitem + ConnectUser.UserName + ",";
+                    Updateusernametoitemonfavorites(itemid, newuseradded);
+                }
+                else
+                {
+                    MessageBox.Show("Item no " + itemid + " already exists on your favorite list.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            else
+            {
+                Additemtofavoritessql(itemid);
+            }
+
+            return completed;
+        }
+
+        public bool Removefromfavorites(string itemid, bool addin)
+        {
+            log.Info("Removefromfavorites");
+            if (string.IsNullOrEmpty(itemid))
+            {
+                return false;
+            }
+            const bool completed = false;
+            if (addin && !ValidfileName(itemid))
+            {
+                MessageBox.Show($"A file with the part number " + itemid + " does not have Solidworks CAD Model or SPM item number assigned. Cannot add or remove from favorites. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            string usernamesfromitem = Getusernamesfromfavorites(itemid);
+            Updateusernametoitemonfavorites(itemid, Removeusername(usernamesfromitem));
+            MessageBox.Show("Item no " + itemid + " has been removed from your favorite list.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            return completed;
+        }
+
+        public bool CheckitempresentonFavorites(string itemid, bool addin)
+        {
+            bool itempresent = false;
+            if (string.IsNullOrEmpty(itemid))
+            {
+                return false;
+            }
+            if (addin && !ValidfileName(itemid))
+            {
+                MessageBox.Show($"A file with the part number " + itemid + " does not have Solidworks CAD Model or SPM item number assigned. Cannot add or remove from favorites. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[favourite] WHERE [Item]='" + itemid + "'", cn))
+            {
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                    {
+                        cn.Open();
+                    }
+
+                    int userCount = (int)sqlCommand.ExecuteScalar();
+                    itempresent = userCount == 1;
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex.Message, ex);
+                    MessageBox.Show(ex.Message, "SPM Connect - Check Item Present On SQL Favorites", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+
+            return itempresent;
+        }
+
+        public bool ValidfileName(string Item_No)
+        {
+            bool validitem = true;
+            string ItemNumbero = Item_No + "-0";
+
+            if (!String.IsNullOrWhiteSpace(Item_No) && Item_No.Length == 6)
+            {
+                string first3char = Item_No.Substring(0, 3) + @"\";
+                //MessageBox.Show(first3char);
+
+                const string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
+
+                string Pathpart = (spmcadpath + first3char + Item_No + ".sldprt");
+                string Pathassy = (spmcadpath + first3char + Item_No + ".sldasm");
+                string PathPartNo = (spmcadpath + first3char + ItemNumbero + ".sldprt");
+                string PathAssyNo = (spmcadpath + first3char + ItemNumbero + ".sldasm");
+
+                if ((!File.Exists(Pathassy) || !File.Exists(Pathpart)) && (!File.Exists(PathAssyNo) || !File.Exists(PathPartNo)) && (!File.Exists(PathAssyNo) || !File.Exists(Pathpart)) && (!File.Exists(Pathassy) || !File.Exists(PathPartNo)) && (!File.Exists(PathPartNo) || !File.Exists(Pathpart)) && (!File.Exists(PathAssyNo) || !File.Exists(Pathassy)) && !File.Exists(Pathassy) && !File.Exists(PathAssyNo) && !File.Exists(Pathpart) && !File.Exists(PathPartNo))
+                {
+                    validitem = false;
+                }
+            }
+            else
+            {
+                validitem = false;
+            }
+            return validitem;
+        }
+
+        private void Additemtofavoritessql(string itemid)
+        {
+            string userid = ConnectUser.UserName;
+            userid += ",";
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                {
+                    cn.Open();
+                }
+
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[favourite] (Item,UserName) VALUES('" + itemid + "','" + userid + " ')";
+                cmd.ExecuteNonQuery();
+                cn.Close();
+                MessageBox.Show("Item no " + itemid + " has been added to your favorites.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.Message, ex);
+
+                MessageBox.Show(ex.Message, "SPM Connect - Add  Item To Favorites", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+        }
+
+        private void Updateusernametoitemonfavorites(string itemid, string updatedusername)
+        {
+            if (cn.State == ConnectionState.Closed)
+            {
+                cn.Open();
+            }
+
+            try
+            {
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                if (updatedusername != "")
+                {
+                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[favourite] SET UserName = '" + updatedusername + "'  WHERE Item = '" + itemid + "'";
+                }
+                else
+                {
+                    cmd.CommandText = "DELETE FROM [SPM_Database].[dbo].[favourite] WHERE Item = '" + itemid + "'";
+                }
+
+                cmd.ExecuteNonQuery();
+                cn.Close();
+                //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.Message, ex);
+
+                MessageBox.Show(ex.Message, "SPM Connect - Update Item on Favorites", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+        }
+
+        private string Getusernamesfromfavorites(string itemid)
+        {
+            string usersfav = "";
+            try
+            {
+                if (cn.State == ConnectionState.Closed)
+                {
+                    cn.Open();
+                }
+
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[favourite] WHERE [Item]='" + itemid + "' ";
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    usersfav = dr["UserName"].ToString();
+                }
+                cn.Close();
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.Message, ex);
+
+                MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve user names from favorites", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return usersfav;
+        }
+
+        private bool Userexists(string usernames)
+        {
+            bool exists = false;
+            string userid = ConnectUser.UserName;
+            // Split string on spaces (this will separate all the words).
+            string[] words = usernames.Split(',');
+            foreach (string word in words)
+            {
+                if (word == userid)
+                {
+                    exists = true;
+                }
+            }
+
+            return exists;
+        }
+
+        private string Removeusername(string usernames)
+        {
+            string removedusername = "";
+            string userid = ConnectUser.UserName;
+            // Split string on spaces (this will separate all the words).
+            string[] words = usernames.Split(',');
+            foreach (string word in words)
+            {
+                if (word.Trim() != userid)
+                {
+                    removedusername += word.Trim();
+                    if (word.Trim() != "")
+                    {
+                        removedusername += ",";
+                    }
+                }
+            }
+            return removedusername.Trim();
+        }
+
+        #endregion Favorites
     }
 }

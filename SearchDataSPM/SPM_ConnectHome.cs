@@ -2,7 +2,7 @@
 using SearchDataSPM.Engineering;
 using System;
 using System.Windows.Forms;
-using static SPMConnectAPI.ConnectConstants;
+using static SPMConnectAPI.ConnectHelper;
 
 namespace SearchDataSPM
 {
@@ -19,12 +19,11 @@ namespace SearchDataSPM
 
         public void Connect_SPMSQL()
         {
-            string ca = ConnectUser.ActiveBlockNumber;
-            if (ConnectUser.UserName != null || ConnectUser.UserName.Length > 0)
+            if (connectapi.ConnectUser.UserName != null || connectapi.ConnectUser.UserName.Length > 0)
             {
                 if (!Checkmaintenance())
                 {
-                    if (ConnectUser.Dept == Department.Accounting)
+                    if (connectapi.ConnectUser.Dept == Department.Accounting)
                     {
                         var loadspmconnect = new EFTHome();
                         loadspmconnect.Closed += (s, args) => this.Close();
@@ -37,9 +36,9 @@ namespace SearchDataSPM
                         loadspmconnect.Show();
                     }
                 }
-                else if (Checkmaintenance() && ConnectUser.Developer)
+                else if (Checkmaintenance() && connectapi.ConnectUser.Developer)
                 {
-                    if (ConnectUser.Dept == Department.Accounting)
+                    if (connectapi.ConnectUser.Dept == Department.Accounting)
                     {
                         var loadspmconnect = new EFTHome();
                         loadspmconnect.Closed += (s, args) => this.Close();
@@ -61,7 +60,7 @@ namespace SearchDataSPM
             }
             else
             {
-                MetroFramework.MetroMessageBox.Show(this, "User name " + GetUserName() + " does not exists. Please contact the admin.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetroFramework.MetroMessageBox.Show(this, "User name " + connectapi.ConnectUser.UserName + " does not exists. Please contact the admin.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.ExitThread();
                 Environment.Exit(0);
             }
@@ -91,9 +90,10 @@ namespace SearchDataSPM
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log4net.GlobalContext.Properties["User"] = Environment.UserName;
             log.Info("Opened SPM Connect Home ");
+            spmconnectlbl.Text = string.Format("SPM Connect {0}", Getassyversionnumber());
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void Timer1_Tick(object sender, EventArgs e)
         {
             time += 10;
             rectangleShape2.Width += 11;

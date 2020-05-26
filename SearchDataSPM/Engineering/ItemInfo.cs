@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
-using static SPMConnectAPI.ConnectConstants;
+using static SPMConnectAPI.ConnectHelper;
 
 namespace SearchDataSPM.Engineering
 {
@@ -131,7 +131,7 @@ namespace SearchDataSPM.Engineering
         {
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
-            string username = ConnectUser.Name;
+            string username = connectapi.ConnectUser.Name;
 
             try
             {
@@ -161,7 +161,7 @@ namespace SearchDataSPM.Engineering
             if (salepricetext.Text.Length > 0 && qtytxt.Text.Length > 0)
             {
                 string itemnumber = ItemTxtBox.Text;
-                string user = GetUserName();
+                string user = connectapi.ConnectUser.UserName;
                 string userfullname = Getuserfullname(user);
                 Createnewentry(itemnumber, userfullname);
                 Clearalltextboxes();
@@ -258,7 +258,7 @@ namespace SearchDataSPM.Engineering
 
         private void CheckItemDependenciesRight()
         {
-            string useradmin = GetUserName();
+            string useradmin = connectapi.ConnectUser.UserName;
 
             using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND ItemDependencies = '1'", connectapi.cn))
             {
@@ -300,7 +300,7 @@ namespace SearchDataSPM.Engineering
 
         private void CheckManagement()
         {
-            string useradmin = GetUserName();
+            string useradmin = connectapi.ConnectUser.UserName;
 
             using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND Management = '1'", connectapi.cn))
             {
@@ -344,7 +344,7 @@ namespace SearchDataSPM.Engineering
 
         private void CheckPriceRights()
         {
-            string useradmin = GetUserName();
+            string useradmin = connectapi.ConnectUser.UserName;
 
             using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND PriceRight = '1'", connectapi.cn))
             {
