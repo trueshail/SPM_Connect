@@ -2840,6 +2840,7 @@ namespace SearchDataSPM.Engineering
             dataGridView.Columns[14].Visible = false;
             dataGridView.Columns[15].Visible = false;
             dataGridView.Columns[16].Visible = false;
+            dataGridView.Columns[17].Visible = false;
             dataGridView.Columns[0].Width = 60;
             dataGridView.Columns[2].Width = 55;
             dataGridView.Columns[1].Width = 300;
