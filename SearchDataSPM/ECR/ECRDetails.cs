@@ -77,12 +77,12 @@ namespace SearchDataSPM.ECR
                 supcheckBox.Enabled = true;
             }
 
-            if (supervisorid == ConnectUser.ConnectId && ConnectUser.ECRApproval && !submitecrhandlercheckBox.Checked)
+            if (supervisorid == connectapi.ConnectUser.ConnectId && connectapi.ConnectUser.ECRApproval && !submitecrhandlercheckBox.Checked)
             {
                 managercheckBox.Enabled = true;
                 rejectbttn.Visible = !managercheckBox.Checked;
             }
-            else if (managerid == ConnectUser.ConnectId && ConnectUser.ECRApproval2 && !ecrhandlercheckBox.Checked)
+            else if (managerid == connectapi.ConnectUser.ConnectId && connectapi.ConnectUser.ECRApproval2 && !ecrhandlercheckBox.Checked)
             {
                 submitecrhandlercheckBox.Enabled = true;
                 rejectbttn.Visible = !submitecrhandlercheckBox.Checked;
@@ -92,7 +92,7 @@ namespace SearchDataSPM.ECR
                 iteminfogroupBox.Enabled = false;
                 descriptiontxtbox.Enabled = false;
             }
-            else if (assignedto == ConnectUser.ConnectId && ConnectUser.ECRHandler)
+            else if (assignedto == connectapi.ConnectUser.ConnectId && connectapi.ConnectUser.ECRHandler)
             {
                 attachlbl.Visible = false;
                 browsebttn.Visible = false;
@@ -420,21 +420,21 @@ namespace SearchDataSPM.ECR
                      list[6], list[7], list[8], list[9],
                      list[10], 0, 0, 0, 0, "", "", rejectbttn);
                 }
-                else if (ConnectUser.ECRApproval)
+                else if (connectapi.ConnectUser.ECRApproval)
                 {
                     success = connectapi.UpdateECRDetsToSql("Supervisor", list[0], list[1],
                     list[2], list[3], list[4], list[5],
                     list[6], list[7], list[8], list[9],
                     list[10], 0, 0, 0, 0, "", "", rejectbttn);
                 }
-                else if (ConnectUser.ECRApproval2)
+                else if (connectapi.ConnectUser.ECRApproval2)
                 {
                     success = connectapi.UpdateECRDetsToSql("Manager", list[0], list[1],
                     list[2], list[3], list[4], list[5],
                     list[6], list[7], list[8], list[9],
                     list[10], 0, 0, 0, 0, "", "", rejectbttn);
                 }
-                else if (ConnectUser.ECRHandler)
+                else if (connectapi.ConnectUser.ECRHandler)
                 {
                     success = connectapi.UpdateECRDetsToSql("Handler", list[0], list[1],
                     list[2], list[3], list[4], list[5],
@@ -849,7 +849,7 @@ namespace SearchDataSPM.ECR
 
         private void Rejectbttn_Click(object sender, EventArgs e)
         {
-            if (ConnectUser.ECRApproval)
+            if (connectapi.ConnectUser.ECRApproval)
             {
                 DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to reject this ECR?" + Environment.NewLine +
                     " " + Environment.NewLine +
@@ -861,7 +861,7 @@ namespace SearchDataSPM.ECR
                     Preparetosendemail("SupSubmitFalse", true);
                 }
             }
-            else if (ConnectUser.ECRApproval2)
+            else if (connectapi.ConnectUser.ECRApproval2)
             {
                 DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to reject this ECR?" + Environment.NewLine +
                     " " + Environment.NewLine +
@@ -1076,7 +1076,7 @@ namespace SearchDataSPM.ECR
 
         private void Sendemailtosupervisor(string fileName)
         {
-            NameEmail supnameemail = connectapi.GetNameEmailByParaValue(UserFields.id, ConnectUser.ECRSup.ToString())[0];
+            NameEmail supnameemail = connectapi.GetNameEmailByParaValue(UserFields.id, connectapi.ConnectUser.ECRSup.ToString())[0];
             Sendemail(supnameemail.email, ecrnotxtbox.Text + " ECR Approval Required", supnameemail.name, Environment.NewLine + userfullname + " sent this engineering change request for approval.", fileName, "", "");
         }
 

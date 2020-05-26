@@ -682,7 +682,7 @@ namespace SearchDataSPM.Engineering
             Cursor.Current = Cursors.WaitCursor;
             this.Enabled = false;
             Graballinfor();
-            string lastsavedby = ConnectUser.Name;
+            string lastsavedby = connectapi.ConnectUser.Name;
             Filllistview(ItemTxtBox.Text);
             if (listView.Items.Count == 0)
             {

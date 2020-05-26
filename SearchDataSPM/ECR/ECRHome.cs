@@ -29,11 +29,11 @@ namespace SearchDataSPM.ECR
         {
             versionlabel.Text = Getassyversionnumber();
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
-            if (ConnectUser.ECR)
+            if (connectapi.ConnectUser.ECR)
             {
                 addnewbttn.Visible = true;
             }
-            attentionbttn.Visible = ConnectUser.ECRApproval || ConnectUser.ECRApproval2 || ConnectUser.ECRHandler;
+            attentionbttn.Visible = connectapi.ConnectUser.ECRApproval || connectapi.ConnectUser.ECRApproval2 || connectapi.ConnectUser.ECRHandler;
         }
 
         private void Clearfilercombos()
@@ -499,7 +499,7 @@ namespace SearchDataSPM.ECR
         {
             if (dataGridView.SelectedCells.Count == 1)
             {
-                Showecrinvoice(Getselectedinvoicenumber(), false, ConnectUser.Emp_Id.ToString());
+                Showecrinvoice(Getselectedinvoicenumber(), false, connectapi.ConnectUser.Emp_Id.ToString());
             }
         }
 
@@ -1001,12 +1001,12 @@ namespace SearchDataSPM.ECR
 
             if (result == DialogResult.Yes)
             {
-                if (ConnectUser.Emp_Id != 0)
+                if (connectapi.ConnectUser.Emp_Id != 0)
                 {
-                    string status = connectapi.CreatenewECR(ConnectUser.Emp_Id.ToString());
+                    string status = connectapi.CreatenewECR(connectapi.ConnectUser.Emp_Id.ToString());
                     if (status.Length > 1)
                     {
-                        Showecrinvoice(status, true, ConnectUser.Emp_Id.ToString());
+                        Showecrinvoice(status, true, connectapi.ConnectUser.Emp_Id.ToString());
                     }
                 }
                 else
@@ -1064,7 +1064,7 @@ namespace SearchDataSPM.ECR
 
         private void Invoiceinfostripmenu_Click(object sender, EventArgs e)
         {
-            Showecrinvoice(Getselectedinvoicenumber(), false, ConnectUser.Emp_Id.ToString());
+            Showecrinvoice(Getselectedinvoicenumber(), false, connectapi.ConnectUser.Emp_Id.ToString());
         }
 
         private void Showecrinvoice(string invoice, bool newcreated, string empid)
@@ -1076,11 +1076,11 @@ namespace SearchDataSPM.ECR
             }
             else
             {
-                if (ConnectUser.Emp_Id != 0)
+                if (connectapi.ConnectUser.Emp_Id != 0)
                 {
                     if (connectapi.CheckinInvoice(invoice, CheckInModules.ECR))
                     {
-                        using (ECRDetails invoiceDetails = new ECRDetails(ConnectUser.Name, invoice))
+                        using (ECRDetails invoiceDetails = new ECRDetails(connectapi.ConnectUser.Name, invoice))
                         {
                             invoiceDetails.ShowDialog();
                             this.Enabled = true;
@@ -1143,8 +1143,8 @@ namespace SearchDataSPM.ECR
 
         private void Attentionbttn_Click(object sender, EventArgs e)
         {
-            int empidtomach = ConnectUser.ConnectId;
-            if (ConnectUser.ECRApproval)
+            int empidtomach = connectapi.ConnectUser.ConnectId;
+            if (connectapi.ConnectUser.ECRApproval)
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter("SELECT *,CONCAT([ECRNo], ' ',[JobNo],' ',[JobName],' ',[SANo],' ',[SAName],' ',RequestedBy) AS FullSearch FROM [SPM_Database].[dbo].[ECR] WHERE Submitted = '1' AND SupApproval = '0' AND Approved = '0' AND Completed = '0' AND SupervisorId = '" + empidtomach + "' ORDER BY ECRNo DESC", connectapi.cn))
                 {
@@ -1166,7 +1166,7 @@ namespace SearchDataSPM.ECR
                     }
                 }
             }
-            else if (ConnectUser.ECRApproval2)
+            else if (connectapi.ConnectUser.ECRApproval2)
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter("SELECT *,CONCAT([ECRNo], ' ',[JobNo],' ',[JobName],' ',[SANo],' ',[SAName],' ',RequestedBy) AS FullSearch FROM [SPM_Database].[dbo].[ECR] WHERE Submitted = '1' AND SupApproval = '1' AND Approved = '0' AND Completed = '0' AND SubmitToId = '" + empidtomach + "' ORDER BY ECRNo DESC", connectapi.cn))
                 {
@@ -1188,7 +1188,7 @@ namespace SearchDataSPM.ECR
                     }
                 }
             }
-            else if (ConnectUser.ECRHandler)
+            else if (connectapi.ConnectUser.ECRHandler)
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter("SELECT *,CONCAT([ECRNo], ' ',[JobNo],' ',[JobName],' ',[SANo],' ',[SAName],' ',RequestedBy) AS FullSearch FROM [SPM_Database].[dbo].[ECR] WHERE Submitted = '1' AND SupApproval = '1' AND Approved = '1' AND Completed = '0' AND AssignedTo = '" + empidtomach + "' ORDER BY ECRNo DESC", connectapi.cn))
                 {

@@ -554,7 +554,7 @@ namespace SearchDataSPM.WorkOrder
 
         private void cribbttn_Click(object sender, EventArgs e)
         {
-            if (connectapi.EmployeeExitsWithCribRights(ConnectUser.Emp_Id.ToString()))
+            if (connectapi.EmployeeExitsWithCribRights(connectapi.ConnectUser.Emp_Id.ToString()))
             {
                 InvInOut invInOut = new InvInOut();
                 invInOut.Show();

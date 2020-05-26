@@ -111,7 +111,7 @@ namespace SearchDataSPM.Purchasing
 
             createdbyname = invoiceCreatedBy;
 
-            if (invoiceCreatedBy == ConnectUser.Name)
+            if (invoiceCreatedBy == connectapi.ConnectUser.Name)
             {
                 shipInvCreator = true;
             }
@@ -207,7 +207,7 @@ namespace SearchDataSPM.Purchasing
             HandleCheckBoxes(submittedtosup, submittedtomanager, ecrcomplete, invoiceCreatedBy, r["ApprovedBy"].ToString(),
                r["ShippedBy"].ToString(), r["SubmittedOn"].ToString(), r["ApprovedOn"].ToString(), r["ShippedOn"].ToString());
 
-            CheckEditButtonRights(Convert.ToInt32(r["SubmittedTo"].ToString()) == ConnectUser.ConnectId);
+            CheckEditButtonRights(Convert.ToInt32(r["SubmittedTo"].ToString()) == connectapi.ConnectUser.ConnectId);
         }
 
         private void FillShipToInformation(string custid, string vendorcust)
@@ -568,7 +568,7 @@ namespace SearchDataSPM.Purchasing
             {
                 if (typeofsave != "normal")
                 {
-                    connectapi.UpdateInvoiceDetsToSqlforAuthorisation(list[0], typeofsave, ConnectUser.ShipSup);
+                    connectapi.UpdateInvoiceDetsToSqlforAuthorisation(list[0], typeofsave, connectapi.ConnectUser.ShipSup);
                 }
                 if (GetShippingBaseInfo(list[0]))
                 {
@@ -928,7 +928,7 @@ namespace SearchDataSPM.Purchasing
                 editbttn.Visible = false;
             }
 
-            if (ConnectUser.ShipSupervisor && mine && supcheckBox.Checked && !shipmanagercheckBox.Checked)
+            if (connectapi.ConnectUser.ShipSupervisor && mine && supcheckBox.Checked && !shipmanagercheckBox.Checked)
             {
                 shipsupervisorheckBox.Enabled = true;
                 editbttn.Visible = true;
@@ -938,7 +938,7 @@ namespace SearchDataSPM.Purchasing
                 shipsupervisorheckBox.Enabled = false;
             }
 
-            if (ConnectUser.ShippingManager && shipsupervisorheckBox.Checked)
+            if (connectapi.ConnectUser.ShippingManager && shipsupervisorheckBox.Checked)
             {
                 shipmanagercheckBox.Enabled = true;
                 editbttn.Visible = true;
@@ -948,16 +948,16 @@ namespace SearchDataSPM.Purchasing
             else
             {
                 if (supcheckBox.Checked)
-                    shipsupervisorheckBox.Enabled = ConnectUser.ShipSupervisor;
+                    shipsupervisorheckBox.Enabled = connectapi.ConnectUser.ShipSupervisor;
 
-                if (ConnectUser.ShippingManager && supcheckBox.Checked)
+                if (connectapi.ConnectUser.ShippingManager && supcheckBox.Checked)
                 {
                     shipsupervisorheckBox.Enabled = true;
                 }
                 shipmanagercheckBox.Enabled = false;
             }
 
-            if (shipmanagercheckBox.Checked && !ConnectUser.ShippingManager)
+            if (shipmanagercheckBox.Checked && !connectapi.ConnectUser.ShippingManager)
             {
                 Perfromlockdown();
                 editbttn.Visible = false;
@@ -1078,7 +1078,7 @@ namespace SearchDataSPM.Purchasing
 
         private void SaveReport(string reqno)
         {
-            string filepath = ConnectUser.SharesFolder + @"\SPM_Connect\ShippingInvoices\";
+            string filepath = connectapi.ConnectUser.SharesFolder + @"\SPM_Connect\ShippingInvoices\";
             Directory.CreateDirectory(filepath);
             string fileName = filepath + reqno + " - CI.pdf";
             filepath += reqno + " - PL.pdf";
@@ -1169,7 +1169,7 @@ namespace SearchDataSPM.Purchasing
 
         private void Preparetosendemail(string typeofSave)
         {
-            string filepath = ConnectUser.SharesFolder + @"\SPM_Connect\ShippingInvoices\";
+            string filepath = connectapi.ConnectUser.SharesFolder + @"\SPM_Connect\ShippingInvoices\";
             string fileName = filepath + invoicetxtbox.Text + " - CI.pdf";
             _ = invoicetxtbox.Text + " - PL.pdf";
             if (typeofSave == "Submitted")
@@ -1204,13 +1204,13 @@ namespace SearchDataSPM.Purchasing
         private void SendemailtoManager(string fileName)
         {
             foreach (NameEmail item in connectapi.GetNameEmailByParaValue(UserFields.ShippingManager, "1"))
-                Sendemail(item.email, invoicetxtbox.Text.Trim() + " Shipment to be shipped", item.name, Environment.NewLine + ConnectUser.Name + " sent this shipping request for shipping.", fileName, "", "");
+                Sendemail(item.email, invoicetxtbox.Text.Trim() + " Shipment to be shipped", item.name, Environment.NewLine + connectapi.ConnectUser.Name + " sent this shipping request for shipping.", fileName, "", "");
         }
 
         private void Sendemailtosupervisor(string fileName)
         {
-            foreach (NameEmail item in connectapi.GetNameEmailByParaValue(UserFields.ShipSup, ConnectUser.ShipSup.ToString()))
-                Sendemail(item.email, invoicetxtbox.Text + " Shipping Request Approval Required", item.name, Environment.NewLine + ConnectUser.Name + " sent this shipping request for approval.", fileName, "", "");
+            foreach (NameEmail item in connectapi.GetNameEmailByParaValue(UserFields.ShipSup, connectapi.ConnectUser.ShipSup.ToString()))
+                Sendemail(item.email, invoicetxtbox.Text + " Shipping Request Approval Required", item.name, Environment.NewLine + connectapi.ConnectUser.Name + " sent this shipping request for approval.", fileName, "", "");
         }
 
         private void Sendemailtouser(string fileName, string triggerby)

@@ -31,11 +31,11 @@ namespace SearchDataSPM.Purchasing
         {
             versionlabel.Text = Getassyversionnumber();
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
-            if (ConnectUser.ShipSupervisor)
+            if (connectapi.ConnectUser.ShipSupervisor)
             {
                 attnbttn.Visible = true;
             }
-            else if (ConnectUser.ShippingManager)
+            else if (connectapi.ConnectUser.ShippingManager)
             {
                 attnbttn.Visible = true;
             }
@@ -102,7 +102,7 @@ namespace SearchDataSPM.Purchasing
             {
                 dt.Clear();
                 datarequest = showdatafor;
-                dt = showdatafor == "normal" ? connectapi.ShowshippingHomeData() : showdatafor == "supervisor" ? connectapi.ShowshippingHomeDataforSupervisors(ConnectUser.ConnectId.ToString()) : connectapi.ShowshippingHomeDataforManagers();
+                dt = showdatafor == "normal" ? connectapi.ShowshippingHomeData() : showdatafor == "supervisor" ? connectapi.ShowshippingHomeDataforSupervisors(connectapi.ConnectUser.ConnectId.ToString()) : connectapi.ShowshippingHomeDataforManagers();
                 if (dt.Rows.Count > 0)
                 {
                     dataGridView.DataSource = dt;
@@ -1157,11 +1157,11 @@ namespace SearchDataSPM.Purchasing
 
         private void attnbttn_Click(object sender, EventArgs e)
         {
-            if (ConnectUser.ShipSupervisor)
+            if (connectapi.ConnectUser.ShipSupervisor)
             {
                 Showallitems("supervisor");
             }
-            else if (ConnectUser.ShippingManager)
+            else if (connectapi.ConnectUser.ShippingManager)
             {
                 Showallitems("manager");
             }

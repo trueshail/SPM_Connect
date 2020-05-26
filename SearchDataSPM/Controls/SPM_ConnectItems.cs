@@ -77,7 +77,7 @@ namespace SearchDataSPM.Controls
             dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dataGridView.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dataGridView.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            string userName = GetUserName();
+            string userName = connectapi.ConnectUser.UserName;
             this.Text = "SPM Connect Engineering - " + userName.Substring(4);
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);

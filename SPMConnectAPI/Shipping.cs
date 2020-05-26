@@ -20,36 +20,35 @@ namespace SPMConnectAPI
             log.Info("Accessed Shipping Class " + Getassyversionnumber());
         }
 
-        public List<string> GetManagersNameandEmail()
-        {
-            List<string> Happrovalnames = new List<string>();
+        //public List<string> GetManagersNameandEmail()
+        //{
+        //    List<string> Happrovalnames = new List<string>();
 
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [ShippingManager] = '1' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    Happrovalnames.Add(dr["Email"].ToString() + "][" + dr["Name"].ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Get Shipping Manager User Name and Email", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-            return Happrovalnames;
-        }
+        //    try
+        //    {
+        //        if (cn.State == ConnectionState.Closed)
+        //            cn.Open();
+        //        SqlCommand cmd = cn.CreateCommand();
+        //        cmd.CommandType = CommandType.Text;
+        //        cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [ShippingManager] = '1' ";
+        //        DataTable dt = new DataTable();
+        //        SqlDataAdapter da = new SqlDataAdapter(cmd);
+        //        da.Fill(dt);
+        //        foreach (DataRow dr in dt.Rows)
+        //        {
+        //            Happrovalnames.Add(dr["Email"].ToString() + "][" + dr["Name"].ToString());
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message, "SPM Connect - Get Shipping Manager User Name and Email", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //    }
+        //    finally
+        //    {
+        //        cn.Close();
+        //    }
+        //    return Happrovalnames;
+        //}
 
         #endregion Settting up Connetion and Get User
 
@@ -382,7 +381,6 @@ namespace SPMConnectAPI
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "SELECT  MAX(CAST(substring(Item, 8,3)AS INT))+1 as NextQuoteNo FROM [SPM_Database].[dbo].[ShippingItems] where substring(Item, 1, 2)  =  'CT' and InvoiceNo = '" + invoiceno + "'";
-                cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
@@ -420,7 +418,6 @@ namespace SPMConnectAPI
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "SELECT MAX([InvoiceNo]) + 1 as NextQuoteNo FROM [SPM_Database].[dbo].[ShippingBase]";
-                cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);

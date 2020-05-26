@@ -58,7 +58,7 @@ namespace SearchDataSPM.WorkOrder
             {
                 FillInfo();
                 processeditbutton();
-                developer = ConnectUser.Developer;
+                developer = connectapi.ConnectUser.Developer;
                 userinputtime = connectapi.Getuserinputtime();
             }
             else

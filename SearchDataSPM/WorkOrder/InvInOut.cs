@@ -165,7 +165,7 @@ namespace SearchDataSPM.WorkOrder
         {
             empid_txtbox.Focus();
             versionlabel.Text = Getassyversionnumber();
-            developer = ConnectUser.Developer;
+            developer = connectapi.ConnectUser.Developer;
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Crib Management ");
@@ -191,7 +191,7 @@ namespace SearchDataSPM.WorkOrder
                 {
                     if (empid_txtbox.Text.Trim() == apprvlidtxt.Text.Trim())
                     {
-                        if (ConnectUser.Dept == Department.Crib)
+                        if (connectapi.ConnectUser.Dept == Department.Crib)
                             connectapi.Scanworkorder(woid_txtbox.Text.Trim());
                         else MessageBox.Show("Please ask the admin to set you up on Department == Crib", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }

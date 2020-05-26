@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using static SPMConnectAPI.ConnectHelper;
 
 namespace SearchDataSPM.WorkOrder
 {
     public partial class ScanEmpId : MetroFramework.Forms.MetroForm
     {
         private readonly List<char> _barcode = new List<char>(10);
+        private readonly SPMConnectAPI.ConnectAPI connectapi = new SPMConnectAPI.ConnectAPI();
         private bool developer;
         private log4net.ILog log;
 
@@ -57,7 +57,7 @@ namespace SearchDataSPM.WorkOrder
         private void JobType_Load(object sender, EventArgs e)
         {
             empid_txtbox.Focus();
-            developer = ConnectUser.Developer;
+            developer = connectapi.ConnectUser.Developer;
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Scan Emp ID ");

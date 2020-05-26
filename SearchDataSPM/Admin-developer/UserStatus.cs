@@ -22,7 +22,7 @@ namespace SearchDataSPM.Admin_developer
 
         private void Checkdeveloper()
         {
-            if (ConnectUser.Developer)
+            if (connectapi.ConnectUser.Developer)
             {
                 dataGridView1.ContextMenuStrip = Listviewcontextmenu;
                 Listviewcontextmenu.Enabled = true;
@@ -65,7 +65,7 @@ namespace SearchDataSPM.Admin_developer
         {
             string userName = Getuserselected().Trim();
 
-            if (userName != ConnectUser.UserName)
+            if (userName != connectapi.ConnectUser.UserName)
             {
                 Deleteuser(userName);
                 try
@@ -133,7 +133,7 @@ namespace SearchDataSPM.Admin_developer
             List<string> intList = new List<string>();
             foreach (DataRow row in dt.Rows)
             {
-                if (row["User Name"].ToString() != ConnectUser.UserName)
+                if (row["User Name"].ToString() != connectapi.ConnectUser.UserName)
                 {
                     intList.Add(row["User Name"].ToString());
                 }
@@ -163,7 +163,7 @@ namespace SearchDataSPM.Admin_developer
             List<string> intList = new List<string>();
             foreach (DataRow row in dt.Rows)
             {
-                if (row["User Name"].ToString() != ConnectUser.UserName)
+                if (row["User Name"].ToString() != connectapi.ConnectUser.UserName)
                 {
                     intList.Add(row["User Name"].ToString());
                 }

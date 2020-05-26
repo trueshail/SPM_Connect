@@ -102,21 +102,21 @@ namespace SearchDataSPM.General
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
             Showallitems();
 
-            if (ConnectUser.Management)
+            if (connectapi.ConnectUser.Management)
             {
                 contextMenuStrip1.Items[3].Enabled = true;
                 contextMenuStrip1.Items[3].Visible = true;
             }
-            if (ConnectUser.PurchaseReq)
+            if (connectapi.ConnectUser.PurchaseReq)
             {
                 purchasereq.Enabled = true;
             }
-            if (ConnectUser.Quote)
+            if (connectapi.ConnectUser.Quote)
             {
                 quotebttn.Enabled = true;
             }
 
-            if (ConnectUser.Shipping)
+            if (connectapi.ConnectUser.Shipping)
             {
                 shippingbttn.Enabled = true;
             }
@@ -1061,7 +1061,7 @@ namespace SearchDataSPM.General
 
         private void cribbttn_Click(object sender, EventArgs e)
         {
-            if (ConnectUser.CribCheckout)
+            if (connectapi.ConnectUser.CribCheckout)
             {
                 InvInOut invInOut = new InvInOut();
                 invInOut.Show();
@@ -1149,7 +1149,7 @@ namespace SearchDataSPM.General
                         PurchaseReqform purchaseReq = new PurchaseReqform();
                         purchaseReq.Show();
                     }
-                    else if (checkmaintenance && ConnectUser.Developer)
+                    else if (checkmaintenance && connectapi.ConnectUser.Developer)
                     {
                         PurchaseReqform purchaseReq = new PurchaseReqform();
                         purchaseReq.Show();
@@ -1211,7 +1211,7 @@ namespace SearchDataSPM.General
 
         private void scanwobttn_Click(object sender, EventArgs e)
         {
-            if (ConnectUser.WOScan)
+            if (connectapi.ConnectUser.WOScan)
             {
                 ScanWO scanWO = new ScanWO();
                 scanWO.Show();

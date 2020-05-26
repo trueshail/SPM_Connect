@@ -179,7 +179,7 @@ namespace SPMConnectAPI
                 int userCount = (int)sqlCommand.ExecuteScalar();
                 if (userCount == 1)
                 {
-                    // MessageBox.Show("items exists");
+                    // MessageBox.Show("items exists")
                     cn.Close();
                     exists = true;
                     //insert to autocad catalog

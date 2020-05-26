@@ -385,7 +385,7 @@ namespace SearchDataSPM.Accounting
 
         private string SaveReport(string reqno)
         {
-            string filepath = ConnectUser.SharesFolder + @"\SPM_Connect\EFTReports\";
+            string filepath = connectapi.ConnectUser.SharesFolder + @"\SPM_Connect\EFTReports\";
             Directory.CreateDirectory(filepath);
             return _ = filepath + reqno + ".pdf";
         }

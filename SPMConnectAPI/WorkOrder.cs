@@ -181,7 +181,6 @@ namespace SPMConnectAPI
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "UPDATE [SPM_Database].[dbo].[WO_Tracking] SET  [CribLocation] = '" + location + "'  WHERE WO = '" + wo + "'";
-                cmd.ExecuteNonQuery();
                 cn.Close();
                 success = true;
             }
@@ -1037,7 +1036,6 @@ namespace SPMConnectAPI
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "SELECT MAX([InvoiceNo]) + 1 as NextQuoteNo FROM [SPM_Database].[dbo].[MaterialReallocation]";
-                cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
@@ -1408,8 +1406,6 @@ namespace SPMConnectAPI
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "SELECT * FROM [SPMDB].[dbo].[tcBomItemVersion]  WHERE [Item] = '" + itemId + "' AND [BomVersionId]  = '" + estId + "' AND [Produit] = '" + assy + "'";
-
-                cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
@@ -1442,8 +1438,6 @@ namespace SPMConnectAPI
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "SELECT * FROM [SPMDB].[dbo].[Mrpres] WHERE [Item] = '" + itemId + "' AND [Job]  = '" + job + "' AND [Piece] = '" + assy + "' AND [Woprec]  = '" + wo + "'";
-
-                cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
@@ -1649,7 +1643,6 @@ namespace SPMConnectAPI
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[SPMJobs] WHERE [Job]='" + job + "' ";
-                cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
@@ -1684,7 +1677,6 @@ namespace SPMConnectAPI
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[SPMJobs] WHERE [Job]  = '" + jobno + "'";
-                cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
@@ -1716,7 +1708,6 @@ namespace SPMConnectAPI
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[SPMConnectWOBOM] WHERE [WO]  = '" + wo + "'";
-                cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
@@ -1912,7 +1903,6 @@ namespace SPMConnectAPI
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[SPMConnectWOBOM] WHERE Job = '" + jobno + "' AND ItemNumber = '" + assyno + "'";
-                cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
@@ -2033,7 +2023,6 @@ namespace SPMConnectAPI
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "UPDATE [SPM_Database].[dbo].[WOReleaseLog] SET [LastSaved] = '" + sqlFormattedDate + "',[LastSavedBy] = '" + username + "',[ReleaseNotes] = '" + notes + "' WHERE [RlogNo] = '" + rlogno + "' ";
-
                 cmd.ExecuteNonQuery();
                 cn.Close();
                 success = true;
@@ -2059,7 +2048,6 @@ namespace SPMConnectAPI
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "SELECT MAX([RlogNo]) + 1 as NextQuoteNo FROM [SPM_Database].[dbo].[WOReleaseLog]";
-                cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
@@ -2108,7 +2096,6 @@ namespace SPMConnectAPI
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "SELECT MAX([NxtReleaseNo])+1 as NextQuoteNo FROM [SPM_Database].[dbo].[WOReleaseLog] WHERE WO = '" + wo + "'";
-                cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);

@@ -71,7 +71,7 @@ namespace SearchDataSPM.Engineering
 
         private void Checkdeptsandrights()
         {
-            if (ConnectUser.Dept == Department.Controls)
+            if (connectapi.ConnectUser.Dept == Department.Controls)
             {
                 controls = true;
                 listView.ContextMenuStrip = Listviewcontextmenu;
@@ -84,20 +84,20 @@ namespace SearchDataSPM.Engineering
                 getnewitembttn.Enabled = true;
 
                 dataGridView.ContextMenuStrip = FormSelectorControls;
-                this.Text = "SPM Connect Controls - " + ConnectUser.Name;
-                connectapi.Chekin("SPM Connect Controls");
+                this.Text = "SPM Connect Controls - " + connectapi.ConnectUser.Name;
+                connectapi.CheckinApp("SPM Connect " + connectapi.ConnectUser.Dept);
 
                 //connectapicntrls.SPM_Connect();
                 //connectapicntrls.SPM_Connectconnectsql();
             }
-            else if (ConnectUser.Dept == Department.Eng)
+            else if (connectapi.ConnectUser.Dept == Department.Eng)
             {
                 listView.ContextMenuStrip = Listviewcontextmenu;
                 dataGridView.ContextMenuStrip = FormSelectorEng;
                 AddNewBttn.Enabled = true;
                 getnewitembttn.Enabled = true;
-                this.Text = "SPM Connect Engineering - " + ConnectUser.Name;
-                connectapi.Chekin("SPM Connect Eng");
+                this.Text = "SPM Connect Engineering - " + connectapi.ConnectUser.Name;
+                connectapi.CheckinApp("SPM Connect " + connectapi.ConnectUser.Dept);
                 eng = true;
             }
             else
@@ -114,17 +114,17 @@ namespace SearchDataSPM.Engineering
                 FormSelectorEng.Items[4].Visible = false;
                 FormSelectorEng.Items[5].Enabled = false;
                 FormSelectorEng.Items[5].Visible = false;
-                this.Text = "SPM Connect " + ConnectUser.Dept + " - " + ConnectUser.Name;
-                connectapi.Chekin("SPM Connect " + ConnectUser.Dept);
+                this.Text = "SPM Connect " + connectapi.ConnectUser.Dept + " - " + connectapi.ConnectUser.Name;
+                connectapi.CheckinApp("SPM Connect " + connectapi.ConnectUser.Dept);
                 production = true;
             }
 
-            if (ConnectUser.Admin)
+            if (connectapi.ConnectUser.Admin)
             {
                 admin_bttn.Enabled = true;
             }
 
-            if (ConnectUser.Developer)
+            if (connectapi.ConnectUser.Developer)
             {
                 FormSelectorEng.Items[7].Enabled = true;
                 FormSelectorEng.Items[7].Visible = true;
@@ -262,9 +262,9 @@ namespace SearchDataSPM.Engineering
             string type = e.ChangeType.ToString();
             changed = string.Format(changedEntity.Username);
             string application = string.Format(changedEntity.Application);
-            string userName = GetUserName();
+            string userName = connectapi.ConnectUser.UserName;
             // MessageBox.Show(changed);
-            if (changed == userName && type == "Update" && (application == "SPM Connect " + ConnectUser.Dept))
+            if (changed == userName && type == "Update" && (application == "SPM Connect " + connectapi.ConnectUser.Dept))
             {
                 //MessageBox.Show(this,"Developer has kicked you out due to maintenance issues.");
                 _dependency.Stop();
@@ -278,7 +278,7 @@ namespace SearchDataSPM.Engineering
                     log.Error(ex.Message, ex);
                 }
             }
-            else if (changed == userName && type == "Delete" && (application == "SPM Connect " + ConnectUser.Dept))
+            else if (changed == userName && type == "Delete" && (application == "SPM Connect " + connectapi.ConnectUser.Dept))
             {
                 System.Environment.Exit(0);
             }
@@ -436,7 +436,6 @@ namespace SearchDataSPM.Engineering
                         recordlabel.Text = "Found " + table0.Rows.Count.ToString() + " Matching Items.";
                     }
                     catch (Exception)
-
                     {
                         MessageBox.Show("Invalid Search Criteria Operator.", "SPM Connect - Search1");
                         txtSearch.Clear();
@@ -458,7 +457,6 @@ namespace SearchDataSPM.Engineering
                         recordlabel.Text = "Found " + table0.Rows.Count.ToString() + " Matching Items.";
                     }
                     catch (Exception)
-
                     {
                         MessageBox.Show("Invalid Search Criteria Operator.", "SPM Connect - Search1");
                         txtSearch.Clear();
@@ -1092,7 +1090,7 @@ namespace SearchDataSPM.Engineering
         {
             Cursor.Current = Cursors.WaitCursor;
             _dependency.Stop();
-            connectapi.Checkout();
+            connectapi.CheckoutApp("SPM Connect " + connectapi.ConnectUser.Dept);
             Cursor.Current = Cursors.Default;
         }
 
@@ -1426,7 +1424,7 @@ namespace SearchDataSPM.Engineering
 
         private void ListView_Enter(object sender, EventArgs e)
         {
-            if (ConnectUser.Dept == Department.Eng)
+            if (connectapi.ConnectUser.Dept == Department.Eng)
             {
                 listView.ContextMenuStrip = listView.Items.Count > 0 ? Listviewcontextmenu : null;
             }
@@ -1530,7 +1528,7 @@ namespace SearchDataSPM.Engineering
             }
             else
             {
-                string username = ConnectUser.Name;
+                string username = connectapi.ConnectUser.Name;
                 Createentryoninventory(uniqueid, username);
                 Openiteminfo(uniqueid);
             }
@@ -1757,7 +1755,7 @@ namespace SearchDataSPM.Engineering
             {
                 rupture = "NEVER";
             }
-            string username = ConnectUser.Name;
+            string username = connectapi.ConnectUser.Name;
 
             DateTime datecreated = DateTime.Now;
             string sqlFormattedDate = datecreated.ToString("yyyy-MM-dd HH:mm:ss.fff");
@@ -1874,7 +1872,7 @@ namespace SearchDataSPM.Engineering
             {
                 if (connectapi.Solidworks_running())
                 {
-                    string user = GetUserName();
+                    string user = connectapi.ConnectUser.UserName;
                     string activeblock = connectapi.Getactiveblock();
                     string lastnumber = connectapi.Getlastnumber();
                     if (activeblock.Length > 0)
@@ -2812,7 +2810,7 @@ namespace SearchDataSPM.Engineering
 
         private void AddToFavoritesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            connectapi.Addtofavorites(Getitemnumberselected());
+            connectapi.Addtofavorites(Getitemnumberselected(), false);
         }
 
         private void ShowFavoritesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2830,6 +2828,25 @@ namespace SearchDataSPM.Engineering
             dataGridView.DataSource = dt;
             _ = dt.DefaultView;
             dataGridView.Sort(dataGridView.Columns[0], ListSortDirection.Descending);
+            dataGridView.Columns[5].Visible = false;
+            dataGridView.Columns[6].Visible = false;
+            dataGridView.Columns[7].Visible = false;
+            dataGridView.Columns[8].Visible = false;
+            dataGridView.Columns[9].Visible = false;
+            dataGridView.Columns[10].Visible = false;
+            dataGridView.Columns[11].Visible = false;
+            dataGridView.Columns[12].Visible = false;
+            dataGridView.Columns[13].Visible = false;
+            dataGridView.Columns[14].Visible = false;
+            dataGridView.Columns[15].Visible = false;
+            dataGridView.Columns[16].Visible = false;
+            dataGridView.Columns[0].Width = 60;
+            dataGridView.Columns[2].Width = 55;
+            dataGridView.Columns[1].Width = 300;
+            dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridView.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridView.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
             UpdateFont();
             showingfavorites = true;
             recordlabel.Text = "Showing " + dataGridView.Rows.Count + " favorite items.";
@@ -2837,7 +2854,7 @@ namespace SearchDataSPM.Engineering
 
         private void RemoveFromFavoritesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            connectapi.Removefromfavorites(Getitemnumberselected());
+            connectapi.Removefromfavorites(Getitemnumberselected(), false);
             Showfavorites();
         }
 

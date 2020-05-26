@@ -98,7 +98,7 @@ namespace SearchDataSPM.Quotes
 
             if (result == DialogResult.Yes)
             {
-                string user = Getuserfullname(GetUserName());
+                string user = Getuserfullname(connectapi.ConnectUser.UserName);
                 string newnunber = getnewnumber();
                 bool status = createnewquote(newnunber, user);
                 if (status)

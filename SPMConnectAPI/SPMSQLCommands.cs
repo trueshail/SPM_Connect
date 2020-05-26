@@ -61,8 +61,7 @@ namespace SPMConnectAPI
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + GetUserName() + "' ";
-                cmd.ExecuteNonQuery();
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + ConnectUser.UserName + "' ";
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
@@ -81,54 +80,6 @@ namespace SPMConnectAPI
                 cn.Close();
             }
             return read;
-        }
-
-        public void Chekin(string applicationname)
-        {
-            DateTime datecreated = DateTime.Now;
-            string sqlFormattedDate = datecreated.ToString("dd-MM-yyyy HH:mm tt");
-            string computername = System.Environment.MachineName;
-
-            if (cn.State == ConnectionState.Closed)
-                cn.Open();
-            try
-            {
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Checkin] ([Last Login],[Application Running],[User Name], [Computer Name], [Version]) VALUES('" + sqlFormattedDate + "', '" + applicationname + "', '" + GetUserName() + "', '" + computername + "','" + Getassyversionnumber() + "')";
-                cmd.ExecuteNonQuery();
-                cn.Close();
-                //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - User Checkin", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-        }
-
-        public void Checkout()
-        {
-            if (cn.State == ConnectionState.Closed)
-                cn.Open();
-            try
-            {
-                string query = "DELETE FROM [SPM_Database].[dbo].[Checkin] WHERE [User Name] ='" + GetUserName() + "'";
-                SqlCommand sda = new SqlCommand(query, cn);
-                sda.ExecuteNonQuery();
-                cn.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Checkout User", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
         }
 
         public DataTable Showallitems()
@@ -187,7 +138,7 @@ namespace SPMConnectAPI
         {
             DataTable dt = new DataTable();
 
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT[ItemNumber],[Description],[FamilyCode],[Manufacturer],[ManufacturerItemNumber],[DesignedBy],[DateCreated],[LastSavedBy],[LastEdited],[Material],[FullSearch] FROM [SPM_Database].[dbo].[SPMConnectFavorites] where UserName like'%" + GetUserName() + "%'", cn))
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[SPMConnectFavorites] where UserName like'%" + ConnectUser.UserName + "%'", cn))
             {
                 try
                 {
@@ -311,7 +262,6 @@ namespace SPMConnectAPI
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "SELECT Category FROM [SPM_Database].[dbo].[FamilyCodes] WHERE [FamilyCodes]='" + familycode + "' ";
-                cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
@@ -371,7 +321,6 @@ namespace SPMConnectAPI
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "SELECT Alias FROM [SPM_Database].[dbo].[Customers] WHERE [CustomerID]='" + customerid + "' ";
-                cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
@@ -403,8 +352,7 @@ namespace SPMConnectAPI
                     cn.Open();
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] where UserName ='" + GetUserName() + "'";
-                cmd.ExecuteNonQuery();
+                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] where UserName ='" + ConnectUser.UserName + "'";
                 DataTable dt = new DataTable();
                 SqlDataAdapter sda = new SqlDataAdapter(cmd);
                 sda.Fill(dt);
@@ -450,7 +398,6 @@ namespace SPMConnectAPI
                     SqlCommand cmd = cn.CreateCommand();
                     cmd.CommandType = CommandType.Text;
                     cmd.CommandText = "SELECT MAX(RIGHT(ItemNumber,5)) AS " + blocknumber + " FROM [SPM_Database].[dbo].[Inventory] WHERE ItemNumber like '" + blocknumber + "%' AND LEN(ItemNumber)=6";
-                    cmd.ExecuteNonQuery();
                     DataTable dt = new DataTable();
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
                     da.Fill(dt);
@@ -492,7 +439,6 @@ namespace SPMConnectAPI
                     SqlCommand cmd = cn.CreateCommand();
                     cmd.CommandType = CommandType.Text;
                     cmd.CommandText = "SELECT MAX(RIGHT(ItemNumber,5)) AS " + blocknumber + " FROM [SPM_Database].[dbo].[Inventory] WHERE ItemNumber like '" + blocknumber + "%' AND LEN(ItemNumber)=6";
-                    cmd.ExecuteNonQuery();
                     DataTable dt = new DataTable();
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
                     da.Fill(dt);
@@ -1520,197 +1466,5 @@ namespace SPMConnectAPI
 
         #endregion solidworks createmodels and open models
 
-        #region Favorites
-
-        public bool Addtofavorites(string itemid)
-        {
-            const bool completed = false;
-            if (CheckitempresentonFavorites(itemid))
-            {
-                string usernamesfromitem = Getusernamesfromfavorites(itemid);
-                if (!Userexists(usernamesfromitem))
-                {
-                    string newuseradded = usernamesfromitem + GetUserName() + ",";
-                    Updateusernametoitemonfavorites(itemid, newuseradded);
-                }
-                else
-                {
-                    MessageBox.Show("Item no " + itemid + " already exists on your favorite list.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            }
-            else
-            {
-                Additemtofavoritessql(itemid);
-            }
-
-            return completed;
-        }
-
-        public bool Removefromfavorites(string itemid)
-        {
-            const bool completed = false;
-
-            string usernamesfromitem = Getusernamesfromfavorites(itemid);
-
-            Updateusernametoitemonfavorites(itemid, Removeusername(usernamesfromitem));
-
-            MessageBox.Show("Item no " + itemid + " has been removed from your favorite list.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-            return completed;
-        }
-
-        private bool CheckitempresentonFavorites(string itemid)
-        {
-            bool itempresent = false;
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[favourite] WHERE [Item]='" + itemid + "'", cn))
-            {
-                try
-                {
-                    cn.Open();
-
-                    int userCount = (int)sqlCommand.ExecuteScalar();
-                    if (userCount == 1)
-                    {
-                        //MessageBox.Show("item already exists");
-                        itempresent = true;
-                    }
-                    else
-                    {
-                        //MessageBox.Show(" move forward");
-                        itempresent = false;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Check Item Present On SQL Favorites", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-            return itempresent;
-        }
-
-        private void Additemtofavoritessql(string itemid)
-        {
-            string userid = GetUserName();
-            userid += ",";
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[favourite] (Item,UserName) VALUES('" + itemid + "','" + userid + " ')";
-                cmd.ExecuteNonQuery();
-                cn.Close();
-                MessageBox.Show("Item no " + itemid + " has been added to your favorites.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Add  Item To Favorites", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-        }
-
-        private void Updateusernametoitemonfavorites(string itemid, string updatedusername)
-        {
-            if (cn.State == ConnectionState.Closed)
-                cn.Open();
-            try
-            {
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                if (updatedusername != "")
-                {
-                    cmd.CommandText = "UPDATE [SPM_Database].[dbo].[favourite] SET UserName = '" + updatedusername + "'  WHERE Item = '" + itemid + "'";
-                }
-                else
-                {
-                    cmd.CommandText = "DELETE FROM [SPM_Database].[dbo].[favourite] WHERE Item = '" + itemid + "'";
-                }
-
-                cmd.ExecuteNonQuery();
-                cn.Close();
-                //MessageBox.Show("New entry created", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Update Item on Favorites", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-        }
-
-        private string Getusernamesfromfavorites(string itemid)
-        {
-            string usersfav = "";
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[favourite] WHERE [Item]='" + itemid + "' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    usersfav = dr["UserName"].ToString();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve user names from favorites", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-            return usersfav;
-        }
-
-        private bool Userexists(string usernames)
-        {
-            bool exists = false;
-            string userid = GetUserName();
-            // Split string on spaces (this will separate all the words).
-            string[] words = usernames.Split(',');
-            foreach (string word in words)
-            {
-                if (word == userid)
-                    exists = true;
-            }
-
-            return exists;
-        }
-
-        private string Removeusername(string usernames)
-        {
-            string removedusername = "";
-            string userid = GetUserName();
-            // Split string on spaces (this will separate all the words).
-            string[] words = usernames.Split(',');
-            foreach (string word in words)
-            {
-                if (word.Trim() != userid)
-                {
-                    removedusername += word.Trim();
-                    if (word.Trim() != "")
-                        removedusername += ",";
-                }
-            }
-            return removedusername.Trim();
-        }
-
-        #endregion Favorites
     }
 }

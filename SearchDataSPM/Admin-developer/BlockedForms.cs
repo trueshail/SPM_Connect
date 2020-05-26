@@ -26,7 +26,7 @@ namespace SearchDataSPM.Admin_developer
                 try
                 {
                     connectapi.cn.Open();
-                    sqlCommand.Parameters.AddWithValue("@username", GetUserName());
+                    sqlCommand.Parameters.AddWithValue("@username", connectapi.ConnectUser.UserName);
 
                     int userCount = (int)sqlCommand.ExecuteScalar();
                     if (userCount == 1)

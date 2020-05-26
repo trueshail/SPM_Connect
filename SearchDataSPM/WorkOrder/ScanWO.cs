@@ -26,7 +26,7 @@ namespace SearchDataSPM.WorkOrder
             timer1.Start();
             woid_txtbox.Focus();
             userinputtime = connectapi.Getuserinputtime();
-            developer = ConnectUser.Developer;
+            developer = connectapi.ConnectUser.Developer;
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Scan Work Order ");

@@ -48,7 +48,7 @@ namespace SPMConnectAPI
             PurchaseReq,
         }
 
-        public static UserInfo ConnectUser { get; set; } = new UserInfo();
+        //public static UserInfo ConnectUser { get; set; } = new UserInfo();
 
         public struct NameEmail
         {

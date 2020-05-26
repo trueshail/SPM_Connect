@@ -27,7 +27,6 @@ namespace SearchDataSPM.Engineering
         private log4net.ILog log;
         private bool rootnodedone;
         private string txtvalue;
-        private UserInfo user;
         private readonly SPMSQLCommands connectapi = new SPMSQLCommands();
 
         #endregion steupvariables
@@ -79,7 +78,6 @@ namespace SearchDataSPM.Engineering
 
         private void ParentView_Load(object sender, EventArgs e)
         {
-            user = connectapi.GetUserDetails(GetUserName());
             Assy_txtbox.Focus();
             Assy_txtbox.Text = itemnumber;
             if (Assy_txtbox.Text.Length == 5 || Assy_txtbox.Text.Length == 6)
@@ -89,7 +87,7 @@ namespace SearchDataSPM.Engineering
                 Startprocessofbom();
                 CallRecursive();
                 //connectapi.SPM_Connect();
-                if (user.Dept == Department.Eng) eng = true;
+                if (connectapi.ConnectUser.Dept == Department.Eng) eng = true;
                 Assy_txtbox.Select();
             }
 
@@ -967,7 +965,7 @@ namespace SearchDataSPM.Engineering
             {
                 string itemstr = treeView1.SelectedNode.Text;
                 itemstr = itemstr.Substring(0, 6);
-                connectapi.Addtofavorites(itemstr);
+                connectapi.Addtofavorites(itemstr, false);
             }
         }
 
@@ -1051,7 +1049,7 @@ namespace SearchDataSPM.Engineering
             {
                 string txt = listView.FocusedItem.Text;
                 txt = txt.Substring(0, 6);
-                connectapi.Addtofavorites(txt);
+                connectapi.Addtofavorites(txt, false);
             }
         }
 
