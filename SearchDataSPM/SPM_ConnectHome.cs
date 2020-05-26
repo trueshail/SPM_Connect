@@ -90,9 +90,10 @@ namespace SearchDataSPM
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log4net.GlobalContext.Properties["User"] = Environment.UserName;
             log.Info("Opened SPM Connect Home ");
+            spmconnectlbl.Text = string.Format("SPM Connect {0}", Getassyversionnumber());
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void Timer1_Tick(object sender, EventArgs e)
         {
             time += 10;
             rectangleShape2.Width += 11;

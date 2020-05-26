@@ -14,10 +14,10 @@ namespace SPMConnectAPI
             return "Data Source=spm-sql;Initial Catalog=SPM_Database;User ID=SPM_Agent;password=spm5445";
         }
 
-        public static string Getassyversionnumber()
+        public static string Getassyversionnumber(bool versionoff = false)
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
-            return "V" + assembly.GetName().Version.ToString();
+            return versionoff ? assembly.GetName().Version.ToString() : "V" + assembly.GetName().Version.ToString();
         }
 
         public static string GetUserName()

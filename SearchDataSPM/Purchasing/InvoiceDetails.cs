@@ -1209,7 +1209,7 @@ namespace SearchDataSPM.Purchasing
 
         private void Sendemailtosupervisor(string fileName)
         {
-            foreach (NameEmail item in connectapi.GetNameEmailByParaValue(UserFields.ShipSup, connectapi.ConnectUser.ShipSup.ToString()))
+            foreach (NameEmail item in connectapi.GetNameEmailByParaValue(UserFields.id, connectapi.ConnectUser.ShipSup.ToString()))
                 Sendemail(item.email, invoicetxtbox.Text + " Shipping Request Approval Required", item.name, Environment.NewLine + connectapi.ConnectUser.Name + " sent this shipping request for approval.", fileName, "", "");
         }
 

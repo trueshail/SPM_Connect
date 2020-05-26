@@ -1045,7 +1045,6 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
                         t.Name = dr["ItemNumber"].ToString();
                         t.Tag = woTB.Rows.IndexOf(dr);
                     }
-
                 }
                 else
                 {

@@ -1,8 +1,11 @@
 ﻿using SPMConnectAPI;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Security;
 using System.Windows.Forms;
+using System.Xml;
 using static SPMConnectAPI.ConnectHelper;
 
 namespace SearchDataSPM.Admin_developer
@@ -52,10 +55,12 @@ namespace SearchDataSPM.Admin_developer
 
         private void HelpForm_Load(object sender, EventArgs e)
         {
-            versionlbl.Text = string.Format("SPM Connect Version - {0}", Getassyversionnumber());
+            versionlbl.Text = string.Format("Version - {0}", Getassyversionnumber(true));
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Help Form ");
+            if (connectapi.ConnectUser.Dept != Department.Eng)
+                sldwrksaddin.Visible = false;
         }
 
         private List<string> Importfilename()
@@ -131,11 +136,49 @@ namespace SearchDataSPM.Admin_developer
         {
             try
             {
-                System.Diagnostics.Process.Start(@"\\spm-adfs\SDBASE\SPM Connect SQL\ConnectHotKeys.pdf");
+                //System.Diagnostics.Process.Start(@"\\spm-adfs\SDBASE\SPM Connect SQL\ConnectHotKeys.pdf");
+                System.Diagnostics.Process.Start("https://shail.gitbook.io/spmconnect/resources/resources-home/keyboard-shortcuts");
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void Sldwrksaddin_Click(object sender, EventArgs e)
+        {
+            InstallSPMConnectAddin(@"\\spm-adfs\SDBASE\SPM Connect Addin\update.xml", "spm");
+        }
+
+        public void InstallSPMConnectAddin(string url, string name)
+        {
+            XmlDocument x = new XmlDocument();
+
+            try
+            {
+                x.Load(url);
+                XmlNode root = x.DocumentElement;
+                if (root.Name != name)
+                {
+                    throw new XmlException();
+                }
+                string version = x.SelectSingleNode("descendant::version").InnerText;
+                if (version == null)
+                {
+                    throw new XmlException();
+                }
+
+                DialogResult r = MessageBox.Show("Install SPM Connect Addin for Solidworks?", "SPM Connect - Solidworks Addin", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                if (r == DialogResult.Yes)
+                {
+                    string applicationfolder = @"\\spm-adfs\SDBASE\SPM Connect Addin\" + version + "\\SPMConnectAddin" + version + ".msi";
+                    File.Copy(applicationfolder, System.IO.Path.GetTempPath() + "SPMConnectAddin" + version + ".msi", true);
+                    Process.Start(System.IO.Path.GetTempPath() + "SPMConnectAddin" + version + ".msi");
+                }
+            }
+            catch (Exception e)
+            {
+                log.Error(e.Message, e);
             }
         }
     }

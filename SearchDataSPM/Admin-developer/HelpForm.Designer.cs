@@ -44,21 +44,21 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.bunifuCustomLabel1 = new Bunifu.Framework.UI.BunifuCustomLabel();
+            this.sldwrksaddin = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // shrtcutbttn
             // 
             this.shrtcutbttn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.shrtcutbttn.Font = new System.Drawing.Font("Modern No. 20", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.shrtcutbttn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
             this.shrtcutbttn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
-            this.shrtcutbttn.Location = new System.Drawing.Point(531, 26);
+            this.shrtcutbttn.Location = new System.Drawing.Point(505, 6);
             this.shrtcutbttn.Name = "shrtcutbttn";
-            this.shrtcutbttn.Size = new System.Drawing.Size(130, 33);
+            this.shrtcutbttn.Size = new System.Drawing.Size(156, 33);
             this.shrtcutbttn.TabIndex = 0;
             this.shrtcutbttn.Text = "Keyboard Shortcuts";
             this.shrtcutbttn.UseVisualStyleBackColor = false;
@@ -69,11 +69,11 @@
             this.versionlbl.AutoSize = true;
             this.versionlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.versionlbl.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
-            this.versionlbl.Location = new System.Drawing.Point(111, 292);
+            this.versionlbl.Location = new System.Drawing.Point(206, 43);
             this.versionlbl.Name = "versionlbl";
-            this.versionlbl.Size = new System.Drawing.Size(401, 31);
+            this.versionlbl.Size = new System.Drawing.Size(227, 31);
             this.versionlbl.TabIndex = 0;
-            this.versionlbl.Text = "SPM Connect Version 7.6.10.11";
+            this.versionlbl.Text = "Version 7.6.10.11";
             // 
             // label1
             // 
@@ -101,11 +101,12 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.sldwrksaddin);
             this.panel1.Controls.Add(this.linkLabel1);
             this.panel1.Controls.Add(this.shrtcutbttn);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 617);
+            this.panel1.Location = new System.Drawing.Point(0, 374);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(673, 100);
             this.panel1.TabIndex = 1;
@@ -114,7 +115,7 @@
             // 
             this.panel2.Controls.Add(this.groupBox1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 331);
+            this.panel2.Location = new System.Drawing.Point(0, 88);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(673, 286);
             this.panel2.TabIndex = 5;
@@ -156,11 +157,11 @@
             // 
             this.sendemailbttn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.sendemailbttn.Enabled = false;
-            this.sendemailbttn.Font = new System.Drawing.Font("Modern No. 20", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.sendemailbttn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
             this.sendemailbttn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
             this.sendemailbttn.Location = new System.Drawing.Point(263, 244);
             this.sendemailbttn.Name = "sendemailbttn";
-            this.sendemailbttn.Size = new System.Drawing.Size(158, 33);
+            this.sendemailbttn.Size = new System.Drawing.Size(178, 33);
             this.sendemailbttn.TabIndex = 4;
             this.sendemailbttn.Text = "Send Email To Developer";
             this.sendemailbttn.UseVisualStyleBackColor = false;
@@ -169,7 +170,7 @@
             // browsebttn
             // 
             this.browsebttn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.browsebttn.Font = new System.Drawing.Font("Modern No. 20", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.browsebttn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
             this.browsebttn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
             this.browsebttn.Location = new System.Drawing.Point(113, 216);
             this.browsebttn.Name = "browsebttn";
@@ -192,7 +193,7 @@
             // 
             // subtxt
             // 
-            this.subtxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.subtxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.subtxt.BackColor = System.Drawing.Color.AntiqueWhite;
             this.subtxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -228,26 +229,40 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // pictureBox1
+            // bunifuCustomLabel1
             // 
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pictureBox1.Image = global::SearchDataSPM.Properties.Resources.spmconnecthelp;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(673, 282);
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
+            this.bunifuCustomLabel1.AutoSize = true;
+            this.bunifuCustomLabel1.Font = new System.Drawing.Font("Cascadia Mono", 24F);
+            this.bunifuCustomLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(163)))), ((int)(((byte)(205)))), ((int)(((byte)(255)))));
+            this.bunifuCustomLabel1.Location = new System.Drawing.Point(213, 3);
+            this.bunifuCustomLabel1.Name = "bunifuCustomLabel1";
+            this.bunifuCustomLabel1.Size = new System.Drawing.Size(228, 43);
+            this.bunifuCustomLabel1.TabIndex = 7;
+            this.bunifuCustomLabel1.Text = "SPM Connect";
+            // 
+            // sldwrksaddin
+            // 
+            this.sldwrksaddin.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.sldwrksaddin.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
+            this.sldwrksaddin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
+            this.sldwrksaddin.Location = new System.Drawing.Point(505, 44);
+            this.sldwrksaddin.Name = "sldwrksaddin";
+            this.sldwrksaddin.Size = new System.Drawing.Size(156, 33);
+            this.sldwrksaddin.TabIndex = 2;
+            this.sldwrksaddin.Text = "Solidworks Addin";
+            this.sldwrksaddin.UseVisualStyleBackColor = false;
+            this.sldwrksaddin.Click += new System.EventHandler(this.Sldwrksaddin_Click);
             // 
             // HelpForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(5)))), ((int)(((byte)(19)))), ((int)(((byte)(28)))));
-            this.ClientSize = new System.Drawing.Size(673, 717);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(58)))), ((int)(((byte)(77)))));
+            this.ClientSize = new System.Drawing.Size(673, 474);
+            this.Controls.Add(this.bunifuCustomLabel1);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.versionlbl);
-            this.Controls.Add(this.pictureBox1);
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -263,7 +278,6 @@
             this.panel2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -272,7 +286,6 @@
         #endregion
 
         private System.Windows.Forms.Button shrtcutbttn;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label versionlbl;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.LinkLabel linkLabel1;
@@ -287,5 +300,7 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button browsebttn;
         private System.Windows.Forms.Button sendemailbttn;
+        private Bunifu.Framework.UI.BunifuCustomLabel bunifuCustomLabel1;
+        private System.Windows.Forms.Button sldwrksaddin;
     }
 }
