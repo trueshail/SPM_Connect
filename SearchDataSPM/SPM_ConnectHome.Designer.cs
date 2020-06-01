@@ -111,7 +111,7 @@ namespace SearchDataSPM
             this.rectangleShape1.BorderWidth = 4;
             this.rectangleShape1.CornerRadius = 8;
             this.rectangleShape1.FillGradientStyle = Microsoft.VisualBasic.PowerPacks.FillGradientStyle.Horizontal;
-            this.rectangleShape1.Location = new System.Drawing.Point(16, 159);
+            this.rectangleShape1.Location = new System.Drawing.Point(16, 158);
             this.rectangleShape1.Name = "rectangleShape1";
             this.rectangleShape1.Size = new System.Drawing.Size(300, 18);
             this.rectangleShape1.UseWaitCursor = true;

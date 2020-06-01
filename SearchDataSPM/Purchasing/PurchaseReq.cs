@@ -14,7 +14,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static SPMConnectAPI.ConnectHelper;
-using Excel = Microsoft.Office.Interop.Excel;
 
 namespace SearchDataSPM.Purchasing
 {
@@ -1669,7 +1668,7 @@ namespace SearchDataSPM.Purchasing
                             string filename = Makefilenameforreport(reqno, false);
                             SaveReport(reqno, filename);
                             Preparetosendemail(reqno, false, requestby, filename, happroval, "connectapi.ConnectUser.PurchaseReqApproval", false);
-                            Exporttoexcel();
+                            //Exporttoexcel();
                             this.Enabled = true;
                             this.Focus();
                             this.Activate();
@@ -2829,141 +2828,6 @@ namespace SearchDataSPM.Purchasing
 
         #endregion Pbuyer
 
-        #region export to excel
-
-        private void CopyAlltoClipboard()
-        {
-            dataGridView1.SelectAll();
-            DataObject dataObj = dataGridView1.GetClipboardContent();
-            if (dataObj != null)
-                Clipboard.SetDataObject(dataObj);
-        }
-
-        private void Exporttoexcel()
-        {
-            try
-            {
-                //SaveFileDialog sfd = new SaveFileDialog();
-                //sfd.Filter = "Excel Documents (*.xls)|*.xls";
-                //sfd.FileName = "Inventory_Adjustment_Export.xls";
-
-                string filepath = Getsupervisorsharepath(connectapi.ConnectUser.UserName) + @"\SPM_Connect\PreliminaryPurchases\";
-                System.IO.Directory.CreateDirectory(filepath);
-                filepath += purchreqtxt.Text + " - " + requestbytxt.Text + ".xls";
-                // Copy DataGridView results to clipboard
-                CopyAlltoClipboard();
-
-                object misValue = System.Reflection.Missing.Value;
-                Excel.Application xlexcel = new Excel.Application
-                {
-                    DisplayAlerts = false // Without this you will get two confirm overwrite prompts
-                };
-                Excel.Workbook xlWorkBook = xlexcel.Workbooks.Add(misValue);
-                Excel.Worksheet xlWorkSheet = (Excel.Worksheet)xlWorkBook.Worksheets.get_Item(1);
-
-                // Format column D as text before pasting results, this was required for my data
-
-                // Paste clipboard results to worksheet range
-                Excel.Range CR = (Excel.Range)xlWorkSheet.Cells[2, 1];
-                CR.Select();
-                xlWorkSheet.PasteSpecial(CR, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, true);
-
-                // For some reason column A is always blank in the worksheet. ¯\_(ツ)_/¯
-                // Delete blank column A and select cell A1
-                Excel.Range delRng = xlWorkSheet.get_Range("G:G").Cells;
-                delRng.Delete();
-                delRng = xlWorkSheet.get_Range("F:F").Cells;
-                delRng.Delete();
-                delRng = xlWorkSheet.get_Range("E:E").Cells;
-                delRng.Delete();
-                delRng = xlWorkSheet.get_Range("D:D").Cells;
-                delRng.Delete();
-                delRng = xlWorkSheet.get_Range("A:A").Cells;
-                delRng.Delete();
-
-                Excel.Range rng = xlWorkSheet.get_Range("D:D").Cells;
-                rng.NumberFormat = "@";
-
-                xlWorkSheet.Cells[1, 1] = "Item";
-                xlWorkSheet.Cells[1, 2] = "AllocatedQuantity";
-
-                //xlWorkSheet.get_Range("A1").Select();
-
-                // Save the excel file under the captured location from the SaveFileDialog
-                xlWorkBook.SaveAs(filepath, Excel.XlFileFormat.xlWorkbookNormal, misValue, misValue, misValue, misValue, Excel.XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
-                xlexcel.DisplayAlerts = true;
-                xlWorkBook.Close(true, misValue, misValue);
-                xlexcel.Quit();
-
-                ReleaseObject(xlWorkSheet);
-                ReleaseObject(xlWorkBook);
-                ReleaseObject(xlexcel);
-
-                // Clear Clipboard and DataGridView selection
-                Clipboard.Clear();
-                dataGridView1.ClearSelection();
-
-                // Open the newly saved excel file
-                //if (File.Exists(filepath))
-                //    System.Diagnostics.Process.Start(filepath);
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex.Message, ex);
-                //MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Error Saving excel file", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private string Getsupervisorsharepath(string username)
-        {
-            string path = "";
-            try
-            {
-                if (connectapi.cn.State == ConnectionState.Closed)
-                    connectapi.cn.Open();
-                SqlCommand cmd = connectapi.cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + username + "' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    path = dr["SharesFolder"].ToString();
-                }
-            }
-            catch (Exception ex)
-            {
-                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Error Getting share folder path", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                connectapi.cn.Close();
-            }
-            return path;
-        }
-
-        private void ReleaseObject(object obj)
-        {
-            try
-            {
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
-                obj = null;
-            }
-            catch (Exception ex)
-            {
-                obj = null;
-                MessageBox.Show("Exception Occurred while releasing object " + ex.ToString());
-            }
-            finally
-            {
-                GC.Collect();
-            }
-        }
-
-        #endregion export to excel
-
         #region Approval Tool Menu Strip
 
         private void ApprovalMenuStrip_Opening(object sender, CancelEventArgs e)
@@ -3019,7 +2883,7 @@ namespace SearchDataSPM.Purchasing
                                 string filename = Makefilenameforreport(reqno, false);
                                 SaveReport(reqno, filename);
                                 Preparetosendemail(reqno, false, requestby, filename, happroval, "connectapi.ConnectUser.PurchaseReqApproval", false);
-                                Exporttoexcel();
+                                //Exporttoexcel();
                                 this.Enabled = true;
                                 this.Focus();
                                 this.Activate();

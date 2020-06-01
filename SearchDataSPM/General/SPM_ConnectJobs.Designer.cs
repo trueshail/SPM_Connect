@@ -75,7 +75,7 @@
             this.txtSearch.Size = new System.Drawing.Size(327, 26);
             this.txtSearch.TabIndex = 1;
             this.TreeViewToolTip.SetToolTip(this.txtSearch, "Enter Search Keyword.\r\n(Double click to reset)");
-            this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
+            this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtSearch_KeyDown);
             // 
             // dataGridView
             // 
@@ -100,10 +100,10 @@
             this.dataGridView.RowHeadersVisible = false;
             this.dataGridView.Size = new System.Drawing.Size(983, 559);
             this.dataGridView.TabIndex = 6;
-            this.dataGridView.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseDown);
-            this.dataGridView.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellMouseLeave);
-            this.dataGridView.CellMouseMove += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseMove);
-            this.dataGridView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridView_CellPainting_1);
+            this.dataGridView.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView_CellMouseDown);
+            this.dataGridView.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView_CellMouseLeave);
+            this.dataGridView.CellMouseMove += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView_CellMouseMove);
+            this.dataGridView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.DataGridView_CellPainting_1);
             // 
             // contextMenuStrip1
             // 
@@ -124,7 +124,7 @@
             this.getBOMToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
             this.getBOMToolStripMenuItem.Text = "Get BOM";
             this.getBOMToolStripMenuItem.ToolTipText = "Get Selected Job\'s BOM";
-            this.getBOMToolStripMenuItem.Click += new System.EventHandler(this.getBOMToolStripMenuItem_Click);
+            this.getBOMToolStripMenuItem.Click += new System.EventHandler(this.GetBOMToolStripMenuItem_Click);
             // 
             // projectEngineeringToolStripMenuItem
             // 
@@ -135,7 +135,7 @@
             this.projectEngineeringToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
             this.projectEngineeringToolStripMenuItem.Text = "Project Engineering";
             this.projectEngineeringToolStripMenuItem.ToolTipText = "Open Project Eng Folder";
-            this.projectEngineeringToolStripMenuItem.Click += new System.EventHandler(this.projectEngineeringToolStripMenuItem_Click);
+            this.projectEngineeringToolStripMenuItem.Click += new System.EventHandler(this.ProjectEngineeringToolStripMenuItem_Click);
             // 
             // remapToolStripMenuItem
             // 
@@ -144,7 +144,7 @@
             this.remapToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.remapToolStripMenuItem.Text = "Remap folder";
             this.remapToolStripMenuItem.ToolTipText = "Assign new folder path";
-            this.remapToolStripMenuItem.Click += new System.EventHandler(this.remapToolStripMenuItem_Click);
+            this.remapToolStripMenuItem.Click += new System.EventHandler(this.RemapToolStripMenuItem_Click);
             // 
             // getWorkOrderToolStripMenuItem
             // 
@@ -152,7 +152,7 @@
             this.getWorkOrderToolStripMenuItem.Name = "getWorkOrderToolStripMenuItem";
             this.getWorkOrderToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
             this.getWorkOrderToolStripMenuItem.Text = "Get Work Order";
-            this.getWorkOrderToolStripMenuItem.Click += new System.EventHandler(this.getWorkOrderToolStripMenuItem_Click);
+            this.getWorkOrderToolStripMenuItem.Click += new System.EventHandler(this.GetWorkOrderToolStripMenuItem_Click);
             // 
             // createFoldersToolStripMenuItem
             // 
@@ -163,7 +163,7 @@
             this.createFoldersToolStripMenuItem.Text = "Create Folders";
             this.createFoldersToolStripMenuItem.ToolTipText = "Create Folders For Selected Job";
             this.createFoldersToolStripMenuItem.Visible = false;
-            this.createFoldersToolStripMenuItem.Click += new System.EventHandler(this.createFoldersToolStripMenuItem_Click);
+            this.createFoldersToolStripMenuItem.Click += new System.EventHandler(this.CreateFoldersToolStripMenuItem_Click);
             // 
             // getEstimateBOMToolStripMenuItem
             // 
@@ -231,7 +231,7 @@
             this.filteroem_txtbox.TabIndex = 3;
             this.TreeViewToolTip.SetToolTip(this.filteroem_txtbox, "Enter Keyword 3");
             this.filteroem_txtbox.Visible = false;
-            this.filteroem_txtbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.filteroem_txtbox_KeyDown);
+            this.filteroem_txtbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Filteroem_txtbox_KeyDown);
             // 
             // filteroemitem_txtbox
             // 
@@ -248,7 +248,7 @@
             this.filteroemitem_txtbox.TabIndex = 4;
             this.TreeViewToolTip.SetToolTip(this.filteroemitem_txtbox, "Enter keyworkd 4");
             this.filteroemitem_txtbox.Visible = false;
-            this.filteroemitem_txtbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.filteroemitem_txtbox_KeyDown);
+            this.filteroemitem_txtbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Filteroemitem_txtbox_KeyDown);
             // 
             // versionlabel
             // 
@@ -281,7 +281,7 @@
             this.filter4.TabIndex = 5;
             this.TreeViewToolTip.SetToolTip(this.filter4, "Enter Keyword 5");
             this.filter4.Visible = false;
-            this.filter4.KeyDown += new System.Windows.Forms.KeyEventHandler(this.filter4_KeyDown);
+            this.filter4.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Filter4_KeyDown);
             // 
             // TreeViewToolTip
             // 
@@ -331,7 +331,7 @@
             this.quotebttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TreeViewToolTip.SetToolTip(this.quotebttn, "Quote Tracking");
             this.quotebttn.UseVisualStyleBackColor = false;
-            this.quotebttn.Click += new System.EventHandler(this.quotebttn_Click_1);
+            this.quotebttn.Click += new System.EventHandler(this.Quotebttn_Click_1);
             // 
             // shippingbttn
             // 
@@ -402,7 +402,7 @@
             this.purchasereq.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TreeViewToolTip.SetToolTip(this.purchasereq, "Purchase Requsition");
             this.purchasereq.UseVisualStyleBackColor = false;
-            this.purchasereq.Click += new System.EventHandler(this.purchasereq_Click);
+            this.purchasereq.Click += new System.EventHandler(this.Purchasereq_Click);
             // 
             // SPM
             // 
@@ -439,7 +439,7 @@
             this.scanwobttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TreeViewToolTip.SetToolTip(this.scanwobttn, "Scan Work Order");
             this.scanwobttn.UseVisualStyleBackColor = false;
-            this.scanwobttn.Click += new System.EventHandler(this.scanwobttn_Click);
+            this.scanwobttn.Click += new System.EventHandler(this.Scanwobttn_Click);
             // 
             // cribbttn
             // 
@@ -462,7 +462,7 @@
             this.cribbttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TreeViewToolTip.SetToolTip(this.cribbttn, "Crib Management");
             this.cribbttn.UseVisualStyleBackColor = false;
-            this.cribbttn.Click += new System.EventHandler(this.cribbttn_Click);
+            this.cribbttn.Click += new System.EventHandler(this.Cribbttn_Click);
             // 
             // openFileDialog1
             // 

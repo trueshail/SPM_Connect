@@ -1483,7 +1483,7 @@ namespace SearchDataSPM.Engineering
             {
                 if (connectapi.Solidworks_running())
                 {
-                    string activeblock = connectapi.Getactiveblock();
+                    string activeblock = connectapi.ConnectUser.ActiveBlockNumber;
 
                     if (activeblock.Length > 0)
                     {
@@ -1873,7 +1873,7 @@ namespace SearchDataSPM.Engineering
                 if (connectapi.Solidworks_running())
                 {
                     string user = connectapi.ConnectUser.UserName;
-                    string activeblock = connectapi.Getactiveblock();
+                    string activeblock = connectapi.ConnectUser.ActiveBlockNumber;
                     string lastnumber = connectapi.Getlastnumber();
                     if (activeblock.Length > 0)
                     {
@@ -2787,7 +2787,7 @@ namespace SearchDataSPM.Engineering
         {
             if (connectapi.Validnumber(connectapi.Getlastnumber()))
             {
-                string newid = connectapi.Spmnew_idincrement(connectapi.Getlastnumber(), connectapi.Getactiveblock());
+                string newid = connectapi.Spmnew_idincrement(connectapi.Getlastnumber(), connectapi.ConnectUser.ActiveBlockNumber);
                 MessageBox.Show("Your next ItemNumber to use is :- " + newid, "SPM Connect - New Item Number", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 try
                 {
