@@ -80,7 +80,7 @@
             this.addToFavoritesToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(162, 114);
-            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
+            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStrip1_Opening);
             // 
             // openModelToolStripMenuItem
             // 
@@ -89,7 +89,7 @@
             this.openModelToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.openModelToolStripMenuItem.Text = "Open Model";
             this.openModelToolStripMenuItem.ToolTipText = "Open Selected Item Model";
-            this.openModelToolStripMenuItem.Click += new System.EventHandler(this.openModelToolStripMenuItem_Click);
+            this.openModelToolStripMenuItem.Click += new System.EventHandler(this.OpenModelToolStripMenuItem_Click);
             // 
             // openDrawingToolStripMenuItem
             // 
@@ -98,7 +98,7 @@
             this.openDrawingToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.openDrawingToolStripMenuItem.Text = "Open Drawing";
             this.openDrawingToolStripMenuItem.ToolTipText = "Opens Selected Item Drawing";
-            this.openDrawingToolStripMenuItem.Click += new System.EventHandler(this.openDrawingToolStripMenuItem_Click);
+            this.openDrawingToolStripMenuItem.Click += new System.EventHandler(this.OpenDrawingToolStripMenuItem_Click);
             // 
             // getBOMToolStripMenuItem
             // 
@@ -107,7 +107,7 @@
             this.getBOMToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.getBOMToolStripMenuItem.Text = "Get BOM";
             this.getBOMToolStripMenuItem.ToolTipText = "Get Selected Assy\'s BOM";
-            this.getBOMToolStripMenuItem.Click += new System.EventHandler(this.getBOMToolStripMenuItem_Click);
+            this.getBOMToolStripMenuItem.Click += new System.EventHandler(this.GetBOMToolStripMenuItem_Click);
             // 
             // toolStripMenuItem2
             // 
@@ -116,7 +116,7 @@
             this.toolStripMenuItem2.Size = new System.Drawing.Size(161, 22);
             this.toolStripMenuItem2.Text = "Get Item Info";
             this.toolStripMenuItem2.ToolTipText = "Get Selected Item\'s Info.";
-            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.ToolStripMenuItem2_Click);
             // 
             // addToFavoritesToolStripMenuItem
             // 
@@ -125,7 +125,7 @@
             this.addToFavoritesToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.addToFavoritesToolStripMenuItem.Text = "Add To Favorites";
             this.addToFavoritesToolStripMenuItem.ToolTipText = "Add selected item to favorites";
-            this.addToFavoritesToolStripMenuItem.Click += new System.EventHandler(this.addToFavoritesToolStripMenuItem_Click);
+            this.addToFavoritesToolStripMenuItem.Click += new System.EventHandler(this.AddToFavoritesToolStripMenuItem_Click);
             // 
             // LabelTooltips
             // 
@@ -148,8 +148,8 @@
             this.txtSearch.Size = new System.Drawing.Size(424, 26);
             this.txtSearch.TabIndex = 3;
             this.LabelTooltips.SetToolTip(this.txtSearch, "Enter Search Keyword");
-            this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
-            this.txtSearch.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.txtSearch_MouseDoubleClick);
+            this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtSearch_KeyDown);
+            this.txtSearch.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.TxtSearch_MouseDoubleClick);
             // 
             // Expandchk
             // 
@@ -325,13 +325,12 @@
             this.treeView1.TabIndex = 1;
             this.treeView1.BeforeCollapse += new System.Windows.Forms.TreeViewCancelEventHandler(this.TreeView1_BeforeCollapse);
             this.treeView1.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.TreeView1_BeforeExpand);
-            this.treeView1.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterExpand);
-            this.treeView1.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeView1_ItemDrag);
+            this.treeView1.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.TreeView1_AfterExpand);
             this.treeView1.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.TreeView1_BeforeSelect);
-            this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
-            this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
-            this.treeView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeView1_KeyDown);
-            this.treeView1.Leave += new System.EventHandler(this.treeView1_Leave);
+            this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeView1_AfterSelect);
+            this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeView1_NodeMouseClick);
+            this.treeView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TreeView1_KeyDown);
+            this.treeView1.Leave += new System.EventHandler(this.TreeView1_Leave);
             // 
             // imageList1
             // 
@@ -475,10 +474,10 @@
             this.listView.Size = new System.Drawing.Size(348, 170);
             this.listView.TabIndex = 2;
             this.listView.UseCompatibleStateImageBehavior = false;
-            this.listView.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.listView_ItemDrag);
-            this.listView.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.listView_ItemSelectionChanged);
-            this.listView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.listView_KeyDown);
-            this.listView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView_MouseDoubleClick);
+            this.listView.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.ListView_ItemDrag);
+            this.listView.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.ListView_ItemSelectionChanged);
+            this.listView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ListView_KeyDown);
+            this.listView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ListView_MouseDoubleClick);
             // 
             // Listviewcontextmenu
             // 
@@ -499,7 +498,7 @@
             this.bomlistviewmenustrpc.Size = new System.Drawing.Size(167, 22);
             this.bomlistviewmenustrpc.Text = "Get BOM";
             this.bomlistviewmenustrpc.ToolTipText = "Bills Of Material";
-            this.bomlistviewmenustrpc.Click += new System.EventHandler(this.bomlistviewmenustrpc_Click);
+            this.bomlistviewmenustrpc.Click += new System.EventHandler(this.Bomlistviewmenustrpc_Click);
             // 
             // iteminfolistviewStripMenu
             // 
@@ -508,7 +507,7 @@
             this.iteminfolistviewStripMenu.Size = new System.Drawing.Size(167, 22);
             this.iteminfolistviewStripMenu.Text = "Get Item Info";
             this.iteminfolistviewStripMenu.ToolTipText = "Get Selected Item\'s Info.";
-            this.iteminfolistviewStripMenu.Click += new System.EventHandler(this.iteminfolistviewStripMenu_Click);
+            this.iteminfolistviewStripMenu.Click += new System.EventHandler(this.IteminfolistviewStripMenu_Click);
             // 
             // revelInExplorerToolStripMenuItem
             // 
@@ -516,7 +515,7 @@
             this.revelInExplorerToolStripMenuItem.Name = "revelInExplorerToolStripMenuItem";
             this.revelInExplorerToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.revelInExplorerToolStripMenuItem.Text = "Reveal in Explorer";
-            this.revelInExplorerToolStripMenuItem.Click += new System.EventHandler(this.revelInExplorerToolStripMenuItem_Click);
+            this.revelInExplorerToolStripMenuItem.Click += new System.EventHandler(this.RevelInExplorerToolStripMenuItem_Click);
             // 
             // toolStripMenuItem3
             // 
@@ -525,7 +524,7 @@
             this.toolStripMenuItem3.Size = new System.Drawing.Size(167, 22);
             this.toolStripMenuItem3.Text = "Add To Favorites";
             this.toolStripMenuItem3.ToolTipText = "Add selected item to favorites";
-            this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
+            this.toolStripMenuItem3.Click += new System.EventHandler(this.ToolStripMenuItem3_Click);
             // 
             // imageList
             // 

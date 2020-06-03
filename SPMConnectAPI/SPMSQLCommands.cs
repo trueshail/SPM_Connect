@@ -206,6 +206,54 @@ namespace SPMConnectAPI
             return dt;
         }
 
+        public DataTable GetBOMByAssyno(string assyno)
+        {
+            DataTable dt = new DataTable();
+            using (SqlDataAdapter sda = new SqlDataAdapter("[dbo].[GetBOMByAssyNo]", cn))
+            {
+                sda.SelectCommand.CommandType = CommandType.StoredProcedure;
+                sda.SelectCommand.Parameters.AddWithValue("@Assyno", assyno);
+                try
+                {
+                    sda.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get  BOM By Assy No " + assyno, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+
+            return dt;
+        }
+
+        public DataTable GetWhereUsedByItemNo(string itemno)
+        {
+            DataTable dt = new DataTable();
+            using (SqlDataAdapter sda = new SqlDataAdapter("[dbo].[GetWhereUsedByItemNo]", cn))
+            {
+                sda.SelectCommand.CommandType = CommandType.StoredProcedure;
+                sda.SelectCommand.Parameters.AddWithValue("@Itemno", itemno);
+                try
+                {
+                    sda.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Where Used By Item No " + itemno, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+
+            return dt;
+        }
+
         public DataTable GetAllJobs()
         {
             DataTable dt = new DataTable();
@@ -1474,6 +1522,5 @@ namespace SPMConnectAPI
         }
 
         #endregion solidworks createmodels and open models
-
     }
 }

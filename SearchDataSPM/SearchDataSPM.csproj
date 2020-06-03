@@ -441,6 +441,7 @@
     <Compile Include="Miscellaneous\Screenshot.cs" />
     <Compile Include="Report\ReportHelper.cs" />
     <Compile Include="ServiceReportCreation.cs" />
+    <Compile Include="SQLNotifier.cs" />
     <Compile Include="WaitForms\Dialog.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -89,11 +89,11 @@
             this.dataGridView.RowHeadersVisible = false;
             this.dataGridView.Size = new System.Drawing.Size(980, 559);
             this.dataGridView.TabIndex = 6;
-            this.dataGridView.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseDoubleClick);
-            this.dataGridView.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseDown);
-            this.dataGridView.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellMouseLeave);
-            this.dataGridView.CellMouseMove += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseMove);
-            this.dataGridView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridView_CellPainting_1);
+            this.dataGridView.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView_CellMouseDoubleClick);
+            this.dataGridView.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView_CellMouseDown);
+            this.dataGridView.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView_CellMouseLeave);
+            this.dataGridView.CellMouseMove += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView_CellMouseMove);
+            this.dataGridView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.DataGridView_CellPainting_1);
             // 
             // contextMenuStrip1
             // 
@@ -105,7 +105,7 @@
             this.getBOMToolStripMenuItem1});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(211, 136);
-            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
+            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStrip1_Opening);
             // 
             // Reload
             // 
@@ -236,7 +236,7 @@
             this.getWoToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
             this.getWoToolStripMenuItem.Text = "View WorkOrder";
             this.getWoToolStripMenuItem.ToolTipText = "Preview Work Order Details";
-            this.getWoToolStripMenuItem.Click += new System.EventHandler(this.getWoToolStripMenuItem_Click);
+            this.getWoToolStripMenuItem.Click += new System.EventHandler(this.GetWoToolStripMenuItem_Click);
             // 
             // viewReleaseToolStripMenuItem
             // 
@@ -244,7 +244,7 @@
             this.viewReleaseToolStripMenuItem.Name = "viewReleaseToolStripMenuItem";
             this.viewReleaseToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
             this.viewReleaseToolStripMenuItem.Text = "View Selected Release";
-            this.viewReleaseToolStripMenuItem.Click += new System.EventHandler(this.viewReleaseToolStripMenuItem_Click);
+            this.viewReleaseToolStripMenuItem.Click += new System.EventHandler(this.ViewReleaseToolStripMenuItem_Click);
             // 
             // getBOMToolStripMenuItem1
             // 
@@ -252,7 +252,7 @@
             this.getBOMToolStripMenuItem1.Name = "getBOMToolStripMenuItem1";
             this.getBOMToolStripMenuItem1.Size = new System.Drawing.Size(210, 22);
             this.getBOMToolStripMenuItem1.Text = "Get BOM";
-            this.getBOMToolStripMenuItem1.Click += new System.EventHandler(this.getBOMToolStripMenuItem_Click);
+            this.getBOMToolStripMenuItem1.Click += new System.EventHandler(this.GetBOMToolStripMenuItem_Click);
             // 
             // viewAssyReleasesToolStripMenuItem
             // 
@@ -260,7 +260,7 @@
             this.viewAssyReleasesToolStripMenuItem.Name = "viewAssyReleasesToolStripMenuItem";
             this.viewAssyReleasesToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
             this.viewAssyReleasesToolStripMenuItem.Text = "View Assy Releases";
-            this.viewAssyReleasesToolStripMenuItem.Click += new System.EventHandler(this.viewAssyReleasesToolStripMenuItem_Click);
+            this.viewAssyReleasesToolStripMenuItem.Click += new System.EventHandler(this.ViewAssyReleasesToolStripMenuItem_Click);
             // 
             // viewCurrentJobReleaseToolStripMenuItem
             // 
@@ -268,7 +268,7 @@
             this.viewCurrentJobReleaseToolStripMenuItem.Name = "viewCurrentJobReleaseToolStripMenuItem";
             this.viewCurrentJobReleaseToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
             this.viewCurrentJobReleaseToolStripMenuItem.Text = "View Current Job Releases";
-            this.viewCurrentJobReleaseToolStripMenuItem.Click += new System.EventHandler(this.viewCurrentJobReleaseToolStripMenuItem_Click);
+            this.viewCurrentJobReleaseToolStripMenuItem.Click += new System.EventHandler(this.ViewCurrentJobReleaseToolStripMenuItem_Click);
             // 
             // ReleaseLogs
             // 
