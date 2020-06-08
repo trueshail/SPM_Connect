@@ -366,6 +366,15 @@ namespace SearchDataSPM.Engineering
                 if (txtSearch.Text.Length > 0)
                 {
                     Mainsearch();
+                    if (dataGridView.Rows.Count > 0)
+                    {
+                        Showfilesonlistview();
+                    }
+                    else
+                    {
+                        listFiles.Clear();
+                        listView.Clear();
+                    }
                 }
                 else
                 {
@@ -375,7 +384,6 @@ namespace SearchDataSPM.Engineering
 
                 e.Handled = true;
                 e.SuppressKeyPress = true;
-
                 formloading = false;
                 Cursor.Current = Cursors.Default;
             }
@@ -1339,20 +1347,21 @@ namespace SearchDataSPM.Engineering
             fList[0] = Makepathfordrag();
             DataObject dataObj = new DataObject(DataFormats.FileDrop, fList);
             _ = DoDragDrop(dataObj, DragDropEffects.Move | DragDropEffects.Copy);
-            // listView.DoDragDrop(listView.SelectedItems, DragDropEffects.Copy);
         }
 
         private void DataGridView_SelectionChanged(object sender, EventArgs e)
         {
-            //if (!formloading)
-            if (dataGridView.Rows.Count > 0)
+            if (!formloading)
             {
-                Showfilesonlistview();
-            }
-            else
-            {
-                listFiles.Clear();
-                listView.Clear();
+                if (dataGridView.Rows.Count > 0)
+                {
+                    Showfilesonlistview();
+                }
+                else
+                {
+                    listFiles.Clear();
+                    listView.Clear();
+                }
             }
         }
 
@@ -1387,14 +1396,6 @@ namespace SearchDataSPM.Engineering
             }
             catch
             {
-            }
-        }
-
-        private void ListView_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
-        {
-            if (listView.FocusedItem != null)
-            {
-                // makepathfordrag();
             }
         }
 
@@ -1703,8 +1704,8 @@ namespace SearchDataSPM.Engineering
                 ModelDoc2 swModel = swApp.ActiveDoc as ModelDoc2;
                 if (swModel.IsOpenedReadOnly())
                 {
+                    doneshowingSplash = true;
                     MessageBox.Show("Model is open read only. Please get write access from the associated user in order to edit the properties.", "SPM Connect - Check For Read Only", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-
                     return false;
                 }
                 else
