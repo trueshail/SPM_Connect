@@ -1,11 +1,19 @@
-﻿
-
-
-
-
-CREATE VIEW [dbo].[SPMConnectBOM]
+﻿-- =============================================
+-- Author:		Shail Patel
+-- Create date: 2020/05/29
+-- Description:	Get Estimate By Id
+-- =============================================
+CREATE PROCEDURE [dbo].[GetEstimateBOMById] 
+	-- Add the parameters for the stored procedure here
+	@estid INT
 AS
-SELECT
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT
 	a.ItemNumber
    ,a.QuantityPerAssembly
    ,a.Description
@@ -14,6 +22,7 @@ SELECT
    ,a.ManufacturerItemNumber
    ,a.Spare
    ,a.AssyNo
+   ,a.estid
    ,eb2.Famille AS AssyFamily
    ,eb2.Des AS AssyDescription
    ,eb2.Des4 AS AssyManufacturer
@@ -28,9 +37,13 @@ FROM (SELECT
 	   ,eb.Des2 AS ManufacturerItemNumber
 	   ,eb.Spec1 AS Spare
 	   ,bm.Produit AS AssyNo
-	FROM [SPMDB].[dbo].[Bom] bm
+	   ,bm.BomVersionId AS estid
+	FROM [SPMDB].[dbo].[tcBomItemVersion] bm
 	INNER JOIN [SPMDB].[dbo].[Edb] eb
 		ON bm.Item = eb.Item) a
 INNER JOIN SPMDB.dbo.Edb eb2
 	ON a.AssyNo = eb2.Item
-						 
+
+WHERE a.estid = @estid
+
+END

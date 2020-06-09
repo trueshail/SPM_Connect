@@ -360,11 +360,7 @@ namespace SPMConnectAPI
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    category = dr["Category"].ToString();
-                    //MessageBox.Show(category);
-                }
+                category = dt.Rows[0]["Category"].ToString();
             }
             catch (Exception ex)
             {
