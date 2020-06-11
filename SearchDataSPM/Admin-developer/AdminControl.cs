@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace SearchDataSPM.Admin_developer
@@ -178,7 +179,7 @@ namespace SearchDataSPM.Admin_developer
             {
                 string MyString = user.Supervisor.ToString();
                 MyString += " ";
-                MyString += connectapi.GetNameByConnectEmpId(user.Supervisor.ToString());
+                MyString += users.Find(i => i.ConnectId == user.Supervisor).Name;
                 supervisorcombox.SelectedItem = MyString;
             }
 
@@ -186,7 +187,7 @@ namespace SearchDataSPM.Admin_developer
             {
                 string MyString = user.ECRSup.ToString();
                 MyString += " ";
-                MyString += connectapi.GetNameByConnectEmpId(user.ECRSup.ToString());
+                MyString += users.Find(i => i.ConnectId == user.ECRSup).Name;
                 ecrSupervisorcomboBox.SelectedItem = MyString;
             }
 
@@ -194,7 +195,7 @@ namespace SearchDataSPM.Admin_developer
             {
                 string MyString = user.ShipSup.ToString();
                 MyString += " ";
-                MyString += connectapi.GetNameByConnectEmpId(user.ShipSup.ToString());
+                MyString += users.Find(i => i.ConnectId == user.ShipSup).Name;
                 shippingSupervisorcomboBox.SelectedItem = MyString;
             }
 
