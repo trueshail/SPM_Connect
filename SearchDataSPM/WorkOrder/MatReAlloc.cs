@@ -23,18 +23,13 @@ namespace SearchDataSPM.WorkOrder
         private log4net.ILog log;
         private int userinputtime = 100;
 
-        public MatReAlloc()
+        public MatReAlloc(string number)
         {
             InitializeComponent();
             dt = new DataTable();
+            this.Invoice_Number = number;
         }
 
-        public string invoicenumber(string number)
-        {
-            if (number.Length > 0)
-                return Invoice_Number = number;
-            return null;
-        }
 
         private bool GetMatReInfo()
         {
@@ -54,6 +49,8 @@ namespace SearchDataSPM.WorkOrder
 
         private void QuoteDetails_Load(object sender, EventArgs e)
         {
+            // Suspend the layout logic for the form, while the application is initializing
+            this.SuspendLayout();
             if (GetMatReInfo())
             {
                 FillInfo();
@@ -68,6 +65,8 @@ namespace SearchDataSPM.WorkOrder
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Material Re-Alloc Invoice " + Invoice_Number + " ");
+            // Resume the layout logic
+            this.ResumeLayout();
         }
 
         #endregion Load Invoice Details and setting Parameters
@@ -314,7 +313,7 @@ namespace SearchDataSPM.WorkOrder
 
         #endregion Save Report
 
-        private void appidtxt_KeyPress(object sender, KeyPressEventArgs e)
+        private void Appidtxt_KeyPress(object sender, KeyPressEventArgs e)
         {
             // check timing (keystrokes within 100 ms)
             TimeSpan elapsed = (DateTime.Now - _lastKeystroke);
@@ -360,12 +359,12 @@ namespace SearchDataSPM.WorkOrder
             }
         }
 
-        private void appidtxt_TextChanged(object sender, EventArgs e)
+        private void Appidtxt_TextChanged(object sender, EventArgs e)
         {
             if (appidtxt.Text.Length == 0) appnametxt.Text = "";
         }
 
-        private void empidtxt_KeyPress(object sender, KeyPressEventArgs e)
+        private void Empidtxt_KeyPress(object sender, KeyPressEventArgs e)
         {
             // check timing (keystrokes within 100 ms)
             TimeSpan elapsed = (DateTime.Now - _lastKeystroke);

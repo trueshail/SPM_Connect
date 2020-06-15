@@ -26,10 +26,14 @@ namespace SearchDataSPM.WorkOrder
 
         private void BinLog_Load(object sender, EventArgs e)
         {
+            // Suspend the layout logic for the form, while the application is initializing
+            this.SuspendLayout();
             loadform();
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Inventory Bin Status ");
+            // Resume the layout logic
+            this.ResumeLayout();
         }
 
         private void FillDgDt()

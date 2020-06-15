@@ -111,6 +111,8 @@ namespace SearchDataSPM.Report
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            // Suspend the layout logic for the form, while the application is initializing
+            this.SuspendLayout();
             if (reportname == "BOM")
             {
                 this.Text = "Bills of Manufacturing - " + itemnumber;
@@ -185,6 +187,8 @@ namespace SearchDataSPM.Report
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened ReportViewer, ReportName : " + reportname + ", ItemNumber : " + itemnumber + " ");
+            // Resume the layout logic
+            this.ResumeLayout();
         }
 
         private void ReportViewer_FormClosed(object sender, FormClosedEventArgs e)

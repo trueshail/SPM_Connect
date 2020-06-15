@@ -23,13 +23,13 @@ namespace SearchDataSPM.WorkOrder
             formloading = true;
         }
 
-        private void checkdeptsandrights()
+        private void Checkdeptsandrights()
         {
             versionlabel.Text = Getassyversionnumber();
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
         }
 
-        private void clearfilercombos()
+        private void Clearfilercombos()
         {
             apprvdbycomboxbox.SelectedItem = null;
             itemcombobox.SelectedItem = null;
@@ -48,7 +48,7 @@ namespace SearchDataSPM.WorkOrder
             wotakenfromcomboBox.Text = null;
         }
 
-        private void fillinfo()
+        private void Fillinfo()
         {
             Cursor.Current = Cursors.WaitCursor;
             formloading = true;
@@ -59,12 +59,12 @@ namespace SearchDataSPM.WorkOrder
             filljobreq();
             fillworkorder();
             filljobtakenfrom();
-            clearfilercombos();
+            Clearfilercombos();
             formloading = false;
             Cursor.Current = Cursors.Default;
         }
 
-        private void performreload()
+        private void Performreload()
         {
             clearandhide();
             txtSearch.Clear();
@@ -75,7 +75,7 @@ namespace SearchDataSPM.WorkOrder
 
         private void Reload_Click(object sender, EventArgs e)
         {
-            performreload();
+            Performreload();
         }
 
         private void Showallitems()
@@ -110,16 +110,20 @@ namespace SearchDataSPM.WorkOrder
 
         private void SPM_Connect_Load(object sender, EventArgs e)
         {
+            // Suspend the layout logic for the form, while the application is initializing
+            this.SuspendLayout();
             formloading = true;
             collapse();
             dt = new DataTable();
-            checkdeptsandrights();
+            Checkdeptsandrights();
             Showallitems();
             txtSearch.Focus();
             formloading = false;
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Material Re-Allocation ");
+            // Resume the layout logic
+            this.ResumeLayout();
         }
 
         private void UpdateFont()
@@ -192,7 +196,7 @@ namespace SearchDataSPM.WorkOrder
         private void clearandhide()
         {
             formloading = true;
-            clearfilercombos();
+            Clearfilercombos();
 
             Descrip_txtbox.Hide();
             Descrip_txtbox.Clear();
@@ -716,7 +720,7 @@ namespace SearchDataSPM.WorkOrder
         {
             if (_advcollapse == 0)
             {
-                fillinfo();
+                Fillinfo();
                 _advcollapse = 1;
             }
             collapse();
@@ -906,7 +910,7 @@ namespace SearchDataSPM.WorkOrder
 
         private void clrfiltersbttn_Click(object sender, EventArgs e)
         {
-            performreload();
+            Performreload();
         }
 
         private void designedbycombobox_KeyDown(object sender, KeyEventArgs e)
@@ -1020,10 +1024,10 @@ namespace SearchDataSPM.WorkOrder
         {
             using (MatReAlloc matReAlloc = new MatReAlloc())
             {
-                matReAlloc.invoicenumber(invoice);
+                matReAlloc.Invoicenumber(invoice);
                 matReAlloc.ShowDialog();
                 this.Enabled = true;
-                performreload();
+                Performreload();
                 this.Show();
                 this.Activate();
                 this.Focus();

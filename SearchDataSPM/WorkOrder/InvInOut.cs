@@ -24,7 +24,7 @@ namespace SearchDataSPM.WorkOrder
             userinputtime = connectapi.Getuserinputtime();
         }
 
-        private void apprvlidtxt_Click(object sender, EventArgs e)
+        private void Apprvlidtxt_Click(object sender, EventArgs e)
         {
             if (!apprvlidtxt.Focused)
             {
@@ -32,7 +32,7 @@ namespace SearchDataSPM.WorkOrder
             }
         }
 
-        private void apprvlidtxt_KeyPress(object sender, KeyPressEventArgs e)
+        private void Apprvlidtxt_KeyPress(object sender, KeyPressEventArgs e)
         {
             // check timing (keystrokes within 100 ms)
             TimeSpan elapsed = (DateTime.Now - _lastKeystroke);
@@ -53,7 +53,7 @@ namespace SearchDataSPM.WorkOrder
                 {
                     if (e.KeyChar == 13)
                     {
-                        performapprovedbutton();
+                        Performapprovedbutton();
                         e.Handled = true;
                     }
                 }
@@ -66,13 +66,13 @@ namespace SearchDataSPM.WorkOrder
             }
         }
 
-        private void checkInWorkOrderToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CheckInWorkOrderToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ScanWO scanWO = new ScanWO();
             scanWO.Show();
         }
 
-        private void clearresettxtboxes()
+        private void Clearresettxtboxes()
         {
             empid_txtbox.Clear();
             woid_txtbox.Clear();
@@ -83,7 +83,7 @@ namespace SearchDataSPM.WorkOrder
             empid_txtbox.Focus();
         }
 
-        private void createNewRequestToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CreateNewRequestToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to create a new material reallocation invoice?", "SPM Connect - Create New Invoice?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
@@ -94,12 +94,12 @@ namespace SearchDataSPM.WorkOrder
                 string status = connectapi.CreateNewMatReallocation();
                 if (status.Length > 1)
                 {
-                    showshippinginvoice(status);
+                    Showshippinginvoice(status);
                 }
             }
         }
 
-        private void empid_txtbox_Click(object sender, EventArgs e)
+        private void Empid_txtbox_Click(object sender, EventArgs e)
         {
             if (!empid_txtbox.Focused)
             {
@@ -107,7 +107,7 @@ namespace SearchDataSPM.WorkOrder
             }
         }
 
-        private void empid_txtbox_KeyPress(object sender, KeyPressEventArgs e)
+        private void Empid_txtbox_KeyPress(object sender, KeyPressEventArgs e)
         {
             // check timing (keystrokes within 100 ms)
             TimeSpan elapsed = (DateTime.Now - _lastKeystroke);
@@ -155,7 +155,7 @@ namespace SearchDataSPM.WorkOrder
             }
         }
 
-        private void empid_txtbox_TextChanged(object sender, EventArgs e)
+        private void Empid_txtbox_TextChanged(object sender, EventArgs e)
         {
             if (empid_txtbox.Text.Length == 0)
                 woid_txtbox.Enabled = false;
@@ -163,15 +163,19 @@ namespace SearchDataSPM.WorkOrder
 
         private void Home_Load(object sender, EventArgs e)
         {
+            // Suspend the layout logic for the form, while the application is initializing
+            this.SuspendLayout();
             empid_txtbox.Focus();
             versionlabel.Text = Getassyversionnumber();
             developer = connectapi.ConnectUser.Developer;
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Crib Management ");
+            // Resume the layout logic
+            this.ResumeLayout();
         }
 
-        private void inventoryBinStatusToolStripMenuItem_Click(object sender, EventArgs e)
+        private void InventoryBinStatusToolStripMenuItem_Click(object sender, EventArgs e)
         {
             BinLog binLog = new BinLog();
             binLog.Show();
@@ -183,7 +187,7 @@ namespace SearchDataSPM.WorkOrder
             this.Dispose();
         }
 
-        private void performapprovedbutton()
+        private void Performapprovedbutton()
         {
             if (connectapi.EmployeeExits(apprvlidtxt.Text.Trim()))
             {
@@ -216,14 +220,14 @@ namespace SearchDataSPM.WorkOrder
                                         {
                                             connectapi.CheckWOInFromBuilt(woid_txtbox.Text.Trim(), empid_txtbox.Text.Trim(), apprvlidtxt.Text.Trim(), "1");
                                             connectapi.Scanworkorder(woid_txtbox.Text.Trim());
-                                            showaddedtodg();
+                                            Showaddedtodg();
                                         }
                                         else if (result == DialogResult.No)
                                         {
                                             string location = connectapi.CaptureLocation();
                                             connectapi.CheckWOInFromBuilt(woid_txtbox.Text.Trim(), empid_txtbox.Text.Trim(), apprvlidtxt.Text.Trim(), "0");
                                             connectapi.UpdateWOBinCribLocation(woid_txtbox.Text.Trim(), location);
-                                            showaddedtodg();
+                                            Showaddedtodg();
                                         }
                                     }
                                     else
@@ -233,7 +237,7 @@ namespace SearchDataSPM.WorkOrder
                                         {
                                             string location = connectapi.CaptureLocation();
                                             connectapi.ChekOutWOOutForBuilt(woid_txtbox.Text.Trim(), empid_txtbox.Text.Trim(), apprvlidtxt.Text.Trim(), location);
-                                            showaddedtodg();
+                                            Showaddedtodg();
                                         }
                                     }
                                 }
@@ -245,7 +249,7 @@ namespace SearchDataSPM.WorkOrder
                                 {
                                     string location = connectapi.CaptureLocation();
                                     connectapi.ChekOutWOOutForBuilt(woid_txtbox.Text.Trim(), empid_txtbox.Text.Trim(), apprvlidtxt.Text.Trim(), location);
-                                    showaddedtodg();
+                                    Showaddedtodg();
                                 }
                             }
                         }
@@ -255,7 +259,7 @@ namespace SearchDataSPM.WorkOrder
                             MessageBox.Show("Please check in the work order into crib, before assigning out for built.", "SPM Connect - Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
-                    clearresettxtboxes();
+                    Clearresettxtboxes();
                 }
                 else
                 {
@@ -267,11 +271,11 @@ namespace SearchDataSPM.WorkOrder
             else
             {
                 MessageBox.Show("Employee not found. Please contact the admin", "SPM Connect - Employee Not Found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                clearresettxtboxes();
+                Clearresettxtboxes();
             }
         }
 
-        private void performlockdown()
+        private void Performlockdown()
         {
             credentialsverified = false;
             toolStripDropDownButton1.DropDownItems[0].Enabled = false;
@@ -280,7 +284,7 @@ namespace SearchDataSPM.WorkOrder
             toolStripDropDownButton1.DropDownItems[3].Enabled = false;
         }
 
-        private void showaddedtodg()
+        private void Showaddedtodg()
         {
             timer3.Stop();
             dataGridView1.Visible = true;
@@ -293,17 +297,17 @@ namespace SearchDataSPM.WorkOrder
             dataGridView1.Update();
         }
 
-        private void showAllRequestsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ShowAllRequestsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MatReAllocHome matReAllocHome = new MatReAllocHome();
             matReAllocHome.Show();
         }
 
-        private void showshippinginvoice(string invoice)
+        private void Showshippinginvoice(string invoice)
         {
             using (MatReAlloc matReAlloc = new MatReAlloc())
             {
-                matReAlloc.invoicenumber(invoice);
+                matReAlloc.Invoicenumber(invoice);
                 matReAlloc.ShowDialog();
                 this.Enabled = true;
                 this.Show();
@@ -312,33 +316,33 @@ namespace SearchDataSPM.WorkOrder
             }
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void Timer1_Tick(object sender, EventArgs e)
         {
             DateTime datetime = DateTime.Now;
             DateTimeLbl.Text = datetime.ToString();
         }
 
-        private void timer3_Tick(object sender, EventArgs e)
+        private void Timer3_Tick(object sender, EventArgs e)
         {
             dataGridView1.Visible = false;
         }
 
-        private void toolStripDropDownButton1_Click(object sender, EventArgs e)
+        private void ToolStripDropDownButton1_Click(object sender, EventArgs e)
         {
-            verifysecurity();
+            Verifysecurity();
         }
 
-        private void toolStripDropDownButton1_DropDownClosed(object sender, EventArgs e)
+        private void ToolStripDropDownButton1_DropDownClosed(object sender, EventArgs e)
         {
-            performlockdown();
+            Performlockdown();
         }
 
-        private void toolStripDropDownButton1_DropDownOpening(object sender, EventArgs e)
+        private void ToolStripDropDownButton1_DropDownOpening(object sender, EventArgs e)
         {
-            verifysecurity();
+            Verifysecurity();
         }
 
-        private void verifysecurity()
+        private void Verifysecurity()
         {
             if (!credentialsverified)
             {
@@ -372,7 +376,7 @@ namespace SearchDataSPM.WorkOrder
             }
         }
 
-        private void woid_txtbox_Click(object sender, EventArgs e)
+        private void Woid_txtbox_Click(object sender, EventArgs e)
         {
             if (!woid_txtbox.Focused)
             {
@@ -380,7 +384,7 @@ namespace SearchDataSPM.WorkOrder
             }
         }
 
-        private void woid_txtbox_KeyPress(object sender, KeyPressEventArgs e)
+        private void Woid_txtbox_KeyPress(object sender, KeyPressEventArgs e)
         {  // check timing (keystrokes within 100 ms)
             TimeSpan elapsed = (DateTime.Now - _lastKeystroke);
             if (elapsed.TotalMilliseconds > userinputtime)
@@ -427,7 +431,7 @@ namespace SearchDataSPM.WorkOrder
             }
         }
 
-        private void woid_txtbox_TextChanged(object sender, EventArgs e)
+        private void Woid_txtbox_TextChanged(object sender, EventArgs e)
         {
             if (empid_txtbox.Text.Length == 0)
                 apprvlidtxt.Enabled = false;

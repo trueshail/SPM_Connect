@@ -76,11 +76,15 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
 
         private void SPM_Connect_Load(object sender, EventArgs e)
         {
+            // Suspend the layout logic for the form, while the application is initializing
+            this.SuspendLayout();
             Showallitems();
             GetVersionLabel();
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Work Order Release Log ");
+            // Resume the layout logic
+            this.ResumeLayout();
         }
 
         private void UpdateFont()
