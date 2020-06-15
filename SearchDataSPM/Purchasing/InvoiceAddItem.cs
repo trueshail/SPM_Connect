@@ -61,7 +61,7 @@ namespace SearchDataSPM.Purchasing
             {
                 decimal.TryParse(pricetxt.Text.Replace(",", "").Replace("$", ""), out decimal result12);
                 decimal.TryParse(totaltxt.Text.Replace(",", "").Replace("$", ""), out decimal result11);
-                cleantextboxesdata();
+                Cleantextboxesdata();
                 if (_operation == "Update")
                 {
                     if (connectapi.UpdateShippingItems(Invoice_Number, ItemTxtBox.Text.Trim(), Descriptiontxtbox.Text.Trim(), oemtxt.Text.Trim(), oemitemnotxt.Text.Trim(), origintxt.Text.Trim(), tarifftxt.Text.Trim(), qtytxt.Text.Trim(), result12, result11))
@@ -137,13 +137,13 @@ namespace SearchDataSPM.Purchasing
             }
         }
 
-        private void btnCancel_Click(object sender, EventArgs e)
+        private void BtnCancel_Click(object sender, EventArgs e)
         {
             if (_operation == "Update") this.Close();
             else perfromcancel();
         }
 
-        private void cleantextboxesdata()
+        private void Cleantextboxesdata()
         {
             Regex reg = new Regex("[*'\",_&#^@]");
             ItemTxtBox.Text = reg.Replace(ItemTxtBox.Text, "''");
@@ -154,7 +154,7 @@ namespace SearchDataSPM.Purchasing
             tarifftxt.Text = reg.Replace(tarifftxt.Text, "''");
         }
 
-        private void clearaddnewtextboxes()
+        private void Clearaddnewtextboxes()
         {
             ItemTxtBox.Clear();
             Descriptiontxtbox.Clear();
@@ -190,7 +190,7 @@ namespace SearchDataSPM.Purchasing
             if (Descriptiontxtbox.Text.Length > 0) Addnewbttn.Enabled = true;
         }
 
-        private void extractdescription(string description)
+        private void Extractdescription(string description)
         {
             string[] words = description.Split('\n');
             if (words.Length == 1)
@@ -222,7 +222,7 @@ namespace SearchDataSPM.Purchasing
             {
                 if (ItemsCombobox.Text.Length >= 6)
                 {
-                    clearaddnewtextboxes();
+                    Clearaddnewtextboxes();
                     string item = ItemsCombobox.Text.Trim().Substring(0, 6);
                     if (fillselectediteminfo(item))
                     {
@@ -241,7 +241,7 @@ namespace SearchDataSPM.Purchasing
         {
             if (ItemsCombobox.Text.Length == 6)
             {
-                clearaddnewtextboxes();
+                Clearaddnewtextboxes();
                 string item = ItemsCombobox.Text.Trim().Substring(0, 6);
                 if (fillselectediteminfo(item))
                 {
@@ -293,7 +293,7 @@ namespace SearchDataSPM.Purchasing
 
         private void perfromcancel()
         {
-            clearaddnewtextboxes();
+            Clearaddnewtextboxes();
             ItemsCombobox.Text = null;
             if (!showspmchk.Checked)
             {
@@ -386,6 +386,8 @@ namespace SearchDataSPM.Purchasing
 
         private void QuoteDetails_Load(object sender, EventArgs e)
         {
+            // Suspend the layout logic for the form, while the application is initializing
+            this.SuspendLayout();
             this.Text = _operation + " Item - " + Invoice_Number;
             //clearaddnewtextboxes();
             if (custvendor == "0")
@@ -436,6 +438,8 @@ namespace SearchDataSPM.Purchasing
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Shipping Invoice Add Item " + Invoice_Number + " ");
+            // Resume the layout logic
+            this.ResumeLayout();
         }
 
         #region Fill information on controls
@@ -537,7 +541,7 @@ namespace SearchDataSPM.Purchasing
             //if (!vendor)
             //{
             ItemTxtBox.Text = r["Item"].ToString();
-            extractdescription(r["Description"].ToString());
+            Extractdescription(r["Description"].ToString());
             //}
             qtytxt.Text = r["Qty"].ToString();
             pricetxt.Text = string.Format("{0:c2}", Convert.ToDecimal(r["Cost"].ToString()));
@@ -608,7 +612,7 @@ namespace SearchDataSPM.Purchasing
 
         #endregion Calculate Total
 
-        private void showspmchk_CheckedChanged(object sender, EventArgs e)
+        private void Showspmchk_CheckedChanged(object sender, EventArgs e)
         {
             if (showspmchk.Checked)
             {

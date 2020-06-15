@@ -134,6 +134,8 @@ namespace SearchDataSPM.ECR
 
         private void SPM_Connect_Load(object sender, EventArgs e)
         {
+            // Suspend the layout logic for the form, while the application is initializing
+            this.SuspendLayout();
             formloading = true;
             Collapse();
             dt = new DataTable();
@@ -144,6 +146,8 @@ namespace SearchDataSPM.ECR
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened ECR Home ");
+            // Resume the layout logic
+            this.ResumeLayout();
         }
 
         private void UpdateFont()

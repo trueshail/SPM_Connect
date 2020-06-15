@@ -16,10 +16,14 @@ namespace SearchDataSPM.Admin_developer
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            // Suspend the layout logic for the form, while the application is initializing
+            this.SuspendLayout();
             this.Activate();
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Admin Login Form on " + Environment.UserName + " system.");
+            // Resume the layout logic
+            this.ResumeLayout();
         }
 
         private void LoginBttn_Click(object sender, EventArgs e)

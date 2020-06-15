@@ -75,6 +75,8 @@ namespace SearchDataSPM.General
 
         private void SPM_Connect_Load(object sender, EventArgs e)
         {
+            // Suspend the layout logic for the form, while the application is initializing
+            this.SuspendLayout();
             Assembly assembly = Assembly.GetExecutingAssembly();
             versionlabel.Text = assembly.GetName().Version.ToString(3);
             versionlabel.Text = "V" + versionlabel.Text;
@@ -103,6 +105,8 @@ namespace SearchDataSPM.General
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened SPM Connect Jobs ");
+            // Resume the layout logic
+            this.ResumeLayout();
         }
 
         private void UpdateFont()

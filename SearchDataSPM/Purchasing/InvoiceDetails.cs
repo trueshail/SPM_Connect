@@ -19,7 +19,7 @@ namespace SearchDataSPM.Purchasing
         #region Load Invoice Details and setting Parameters
 
         private readonly SPMConnectAPI.Shipping connectapi = new Shipping();
-        private readonly DataTable dt = new DataTable();
+        private DataTable dt = new DataTable();
         private readonly string Invoice_Number = "";
         private string createdbyname = "";
         private string custvendor = "";
@@ -35,9 +35,6 @@ namespace SearchDataSPM.Purchasing
         public InvoiceDetails(string number)
         {
             InitializeComponent();
-            dt = new DataTable();
-            dtsoldtoCust = new DataTable();
-            dtsoldtoVend = new DataTable();
             this.Invoice_Number = number;
         }
 
@@ -68,6 +65,11 @@ namespace SearchDataSPM.Purchasing
 
         private void QuoteDetails_Load(object sender, EventArgs e)
         {
+            // Suspend the layout logic for the form, while the application is initializing
+            this.SuspendLayout();
+            dt = new DataTable();
+            dtsoldtoCust = new DataTable();
+            dtsoldtoVend = new DataTable();
             formloading = true;
             this.Text = "Invoice Details - " + Invoice_Number;
             FillFobPoint();
@@ -89,6 +91,8 @@ namespace SearchDataSPM.Purchasing
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Shipping Invoice Detail " + Invoice_Number + " ");
+            // Resume the layout logic
+            this.ResumeLayout();
         }
 
         #endregion Load Invoice Details and setting Parameters

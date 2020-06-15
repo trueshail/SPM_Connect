@@ -33,8 +33,6 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
         public ViewRelease(string wrkorder, bool job, string jobassyno, string jobno)
         {
             InitializeComponent();
-            treeTB = new DataTable();
-            woTB = new DataTable();
             this.workOrder = wrkorder;
             this.isJob = job;
             this.assyNumber = jobassyno;
@@ -179,6 +177,10 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
 
         private void ParentView_Load(object sender, EventArgs e)
         {
+            // Suspend the layout logic for the form, while the application is initializing
+            this.SuspendLayout();
+            treeTB = new DataTable();
+            woTB = new DataTable();
             if (connectapi.CheckRights("WORelease"))
             {
                 Treeview.ContextMenuStrip = Addremovecontextmenu;
@@ -199,6 +201,8 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened View WorkOrder Release " + workOrder + " ");
+            // Resume the layout logic
+            this.ResumeLayout();
         }
 
         #region Treeview

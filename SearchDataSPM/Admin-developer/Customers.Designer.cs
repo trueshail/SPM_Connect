@@ -90,7 +90,7 @@
             this.btnSave.TabIndex = 5;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            this.btnSave.Click += new System.EventHandler(this.BtnSave_Click);
             // 
             // dgvCustomer
             // 
@@ -270,7 +270,7 @@
             this.custidtxt.Name = "custidtxt";
             this.custidtxt.Size = new System.Drawing.Size(250, 31);
             this.custidtxt.TabIndex = 1;
-            this.custidtxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.custidtxt_KeyPress);
+            this.custidtxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Custidtxt_KeyPress);
             // 
             // Customers
             // 

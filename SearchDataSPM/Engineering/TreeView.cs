@@ -34,7 +34,6 @@ namespace SearchDataSPM.Engineering
         public TreeView(string item = "")
         {
             InitializeComponent();
-            dt = new DataTable();
             this.itemnumber = item;
         }
 
@@ -76,6 +75,9 @@ namespace SearchDataSPM.Engineering
 
         private void ParentView_Load(object sender, EventArgs e)
         {
+            // Suspend the layout logic for the form, while the application is initializing
+            this.SuspendLayout();
+            dt = new DataTable();
             Assy_txtbox.Focus();
             Assy_txtbox.Text = itemnumber;
             if (Assy_txtbox.Text.Length == 5 || Assy_txtbox.Text.Length == 6)
@@ -89,6 +91,8 @@ namespace SearchDataSPM.Engineering
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Engineering BOM " + itemnumber + " ");
+            // Resume the layout logic
+            this.ResumeLayout();
         }
 
         #endregion loadtree

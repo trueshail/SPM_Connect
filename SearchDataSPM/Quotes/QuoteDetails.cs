@@ -97,13 +97,13 @@ namespace SearchDataSPM.Quotes
             }
         }
 
-        private void backbttn_Click(object sender, EventArgs e)
+        private void Backbttn_Click(object sender, EventArgs e)
         {
             if (webBrowser1.CanGoBack)
                 webBrowser1.GoBack();
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void Button3_Click(object sender, EventArgs e)
         {
             using (FolderBrowserDialog fbd = new FolderBrowserDialog() { Description = "Select your path." })
             {
@@ -145,7 +145,7 @@ namespace SearchDataSPM.Quotes
             }
         }
 
-        private void closedchkbox_Click(object sender, EventArgs e)
+        private void Closedchkbox_Click(object sender, EventArgs e)
         {
             DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to make this choice?", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
@@ -166,10 +166,10 @@ namespace SearchDataSPM.Quotes
                     //string sourcepath = @"\\spm-adfs\SPM\S300 Sales and Project Management\Sales\Opportunities\Q" + ItemTxtBox.Text + "_" + customer + "_" + jobdescription;
                     string sourcepath = txtPath.Text;
                     string destinationpath = @"\\spm-adfs\SPM\S300 Sales and Project Management\Sales\Opportunities\Closed Opportunities\Lost or Dead for other Reasons\Q" + ItemTxtBox.Text + "_" + customer + "_" + jobdescription;
-                    movefoldertoscrap(sourcepath, destinationpath);
+                    Movefoldertoscrap(sourcepath, destinationpath);
                     webBrowser1.Url = new Uri(destinationpath);
                     txtPath.Text = destinationpath;
-                    perfromsavebttn(false);
+                    Perfromsavebttn(false);
                     MetroFramework.MetroMessageBox.Show(this, "Lost opportunity. Folders moved to new location.", "SPM Connect - Lost Quote", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
@@ -179,7 +179,7 @@ namespace SearchDataSPM.Quotes
             }
         }
 
-        private void createfolders(string quotenumber)
+        private void Createfolders(string quotenumber)
         {
             Regex reg = new Regex("[?<>|:*'\"/,_&#^@]");
             string jobdescription = reg.Replace(Descriptiontxtbox.Text, "");
@@ -198,7 +198,7 @@ namespace SearchDataSPM.Quotes
             }
         }
 
-        private void createnewitemtosql(string quote, string description, string customer, string category, string rating, string howfound, string quotedprice, string currency, string closed, string convertedtojob, string notes, string user)
+        private void Createnewitemtosql(string quote, string description, string customer, string category, string rating, string howfound, string quotedprice, string currency, string closed, string convertedtojob, string notes, string user)
         {
             DateTime dateedited = DateTime.Now;
             string sqlFormattedDate = dateedited.ToString("yyyy-MM-dd HH:mm:ss");
@@ -225,7 +225,7 @@ namespace SearchDataSPM.Quotes
             }
         }
 
-        private void cvttojobchkbox_Click(object sender, EventArgs e)
+        private void Cvttojobchkbox_Click(object sender, EventArgs e)
         {
             DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to make this choice?", "SPM Connect?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
@@ -246,10 +246,10 @@ namespace SearchDataSPM.Quotes
                     //string sourcepath = @"\\spm-adfs\SPM\S300 Sales and Project Management\Sales\Opportunities\Q" + ItemTxtBox.Text + "_" + customer + "_" + jobdescription;
                     string sourcepath = txtPath.Text;
                     string destinationpath = @"\\spm-adfs\SPM\S300 Sales and Project Management\Sales\Opportunities\Closed Opportunities\Transfered_to_Jobs\Q" + ItemTxtBox.Text + "_" + customer + "_" + jobdescription;
-                    movefoldertoscrap(sourcepath, destinationpath);
+                    Movefoldertoscrap(sourcepath, destinationpath);
                     webBrowser1.Url = new Uri(destinationpath);
                     txtPath.Text = destinationpath;
-                    perfromsavebttn(false);
+                    Perfromsavebttn(false);
                     MetroFramework.MetroMessageBox.Show(this, "Quote converted to job and folders are moved to new location.", "SPM Connect - Move to Job", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
@@ -259,12 +259,12 @@ namespace SearchDataSPM.Quotes
             }
         }
 
-        private void editbttn_Click(object sender, EventArgs e)
+        private void Editbttn_Click(object sender, EventArgs e)
         {
-            processeditbutton();
+            Processeditbutton();
         }
 
-        private void familycombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        private void Familycombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -314,7 +314,7 @@ namespace SearchDataSPM.Quotes
                 SqlDataAdapter _adapter = new SqlDataAdapter(sql, connectapi.cn);
                 dt.Clear();
                 _adapter.Fill(dt);
-                fillinfo();
+                Fillinfo();
             }
             catch (SqlException ex)
             {
@@ -326,7 +326,7 @@ namespace SearchDataSPM.Quotes
             }
         }
 
-        private void fillinfo()
+        private void Fillinfo()
         {
             if (dt.Rows.Count > 0)
             {
@@ -412,43 +412,13 @@ namespace SearchDataSPM.Quotes
             }
         }
 
-        private void forwardbttn_Click(object sender, EventArgs e)
+        private void Forwardbttn_Click(object sender, EventArgs e)
         {
             if (webBrowser1.CanGoForward)
                 webBrowser1.GoForward();
         }
 
-        private string Getuserfullname(string username)
-        {
-            try
-            {
-                if (connectapi.cn.State == ConnectionState.Closed)
-                    connectapi.cn.Open();
-                SqlCommand cmd = connectapi.cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + username + "' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    string fullname = dr["Name"].ToString();
-                    return fullname;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Get Full User Name", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                connectapi.cn.Close();
-            }
-            return null;
-        }
-
-        private void graballinfor()
+        private void Graballinfor()
         {
             list.Clear();
             string quote = ItemTxtBox.Text;
@@ -510,7 +480,7 @@ namespace SearchDataSPM.Quotes
             }
         }
 
-        private void movefoldertoscrap(string sourcefile, string destfile)
+        private void Movefoldertoscrap(string sourcefile, string destfile)
         {
             try
             {
@@ -522,7 +492,7 @@ namespace SearchDataSPM.Quotes
             }
         }
 
-        private void perfromlockdown()
+        private void Perfromlockdown()
         {
             editbttn.Visible = true;
             button3.Visible = false;
@@ -540,26 +510,24 @@ namespace SearchDataSPM.Quotes
             notestxt.Enabled = false;
         }
 
-        private void perfromsavebttn(bool createfolder)
+        private void Perfromsavebttn(bool createfolder)
         {
             Cursor.Current = Cursors.WaitCursor;
             this.Enabled = false;
-            perfromlockdown();
-            graballinfor();
+            Perfromlockdown();
+            Graballinfor();
             if (createfolder)
             {
-                createfolders(ItemTxtBox.Text);
+                Createfolders(ItemTxtBox.Text);
             }
-
-            string lastsavedby = Getuserfullname(connectapi.ConnectUser.UserName);
-            createnewitemtosql(list[0], list[1], list[2], list[3], list[4], list[5], list[6], list[7], list[8], list[9], list[10], lastsavedby);
+            Createnewitemtosql(list[0], list[1], list[2], list[3], list[4], list[5], list[6], list[7], list[8], list[9], list[10], connectapi.ConnectUser.Name);
 
             this.Enabled = true;
             Cursor.Current = Cursors.Default;
             filldatatable(list[0]);
         }
 
-        private void processeditbutton()
+        private void Processeditbutton()
         {
             editbttn.Visible = false;
             button3.Visible = true;
@@ -616,18 +584,22 @@ namespace SearchDataSPM.Quotes
 
         private void QuoteDetails_Load(object sender, EventArgs e)
         {
+            // Suspend the layout logic for the form, while the application is initializing
+            this.SuspendLayout();
             this.Text = "Quote Details - " + quoteno2;
             Fillcustomers();
             HowFound();
             Rating();
             Category();
             filldatatable(quoteno2);
-            processeditbutton();
+            Processeditbutton();
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Quote Details " + quoteno2 + " ");
             if (dt.Rows.Count <= 0)
                 this.Close();
+            // Resume the layout logic
+            this.ResumeLayout();
         }
 
         private void Rating()
@@ -660,16 +632,16 @@ namespace SearchDataSPM.Quotes
             }
         }
 
-        private void savbttn_Click(object sender, EventArgs e)
+        private void Savbttn_Click(object sender, EventArgs e)
         {
-            perfromsavebttn(true);
+            Perfromsavebttn(true);
         }
 
-        private void textBox1_Leave(object sender, EventArgs e)
+        private void TextBox1_Leave(object sender, EventArgs e)
         {
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void TextBox1_TextChanged(object sender, EventArgs e)
         {
             //Remove previous formatting, or the decimal check will fail including leading zeros
             string value = textBox1.Text.Replace(",", "")
@@ -679,10 +651,10 @@ namespace SearchDataSPM.Quotes
             {
                 ul /= 100;
                 //Unsub the event so we don't enter a loop
-                textBox1.TextChanged -= textBox1_TextChanged;
+                textBox1.TextChanged -= TextBox1_TextChanged;
                 //Format the text as currency
                 textBox1.Text = string.Format(CultureInfo.CreateSpecificCulture("en-US"), "{0:C2}", ul);
-                textBox1.TextChanged += textBox1_TextChanged;
+                textBox1.TextChanged += TextBox1_TextChanged;
                 textBox1.Select(textBox1.Text.Length, 0);
             }
             bool goodToGo = TextisValid(textBox1.Text);

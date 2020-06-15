@@ -12,7 +12,6 @@ namespace SearchDataSPM.Admin_developer
     {
         private readonly BindingSource bindingSource1 = new BindingSource();
         private SqlDataAdapter dataAdapter = new SqlDataAdapter();
-        private readonly ConnectAPI connectapi = new ConnectAPI();
         private log4net.ILog log;
 
         public ConnectParameters()
@@ -28,11 +27,15 @@ namespace SearchDataSPM.Admin_developer
 
         private void ConnectParameters_Load(object sender, EventArgs e)
         {
+            // Suspend the layout logic for the form, while the application is initializing
+            this.SuspendLayout();
             dataGridView1.DataSource = bindingSource1;
             GetData();
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Connect Parameters");
+            // Resume the layout logic
+            this.ResumeLayout();
         }
 
         private void DataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)

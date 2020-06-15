@@ -151,6 +151,8 @@ namespace SearchDataSPM.Purchasing
 
         private void SPM_Connect_Load(object sender, EventArgs e)
         {
+            // Suspend the layout logic for the form, while the application is initializing
+            this.SuspendLayout();
             formloading = true;
             collapse();
             dt = new DataTable();
@@ -164,6 +166,8 @@ namespace SearchDataSPM.Purchasing
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Shipping Home ");
+            // Resume the layout logic
+            this.ResumeLayout();
         }
 
         private void UpdateFont()
@@ -219,7 +223,7 @@ namespace SearchDataSPM.Purchasing
                 {
                     Descrip_txtbox.Show();
                     SendKeys.Send("{TAB}");
-                    mainsearch();
+                    Mainsearch();
                 }
                 else
                 {
@@ -477,7 +481,7 @@ namespace SearchDataSPM.Purchasing
             }
         }
 
-        private void mainsearch()
+        private void Mainsearch()
         {
             formloading = true;
             //DataView dv = dt.DefaultView;
@@ -537,7 +541,7 @@ namespace SearchDataSPM.Purchasing
             }
         }
 
-        private void dataGridView_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
+        private void DataGridView_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex > -1)
             {
@@ -553,7 +557,7 @@ namespace SearchDataSPM.Purchasing
             }
         }
 
-        private void dataGridView_KeyDown(object sender, KeyEventArgs e)
+        private void DataGridView_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Tab)
             {
@@ -564,12 +568,12 @@ namespace SearchDataSPM.Purchasing
             }
         }
 
-        private void dataGridView_SelectionChanged(object sender, EventArgs e)
+        private void DataGridView_SelectionChanged(object sender, EventArgs e)
         {
-            showfilterdata();
+            Showfilterdata();
         }
 
-        private void showfilterdata()
+        private void Showfilterdata()
         {
             if (!formloading)
             {

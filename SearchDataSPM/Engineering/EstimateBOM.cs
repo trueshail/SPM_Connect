@@ -39,11 +39,6 @@ namespace SearchDataSPM.Engineering
             InitializeComponent();
             this.estid = est;
             this.itemnumber = item;
-            Rectangle screen = Screen.PrimaryScreen.WorkingArea;
-            int w = Width >= screen.Width ? screen.Width : (screen.Width + Width) / 3;
-            int h = Height >= screen.Height ? screen.Height : (screen.Height + Height) / 3;
-            this.Location = new Point((screen.Width - w) / 2, (screen.Height - h) / 2);
-            this.Size = new Size(w, h);
             dt = new DataTable();
         }
 
@@ -85,6 +80,8 @@ namespace SearchDataSPM.Engineering
 
         private void ParentView_Load(object sender, EventArgs e)
         {
+            // Suspend the layout logic for the form, while the application is initializing
+            this.SuspendLayout();
             Assy_txtbox.Focus();
             Assy_txtbox.Text = itemnumber;
             if (Assy_txtbox.Text.Length == 5 || Assy_txtbox.Text.Length == 6)
@@ -97,6 +94,8 @@ namespace SearchDataSPM.Engineering
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Estimate BOM " + itemnumber + " ");
+            // Resume the layout logic
+            this.ResumeLayout();
         }
 
         #endregion loadtree

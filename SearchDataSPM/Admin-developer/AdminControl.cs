@@ -31,10 +31,15 @@ namespace SearchDataSPM.Admin_developer
 
         private void ParentView_Load(object sender, EventArgs e)
         {
+            // Suspend the layout logic for the form, while the application is initializing
+            this.SuspendLayout();
+
             Connect_SPMSQL(0);
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Admin Control");
+            // Resume the layout logic
+            this.ResumeLayout();
         }
 
         private void Connect_SPMSQL(int index)

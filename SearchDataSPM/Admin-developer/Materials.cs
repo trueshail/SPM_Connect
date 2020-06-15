@@ -16,12 +16,12 @@ namespace SearchDataSPM.Admin_developer
             InitializeComponent();
         }
 
-        private void btnCancel_Click(object sender, EventArgs e)
+        private void BtnCancel_Click(object sender, EventArgs e)
         {
             Clear();
         }
 
-        private void btnDelete_Click(object sender, EventArgs e)
+        private void BtnDelete_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Are You Sure to Delete this Record ?", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
@@ -39,7 +39,7 @@ namespace SearchDataSPM.Admin_developer
             }
         }
 
-        private void btnSave_Click(object sender, EventArgs e)
+        private void BtnSave_Click(object sender, EventArgs e)
         {
             model.MaterialNames = custname.Text.Trim();
             using (SPM_DatabaseEntities1 db = new SPM_DatabaseEntities1())
@@ -63,7 +63,7 @@ namespace SearchDataSPM.Admin_developer
             model.id = 0;
         }
 
-        private void dgvCustomer_DoubleClick(object sender, EventArgs e)
+        private void DgvCustomer_DoubleClick(object sender, EventArgs e)
         {
             if (dgvCustomer.CurrentRow.Index != -1)
             {
@@ -86,11 +86,15 @@ namespace SearchDataSPM.Admin_developer
 
         private void Materials_Load(object sender, EventArgs e)
         {
+            // Suspend the layout logic for the form, while the application is initializing
+            this.SuspendLayout();
             Clear();
             PopulateDataGridView();
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Manage Materials ");
+            // Resume the layout logic
+            this.ResumeLayout();
         }
 
         private void PopulateDataGridView()

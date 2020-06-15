@@ -16,8 +16,8 @@ namespace SearchDataSPM.Accounting
     public partial class EFTHome : MetroFramework.Forms.MetroForm
     {
         private readonly SPMSQLCommands connectapi = new SPMSQLCommands();
-        private readonly DataTable dt;
-        private readonly List<string> rejectedemailslist;
+        private DataTable dt;
+        private List<string> rejectedemailslist;
         private bool bademails;
         private log4net.ILog log;
         private bool splashWorkDone;
@@ -25,8 +25,6 @@ namespace SearchDataSPM.Accounting
         public EFTHome()
         {
             InitializeComponent();
-            dt = new DataTable();
-            rejectedemailslist = new List<string>();
         }
 
         private void BatchProcess()
@@ -238,11 +236,17 @@ namespace SearchDataSPM.Accounting
 
         private void EvictionsHome_Load(object sender, EventArgs e)
         {
+            // Suspend the layout logic for the form, while the application is initializing
+            this.SuspendLayout();
+            dt = new DataTable();
+            rejectedemailslist = new List<string>();
             Showallitems("No");
             bttnshowwaiting.BackColor = Color.LightSkyBlue;
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened SPM Connect EFT ");
+            // Resume the layout logic
+            this.ResumeLayout();
         }
 
         private void Filterbttn_Click(object sender, EventArgs e)

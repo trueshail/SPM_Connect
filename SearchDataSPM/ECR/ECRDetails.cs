@@ -460,7 +460,7 @@ namespace SearchDataSPM.ECR
 
                         ECR_Users ecrUser = new ECR_Users();
                         ecrUser.IsSupervisor(true);
-                        ecrUser.formtext("ECR - Select available user to send this ECR for approval.");
+                        ecrUser.Formtext("ECR - Select available user to send this ECR for approval.");
 
                         if (ecrUser.ShowDialog() == DialogResult.OK)
                         {
@@ -507,7 +507,7 @@ namespace SearchDataSPM.ECR
 
                         ECR_Users ecrUser = new ECR_Users();
                         ecrUser.IsSupervisor(false);
-                        ecrUser.formtext("ECR - Select available user to send this ECR for changes to be completed.");
+                        ecrUser.Formtext("ECR - Select available user to send this ECR for changes to be completed.");
 
                         if (ecrUser.ShowDialog() == DialogResult.OK)
                         {

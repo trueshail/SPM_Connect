@@ -31,7 +31,7 @@ namespace SearchDataSPM.General
             TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
         }
 
-        private void clearfilercombos()
+        private void Clearfilercombos()
         {
             jobnumbercombobox.SelectedItem = null;
             projectmangercombobox.SelectedItem = null;
@@ -50,7 +50,7 @@ namespace SearchDataSPM.General
             equipmentcomboBox.Text = null;
         }
 
-        private void fillinfo()
+        private void Fillinfo()
         {
             Cursor.Current = Cursors.WaitCursor;
             formloading = true;
@@ -61,12 +61,12 @@ namespace SearchDataSPM.General
             FillAuthorizedBy();
             FillEquipment();
             FillRefJob();
-            clearfilercombos();
+            Clearfilercombos();
             formloading = false;
             Cursor.Current = Cursors.Default;
         }
 
-        private void performreload()
+        private void Performreload()
         {
             clearandhide();
             txtSearch.Clear();
@@ -77,7 +77,7 @@ namespace SearchDataSPM.General
 
         private void Reload_Click(object sender, EventArgs e)
         {
-            performreload();
+            Performreload();
         }
 
         private void Showallitems(bool showall)
@@ -111,6 +111,8 @@ namespace SearchDataSPM.General
 
         private void SPM_Connect_Load(object sender, EventArgs e)
         {
+            // Suspend the layout logic for the form, while the application is initializing
+            this.SuspendLayout();
             formloading = true;
             collapse();
             dt = new DataTable();
@@ -121,6 +123,8 @@ namespace SearchDataSPM.General
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Service Report Home ");
+            // Resume the layout logic
+            this.ResumeLayout();
         }
 
         private void UpdateFont()
@@ -193,7 +197,7 @@ namespace SearchDataSPM.General
         private void clearandhide()
         {
             formloading = true;
-            clearfilercombos();
+            Clearfilercombos();
 
             Descrip_txtbox.Hide();
             Descrip_txtbox.Clear();
@@ -712,7 +716,7 @@ namespace SearchDataSPM.General
         {
             if (_advcollapse == 0)
             {
-                fillinfo();
+                Fillinfo();
                 _advcollapse = 1;
             }
             collapse();
@@ -902,7 +906,7 @@ namespace SearchDataSPM.General
 
         private void clrfiltersbttn_Click(object sender, EventArgs e)
         {
-            performreload();
+            Performreload();
         }
 
         private void designedbycombobox_KeyDown(object sender, KeyEventArgs e)
@@ -1003,7 +1007,7 @@ namespace SearchDataSPM.General
 
         #endregion Invoice
 
-        private void approvedbycombo_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        private void Approvedbycombo_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -1011,7 +1015,7 @@ namespace SearchDataSPM.General
             }
         }
 
-        private void completedbycombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        private void Completedbycombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -1019,7 +1023,7 @@ namespace SearchDataSPM.General
             }
         }
 
-        private void deptrequestedcomboxbox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        private void Deptrequestedcomboxbox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -1027,7 +1031,7 @@ namespace SearchDataSPM.General
             }
         }
 
-        private void ecrstatuscombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        private void Ecrstatuscombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -1035,7 +1039,7 @@ namespace SearchDataSPM.General
             }
         }
 
-        private void jobnumbercombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        private void Jobnumbercombobox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -1043,7 +1047,7 @@ namespace SearchDataSPM.General
             }
         }
 
-        private void requestedbycomboxbox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        private void Requestedbycomboxbox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -1051,7 +1055,7 @@ namespace SearchDataSPM.General
             }
         }
 
-        private void supervicsorcomboBox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        private void SupervicsorcomboBox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {

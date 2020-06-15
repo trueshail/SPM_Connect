@@ -53,7 +53,7 @@ namespace SearchDataSPM.Engineering
 
         private void SPM_Connect_Load(object sender, EventArgs e)
         {
-            this.Hide();
+            this.SuspendLayout();
             Collapse();
             Loadusersettings();
             dt = new DataTable();
@@ -63,10 +63,11 @@ namespace SearchDataSPM.Engineering
             txtSearch.Focus();
             pictureBox1.Visible = DateTime.Now.Month == 12;
             formloading = false;
-            this.Show();
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened SPM Connect Eng ");
+            // Resume the layout logic
+            this.ResumeLayout();
         }
 
         private void Checkdeptsandrights()
@@ -198,8 +199,8 @@ namespace SearchDataSPM.Engineering
             dataGridView.Columns[14].Visible = false;
             dataGridView.Columns[15].Visible = false;
             dataGridView.Columns[16].Visible = false;
-            dataGridView.Columns[0].Width = 60;
-            dataGridView.Columns[2].Width = 55;
+            dataGridView.Columns[0].Width = 80;
+            dataGridView.Columns[2].Width = 60;
             dataGridView.Columns[1].Width = 300;
             dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dataGridView.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;

@@ -52,6 +52,8 @@ namespace SearchDataSPM.Engineering
 
         private void NewItem_Load(object sender, EventArgs e)
         {
+            // Suspend the layout logic for the form, while the application is initializing
+            this.SuspendLayout();
             this.Text = "Item Details - SPM Connect (" + itemnumber + ")";
 
             Filllistview(itemnumber);
@@ -74,6 +76,8 @@ namespace SearchDataSPM.Engineering
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Create/Edit Item " + itemnumber + " ");
+            // Resume the layout logic
+            this.ResumeLayout();
         }
 
         private void SPM_DoubleClick(object sender, EventArgs e)

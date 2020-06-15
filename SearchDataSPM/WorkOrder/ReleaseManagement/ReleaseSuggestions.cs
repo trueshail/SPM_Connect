@@ -54,6 +54,8 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
 
         private void ECR_Users_Load(object sender, EventArgs e)
         {
+            // Suspend the layout logic for the form, while the application is initializing
+            this.SuspendLayout();
             this.Text = formlabel;
             dt = new DataTable();
             dt = connectapi.GrabReleaseSuggestions("21761", "50198", "A05831");
@@ -64,6 +66,8 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened ECR Users Available ");
+            // Resume the layout logic
+            this.ResumeLayout();
         }
 
         private void UpdateFont()

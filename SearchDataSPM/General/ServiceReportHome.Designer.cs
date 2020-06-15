@@ -229,7 +229,7 @@ namespace SearchDataSPM.General
             this.technamecomboxbox.TabIndex = 125;
             this.TreeViewToolTip.SetToolTip(this.technamecomboxbox, "Filter by Technician");
             this.technamecomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Manufactureritemcomboxbox_KeyDown);
-            this.technamecomboxbox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.requestedbycomboxbox_PreviewKeyDown);
+            this.technamecomboxbox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.Requestedbycomboxbox_PreviewKeyDown);
             // 
             // customercomboxbox
             // 
@@ -247,7 +247,7 @@ namespace SearchDataSPM.General
             this.customercomboxbox.TabIndex = 123;
             this.TreeViewToolTip.SetToolTip(this.customercomboxbox, "Filter by Customer");
             this.customercomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.familycomboxbox_KeyDown);
-            this.customercomboxbox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.deptrequestedcomboxbox_PreviewKeyDown);
+            this.customercomboxbox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.Deptrequestedcomboxbox_PreviewKeyDown);
             // 
             // authorizedbycombo
             // 
@@ -265,7 +265,7 @@ namespace SearchDataSPM.General
             this.authorizedbycombo.TabIndex = 127;
             this.TreeViewToolTip.SetToolTip(this.authorizedbycombo, "Filter by Authorized By");
             this.authorizedbycombo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lastsavedbycombo_KeyDown);
-            this.authorizedbycombo.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.approvedbycombo_PreviewKeyDown);
+            this.authorizedbycombo.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.Approvedbycombo_PreviewKeyDown);
             // 
             // projectmangercombobox
             // 
@@ -286,7 +286,7 @@ namespace SearchDataSPM.General
             this.projectmangercombobox.TabIndex = 124;
             this.TreeViewToolTip.SetToolTip(this.projectmangercombobox, "Filter by Project Manager");
             this.projectmangercombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.oemitemcombobox_KeyDown);
-            this.projectmangercombobox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.ecrstatuscombobox_PreviewKeyDown);
+            this.projectmangercombobox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.Ecrstatuscombobox_PreviewKeyDown);
             // 
             // jobnumbercombobox
             // 
@@ -308,7 +308,7 @@ namespace SearchDataSPM.General
             this.jobnumbercombobox.TabIndex = 122;
             this.TreeViewToolTip.SetToolTip(this.jobnumbercombobox, "Filter by Job Number");
             this.jobnumbercombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.designedbycombobox_KeyDown);
-            this.jobnumbercombobox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.jobnumbercombobox_PreviewKeyDown);
+            this.jobnumbercombobox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.Jobnumbercombobox_PreviewKeyDown);
             // 
             // equipmentcomboBox
             // 
@@ -326,7 +326,7 @@ namespace SearchDataSPM.General
             this.equipmentcomboBox.TabIndex = 126;
             this.TreeViewToolTip.SetToolTip(this.equipmentcomboBox, "Filter by Equipment");
             this.equipmentcomboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MaterialcomboBox_KeyDown);
-            this.equipmentcomboBox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.supervicsorcomboBox_PreviewKeyDown);
+            this.equipmentcomboBox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.SupervicsorcomboBox_PreviewKeyDown);
             // 
             // refjobcombobox
             // 
@@ -344,7 +344,7 @@ namespace SearchDataSPM.General
             this.refjobcombobox.TabIndex = 148;
             this.TreeViewToolTip.SetToolTip(this.refjobcombobox, "Filter by Ref. Job");
             this.refjobcombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ActiveCadblockcombobox_KeyDown);
-            this.refjobcombobox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.completedbycombobox_PreviewKeyDown);
+            this.refjobcombobox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.Completedbycombobox_PreviewKeyDown);
             // 
             // SPM
             // 

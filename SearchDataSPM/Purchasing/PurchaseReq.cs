@@ -91,6 +91,8 @@ namespace SearchDataSPM.Purchasing
 
         private void PurchaseReq_Load(object sender, EventArgs e)
         {
+            // Suspend the layout logic for the form, while the application is initializing
+            this.SuspendLayout();
             formloading = true;
             if (connectapi.ConnectUser.PurchaseReqApproval)
             {
@@ -135,6 +137,8 @@ namespace SearchDataSPM.Purchasing
             this.BringToFront();
             this.Focus();
             this.Text = "SPM Connect Purchase Requisition - " + connectapi.ConnectUser.UserName.Substring(4);
+            // Resume the layout logic
+            this.ResumeLayout();
         }
 
         private void ShowReqSearchItems(string user)

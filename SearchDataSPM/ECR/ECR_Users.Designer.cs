@@ -73,7 +73,7 @@
             this.dataGridView.StandardTab = true;
             this.dataGridView.TabIndex = 112;
             this.toolTip1.SetToolTip(this.dataGridView, "Double click on the cell to select the user");
-            this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellDoubleClick);
+            this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView_CellDoubleClick);
             // 
             // id
             // 
