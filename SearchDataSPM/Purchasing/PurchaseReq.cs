@@ -56,37 +56,41 @@ namespace SearchDataSPM.Purchasing
 
         private void Preparedatagrid()
         {
-            dataGridView.DataSource = dt;
-            dataGridView.Columns[0].Width = 35;
-            dataGridView.Columns[0].HeaderText = "Req No";
-            dataGridView.Columns[1].Width = 35;
-            dataGridView.Columns[1].HeaderText = "Job";
-            dataGridView.Columns[2].Width = 70;
-            dataGridView.Columns[3].Width = 80;
-            dataGridView.Columns[4].Visible = false;
-            dataGridView.Columns[5].Visible = false;
-            dataGridView.Columns[6].Visible = false;
-            dataGridView.Columns[7].Visible = false;
-            dataGridView.Columns[8].Visible = false;
-            dataGridView.Columns[9].Visible = false;
-            dataGridView.Columns[10].Visible = false;
-            dataGridView.Columns[11].Visible = false;
-            dataGridView.Columns[12].Visible = false;
-            dataGridView.Columns[13].Visible = false;
-            dataGridView.Columns[14].Visible = false;
-            dataGridView.Columns[15].Visible = false;
-            dataGridView.Columns[16].Visible = false;
-            dataGridView.Columns[17].Visible = false;
-            dataGridView.Columns[18].Visible = false;
-            dataGridView.Columns[19].Visible = false;
-            dataGridView.Columns[20].Visible = false;
-            dataGridView.Columns[21].Visible = false;
-            dataGridView.Columns[22].Visible = false;
-            dataGridView.Columns[23].Visible = false;
-            dataGridView.Columns[24].Visible = false;
-            dataGridView.Columns[25].Visible = false;
-            dataGridView.Sort(dataGridView.Columns[0], ListSortDirection.Descending);
-            UpdateFont();
+            if (dt.Rows.Count > 0)
+            {
+                dataGridView.DataSource = dt;
+                dataGridView.Columns[0].Width = 35;
+                dataGridView.Columns[0].HeaderText = "Req No";
+                dataGridView.Columns[1].Width = 35;
+                dataGridView.Columns[1].HeaderText = "Job";
+                dataGridView.Columns[2].Width = 70;
+                dataGridView.Columns[3].Width = 80;
+                dataGridView.Columns[4].Visible = false;
+                dataGridView.Columns[5].Visible = false;
+                dataGridView.Columns[6].Visible = false;
+                dataGridView.Columns[7].Visible = false;
+                dataGridView.Columns[8].Visible = false;
+                dataGridView.Columns[9].Visible = false;
+                dataGridView.Columns[10].Visible = false;
+                dataGridView.Columns[11].Visible = false;
+                dataGridView.Columns[12].Visible = false;
+                dataGridView.Columns[13].Visible = false;
+                dataGridView.Columns[14].Visible = false;
+                dataGridView.Columns[15].Visible = false;
+                dataGridView.Columns[16].Visible = false;
+                dataGridView.Columns[17].Visible = false;
+                dataGridView.Columns[18].Visible = false;
+                dataGridView.Columns[19].Visible = false;
+                dataGridView.Columns[20].Visible = false;
+                dataGridView.Columns[21].Visible = false;
+                dataGridView.Columns[22].Visible = false;
+                dataGridView.Columns[23].Visible = false;
+                dataGridView.Columns[24].Visible = false;
+                dataGridView.Columns[25].Visible = false;
+                dataGridView.Sort(dataGridView.Columns[0], ListSortDirection.Descending);
+                UpdateFont();
+            }
+
         }
 
         private void PurchaseReq_Load(object sender, EventArgs e)
@@ -694,12 +698,10 @@ namespace SearchDataSPM.Purchasing
             dateTimePicker1.MinDate = new DateTime(1900, 01, 01);
         }
 
-        private async Task Processsavebutton(bool validatehit, string typeofsave)
+        private void Processsavebutton(bool validatehit, string typeofsave)
         {
             try
             {
-                await Task.Run(() => SplashDialog("Saving Data...")).ConfigureAwait(true);
-
                 Cursor.Current = Cursors.WaitCursor;
                 this.Enabled = false;
                 //tabControl1.TabPages.Remove(PreviewTabPage);
@@ -786,7 +788,6 @@ namespace SearchDataSPM.Purchasing
                 this.Enabled = true;
                 this.Focus();
                 this.Activate();
-                splashWorkDone = true;
             }
             catch
             {
@@ -814,10 +815,10 @@ namespace SearchDataSPM.Purchasing
             }
         }
 
-        private async void Savebttn_Click(object sender, EventArgs e)
+        private void Savebttn_Click(object sender, EventArgs e)
         {
             Itemstodiscard.Clear();
-            await Processsavebutton(false, "Normal").ConfigureAwait(false);
+            Processsavebutton(false, "Normal");
         }
 
         private void Splittagtovariables(string s)
@@ -1550,7 +1551,7 @@ namespace SearchDataSPM.Purchasing
             }
         }
 
-        private async void Validatechk_Click(object sender, EventArgs e)
+        private void Validatechk_Click(object sender, EventArgs e)
         {
             if (!Validatechk.Checked)
             {
@@ -1581,9 +1582,8 @@ namespace SearchDataSPM.Purchasing
                     if (jobnumbertxt.Text.Length > 0 && subassytxt.Text.Length > 0 && dataGridView1.Rows.Count > 0)
                     {
                         string reqno = purchreqtxt.Text;
-                        await Processsavebutton(true, "Validated").ConfigureAwait(false);
+                        Processsavebutton(true, "Validated");
                         Validatechk.Text = "Invalidate";
-                        await Task.Run(() => SplashDialog("Sending Email...")).ConfigureAwait(true);
                         Cursor.Current = Cursors.WaitCursor;
                         this.Enabled = false;
                         string filename = Makefilenameforreport(reqno, true);
@@ -1630,7 +1630,7 @@ namespace SearchDataSPM.Purchasing
 
         #region manager approve check changed
 
-        private async void Approvechk_Click(object sender, EventArgs e)
+        private void Approvechk_Click(object sender, EventArgs e)
         {
             if (connectapi.ConnectUser.PurchaseReqApproval)
             {
@@ -1647,7 +1647,7 @@ namespace SearchDataSPM.Purchasing
                     {
                         approvechk.Checked = false;
                         approvechk.Text = "Approve";
-                        await Processsavebutton(true, "ApprovedFalse").ConfigureAwait(false);
+                        Processsavebutton(true, "ApprovedFalse");
                     }
                 }
                 else
@@ -1664,9 +1664,8 @@ namespace SearchDataSPM.Purchasing
                             string requestby = requestbytxt.Text;
                             bool happroval = Happroval();
 
-                            await Processsavebutton(true, "Approved").ConfigureAwait(false);
+                            Processsavebutton(true, "Approved");
                             approvechk.Checked = true;
-                            await Task.Run(() => SplashDialog("Sending Email...")).ConfigureAwait(true);
                             this.Enabled = false;
 
                             string filename = Makefilenameforreport(reqno, false);
@@ -2680,13 +2679,13 @@ namespace SearchDataSPM.Purchasing
 
         #region Happroval
 
-        private async void Happrovechk_Click(object sender, EventArgs e)
+        private void Happrovechk_Click(object sender, EventArgs e)
         {
             if (connectapi.ConnectUser.PurchaseReqApproval2)
             {
                 if (!happrovechk.Checked)
                 {
-                    await Processsavebutton(true, "Happrovedfalse").ConfigureAwait(false);
+                    Processsavebutton(true, "Happrovedfalse");
                 }
                 else
                 {
@@ -2699,9 +2698,8 @@ namespace SearchDataSPM.Purchasing
                         string reqno = purchreqtxt.Text;
                         string requestby = requestbytxt.Text;
 
-                        await Processsavebutton(true, "Happroved").ConfigureAwait(false);
+                        Processsavebutton(true, "Happroved");
                         happrovechk.Checked = true;
-                        await Task.Run(() => SplashDialog("Sending Email...")).ConfigureAwait(true);
                         this.Enabled = false;
 
                         string filename = Makefilenameforreport(reqno, false);
@@ -2755,13 +2753,13 @@ namespace SearchDataSPM.Purchasing
 
         #region Pbuyer
 
-        private async void Purchasedchk_Click(object sender, EventArgs e)
+        private void Purchasedchk_Click(object sender, EventArgs e)
         {
             if (connectapi.ConnectUser.PurchaseReqBuyer)
             {
                 if (!purchasedchk.Checked)
                 {
-                    await Processsavebutton(true, "Papprovedfalse").ConfigureAwait(false);
+                    Processsavebutton(true, "Papprovedfalse");
                 }
                 else
                 {
@@ -2774,20 +2772,13 @@ namespace SearchDataSPM.Purchasing
                         string reqno = purchreqtxt.Text;
                         string requestby = requestbytxt.Text;
 
-                        await Processsavebutton(true, "Papproved").ConfigureAwait(false);
+                        Processsavebutton(true, "Papproved");
                         DataGridView_SelectionChanged(sender, e);
-                        //this.TopMost = false;
-
-                        //Thread t = new Thread(new ThreadStart(Splashemail));
-                        //t.Start();
-                        await Task.Run(() => SplashDialog("Sending Email...")).ConfigureAwait(true);
                         this.Enabled = false;
                         purchasedchk.Checked = true;
 
                         Preparetosendemail(reqno, false, requestby, "", false, "connectapi.ConnectUser.PurchaseReqBuyer", false);
 
-                        //t.Abort();
-                        //this.TopMost = true;
                         this.Enabled = true;
                         this.Focus();
                         this.Activate();
@@ -2842,7 +2833,7 @@ namespace SearchDataSPM.Purchasing
             }
         }
 
-        private async void Approvetoolstrip_Click(object sender, EventArgs e)
+        private void Approvetoolstrip_Click(object sender, EventArgs e)
         {
             if (!approvechk.Checked)
             {
@@ -2863,7 +2854,7 @@ namespace SearchDataSPM.Purchasing
                         {
                             approvechk.Checked = false;
                             approvechk.Text = "Approve";
-                            await Processsavebutton(true, "ApprovedFalse").ConfigureAwait(false);
+                            Processsavebutton(true, "ApprovedFalse");
                         }
                     }
                     else
@@ -2879,9 +2870,8 @@ namespace SearchDataSPM.Purchasing
                                 string reqno = purchreqtxt.Text;
                                 string requestby = requestbytxt.Text;
                                 bool happroval = Happroval();
-                                await Processsavebutton(true, "Approved").ConfigureAwait(false);
+                                Processsavebutton(true, "Approved");
                                 approvechk.Checked = true;
-                                await Task.Run(() => SplashDialog("Sending Email...")).ConfigureAwait(true);
                                 this.Enabled = false;
 
                                 string filename = Makefilenameforreport(reqno, false);
@@ -2928,7 +2918,7 @@ namespace SearchDataSPM.Purchasing
 
                     if (!happrovechk.Checked)
                     {
-                        await Processsavebutton(true, "Happrovedfalse").ConfigureAwait(false);
+                        Processsavebutton(true, "Happrovedfalse");
                     }
                     else
                     {
@@ -2941,9 +2931,8 @@ namespace SearchDataSPM.Purchasing
                             string reqno = purchreqtxt.Text;
                             string requestby = requestbytxt.Text;
 
-                            await Processsavebutton(true, "Happroved").ConfigureAwait(false);
+                            Processsavebutton(true, "Happroved");
                             happrovechk.Checked = true;
-                            await Task.Run(() => SplashDialog("Sending Email...")).ConfigureAwait(true);
                             this.Enabled = false;
 
                             string filename = Makefilenameforreport(reqno, false);
@@ -2967,7 +2956,7 @@ namespace SearchDataSPM.Purchasing
             }
         }
 
-        private async void Rejecttoolstrip_Click(object sender, EventArgs e)
+        private void Rejecttoolstrip_Click(object sender, EventArgs e)
         {
             if (!approvechk.Checked)
             {
@@ -2988,7 +2977,7 @@ namespace SearchDataSPM.Purchasing
                         {
                             approvechk.Checked = false;
                             approvechk.Text = "Approve";
-                            await Processsavebutton(true, "ApprovedFalse").ConfigureAwait(false);
+                            Processsavebutton(true, "ApprovedFalse");
                         }
                     }
                     else
@@ -3004,9 +2993,8 @@ namespace SearchDataSPM.Purchasing
                                 string reqno = purchreqtxt.Text;
                                 string requestby = requestbytxt.Text;
                                 bool happroval = Happroval();
-                                await Processsavebutton(true, "Rejected").ConfigureAwait(false);
+                                Processsavebutton(true, "Rejected");
                                 approvechk.Checked = true;
-                                await Task.Run(() => SplashDialog("Sending Email...")).ConfigureAwait(true);
                                 this.Enabled = false;
 
                                 //string filename = makefilenameforreport(reqno, false).ToString();
@@ -3055,7 +3043,7 @@ namespace SearchDataSPM.Purchasing
 
                     if (!happrovechk.Checked)
                     {
-                        await Processsavebutton(true, "Happrovedfalse").ConfigureAwait(false);
+                        Processsavebutton(true, "Happrovedfalse");
                     }
                     else
                     {
@@ -3068,9 +3056,8 @@ namespace SearchDataSPM.Purchasing
                             string reqno = purchreqtxt.Text;
                             string requestby = requestbytxt.Text;
 
-                            await Processsavebutton(true, "HRejected").ConfigureAwait(false);
+                            Processsavebutton(true, "HRejected");
                             happrovechk.Checked = true;
-                            await Task.Run(() => SplashDialog("Sending Email...")).ConfigureAwait(true);
                             this.Enabled = false;
 
                             //string filename = makefilenameforreport(reqno, false).ToString();

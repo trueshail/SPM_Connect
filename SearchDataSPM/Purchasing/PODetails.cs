@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SPMConnectAPI;
+using System;
 using System.Windows.Forms;
 
 namespace SearchDataSPM.Purchasing
@@ -21,6 +22,7 @@ namespace SearchDataSPM.Purchasing
 
         private void ImportFileSelector_Load(object sender, EventArgs e)
         {
+            WinTopMost.SetWindowPos(this.Handle, WinTopMost.HWND_TOPMOST, 0, 0, 0, 0, WinTopMost.TOPMOST_FLAGS);
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Enter PO Details For PurchaseReq ");

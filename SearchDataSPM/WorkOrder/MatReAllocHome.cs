@@ -480,7 +480,7 @@ namespace SearchDataSPM.WorkOrder
             if (dataGridView.SelectedCells.Count == 1)
             {
                 this.Enabled = false;
-                showshippinginvoice(getselectedinvoicenumber());
+                Showshippinginvoice(Getselectedinvoicenumber());
             }
         }
 
@@ -979,7 +979,7 @@ namespace SearchDataSPM.WorkOrder
 
         #region Invoice
 
-        private void addnewbttn_Click(object sender, EventArgs e)
+        private void Addnewbttn_Click(object sender, EventArgs e)
         {
             DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to create a new shipping invoice?", "SPM Connect - Create New Invoice?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
@@ -989,7 +989,7 @@ namespace SearchDataSPM.WorkOrder
                 string status = connectapi.CreateNewMatReallocation();
                 if (status.Length > 1)
                 {
-                    showshippinginvoice(status);
+                    Showshippinginvoice(status);
                 }
             }
         }
@@ -999,7 +999,7 @@ namespace SearchDataSPM.WorkOrder
             if (!(dataGridView.Rows.Count > 0 && dataGridView.SelectedRows.Count == 1)) e.Cancel = true;
         }
 
-        private string getselectedinvoicenumber()
+        private string Getselectedinvoicenumber()
         {
             if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
             {
@@ -1015,16 +1015,15 @@ namespace SearchDataSPM.WorkOrder
             }
         }
 
-        private void invoiceinfostripmenu_Click(object sender, EventArgs e)
+        private void Invoiceinfostripmenu_Click(object sender, EventArgs e)
         {
-            showshippinginvoice(getselectedinvoicenumber());
+            Showshippinginvoice(Getselectedinvoicenumber());
         }
 
-        private void showshippinginvoice(string invoice)
+        private void Showshippinginvoice(string invoice)
         {
-            using (MatReAlloc matReAlloc = new MatReAlloc())
+            using (MatReAlloc matReAlloc = new MatReAlloc(invoice))
             {
-                matReAlloc.Invoicenumber(invoice);
                 matReAlloc.ShowDialog();
                 this.Enabled = true;
                 Performreload();

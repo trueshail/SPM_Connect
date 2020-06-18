@@ -188,7 +188,7 @@ namespace SearchDataSPM.Admin_developer
                 supervisorcombox.SelectedItem = MyString;
             }
 
-            if (user.ECRSup.ToString().Length > 0)
+            if (user.ECRSup != 0)
             {
                 string MyString = user.ECRSup.ToString();
                 MyString += " ";
@@ -196,7 +196,7 @@ namespace SearchDataSPM.Admin_developer
                 ecrSupervisorcomboBox.SelectedItem = MyString;
             }
 
-            if (user.ShipSup.ToString().Length > 0)
+            if (user.ShipSup != 0)
             {
                 string MyString = user.ShipSup.ToString();
                 MyString += " ";

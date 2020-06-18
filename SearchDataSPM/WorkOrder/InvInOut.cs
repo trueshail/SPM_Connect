@@ -305,9 +305,8 @@ namespace SearchDataSPM.WorkOrder
 
         private void Showshippinginvoice(string invoice)
         {
-            using (MatReAlloc matReAlloc = new MatReAlloc())
+            using (MatReAlloc matReAlloc = new MatReAlloc(invoice))
             {
-                matReAlloc.Invoicenumber(invoice);
                 matReAlloc.ShowDialog();
                 this.Enabled = true;
                 this.Show();

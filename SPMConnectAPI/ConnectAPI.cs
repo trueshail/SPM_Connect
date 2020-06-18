@@ -642,7 +642,7 @@ namespace SPMConnectAPI
             const bool completed = false;
             if (addin && !ValidfileName(itemid))
             {
-                MessageBox.Show($"A file with the part number " + itemid + " does not have Solidworks CAD Model or SPM item number assigned. Cannot add or remove from favorites. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("A file with the part number " + itemid + " does not have Solidworks CAD Model or SPM item number assigned. Cannot add or remove from favorites. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
@@ -677,7 +677,7 @@ namespace SPMConnectAPI
             const bool completed = false;
             if (addin && !ValidfileName(itemid))
             {
-                MessageBox.Show($"A file with the part number " + itemid + " does not have Solidworks CAD Model or SPM item number assigned. Cannot add or remove from favorites. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("A file with the part number " + itemid + " does not have Solidworks CAD Model or SPM item number assigned. Cannot add or remove from favorites. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
@@ -696,7 +696,7 @@ namespace SPMConnectAPI
             }
             if (addin && !ValidfileName(itemid))
             {
-                MessageBox.Show($"A file with the part number " + itemid + " does not have Solidworks CAD Model or SPM item number assigned. Cannot add or remove from favorites. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("A file with the part number " + itemid + " does not have Solidworks CAD Model or SPM item number assigned. Cannot add or remove from favorites. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 

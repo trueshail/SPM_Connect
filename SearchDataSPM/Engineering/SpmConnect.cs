@@ -919,11 +919,8 @@ namespace SearchDataSPM.Engineering
 
         private void Admin_bttn_Click(object sender, EventArgs e)
         {
-            AdminControl spmadmin = new AdminControl
-            {
-                Owner = this
-            };
-            spmadmin.Show();
+            AdminControl spmadmin = new AdminControl();
+            spmadmin.Show(this);
         }
 
         #endregion AdminControl
