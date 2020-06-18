@@ -84,7 +84,7 @@
             // timer1
             // 
             this.timer1.Enabled = true;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
             // 
             // dataGridView1
             // 
@@ -106,7 +106,7 @@
             // 
             // timer3
             // 
-            this.timer3.Tick += new System.EventHandler(this.timer3_Tick);
+            this.timer3.Tick += new System.EventHandler(this.Timer3_Tick);
             // 
             // label1
             // 
@@ -157,9 +157,9 @@
             this.woid_txtbox.WaterMark = "Scan Work Order";
             this.woid_txtbox.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.woid_txtbox.WaterMarkFont = new System.Drawing.Font("Segoe UI Semibold", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.woid_txtbox.TextChanged += new System.EventHandler(this.woid_txtbox_TextChanged);
-            this.woid_txtbox.Click += new System.EventHandler(this.woid_txtbox_Click);
-            this.woid_txtbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.woid_txtbox_KeyPress);
+            this.woid_txtbox.TextChanged += new System.EventHandler(this.Woid_txtbox_TextChanged);
+            this.woid_txtbox.Click += new System.EventHandler(this.Woid_txtbox_Click);
+            this.woid_txtbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Woid_txtbox_KeyPress);
             // 
             // empid_txtbox
             // 
@@ -197,9 +197,9 @@
             this.empid_txtbox.WaterMark = "Scan Emp Id";
             this.empid_txtbox.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.empid_txtbox.WaterMarkFont = new System.Drawing.Font("Segoe UI Semibold", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.empid_txtbox.TextChanged += new System.EventHandler(this.empid_txtbox_TextChanged);
-            this.empid_txtbox.Click += new System.EventHandler(this.empid_txtbox_Click);
-            this.empid_txtbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.empid_txtbox_KeyPress);
+            this.empid_txtbox.TextChanged += new System.EventHandler(this.Empid_txtbox_TextChanged);
+            this.empid_txtbox.Click += new System.EventHandler(this.Empid_txtbox_Click);
+            this.empid_txtbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Empid_txtbox_KeyPress);
             // 
             // toolStrip1
             // 
@@ -229,9 +229,9 @@
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
             this.toolStripDropDownButton1.Size = new System.Drawing.Size(86, 22);
             this.toolStripDropDownButton1.Text = "Inventory";
-            this.toolStripDropDownButton1.DropDownClosed += new System.EventHandler(this.toolStripDropDownButton1_DropDownClosed);
-            this.toolStripDropDownButton1.DropDownOpening += new System.EventHandler(this.toolStripDropDownButton1_DropDownOpening);
-            this.toolStripDropDownButton1.Click += new System.EventHandler(this.toolStripDropDownButton1_Click);
+            this.toolStripDropDownButton1.DropDownClosed += new System.EventHandler(this.ToolStripDropDownButton1_DropDownClosed);
+            this.toolStripDropDownButton1.DropDownOpening += new System.EventHandler(this.ToolStripDropDownButton1_DropDownOpening);
+            this.toolStripDropDownButton1.Click += new System.EventHandler(this.ToolStripDropDownButton1_Click);
             // 
             // checkInWorkOrderToolStripMenuItem
             // 
@@ -240,7 +240,7 @@
             this.checkInWorkOrderToolStripMenuItem.Name = "checkInWorkOrderToolStripMenuItem";
             this.checkInWorkOrderToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
             this.checkInWorkOrderToolStripMenuItem.Text = "Check In Work Order";
-            this.checkInWorkOrderToolStripMenuItem.Click += new System.EventHandler(this.checkInWorkOrderToolStripMenuItem_Click);
+            this.checkInWorkOrderToolStripMenuItem.Click += new System.EventHandler(this.CheckInWorkOrderToolStripMenuItem_Click);
             // 
             // receivePartsToolStripMenuItem
             // 
@@ -267,7 +267,7 @@
             this.createNewRequestToolStripMenuItem.Name = "createNewRequestToolStripMenuItem";
             this.createNewRequestToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.createNewRequestToolStripMenuItem.Text = "Create New Request";
-            this.createNewRequestToolStripMenuItem.Click += new System.EventHandler(this.createNewRequestToolStripMenuItem_Click);
+            this.createNewRequestToolStripMenuItem.Click += new System.EventHandler(this.CreateNewRequestToolStripMenuItem_Click);
             // 
             // showAllRequestsToolStripMenuItem
             // 
@@ -275,7 +275,7 @@
             this.showAllRequestsToolStripMenuItem.Name = "showAllRequestsToolStripMenuItem";
             this.showAllRequestsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.showAllRequestsToolStripMenuItem.Text = "Show All Requests";
-            this.showAllRequestsToolStripMenuItem.Click += new System.EventHandler(this.showAllRequestsToolStripMenuItem_Click);
+            this.showAllRequestsToolStripMenuItem.Click += new System.EventHandler(this.ShowAllRequestsToolStripMenuItem_Click);
             // 
             // inventoryBinStatusToolStripMenuItem
             // 
@@ -284,7 +284,7 @@
             this.inventoryBinStatusToolStripMenuItem.Name = "inventoryBinStatusToolStripMenuItem";
             this.inventoryBinStatusToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
             this.inventoryBinStatusToolStripMenuItem.Text = "Inventory Bin Status";
-            this.inventoryBinStatusToolStripMenuItem.Click += new System.EventHandler(this.inventoryBinStatusToolStripMenuItem_Click);
+            this.inventoryBinStatusToolStripMenuItem.Click += new System.EventHandler(this.InventoryBinStatusToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -357,8 +357,8 @@
             this.apprvlidtxt.WaterMark = "Scan Emp Id";
             this.apprvlidtxt.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.apprvlidtxt.WaterMarkFont = new System.Drawing.Font("Segoe UI Semibold", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.apprvlidtxt.Click += new System.EventHandler(this.apprvlidtxt_Click);
-            this.apprvlidtxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.apprvlidtxt_KeyPress);
+            this.apprvlidtxt.Click += new System.EventHandler(this.Apprvlidtxt_Click);
+            this.apprvlidtxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Apprvlidtxt_KeyPress);
             // 
             // TreeViewToolTip
             // 

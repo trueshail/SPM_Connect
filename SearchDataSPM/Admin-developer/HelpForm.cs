@@ -55,12 +55,16 @@ namespace SearchDataSPM.Admin_developer
 
         private void HelpForm_Load(object sender, EventArgs e)
         {
+            // Suspend the layout logic for the form, while the application is initializing
+            this.SuspendLayout();
             versionlbl.Text = string.Format("Version - {0}", Getassyversionnumber(true));
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Help Form ");
             if (connectapi.ConnectUser.Dept != Department.Eng)
                 sldwrksaddin.Visible = false;
+            // Resume the layout logic
+            this.ResumeLayout();
         }
 
         private List<string> Importfilename()

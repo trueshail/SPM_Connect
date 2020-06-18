@@ -365,7 +365,7 @@ namespace SearchDataSPM.WorkOrder
             this.addnewbttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TreeViewToolTip.SetToolTip(this.addnewbttn, "Create New Invoice");
             this.addnewbttn.UseVisualStyleBackColor = false;
-            this.addnewbttn.Click += new System.EventHandler(this.addnewbttn_Click);
+            this.addnewbttn.Click += new System.EventHandler(this.Addnewbttn_Click);
             // 
             // splitContainer1
             // 
@@ -487,7 +487,7 @@ namespace SearchDataSPM.WorkOrder
             this.invoiceinfostripmenu.Size = new System.Drawing.Size(157, 22);
             this.invoiceinfostripmenu.Text = "Get Invoice Info";
             this.invoiceinfostripmenu.ToolTipText = "Get Selected Invoice Info.";
-            this.invoiceinfostripmenu.Click += new System.EventHandler(this.invoiceinfostripmenu_Click);
+            this.invoiceinfostripmenu.Click += new System.EventHandler(this.Invoiceinfostripmenu_Click);
             // 
             // matlbl
             // 

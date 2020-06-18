@@ -178,7 +178,7 @@
             this.familycombobox.Name = "familycombobox";
             this.familycombobox.Size = new System.Drawing.Size(361, 24);
             this.familycombobox.TabIndex = 1;
-            this.familycombobox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.familycombobox_PreviewKeyDown);
+            this.familycombobox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.Familycombobox_PreviewKeyDown);
             //
             // label9
             //
@@ -235,7 +235,7 @@
             this.cvttojobchkbox.TabIndex = 10;
             this.cvttojobchkbox.Text = "Converted to Job";
             this.cvttojobchkbox.UseVisualStyleBackColor = true;
-            this.cvttojobchkbox.Click += new System.EventHandler(this.cvttojobchkbox_Click);
+            this.cvttojobchkbox.Click += new System.EventHandler(this.Cvttojobchkbox_Click);
             //
             // Howfndcombox
             //
@@ -305,7 +305,7 @@
             this.closedchkbox.TabIndex = 9;
             this.closedchkbox.Text = "Lost Opportunity";
             this.closedchkbox.UseVisualStyleBackColor = true;
-            this.closedchkbox.Click += new System.EventHandler(this.closedchkbox_Click);
+            this.closedchkbox.Click += new System.EventHandler(this.Closedchkbox_Click);
             //
             // textBox1
             //
@@ -317,8 +317,8 @@
             this.textBox1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.textBox1.Size = new System.Drawing.Size(234, 25);
             this.textBox1.TabIndex = 5;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
-            this.textBox1.Leave += new System.EventHandler(this.textBox1_Leave);
+            this.textBox1.TextChanged += new System.EventHandler(this.TextBox1_TextChanged);
+            this.textBox1.Leave += new System.EventHandler(this.TextBox1_Leave);
             //
             // Lastsavedlbl
             //
@@ -473,7 +473,7 @@
             this.savbttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.TreeViewToolTip.SetToolTip(this.savbttn, "Save Quote Details");
             this.savbttn.UseVisualStyleBackColor = false;
-            this.savbttn.Click += new System.EventHandler(this.savbttn_Click);
+            this.savbttn.Click += new System.EventHandler(this.Savbttn_Click);
             //
             // editbttn
             //
@@ -493,7 +493,7 @@
             this.editbttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.TreeViewToolTip.SetToolTip(this.editbttn, "Edit Quote Details");
             this.editbttn.UseVisualStyleBackColor = false;
-            this.editbttn.Click += new System.EventHandler(this.editbttn_Click);
+            this.editbttn.Click += new System.EventHandler(this.Editbttn_Click);
             //
             // TreeViewToolTip
             //
@@ -519,7 +519,7 @@
             this.backbttn.TabIndex = 99;
             this.backbttn.Text = "<<";
             this.backbttn.UseVisualStyleBackColor = true;
-            this.backbttn.Click += new System.EventHandler(this.backbttn_Click);
+            this.backbttn.Click += new System.EventHandler(this.Backbttn_Click);
             //
             // forwardbttn
             //
@@ -529,7 +529,7 @@
             this.forwardbttn.TabIndex = 99;
             this.forwardbttn.Text = ">>";
             this.forwardbttn.UseVisualStyleBackColor = true;
-            this.forwardbttn.Click += new System.EventHandler(this.forwardbttn_Click);
+            this.forwardbttn.Click += new System.EventHandler(this.Forwardbttn_Click);
             //
             // pathlbl
             //
@@ -554,7 +554,7 @@
             this.button3.TabIndex = 99;
             this.button3.Text = "Change Folder Path";
             this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.button3.Click += new System.EventHandler(this.Button3_Click);
             //
             // txtPath
             //

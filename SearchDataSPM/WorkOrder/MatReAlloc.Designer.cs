@@ -245,7 +245,7 @@
             this.jobtakenfrom.Size = new System.Drawing.Size(285, 22);
             this.jobtakenfrom.TabIndex = 7;
             this.TreeViewToolTip.SetToolTip(this.jobtakenfrom, "Item Manufacturer");
-            this.jobtakenfrom.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.empidtxt_KeyPress);
+            this.jobtakenfrom.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Empidtxt_KeyPress);
             // 
             // jobreqtxt
             // 
@@ -279,7 +279,7 @@
             this.appnametxt.TabIndex = 3;
             this.appnametxt.TabStop = false;
             this.TreeViewToolTip.SetToolTip(this.appnametxt, "Manufacturer Item No");
-            this.appnametxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.empidtxt_KeyPress);
+            this.appnametxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Empidtxt_KeyPress);
             // 
             // statusStrip1
             // 
@@ -702,8 +702,8 @@
             this.appidtxt.WaterMark = "Scan Approved By Id";
             this.appidtxt.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.appidtxt.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.appidtxt.TextChanged += new System.EventHandler(this.appidtxt_TextChanged);
-            this.appidtxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.appidtxt_KeyPress);
+            this.appidtxt.TextChanged += new System.EventHandler(this.Appidtxt_TextChanged);
+            this.appidtxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Appidtxt_KeyPress);
             // 
             // empidtxt
             // 
@@ -740,7 +740,7 @@
             this.empidtxt.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.empidtxt.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.empidtxt.TextChanged += new System.EventHandler(this.empidtxt_TextChanged);
-            this.empidtxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.empidtxt_KeyPress);
+            this.empidtxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Empidtxt_KeyPress);
             // 
             // label2
             // 

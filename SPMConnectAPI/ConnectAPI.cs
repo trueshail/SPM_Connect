@@ -234,42 +234,7 @@ namespace SPMConnectAPI
                     if (dt.Rows.Count > 0)
                     {
                         DataRow dr = dt.Rows[0];
-                        userDet.ActiveBlockNumber = dr[UserFields.ActiveBlockNumber].ToString();
-                        userDet.Admin = Convert.ToBoolean(dr["Admin"]);
-                        userDet.ApproveDrawing = Convert.ToBoolean(dr["ApproveDrawing"]);
-                        userDet.CheckDrawing = Convert.ToBoolean(dr["CheckDrawing"]);
-                        userDet.CribCheckout = Convert.ToBoolean(dr["CribCheckout"]);
-                        userDet.CribShort = Convert.ToBoolean(dr["CribShort"]);
-                        userDet.Dept = AttachDepartment(dr["Department"].ToString());
-                        userDet.Developer = Convert.ToBoolean(dr["Developer"]);
-                        userDet.ECR = Convert.ToBoolean(dr["ECR"]);
-                        userDet.ECRApproval = Convert.ToBoolean(dr["ECRApproval"]);
-                        userDet.ECRApproval2 = Convert.ToBoolean(dr["ECRApproval2"]);
-                        userDet.ECRHandler = Convert.ToBoolean(dr["ECRHandler"]);
-                        userDet.ECRSup = Convert.ToInt32(dr["ECRSup"].ToString());
-                        userDet.Email = dr["Email"].ToString();
-                        userDet.Emp_Id = Convert.ToInt32(dr["Emp_Id"].ToString());
-                        userDet.ConnectId = Convert.ToInt32(dr["id"].ToString());
-                        userDet.ItemDependencies = Convert.ToBoolean(dr["ItemDependencies"]);
-                        userDet.Management = Convert.ToBoolean(dr["Management"]);
-                        userDet.Name = dr["Name"].ToString();
-                        userDet.PriceRight = Convert.ToBoolean(dr["PriceRight"]);
-                        userDet.PurchaseReq = Convert.ToBoolean(dr["PurchaseReq"]);
-                        userDet.PurchaseReqApproval = Convert.ToBoolean(dr["PurchaseReqApproval"]);
-                        userDet.PurchaseReqApproval2 = Convert.ToBoolean(dr["PurchaseReqApproval2"]);
-                        userDet.PurchaseReqBuyer = Convert.ToBoolean(dr["PurchaseReqBuyer"]);
-                        userDet.Quote = Convert.ToBoolean(dr["Quote"]);
-                        userDet.ReadWhatsNew = Convert.ToBoolean(dr["ReadWhatsNew"]);
-                        userDet.ReleasePackage = Convert.ToBoolean(dr["ReleasePackage"]);
-                        userDet.SharesFolder = dr["SharesFolder"].ToString();
-                        userDet.Shipping = Convert.ToBoolean(dr["Shipping"]);
-                        userDet.ShippingManager = Convert.ToBoolean(dr["ShippingManager"]);
-                        userDet.ShipSup = Convert.ToInt32(dr["ShipSup"].ToString());
-                        userDet.ShipSupervisor = Convert.ToBoolean(dr["ShipSupervisor"]);
-                        userDet.Supervisor = Convert.ToInt32(dr["Supervisor"].ToString());
-                        userDet.UserName = dr["UserName"].ToString();
-                        userDet.WORelease = Convert.ToBoolean(dr["WORelease"]);
-                        userDet.WOScan = Convert.ToBoolean(dr["WOScan"]);
+                        userDet = GetUserFilled(dr);
                     }
                 }
                 catch (Exception ex)
@@ -300,46 +265,7 @@ namespace SPMConnectAPI
                     {
                         foreach (DataRow dr in dt.Rows)
                         {
-                            UserInfo userDet = new UserInfo
-                            {
-                                ActiveBlockNumber = dr["ActiveBlockNumber"].ToString(),
-                                Admin = Convert.ToBoolean(dr["Admin"]),
-                                ApproveDrawing = Convert.ToBoolean(dr["ApproveDrawing"]),
-                                CheckDrawing = Convert.ToBoolean(dr["CheckDrawing"]),
-                                CribCheckout = Convert.ToBoolean(dr["CribCheckout"]),
-                                CribShort = Convert.ToBoolean(dr["CribShort"]),
-                                Dept = AttachDepartment(dr["Department"].ToString()),
-                                Developer = Convert.ToBoolean(dr["Developer"]),
-                                ECR = Convert.ToBoolean(dr["ECR"]),
-                                ECRApproval = Convert.ToBoolean(dr["ECRApproval"]),
-                                ECRApproval2 = Convert.ToBoolean(dr["ECRApproval2"]),
-                                ECRHandler = Convert.ToBoolean(dr["ECRHandler"]),
-                                ECRSup = Convert.ToInt32(dr["ECRSup"].ToString()),
-                                Email = dr["Email"].ToString(),
-                                Emp_Id = Convert.ToInt32(dr["Emp_Id"].ToString()),
-                                ConnectId = Convert.ToInt32(dr["id"].ToString()),
-                                ItemDependencies = Convert.ToBoolean(dr["ItemDependencies"]),
-                                Management = Convert.ToBoolean(dr["Management"]),
-                                Name = dr["Name"].ToString(),
-                                PriceRight = Convert.ToBoolean(dr["PriceRight"]),
-                                PurchaseReq = Convert.ToBoolean(dr["PurchaseReq"]),
-                                PurchaseReqApproval = Convert.ToBoolean(dr["PurchaseReqApproval"]),
-                                PurchaseReqApproval2 = Convert.ToBoolean(dr["PurchaseReqApproval2"]),
-                                PurchaseReqBuyer = Convert.ToBoolean(dr["PurchaseReqBuyer"]),
-                                Quote = Convert.ToBoolean(dr["Quote"]),
-                                ReadWhatsNew = Convert.ToBoolean(dr["ReadWhatsNew"]),
-                                ReleasePackage = Convert.ToBoolean(dr["ReleasePackage"]),
-                                SharesFolder = dr["SharesFolder"].ToString(),
-                                Shipping = Convert.ToBoolean(dr["Shipping"]),
-                                ShippingManager = Convert.ToBoolean(dr["ShippingManager"]),
-                                ShipSup = Convert.ToInt32(dr["ShipSup"].ToString()),
-                                ShipSupervisor = Convert.ToBoolean(dr["ShipSupervisor"]),
-                                Supervisor = Convert.ToInt32(dr["Supervisor"].ToString()),
-                                UserName = dr["UserName"].ToString(),
-                                WORelease = Convert.ToBoolean(dr["WORelease"]),
-                                WOScan = Convert.ToBoolean(dr["WOScan"])
-                            };
-                            userlist.Add(userDet);
+                            userlist.Add(GetUserFilled(dr));
                         }
                     }
                     dt.Clear();
@@ -355,6 +281,49 @@ namespace SPMConnectAPI
             }
 
             return userlist;
+        }
+
+        private UserInfo GetUserFilled(DataRow dr)
+        {
+            return new UserInfo
+            {
+                ActiveBlockNumber = dr["ActiveBlockNumber"].ToString(),
+                Admin = Convert.ToBoolean(dr["Admin"]),
+                ApproveDrawing = Convert.ToBoolean(dr["ApproveDrawing"]),
+                CheckDrawing = Convert.ToBoolean(dr["CheckDrawing"]),
+                CribCheckout = Convert.ToBoolean(dr["CribCheckout"]),
+                CribShort = Convert.ToBoolean(dr["CribShort"]),
+                Dept = AttachDepartment(dr["Department"].ToString()),
+                Developer = Convert.ToBoolean(dr["Developer"]),
+                ECR = Convert.ToBoolean(dr["ECR"]),
+                ECRApproval = Convert.ToBoolean(dr["ECRApproval"]),
+                ECRApproval2 = Convert.ToBoolean(dr["ECRApproval2"]),
+                ECRHandler = Convert.ToBoolean(dr["ECRHandler"]),
+                ECRSup = Convert.ToInt32(dr["ECRSup"].ToString()),
+                Email = dr["Email"].ToString(),
+                Emp_Id = Convert.ToInt32(dr["Emp_Id"].ToString()),
+                ConnectId = Convert.ToInt32(dr["id"].ToString()),
+                ItemDependencies = Convert.ToBoolean(dr["ItemDependencies"]),
+                Management = Convert.ToBoolean(dr["Management"]),
+                Name = dr["Name"].ToString(),
+                PriceRight = Convert.ToBoolean(dr["PriceRight"]),
+                PurchaseReq = Convert.ToBoolean(dr["PurchaseReq"]),
+                PurchaseReqApproval = Convert.ToBoolean(dr["PurchaseReqApproval"]),
+                PurchaseReqApproval2 = Convert.ToBoolean(dr["PurchaseReqApproval2"]),
+                PurchaseReqBuyer = Convert.ToBoolean(dr["PurchaseReqBuyer"]),
+                Quote = Convert.ToBoolean(dr["Quote"]),
+                ReadWhatsNew = Convert.ToBoolean(dr["ReadWhatsNew"]),
+                ReleasePackage = Convert.ToBoolean(dr["ReleasePackage"]),
+                SharesFolder = dr["SharesFolder"].ToString(),
+                Shipping = Convert.ToBoolean(dr["Shipping"]),
+                ShippingManager = Convert.ToBoolean(dr["ShippingManager"]),
+                ShipSup = Convert.ToInt32(dr["ShipSup"].ToString()),
+                ShipSupervisor = Convert.ToBoolean(dr["ShipSupervisor"]),
+                Supervisor = Convert.ToInt32(dr["Supervisor"].ToString()),
+                UserName = dr["UserName"].ToString(),
+                WORelease = Convert.ToBoolean(dr["WORelease"]),
+                WOScan = Convert.ToBoolean(dr["WOScan"])
+            };
         }
 
         private Department AttachDepartment(string dept)
@@ -673,7 +642,7 @@ namespace SPMConnectAPI
             const bool completed = false;
             if (addin && !ValidfileName(itemid))
             {
-                MessageBox.Show($"A file with the part number " + itemid + " does not have Solidworks CAD Model or SPM item number assigned. Cannot add or remove from favorites. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("A file with the part number " + itemid + " does not have Solidworks CAD Model or SPM item number assigned. Cannot add or remove from favorites. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
@@ -708,7 +677,7 @@ namespace SPMConnectAPI
             const bool completed = false;
             if (addin && !ValidfileName(itemid))
             {
-                MessageBox.Show($"A file with the part number " + itemid + " does not have Solidworks CAD Model or SPM item number assigned. Cannot add or remove from favorites. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("A file with the part number " + itemid + " does not have Solidworks CAD Model or SPM item number assigned. Cannot add or remove from favorites. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
@@ -727,7 +696,7 @@ namespace SPMConnectAPI
             }
             if (addin && !ValidfileName(itemid))
             {
-                MessageBox.Show($"A file with the part number " + itemid + " does not have Solidworks CAD Model or SPM item number assigned. Cannot add or remove from favorites. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("A file with the part number " + itemid + " does not have Solidworks CAD Model or SPM item number assigned. Cannot add or remove from favorites. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
@@ -893,8 +862,7 @@ namespace SPMConnectAPI
             bool exists = false;
             string userid = ConnectUser.UserName;
             // Split string on spaces (this will separate all the words).
-            string[] words = usernames.Split(',');
-            foreach (string word in words)
+            foreach (string word in usernames.Split(','))
             {
                 if (word == userid)
                 {
@@ -910,8 +878,7 @@ namespace SPMConnectAPI
             string removedusername = "";
             string userid = ConnectUser.UserName;
             // Split string on spaces (this will separate all the words).
-            string[] words = usernames.Split(',');
-            foreach (string word in words)
+            foreach (string word in usernames.Split(','))
             {
                 if (word.Trim() != userid)
                 {

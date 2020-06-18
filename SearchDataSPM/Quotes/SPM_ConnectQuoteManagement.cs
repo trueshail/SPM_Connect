@@ -273,6 +273,8 @@ namespace SearchDataSPM.Quotes
 
         private void SPM_ConnectQuoteManagement_Load(object sender, EventArgs e)
         {
+            // Suspend the layout logic for the form, while the application is initializing
+            this.SuspendLayout();
             Showallitems();
             this.Activate();
             dataGridView.Columns[0].Width = 60;
@@ -286,6 +288,8 @@ namespace SearchDataSPM.Quotes
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Quote Management ");
+            // Resume the layout logic
+            this.ResumeLayout();
         }
 
         private void UpdateFont()

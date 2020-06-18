@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.ComponentModel;
+using System.Reflection;
 
 namespace SPMConnectAPI
 {
@@ -37,6 +38,18 @@ namespace SPMConnectAPI
             Accounting,
             Purchasing,
             Crib
+        }
+
+        public enum CRUDStatementType
+        {
+            [Description("Select")]
+            Select,
+            [Description("Update")]
+            Update,
+            [Description("Insert")]
+            Insert,
+            [Description("Delete")]
+            Delete,
         }
 
         public enum ReportModules

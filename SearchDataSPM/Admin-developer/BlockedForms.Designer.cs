@@ -71,7 +71,7 @@
             this.freeuser.Size = new System.Drawing.Size(145, 22);
             this.freeuser.Text = "Free Up Form";
             this.freeuser.ToolTipText = "Free User Licence";
-            this.freeuser.Click += new System.EventHandler(this.freeuser_Click);
+            this.freeuser.Click += new System.EventHandler(this.Freeuser_Click);
             // 
             // BlockedForms
             // 

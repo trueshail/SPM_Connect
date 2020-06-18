@@ -234,11 +234,15 @@ namespace SearchDataSPM.Admin_developer
 
         private void UserStatus_Load(object sender, EventArgs e)
         {
+            // Suspend the layout logic for the form, while the application is initializing
+            this.SuspendLayout();
             Checkdeveloper();
             Loaddata();
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened User Status ");
+            // Resume the layout logic
+            this.ResumeLayout();
         }
     }
 }

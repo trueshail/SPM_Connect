@@ -39,7 +39,7 @@ namespace SearchDataSPM.Admin_developer
             }
         }
 
-        private void btnSave_Click(object sender, EventArgs e)
+        private void BtnSave_Click(object sender, EventArgs e)
         {
             _model.CustomerId = Convert.ToInt16(custidtxt.Text);
             _model.Name = custname.Text.Trim();
@@ -66,7 +66,7 @@ namespace SearchDataSPM.Admin_developer
             _model.id = 0;
         }
 
-        private void custidtxt_KeyPress(object sender, KeyPressEventArgs e)
+        private void Custidtxt_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"[0-9\.+\b]"))
             {
@@ -86,11 +86,15 @@ namespace SearchDataSPM.Admin_developer
 
         private void Customers_Load(object sender, EventArgs e)
         {
+            // Suspend the layout logic for the form, while the application is initializing
+            this.SuspendLayout();
             Clear();
             PopulateDataGridView();
             log4net.Config.XmlConfigurator.Configure();
             _log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             _log.Info(message: "Opened Manage Customers");
+            // Resume the layout logic
+            this.ResumeLayout();
         }
 
         private void dgvCustomer_DoubleClick(object sender, EventArgs e)

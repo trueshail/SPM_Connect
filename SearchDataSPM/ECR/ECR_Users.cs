@@ -22,7 +22,7 @@ namespace SearchDataSPM.ECR
 
         public string ValueIWant { get; set; }
 
-        public string formtext(string formname)
+        public string Formtext(string formname)
         {
             if (formname.Length > 0)
                 return formlabel = formname;
@@ -36,7 +36,7 @@ namespace SearchDataSPM.ECR
             return false;
         }
 
-        private void dataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void DataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             string item;
             if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
@@ -63,6 +63,8 @@ namespace SearchDataSPM.ECR
 
         private void ECR_Users_Load(object sender, EventArgs e)
         {
+            // Suspend the layout logic for the form, while the application is initializing
+            this.SuspendLayout();
             this.Text = formlabel;
             dt = new DataTable();
             if (supervisor)
@@ -119,6 +121,8 @@ namespace SearchDataSPM.ECR
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened ECR Users Available ");
+            // Resume the layout logic
+            this.ResumeLayout();
         }
 
         private void UpdateFont()

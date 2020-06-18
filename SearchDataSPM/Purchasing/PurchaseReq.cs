@@ -14,7 +14,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static SPMConnectAPI.ConnectHelper;
-using Excel = Microsoft.Office.Interop.Excel;
 
 namespace SearchDataSPM.Purchasing
 {
@@ -57,41 +56,47 @@ namespace SearchDataSPM.Purchasing
 
         private void Preparedatagrid()
         {
-            dataGridView.DataSource = dt;
-            dataGridView.Columns[0].Width = 35;
-            dataGridView.Columns[0].HeaderText = "Req No";
-            dataGridView.Columns[1].Width = 35;
-            dataGridView.Columns[1].HeaderText = "Job";
-            dataGridView.Columns[2].Width = 70;
-            dataGridView.Columns[3].Width = 80;
-            dataGridView.Columns[4].Visible = false;
-            dataGridView.Columns[5].Visible = false;
-            dataGridView.Columns[6].Visible = false;
-            dataGridView.Columns[7].Visible = false;
-            dataGridView.Columns[8].Visible = false;
-            dataGridView.Columns[9].Visible = false;
-            dataGridView.Columns[10].Visible = false;
-            dataGridView.Columns[11].Visible = false;
-            dataGridView.Columns[12].Visible = false;
-            dataGridView.Columns[13].Visible = false;
-            dataGridView.Columns[14].Visible = false;
-            dataGridView.Columns[15].Visible = false;
-            dataGridView.Columns[16].Visible = false;
-            dataGridView.Columns[17].Visible = false;
-            dataGridView.Columns[18].Visible = false;
-            dataGridView.Columns[19].Visible = false;
-            dataGridView.Columns[20].Visible = false;
-            dataGridView.Columns[21].Visible = false;
-            dataGridView.Columns[22].Visible = false;
-            dataGridView.Columns[23].Visible = false;
-            dataGridView.Columns[24].Visible = false;
-            dataGridView.Columns[25].Visible = false;
-            dataGridView.Sort(dataGridView.Columns[0], ListSortDirection.Descending);
-            UpdateFont();
+            if (dt.Rows.Count > 0)
+            {
+                dataGridView.DataSource = dt;
+                dataGridView.Columns[0].Width = 35;
+                dataGridView.Columns[0].HeaderText = "Req No";
+                dataGridView.Columns[1].Width = 35;
+                dataGridView.Columns[1].HeaderText = "Job";
+                dataGridView.Columns[2].Width = 70;
+                dataGridView.Columns[3].Width = 80;
+                dataGridView.Columns[4].Visible = false;
+                dataGridView.Columns[5].Visible = false;
+                dataGridView.Columns[6].Visible = false;
+                dataGridView.Columns[7].Visible = false;
+                dataGridView.Columns[8].Visible = false;
+                dataGridView.Columns[9].Visible = false;
+                dataGridView.Columns[10].Visible = false;
+                dataGridView.Columns[11].Visible = false;
+                dataGridView.Columns[12].Visible = false;
+                dataGridView.Columns[13].Visible = false;
+                dataGridView.Columns[14].Visible = false;
+                dataGridView.Columns[15].Visible = false;
+                dataGridView.Columns[16].Visible = false;
+                dataGridView.Columns[17].Visible = false;
+                dataGridView.Columns[18].Visible = false;
+                dataGridView.Columns[19].Visible = false;
+                dataGridView.Columns[20].Visible = false;
+                dataGridView.Columns[21].Visible = false;
+                dataGridView.Columns[22].Visible = false;
+                dataGridView.Columns[23].Visible = false;
+                dataGridView.Columns[24].Visible = false;
+                dataGridView.Columns[25].Visible = false;
+                dataGridView.Sort(dataGridView.Columns[0], ListSortDirection.Descending);
+                UpdateFont();
+            }
+
         }
 
         private void PurchaseReq_Load(object sender, EventArgs e)
         {
+            // Suspend the layout logic for the form, while the application is initializing
+            this.SuspendLayout();
             formloading = true;
             if (connectapi.ConnectUser.PurchaseReqApproval)
             {
@@ -136,6 +141,8 @@ namespace SearchDataSPM.Purchasing
             this.BringToFront();
             this.Focus();
             this.Text = "SPM Connect Purchase Requisition - " + connectapi.ConnectUser.UserName.Substring(4);
+            // Resume the layout logic
+            this.ResumeLayout();
         }
 
         private void ShowReqSearchItems(string user)
@@ -691,12 +698,10 @@ namespace SearchDataSPM.Purchasing
             dateTimePicker1.MinDate = new DateTime(1900, 01, 01);
         }
 
-        private async Task Processsavebutton(bool validatehit, string typeofsave)
+        private void Processsavebutton(bool validatehit, string typeofsave)
         {
             try
             {
-                await Task.Run(() => SplashDialog("Saving Data...")).ConfigureAwait(true);
-
                 Cursor.Current = Cursors.WaitCursor;
                 this.Enabled = false;
                 //tabControl1.TabPages.Remove(PreviewTabPage);
@@ -783,7 +788,6 @@ namespace SearchDataSPM.Purchasing
                 this.Enabled = true;
                 this.Focus();
                 this.Activate();
-                splashWorkDone = true;
             }
             catch
             {
@@ -811,10 +815,10 @@ namespace SearchDataSPM.Purchasing
             }
         }
 
-        private async void Savebttn_Click(object sender, EventArgs e)
+        private void Savebttn_Click(object sender, EventArgs e)
         {
             Itemstodiscard.Clear();
-            await Processsavebutton(false, "Normal").ConfigureAwait(false);
+            Processsavebutton(false, "Normal");
         }
 
         private void Splittagtovariables(string s)
@@ -1547,7 +1551,7 @@ namespace SearchDataSPM.Purchasing
             }
         }
 
-        private async void Validatechk_Click(object sender, EventArgs e)
+        private void Validatechk_Click(object sender, EventArgs e)
         {
             if (!Validatechk.Checked)
             {
@@ -1578,9 +1582,8 @@ namespace SearchDataSPM.Purchasing
                     if (jobnumbertxt.Text.Length > 0 && subassytxt.Text.Length > 0 && dataGridView1.Rows.Count > 0)
                     {
                         string reqno = purchreqtxt.Text;
-                        await Processsavebutton(true, "Validated").ConfigureAwait(false);
+                        Processsavebutton(true, "Validated");
                         Validatechk.Text = "Invalidate";
-                        await Task.Run(() => SplashDialog("Sending Email...")).ConfigureAwait(true);
                         Cursor.Current = Cursors.WaitCursor;
                         this.Enabled = false;
                         string filename = Makefilenameforreport(reqno, true);
@@ -1627,7 +1630,7 @@ namespace SearchDataSPM.Purchasing
 
         #region manager approve check changed
 
-        private async void Approvechk_Click(object sender, EventArgs e)
+        private void Approvechk_Click(object sender, EventArgs e)
         {
             if (connectapi.ConnectUser.PurchaseReqApproval)
             {
@@ -1644,7 +1647,7 @@ namespace SearchDataSPM.Purchasing
                     {
                         approvechk.Checked = false;
                         approvechk.Text = "Approve";
-                        await Processsavebutton(true, "ApprovedFalse").ConfigureAwait(false);
+                        Processsavebutton(true, "ApprovedFalse");
                     }
                 }
                 else
@@ -1661,15 +1664,14 @@ namespace SearchDataSPM.Purchasing
                             string requestby = requestbytxt.Text;
                             bool happroval = Happroval();
 
-                            await Processsavebutton(true, "Approved").ConfigureAwait(false);
+                            Processsavebutton(true, "Approved");
                             approvechk.Checked = true;
-                            await Task.Run(() => SplashDialog("Sending Email...")).ConfigureAwait(true);
                             this.Enabled = false;
 
                             string filename = Makefilenameforreport(reqno, false);
                             SaveReport(reqno, filename);
                             Preparetosendemail(reqno, false, requestby, filename, happroval, "connectapi.ConnectUser.PurchaseReqApproval", false);
-                            Exporttoexcel();
+                            //Exporttoexcel();
                             this.Enabled = true;
                             this.Focus();
                             this.Activate();
@@ -2677,13 +2679,13 @@ namespace SearchDataSPM.Purchasing
 
         #region Happroval
 
-        private async void Happrovechk_Click(object sender, EventArgs e)
+        private void Happrovechk_Click(object sender, EventArgs e)
         {
             if (connectapi.ConnectUser.PurchaseReqApproval2)
             {
                 if (!happrovechk.Checked)
                 {
-                    await Processsavebutton(true, "Happrovedfalse").ConfigureAwait(false);
+                    Processsavebutton(true, "Happrovedfalse");
                 }
                 else
                 {
@@ -2696,9 +2698,8 @@ namespace SearchDataSPM.Purchasing
                         string reqno = purchreqtxt.Text;
                         string requestby = requestbytxt.Text;
 
-                        await Processsavebutton(true, "Happroved").ConfigureAwait(false);
+                        Processsavebutton(true, "Happroved");
                         happrovechk.Checked = true;
-                        await Task.Run(() => SplashDialog("Sending Email...")).ConfigureAwait(true);
                         this.Enabled = false;
 
                         string filename = Makefilenameforreport(reqno, false);
@@ -2752,13 +2753,13 @@ namespace SearchDataSPM.Purchasing
 
         #region Pbuyer
 
-        private async void Purchasedchk_Click(object sender, EventArgs e)
+        private void Purchasedchk_Click(object sender, EventArgs e)
         {
             if (connectapi.ConnectUser.PurchaseReqBuyer)
             {
                 if (!purchasedchk.Checked)
                 {
-                    await Processsavebutton(true, "Papprovedfalse").ConfigureAwait(false);
+                    Processsavebutton(true, "Papprovedfalse");
                 }
                 else
                 {
@@ -2771,20 +2772,13 @@ namespace SearchDataSPM.Purchasing
                         string reqno = purchreqtxt.Text;
                         string requestby = requestbytxt.Text;
 
-                        await Processsavebutton(true, "Papproved").ConfigureAwait(false);
+                        Processsavebutton(true, "Papproved");
                         DataGridView_SelectionChanged(sender, e);
-                        //this.TopMost = false;
-
-                        //Thread t = new Thread(new ThreadStart(Splashemail));
-                        //t.Start();
-                        await Task.Run(() => SplashDialog("Sending Email...")).ConfigureAwait(true);
                         this.Enabled = false;
                         purchasedchk.Checked = true;
 
                         Preparetosendemail(reqno, false, requestby, "", false, "connectapi.ConnectUser.PurchaseReqBuyer", false);
 
-                        //t.Abort();
-                        //this.TopMost = true;
                         this.Enabled = true;
                         this.Focus();
                         this.Activate();
@@ -2829,141 +2823,6 @@ namespace SearchDataSPM.Purchasing
 
         #endregion Pbuyer
 
-        #region export to excel
-
-        private void CopyAlltoClipboard()
-        {
-            dataGridView1.SelectAll();
-            DataObject dataObj = dataGridView1.GetClipboardContent();
-            if (dataObj != null)
-                Clipboard.SetDataObject(dataObj);
-        }
-
-        private void Exporttoexcel()
-        {
-            try
-            {
-                //SaveFileDialog sfd = new SaveFileDialog();
-                //sfd.Filter = "Excel Documents (*.xls)|*.xls";
-                //sfd.FileName = "Inventory_Adjustment_Export.xls";
-
-                string filepath = Getsupervisorsharepath(connectapi.ConnectUser.UserName) + @"\SPM_Connect\PreliminaryPurchases\";
-                System.IO.Directory.CreateDirectory(filepath);
-                filepath += purchreqtxt.Text + " - " + requestbytxt.Text + ".xls";
-                // Copy DataGridView results to clipboard
-                CopyAlltoClipboard();
-
-                object misValue = System.Reflection.Missing.Value;
-                Excel.Application xlexcel = new Excel.Application
-                {
-                    DisplayAlerts = false // Without this you will get two confirm overwrite prompts
-                };
-                Excel.Workbook xlWorkBook = xlexcel.Workbooks.Add(misValue);
-                Excel.Worksheet xlWorkSheet = (Excel.Worksheet)xlWorkBook.Worksheets.get_Item(1);
-
-                // Format column D as text before pasting results, this was required for my data
-
-                // Paste clipboard results to worksheet range
-                Excel.Range CR = (Excel.Range)xlWorkSheet.Cells[2, 1];
-                CR.Select();
-                xlWorkSheet.PasteSpecial(CR, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, true);
-
-                // For some reason column A is always blank in the worksheet. ¯\_(ツ)_/¯
-                // Delete blank column A and select cell A1
-                Excel.Range delRng = xlWorkSheet.get_Range("G:G").Cells;
-                delRng.Delete();
-                delRng = xlWorkSheet.get_Range("F:F").Cells;
-                delRng.Delete();
-                delRng = xlWorkSheet.get_Range("E:E").Cells;
-                delRng.Delete();
-                delRng = xlWorkSheet.get_Range("D:D").Cells;
-                delRng.Delete();
-                delRng = xlWorkSheet.get_Range("A:A").Cells;
-                delRng.Delete();
-
-                Excel.Range rng = xlWorkSheet.get_Range("D:D").Cells;
-                rng.NumberFormat = "@";
-
-                xlWorkSheet.Cells[1, 1] = "Item";
-                xlWorkSheet.Cells[1, 2] = "AllocatedQuantity";
-
-                //xlWorkSheet.get_Range("A1").Select();
-
-                // Save the excel file under the captured location from the SaveFileDialog
-                xlWorkBook.SaveAs(filepath, Excel.XlFileFormat.xlWorkbookNormal, misValue, misValue, misValue, misValue, Excel.XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
-                xlexcel.DisplayAlerts = true;
-                xlWorkBook.Close(true, misValue, misValue);
-                xlexcel.Quit();
-
-                ReleaseObject(xlWorkSheet);
-                ReleaseObject(xlWorkBook);
-                ReleaseObject(xlexcel);
-
-                // Clear Clipboard and DataGridView selection
-                Clipboard.Clear();
-                dataGridView1.ClearSelection();
-
-                // Open the newly saved excel file
-                //if (File.Exists(filepath))
-                //    System.Diagnostics.Process.Start(filepath);
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex.Message, ex);
-                //MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Error Saving excel file", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private string Getsupervisorsharepath(string username)
-        {
-            string path = "";
-            try
-            {
-                if (connectapi.cn.State == ConnectionState.Closed)
-                    connectapi.cn.Open();
-                SqlCommand cmd = connectapi.cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + username + "' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    path = dr["SharesFolder"].ToString();
-                }
-            }
-            catch (Exception ex)
-            {
-                MetroFramework.MetroMessageBox.Show(this, ex.Message, "SPM Connect - Error Getting share folder path", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                connectapi.cn.Close();
-            }
-            return path;
-        }
-
-        private void ReleaseObject(object obj)
-        {
-            try
-            {
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
-                obj = null;
-            }
-            catch (Exception ex)
-            {
-                obj = null;
-                MessageBox.Show("Exception Occurred while releasing object " + ex.ToString());
-            }
-            finally
-            {
-                GC.Collect();
-            }
-        }
-
-        #endregion export to excel
-
         #region Approval Tool Menu Strip
 
         private void ApprovalMenuStrip_Opening(object sender, CancelEventArgs e)
@@ -2974,7 +2833,7 @@ namespace SearchDataSPM.Purchasing
             }
         }
 
-        private async void Approvetoolstrip_Click(object sender, EventArgs e)
+        private void Approvetoolstrip_Click(object sender, EventArgs e)
         {
             if (!approvechk.Checked)
             {
@@ -2995,7 +2854,7 @@ namespace SearchDataSPM.Purchasing
                         {
                             approvechk.Checked = false;
                             approvechk.Text = "Approve";
-                            await Processsavebutton(true, "ApprovedFalse").ConfigureAwait(false);
+                            Processsavebutton(true, "ApprovedFalse");
                         }
                     }
                     else
@@ -3011,15 +2870,14 @@ namespace SearchDataSPM.Purchasing
                                 string reqno = purchreqtxt.Text;
                                 string requestby = requestbytxt.Text;
                                 bool happroval = Happroval();
-                                await Processsavebutton(true, "Approved").ConfigureAwait(false);
+                                Processsavebutton(true, "Approved");
                                 approvechk.Checked = true;
-                                await Task.Run(() => SplashDialog("Sending Email...")).ConfigureAwait(true);
                                 this.Enabled = false;
 
                                 string filename = Makefilenameforreport(reqno, false);
                                 SaveReport(reqno, filename);
                                 Preparetosendemail(reqno, false, requestby, filename, happroval, "connectapi.ConnectUser.PurchaseReqApproval", false);
-                                Exporttoexcel();
+                                //Exporttoexcel();
                                 this.Enabled = true;
                                 this.Focus();
                                 this.Activate();
@@ -3060,7 +2918,7 @@ namespace SearchDataSPM.Purchasing
 
                     if (!happrovechk.Checked)
                     {
-                        await Processsavebutton(true, "Happrovedfalse").ConfigureAwait(false);
+                        Processsavebutton(true, "Happrovedfalse");
                     }
                     else
                     {
@@ -3073,9 +2931,8 @@ namespace SearchDataSPM.Purchasing
                             string reqno = purchreqtxt.Text;
                             string requestby = requestbytxt.Text;
 
-                            await Processsavebutton(true, "Happroved").ConfigureAwait(false);
+                            Processsavebutton(true, "Happroved");
                             happrovechk.Checked = true;
-                            await Task.Run(() => SplashDialog("Sending Email...")).ConfigureAwait(true);
                             this.Enabled = false;
 
                             string filename = Makefilenameforreport(reqno, false);
@@ -3099,7 +2956,7 @@ namespace SearchDataSPM.Purchasing
             }
         }
 
-        private async void Rejecttoolstrip_Click(object sender, EventArgs e)
+        private void Rejecttoolstrip_Click(object sender, EventArgs e)
         {
             if (!approvechk.Checked)
             {
@@ -3120,7 +2977,7 @@ namespace SearchDataSPM.Purchasing
                         {
                             approvechk.Checked = false;
                             approvechk.Text = "Approve";
-                            await Processsavebutton(true, "ApprovedFalse").ConfigureAwait(false);
+                            Processsavebutton(true, "ApprovedFalse");
                         }
                     }
                     else
@@ -3136,9 +2993,8 @@ namespace SearchDataSPM.Purchasing
                                 string reqno = purchreqtxt.Text;
                                 string requestby = requestbytxt.Text;
                                 bool happroval = Happroval();
-                                await Processsavebutton(true, "Rejected").ConfigureAwait(false);
+                                Processsavebutton(true, "Rejected");
                                 approvechk.Checked = true;
-                                await Task.Run(() => SplashDialog("Sending Email...")).ConfigureAwait(true);
                                 this.Enabled = false;
 
                                 //string filename = makefilenameforreport(reqno, false).ToString();
@@ -3187,7 +3043,7 @@ namespace SearchDataSPM.Purchasing
 
                     if (!happrovechk.Checked)
                     {
-                        await Processsavebutton(true, "Happrovedfalse").ConfigureAwait(false);
+                        Processsavebutton(true, "Happrovedfalse");
                     }
                     else
                     {
@@ -3200,9 +3056,8 @@ namespace SearchDataSPM.Purchasing
                             string reqno = purchreqtxt.Text;
                             string requestby = requestbytxt.Text;
 
-                            await Processsavebutton(true, "HRejected").ConfigureAwait(false);
+                            Processsavebutton(true, "HRejected");
                             happrovechk.Checked = true;
-                            await Task.Run(() => SplashDialog("Sending Email...")).ConfigureAwait(true);
                             this.Enabled = false;
 
                             //string filename = makefilenameforreport(reqno, false).ToString();

@@ -39,7 +39,6 @@ namespace SearchDataSPM.Engineering
             PW = 515;
             hiden = true;
             SlidePanel.Width = 0;
-
             _acountsTb = new DataTable();
             _treeTB = new DataTable();
             PO = new DataTable();
@@ -658,6 +657,8 @@ namespace SearchDataSPM.Engineering
 
         private void ParentView_Load(object sender, EventArgs e)
         {
+            // Suspend the layout logic for the form, while the application is initializing
+            this.SuspendLayout();
             this.Text = "ItemInfo - SPM Connect (" + iteminfo2 + ")";
             CheckManagement();
             CheckItemDependenciesRight();
@@ -678,6 +679,8 @@ namespace SearchDataSPM.Engineering
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Item Details " + iteminfo2 + " ");
+            // Resume the layout logic
+            this.ResumeLayout();
         }
 
         private void PopulateTreeView(string parentId, TreeNode parentNode)

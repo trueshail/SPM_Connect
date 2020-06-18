@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -19,7 +18,7 @@ namespace SearchDataSPM.Engineering
     {
         #region steupvariables
 
-        private readonly DataTable dt = new DataTable();
+        private DataTable dt = new DataTable();
         private readonly SPMConnectAPI.SPMSQLCommands connectapi = new SPMConnectAPI.SPMSQLCommands();
         private readonly TreeNode root = new TreeNode();
         private bool eng;
@@ -31,33 +30,16 @@ namespace SearchDataSPM.Engineering
 
         #region loadtree
 
-        private string estid;
+        private readonly string estid;
 
-        private string itemnumber;
+        private readonly string itemnumber;
 
-        public EstimateBOM()
+        public EstimateBOM(string est, string item)
         {
             InitializeComponent();
-            Rectangle screen = Screen.PrimaryScreen.WorkingArea;
-            int w = Width >= screen.Width ? screen.Width : (screen.Width + Width) / 3;
-            int h = Height >= screen.Height ? screen.Height : (screen.Height + Height) / 3;
-            this.Location = new Point((screen.Width - w) / 2, (screen.Height - h) / 2);
-            this.Size = new Size(w, h);
+            this.estid = est;
+            this.itemnumber = item;
             dt = new DataTable();
-        }
-
-        public string estimate(string est)
-        {
-            if (est.Length > 0)
-                return estid = est;
-            return null;
-        }
-
-        public string item(string item)
-        {
-            if (item.Length > 0)
-                return itemnumber = item;
-            return null;
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -98,22 +80,22 @@ namespace SearchDataSPM.Engineering
 
         private void ParentView_Load(object sender, EventArgs e)
         {
-
+            // Suspend the layout logic for the form, while the application is initializing
+            this.SuspendLayout();
             Assy_txtbox.Focus();
             Assy_txtbox.Text = itemnumber;
             if (Assy_txtbox.Text.Length == 5 || Assy_txtbox.Text.Length == 6)
             {
-                //SendKeys.Send("~");
-                itemnumber = null;
-                startprocessofbom();
+                Startprocessofbom();
                 CallRecursive();
-                //connectapi.SPM_Connect();
                 if (connectapi.ConnectUser.Dept == Department.Eng) eng = true;
                 Assy_txtbox.Select();
             }
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Estimate BOM " + itemnumber + " ");
+            // Resume the layout logic
+            this.ResumeLayout();
         }
 
         #endregion loadtree
@@ -124,7 +106,7 @@ namespace SearchDataSPM.Engineering
         {
             if (e.KeyCode == Keys.Return)
             {
-                startprocessofbom();
+                Startprocessofbom();
                 rootnodedone = false;
                 CallRecursive();
                 e.Handled = true;
@@ -135,11 +117,11 @@ namespace SearchDataSPM.Engineering
         private void Assy_txtbox_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             // treeView1.TopNode.Nodes.Clear();
-            cleanup();
+            Cleanup();
             //SendKeys.Send("~");
         }
 
-        private void cleanup()
+        private void Cleanup()
         {
             treeView1.Nodes.Clear();
             treeView1.ResetText();
@@ -160,7 +142,7 @@ namespace SearchDataSPM.Engineering
             foundlabel.Text = "Search:";
         }
 
-        private void cleaup2()
+        private void Cleaup2()
         {
             treeView1.Nodes.Clear();
             treeView1.ResetText();
@@ -192,28 +174,6 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void Filldatatable()
-        {
-            const String sql = "SELECT *  FROM [SPM_Database].[dbo].[SPMConnectEstimate] ORDER BY [ItemNumber]";
-            try
-            {
-                dt.Clear();
-                if (connectapi.cn.State == ConnectionState.Closed)
-                    connectapi.cn.Open();
-                SqlDataAdapter da = new SqlDataAdapter(sql, connectapi.cn);
-
-                da.Fill(dt);
-            }
-            catch (SqlException ex)
-            {
-                MessageBox.Show(ex.Message, "BOM - Fill data table Items", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                connectapi.cn.Close();
-            }
-        }
-
         private void Fillrootnode()
         {
             //if (Assy_txtbox.Text.Length == 6)
@@ -231,7 +191,7 @@ namespace SearchDataSPM.Engineering
                 {
                     root.Text = dr[0]["AssyNo"].ToString() + " - " + dr[0]["AssyDescription"].ToString();
                     root.Tag = dt.Rows.IndexOf(dr[0]);
-                    setimageaccordingtofamily(dr[0]["AssyFamily"].ToString(), root);
+                    Setimageaccordingtofamily(dr[0]["AssyFamily"].ToString(), root);
                     //Font f = FontStyle.Bold);
                     // root.NodeFont = f;
 
@@ -261,7 +221,7 @@ namespace SearchDataSPM.Engineering
                     {
                         root.Text = dr[0]["ItemNumber"].ToString() + " - " + dr[0]["Description"].ToString();
                         root.Tag = dt.Rows.IndexOf(dr[0]);
-                        setimageaccordingtofamily(dr[0]["ItemFamily"].ToString(), root);
+                        Setimageaccordingtofamily(dr[0]["ItemFamily"].ToString(), root);
                         //Font f = FontStyle.Bold);
                         // root.NodeFont = f;
 
@@ -291,16 +251,6 @@ namespace SearchDataSPM.Engineering
                 treeView1.ResetText();
                 Expandchk.Checked = false;
             }
-
-            //}
-            //else
-            //{
-            //    if (Assy_txtbox.Text.Length == 5)
-            //    {
-            //        cleaup2();
-            //        Assy_txtbox.BackColor = Color.IndianRed; //to add high light
-            //    }
-            //}
         }
 
         private void PopulateTreeView(string parentId, TreeNode parentNode)
@@ -353,7 +303,7 @@ namespace SearchDataSPM.Engineering
             Process.Start("http://www.spm-automation.com/");
         }
 
-        private void startprocessofbom()
+        private void Startprocessofbom()
         {
             txtvalue = Assy_txtbox.Text;
             try
@@ -361,11 +311,11 @@ namespace SearchDataSPM.Engineering
                 treeView1.Nodes.Clear();
                 RemoveChildNodes(root);
                 treeView1.ResetText();
-                Filldatatable();
+                dt.Clear();
+                dt = connectapi.GetEstimateBOMByID(Convert.ToInt32(estid));
                 Fillrootnode();
             }
             catch (Exception)
-
             {
                 if (!String.IsNullOrEmpty(txtvalue) && Char.IsLetter(txtvalue[0]))
                 {
@@ -374,7 +324,7 @@ namespace SearchDataSPM.Engineering
                 else
                 {
                     MessageBox.Show("Invalid Search Parameter / Item Not Found On Genius.", "SPM Connect - Bill Of Manufacturing", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    cleaup2();
+                    Cleaup2();
                     Assy_txtbox.BackColor = Color.IndianRed; //to add high light
                     //Assy_txtbox.Clear();
                 }
@@ -385,7 +335,7 @@ namespace SearchDataSPM.Engineering
 
         #region open model and drawing
 
-        private void openDrawingToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OpenDrawingToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string itemstr = treeView1.SelectedNode.Text;
             itemstr = itemstr.Substring(0, 6);
@@ -399,7 +349,7 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void openModelToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OpenModelToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string itemstr = treeView1.SelectedNode.Text;
             itemstr = itemstr.Substring(0, 6);
@@ -444,7 +394,7 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void txtSearch_KeyDown(object sender, KeyEventArgs e)
+        private void TxtSearch_KeyDown(object sender, KeyEventArgs e)
         {
             if (txtSearch.Text.Length > 0)
             {
@@ -499,7 +449,7 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void txtSearch_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void TxtSearch_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             txtSearch.Clear();
             foundlabel.Text = "Search:";
@@ -513,36 +463,31 @@ namespace SearchDataSPM.Engineering
 
         private string chekroot;
 
-        private void filllistview(string item)
+        private void Filllistview(string item)
         {
             try
             {
                 listFiles.Clear();
                 listView.Items.Clear();
-
-                // MessageBox.Show(ItemNo);
-                //getfilepathname(ItemNo);
                 string first3char = item.Substring(0, 3) + @"\";
-                //MessageBox.Show(first3char);
-
                 const string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
 
                 string Pathpart = (spmcadpath + first3char);
-                getitemstodisplay(Pathpart, item);
+                Getitemstodisplay(Pathpart, item);
             }
-            catch
+            catch (Exception ex)
             {
-                return;
+                log.Error(ex.Message, ex);
             }
         }
 
-        private void treeView1_AfterExpand(object sender, TreeViewEventArgs e)
+        private void TreeView1_AfterExpand(object sender, TreeViewEventArgs e)
         {
             Expandchk.Checked = true;
             // CallRecursive();
         }
 
-        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        private void TreeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
             string ItemNo;
             if (n != null)
@@ -564,7 +509,7 @@ namespace SearchDataSPM.Engineering
                 ItemNo = ItemTxtBox.Text;
 
                 //getfilepathname(ItemNo);
-                filllistview(ItemNo);
+                Filllistview(ItemNo);
             }
             else if (root.IsSelected && chekroot == "Item")
             {
@@ -580,7 +525,7 @@ namespace SearchDataSPM.Engineering
                 ItemNo = ItemTxtBox.Text;
 
                 //getfilepathname(ItemNo);
-                filllistview(ItemNo);
+                Filllistview(ItemNo);
             }
             else
             {
@@ -595,11 +540,11 @@ namespace SearchDataSPM.Engineering
                 ItemNo = ItemTxtBox.Text;
 
                 // getfilepathname(ItemNo);
-                filllistview(ItemNo);
+                Filllistview(ItemNo);
             }
         }
 
-        private void treeView1_ItemDrag(object sender, ItemDragEventArgs e)
+        private void TreeView1_ItemDrag(object sender, ItemDragEventArgs e)
         {
             //string[] fList = new string[1];
             //fList[0] = fName;
@@ -607,7 +552,7 @@ namespace SearchDataSPM.Engineering
             //DragDropEffects eff = DoDragDrop(dataObj, DragDropEffects.Link | DragDropEffects.Copy);
         }
 
-        private void treeView1_KeyDown(object sender, KeyEventArgs e)
+        private void TreeView1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -619,7 +564,7 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void treeView1_KeyPress(object sender, KeyPressEventArgs e)
+        private void TreeView1_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == Convert.ToChar(Keys.Down))
             {
@@ -637,7 +582,7 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void treeView1_Leave(object sender, EventArgs e)
+        private void TreeView1_Leave(object sender, EventArgs e)
         {
             if (treeView1.Nodes.Count > 0)
             {
@@ -646,7 +591,7 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        private void TreeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             treeView1.SelectedNode = e.Node;
         }
@@ -698,7 +643,7 @@ namespace SearchDataSPM.Engineering
         private static extern IntPtr ExtractAssociatedIcon(IntPtr hInst,
         StringBuilder lpIconPath, out ushort lpiIcon);
 
-        private void getitemstodisplay(string Pathpart, string ItemNo)
+        private void Getitemstodisplay(string Pathpart, string ItemNo)
         {
             if (Directory.Exists(Pathpart))
             {
@@ -737,7 +682,7 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void listView_ItemDrag(object sender, ItemDragEventArgs e)
+        private void ListView_ItemDrag(object sender, ItemDragEventArgs e)
         {
             string[] fList = new string[1];
             fList[0] = Pathpart;
@@ -745,7 +690,7 @@ namespace SearchDataSPM.Engineering
             _ = DoDragDrop(dataObj, DragDropEffects.Link | DragDropEffects.Copy);
         }
 
-        private void listView_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        private void ListView_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             if (listView.FocusedItem != null)
             {
@@ -760,7 +705,7 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void listView_KeyDown(object sender, KeyEventArgs e)
+        private void ListView_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -776,7 +721,7 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void listView_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void ListView_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
@@ -794,7 +739,7 @@ namespace SearchDataSPM.Engineering
 
         #endregion Listview Events
 
-        private void addToFavoritesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AddToFavoritesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (treeView1.SelectedNode != null)
             {
@@ -817,7 +762,7 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        private void ContextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
             if (treeView1.Nodes.Count <= 0)
             {
@@ -825,7 +770,7 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void iteminfolistviewStripMenu_Click(object sender, EventArgs e)
+        private void IteminfolistviewStripMenu_Click(object sender, EventArgs e)
         {
             if (listView.FocusedItem != null)
             {
@@ -844,7 +789,7 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private string makepathfordrag()
+        private string Makepathfordrag()
         {
             string txt = listView.FocusedItem.Text;
             string first3char = txt.Substring(0, 3) + @"\";
@@ -867,7 +812,7 @@ namespace SearchDataSPM.Engineering
             {
                 DataRow r = dt.Rows[int.Parse(treeNode.Tag.ToString())];
                 string family = r["ItemFamily"].ToString();
-                setimageaccordingtofamily(family, treeNode);
+                Setimageaccordingtofamily(family, treeNode);
             }
 
             // Print each node recursively.
@@ -877,9 +822,9 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void revelInExplorerToolStripMenuItem_Click(object sender, EventArgs e)
+        private void RevelInExplorerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string filePath = makepathfordrag();
+            string filePath = Makepathfordrag();
             if (!File.Exists(filePath))
             {
                 return;
@@ -888,7 +833,7 @@ namespace SearchDataSPM.Engineering
             Process.Start("explorer.exe", argument);
         }
 
-        private void setimageaccordingtofamily(string family, TreeNode treeNode)
+        private void Setimageaccordingtofamily(string family, TreeNode treeNode)
         {
             if (family == "AG")
             {
@@ -940,7 +885,7 @@ namespace SearchDataSPM.Engineering
         {
         }
 
-        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        private void ToolStripMenuItem2_Click(object sender, EventArgs e)
         {
             if (treeView1.SelectedNode != null)
             {
@@ -951,7 +896,7 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void toolStripMenuItem3_Click(object sender, EventArgs e)
+        private void ToolStripMenuItem3_Click(object sender, EventArgs e)
         {
             if (listView.SelectedItems.Count == 1)
             {
@@ -967,7 +912,7 @@ namespace SearchDataSPM.Engineering
             this.Dispose();
         }
 
-        private void treeView1_BeforeCollapse(object sender, TreeViewCancelEventArgs e)
+        private void TreeView1_BeforeCollapse(object sender, TreeViewCancelEventArgs e)
         {
             //e.Node.SelectedImageIndex = 0;
             // e.Node.ImageIndex = 0;
@@ -978,7 +923,7 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void treeView1_BeforeExpand(object sender, TreeViewCancelEventArgs e)
+        private void TreeView1_BeforeExpand(object sender, TreeViewCancelEventArgs e)
         {
             //e.Node.SelectedImageIndex = 1;
             //e.Node.ImageIndex = 1;
@@ -991,7 +936,7 @@ namespace SearchDataSPM.Engineering
             //Node doesn't exists
         }
 
-        private void treeView1_BeforeSelect(object sender, TreeViewCancelEventArgs e)
+        private void TreeView1_BeforeSelect(object sender, TreeViewCancelEventArgs e)
         {
             switch (e.Node.ImageIndex)
             {

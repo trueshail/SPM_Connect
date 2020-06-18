@@ -76,11 +76,15 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
 
         private void SPM_Connect_Load(object sender, EventArgs e)
         {
+            // Suspend the layout logic for the form, while the application is initializing
+            this.SuspendLayout();
             Showallitems();
             GetVersionLabel();
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Work Order Release Log ");
+            // Resume the layout logic
+            this.ResumeLayout();
         }
 
         private void UpdateFont()
@@ -166,7 +170,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
                         dv.RowFilter += " AND " + secondFilter;
                     dataGridView.DataSource = dv;
                     SearchStringPosition();
-                    searchtext(Descrip_txtbox.Text);
+                    Searchtext(Descrip_txtbox.Text);
                     table1 = dv.ToTable();
                     dataGridView.Refresh();
                 }
@@ -216,7 +220,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
                         dv.RowFilter += " AND " + fifthfilter;
                     dataGridView.DataSource = dv;
                     SearchStringPosition();
-                    searchtext(filter4.Text);
+                    Searchtext(filter4.Text);
                     dataGridView.Refresh();
                 }
                 catch (Exception)
@@ -250,7 +254,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
                         dv.RowFilter += " AND " + thirdFilter;
                     dataGridView.DataSource = dv;
                     SearchStringPosition();
-                    searchtext(filteroem_txtbox.Text);
+                    Searchtext(filteroem_txtbox.Text);
                     table2 = dv.ToTable();
                     dataGridView.Refresh();
                 }
@@ -295,7 +299,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
                         dv.RowFilter += " AND " + fourthfilter;
                     dataGridView.DataSource = dv;
                     SearchStringPosition();
-                    searchtext(filteroemitem_txtbox.Text);
+                    Searchtext(filteroemitem_txtbox.Text);
                     table3 = dv.ToTable();
                     dataGridView.Refresh();
                 }
@@ -333,7 +337,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
                 table0 = dv.ToTable();
                 dataGridView.Update();
                 SearchStringPosition();
-                searchtext(txtSearch.Text);
+                Searchtext(txtSearch.Text);
                 dataGridView.Refresh();
             }
             catch (Exception)
@@ -367,7 +371,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
 
         private string sw;
 
-        private void dataGridView_CellPainting_1(object sender, DataGridViewCellPaintingEventArgs e)
+        private void DataGridView_CellPainting_1(object sender, DataGridViewCellPaintingEventArgs e)
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && IsSelected)
             {
@@ -419,7 +423,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             IsSelected = true;
         }
 
-        private void searchtext(string searchkey)
+        private void Searchtext(string searchkey)
         {
             sw = searchkey;
         }
@@ -437,7 +441,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
 
         #region datagridview events
 
-        private void dataGridView_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        private void DataGridView_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.RowIndex == -1) return;
             _ = dataGridView.Rows[e.RowIndex];
@@ -450,7 +454,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             }
         }
 
-        private void dataGridView_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
+        private void DataGridView_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex > -1)
             {
@@ -458,7 +462,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             }
         }
 
-        private void dataGridView_CellMouseMove(object sender, DataGridViewCellMouseEventArgs e)
+        private void DataGridView_CellMouseMove(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.RowIndex > 0)
             {
@@ -515,7 +519,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        private void ContextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
             if (dataGridView.SelectedRows.Count != 1)
             {
@@ -523,7 +527,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             }
         }
 
-        private void dataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        private void DataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (dataGridView.SelectedCells.Count == 1)
             {
@@ -531,7 +535,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             }
         }
 
-        private void getBOMToolStripMenuItem_Click(object sender, EventArgs e)
+        private void GetBOMToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string item;
             if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
@@ -595,7 +599,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             return wo;
         }
 
-        private void getWoToolStripMenuItem_Click(object sender, EventArgs e)
+        private void GetWoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ProrcessreportWorkOrder(Getselectedworkorder(), "WorkOrder");
         }
@@ -641,19 +645,19 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
 
         #endregion Get BOM
 
-        private void viewAssyReleasesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ViewAssyReleasesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ViewRelease viewRelease = new ViewRelease(wrkorder: Getselectedworkorder(), job: false, jobassyno: GetselectedAssyno(), jobno: GetSelectedJobNo());
             viewRelease.Show();
         }
 
-        private void viewCurrentJobReleaseToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ViewCurrentJobReleaseToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ViewRelease viewRelease = new ViewRelease(wrkorder: GetSelectedJobNo(), job: true, jobassyno: connectapi.GetJobAssyNo(GetSelectedJobNo()), jobno: GetSelectedJobNo());
             viewRelease.Show();
         }
 
-        private void viewReleaseToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ViewReleaseToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowReleaseLogDetails(GetSelectedRlogNo());
         }

@@ -1865,8 +1865,8 @@ namespace SPMConnectAPI
 
             using (SqlCommand sqlCommand = new SqlCommand("GetReleaseSuggestions", cn) { CommandType = System.Data.CommandType.StoredProcedure })
             {
-                cn.Open();
-
+                if (cn.State == ConnectionState.Closed)
+                    cn.Open();
                 sqlCommand.Parameters.AddWithValue("@job", job);
                 sqlCommand.Parameters.AddWithValue("@assyno", assyno);
                 sqlCommand.Parameters.AddWithValue("@wo", wo);

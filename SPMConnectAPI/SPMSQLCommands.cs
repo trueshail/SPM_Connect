@@ -52,36 +52,6 @@ namespace SPMConnectAPI
             }
         }
 
-        public bool ReadWhatsNew()
-        {
-            const bool read = false;
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + ConnectUser.UserName + "' ";
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    string readnew = dr["ReadWhatsNew"].ToString();
-                }
-                dt.Clear();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve user read whats new", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-            return read;
-        }
-
         public DataTable Showallitems()
         {
             DataTable dt = new DataTable();
@@ -212,6 +182,131 @@ namespace SPMConnectAPI
             return dt;
         }
 
+        public DataTable GetEstimateBOMByID(int estid)
+        {
+            DataTable dt = new DataTable();
+            using (SqlDataAdapter sda = new SqlDataAdapter("[dbo].[GetEstimateBOMById]", cn))
+            {
+                sda.SelectCommand.CommandType = CommandType.StoredProcedure;
+                sda.SelectCommand.Parameters.AddWithValue("@estid", estid);
+                try
+                {
+                    sda.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Estimate BOM By EST ID " + estid, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+
+            return dt;
+        }
+
+        public DataTable GetBOMByAssyno(string assyno)
+        {
+            DataTable dt = new DataTable();
+            using (SqlDataAdapter sda = new SqlDataAdapter("[dbo].[GetBOMByAssyNo]", cn))
+            {
+                sda.SelectCommand.CommandType = CommandType.StoredProcedure;
+                sda.SelectCommand.Parameters.AddWithValue("@Assyno", assyno);
+                try
+                {
+                    sda.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get  BOM By Assy No " + assyno, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+
+            return dt;
+        }
+
+        public DataTable GetWhereUsedByItemNo(string itemno)
+        {
+            DataTable dt = new DataTable();
+            using (SqlDataAdapter sda = new SqlDataAdapter("[dbo].[GetWhereUsedByItemNo]", cn))
+            {
+                sda.SelectCommand.CommandType = CommandType.StoredProcedure;
+                sda.SelectCommand.Parameters.AddWithValue("@Itemno", itemno);
+                try
+                {
+                    sda.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Where Used By Item No " + itemno, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+
+            return dt;
+        }
+
+        public DataTable GetAllJobs()
+        {
+            DataTable dt = new DataTable();
+            using (SqlDataAdapter sda = new SqlDataAdapter("[dbo].[GetAllJobs]", cn))
+            {
+                sda.SelectCommand.CommandType = CommandType.StoredProcedure;
+                try
+                {
+                    sda.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get All Jobs ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+
+            return dt;
+        }
+
+        public string GrabJobProjEngPath(string job, string subassy, string folderpath, string trigger)
+        {
+            string path = "";
+            using (SqlCommand cmd = new SqlCommand("Jobs_FolderPath", cn) { CommandType = System.Data.CommandType.StoredProcedure })
+            {
+                cmd.Parameters.AddWithValue("@JobNo", job);
+                cmd.Parameters.AddWithValue("@BOMNo", subassy);
+                cmd.Parameters.AddWithValue("@Path", folderpath);
+                cmd.Parameters.AddWithValue("@StatementType", trigger);
+
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    path = (string)cmd.ExecuteScalar();
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Job Proj Eng Folder", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+
+            return path;
+        }
+
         public string Getfilename()
         {
             ModelDoc2 swModel;
@@ -265,11 +360,7 @@ namespace SPMConnectAPI
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    category = dr["Category"].ToString();
-                    //MessageBox.Show(category);
-                }
+                category = dt.Rows[0]["Category"].ToString();
             }
             catch (Exception ex)
             {
@@ -342,47 +433,9 @@ namespace SPMConnectAPI
 
         #region GetNewItemNumber or copy items
 
-        public string Getactiveblock()
-        {
-            string useractiveblock = "";
-
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] where UserName ='" + ConnectUser.UserName + "'";
-                DataTable dt = new DataTable();
-                SqlDataAdapter sda = new SqlDataAdapter(cmd);
-                sda.Fill(dt);
-
-                foreach (DataRow dr in dt.Rows)
-                {
-                    useractiveblock = dr["ActiveBlockNumber"].ToString();
-                    if (string.IsNullOrEmpty(useractiveblock))
-                    {
-                        MessageBox.Show("User has not been assigned a block number. Please contact the admin.", "SPM Connect - Get Active Block Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        break;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Get User Active Block", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //Application.Exit();
-            }
-            finally
-            {
-                cn.Close();
-            }
-
-            return useractiveblock;
-        }
-
         public string Getlastnumber()
         {
-            string blocknumber = Getactiveblock();
+            string blocknumber = ConnectUser.ActiveBlockNumber;
 
             if (string.IsNullOrEmpty(blocknumber))
             {
@@ -424,7 +477,7 @@ namespace SPMConnectAPI
 
         public bool CheckBaseBlockNumberTaken()
         {
-            string blocknumber = Getactiveblock();
+            string blocknumber = ConnectUser.ActiveBlockNumber;
             bool taken = false;
             if (string.IsNullOrEmpty(blocknumber))
             {
@@ -1465,6 +1518,5 @@ namespace SPMConnectAPI
         }
 
         #endregion solidworks createmodels and open models
-
     }
 }

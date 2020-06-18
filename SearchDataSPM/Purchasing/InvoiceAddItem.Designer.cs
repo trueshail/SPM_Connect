@@ -82,7 +82,7 @@
             this.btnCancel.Text = "Cancel";
             this.TreeViewToolTip.SetToolTip(this.btnCancel, "Cancel");
             this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            this.btnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
             // 
             // Addnewbttn
             // 
@@ -260,7 +260,7 @@
             this.showspmchk.Text = "Show SPM Items";
             this.showspmchk.UseVisualStyleBackColor = true;
             this.showspmchk.Visible = false;
-            this.showspmchk.CheckedChanged += new System.EventHandler(this.showspmchk_CheckedChanged);
+            this.showspmchk.CheckedChanged += new System.EventHandler(this.Showspmchk_CheckedChanged);
             // 
             // label5
             // 

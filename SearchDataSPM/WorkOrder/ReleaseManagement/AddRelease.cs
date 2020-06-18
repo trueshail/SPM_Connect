@@ -74,6 +74,8 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
 
         private void ParentView_Load(object sender, EventArgs e)
         {
+            // Suspend the layout logic for the form, while the application is initializing
+            this.SuspendLayout();
             Text = "Release Log Details - SPM Connect (" + releaseLogNumber + ")";
             FillReleaseinfo(connectapi.GrabReleaseLogDetails(releaseLogNumber));
             Startprocessfortreeview();
@@ -81,6 +83,8 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Item Details " + releaseLogNumber + " ");
+            // Resume the layout logic
+            this.ResumeLayout();
         }
 
         #region Treeview
@@ -112,7 +116,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
                         var qty = qtytxtbox.Text;
                         var notes = itemnotestxt.Text;
 
-                        _SearchNodes(_itemno, Treeview.Nodes[0]);
+                        SearchNodes(_itemno, Treeview.Nodes[0]);
 
                         if (itemexists != "yes")
                         {
@@ -242,7 +246,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             }
         }
 
-        private void getItemNoFromTag(string s)
+        private void GetItemNoFromTag(string s)
         {
             string[] values = s.Replace("][", "~").Split('~');
             //string[] values = s.Split('][');
@@ -324,7 +328,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
         {
             foreach (string item in Itemstodiscard)
             {
-                getItemNoFromTag(item);
+                GetItemNoFromTag(item);
             }
         }
 
@@ -584,8 +588,11 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             }
 
             connectapi.AddItemToReleaseLog(wotxt.Text, assynotxt.Text, releaseLogNumber, values[0], values[5], values[6], jobnotxt.Text, releasetypetxt.Text, values[7], values[8]);
-            connectapi.UpdateBallonRefToEst(values[0], releasetypetxt.Text, jobnotxt.Text, assynotxt.Text);
-            connectapi.UpdateBallonRefToWorkOrder(values[0], releasetypetxt.Text, jobnotxt.Text, assynotxt.Text, wotxt.Text, values[8]);
+            if (releasetypetxt.Text != "Initial Release")
+            {
+                connectapi.UpdateBallonRefToEst(values[0], releasetypetxt.Text, jobnotxt.Text, assynotxt.Text);
+                connectapi.UpdateBallonRefToWorkOrder(values[0], releasetypetxt.Text, jobnotxt.Text, assynotxt.Text, wotxt.Text, values[8]);
+            }
         }
 
         private void Startprocessfortreeview()
@@ -712,7 +719,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             var oem = Convert.ToString(rowToMove.Cells[3].Value);
             var oemitem = Convert.ToString(rowToMove.Cells[4].Value);
 
-            _SearchNodes(itemnumber, Treeview.Nodes[0]);
+            SearchNodes(itemnumber, Treeview.Nodes[0]);
 
             if (itemexists != "yes")
             {
@@ -798,7 +805,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
 
         private string itemexists;
 
-        private void _SearchNodes(string SearchText, TreeNode StartNode)
+        private void SearchNodes(string SearchText, TreeNode StartNode)
         {
             // TreeNode node = null;
             while (StartNode != null)
@@ -813,7 +820,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
 
                 if (StartNode.Nodes.Count != 0)
                 {
-                    _SearchNodes(SearchText, StartNode.Nodes[0]);//Recursive Search
+                    SearchNodes(SearchText, StartNode.Nodes[0]);//Recursive Search
                 }
 
                 StartNode = StartNode.NextNode;

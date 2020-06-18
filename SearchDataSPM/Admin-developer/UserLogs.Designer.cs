@@ -74,8 +74,8 @@
             this.advancedDataGridView1.Size = new System.Drawing.Size(801, 450);
             this.advancedDataGridView1.TabIndex = 0;
             this.advancedDataGridView1.TimeFilter = false;
-            this.advancedDataGridView1.SortStringChanged += new System.EventHandler(this.advancedDataGridView_SortStringChanged);
-            this.advancedDataGridView1.FilterStringChanged += new System.EventHandler(this.advancedDataGridView_FilterStringChanged);
+            this.advancedDataGridView1.SortStringChanged += new System.EventHandler(this.AdvancedDataGridView_SortStringChanged);
+            this.advancedDataGridView1.FilterStringChanged += new System.EventHandler(this.AdvancedDataGridView_FilterStringChanged);
             // 
             // logDataset
             // 

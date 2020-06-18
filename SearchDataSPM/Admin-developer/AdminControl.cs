@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace SearchDataSPM.Admin_developer
@@ -30,10 +31,15 @@ namespace SearchDataSPM.Admin_developer
 
         private void ParentView_Load(object sender, EventArgs e)
         {
+            // Suspend the layout logic for the form, while the application is initializing
+            this.SuspendLayout();
+
             Connect_SPMSQL(0);
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Admin Control");
+            // Resume the layout logic
+            this.ResumeLayout();
         }
 
         private void Connect_SPMSQL(int index)
@@ -178,23 +184,23 @@ namespace SearchDataSPM.Admin_developer
             {
                 string MyString = user.Supervisor.ToString();
                 MyString += " ";
-                MyString += connectapi.GetNameByConnectEmpId(user.Supervisor.ToString());
+                MyString += users.Find(i => i.ConnectId == user.Supervisor).Name;
                 supervisorcombox.SelectedItem = MyString;
             }
 
-            if (user.ECRSup.ToString().Length > 0)
+            if (user.ECRSup != 0)
             {
                 string MyString = user.ECRSup.ToString();
                 MyString += " ";
-                MyString += connectapi.GetNameByConnectEmpId(user.ECRSup.ToString());
+                MyString += users.Find(i => i.ConnectId == user.ECRSup).Name;
                 ecrSupervisorcomboBox.SelectedItem = MyString;
             }
 
-            if (user.ShipSup.ToString().Length > 0)
+            if (user.ShipSup != 0)
             {
                 string MyString = user.ShipSup.ToString();
                 MyString += " ";
-                MyString += connectapi.GetNameByConnectEmpId(user.ShipSup.ToString());
+                MyString += users.Find(i => i.ConnectId == user.ShipSup).Name;
                 shippingSupervisorcomboBox.SelectedItem = MyString;
             }
 

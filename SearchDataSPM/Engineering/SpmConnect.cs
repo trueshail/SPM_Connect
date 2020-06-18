@@ -53,7 +53,7 @@ namespace SearchDataSPM.Engineering
 
         private void SPM_Connect_Load(object sender, EventArgs e)
         {
-            this.Hide();
+            this.SuspendLayout();
             Collapse();
             Loadusersettings();
             dt = new DataTable();
@@ -63,10 +63,11 @@ namespace SearchDataSPM.Engineering
             txtSearch.Focus();
             pictureBox1.Visible = DateTime.Now.Month == 12;
             formloading = false;
-            this.Show();
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened SPM Connect Eng ");
+            // Resume the layout logic
+            this.ResumeLayout();
         }
 
         private void Checkdeptsandrights()
@@ -198,8 +199,8 @@ namespace SearchDataSPM.Engineering
             dataGridView.Columns[14].Visible = false;
             dataGridView.Columns[15].Visible = false;
             dataGridView.Columns[16].Visible = false;
-            dataGridView.Columns[0].Width = 60;
-            dataGridView.Columns[2].Width = 55;
+            dataGridView.Columns[0].Width = 80;
+            dataGridView.Columns[2].Width = 60;
             dataGridView.Columns[1].Width = 300;
             dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dataGridView.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
@@ -366,6 +367,15 @@ namespace SearchDataSPM.Engineering
                 if (txtSearch.Text.Length > 0)
                 {
                     Mainsearch();
+                    if (dataGridView.Rows.Count > 0)
+                    {
+                        Showfilesonlistview();
+                    }
+                    else
+                    {
+                        listFiles.Clear();
+                        listView.Clear();
+                    }
                 }
                 else
                 {
@@ -375,7 +385,6 @@ namespace SearchDataSPM.Engineering
 
                 e.Handled = true;
                 e.SuppressKeyPress = true;
-
                 formloading = false;
                 Cursor.Current = Cursors.Default;
             }
@@ -910,11 +919,8 @@ namespace SearchDataSPM.Engineering
 
         private void Admin_bttn_Click(object sender, EventArgs e)
         {
-            AdminControl spmadmin = new AdminControl
-            {
-                Owner = this
-            };
-            spmadmin.Show();
+            AdminControl spmadmin = new AdminControl();
+            spmadmin.Show(this);
         }
 
         #endregion AdminControl
@@ -1339,20 +1345,21 @@ namespace SearchDataSPM.Engineering
             fList[0] = Makepathfordrag();
             DataObject dataObj = new DataObject(DataFormats.FileDrop, fList);
             _ = DoDragDrop(dataObj, DragDropEffects.Move | DragDropEffects.Copy);
-            // listView.DoDragDrop(listView.SelectedItems, DragDropEffects.Copy);
         }
 
         private void DataGridView_SelectionChanged(object sender, EventArgs e)
         {
-            //if (!formloading)
-            if (dataGridView.Rows.Count > 0)
+            if (!formloading)
             {
-                Showfilesonlistview();
-            }
-            else
-            {
-                listFiles.Clear();
-                listView.Clear();
+                if (dataGridView.Rows.Count > 0)
+                {
+                    Showfilesonlistview();
+                }
+                else
+                {
+                    listFiles.Clear();
+                    listView.Clear();
+                }
             }
         }
 
@@ -1387,14 +1394,6 @@ namespace SearchDataSPM.Engineering
             }
             catch
             {
-            }
-        }
-
-        private void ListView_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
-        {
-            if (listView.FocusedItem != null)
-            {
-                // makepathfordrag();
             }
         }
 
@@ -1483,7 +1482,7 @@ namespace SearchDataSPM.Engineering
             {
                 if (connectapi.Solidworks_running())
                 {
-                    string activeblock = connectapi.Getactiveblock();
+                    string activeblock = connectapi.ConnectUser.ActiveBlockNumber;
 
                     if (activeblock.Length > 0)
                     {
@@ -1703,8 +1702,8 @@ namespace SearchDataSPM.Engineering
                 ModelDoc2 swModel = swApp.ActiveDoc as ModelDoc2;
                 if (swModel.IsOpenedReadOnly())
                 {
+                    doneshowingSplash = true;
                     MessageBox.Show("Model is open read only. Please get write access from the associated user in order to edit the properties.", "SPM Connect - Check For Read Only", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-
                     return false;
                 }
                 else
@@ -1873,7 +1872,7 @@ namespace SearchDataSPM.Engineering
                 if (connectapi.Solidworks_running())
                 {
                     string user = connectapi.ConnectUser.UserName;
-                    string activeblock = connectapi.Getactiveblock();
+                    string activeblock = connectapi.ConnectUser.ActiveBlockNumber;
                     string lastnumber = connectapi.Getlastnumber();
                     if (activeblock.Length > 0)
                     {
@@ -2787,7 +2786,7 @@ namespace SearchDataSPM.Engineering
         {
             if (connectapi.Validnumber(connectapi.Getlastnumber()))
             {
-                string newid = connectapi.Spmnew_idincrement(connectapi.Getlastnumber(), connectapi.Getactiveblock());
+                string newid = connectapi.Spmnew_idincrement(connectapi.Getlastnumber(), connectapi.ConnectUser.ActiveBlockNumber);
                 MessageBox.Show("Your next ItemNumber to use is :- " + newid, "SPM Connect - New Item Number", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 try
                 {

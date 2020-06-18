@@ -54,17 +54,17 @@ namespace SearchDataSPM.Admin_developer
             }
         }
 
-        private void freeuser_Click(object sender, EventArgs e)
+        private void Freeuser_Click(object sender, EventArgs e)
         {
-            string username = getuserselected().Trim();
+            string username = Getuserselected().Trim();
 
-            freeuserform(username, getapplicaitonrunning().Trim(), getItemSelected().Trim());
+            Freeuserform(username, Getapplicaitonrunning().Trim(), GetItemSelected().Trim());
 
             try
             {
                 dt.Rows.Clear();
                 dataGridView1.Refresh();
-                loaddata();
+                Loaddata();
             }
             catch (Exception ex)
             {
@@ -72,7 +72,7 @@ namespace SearchDataSPM.Admin_developer
             }
         }
 
-        private void freeuserform(string username, string app, string itemid)
+        private void Freeuserform(string username, string app, string itemid)
         {
             if (username.Length > 0)
             {
@@ -98,7 +98,7 @@ namespace SearchDataSPM.Admin_developer
             }
         }
 
-        private string getapplicaitonrunning()
+        private string Getapplicaitonrunning()
         {
             int selectedclmindex = dataGridView1.SelectedCells[0].ColumnIndex;
             DataGridViewColumn columnchk = dataGridView1.Columns[selectedclmindex];
@@ -117,7 +117,7 @@ namespace SearchDataSPM.Admin_developer
             }
         }
 
-        private string getItemSelected()
+        private string GetItemSelected()
         {
             int selectedclmindex = dataGridView1.SelectedCells[0].ColumnIndex;
             DataGridViewColumn columnchk = dataGridView1.Columns[selectedclmindex];
@@ -136,7 +136,7 @@ namespace SearchDataSPM.Admin_developer
             }
         }
 
-        private string getuserselected()
+        private string Getuserselected()
         {
             int selectedclmindex = dataGridView1.SelectedCells[0].ColumnIndex;
             DataGridViewColumn columnchk = dataGridView1.Columns[selectedclmindex];
@@ -155,7 +155,7 @@ namespace SearchDataSPM.Admin_developer
             }
         }
 
-        private void loaddata()
+        private void Loaddata()
         {
             try
             {
@@ -205,7 +205,7 @@ namespace SearchDataSPM.Admin_developer
         private void UserStatus_Load(object sender, EventArgs e)
         {
             Checkdeveloper();
-            loaddata();
+            Loaddata();
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Blocked Forms");

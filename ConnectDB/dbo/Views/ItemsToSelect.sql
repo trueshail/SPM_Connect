@@ -7,7 +7,10 @@
 
 
 
-CREATE view  [dbo].[ItemsToSelect]
-as
-select concat(ItemNumber,' ',Description,' ',FamilyCode,' ',Manufacturer,' ',ManufacturerItemNumber) as Items from [dbo].[UnionInventory]
+
+CREATE VIEW [dbo].[ItemsToSelect]
+AS
+SELECT
+	CONCAT(ItemNumber, ' ', Description, ' ', FamilyCode, ' ', Manufacturer, ' ', ManufacturerItemNumber) AS Items
+FROM [dbo].Inventory
 
