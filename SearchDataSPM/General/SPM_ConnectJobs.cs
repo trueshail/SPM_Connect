@@ -1008,12 +1008,9 @@ namespace SearchDataSPM.General
                 {
                     if (!checkmaintenance)
                     {
-                        using (PurchaseReqform purchaseReq = new PurchaseReqform())
-                        {
-                            purchaseReq.Show(this);
-                            purchaseReq.BringToFront();
-
-                        }
+                        PurchaseReqform purchaseReq = new PurchaseReqform();
+                        purchaseReq.Show(this);
+                        purchaseReq.BringToFront();
                     }
                     else if (checkmaintenance && connectapi.ConnectUser.Developer)
                     {
