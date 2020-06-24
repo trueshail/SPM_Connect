@@ -12,7 +12,7 @@ namespace SearchDataSPM
         {
             SqlDependency.Start(
                 ConnectHelper.ConnectConnectionString(),
-                "SPMConnnectClientsQueue");
+                "SPMConnectClientsQueue");
         }
 
         public EventHandler<SqlNotificationEventArgs> NewMessage { get; set; }
@@ -26,7 +26,7 @@ namespace SearchDataSPM
                     SqlCommand command = new SqlCommand("SELECT [Last Login], [Application Running], [User Name], [Computer Name], [Version] FROM [dbo].[Checkin] ", connection);
 
                     //Monitor the Service Broker, and get notified if there is change in the query result
-                    SqlDependency dependency = new SqlDependency(command, "Service=SPMConnnectClientService;local database=SPM_Database", int.MaxValue);
+                    SqlDependency dependency = new SqlDependency(command, "Service=SPMConnectClientService;local database=SPM_Database", int.MaxValue);
 
                     //Fire event when message is arrived
                     dependency.OnChange += this.Dependency_OnChange;
@@ -79,7 +79,7 @@ namespace SearchDataSPM
 
         public void Dispose()
         {
-            SqlDependency.Stop(ConnectHelper.ConnectConnectionString(), "SPMConnnectClientsQueue");
+            SqlDependency.Stop(ConnectHelper.ConnectConnectionString(), "SPMConnectClientsQueue");
         }
 
         #endregion IDisposable Members

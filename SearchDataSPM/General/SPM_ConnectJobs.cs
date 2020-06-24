@@ -80,7 +80,7 @@ namespace SearchDataSPM.General
             Assembly assembly = Assembly.GetExecutingAssembly();
             versionlabel.Text = assembly.GetName().Version.ToString(3);
             versionlabel.Text = "V" + versionlabel.Text;
-            TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
+            TreeViewToolTip.SetToolTip(versionlabel, "SPM Connect " + versionlabel.Text);
             Showallitems();
 
             if (connectapi.ConnectUser.Management)

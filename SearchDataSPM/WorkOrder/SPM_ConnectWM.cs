@@ -28,7 +28,7 @@ namespace SearchDataSPM.WorkOrder
         private void Checkdeptsandrights()
         {
             versionlabel.Text = Getassyversionnumber();
-            TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
+            TreeViewToolTip.SetToolTip(versionlabel, "SPM Connect " + versionlabel.Text);
             if (connectapi.CheckRights("WORelease"))
             {
                 contextMenuStrip1.Items[1].Enabled = true;
@@ -548,7 +548,7 @@ namespace SearchDataSPM.WorkOrder
             AddNewRelease();
         }
 
-        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        private void ContextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
             if (dataGridView.SelectedRows.Count != 1)
             {
@@ -556,7 +556,7 @@ namespace SearchDataSPM.WorkOrder
             }
         }
 
-        private void cribbttn_Click(object sender, EventArgs e)
+        private void Cribbttn_Click(object sender, EventArgs e)
         {
             if (connectapi.EmployeeExitsWithCribRights(connectapi.ConnectUser.Emp_Id.ToString()))
             {
@@ -569,7 +569,7 @@ namespace SearchDataSPM.WorkOrder
             }
         }
 
-        private void getBOMToolStripMenuItem_Click(object sender, EventArgs e)
+        private void GetBOMToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string item;
             if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
@@ -621,7 +621,7 @@ namespace SearchDataSPM.WorkOrder
             return wo;
         }
 
-        private void getWOToolStripMenuItem_Click(object sender, EventArgs e)
+        private void GetWOToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ProrcessreportWorkOrder(Getselectedworkorder(), "WorkOrder");
         }
@@ -659,7 +659,7 @@ namespace SearchDataSPM.WorkOrder
             form1.Show();
         }
 
-        private void scanwobttn_Click(object sender, EventArgs e)
+        private void Scanwobttn_Click(object sender, EventArgs e)
         {
             if (connectapi.CheckRights("[WOScan]"))
             {
@@ -713,13 +713,13 @@ namespace SearchDataSPM.WorkOrder
             releaseLogs.Show();
         }
 
-        private void viewCurrentJobReleaseToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ViewCurrentJobReleaseToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ViewRelease viewRelease = new ViewRelease(wrkorder: GetSelectedJobNo(), job: true, jobassyno: connectapi.GetJobAssyNo(GetSelectedJobNo()), jobno: GetSelectedJobNo());
             viewRelease.Show();
         }
 
-        private void viewReleasesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ViewReleasesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ViewRelease viewRelease = new ViewRelease(wrkorder: Getselectedworkorder(), job: false, jobassyno: GetSelectedAssyNo(), jobno: GetSelectedJobNo());
             viewRelease.Show();

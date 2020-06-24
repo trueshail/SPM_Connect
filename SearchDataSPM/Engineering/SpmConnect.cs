@@ -42,9 +42,9 @@ namespace SearchDataSPM.Engineering
         private bool doneshowingSplash;
         private bool showingfavorites;
         private readonly SPMSQLCommands connectapi = new SPMSQLCommands();
-
+        public const int MaxSearchHistory = 25;
         private readonly SPMConnectAPI.Controls connectapicntrls = new SPMConnectAPI.Controls();
-
+        private readonly AutoCompleteStringCollection SearchCollection = new AutoCompleteStringCollection();
         public SpmConnect()
         {
             InitializeComponent();
@@ -66,6 +66,12 @@ namespace SearchDataSPM.Engineering
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened SPM Connect Eng ");
+
+            this.txtSearch.AutoCompleteCustomSource = InitializeSearchHistory();
+            this.Descrip_txtbox.AutoCompleteCustomSource = SearchCollection;
+            this.filter4.AutoCompleteCustomSource = SearchCollection;
+            this.filteroem_txtbox.AutoCompleteCustomSource = SearchCollection;
+            this.filteroemitem_txtbox.AutoCompleteCustomSource = SearchCollection;
             // Resume the layout logic
             this.ResumeLayout();
         }
@@ -135,7 +141,7 @@ namespace SearchDataSPM.Engineering
             }
 
             versionlabel.Text = Getassyversionnumber();
-            TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
+            TreeViewToolTip.SetToolTip(versionlabel, "SPM Connect " + versionlabel.Text);
         }
 
         private void Loadusersettings()
@@ -495,6 +501,7 @@ namespace SearchDataSPM.Engineering
                     SendKeys.Send("~");
                 }
             }
+            AddNewSearchHistory(txtSearch.Text);
             formloading = false;
         }
 
@@ -551,6 +558,8 @@ namespace SearchDataSPM.Engineering
                 {
                     filteroem_txtbox.Hide();
                 }
+                AddNewSearchHistory(Descrip_txtbox.Text);
+
                 e.Handled = true;
                 e.SuppressKeyPress = true;
                 formloading = false;
@@ -590,9 +599,6 @@ namespace SearchDataSPM.Engineering
                     filteroem_txtbox.Clear();
                     SendKeys.Send("~");
                 }
-                finally
-                {
-                }
                 if (!splitContainer1.Panel2Collapsed && this.Width <= 800)
                 {
                     this.Size = new Size(1200, this.Height);
@@ -608,6 +614,8 @@ namespace SearchDataSPM.Engineering
                     filteroemitem_txtbox.Hide();
                     filter4.Hide();
                 }
+                AddNewSearchHistory(filteroem_txtbox.Text);
+
                 e.Handled = true;
                 e.SuppressKeyPress = true;
                 formloading = false;
@@ -647,9 +655,6 @@ namespace SearchDataSPM.Engineering
                     filteroemitem_txtbox.Clear();
                     SendKeys.Send("~");
                 }
-                finally
-                {
-                }
                 if (!splitContainer1.Panel2Collapsed && this.Width <= 800)
                 {
                     this.Size = new Size(1200, this.Height);
@@ -664,6 +669,8 @@ namespace SearchDataSPM.Engineering
                 {
                     filter4.Hide();
                 }
+                AddNewSearchHistory(filteroemitem_txtbox.Text);
+
                 e.Handled = true;
                 e.SuppressKeyPress = true;
                 formloading = false;
@@ -702,10 +709,7 @@ namespace SearchDataSPM.Engineering
                     filter4.Clear();
                     SendKeys.Send("~");
                 }
-                finally
-                {
-                }
-
+                AddNewSearchHistory(filter4.Text);
                 e.Handled = true;
                 e.SuppressKeyPress = true;
                 formloading = false;
@@ -2962,6 +2966,64 @@ namespace SearchDataSPM.Engineering
         private void ListView_DragOver(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.All;
+        }
+
+        private void TxtSearch_TextChanged(object sender, EventArgs e)
+        {
+        }
+
+        private AutoCompleteStringCollection InitializeSearchHistory()
+        {
+            if (Properties.Settings.Default.SearchHistory == null)
+            {
+                Properties.Settings.Default.SearchHistory = new System.Collections.Specialized.StringCollection();
+                Properties.Settings.Default.Save();
+                return SearchCollection;
+            }
+            else if (Properties.Settings.Default.SearchHistory.Count > 0)
+            {
+                for (int i = 0, n = Properties.Settings.Default.SearchHistory.Count - 1; i <= n; ++i)
+                {
+                    SearchCollection.Add(Properties.Settings.Default.SearchHistory[i]);
+                }
+            }
+
+            return SearchCollection;
+        }
+
+        private void AddNewSearchHistory(string search)
+        {
+            if (Properties.Settings.Default.SearchHistory.Count == 0)
+            {
+                AddSearchKeyword(search);
+                return;
+            }
+
+            // Determine if the project already exists in the Recent Projects submenu
+            for (int i = 0, n = Properties.Settings.Default.SearchHistory.Count; i < n; ++i)
+            {
+                if (Properties.Settings.Default.SearchHistory[i] == search)
+                {
+                    return;
+                }
+            }
+
+            // Remove the last item in the menu when the maximum number of items is reached
+            if (Properties.Settings.Default.SearchHistory.Count == MaxSearchHistory)
+            {
+                Properties.Settings.Default.SearchHistory.RemoveAt(Properties.Settings.Default.SearchHistory.Count - 1);
+                SearchCollection.RemoveAt(Properties.Settings.Default.SearchHistory.Count - 1);
+            }
+
+            AddSearchKeyword(search);
+        }
+
+        private void AddSearchKeyword(string search)
+        {
+            // Save the project name and path and filename in the application settings
+            Properties.Settings.Default.SearchHistory.Insert(0, search);
+            SearchCollection.Add(search);
+            Properties.Settings.Default.Save();
         }
     }
 }

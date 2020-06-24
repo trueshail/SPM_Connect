@@ -961,32 +961,32 @@ namespace SPMConnectAPI
 
                 if (File.Exists(Pathassy) && File.Exists(Pathpart))
                 {
-                    MessageBox.Show($"System has found a Part file and Assembly file with the same PartNo." + Item_No + "." +
+                    MessageBox.Show("System has found a Part file and Assembly file with the same PartNo." + Item_No + "." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else if (File.Exists(PathAssyNo) && File.Exists(PathPartNo))
                 {
-                    MessageBox.Show($"System has found a Part file and Assembly file with the same PartNo. " + ItemNumbero + "." +
+                    MessageBox.Show("System has found a Part file and Assembly file with the same PartNo. " + ItemNumbero + "." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else if (File.Exists(PathAssyNo) && File.Exists(Pathpart))
                 {
-                    MessageBox.Show($"System has found a Part file " + Item_No + "and Assembly file " + ItemNumbero + " with the same PartNo." +
+                    MessageBox.Show("System has found a Part file " + Item_No + "and Assembly file " + ItemNumbero + " with the same PartNo." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else if (File.Exists(Pathassy) && File.Exists(PathPartNo))
                 {
-                    MessageBox.Show($"System has found a Part file " + ItemNumbero + "and Assembly file" + Item_No + " with the same PartNo." +
+                    MessageBox.Show("System has found a Part file " + ItemNumbero + "and Assembly file" + Item_No + " with the same PartNo." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else if (File.Exists(PathPartNo) && File.Exists(Pathpart))
                 {
-                    MessageBox.Show($"System has found a Part two files " + Item_No + "," + ItemNumbero + " with the same PartNo." +
+                    MessageBox.Show("System has found a Part two files " + Item_No + "," + ItemNumbero + " with the same PartNo." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else if (File.Exists(PathAssyNo) && File.Exists(Pathassy))
                 {
-                    MessageBox.Show($"System has found a assembly files " + Item_No + "," + ItemNumbero + " with the same PartNo." +
+                    MessageBox.Show("System has found a assembly files " + Item_No + "," + ItemNumbero + " with the same PartNo." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else if (File.Exists(Pathassy))
@@ -1027,7 +1027,7 @@ namespace SPMConnectAPI
                 }
                 else
                 {
-                    MessageBox.Show($"A file with the part number " + Item_No + " does not have Solidworks CAD Model. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("A file with the part number " + Item_No + " does not have Solidworks CAD Model. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     //fName = "";
                 }
             }
@@ -1051,7 +1051,7 @@ namespace SPMConnectAPI
 
                 if (File.Exists(drawpathno) && File.Exists(Drawpath))
                 {
-                    MessageBox.Show($"System has found a Part two files " + Item_No + "," + ItemNumbero + " with the same PartNo." +
+                    MessageBox.Show("System has found a Part two files " + Item_No + "," + ItemNumbero + " with the same PartNo." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else if (File.Exists(Drawpath))
@@ -1072,7 +1072,7 @@ namespace SPMConnectAPI
                 }
                 else
                 {
-                    MessageBox.Show($"A file with the part number" + Item_No + " does not have Solidworks Drawing File. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("A file with the part number" + Item_No + " does not have Solidworks Drawing File. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else
@@ -1099,32 +1099,32 @@ namespace SPMConnectAPI
 
                 if (File.Exists(Pathassy) && File.Exists(Pathpart))
                 {
-                    MessageBox.Show($"System has found a Part file and Assembly file with the same PartNo." + ItemNo + "." +
+                    MessageBox.Show("System has found a Part file and Assembly file with the same PartNo." + ItemNo + "." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else if (File.Exists(PathAssyNo) && File.Exists(PathPartNo))
                 {
-                    MessageBox.Show($"System has found a Part file and Assembly file with the same PartNo. " + ItemNumbero + "." +
+                    MessageBox.Show("System has found a Part file and Assembly file with the same PartNo. " + ItemNumbero + "." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else if (File.Exists(PathAssyNo) && File.Exists(Pathpart))
                 {
-                    MessageBox.Show($"System has found a Part file " + ItemNo + "and Assembly file " + ItemNumbero + " with the same PartNo." +
+                    MessageBox.Show("System has found a Part file " + ItemNo + "and Assembly file " + ItemNumbero + " with the same PartNo." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else if (File.Exists(Pathassy) && File.Exists(PathPartNo))
                 {
-                    MessageBox.Show($"System has found a Part file " + ItemNumbero + "and Assembly file" + ItemNo + " with the same PartNo." +
+                    MessageBox.Show("System has found a Part file " + ItemNumbero + "and Assembly file" + ItemNo + " with the same PartNo." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else if (File.Exists(PathPartNo) && File.Exists(Pathpart))
                 {
-                    MessageBox.Show($"System has found a Part two files " + ItemNo + "," + ItemNumbero + " with the same PartNo." +
+                    MessageBox.Show("System has found a Part two files " + ItemNo + "," + ItemNumbero + " with the same PartNo." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else if (File.Exists(PathAssyNo) && File.Exists(Pathassy))
                 {
-                    MessageBox.Show($"System has found a assembly files " + ItemNo + "," + ItemNumbero + " with the same PartNo." +
+                    MessageBox.Show("System has found a assembly files " + ItemNo + "," + ItemNumbero + " with the same PartNo." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else if (File.Exists(Pathassy))
@@ -1145,7 +1145,7 @@ namespace SPMConnectAPI
                 }
                 else
                 {
-                    MessageBox.Show($"A file with the part number" + ItemNo + " does not have Solidworks CAD Model. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("A file with the part number" + ItemNo + " does not have Solidworks CAD Model. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else
@@ -1171,7 +1171,7 @@ namespace SPMConnectAPI
 
                 if (File.Exists(drawpathno) && File.Exists(Drawpath))
                 {
-                    MessageBox.Show($"System has found a Part two files " + str + "," + ItemNumbero + " with the same PartNo." +
+                    MessageBox.Show("System has found a Part two files " + str + "," + ItemNumbero + " with the same PartNo." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else if (File.Exists(Drawpath))
@@ -1184,7 +1184,7 @@ namespace SPMConnectAPI
                 }
                 else
                 {
-                    MessageBox.Show($"A file with the part number" + str + " does not have Solidworks Drawing File. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("A file with the part number" + str + " does not have Solidworks Drawing File. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else

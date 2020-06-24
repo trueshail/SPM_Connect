@@ -107,7 +107,7 @@
             this.getBOMToolStripMenuItem1});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(188, 92);
-            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
+            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStrip1_Opening);
             // 
             // getWOToolStripMenuItem
             // 
@@ -116,7 +116,7 @@
             this.getWOToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
             this.getWOToolStripMenuItem.Text = "View WorkOrder";
             this.getWOToolStripMenuItem.ToolTipText = "Preview Work Order Details";
-            this.getWOToolStripMenuItem.Click += new System.EventHandler(this.getWOToolStripMenuItem_Click);
+            this.getWOToolStripMenuItem.Click += new System.EventHandler(this.GetWOToolStripMenuItem_Click);
             // 
             // releaseManagementToolStripMenuItem
             // 
@@ -146,7 +146,7 @@
             this.viewReleasesToolStripMenuItem.Name = "viewReleasesToolStripMenuItem";
             this.viewReleasesToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
             this.viewReleasesToolStripMenuItem.Text = "View Assy Releases";
-            this.viewReleasesToolStripMenuItem.Click += new System.EventHandler(this.viewReleasesToolStripMenuItem_Click);
+            this.viewReleasesToolStripMenuItem.Click += new System.EventHandler(this.ViewReleasesToolStripMenuItem_Click);
             // 
             // viewCurrentJobReleaseToolStripMenuItem
             // 
@@ -154,7 +154,7 @@
             this.viewCurrentJobReleaseToolStripMenuItem.Name = "viewCurrentJobReleaseToolStripMenuItem";
             this.viewCurrentJobReleaseToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
             this.viewCurrentJobReleaseToolStripMenuItem.Text = "View Current Job Releases";
-            this.viewCurrentJobReleaseToolStripMenuItem.Click += new System.EventHandler(this.viewCurrentJobReleaseToolStripMenuItem_Click);
+            this.viewCurrentJobReleaseToolStripMenuItem.Click += new System.EventHandler(this.ViewCurrentJobReleaseToolStripMenuItem_Click);
             // 
             // viewAllReleaseLogsToolStripMenuItem
             // 
@@ -170,7 +170,7 @@
             this.getBOMToolStripMenuItem1.Name = "getBOMToolStripMenuItem1";
             this.getBOMToolStripMenuItem1.Size = new System.Drawing.Size(187, 22);
             this.getBOMToolStripMenuItem1.Text = "Get BOM";
-            this.getBOMToolStripMenuItem1.Click += new System.EventHandler(this.getBOMToolStripMenuItem_Click);
+            this.getBOMToolStripMenuItem1.Click += new System.EventHandler(this.GetBOMToolStripMenuItem_Click);
             // 
             // Reload
             // 
@@ -315,7 +315,7 @@
             this.cribbttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TreeViewToolTip.SetToolTip(this.cribbttn, "Crib Management");
             this.cribbttn.UseVisualStyleBackColor = false;
-            this.cribbttn.Click += new System.EventHandler(this.cribbttn_Click);
+            this.cribbttn.Click += new System.EventHandler(this.Cribbttn_Click);
             // 
             // scanwobttn
             // 
@@ -338,7 +338,7 @@
             this.scanwobttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TreeViewToolTip.SetToolTip(this.scanwobttn, "Scan Work Order");
             this.scanwobttn.UseVisualStyleBackColor = false;
-            this.scanwobttn.Click += new System.EventHandler(this.scanwobttn_Click);
+            this.scanwobttn.Click += new System.EventHandler(this.Scanwobttn_Click);
             // 
             // SPM_ConnectWM
             // 

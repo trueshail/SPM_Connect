@@ -28,7 +28,7 @@ namespace SearchDataSPM.ECR
         private void Checkdeptsandrights()
         {
             versionlabel.Text = Getassyversionnumber();
-            TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
+            TreeViewToolTip.SetToolTip(versionlabel, "SPM Connect " + versionlabel.Text);
             if (connectapi.ConnectUser.ECR)
             {
                 addnewbttn.Visible = true;

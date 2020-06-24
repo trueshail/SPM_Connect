@@ -26,7 +26,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
         private void GetVersionLabel()
         {
             versionlabel.Text = Getassyversionnumber();
-            TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
+            TreeViewToolTip.SetToolTip(versionlabel, "SPM Connect " + versionlabel.Text);
         }
 
         private void Reload_Click(object sender, EventArgs e)
