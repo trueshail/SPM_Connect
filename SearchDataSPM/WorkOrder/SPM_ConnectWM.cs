@@ -709,7 +709,7 @@ namespace SearchDataSPM.WorkOrder
 
         private void ViewAllReleaseLogsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ReleaseLogs releaseLogs = new ReleaseLogs();
+            ReleaseLogss releaseLogs = new ReleaseLogss();
             releaseLogs.Show();
         }
 

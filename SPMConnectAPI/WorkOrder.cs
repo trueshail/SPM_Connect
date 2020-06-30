@@ -1254,6 +1254,118 @@ namespace SPMConnectAPI
             return MyCollection;
         }
 
+        public AutoCompleteStringCollection FillReleaseApprovedBy()
+        {
+            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT [ApprovedBy] FROM [SPM_Database].[dbo].[RP_Base] where [ApprovedBy] is not null  AND ApprovedBy <> '' order by [ApprovedBy]", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        MyCollection.Add(reader.GetString(0));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Fill Approved By", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return MyCollection;
+        }
+
+        public AutoCompleteStringCollection FillReleaseCheckedBy()
+        {
+            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT [CheckedBy] FROM [SPM_Database].[dbo].[RP_Base] where [CheckedBy] is not null  AND ApprovedBy <> '' order by [CheckedBy]", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        MyCollection.Add(reader.GetString(0));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Fill Checked By", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return MyCollection;
+        }
+
+        public AutoCompleteStringCollection FillReleaseReleasedBy()
+        {
+            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT [ReleasedBy] FROM [SPM_Database].[dbo].[RP_Base] where [ReleasedBy] is not null  AND ApprovedBy <> '' order by [ReleasedBy]", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        MyCollection.Add(reader.GetString(0));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Fill Checked By", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return MyCollection;
+        }
+
+        public AutoCompleteStringCollection FillReleaseLastCreatedBy(bool createdby)
+        {
+            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
+
+            using (SqlCommand sqlCommand = new SqlCommand("[RP_BaseNames]", cn) { CommandType = System.Data.CommandType.StoredProcedure })
+            {
+                sqlCommand.Parameters.AddWithValue("@createdby", createdby ? 1 : 0);
+                sqlCommand.Parameters.AddWithValue("@lastsavedby", createdby ? 0 : 1);
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        MyCollection.Add(reader.GetString(0));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Fill LastSavedBy & CreatedBy", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return MyCollection;
+        }
+
         #endregion Fill Comboboxes
 
         #endregion Material ReAllocation
@@ -1930,26 +2042,27 @@ namespace SPMConnectAPI
         public DataTable ShowAllReleaseLogs()
         {
             DataTable dt = new DataTable();
-
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[VReleaseLogs] ORDER BY WO DESC", cn))
+            using (SqlDataAdapter sda = new SqlDataAdapter("[dbo].[RP_CRUDBase]", cn))
             {
+                sda.SelectCommand.CommandType = CommandType.StoredProcedure;
+                sda.SelectCommand.Parameters.AddWithValue("@StatementType", nameof(CRUDStatementType.SelectAll));
+
                 try
                 {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-
-                    dt.Clear();
                     sda.Fill(dt);
+                    cn.Close();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "SPM Connect - Show All Work Orders Release Logs", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    log.Error(ex.Message, ex);
+                    MessageBox.Show(ex.Message, "SPM Connect - Error Getting Release List From Solidworks", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
                     cn.Close();
                 }
             }
+
             return dt;
         }
 

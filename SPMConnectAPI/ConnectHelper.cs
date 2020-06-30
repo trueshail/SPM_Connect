@@ -50,6 +50,8 @@ namespace SPMConnectAPI
             Insert,
             [Description("Delete")]
             Delete,
+            [Description("SelectAll")]
+            SelectAll,
         }
 
         public enum ReportModules

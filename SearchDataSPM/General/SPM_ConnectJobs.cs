@@ -601,7 +601,6 @@ namespace SearchDataSPM.General
         {
             // Get the subdirectories for the specified directory.
             DirectoryInfo dir = new DirectoryInfo(sourceDirName);
-
             if (!dir.Exists)
             {
                 MessageBox.Show(

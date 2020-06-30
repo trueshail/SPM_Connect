@@ -1,5 +1,4 @@
-﻿using ExceptionReporting;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using System;
 using System.Windows.Forms;
 
@@ -13,6 +12,10 @@ namespace SearchDataSPM
         [STAThread]
         private static void Main()
         {
+#if DEBUG
+
+#else
+
             AddRegistry();
             ErrorHandler errorHandler = new ErrorHandler();
             log4net.ILog log;
@@ -79,10 +82,11 @@ namespace SearchDataSPM
                         er.Show((Exception)args.ExceptionObject);
                         er.Send();
                     };
+#endif
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new SPMConnectHome());
+            Application.Run(new WorkOrder.ReleaseManagement.ReleaseLog());
         }
 
         private static void AddRegistry()
