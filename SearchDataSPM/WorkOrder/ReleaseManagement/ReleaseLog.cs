@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SPMConnectAPI;
+using System;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -1038,6 +1039,14 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
         {
             Engineering.TreeView treeView = new Engineering.TreeView(item: itemvalue);
             treeView.Show();
+        }
+
+        private void OpenModelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (SPMSQLCommands sc = new SPMSQLCommands())
+            {
+                sc.Checkforspmfile(GetAssynumber());
+            }
         }
     }
 }

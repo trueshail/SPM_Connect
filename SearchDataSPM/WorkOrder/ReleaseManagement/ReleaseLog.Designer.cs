@@ -64,6 +64,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.actcadblk = new System.Windows.Forms.Label();
+            this.openModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -456,9 +457,10 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.viewReleaseToolStripMenuItem,
             this.viewCurrentJobReleaseToolStripMenuItem,
-            this.getBOMToolStripMenuItem1});
+            this.getBOMToolStripMenuItem1,
+            this.openModelToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(211, 70);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(211, 114);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStrip1_Opening);
             // 
             // viewReleaseToolStripMenuItem
@@ -596,6 +598,15 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             this.actcadblk.TabIndex = 140;
             this.actcadblk.Text = "Last Saved By";
             // 
+            // openModelToolStripMenuItem
+            // 
+            this.openModelToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openModelToolStripMenuItem.Image")));
+            this.openModelToolStripMenuItem.Name = "openModelToolStripMenuItem";
+            this.openModelToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.openModelToolStripMenuItem.Text = "Open Model";
+            this.openModelToolStripMenuItem.ToolTipText = "Open Selected Item Model";
+            this.openModelToolStripMenuItem.Click += new System.EventHandler(this.OpenModelToolStripMenuItem_Click);
+            // 
             // ReleaseLog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -659,6 +670,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
         private System.Windows.Forms.ToolStripMenuItem viewReleaseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem viewCurrentJobReleaseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem getBOMToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem openModelToolStripMenuItem;
 
 
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member 'SPM_Connect.txtSearch'
