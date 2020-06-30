@@ -1782,29 +1782,25 @@ namespace SPMConnectAPI
         public string GetJobAssyNo(string jobno)
         {
             string assnyno = "";
-            try
+
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT [BOMItem] FROM [SPM_Database].[dbo].[SPMJobs] WHERE [Job]  = '" + jobno + "'", cn))
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[SPMJobs] WHERE [Job]  = '" + jobno + "'";
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
+                try
                 {
-                    assnyno = dr["BOMItem"].ToString();
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    assnyno = (string)sqlCommand.ExecuteScalar();
+
+                    cn.Close();
                 }
-                dt.Clear();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Get Job Assy Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Job Assy Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
             }
 
             return assnyno;
@@ -1813,29 +1809,24 @@ namespace SPMConnectAPI
         public string GetJobNoFromWO(string wo)
         {
             string assnyno = "";
-            try
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[SPMConnectWOBOM] WHERE [WO]  = '" + wo + "'", cn))
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[SPMConnectWOBOM] WHERE [WO]  = '" + wo + "'";
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
+                try
                 {
-                    assnyno = dr["Job"].ToString();
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    DataTable dt = new DataTable();
+                    sda.Fill(dt);
+                    assnyno = dt.Rows[0]["Job"].ToString();
                 }
-                dt.Clear();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Get Job Number from WO", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Job Number from WO", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
             }
 
             return assnyno;
@@ -2008,34 +1999,26 @@ namespace SPMConnectAPI
         public string GrabWOfromAssy(string jobno, string assyno)
         {
             string estId = "";
-            try
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[SPMConnectWOBOM] WHERE Job = '" + jobno + "' AND ItemNumber = '" + assyno + "'", cn))
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[SPMConnectWOBOM] WHERE Job = '" + jobno + "' AND ItemNumber = '" + assyno + "'";
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                if (dt.Rows.Count > 0)
+                try
                 {
-                    foreach (DataRow dr in dt.Rows)
-                    {
-                        estId = dr["Wo"].ToString();
-                    }
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    DataTable dt = new DataTable();
+                    sda.Fill(dt);
+                    estId = dt.Rows[0]["Wo"].ToString();
                 }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve Job workOrder", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
 
-                dt.Clear();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve Job workOrder", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
             return estId;
         }
 
@@ -2154,31 +2137,25 @@ namespace SPMConnectAPI
         private string GetNewReleaseLogNo()
         {
             string newincoiveno = "";
-            try
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT MAX([RlogNo]) + 1 as NextQuoteNo FROM [SPM_Database].[dbo].[WOReleaseLog]", cn))
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT MAX([RlogNo]) + 1 as NextQuoteNo FROM [SPM_Database].[dbo].[WOReleaseLog]";
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
+                try
                 {
-                    newincoiveno = dr["NextQuoteNo"].ToString();
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    DataTable dt = new DataTable();
+                    sda.Fill(dt);
+                    newincoiveno = dt.Rows[0]["NextQuoteNo"].ToString();
                 }
-                dt.Clear();
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get New Release Log Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Get New Release Log Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-
             if (string.IsNullOrEmpty(newincoiveno))
             {
                 newincoiveno = "1001";
@@ -2202,34 +2179,33 @@ namespace SPMConnectAPI
         private int GetNextReleaseNo(string wo)
         {
             int nextreleaseno = 0;
-            try
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT MAX([NxtReleaseNo])+1 as NextQuoteNo FROM [SPM_Database].[dbo].[WOReleaseLog] WHERE WO = '" + wo + "'", cn))
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT MAX([NxtReleaseNo])+1 as NextQuoteNo FROM [SPM_Database].[dbo].[WOReleaseLog] WHERE WO = '" + wo + "'";
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                if (dt.Rows.Count > 0)
+                try
                 {
-                    foreach (DataRow dr in dt.Rows)
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    DataTable dt = new DataTable();
+                    sda.Fill(dt);
+                    if (dt.Rows.Count > 0)
                     {
-                        if (!(dr["NextQuoteNo"] is DBNull))
-                            nextreleaseno = Convert.ToInt32(dr["NextQuoteNo"]);
+                        foreach (DataRow dr in dt.Rows)
+                        {
+                            if (!(dr["NextQuoteNo"] is DBNull))
+                                nextreleaseno = Convert.ToInt32(dr["NextQuoteNo"]);
+                        }
                     }
-                }
 
-                dt.Clear();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Get New Release Log Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
+                    dt.Clear();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get New Release Log Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
             }
 
             return nextreleaseno;

@@ -993,7 +993,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
 
         private void ViewCurrentJobReleaseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ViewRelease viewRelease = new ViewRelease(wrkorder: Getjobnumber(), job: true, jobassyno: GetAssynumber(), jobno: Getjobnumber());
+            ViewRelease viewRelease = new ViewRelease(wrkorder: Getjobnumber(), job: true, jobassyno: connectapi.GetJobAssyNo(Getjobnumber()), jobno: Getjobnumber());
             viewRelease.Show();
         }
 

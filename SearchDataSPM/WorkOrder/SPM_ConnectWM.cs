@@ -168,7 +168,7 @@ namespace SearchDataSPM.WorkOrder
                         dv.RowFilter += " AND " + secondFilter;
                     dataGridView.DataSource = dv;
                     SearchStringPosition();
-                    searchtext(Descrip_txtbox.Text);
+                    Searchtext(Descrip_txtbox.Text);
                     table1 = dv.ToTable();
                     dataGridView.Refresh();
                 }
@@ -218,7 +218,7 @@ namespace SearchDataSPM.WorkOrder
                         dv.RowFilter += " AND " + fifthfilter;
                     dataGridView.DataSource = dv;
                     SearchStringPosition();
-                    searchtext(filter4.Text);
+                    Searchtext(filter4.Text);
                     dataGridView.Refresh();
                 }
                 catch (Exception)
@@ -252,7 +252,7 @@ namespace SearchDataSPM.WorkOrder
                         dv.RowFilter += " AND " + thirdFilter;
                     dataGridView.DataSource = dv;
                     SearchStringPosition();
-                    searchtext(filteroem_txtbox.Text);
+                    Searchtext(filteroem_txtbox.Text);
                     table2 = dv.ToTable();
                     dataGridView.Refresh();
                 }
@@ -297,7 +297,7 @@ namespace SearchDataSPM.WorkOrder
                         dv.RowFilter += " AND " + fourthfilter;
                     dataGridView.DataSource = dv;
                     SearchStringPosition();
-                    searchtext(filteroemitem_txtbox.Text);
+                    Searchtext(filteroemitem_txtbox.Text);
                     table3 = dv.ToTable();
                     dataGridView.Refresh();
                 }
@@ -335,7 +335,7 @@ namespace SearchDataSPM.WorkOrder
                 table0 = dv.ToTable();
                 dataGridView.Update();
                 SearchStringPosition();
-                searchtext(txtSearch.Text);
+                Searchtext(txtSearch.Text);
                 dataGridView.Refresh();
             }
             catch (Exception)
@@ -369,7 +369,7 @@ namespace SearchDataSPM.WorkOrder
 
         private string sw;
 
-        private void dataGridView_CellPainting_1(object sender, DataGridViewCellPaintingEventArgs e)
+        private void DataGridView_CellPainting_1(object sender, DataGridViewCellPaintingEventArgs e)
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && IsSelected)
             {
@@ -421,7 +421,7 @@ namespace SearchDataSPM.WorkOrder
             IsSelected = true;
         }
 
-        private void searchtext(string searchkey)
+        private void Searchtext(string searchkey)
         {
             sw = searchkey;
         }
@@ -709,8 +709,6 @@ namespace SearchDataSPM.WorkOrder
 
         private void ViewAllReleaseLogsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ReleaseLogss releaseLogs = new ReleaseLogss();
-            releaseLogs.Show();
         }
 
         private void ViewCurrentJobReleaseToolStripMenuItem_Click(object sender, EventArgs e)

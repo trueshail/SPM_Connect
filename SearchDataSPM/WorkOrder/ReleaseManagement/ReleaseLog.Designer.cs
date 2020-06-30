@@ -211,9 +211,8 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             // 
             // Prioritycombox
             // 
-            this.Prioritycombox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.Prioritycombox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.Prioritycombox.AutoCompleteCustomSource.AddRange(new string[] {
             "Normal",
             "High"});
@@ -233,9 +232,8 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             // 
             // CheckedBycomboxbox
             // 
-            this.CheckedBycomboxbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.CheckedBycomboxbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.CheckedBycomboxbox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.CheckedBycomboxbox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CheckedBycomboxbox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
@@ -250,9 +248,8 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             // 
             // ReleasedBycombox
             // 
-            this.ReleasedBycombox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ReleasedBycombox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.ReleasedBycombox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.ReleasedBycombox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ReleasedBycombox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
@@ -267,9 +264,8 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             // 
             // ApprovedBycombobox
             // 
-            this.ApprovedBycombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ApprovedBycombobox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.ApprovedBycombobox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.ApprovedBycombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ApprovedBycombobox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
@@ -287,9 +283,8 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             // 
             // LastSavedcombobox
             // 
-            this.LastSavedcombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.LastSavedcombobox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.LastSavedcombobox.AutoCompleteCustomSource.AddRange(new string[] {
             "0 - Vendor",
             "1 - Customer"});
@@ -307,9 +302,8 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             // 
             // Createdbycomboxbox
             // 
-            this.Createdbycomboxbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.Createdbycomboxbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.Createdbycomboxbox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.Createdbycomboxbox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Createdbycomboxbox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
@@ -328,9 +322,8 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             // 
             // ByStatuscomboBox
             // 
-            this.ByStatuscomboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ByStatuscomboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.ByStatuscomboBox.AutoCompleteCustomSource.AddRange(new string[] {
             "Not Submitted",
             "For Checking",
@@ -357,6 +350,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
             this.splitContainer1.IsSplitterFixed = true;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
             this.splitContainer1.MinimumSize = new System.Drawing.Size(750, 600);
@@ -364,7 +358,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(48)))), ((int)(((byte)(56)))));
+            this.splitContainer1.Panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(48)))), ((int)(((byte)(80)))));
             this.splitContainer1.Panel1.Controls.Add(this.advsearchbttn);
             this.splitContainer1.Panel1.Controls.Add(this.SPM);
             this.splitContainer1.Panel1.Controls.Add(this.recordlabel);
@@ -426,7 +420,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.DataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.DataGridView.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(48)))), ((int)(((byte)(56)))));
+            this.DataGridView.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(48)))), ((int)(((byte)(80)))));
             this.DataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.DataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
