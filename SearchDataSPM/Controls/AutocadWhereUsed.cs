@@ -308,10 +308,10 @@ namespace SearchDataSPM.Controls
 
                 const string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
 
-                string Pathpart = (spmcadpath + first3char + ItemNo + ".sldprt");
-                string Pathassy = (spmcadpath + first3char + ItemNo + ".sldasm");
-                string PathPartNo = (spmcadpath + first3char + ItemNumbero + ".sldprt");
-                string PathAssyNo = (spmcadpath + first3char + ItemNumbero + ".sldasm");
+                string Pathpart = spmcadpath + first3char + ItemNo + ".sldprt";
+                string Pathassy = spmcadpath + first3char + ItemNo + ".sldasm";
+                string PathPartNo = spmcadpath + first3char + ItemNumbero + ".sldprt";
+                string PathAssyNo = spmcadpath + first3char + ItemNumbero + ".sldasm";
 
                 if (File.Exists(Pathassy) && File.Exists(Pathpart))
                 {
@@ -381,9 +381,9 @@ namespace SearchDataSPM.Controls
 
                 const string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
 
-                string Drawpath = (spmcadpath + first3char + str + ".SLDDRW");
+                string Drawpath = spmcadpath + first3char + str + ".SLDDRW";
 
-                string drawpathno = (spmcadpath + first3char + ItemNumbero + ".SLDDRW");
+                string drawpathno = spmcadpath + first3char + ItemNumbero + ".SLDDRW";
 
                 if (File.Exists(drawpathno) && File.Exists(Drawpath))
                 {

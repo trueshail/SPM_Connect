@@ -35,7 +35,7 @@ namespace SearchDataSPM.WorkOrder
         private void Apprvlidtxt_KeyPress(object sender, KeyPressEventArgs e)
         {
             // check timing (keystrokes within 100 ms)
-            TimeSpan elapsed = (DateTime.Now - _lastKeystroke);
+            TimeSpan elapsed = DateTime.Now - _lastKeystroke;
             if (elapsed.TotalMilliseconds > userinputtime)
                 _barcode.Clear();
 
@@ -110,7 +110,7 @@ namespace SearchDataSPM.WorkOrder
         private void Empid_txtbox_KeyPress(object sender, KeyPressEventArgs e)
         {
             // check timing (keystrokes within 100 ms)
-            TimeSpan elapsed = (DateTime.Now - _lastKeystroke);
+            TimeSpan elapsed = DateTime.Now - _lastKeystroke;
             if (elapsed.TotalMilliseconds > userinputtime)
                 _barcode.Clear();
 
@@ -384,7 +384,7 @@ namespace SearchDataSPM.WorkOrder
 
         private void Woid_txtbox_KeyPress(object sender, KeyPressEventArgs e)
         {  // check timing (keystrokes within 100 ms)
-            TimeSpan elapsed = (DateTime.Now - _lastKeystroke);
+            TimeSpan elapsed = DateTime.Now - _lastKeystroke;
             if (elapsed.TotalMilliseconds > userinputtime)
                 _barcode.Clear();
 

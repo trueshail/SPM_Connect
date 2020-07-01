@@ -617,8 +617,8 @@ namespace SearchDataSPM.Controls
                 // Get the count of the child tree nodes contained in the SelectedNode.
                 int myNodeCount = treeView1.SelectedNode.GetNodeCount(true);
                 //MessageBox.Show(myNodeCount.ToString());
-                _ = ((decimal)myNodeCount /
-                  (decimal)treeView1.GetNodeCount(true)) * 100;
+                _ = (decimal)myNodeCount /
+                  (decimal)treeView1.GetNodeCount(true) * 100;
 
                 //// Display the tree node path and the number of child nodes it and the tree view have.
                 //MessageBox.Show("The '" + treeView1.SelectedNode.FullPath + "' node has "

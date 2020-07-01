@@ -7,7 +7,6 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
-using static SPMConnectAPI.ConnectHelper;
 
 namespace SearchDataSPM.Engineering
 {
@@ -756,8 +755,8 @@ namespace SearchDataSPM.Engineering
                 // Get the count of the child tree nodes contained in the SelectedNode.
                 int myNodeCount = treeView1.SelectedNode.GetNodeCount(true);
                 //MessageBox.Show(myNodeCount.ToString());
-                _ = ((decimal)myNodeCount /
-                  (decimal)treeView1.GetNodeCount(true)) * 100;
+                _ = (decimal)myNodeCount /
+                  (decimal)treeView1.GetNodeCount(true) * 100;
 
                 if (myNodeCount > 0)
                 {

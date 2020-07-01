@@ -143,7 +143,7 @@ namespace SearchDataSPM.General
 
         // variables required outside the functions to perfrom
         // string fullsearch = ("ECRNo LIKE '%{0}%' ");
-        private readonly string fullsearch = ("FullSearch LIKE '%{0}%'");
+        private readonly string fullsearch = "FullSearch LIKE '%{0}%'";
 
         private DataTable dataTable = new DataTable();
 
@@ -608,7 +608,7 @@ namespace SearchDataSPM.General
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if (keyData == (Keys.Home))
+            if (keyData == Keys.Home)
             {
                 Reload.PerformClick();
 

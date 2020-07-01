@@ -4,7 +4,6 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using static SPMConnectAPI.ConnectHelper;
 
 namespace SearchDataSPM.Quotes
 {
@@ -310,7 +309,7 @@ namespace SearchDataSPM.Quotes
         public static string oem;
 
         // variables required outside the functions to perfrom
-        private readonly string fullsearch = ("FullSearch LIKE '%{0}%'");
+        private readonly string fullsearch = "FullSearch LIKE '%{0}%'";
 
         private DataTable table0 = new DataTable();
         private DataTable table1 = new DataTable();

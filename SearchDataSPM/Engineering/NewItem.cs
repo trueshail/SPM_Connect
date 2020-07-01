@@ -259,7 +259,7 @@ namespace SearchDataSPM.Engineering
             {
                 string first3char = itemnumber.Substring(0, 3) + @"\";
                 const string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
-                return (spmcadpath + first3char);
+                return spmcadpath + first3char;
             }
             else
             {
@@ -442,7 +442,7 @@ namespace SearchDataSPM.Engineering
                 DialogResult result = MessageBox.Show("Are you sure want to close without saving changes?", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result != DialogResult.Yes)
                 {
-                    e.Cancel = (result == DialogResult.No);
+                    e.Cancel = result == DialogResult.No;
                 }
             }
         }

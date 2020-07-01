@@ -408,8 +408,8 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
                 // Get the count of the child tree nodes contained in the SelectedNode.
                 var myNodeCount = Treeview.SelectedNode.GetNodeCount(true);
                 // MessageBox.Show(myNodeCount.ToString());
-                _ = ((decimal)myNodeCount /
-                  (decimal)Treeview.GetNodeCount(true)) * 100;
+                _ = (decimal)myNodeCount /
+                  (decimal)Treeview.GetNodeCount(true) * 100;
 
                 if (myNodeCount > 0)
                 {

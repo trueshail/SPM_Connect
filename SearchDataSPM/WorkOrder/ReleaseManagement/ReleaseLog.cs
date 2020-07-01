@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
+using static SPMConnectAPI.ConnectHelper;
 
 namespace SearchDataSPM.WorkOrder.ReleaseManagement
 {
@@ -18,6 +19,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
         private bool formloading;
         private log4net.ILog log;
         private readonly string jobnumber;
+
         public ReleaseLog(string job)
         {
             InitializeComponent();
@@ -130,11 +132,11 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             DataGridView.DefaultCellStyle.SelectionBackColor = Color.FromArgb(44, 48, 56);
         }
 
-        #endregion Shipping Home Load
+        #endregion ReleaseLog Home Load
 
         #region Public Table & variables
 
-        private readonly string fullsearch = ("CONVERT(RelNo, 'System.String') LIKE '%{0}%' OR CONVERT(Job, 'System.String') LIKE '%{0}%' OR JobDes LIKE '%{0}%' OR SubAssy LIKE '%{0}%' OR SubAssyDes LIKE '%{0}%'");
+        private readonly string fullsearch = "CONVERT(RelNo, 'System.String') LIKE '%{0}%' OR CONVERT(Job, 'System.String') LIKE '%{0}%' OR JobDes LIKE '%{0}%' OR SubAssy LIKE '%{0}%' OR SubAssyDes LIKE '%{0}%'";
 
         private DataTable dataTable = new DataTable();
         private DataTable table0 = new DataTable();
@@ -600,7 +602,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if (keyData == (Keys.Home))
+            if (keyData == Keys.Home)
             {
                 Reload.PerformClick();
 
@@ -1035,7 +1037,14 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
         {
             using (SPMSQLCommands sc = new SPMSQLCommands())
             {
-                sc.Checkforspmfile(GetAssynumber());
+                if (connectapi.ConnectUser.Dept == Department.Eng)
+                {
+                    sc.Checkforspmfile(GetAssynumber());
+                }
+                else
+                {
+                    sc.Checkforspmfileprod(GetAssynumber());
+                }
             }
         }
     }

@@ -451,7 +451,7 @@ namespace SearchDataSPM.Engineering
 
                 const string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
 
-                string Pathpart = (spmcadpath + first3char);
+                string Pathpart = spmcadpath + first3char;
                 Getitemstodisplay(Pathpart, item);
             }
             catch
@@ -611,11 +611,13 @@ namespace SearchDataSPM.Engineering
                     try
                     {
                         string sDocFileName = item;
-                        wpfThumbnailCreator pvf = new wpfThumbnailCreator();
-                        pvf.DesiredSize = new Size
+                        wpfThumbnailCreator pvf = new wpfThumbnailCreator
                         {
-                            Width = 256,
-                            Height = 256
+                            DesiredSize = new Size
+                            {
+                                Width = 256,
+                                Height = 256
+                            }
                         };
                         System.Drawing.Bitmap pic = pvf.GetThumbNail(sDocFileName);
                         imageList.Images.Add(pic);
@@ -648,7 +650,7 @@ namespace SearchDataSPM.Engineering
                 string txt = listView.FocusedItem.Text;
                 string first3char = txt.Substring(0, 3) + @"\";
                 const string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
-                Pathpart = (spmcadpath + first3char + txt);
+                Pathpart = spmcadpath + first3char + txt;
             }
         }
 
@@ -919,7 +921,7 @@ namespace SearchDataSPM.Engineering
             string txt = listView.FocusedItem.Text;
             string first3char = txt.Substring(0, 3) + @"\";
             const string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
-            return (spmcadpath + first3char + txt);
+            return spmcadpath + first3char + txt;
         }
 
         private void Processwhereused(string item)

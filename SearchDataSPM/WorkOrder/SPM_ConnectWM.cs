@@ -110,7 +110,7 @@ namespace SearchDataSPM.WorkOrder
         public static string oem;
 
         // variables required outside the functions to perfrom
-        private readonly string fullsearch = ("FullSearch LIKE '%{0}%'");
+        private readonly string fullsearch = "FullSearch LIKE '%{0}%'";
 
         private DataTable table0 = new DataTable();
         private DataTable table1 = new DataTable();
@@ -472,7 +472,7 @@ namespace SearchDataSPM.WorkOrder
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if (keyData == (Keys.Home))
+            if (keyData == Keys.Home)
             {
                 Reload.PerformClick();
                 return true;

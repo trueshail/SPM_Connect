@@ -9,6 +9,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
     public partial class NewRelease : Form
     {
         public enum IssuePriority { None = 0, Normal, Urgent };
+
         private readonly SPMConnectAPI.WorkOrder releaseModule = new SPMConnectAPI.WorkOrder();
         private log4net.ILog log;
         private bool rootnodedone;
@@ -100,11 +101,11 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
 
                 prioritycombobox.SelectedText = rlog.Priority;
 
-                Createdon.Text = rlog.DateCreated;
-                CreatedBy.Text = rlog.CreatedBy;
+                Createdon.Text = "Created On: " + rlog.DateCreated;
+                CreatedBy.Text = "Created By: " + rlog.CreatedBy;
 
-                LastSavedBy.Text = rlog.LastSavedBy;
-                LastSavedOn.Text = rlog.LastSaved;
+                LastSavedBy.Text = "Last Saved By: " + rlog.LastSavedBy;
+                LastSavedOn.Text = "Last Saved On: " + rlog.LastSaved;
 
                 submittedoblbl.Text = "Submitted On: " + rlog.SubmittedOn;
                 submittedbylbl.Text = "Submitted By: " + rlog.CreatedBy;

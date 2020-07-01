@@ -590,7 +590,7 @@ namespace SearchDataSPM.Engineering
                 listView.Items.Clear();
                 string first3char = item.Substring(0, 3) + @"\";
                 const string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
-                string Pathpart = (spmcadpath + first3char);
+                string Pathpart = spmcadpath + first3char;
                 Getitemstodisplay(Pathpart, item);
             }
             catch
@@ -645,7 +645,7 @@ namespace SearchDataSPM.Engineering
                 string txt = listView.FocusedItem.Text;
                 string first3char = txt.Substring(0, 3) + @"\";
                 const string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
-                Pathpart = (spmcadpath + first3char + txt);
+                Pathpart = spmcadpath + first3char + txt;
             }
         }
 

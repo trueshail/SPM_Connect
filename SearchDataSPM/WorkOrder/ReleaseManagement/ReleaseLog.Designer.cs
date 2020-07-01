@@ -31,8 +31,8 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ReleaseLog));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.Reload = new System.Windows.Forms.Button();
             this.txtSearch = new System.Windows.Forms.TextBox();
@@ -48,10 +48,15 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             this.LastSavedcombobox = new System.Windows.Forms.ComboBox();
             this.Createdbycomboxbox = new System.Windows.Forms.ComboBox();
             this.ByStatuscomboBox = new System.Windows.Forms.ComboBox();
+            this.SPM = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.recordlabel = new System.Windows.Forms.Label();
             this.DataGridView = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.viewReleaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewCurrentJobReleaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.getBOMToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.openModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.matlbl = new System.Windows.Forms.Label();
             this.clrfiltersbttn = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
@@ -60,11 +65,6 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.actcadblk = new System.Windows.Forms.Label();
-            this.SPM = new System.Windows.Forms.Label();
-            this.viewReleaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewCurrentJobReleaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.getBOMToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.openModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -109,7 +109,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             this.txtSearch.MaximumSize = new System.Drawing.Size(32767, 25);
             this.txtSearch.MinimumSize = new System.Drawing.Size(4, 25);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(398, 26);
+            this.txtSearch.Size = new System.Drawing.Size(398, 25);
             this.txtSearch.TabIndex = 106;
             this.TreeViewToolTip.SetToolTip(this.txtSearch, "Enter Search Keyword.\r\n");
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtSearch_KeyDown);
@@ -335,6 +335,19 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             this.ByStatuscomboBox.SelectedIndexChanged += new System.EventHandler(this.LastSavedcombobox_SelectedIndexChanged);
             this.ByStatuscomboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Lastsavedbycombo_KeyDown);
             // 
+            // SPM
+            // 
+            this.SPM.BackColor = System.Drawing.Color.Transparent;
+            this.SPM.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SPM.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.SPM.Image = ((System.Drawing.Image)(resources.GetObject("SPM.Image")));
+            this.SPM.Location = new System.Drawing.Point(4, 9);
+            this.SPM.Name = "SPM";
+            this.SPM.Size = new System.Drawing.Size(198, 85);
+            this.SPM.TabIndex = 114;
+            this.SPM.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.TreeViewToolTip.SetToolTip(this.SPM, "SPM Automation Inc.");
+            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -450,6 +463,39 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             this.contextMenuStrip1.Size = new System.Drawing.Size(211, 92);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStrip1_Opening);
             // 
+            // viewReleaseToolStripMenuItem
+            // 
+            this.viewReleaseToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("viewReleaseToolStripMenuItem.Image")));
+            this.viewReleaseToolStripMenuItem.Name = "viewReleaseToolStripMenuItem";
+            this.viewReleaseToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.viewReleaseToolStripMenuItem.Text = "View Selected Release";
+            this.viewReleaseToolStripMenuItem.Click += new System.EventHandler(this.ViewReleaseToolStripMenuItem_Click);
+            // 
+            // viewCurrentJobReleaseToolStripMenuItem
+            // 
+            this.viewCurrentJobReleaseToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("viewCurrentJobReleaseToolStripMenuItem.Image")));
+            this.viewCurrentJobReleaseToolStripMenuItem.Name = "viewCurrentJobReleaseToolStripMenuItem";
+            this.viewCurrentJobReleaseToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.viewCurrentJobReleaseToolStripMenuItem.Text = "View Current Job Releases";
+            this.viewCurrentJobReleaseToolStripMenuItem.Click += new System.EventHandler(this.ViewCurrentJobReleaseToolStripMenuItem_Click);
+            // 
+            // getBOMToolStripMenuItem1
+            // 
+            this.getBOMToolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("getBOMToolStripMenuItem1.Image")));
+            this.getBOMToolStripMenuItem1.Name = "getBOMToolStripMenuItem1";
+            this.getBOMToolStripMenuItem1.Size = new System.Drawing.Size(210, 22);
+            this.getBOMToolStripMenuItem1.Text = "Get BOM";
+            this.getBOMToolStripMenuItem1.Click += new System.EventHandler(this.GetBOMToolStripMenuItem1_Click);
+            // 
+            // openModelToolStripMenuItem
+            // 
+            this.openModelToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openModelToolStripMenuItem.Image")));
+            this.openModelToolStripMenuItem.Name = "openModelToolStripMenuItem";
+            this.openModelToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.openModelToolStripMenuItem.Text = "Open Model";
+            this.openModelToolStripMenuItem.ToolTipText = "Open Selected Item Model";
+            this.openModelToolStripMenuItem.Click += new System.EventHandler(this.OpenModelToolStripMenuItem_Click);
+            // 
             // matlbl
             // 
             this.matlbl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -560,52 +606,6 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             this.actcadblk.Size = new System.Drawing.Size(102, 18);
             this.actcadblk.TabIndex = 140;
             this.actcadblk.Text = "Last Saved By";
-            // 
-            // SPM
-            // 
-            this.SPM.BackColor = System.Drawing.Color.Transparent;
-            this.SPM.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SPM.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.SPM.Image = ((System.Drawing.Image)(resources.GetObject("SPM.Image")));
-            this.SPM.Location = new System.Drawing.Point(4, 9);
-            this.SPM.Name = "SPM";
-            this.SPM.Size = new System.Drawing.Size(198, 85);
-            this.SPM.TabIndex = 114;
-            this.SPM.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.TreeViewToolTip.SetToolTip(this.SPM, "SPM Automation Inc.");
-            // 
-            // viewReleaseToolStripMenuItem
-            // 
-            this.viewReleaseToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("viewReleaseToolStripMenuItem.Image")));
-            this.viewReleaseToolStripMenuItem.Name = "viewReleaseToolStripMenuItem";
-            this.viewReleaseToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
-            this.viewReleaseToolStripMenuItem.Text = "View Selected Release";
-            this.viewReleaseToolStripMenuItem.Click += new System.EventHandler(this.ViewReleaseToolStripMenuItem_Click);
-            // 
-            // viewCurrentJobReleaseToolStripMenuItem
-            // 
-            this.viewCurrentJobReleaseToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("viewCurrentJobReleaseToolStripMenuItem.Image")));
-            this.viewCurrentJobReleaseToolStripMenuItem.Name = "viewCurrentJobReleaseToolStripMenuItem";
-            this.viewCurrentJobReleaseToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
-            this.viewCurrentJobReleaseToolStripMenuItem.Text = "View Current Job Releases";
-            this.viewCurrentJobReleaseToolStripMenuItem.Click += new System.EventHandler(this.ViewCurrentJobReleaseToolStripMenuItem_Click);
-            // 
-            // getBOMToolStripMenuItem1
-            // 
-            this.getBOMToolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("getBOMToolStripMenuItem1.Image")));
-            this.getBOMToolStripMenuItem1.Name = "getBOMToolStripMenuItem1";
-            this.getBOMToolStripMenuItem1.Size = new System.Drawing.Size(210, 22);
-            this.getBOMToolStripMenuItem1.Text = "Get BOM";
-            this.getBOMToolStripMenuItem1.Click += new System.EventHandler(this.GetBOMToolStripMenuItem1_Click);
-            // 
-            // openModelToolStripMenuItem
-            // 
-            this.openModelToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openModelToolStripMenuItem.Image")));
-            this.openModelToolStripMenuItem.Name = "openModelToolStripMenuItem";
-            this.openModelToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
-            this.openModelToolStripMenuItem.Text = "Open Model";
-            this.openModelToolStripMenuItem.ToolTipText = "Open Selected Item Model";
-            this.openModelToolStripMenuItem.Click += new System.EventHandler(this.OpenModelToolStripMenuItem_Click);
             // 
             // ReleaseLog
             // 

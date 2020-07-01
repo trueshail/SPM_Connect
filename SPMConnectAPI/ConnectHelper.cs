@@ -44,12 +44,16 @@ namespace SPMConnectAPI
         {
             [Description("Select")]
             Select,
+
             [Description("Update")]
             Update,
+
             [Description("Insert")]
             Insert,
+
             [Description("Delete")]
             Delete,
+
             [Description("SelectAll")]
             SelectAll,
         }

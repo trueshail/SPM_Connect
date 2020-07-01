@@ -1200,10 +1200,12 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
                     e.Node.SelectedImageIndex = 12;
                     e.Node.ImageIndex = 12;
                     break;
+
                 case 13:
                     e.Node.SelectedImageIndex = 13;
                     e.Node.ImageIndex = 13;
                     break;
+
                 case 14:
                     e.Node.SelectedImageIndex = 14;
                     e.Node.ImageIndex = 14;

@@ -3,7 +3,6 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using static SPMConnectAPI.ConnectHelper;
 
 namespace SearchDataSPM.Controls
 {
@@ -109,7 +108,7 @@ namespace SearchDataSPM.Controls
         public static string oem;
 
         // variables required outside the functions to perfrom
-        private readonly string fullsearch = ("Description LIKE '%{0}%' OR Manufacturer LIKE '%{0}%' OR ManufacturerItemNumber LIKE '%{0}%' OR ItemNumber LIKE '%{0}%'");
+        private readonly string fullsearch = "Description LIKE '%{0}%' OR Manufacturer LIKE '%{0}%' OR ManufacturerItemNumber LIKE '%{0}%' OR ItemNumber LIKE '%{0}%'";
 
         // private readonly string fullsearch = ("FullSearch LIKE '%{0}%'");
 

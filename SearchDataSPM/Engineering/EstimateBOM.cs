@@ -471,7 +471,7 @@ namespace SearchDataSPM.Engineering
                 string first3char = item.Substring(0, 3) + @"\";
                 const string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
 
-                string Pathpart = (spmcadpath + first3char);
+                string Pathpart = spmcadpath + first3char;
                 Getitemstodisplay(Pathpart, item);
             }
             catch (Exception ex)
@@ -695,7 +695,7 @@ namespace SearchDataSPM.Engineering
                 string first3char = txt.Substring(0, 3) + @"\";
                 // //MessageBox.Show(first3char);
                 const string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
-                Pathpart = (spmcadpath + first3char + txt);
+                Pathpart = spmcadpath + first3char + txt;
                 // //MessageBox.Show(Pathpart);
             }
         }
@@ -788,7 +788,7 @@ namespace SearchDataSPM.Engineering
             string txt = listView.FocusedItem.Text;
             string first3char = txt.Substring(0, 3) + @"\";
             const string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
-            return (spmcadpath + first3char + txt);
+            return spmcadpath + first3char + txt;
         }
 
         private void PrintRecursive(TreeNode treeNode)

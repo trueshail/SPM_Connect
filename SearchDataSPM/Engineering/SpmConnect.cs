@@ -45,6 +45,7 @@ namespace SearchDataSPM.Engineering
         public const int MaxSearchHistory = 25;
         private readonly SPMConnectAPI.Controls connectapicntrls = new SPMConnectAPI.Controls();
         private readonly AutoCompleteStringCollection SearchCollection = new AutoCompleteStringCollection();
+
         public SpmConnect()
         {
             InitializeComponent();
@@ -301,7 +302,7 @@ namespace SearchDataSPM.Engineering
         #region Public Table & variables
 
         // variables required outside the functions to perfrom
-        private readonly string fullsearch = ("Description LIKE '%{0}%' OR Manufacturer LIKE '%{0}%' OR ManufacturerItemNumber LIKE '%{0}%' OR ItemNumber LIKE '%{0}%'");
+        private readonly string fullsearch = "Description LIKE '%{0}%' OR Manufacturer LIKE '%{0}%' OR ManufacturerItemNumber LIKE '%{0}%' OR ItemNumber LIKE '%{0}%'";
 
         //private readonly string fullsearch = ("FullSearch LIKE '%{0}%'");
 
@@ -1119,7 +1120,7 @@ namespace SearchDataSPM.Engineering
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if (keyData == (Keys.Home))
+            if (keyData == Keys.Home)
             {
                 Reload.PerformClick();
 
@@ -1381,7 +1382,7 @@ namespace SearchDataSPM.Engineering
 
                     const string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
 
-                    string Pathpart = (spmcadpath + first3char);
+                    string Pathpart = spmcadpath + first3char;
                     Directory.CreateDirectory(Pathpart);
                     var fileCount = (from file in Directory.EnumerateFiles(Pathpart, "*" + item + "*", SearchOption.AllDirectories)
                                      select file).Count();
@@ -1895,7 +1896,7 @@ namespace SearchDataSPM.Engineering
         {
             string first3char = selecteditem.Substring(0, 3) + @"\";
             const string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
-            string Pathpart = (spmcadpath + first3char);
+            string Pathpart = spmcadpath + first3char;
 
             if (lastnumber.Length > 0)
             {

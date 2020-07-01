@@ -90,7 +90,6 @@ namespace SearchDataSPM.Purchasing
                 dataGridView.Sort(dataGridView.Columns[0], ListSortDirection.Descending);
                 UpdateFont();
             }
-
         }
 
         private void PurchaseReq_Load(object sender, EventArgs e)
@@ -396,7 +395,7 @@ namespace SearchDataSPM.Purchasing
                         decimal price = !string.IsNullOrEmpty(row.Cells[8].Value.ToString())
             ? Convert.ToDecimal(row.Cells[8].Value.ToString())
             : 0;
-                        total += (qty * price);
+                        total += qty * price;
                         totalcostlbl.Text = "Total Cost : $" + string.Format("{0:n}", Convert.ToDecimal(total.ToString()));
 
                         totalvalue = string.Format("{0:#.00}", total.ToString());

@@ -6,7 +6,6 @@ using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using static SPMConnectAPI.ConnectHelper;
 
 namespace SearchDataSPM.Quotes
 {
@@ -427,8 +426,8 @@ namespace SearchDataSPM.Quotes
             string howfound = Howfndcombox.Text;
             string quotedprice = textBox1.Text;
             string currency = currencycombox.Text;
-            string opportunityclosed = (closedchkbox.Checked ? "1" : "0");
-            string convertedtojob = (cvttojobchkbox.Checked ? "1" : "0");
+            string opportunityclosed = closedchkbox.Checked ? "1" : "0";
+            string convertedtojob = cvttojobchkbox.Checked ? "1" : "0";
             string notes = notestxt.Text;
             list.Add(quote);
             list.Add(description);
@@ -575,7 +574,7 @@ namespace SearchDataSPM.Quotes
                 DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to close without saving changes?", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result != DialogResult.Yes)
                 {
-                    e.Cancel = (result == DialogResult.No);
+                    e.Cancel = result == DialogResult.No;
                 }
             }
         }

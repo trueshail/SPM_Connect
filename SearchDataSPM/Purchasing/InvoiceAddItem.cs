@@ -378,7 +378,7 @@ namespace SearchDataSPM.Purchasing
                     }
                     else
                     {
-                        e.Cancel = (result == DialogResult.No);
+                        e.Cancel = result == DialogResult.No;
                     }
                 }
             }
@@ -579,7 +579,7 @@ namespace SearchDataSPM.Purchasing
                 {
                     int qty = Convert.ToInt32(qtytxt.Text);
                     decimal price = Convert.ToDecimal(pricetxt.Text.Substring(1));
-                    total += (qty * price);
+                    total += qty * price;
 
                     totaltxt.Text = string.Format("{0:#.00}", total.ToString());
                 }
@@ -600,7 +600,7 @@ namespace SearchDataSPM.Purchasing
             try
             {
                 decimal price = Convert.ToDecimal(pricetxt.Text.Substring(1));
-                total += (qty * price);
+                total += qty * price;
             }
             catch (Exception ex)
             {
