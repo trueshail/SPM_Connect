@@ -1278,7 +1278,7 @@ namespace SPMConnectAPI
 
                 while (monikers.Next(1, moniker, IntPtr.Zero) == 0)
                 {
-                    var curMoniker = moniker.First();
+                    var curMoniker = moniker[0];
 
                     string name = null;
 
@@ -1296,8 +1296,7 @@ namespace SPMConnectAPI
                     if (string.Equals(monikerName,
                         name, StringComparison.CurrentCultureIgnoreCase))
                     {
-                        object app;
-                        rot.GetObject(curMoniker, out app);
+                        rot.GetObject(curMoniker, out object app);
                         return app as ISldWorks;
                     }
                 }

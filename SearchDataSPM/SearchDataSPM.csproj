@@ -485,6 +485,12 @@
     <Compile Include="WorkOrder\InvInOut.Designer.cs">
       <DependentUpon>InvInOut.cs</DependentUpon>
     </Compile>
+    <Compile Include="WorkOrder\ReleaseManagement\NewRelease.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WorkOrder\ReleaseManagement\NewRelease.designer.cs">
+      <DependentUpon>NewRelease.cs</DependentUpon>
+    </Compile>
     <Compile Include="WorkOrder\ReleaseManagement\ReleaseLog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -801,6 +807,9 @@
     <EmbeddedResource Include="WorkOrder\InvInOut.resx">
       <DependentUpon>InvInOut.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="WorkOrder\ReleaseManagement\NewRelease.resx">
+      <DependentUpon>NewRelease.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="WorkOrder\ReleaseManagement\ReleaseLog.resx">
       <DependentUpon>ReleaseLog.cs</DependentUpon>
     </EmbeddedResource>
@@ -1091,6 +1100,7 @@
     <Content Include="magnifying-glass-search-64.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\icons8_Report_Card_64.png" />
     <Content Include="Resources\spmconnecthelp.png" />
     <Content Include="SqlServerTypes\x64\msvcr120.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

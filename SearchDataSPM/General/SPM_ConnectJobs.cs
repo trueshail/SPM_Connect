@@ -620,8 +620,7 @@ namespace SearchDataSPM.General
                     }
 
                     // Get the files in the directory and copy them to the new location.
-                    FileInfo[] files = dir.GetFiles();
-                    foreach (FileInfo file in files)
+                    foreach (FileInfo file in dir.GetFiles())
                     {
                         string temppath = Path.Combine(destDirName, file.Name);
                         file.CopyTo(temppath, true);
@@ -649,8 +648,7 @@ namespace SearchDataSPM.General
                 }
 
                 // Get the files in the directory and copy them to the new location.
-                FileInfo[] files = dir.GetFiles();
-                foreach (FileInfo file in files)
+                foreach (FileInfo file in dir.GetFiles())
                 {
                     string temppath = Path.Combine(destDirName, file.Name);
                     file.CopyTo(temppath, false);
@@ -1095,6 +1093,12 @@ namespace SearchDataSPM.General
         {
             ViewRelease viewRelease = new ViewRelease(wrkorder: Getjobnumber(), job: true, jobassyno: GetAssynumber(), jobno: Getjobnumber());
             viewRelease.Show();
+        }
+
+        private void ViewEngineeringReleasesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            WorkOrder.ReleaseManagement.ReleaseLog releaseLog = new WorkOrder.ReleaseManagement.ReleaseLog(Getselectedjobnumber());
+            releaseLog.Show(this);
         }
     }
 }

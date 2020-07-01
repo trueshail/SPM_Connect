@@ -213,8 +213,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
         {
             // Print each node recursively.
 
-            var nodes = Treeview.Nodes;
-            foreach (TreeNode n in nodes)
+            foreach (TreeNode n in Treeview.Nodes)
             {
                 if (n.Nodes.Count > 0)
                 {
@@ -302,8 +301,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
                 };
                 if (parentNode == null)
                 {
-                    var f = new Font("Arial", 10, FontStyle.Bold);
-                    t.NodeFont = f;
+                    t.NodeFont = new Font("Arial", 10, FontStyle.Bold);
                     t.Text = "Job " + dr["JobNo"].ToString() + " - WO " + workOrder + " - " + dr["Description"].ToString();
                     t.Tag = treeTB.Rows.IndexOf(dr);
                     Treeview.Nodes.Add(t);
@@ -311,8 +309,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
                 }
                 else
                 {
-                    var f = new Font("Arial", 9, FontStyle.Bold);
-                    t.NodeFont = f;
+                    t.NodeFont = new Font("Arial", 9, FontStyle.Bold);
                     parentNode.Nodes.Add(t);
                     childNode = t;
                 }
@@ -336,8 +333,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
                 };
                 if (parentNode == null)
                 {
-                    var f = new Font("Arial", 10, FontStyle.Bold);
-                    t.NodeFont = f;
+                    t.NodeFont = new Font("Arial", 10, FontStyle.Bold);
                     t.Text = "Job " + dr["JobNo"].ToString() + " - WO " + workOrder + " - " + dr["Description"].ToString();
                     t.Tag = treeTB.Rows.IndexOf(dr);
                     Treeview.Nodes.Add(t);
@@ -375,8 +371,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
                 };
                 if (parentNode == null)
                 {
-                    var f = new Font("Arial", 9, FontStyle.Italic);
-                    t.NodeFont = f;
+                    t.NodeFont = new Font("Arial", 9, FontStyle.Italic);
                     t.Text = "Job " + dr["JobNo"].ToString() + " - WO " + workOrder + " - " + dr["Description"].ToString();
                     t.Tag = treeTB.Rows.IndexOf(dr);
                     Treeview.Nodes.Add(t);
@@ -967,8 +962,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
         {
             // Print each node recursively.
 
-            var nodes = woTreeview.Nodes;
-            foreach (TreeNode n in nodes)
+            foreach (TreeNode n in woTreeview.Nodes)
             {
                 if (n.Nodes.Count > 0)
                 {
@@ -1058,8 +1052,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
                 }
                 if (parentNode == null)
                 {
-                    Font f = new Font("Arial", 10, FontStyle.Bold);
-                    t.NodeFont = f;
+                    t.NodeFont = new Font("Arial", 10, FontStyle.Bold);
                     t.Text = dr["AssyNo"].ToString() + " - " + dr["AssyDescription"].ToString() + " ( " + dr["QuantityPerAssembly"].ToString() + " ) ";
                     t.Name = dr["ItemNumber"].ToString();
                     t.Tag = woTB.Rows.IndexOf(dr);

@@ -241,8 +241,7 @@ namespace SearchDataSPM.Controls
                 };
                 if (parentNode == null)
                 {
-                    Font f = new Font("Arial", 10, FontStyle.Bold);
-                    t.NodeFont = f;
+                    t.NodeFont = new Font("Arial", 10, FontStyle.Bold);
                     t.Text = dr["AssyNo"].ToString() + " - " + dr["AssyDesc"].ToString() + " ( " + dr["AssyQty"].ToString() + " ) ";
                     t.Name = dr["AssyNo"].ToString();
                     t.Tag = _acountsTb.Rows.IndexOf(dr);

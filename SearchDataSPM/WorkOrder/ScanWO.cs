@@ -46,8 +46,7 @@ namespace SearchDataSPM.WorkOrder
             timer3.Interval = 5000;
             timer3.Start();
             _ = new DataTable();
-            DataTable dtb1 = connectapi.ShowWOTrackingStatus(woid_txtbox.Text.Trim());
-            dataGridView1.DataSource = dtb1;
+            dataGridView1.DataSource = connectapi.ShowWOTrackingStatus(woid_txtbox.Text.Trim());
             dataGridView1.Update();
         }
 

@@ -44,8 +44,7 @@ namespace SearchDataSPM.Quotes
                     }
 
                     // Get the files in the directory and copy them to the new location.
-                    FileInfo[] files = dir.GetFiles();
-                    foreach (FileInfo file in files)
+                    foreach (FileInfo file in dir.GetFiles())
                     {
                         string temppath = Path.Combine(destDirName, file.Name);
                         file.CopyTo(temppath, true);
@@ -73,8 +72,7 @@ namespace SearchDataSPM.Quotes
                 }
 
                 // Get the files in the directory and copy them to the new location.
-                FileInfo[] files = dir.GetFiles();
-                foreach (FileInfo file in files)
+                foreach (FileInfo file in dir.GetFiles())
                 {
                     string temppath = Path.Combine(destDirName, file.Name);
                     file.CopyTo(temppath, false);
@@ -210,8 +208,7 @@ namespace SearchDataSPM.Quotes
                 da.Fill(dt);
                 foreach (DataRow dr in dt.Rows)
                 {
-                    string fullname = dr["Name"].ToString();
-                    return fullname;
+                    return dr["Name"].ToString();
                 }
             }
             catch (Exception ex)

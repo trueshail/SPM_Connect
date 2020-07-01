@@ -829,7 +829,7 @@ namespace SearchDataSPM.Engineering
         private void Openjobmodule()
         {
             SPM_ConnectJobs sPM_ConnectJobs = new SPM_ConnectJobs();
-            sPM_ConnectJobs.Show();
+            sPM_ConnectJobs.Show(this);
         }
 
         private void DataGridView_KeyDown(object sender, KeyEventArgs e)
@@ -1250,12 +1250,11 @@ namespace SearchDataSPM.Engineering
                     {
                         string sDocFileName = item;
                         wpfThumbnailCreator pvf = new wpfThumbnailCreator();
-                        System.Drawing.Size size = new Size
+                        pvf.DesiredSize = new Size
                         {
                             Width = 256,
                             Height = 256
                         };
-                        pvf.DesiredSize = size;
                         System.Drawing.Bitmap pic = pvf.GetThumbNail(sDocFileName);
                         imageList.Images.Add(pic);
                         //axEModelViewControl1 = new EModelViewControl();
@@ -1296,9 +1295,7 @@ namespace SearchDataSPM.Engineering
         {
             StringBuilder strB = new StringBuilder(fileName);
             IntPtr handle = ExtractAssociatedIcon(IntPtr.Zero, strB, out _);
-            Icon ico = Icon.FromHandle(handle);
-
-            return ico;
+            return Icon.FromHandle(handle);
         }
 
         public static Icon GetIcon(string fileName)
@@ -1317,8 +1314,7 @@ namespace SearchDataSPM.Engineering
             {
                 try
                 {
-                    Icon icon2 = GetIconOldSchool(fileName);
-                    return icon2;
+                    return GetIconOldSchool(fileName);
                 }
                 catch
                 {

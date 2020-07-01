@@ -292,8 +292,7 @@ namespace SearchDataSPM.WorkOrder
             timer3.Interval = 10000;
             timer3.Start();
             _ = new DataTable();
-            DataTable dtb1 = connectapi.ShowWOInOutStatus(woid_txtbox.Text.Trim());
-            dataGridView1.DataSource = dtb1;
+            dataGridView1.DataSource = connectapi.ShowWOInOutStatus(woid_txtbox.Text.Trim());
             dataGridView1.Update();
         }
 

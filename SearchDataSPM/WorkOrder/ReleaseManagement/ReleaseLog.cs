@@ -10,18 +10,19 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
 {
     public partial class ReleaseLog : Form
     {
-        #region Shipping Home Load
+        #region ReleaseLog Home Load
 
         private readonly SPMConnectAPI.WorkOrder connectapi = new SPMConnectAPI.WorkOrder();
         private int _advcollapse;
         private DataTable dt;
         private bool formloading;
         private log4net.ILog log;
-
-        public ReleaseLog()
+        private readonly string jobnumber;
+        public ReleaseLog(string job)
         {
             InitializeComponent();
             formloading = true;
+            this.jobnumber = job;
         }
 
         private void Clearfilercombos()
@@ -113,6 +114,9 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Release Logs ");
             // Resume the layout logic
+            txtSearch.Text = jobnumber;
+            if (txtSearch.Text.Trim().Length > 0)
+                SendKeys.Send("~");
             this.ResumeLayout();
         }
 
@@ -923,21 +927,6 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
 
         #region Invoice
 
-        private void Addnewbttn_Click(object sender, EventArgs e)
-        {
-            DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to create a new shipping invoice?", "SPM Connect - Create New Invoice?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (result == DialogResult.Yes)
-            {
-                this.Enabled = false;
-                string status = connectapi.CreateNewMatReallocation();
-                if (status.Length > 1)
-                {
-                    ShowReleaseInfo(status);
-                }
-            }
-        }
-
         private string GetselectedReleaseNo()
         {
             if (DataGridView.SelectedRows.Count == 1 || DataGridView.SelectedCells.Count == 1)
@@ -956,7 +945,8 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
 
         private void ShowReleaseInfo(string invoice)
         {
-            MessageBox.Show(invoice);
+            NewRelease newRelease = new NewRelease(Convert.ToInt32(invoice));
+            newRelease.Show(this);
         }
 
         #endregion Invoice

@@ -86,7 +86,7 @@ namespace SearchDataSPM
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new WorkOrder.ReleaseManagement.ReleaseLog());
+            Application.Run(new SPMConnectHome());
         }
 
         private static void AddRegistry()

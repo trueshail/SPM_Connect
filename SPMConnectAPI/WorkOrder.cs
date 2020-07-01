@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualBasic;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
@@ -2209,6 +2210,233 @@ namespace SPMConnectAPI
             }
 
             return nextreleaseno;
+        }
+
+        public ReleaseLog GetRelease(int relno)
+        {
+            ReleaseLog relLog = new ReleaseLog();
+            using (SqlDataAdapter sda = new SqlDataAdapter("[dbo].[RP_CRUDBase]", cn))
+            {
+                sda.SelectCommand.CommandType = CommandType.StoredProcedure;
+                sda.SelectCommand.Parameters.AddWithValue("@RelNo", relno);
+                sda.SelectCommand.Parameters.AddWithValue("@StatementType", nameof(CRUDStatementType.Select));
+
+                try
+                {
+                    DataTable dt = new DataTable();
+                    sda.Fill(dt);
+                    if (dt.Rows.Count > 0)
+                    {
+                        DataRow dr = dt.Rows[0];
+
+                        relLog = GetReleaseDetails(dr, GetReleaseItemsDetails(relno), GetReleaseComments(relno));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex.Message, ex);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return relLog;
+        }
+
+        private ReleaseLog GetReleaseDetails(DataRow dr, List<ReleaseItem> releaseItems, List<ReleaseComment> releaseComments)
+        {
+            return new ReleaseLog
+            {
+                Id = Convert.ToInt32(dr["Id"].ToString()),
+                RelNo = Convert.ToInt32(dr["RelNo"].ToString()),
+                Job = Convert.ToInt32(dr["Job"].ToString()),
+                SubAssy = dr["SubAssy"].ToString(),
+                PckgQty = Convert.ToInt32(dr["PckgQty"].ToString()),
+                IsSubmitted = Convert.ToBoolean(dr["IsSubmitted"]),
+                SubmittedTo = Convert.ToInt32(dr["SubmittedTo"].ToString()),
+                SubmittedOn = dr["SubmittedOn"].ToString().StartsWith("1900") ? "" : dr["SubmittedOn"].ToString(),
+                IsChecked = Convert.ToBoolean(dr["IsChecked"]),
+                CheckedBy = dr["CheckedBy"].ToString(),
+                CheckedOn = dr["CheckedOn"].ToString().StartsWith("1900") ? "" : dr["CheckedOn"].ToString(),
+                ApprovalTo = Convert.ToInt32(dr["ApprovalTo"].ToString()),
+                IsApproved = Convert.ToBoolean(dr["IsApproved"]),
+                ApprovedBy = dr["ApprovedBy"].ToString(),
+                ApprovedOn = dr["ApprovedOn"].ToString().StartsWith("1900") ? "" : dr["ApprovedOn"].ToString(),
+                IsReleased = Convert.ToBoolean(dr["IsReleased"]),
+                ReleasedBy = dr["ReleasedBy"].ToString(),
+                ReleasedOn = dr["ReleasedOn"].ToString().StartsWith("1900") ? "" : dr["ReleasedOn"].ToString(),
+                DateCreated = dr["DateCreated"].ToString(),
+                CreatedById = Convert.ToInt32(dr["CreatedById"].ToString()),
+                CreatedBy = dr["CreatedBy"].ToString(),
+                LastSaved = dr["LastSaved"].ToString(),
+                LastSavedById = Convert.ToInt32(dr["LastSavedById"].ToString()),
+                LastSavedBy = dr["LastSavedBy"].ToString(),
+                Priority = dr["Priority"].ToString(),
+                IsActive = Convert.ToBoolean(dr["IsActive"]),
+                ConnectRelNo = dr["ConnectRelNo"].ToString(),
+                WorkOrder = dr["WorkOrder"].ToString(),
+                JobDes = dr["JobDes"].ToString(),
+                SubAssyDes = dr["SubAssyDes"].ToString(),
+                ReleaseItems = releaseItems,
+                ReleaseComments = releaseComments,
+            };
+        }
+
+        private ReleaseItem GetReleaseItemsDetails(DataRow dr)
+        {
+            return new ReleaseItem
+            {
+                RelNo = Convert.ToInt32(dr["RelNo"].ToString()),
+                ItemNumber = dr["ItemNumber"].ToString(),
+                QuantityPerAssembly = Convert.ToInt32(dr["QuantityPerAssembly"].ToString()),
+                Description = dr["Description"].ToString(),
+                ItemFamily = dr["ItemFamily"].ToString(),
+                Manufacturer = dr["Manufacturer"].ToString(),
+                ManufacturerItemNumber = dr["ManufacturerItemNumber"].ToString(),
+                AssyNo = dr["AssyNo"].ToString(),
+                AssyFamily = dr["AssyFamily"].ToString(),
+                AssyDescription = dr["AssyDescription"].ToString(),
+                AssyManufacturer = dr["AssyManufacturer"].ToString(),
+                AssyManufacturerItemNumber = dr["AssyManufacturerItemNumber"].ToString(),
+                Path = dr["Path"].ToString(),
+            };
+        }
+
+        public List<ReleaseItem> GetReleaseItemsDetails(int relno)
+        {
+            List<ReleaseItem> relItems = new List<ReleaseItem>();
+            using (SqlDataAdapter sda = new SqlDataAdapter("[dbo].[RP_CRUDItems]", cn))
+            {
+                sda.SelectCommand.CommandType = CommandType.StoredProcedure;
+                sda.SelectCommand.Parameters.AddWithValue("@RelNo", relno);
+                sda.SelectCommand.Parameters.AddWithValue("@StatementType", nameof(CRUDStatementType.Select));
+                try
+                {
+                    DataTable dt = new DataTable();
+                    sda.Fill(dt);
+                    if (dt.Rows.Count > 0)
+                    {
+                        foreach (DataRow dr in dt.Rows)
+                        {
+                            relItems.Add(GetReleaseItemsDetails(dr));
+                        }
+                    }
+                    dt.Clear();
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex.Message, ex);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+
+            return relItems;
+        }
+
+        public List<ReleaseComment> GetReleaseComments(int relno)
+        {
+            List<ReleaseComment> relComments = new List<ReleaseComment>();
+            using (SqlDataAdapter sda = new SqlDataAdapter("[dbo].[RP_CRUDRemark]", cn))
+            {
+                sda.SelectCommand.CommandType = CommandType.StoredProcedure;
+                sda.SelectCommand.Parameters.AddWithValue("@RelNo", relno);
+                sda.SelectCommand.Parameters.AddWithValue("@StatementType", nameof(CRUDStatementType.Select));
+                try
+                {
+                    DataTable dt = new DataTable();
+                    sda.Fill(dt);
+                    if (dt.Rows.Count > 0)
+                    {
+                        foreach (DataRow dr in dt.Rows)
+                        {
+                            relComments.Add(GetReleaseCommentDetails(dr));
+                        }
+                    }
+                    dt.Clear();
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex.Message, ex);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+
+            return relComments;
+        }
+
+        private ReleaseComment GetReleaseCommentDetails(DataRow dr)
+        {
+            return new ReleaseComment
+            {
+                Id = Convert.ToInt32(dr["Id"].ToString()),
+                RelNo = Convert.ToInt32(dr["RelNo"].ToString()),
+                Comment = dr["Comment"].ToString(),
+                CommentBy = dr["CommentBy"].ToString(),
+                DateCreated = Convert.ToDateTime(dr["DateCreated"].ToString()).TimeAgo(),
+            };
+        }
+
+        public AutoCompleteStringCollection FillCheckingUsers()
+        {
+            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT  CONCAT(id, ' ', Name) as Checkers  FROM [SPM_Database].[dbo].[Users] where [CheckDrawing] = '1' ORDER BY Name", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+                    MyCollection.Add("");
+                    while (reader.Read())
+                    {
+                        MyCollection.Add(reader.GetString(0));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex.Message, ex);
+                    MessageBox.Show(ex.Message, "SPM Connect - Fill Checking Users", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return MyCollection;
+        }
+
+        public AutoCompleteStringCollection FillApprovingUsers()
+        {
+            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT  CONCAT(id, ' ', Name) as Checkers  FROM [SPM_Database].[dbo].[Users] where [ApproveDrawing] = '1' ORDER BY Name", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+                    MyCollection.Add("");
+                    while (reader.Read())
+                    {
+                        MyCollection.Add(reader.GetString(0));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex.Message, ex);
+                    MessageBox.Show(ex.Message, "SPM Connect - Fill Approving Users", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return MyCollection;
         }
 
         #endregion WorkOrderRelease

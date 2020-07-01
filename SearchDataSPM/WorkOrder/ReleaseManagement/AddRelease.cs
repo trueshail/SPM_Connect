@@ -164,8 +164,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
         private void AddItems()
         {
             // Print each node recursively.
-            var nodes = Treeview.Nodes;
-            foreach (TreeNode n in nodes)
+            foreach (TreeNode n in Treeview.Nodes)
                 SaveRecursive(n);
 
             Lockdownsave();
@@ -174,8 +173,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
         private void CallRecursive()
         {
             // Print each node recursively.
-            var nodes = Treeview.Nodes;
-            foreach (TreeNode n in nodes)
+            foreach (TreeNode n in Treeview.Nodes)
             {
                 if (n.Nodes.Count > 0)
                 {
@@ -346,8 +344,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
                 };
                 if (parentNode == null)
                 {
-                    var f = new Font("Arial", 10, FontStyle.Bold);
-                    t.NodeFont = f;
+                    t.NodeFont = new Font("Arial", 10, FontStyle.Bold);
                     t.Text = jobnotxt.Text + " - " + wotxt.Text + " - " + releaselognotxt.Text + " - " + releasetypetxt.Text;
                     t.Tag = jobnotxt.Text + "][" + wotxt.Text + "][" + releaselognotxt.Text + "][" + releasetypetxt.Text;
                     Treeview.Nodes.Add(t);
@@ -879,8 +876,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
         private void CheckItems()
         {
             // Print each node recursively.
-            var nodes = Treeview.Nodes;
-            foreach (TreeNode n in nodes)
+            foreach (TreeNode n in Treeview.Nodes)
                 CheckRecursive(n);
         }
 

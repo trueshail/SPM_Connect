@@ -384,8 +384,7 @@ namespace SearchDataSPM.WorkOrder
             string selectedText = wolistbox.SelectedItem.ToString();
             DataView dv = workorderstatus.DefaultView;
             string columnName = workorderstatus.Columns[0].ColumnName;
-            string filter = string.Format("{0} = '{1}'", columnName, selectedText);
-            dv.RowFilter = filter;
+            dv.RowFilter = string.Format("{0} = '{1}'", columnName, selectedText);
             dataGridView.DataSource = dv;
             UpdateFont();
             FillWoDetails(selectedText);
