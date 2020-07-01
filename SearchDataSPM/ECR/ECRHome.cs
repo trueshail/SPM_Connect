@@ -28,7 +28,7 @@ namespace SearchDataSPM.ECR
         private void Checkdeptsandrights()
         {
             versionlabel.Text = Getassyversionnumber();
-            TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
+            TreeViewToolTip.SetToolTip(versionlabel, "SPM Connect " + versionlabel.Text);
             if (connectapi.ConnectUser.ECR)
             {
                 addnewbttn.Visible = true;
@@ -166,7 +166,7 @@ namespace SearchDataSPM.ECR
 
         // variables required outside the functions to perfrom
         // string fullsearch = ("ECRNo LIKE '%{0}%' ");
-        private readonly string fullsearch = ("FullSearch LIKE '%{0}%'");
+        private readonly string fullsearch = "FullSearch LIKE '%{0}%'";
 
         private DataTable dataTable = new DataTable();
 
@@ -632,7 +632,7 @@ namespace SearchDataSPM.ECR
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if (keyData == (Keys.Home))
+            if (keyData == Keys.Home)
             {
                 Reload.PerformClick();
 

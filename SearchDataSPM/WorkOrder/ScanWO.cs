@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
-using static SPMConnectAPI.ConnectHelper;
 
 namespace SearchDataSPM.WorkOrder
 {
@@ -46,8 +45,7 @@ namespace SearchDataSPM.WorkOrder
             timer3.Interval = 5000;
             timer3.Start();
             _ = new DataTable();
-            DataTable dtb1 = connectapi.ShowWOTrackingStatus(woid_txtbox.Text.Trim());
-            dataGridView1.DataSource = dtb1;
+            dataGridView1.DataSource = connectapi.ShowWOTrackingStatus(woid_txtbox.Text.Trim());
             dataGridView1.Update();
         }
 
@@ -79,7 +77,7 @@ namespace SearchDataSPM.WorkOrder
         private void Woid_txtbox_KeyPress(object sender, KeyPressEventArgs e)
         {
             // check timing (keystrokes within 100 ms)
-            TimeSpan elapsed = (DateTime.Now - _lastKeystroke);
+            TimeSpan elapsed = DateTime.Now - _lastKeystroke;
             if (elapsed.TotalMilliseconds > userinputtime)
                 _barcode.Clear();
 

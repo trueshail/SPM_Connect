@@ -315,7 +315,7 @@ namespace SearchDataSPM.ECR
                 }
                 else
                 {
-                    e.Cancel = (result == DialogResult.No);
+                    e.Cancel = result == DialogResult.No;
                 }
             }
             else
@@ -1147,8 +1147,7 @@ namespace SearchDataSPM.ECR
             {
                 try
                 {
-                    Icon icon2 = GetIconOldSchool(fileName);
-                    return icon2;
+                    return GetIconOldSchool(fileName);
                 }
                 catch
                 {
@@ -1161,9 +1160,7 @@ namespace SearchDataSPM.ECR
         {
             StringBuilder strB = new StringBuilder(fileName);
             IntPtr handle = ExtractAssociatedIcon(IntPtr.Zero, strB, out _);
-            Icon ico = Icon.FromHandle(handle);
-
-            return ico;
+            return Icon.FromHandle(handle);
         }
 
         [DllImport("shell32.dll")]
@@ -1297,7 +1294,7 @@ namespace SearchDataSPM.ECR
                 string txt = listView.FocusedItem.Text;
                 string first3char = txt.Substring(0, 3) + @"\";
                 const string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
-                Pathpart = (spmcadpath + first3char + txt);
+                Pathpart = spmcadpath + first3char + txt;
             }
         }
 

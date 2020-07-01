@@ -28,7 +28,7 @@ namespace SearchDataSPM.WorkOrder
         private void Checkdeptsandrights()
         {
             versionlabel.Text = Getassyversionnumber();
-            TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
+            TreeViewToolTip.SetToolTip(versionlabel, "SPM Connect " + versionlabel.Text);
             if (connectapi.CheckRights("WORelease"))
             {
                 contextMenuStrip1.Items[1].Enabled = true;
@@ -110,7 +110,7 @@ namespace SearchDataSPM.WorkOrder
         public static string oem;
 
         // variables required outside the functions to perfrom
-        private readonly string fullsearch = ("FullSearch LIKE '%{0}%'");
+        private readonly string fullsearch = "FullSearch LIKE '%{0}%'";
 
         private DataTable table0 = new DataTable();
         private DataTable table1 = new DataTable();
@@ -168,7 +168,7 @@ namespace SearchDataSPM.WorkOrder
                         dv.RowFilter += " AND " + secondFilter;
                     dataGridView.DataSource = dv;
                     SearchStringPosition();
-                    searchtext(Descrip_txtbox.Text);
+                    Searchtext(Descrip_txtbox.Text);
                     table1 = dv.ToTable();
                     dataGridView.Refresh();
                 }
@@ -218,7 +218,7 @@ namespace SearchDataSPM.WorkOrder
                         dv.RowFilter += " AND " + fifthfilter;
                     dataGridView.DataSource = dv;
                     SearchStringPosition();
-                    searchtext(filter4.Text);
+                    Searchtext(filter4.Text);
                     dataGridView.Refresh();
                 }
                 catch (Exception)
@@ -252,7 +252,7 @@ namespace SearchDataSPM.WorkOrder
                         dv.RowFilter += " AND " + thirdFilter;
                     dataGridView.DataSource = dv;
                     SearchStringPosition();
-                    searchtext(filteroem_txtbox.Text);
+                    Searchtext(filteroem_txtbox.Text);
                     table2 = dv.ToTable();
                     dataGridView.Refresh();
                 }
@@ -297,7 +297,7 @@ namespace SearchDataSPM.WorkOrder
                         dv.RowFilter += " AND " + fourthfilter;
                     dataGridView.DataSource = dv;
                     SearchStringPosition();
-                    searchtext(filteroemitem_txtbox.Text);
+                    Searchtext(filteroemitem_txtbox.Text);
                     table3 = dv.ToTable();
                     dataGridView.Refresh();
                 }
@@ -335,7 +335,7 @@ namespace SearchDataSPM.WorkOrder
                 table0 = dv.ToTable();
                 dataGridView.Update();
                 SearchStringPosition();
-                searchtext(txtSearch.Text);
+                Searchtext(txtSearch.Text);
                 dataGridView.Refresh();
             }
             catch (Exception)
@@ -369,7 +369,7 @@ namespace SearchDataSPM.WorkOrder
 
         private string sw;
 
-        private void dataGridView_CellPainting_1(object sender, DataGridViewCellPaintingEventArgs e)
+        private void DataGridView_CellPainting_1(object sender, DataGridViewCellPaintingEventArgs e)
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && IsSelected)
             {
@@ -421,7 +421,7 @@ namespace SearchDataSPM.WorkOrder
             IsSelected = true;
         }
 
-        private void searchtext(string searchkey)
+        private void Searchtext(string searchkey)
         {
             sw = searchkey;
         }
@@ -439,7 +439,7 @@ namespace SearchDataSPM.WorkOrder
 
         #region datagridview events
 
-        private void dataGridView_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        private void DataGridView_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.RowIndex == -1) return;
             _ = dataGridView.Rows[e.RowIndex];
@@ -452,7 +452,7 @@ namespace SearchDataSPM.WorkOrder
             }
         }
 
-        private void dataGridView_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
+        private void DataGridView_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex > -1)
             {
@@ -460,7 +460,7 @@ namespace SearchDataSPM.WorkOrder
             }
         }
 
-        private void dataGridView_CellMouseMove(object sender, DataGridViewCellMouseEventArgs e)
+        private void DataGridView_CellMouseMove(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.RowIndex > 0)
             {
@@ -472,7 +472,7 @@ namespace SearchDataSPM.WorkOrder
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if (keyData == (Keys.Home))
+            if (keyData == Keys.Home)
             {
                 Reload.PerformClick();
                 return true;
@@ -548,7 +548,7 @@ namespace SearchDataSPM.WorkOrder
             AddNewRelease();
         }
 
-        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        private void ContextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
             if (dataGridView.SelectedRows.Count != 1)
             {
@@ -556,7 +556,7 @@ namespace SearchDataSPM.WorkOrder
             }
         }
 
-        private void cribbttn_Click(object sender, EventArgs e)
+        private void Cribbttn_Click(object sender, EventArgs e)
         {
             if (connectapi.EmployeeExitsWithCribRights(connectapi.ConnectUser.Emp_Id.ToString()))
             {
@@ -569,7 +569,7 @@ namespace SearchDataSPM.WorkOrder
             }
         }
 
-        private void getBOMToolStripMenuItem_Click(object sender, EventArgs e)
+        private void GetBOMToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string item;
             if (dataGridView.SelectedRows.Count == 1 || dataGridView.SelectedCells.Count == 1)
@@ -621,7 +621,7 @@ namespace SearchDataSPM.WorkOrder
             return wo;
         }
 
-        private void getWOToolStripMenuItem_Click(object sender, EventArgs e)
+        private void GetWOToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ProrcessreportWorkOrder(Getselectedworkorder(), "WorkOrder");
         }
@@ -659,7 +659,7 @@ namespace SearchDataSPM.WorkOrder
             form1.Show();
         }
 
-        private void scanwobttn_Click(object sender, EventArgs e)
+        private void Scanwobttn_Click(object sender, EventArgs e)
         {
             if (connectapi.CheckRights("[WOScan]"))
             {
@@ -709,17 +709,15 @@ namespace SearchDataSPM.WorkOrder
 
         private void ViewAllReleaseLogsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ReleaseLogs releaseLogs = new ReleaseLogs();
-            releaseLogs.Show();
         }
 
-        private void viewCurrentJobReleaseToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ViewCurrentJobReleaseToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ViewRelease viewRelease = new ViewRelease(wrkorder: GetSelectedJobNo(), job: true, jobassyno: connectapi.GetJobAssyNo(GetSelectedJobNo()), jobno: GetSelectedJobNo());
             viewRelease.Show();
         }
 
-        private void viewReleasesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ViewReleasesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ViewRelease viewRelease = new ViewRelease(wrkorder: Getselectedworkorder(), job: false, jobassyno: GetSelectedAssyNo(), jobno: GetSelectedJobNo());
             viewRelease.Show();

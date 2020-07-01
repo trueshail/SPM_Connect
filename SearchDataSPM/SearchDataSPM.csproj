@@ -31,10 +31,10 @@
     <ErrorReportUrl>http://www.spm-automation.com/contact.php</ErrorReportUrl>
     <ProductName>SPM Connect</ProductName>
     <PublisherName>SPM Automation</PublisherName>
-    <MinimumRequiredVersion>7.20.06.18</MinimumRequiredVersion>
+    <MinimumRequiredVersion>7.20.06.22</MinimumRequiredVersion>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>19</ApplicationRevision>
+    <ApplicationRevision>23</ApplicationRevision>
     <ApplicationVersion>7.20.06.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -485,6 +485,18 @@
     <Compile Include="WorkOrder\InvInOut.Designer.cs">
       <DependentUpon>InvInOut.cs</DependentUpon>
     </Compile>
+    <Compile Include="WorkOrder\ReleaseManagement\NewRelease.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WorkOrder\ReleaseManagement\NewRelease.designer.cs">
+      <DependentUpon>NewRelease.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WorkOrder\ReleaseManagement\ReleaseLog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WorkOrder\ReleaseManagement\ReleaseLog.Designer.cs">
+      <DependentUpon>ReleaseLog.cs</DependentUpon>
+    </Compile>
     <Compile Include="WorkOrder\ReleaseManagement\ReleaseSuggestions.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -502,12 +514,6 @@
     </Compile>
     <Compile Include="WorkOrder\ReleaseManagement\AddRelease.Designer.cs">
       <DependentUpon>AddRelease.cs</DependentUpon>
-    </Compile>
-    <Compile Include="WorkOrder\ReleaseManagement\ReleaseLogs.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="WorkOrder\ReleaseManagement\ReleaseLogs.Designer.cs">
-      <DependentUpon>ReleaseLogs.cs</DependentUpon>
     </Compile>
     <Compile Include="WorkOrder\ScanEmpId.cs">
       <SubType>Form</SubType>
@@ -801,6 +807,12 @@
     <EmbeddedResource Include="WorkOrder\InvInOut.resx">
       <DependentUpon>InvInOut.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="WorkOrder\ReleaseManagement\NewRelease.resx">
+      <DependentUpon>NewRelease.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WorkOrder\ReleaseManagement\ReleaseLog.resx">
+      <DependentUpon>ReleaseLog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="WorkOrder\ReleaseManagement\ReleaseSuggestions.resx">
       <DependentUpon>ReleaseSuggestions.cs</DependentUpon>
     </EmbeddedResource>
@@ -809,9 +821,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="WorkOrder\ReleaseManagement\AddRelease.resx">
       <DependentUpon>AddRelease.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WorkOrder\ReleaseManagement\ReleaseLogs.resx">
-      <DependentUpon>ReleaseLogs.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WorkOrder\ScanEmpId.resx">
       <DependentUpon>ScanEmpId.cs</DependentUpon>
@@ -1091,6 +1100,7 @@
     <Content Include="magnifying-glass-search-64.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\icons8_Report_Card_64.png" />
     <Content Include="Resources\spmconnecthelp.png" />
     <Content Include="SqlServerTypes\x64\msvcr120.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -510,7 +510,7 @@ namespace SearchDataSPM.Purchasing
                 }
                 else
                 {
-                    e.Cancel = (result == DialogResult.No);
+                    e.Cancel = result == DialogResult.No;
                 }
             }
             else

@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualBasic;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
@@ -1254,6 +1255,118 @@ namespace SPMConnectAPI
             return MyCollection;
         }
 
+        public AutoCompleteStringCollection FillReleaseApprovedBy()
+        {
+            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT [ApprovedBy] FROM [SPM_Database].[dbo].[RP_Base] where [ApprovedBy] is not null  AND ApprovedBy <> '' order by [ApprovedBy]", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        MyCollection.Add(reader.GetString(0));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Fill Approved By", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return MyCollection;
+        }
+
+        public AutoCompleteStringCollection FillReleaseCheckedBy()
+        {
+            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT [CheckedBy] FROM [SPM_Database].[dbo].[RP_Base] where [CheckedBy] is not null  AND ApprovedBy <> '' order by [CheckedBy]", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        MyCollection.Add(reader.GetString(0));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Fill Checked By", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return MyCollection;
+        }
+
+        public AutoCompleteStringCollection FillReleaseReleasedBy()
+        {
+            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT [ReleasedBy] FROM [SPM_Database].[dbo].[RP_Base] where [ReleasedBy] is not null  AND ApprovedBy <> '' order by [ReleasedBy]", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        MyCollection.Add(reader.GetString(0));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Fill Checked By", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return MyCollection;
+        }
+
+        public AutoCompleteStringCollection FillReleaseLastCreatedBy(bool createdby)
+        {
+            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
+
+            using (SqlCommand sqlCommand = new SqlCommand("[RP_BaseNames]", cn) { CommandType = System.Data.CommandType.StoredProcedure })
+            {
+                sqlCommand.Parameters.AddWithValue("@createdby", createdby ? 1 : 0);
+                sqlCommand.Parameters.AddWithValue("@lastsavedby", createdby ? 0 : 1);
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        MyCollection.Add(reader.GetString(0));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Fill LastSavedBy & CreatedBy", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return MyCollection;
+        }
+
         #endregion Fill Comboboxes
 
         #endregion Material ReAllocation
@@ -1670,29 +1783,25 @@ namespace SPMConnectAPI
         public string GetJobAssyNo(string jobno)
         {
             string assnyno = "";
-            try
+
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT [BOMItem] FROM [SPM_Database].[dbo].[SPMJobs] WHERE [Job]  = '" + jobno + "'", cn))
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[SPMJobs] WHERE [Job]  = '" + jobno + "'";
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
+                try
                 {
-                    assnyno = dr["BOMItem"].ToString();
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    assnyno = (string)sqlCommand.ExecuteScalar();
+
+                    cn.Close();
                 }
-                dt.Clear();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Get Job Assy Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Job Assy Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
             }
 
             return assnyno;
@@ -1701,29 +1810,24 @@ namespace SPMConnectAPI
         public string GetJobNoFromWO(string wo)
         {
             string assnyno = "";
-            try
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[SPMConnectWOBOM] WHERE [WO]  = '" + wo + "'", cn))
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[SPMConnectWOBOM] WHERE [WO]  = '" + wo + "'";
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
+                try
                 {
-                    assnyno = dr["Job"].ToString();
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    DataTable dt = new DataTable();
+                    sda.Fill(dt);
+                    assnyno = dt.Rows[0]["Job"].ToString();
                 }
-                dt.Clear();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Get Job Number from WO", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Job Number from WO", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
             }
 
             return assnyno;
@@ -1896,60 +2000,53 @@ namespace SPMConnectAPI
         public string GrabWOfromAssy(string jobno, string assyno)
         {
             string estId = "";
-            try
-            {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[SPMConnectWOBOM] WHERE Job = '" + jobno + "' AND ItemNumber = '" + assyno + "'";
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                if (dt.Rows.Count > 0)
-                {
-                    foreach (DataRow dr in dt.Rows)
-                    {
-                        estId = dr["Wo"].ToString();
-                    }
-                }
-
-                dt.Clear();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve Job workOrder", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-            return estId;
-        }
-
-        public DataTable ShowAllReleaseLogs()
-        {
-            DataTable dt = new DataTable();
-
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[VReleaseLogs] ORDER BY WO DESC", cn))
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[SPMConnectWOBOM] WHERE Job = '" + jobno + "' AND ItemNumber = '" + assyno + "'", cn))
             {
                 try
                 {
                     if (cn.State == ConnectionState.Closed)
                         cn.Open();
-
-                    dt.Clear();
+                    DataTable dt = new DataTable();
                     sda.Fill(dt);
+                    estId = dt.Rows[0]["Wo"].ToString();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "SPM Connect - Show All Work Orders Release Logs", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "SPM Connect - Unable to retrieve Job workOrder", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
                     cn.Close();
                 }
             }
+
+            return estId;
+        }
+
+        public DataTable ShowAllReleaseLogs()
+        {
+            DataTable dt = new DataTable();
+            using (SqlDataAdapter sda = new SqlDataAdapter("[dbo].[RP_CRUDBase]", cn))
+            {
+                sda.SelectCommand.CommandType = CommandType.StoredProcedure;
+                sda.SelectCommand.Parameters.AddWithValue("@StatementType", nameof(CRUDStatementType.SelectAll));
+
+                try
+                {
+                    sda.Fill(dt);
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex.Message, ex);
+                    MessageBox.Show(ex.Message, "SPM Connect - Error Getting Release List From Solidworks", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+
             return dt;
         }
 
@@ -2041,31 +2138,25 @@ namespace SPMConnectAPI
         private string GetNewReleaseLogNo()
         {
             string newincoiveno = "";
-            try
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT MAX([RlogNo]) + 1 as NextQuoteNo FROM [SPM_Database].[dbo].[WOReleaseLog]", cn))
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT MAX([RlogNo]) + 1 as NextQuoteNo FROM [SPM_Database].[dbo].[WOReleaseLog]";
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
+                try
                 {
-                    newincoiveno = dr["NextQuoteNo"].ToString();
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    DataTable dt = new DataTable();
+                    sda.Fill(dt);
+                    newincoiveno = dt.Rows[0]["NextQuoteNo"].ToString();
                 }
-                dt.Clear();
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get New Release Log Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Get New Release Log Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
-            }
-
             if (string.IsNullOrEmpty(newincoiveno))
             {
                 newincoiveno = "1001";
@@ -2089,37 +2180,263 @@ namespace SPMConnectAPI
         private int GetNextReleaseNo(string wo)
         {
             int nextreleaseno = 0;
-            try
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT MAX([NxtReleaseNo])+1 as NextQuoteNo FROM [SPM_Database].[dbo].[WOReleaseLog] WHERE WO = '" + wo + "'", cn))
             {
-                if (cn.State == ConnectionState.Closed)
-                    cn.Open();
-                SqlCommand cmd = cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT MAX([NxtReleaseNo])+1 as NextQuoteNo FROM [SPM_Database].[dbo].[WOReleaseLog] WHERE WO = '" + wo + "'";
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                if (dt.Rows.Count > 0)
+                try
                 {
-                    foreach (DataRow dr in dt.Rows)
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    DataTable dt = new DataTable();
+                    sda.Fill(dt);
+                    if (dt.Rows.Count > 0)
                     {
-                        if (!(dr["NextQuoteNo"] is DBNull))
-                            nextreleaseno = Convert.ToInt32(dr["NextQuoteNo"]);
+                        foreach (DataRow dr in dt.Rows)
+                        {
+                            if (!(dr["NextQuoteNo"] is DBNull))
+                                nextreleaseno = Convert.ToInt32(dr["NextQuoteNo"]);
+                        }
                     }
-                }
 
-                dt.Clear();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect - Get New Release Log Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                cn.Close();
+                    dt.Clear();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get New Release Log Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
             }
 
             return nextreleaseno;
+        }
+
+        public ReleaseLog GetRelease(int relno)
+        {
+            ReleaseLog relLog = new ReleaseLog();
+            using (SqlDataAdapter sda = new SqlDataAdapter("[dbo].[RP_CRUDBase]", cn))
+            {
+                sda.SelectCommand.CommandType = CommandType.StoredProcedure;
+                sda.SelectCommand.Parameters.AddWithValue("@RelNo", relno);
+                sda.SelectCommand.Parameters.AddWithValue("@StatementType", nameof(CRUDStatementType.Select));
+
+                try
+                {
+                    DataTable dt = new DataTable();
+                    sda.Fill(dt);
+                    if (dt.Rows.Count > 0)
+                    {
+                        DataRow dr = dt.Rows[0];
+
+                        relLog = GetReleaseDetails(dr, GetReleaseItemsDetails(relno), GetReleaseComments(relno));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex.Message, ex);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return relLog;
+        }
+
+        private ReleaseLog GetReleaseDetails(DataRow dr, List<ReleaseItem> releaseItems, List<ReleaseComment> releaseComments)
+        {
+            return new ReleaseLog
+            {
+                Id = Convert.ToInt32(dr["Id"].ToString()),
+                RelNo = Convert.ToInt32(dr["RelNo"].ToString()),
+                Job = Convert.ToInt32(dr["Job"].ToString()),
+                SubAssy = dr["SubAssy"].ToString(),
+                PckgQty = Convert.ToInt32(dr["PckgQty"].ToString()),
+                IsSubmitted = Convert.ToBoolean(dr["IsSubmitted"]),
+                SubmittedTo = Convert.ToInt32(dr["SubmittedTo"].ToString()),
+                SubmittedOn = dr["SubmittedOn"].ToString().StartsWith("1900") ? "" : dr["SubmittedOn"].ToString(),
+                IsChecked = Convert.ToBoolean(dr["IsChecked"]),
+                CheckedBy = dr["CheckedBy"].ToString(),
+                CheckedOn = dr["CheckedOn"].ToString().StartsWith("1900") ? "" : dr["CheckedOn"].ToString(),
+                ApprovalTo = Convert.ToInt32(dr["ApprovalTo"].ToString()),
+                IsApproved = Convert.ToBoolean(dr["IsApproved"]),
+                ApprovedBy = dr["ApprovedBy"].ToString(),
+                ApprovedOn = dr["ApprovedOn"].ToString().StartsWith("1900") ? "" : dr["ApprovedOn"].ToString(),
+                IsReleased = Convert.ToBoolean(dr["IsReleased"]),
+                ReleasedBy = dr["ReleasedBy"].ToString(),
+                ReleasedOn = dr["ReleasedOn"].ToString().StartsWith("1900") ? "" : dr["ReleasedOn"].ToString(),
+                DateCreated = dr["DateCreated"].ToString(),
+                CreatedById = Convert.ToInt32(dr["CreatedById"].ToString()),
+                CreatedBy = dr["CreatedBy"].ToString(),
+                LastSaved = dr["LastSaved"].ToString(),
+                LastSavedById = Convert.ToInt32(dr["LastSavedById"].ToString()),
+                LastSavedBy = dr["LastSavedBy"].ToString(),
+                Priority = dr["Priority"].ToString(),
+                IsActive = Convert.ToBoolean(dr["IsActive"]),
+                ConnectRelNo = dr["ConnectRelNo"].ToString(),
+                WorkOrder = dr["WorkOrder"].ToString(),
+                JobDes = dr["JobDes"].ToString(),
+                SubAssyDes = dr["SubAssyDes"].ToString(),
+                ReleaseItems = releaseItems,
+                ReleaseComments = releaseComments,
+            };
+        }
+
+        private ReleaseItem GetReleaseItemsDetails(DataRow dr)
+        {
+            return new ReleaseItem
+            {
+                RelNo = Convert.ToInt32(dr["RelNo"].ToString()),
+                ItemNumber = dr["ItemNumber"].ToString(),
+                QuantityPerAssembly = Convert.ToInt32(dr["QuantityPerAssembly"].ToString()),
+                Description = dr["Description"].ToString(),
+                ItemFamily = dr["ItemFamily"].ToString(),
+                Manufacturer = dr["Manufacturer"].ToString(),
+                ManufacturerItemNumber = dr["ManufacturerItemNumber"].ToString(),
+                AssyNo = dr["AssyNo"].ToString(),
+                AssyFamily = dr["AssyFamily"].ToString(),
+                AssyDescription = dr["AssyDescription"].ToString(),
+                AssyManufacturer = dr["AssyManufacturer"].ToString(),
+                AssyManufacturerItemNumber = dr["AssyManufacturerItemNumber"].ToString(),
+                Path = dr["Path"].ToString(),
+            };
+        }
+
+        public List<ReleaseItem> GetReleaseItemsDetails(int relno)
+        {
+            List<ReleaseItem> relItems = new List<ReleaseItem>();
+            using (SqlDataAdapter sda = new SqlDataAdapter("[dbo].[RP_CRUDItems]", cn))
+            {
+                sda.SelectCommand.CommandType = CommandType.StoredProcedure;
+                sda.SelectCommand.Parameters.AddWithValue("@RelNo", relno);
+                sda.SelectCommand.Parameters.AddWithValue("@StatementType", nameof(CRUDStatementType.Select));
+                try
+                {
+                    DataTable dt = new DataTable();
+                    sda.Fill(dt);
+                    if (dt.Rows.Count > 0)
+                    {
+                        foreach (DataRow dr in dt.Rows)
+                        {
+                            relItems.Add(GetReleaseItemsDetails(dr));
+                        }
+                    }
+                    dt.Clear();
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex.Message, ex);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+
+            return relItems;
+        }
+
+        public List<ReleaseComment> GetReleaseComments(int relno)
+        {
+            List<ReleaseComment> relComments = new List<ReleaseComment>();
+            using (SqlDataAdapter sda = new SqlDataAdapter("[dbo].[RP_CRUDRemark]", cn))
+            {
+                sda.SelectCommand.CommandType = CommandType.StoredProcedure;
+                sda.SelectCommand.Parameters.AddWithValue("@RelNo", relno);
+                sda.SelectCommand.Parameters.AddWithValue("@StatementType", nameof(CRUDStatementType.Select));
+                try
+                {
+                    DataTable dt = new DataTable();
+                    sda.Fill(dt);
+                    if (dt.Rows.Count > 0)
+                    {
+                        foreach (DataRow dr in dt.Rows)
+                        {
+                            relComments.Add(GetReleaseCommentDetails(dr));
+                        }
+                    }
+                    dt.Clear();
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex.Message, ex);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+
+            return relComments;
+        }
+
+        private ReleaseComment GetReleaseCommentDetails(DataRow dr)
+        {
+            return new ReleaseComment
+            {
+                Id = Convert.ToInt32(dr["Id"].ToString()),
+                RelNo = Convert.ToInt32(dr["RelNo"].ToString()),
+                Comment = dr["Comment"].ToString(),
+                CommentBy = dr["CommentBy"].ToString(),
+                DateCreated = Convert.ToDateTime(dr["DateCreated"].ToString()).TimeAgo(),
+            };
+        }
+
+        public AutoCompleteStringCollection FillCheckingUsers()
+        {
+            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT  CONCAT(id, ' ', Name) as Checkers  FROM [SPM_Database].[dbo].[Users] where [CheckDrawing] = '1' ORDER BY Name", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+                    MyCollection.Add("");
+                    while (reader.Read())
+                    {
+                        MyCollection.Add(reader.GetString(0));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex.Message, ex);
+                    MessageBox.Show(ex.Message, "SPM Connect - Fill Checking Users", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return MyCollection;
+        }
+
+        public AutoCompleteStringCollection FillApprovingUsers()
+        {
+            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT  CONCAT(id, ' ', Name) as Checkers  FROM [SPM_Database].[dbo].[Users] where [ApproveDrawing] = '1' ORDER BY Name", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+                    MyCollection.Add("");
+                    while (reader.Read())
+                    {
+                        MyCollection.Add(reader.GetString(0));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex.Message, ex);
+                    MessageBox.Show(ex.Message, "SPM Connect - Fill Approving Users", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return MyCollection;
         }
 
         #endregion WorkOrderRelease

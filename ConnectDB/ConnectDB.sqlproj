@@ -200,6 +200,16 @@
     <Build Include="dbo\Stored Procedures\GetBOMByAssyNo.sql" />
     <Build Include="dbo\Stored Procedures\GetAllJobs.sql" />
     <Build Include="dbo\Stored Procedures\FamilyCodes_GetAll.sql" />
+    <Build Include="dbo\Tables\RP_Remarks.sql" />
+    <Build Include="dbo\Tables\RP_Items.sql" />
+    <Build Include="dbo\Tables\RP_Base.sql" />
+    <Build Include="dbo\Stored Procedures\RP_CRUDRemark.sql" />
+    <Build Include="dbo\Stored Procedures\RP_CRUDItems.sql" />
+    <Build Include="dbo\Stored Procedures\RP_CRUDBase.sql" />
+    <Build Include="dbo\Stored Procedures\RP_BaseGetSubmitted.sql" />
+    <Build Include="dbo\Stored Procedures\RP_BaseGetReleases.sql" />
+    <Build Include="dbo\Stored Procedures\RP_BaseGetChecking.sql" />
+    <Build Include="dbo\Stored Procedures\RP_BaseGetApproval.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="SPMDB">

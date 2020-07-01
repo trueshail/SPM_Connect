@@ -4,7 +4,6 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using static SPMConnectAPI.ConnectHelper;
 
 namespace SearchDataSPM.Quotes
 {
@@ -44,8 +43,7 @@ namespace SearchDataSPM.Quotes
                     }
 
                     // Get the files in the directory and copy them to the new location.
-                    FileInfo[] files = dir.GetFiles();
-                    foreach (FileInfo file in files)
+                    foreach (FileInfo file in dir.GetFiles())
                     {
                         string temppath = Path.Combine(destDirName, file.Name);
                         file.CopyTo(temppath, true);
@@ -73,8 +71,7 @@ namespace SearchDataSPM.Quotes
                 }
 
                 // Get the files in the directory and copy them to the new location.
-                FileInfo[] files = dir.GetFiles();
-                foreach (FileInfo file in files)
+                foreach (FileInfo file in dir.GetFiles())
                 {
                     string temppath = Path.Combine(destDirName, file.Name);
                     file.CopyTo(temppath, false);
@@ -210,8 +207,7 @@ namespace SearchDataSPM.Quotes
                 da.Fill(dt);
                 foreach (DataRow dr in dt.Rows)
                 {
-                    string fullname = dr["Name"].ToString();
-                    return fullname;
+                    return dr["Name"].ToString();
                 }
             }
             catch (Exception ex)
@@ -313,7 +309,7 @@ namespace SearchDataSPM.Quotes
         public static string oem;
 
         // variables required outside the functions to perfrom
-        private readonly string fullsearch = ("FullSearch LIKE '%{0}%'");
+        private readonly string fullsearch = "FullSearch LIKE '%{0}%'";
 
         private DataTable table0 = new DataTable();
         private DataTable table1 = new DataTable();

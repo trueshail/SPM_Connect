@@ -54,8 +54,7 @@ namespace SearchDataSPM
             message.From = new MailAddress("connect@spm-automation.com", "SPM Connect");
             System.Net.Mail.Attachment attachment;
             emailTo = emailTo.TrimEnd(';', ',');
-            string[] emailArr = emailTo.Split(';', ',');
-            foreach (string email in emailArr)
+            foreach (string email in emailTo.Split(';', ','))
             {
                 if (!string.IsNullOrEmpty(email))
                 {

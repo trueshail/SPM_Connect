@@ -122,8 +122,7 @@ namespace SearchDataSPM.Engineering
 
         private void Filldescriptionsource()
         {
-            AutoCompleteStringCollection MyCollection = connectapi.Filldescriptionsource();
-            Descriptiontxtbox.AutoCompleteCustomSource = MyCollection;
+            Descriptiontxtbox.AutoCompleteCustomSource = connectapi.Filldescriptionsource();
         }
 
         private void Fillfamilycodes()
@@ -135,8 +134,7 @@ namespace SearchDataSPM.Engineering
 
         private void Fillheattreats()
         {
-            AutoCompleteStringCollection MyCollection = connectapi.Fillheattreats();
-            heattreat.AutoCompleteCustomSource = MyCollection;
+            heattreat.AutoCompleteCustomSource = connectapi.Fillheattreats();
         }
 
         private void Fillinfo()
@@ -195,26 +193,22 @@ namespace SearchDataSPM.Engineering
 
         private void Fillmanufacturers()
         {
-            AutoCompleteStringCollection MyCollection = connectapi.Fillmanufacturers();
-            oemtxtbox.AutoCompleteCustomSource = MyCollection;
+            oemtxtbox.AutoCompleteCustomSource = connectapi.Fillmanufacturers();
         }
 
         private void Fillmaterials()
         {
-            AutoCompleteStringCollection MyCollection = connectapi.FillnewitemMaterials();
-            mattxt.AutoCompleteCustomSource = MyCollection;
+            mattxt.AutoCompleteCustomSource = connectapi.FillnewitemMaterials();
         }
 
         private void Filloem()
         {
-            AutoCompleteStringCollection MyCollection = connectapi.Filloem();
-            oemitemtxtbox.AutoCompleteCustomSource = MyCollection;
+            oemitemtxtbox.AutoCompleteCustomSource = connectapi.Filloem();
         }
 
         private void Fillsurface()
         {
-            AutoCompleteStringCollection MyCollection = connectapi.Fillsurface();
-            surfacetxt.AutoCompleteCustomSource = MyCollection;
+            surfacetxt.AutoCompleteCustomSource = connectapi.Fillsurface();
         }
 
         #endregion Fillinformation on load
@@ -239,8 +233,7 @@ namespace SearchDataSPM.Engineering
             {
                 try
                 {
-                    Icon icon2 = GetIconOldSchool(fileName);
-                    return icon2;
+                    return GetIconOldSchool(fileName);
                 }
                 catch
                 {
@@ -253,9 +246,7 @@ namespace SearchDataSPM.Engineering
         {
             StringBuilder strB = new StringBuilder(fileName);
             IntPtr handle = ExtractAssociatedIcon(IntPtr.Zero, strB, out _);
-            Icon ico = Icon.FromHandle(handle);
-
-            return ico;
+            return Icon.FromHandle(handle);
         }
 
         [DllImport("shell32.dll")]
@@ -268,8 +259,7 @@ namespace SearchDataSPM.Engineering
             {
                 string first3char = itemnumber.Substring(0, 3) + @"\";
                 const string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
-                string Pathpart = (spmcadpath + first3char);
-                return Pathpart;
+                return spmcadpath + first3char;
             }
             else
             {
@@ -287,12 +277,11 @@ namespace SearchDataSPM.Engineering
                     {
                         string sDocFileName = item;
                         wpfThumbnailCreator pvf = new wpfThumbnailCreator();
-                        System.Drawing.Size size = new Size
+                        pvf.DesiredSize = new Size
                         {
                             Width = 256,
                             Height = 256
                         };
-                        pvf.DesiredSize = size;
                         System.Drawing.Bitmap pic = pvf.GetThumbNail(sDocFileName);
                         imageList.Images.Add(pic);
                         //axEModelViewControl1 = new EModelViewControl();
@@ -453,7 +442,7 @@ namespace SearchDataSPM.Engineering
                 DialogResult result = MessageBox.Show("Are you sure want to close without saving changes?", "SPM Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result != DialogResult.Yes)
                 {
-                    e.Cancel = (result == DialogResult.No);
+                    e.Cancel = result == DialogResult.No;
                 }
             }
         }
@@ -749,8 +738,7 @@ namespace SearchDataSPM.Engineering
 
             if (result == DialogResult.OK) // Test result.
             {
-                string file = openFileDialog1.FileName;
-                return file;
+                return openFileDialog1.FileName;
             }
             return "";
         }

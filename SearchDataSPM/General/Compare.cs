@@ -258,8 +258,7 @@ namespace SearchDataSPM.General
                     };
                     if (parentNode == null)
                     {
-                        Font f = new Font("Arial", 10, FontStyle.Bold);
-                        t.NodeFont = f;
+                        t.NodeFont = new Font("Arial", 10, FontStyle.Bold);
                         t.Text = dr["AssyNo"].ToString() + " - " + dr["AssyDescription"].ToString() + " ( " + dr["QuantityPerAssembly"].ToString() + " ) ";
                         t.Name = dr["ItemNumber"].ToString();
                         t.Tag = acountsTb.Rows.IndexOf(dr);
@@ -290,8 +289,7 @@ namespace SearchDataSPM.General
                     };
                     if (parentNode == null)
                     {
-                        Font f = new Font("Arial", 10, FontStyle.Bold);
-                        t.NodeFont = f;
+                        t.NodeFont = new Font("Arial", 10, FontStyle.Bold);
                         t.Text = dr["AssyNo"].ToString() + " - " + dr["AssyDescription"].ToString() + " ( " + dr["QuantityPerAssembly"].ToString() + " ) ";
                         t.Name = dr["ItemNumber"].ToString();
                         t.Tag = acountsTb.Rows.IndexOf(dr);
@@ -380,8 +378,7 @@ namespace SearchDataSPM.General
                         isFind = true;
                         item2.ForeColor = Color.Gray;
 
-                        Font boldFont = new Font(treeView2.Font, FontStyle.Strikeout);
-                        item2.NodeFont = boldFont;
+                        item2.NodeFont = new Font(treeView2.Font, FontStyle.Strikeout);
                         break;
                     }
                     if (item2.ForeColor != Color.Gray)

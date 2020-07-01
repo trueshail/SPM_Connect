@@ -6,6 +6,8 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using static SPMConnectAPI.ConnectHelper;
 
@@ -961,32 +963,32 @@ namespace SPMConnectAPI
 
                 if (File.Exists(Pathassy) && File.Exists(Pathpart))
                 {
-                    MessageBox.Show($"System has found a Part file and Assembly file with the same PartNo." + Item_No + "." +
+                    MessageBox.Show("System has found a Part file and Assembly file with the same PartNo." + Item_No + "." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else if (File.Exists(PathAssyNo) && File.Exists(PathPartNo))
                 {
-                    MessageBox.Show($"System has found a Part file and Assembly file with the same PartNo. " + ItemNumbero + "." +
+                    MessageBox.Show("System has found a Part file and Assembly file with the same PartNo. " + ItemNumbero + "." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else if (File.Exists(PathAssyNo) && File.Exists(Pathpart))
                 {
-                    MessageBox.Show($"System has found a Part file " + Item_No + "and Assembly file " + ItemNumbero + " with the same PartNo." +
+                    MessageBox.Show("System has found a Part file " + Item_No + "and Assembly file " + ItemNumbero + " with the same PartNo." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else if (File.Exists(Pathassy) && File.Exists(PathPartNo))
                 {
-                    MessageBox.Show($"System has found a Part file " + ItemNumbero + "and Assembly file" + Item_No + " with the same PartNo." +
+                    MessageBox.Show("System has found a Part file " + ItemNumbero + "and Assembly file" + Item_No + " with the same PartNo." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else if (File.Exists(PathPartNo) && File.Exists(Pathpart))
                 {
-                    MessageBox.Show($"System has found a Part two files " + Item_No + "," + ItemNumbero + " with the same PartNo." +
+                    MessageBox.Show("System has found a Part two files " + Item_No + "," + ItemNumbero + " with the same PartNo." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else if (File.Exists(PathAssyNo) && File.Exists(Pathassy))
                 {
-                    MessageBox.Show($"System has found a assembly files " + Item_No + "," + ItemNumbero + " with the same PartNo." +
+                    MessageBox.Show("System has found a assembly files " + Item_No + "," + ItemNumbero + " with the same PartNo." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else if (File.Exists(Pathassy))
@@ -1027,7 +1029,7 @@ namespace SPMConnectAPI
                 }
                 else
                 {
-                    MessageBox.Show($"A file with the part number " + Item_No + " does not have Solidworks CAD Model. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("A file with the part number " + Item_No + " does not have Solidworks CAD Model. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     //fName = "";
                 }
             }
@@ -1051,7 +1053,7 @@ namespace SPMConnectAPI
 
                 if (File.Exists(drawpathno) && File.Exists(Drawpath))
                 {
-                    MessageBox.Show($"System has found a Part two files " + Item_No + "," + ItemNumbero + " with the same PartNo." +
+                    MessageBox.Show("System has found a Part two files " + Item_No + "," + ItemNumbero + " with the same PartNo." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else if (File.Exists(Drawpath))
@@ -1072,7 +1074,7 @@ namespace SPMConnectAPI
                 }
                 else
                 {
-                    MessageBox.Show($"A file with the part number" + Item_No + " does not have Solidworks Drawing File. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("A file with the part number" + Item_No + " does not have Solidworks Drawing File. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else
@@ -1099,32 +1101,32 @@ namespace SPMConnectAPI
 
                 if (File.Exists(Pathassy) && File.Exists(Pathpart))
                 {
-                    MessageBox.Show($"System has found a Part file and Assembly file with the same PartNo." + ItemNo + "." +
+                    MessageBox.Show("System has found a Part file and Assembly file with the same PartNo." + ItemNo + "." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else if (File.Exists(PathAssyNo) && File.Exists(PathPartNo))
                 {
-                    MessageBox.Show($"System has found a Part file and Assembly file with the same PartNo. " + ItemNumbero + "." +
+                    MessageBox.Show("System has found a Part file and Assembly file with the same PartNo. " + ItemNumbero + "." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else if (File.Exists(PathAssyNo) && File.Exists(Pathpart))
                 {
-                    MessageBox.Show($"System has found a Part file " + ItemNo + "and Assembly file " + ItemNumbero + " with the same PartNo." +
+                    MessageBox.Show("System has found a Part file " + ItemNo + "and Assembly file " + ItemNumbero + " with the same PartNo." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else if (File.Exists(Pathassy) && File.Exists(PathPartNo))
                 {
-                    MessageBox.Show($"System has found a Part file " + ItemNumbero + "and Assembly file" + ItemNo + " with the same PartNo." +
+                    MessageBox.Show("System has found a Part file " + ItemNumbero + "and Assembly file" + ItemNo + " with the same PartNo." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else if (File.Exists(PathPartNo) && File.Exists(Pathpart))
                 {
-                    MessageBox.Show($"System has found a Part two files " + ItemNo + "," + ItemNumbero + " with the same PartNo." +
+                    MessageBox.Show("System has found a Part two files " + ItemNo + "," + ItemNumbero + " with the same PartNo." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else if (File.Exists(PathAssyNo) && File.Exists(Pathassy))
                 {
-                    MessageBox.Show($"System has found a assembly files " + ItemNo + "," + ItemNumbero + " with the same PartNo." +
+                    MessageBox.Show("System has found a assembly files " + ItemNo + "," + ItemNumbero + " with the same PartNo." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else if (File.Exists(Pathassy))
@@ -1145,7 +1147,7 @@ namespace SPMConnectAPI
                 }
                 else
                 {
-                    MessageBox.Show($"A file with the part number" + ItemNo + " does not have Solidworks CAD Model. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("A file with the part number" + ItemNo + " does not have Solidworks CAD Model. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else
@@ -1171,7 +1173,7 @@ namespace SPMConnectAPI
 
                 if (File.Exists(drawpathno) && File.Exists(Drawpath))
                 {
-                    MessageBox.Show($"System has found a Part two files " + str + "," + ItemNumbero + " with the same PartNo." +
+                    MessageBox.Show("System has found a Part two files " + str + "," + ItemNumbero + " with the same PartNo." +
                         " So please contact the administrator.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else if (File.Exists(Drawpath))
@@ -1184,7 +1186,7 @@ namespace SPMConnectAPI
                 }
                 else
                 {
-                    MessageBox.Show($"A file with the part number" + str + " does not have Solidworks Drawing File. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("A file with the part number" + str + " does not have Solidworks Drawing File. Please Try Again.", "SPM-Automation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else
@@ -1194,6 +1196,26 @@ namespace SPMConnectAPI
 
         public bool Solidworks_running()
         {
+            try
+            {
+                const string progId = "SldWorks.Application";
+                SldWorks swApp = Marshal.GetActiveObject(progId) as SldWorks;
+            }
+            catch (Exception)
+            {
+                const string SW_PATH = @"C:\Program Files\SOLIDWORKS Corp\SOLIDWORKS\SLDWORKS.exe";
+
+                try
+                {
+                    Task asynctask1 = StartSwAppAsync(SW_PATH);
+                    asynctask1.Wait();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Failed to connect to SOLIDWORKS instance: " + ex.Message);
+                }
+            }
+
             if (Process.GetProcessesByName("SLDWORKS").Length >= 1)
             {
                 //mysolidworks.ActiveModelDocChangeNotify += this.mysolidworks_activedocchange;
@@ -1201,14 +1223,108 @@ namespace SPMConnectAPI
             }
             else if (Process.GetProcessesByName("SLDWORKS").Length == 0)
             {
-                MessageBox.Show("Soliworks application needs to be running in order for SPM Connect to perform. Thank you.", "SPM Connect - Solidworks Running", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Solidworks application needs to be running in order for SPM Connect to perform. Thank you.", "SPM Connect - Solidworks Running", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             else
             {
-                MessageBox.Show("SPM Connect encountered more than one sesssion of solidworks running. Please close other sesssions in order for SPM Connect to perform. Thank you.", "SPM Connect - Solidworks Running", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("SPM Connect encountered more than one session of solidworks running. Please close other sessions in order for SPM Connect to perform. Thank you.", "SPM Connect - Solidworks Running", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return false;
             }
+        }
+
+        [DllImport("ole32.dll")]
+        private static extern int CreateBindCtx(uint reserved, out IBindCtx ppbc);
+
+        private static ISldWorks StartSwApp(string appPath, int timeoutSec = 20)
+        {
+            var timeout = TimeSpan.FromSeconds(timeoutSec);
+
+            var startTime = DateTime.Now;
+
+            var prc = Process.Start(appPath);
+            ISldWorks app = null;
+
+            while (app == null)
+            {
+                if (DateTime.Now - startTime > timeout)
+                {
+                    throw new TimeoutException();
+                }
+
+                app = GetSwAppFromProcess(prc.Id);
+            }
+
+            return app;
+        }
+
+        private static ISldWorks GetSwAppFromProcess(int processId)
+        {
+            var monikerName = "SolidWorks_PID_" + processId.ToString();
+
+            IBindCtx context = null;
+            IRunningObjectTable rot = null;
+            IEnumMoniker monikers = null;
+
+            try
+            {
+                CreateBindCtx(0, out context);
+
+                context.GetRunningObjectTable(out rot);
+                rot.EnumRunning(out monikers);
+
+                var moniker = new IMoniker[1];
+
+                while (monikers.Next(1, moniker, IntPtr.Zero) == 0)
+                {
+                    var curMoniker = moniker[0];
+
+                    string name = null;
+
+                    if (curMoniker != null)
+                    {
+                        try
+                        {
+                            curMoniker.GetDisplayName(context, null, out name);
+                        }
+                        catch (UnauthorizedAccessException)
+                        {
+                        }
+                    }
+
+                    if (string.Equals(monikerName,
+                        name, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        rot.GetObject(curMoniker, out object app);
+                        return app as ISldWorks;
+                    }
+                }
+            }
+            finally
+            {
+                if (monikers != null)
+                {
+                    Marshal.ReleaseComObject(monikers);
+                }
+
+                if (rot != null)
+                {
+                    Marshal.ReleaseComObject(rot);
+                }
+
+                if (context != null)
+                {
+                    Marshal.ReleaseComObject(context);
+                }
+            }
+
+            return null;
+        }
+
+        private static async System.Threading.Tasks.Task<SolidWorks.Interop.sldworks.ISldWorks> StartSwAppAsync(
+            string appPath, int timeoutSec = 20)
+        {
+            return await Task.Run(() => StartSwApp(appPath, timeoutSec)).ConfigureAwait(false);
         }
 
         public void Open_model(string filename)

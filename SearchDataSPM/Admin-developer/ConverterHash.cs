@@ -61,9 +61,7 @@ namespace SearchDataSPM.Admin_developer
             byte[] CipherBytes = memoryStream.ToArray();
             memoryStream.Close();
             cryptoStream.Close();
-            string EncryptedData = Convert.ToBase64String(CipherBytes);
-
-            return EncryptedData;
+            return Convert.ToBase64String(CipherBytes);
         }
     }
 }

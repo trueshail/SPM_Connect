@@ -268,13 +268,11 @@ namespace SearchDataSPM.Controls
                     {
                         TreeNode childNode;
 
-                        TreeNode child = new TreeNode
+                        childNode = new TreeNode
                         {
                             Text = _itemno + " - " + _description + " (1)",
                             Tag = _itemno + "][" + _description + "][" + _family + "][" + _manufacturer + "][" + _oem + "][1"
                         };
-
-                        childNode = child;
                         treeView1.SelectedNode.Nodes.Add(childNode);
                         childNode.Tag = _itemno + "][" + _description + "][" + _family + "][" + _manufacturer + "][" + _oem + "][1";
                     }
@@ -350,8 +348,7 @@ namespace SearchDataSPM.Controls
         private void CallRecursive()
         {
             // Print each node recursively.
-            TreeNodeCollection nodes = treeView1.Nodes;
-            foreach (TreeNode n in nodes)
+            foreach (TreeNode n in treeView1.Nodes)
             {
                 PrintRecursive(n);
             }

@@ -80,7 +80,7 @@ namespace SearchDataSPM.General
             Assembly assembly = Assembly.GetExecutingAssembly();
             versionlabel.Text = assembly.GetName().Version.ToString(3);
             versionlabel.Text = "V" + versionlabel.Text;
-            TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
+            TreeViewToolTip.SetToolTip(versionlabel, "SPM Connect " + versionlabel.Text);
             Showallitems();
 
             if (connectapi.ConnectUser.Management)
@@ -133,7 +133,7 @@ namespace SearchDataSPM.General
         public static string oem;
 
         // variables required outside the functions to perfrom
-        private readonly string fullsearch = ("FullSearch LIKE '%{0}%'");
+        private readonly string fullsearch = "FullSearch LIKE '%{0}%'";
 
         private DataTable table0 = new DataTable();
         private DataTable table1 = new DataTable();
@@ -601,7 +601,6 @@ namespace SearchDataSPM.General
         {
             // Get the subdirectories for the specified directory.
             DirectoryInfo dir = new DirectoryInfo(sourceDirName);
-
             if (!dir.Exists)
             {
                 MessageBox.Show(
@@ -621,8 +620,7 @@ namespace SearchDataSPM.General
                     }
 
                     // Get the files in the directory and copy them to the new location.
-                    FileInfo[] files = dir.GetFiles();
-                    foreach (FileInfo file in files)
+                    foreach (FileInfo file in dir.GetFiles())
                     {
                         string temppath = Path.Combine(destDirName, file.Name);
                         file.CopyTo(temppath, true);
@@ -650,8 +648,7 @@ namespace SearchDataSPM.General
                 }
 
                 // Get the files in the directory and copy them to the new location.
-                FileInfo[] files = dir.GetFiles();
-                foreach (FileInfo file in files)
+                foreach (FileInfo file in dir.GetFiles())
                 {
                     string temppath = Path.Combine(destDirName, file.Name);
                     file.CopyTo(temppath, false);
@@ -878,7 +875,7 @@ namespace SearchDataSPM.General
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if (keyData == (Keys.Home))
+            if (keyData == Keys.Home)
             {
                 Reload.PerformClick();
                 return true;
@@ -1008,12 +1005,9 @@ namespace SearchDataSPM.General
                 {
                     if (!checkmaintenance)
                     {
-                        using (PurchaseReqform purchaseReq = new PurchaseReqform())
-                        {
-                            purchaseReq.Show(this);
-                            purchaseReq.BringToFront();
-
-                        }
+                        PurchaseReqform purchaseReq = new PurchaseReqform();
+                        purchaseReq.Show(this);
+                        purchaseReq.BringToFront();
                     }
                     else if (checkmaintenance && connectapi.ConnectUser.Developer)
                     {
@@ -1099,6 +1093,12 @@ namespace SearchDataSPM.General
         {
             ViewRelease viewRelease = new ViewRelease(wrkorder: Getjobnumber(), job: true, jobassyno: GetAssynumber(), jobno: Getjobnumber());
             viewRelease.Show();
+        }
+
+        private void ViewEngineeringReleasesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            WorkOrder.ReleaseManagement.ReleaseLog releaseLog = new WorkOrder.ReleaseManagement.ReleaseLog(Getselectedjobnumber());
+            releaseLog.Show(this);
         }
     }
 }

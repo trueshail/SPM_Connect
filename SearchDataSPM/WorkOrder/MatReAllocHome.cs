@@ -26,7 +26,7 @@ namespace SearchDataSPM.WorkOrder
         private void Checkdeptsandrights()
         {
             versionlabel.Text = Getassyversionnumber();
-            TreeViewToolTip.SetToolTip(versionlabel, "SPM Connnect " + versionlabel.Text);
+            TreeViewToolTip.SetToolTip(versionlabel, "SPM Connect " + versionlabel.Text);
         }
 
         private void Clearfilercombos()
@@ -141,7 +141,7 @@ namespace SearchDataSPM.WorkOrder
         #region Public Table & variables
 
         // variables required outside the functions to perfrom
-        private readonly string fullsearch = ("InvoiceNo LIKE '%{0}%' OR ItemId LIKE '%{0}%' OR Description LIKE '%{0}%' OR OEM LIKE '%{0}%' OR OEMItem LIKE '%{0}%'");
+        private readonly string fullsearch = "InvoiceNo LIKE '%{0}%' OR ItemId LIKE '%{0}%' OR Description LIKE '%{0}%' OR OEM LIKE '%{0}%' OR OEMItem LIKE '%{0}%'";
 
         private DataTable dataTable = new DataTable();
 
@@ -613,7 +613,7 @@ namespace SearchDataSPM.WorkOrder
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if (keyData == (Keys.Home))
+            if (keyData == Keys.Home)
             {
                 Reload.PerformClick();
 

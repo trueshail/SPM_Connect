@@ -243,8 +243,7 @@ namespace SearchDataSPM.Engineering
                 };
                 if (parentNode == null)
                 {
-                    Font f = new Font("Arial", 10, FontStyle.Bold);
-                    t.NodeFont = f;
+                    t.NodeFont = new Font("Arial", 10, FontStyle.Bold);
                     t.Text = dr["AssyNo"].ToString() + " - " + dr["AssyDescription"].ToString() + " ( " + dr["QuantityPerAssembly"].ToString() + " ) ";
                     t.Name = dr["ItemNumber"].ToString();
                     t.Tag = dt.Rows.IndexOf(dr);
@@ -563,8 +562,7 @@ namespace SearchDataSPM.Engineering
             {
                 try
                 {
-                    Icon icon2 = GetIconOldSchool(fileName);
-                    return icon2;
+                    return GetIconOldSchool(fileName);
                 }
                 catch
                 {
@@ -577,9 +575,7 @@ namespace SearchDataSPM.Engineering
         {
             StringBuilder strB = new StringBuilder(fileName);
             IntPtr handle = ExtractAssociatedIcon(IntPtr.Zero, strB, out _);
-            Icon ico = Icon.FromHandle(handle);
-
-            return ico;
+            return Icon.FromHandle(handle);
         }
 
         [DllImport("shell32.dll")]
@@ -594,7 +590,7 @@ namespace SearchDataSPM.Engineering
                 listView.Items.Clear();
                 string first3char = item.Substring(0, 3) + @"\";
                 const string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
-                string Pathpart = (spmcadpath + first3char);
+                string Pathpart = spmcadpath + first3char;
                 Getitemstodisplay(Pathpart, item);
             }
             catch
@@ -613,12 +609,11 @@ namespace SearchDataSPM.Engineering
                     {
                         string sDocFileName = item;
                         wpfThumbnailCreator pvf = new wpfThumbnailCreator();
-                        System.Drawing.Size size = new Size
+                        pvf.DesiredSize = new Size
                         {
                             Width = 256,
                             Height = 256
                         };
-                        pvf.DesiredSize = size;
                         System.Drawing.Bitmap pic = pvf.GetThumbNail(sDocFileName);
                         imageList.Images.Add(pic);
                     }
@@ -650,7 +645,7 @@ namespace SearchDataSPM.Engineering
                 string txt = listView.FocusedItem.Text;
                 string first3char = txt.Substring(0, 3) + @"\";
                 const string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
-                Pathpart = (spmcadpath + first3char + txt);
+                Pathpart = spmcadpath + first3char + txt;
             }
         }
 
@@ -707,8 +702,7 @@ namespace SearchDataSPM.Engineering
         private void CallRecursive()
         {
             // Print each node recursively.
-            TreeNodeCollection nodes = treeView1.Nodes;
-            foreach (TreeNode n in nodes)
+            foreach (TreeNode n in treeView1.Nodes)
             {
                 if (n.Nodes.Count > 0)
                 {

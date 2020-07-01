@@ -226,8 +226,7 @@ namespace SearchDataSPM.Controls
                 };
                 if (parentNode == null)
                 {
-                    Font f = new Font("Arial", 10, FontStyle.Bold);
-                    t.NodeFont = f;
+                    t.NodeFont = new Font("Arial", 10, FontStyle.Bold);
                     t.Text = dr["AssyNo"].ToString() + " - " + dr["DESCRIPTION"].ToString() + " ( " + dr["AssyQty"].ToString() + " ) ";
                     t.Name = dr["AssyNo"].ToString();
                     t.Tag = dr["AssyNo"].ToString() + "][" + dr["AssyDesc"].ToString() + "][" + dr["AssyNo"].ToString() + "][" + dr["AssyManufacturer"].ToString() + "][" + dr["AssyOem"].ToString() + "][1";
@@ -556,13 +555,11 @@ namespace SearchDataSPM.Controls
                     {
                         TreeNode childNode;
 
-                        TreeNode child = new TreeNode
+                        childNode = new TreeNode
                         {
                             Text = _itemno + " - " + _description + " (1)",
                             Tag = _itemno + "][" + _description + "][" + _family + "][" + _manufacturer + "][" + _oem + "][1"
                         };
-
-                        childNode = child;
                         treeView1.SelectedNode.Nodes.Add(childNode);
                         childNode.Tag = _itemno + "][" + _description + "][" + _family + "][" + _manufacturer + "][" + _oem + "][1";
                     }
@@ -620,8 +617,8 @@ namespace SearchDataSPM.Controls
                 // Get the count of the child tree nodes contained in the SelectedNode.
                 int myNodeCount = treeView1.SelectedNode.GetNodeCount(true);
                 //MessageBox.Show(myNodeCount.ToString());
-                _ = ((decimal)myNodeCount /
-                  (decimal)treeView1.GetNodeCount(true)) * 100;
+                _ = (decimal)myNodeCount /
+                  (decimal)treeView1.GetNodeCount(true) * 100;
 
                 //// Display the tree node path and the number of child nodes it and the tree view have.
                 //MessageBox.Show("The '" + treeView1.SelectedNode.FullPath + "' node has "
@@ -676,8 +673,7 @@ namespace SearchDataSPM.Controls
         private void CallRecursive()
         {
             // Print each node recursively.
-            TreeNodeCollection nodes = treeView1.Nodes;
-            foreach (TreeNode n in nodes)
+            foreach (TreeNode n in treeView1.Nodes)
             {
                 PrintRecursive(n);
             }

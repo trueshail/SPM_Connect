@@ -40,6 +40,7 @@
             this.createFoldersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.getEstimateBOMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewCurrentJobReleaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewEngineeringReleasesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Reload = new System.Windows.Forms.Button();
             this.Descrip_txtbox = new System.Windows.Forms.TextBox();
             this.filteroem_txtbox = new System.Windows.Forms.TextBox();
@@ -47,14 +48,14 @@
             this.versionlabel = new System.Windows.Forms.Label();
             this.filter4 = new System.Windows.Forms.TextBox();
             this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.scanwobttn = new System.Windows.Forms.Button();
+            this.cribbttn = new System.Windows.Forms.Button();
             this.ecrbutton = new System.Windows.Forms.Button();
             this.quotebttn = new System.Windows.Forms.Button();
             this.shippingbttn = new System.Windows.Forms.Button();
             this.servicebttn = new System.Windows.Forms.Button();
             this.purchasereq = new System.Windows.Forms.Button();
             this.SPM = new System.Windows.Forms.Label();
-            this.scanwobttn = new System.Windows.Forms.Button();
-            this.cribbttn = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
@@ -63,8 +64,8 @@
             // txtSearch
             // 
             this.txtSearch.AccessibleName = "";
-            this.txtSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.txtSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSearch.BackColor = System.Drawing.SystemColors.MenuBar;
             this.txtSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -83,8 +84,8 @@
             this.dataGridView.AllowUserToDeleteRows = false;
             this.dataGridView.AllowUserToOrderColumns = true;
             this.dataGridView.AllowUserToResizeRows = false;
-            this.dataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.dataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView.BackgroundColor = System.Drawing.Color.Gray;
@@ -113,15 +114,16 @@
             this.getWorkOrderToolStripMenuItem,
             this.createFoldersToolStripMenuItem,
             this.getEstimateBOMToolStripMenuItem,
-            this.viewCurrentJobReleaseToolStripMenuItem});
+            this.viewCurrentJobReleaseToolStripMenuItem,
+            this.viewEngineeringReleasesToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(211, 136);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(213, 158);
             // 
             // getBOMToolStripMenuItem
             // 
             this.getBOMToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("getBOMToolStripMenuItem.Image")));
             this.getBOMToolStripMenuItem.Name = "getBOMToolStripMenuItem";
-            this.getBOMToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.getBOMToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
             this.getBOMToolStripMenuItem.Text = "Get BOM";
             this.getBOMToolStripMenuItem.ToolTipText = "Get Selected Job\'s BOM";
             this.getBOMToolStripMenuItem.Click += new System.EventHandler(this.GetBOMToolStripMenuItem_Click);
@@ -132,7 +134,7 @@
             this.remapToolStripMenuItem});
             this.projectEngineeringToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("projectEngineeringToolStripMenuItem.Image")));
             this.projectEngineeringToolStripMenuItem.Name = "projectEngineeringToolStripMenuItem";
-            this.projectEngineeringToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.projectEngineeringToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
             this.projectEngineeringToolStripMenuItem.Text = "Project Engineering";
             this.projectEngineeringToolStripMenuItem.ToolTipText = "Open Project Eng Folder";
             this.projectEngineeringToolStripMenuItem.Click += new System.EventHandler(this.ProjectEngineeringToolStripMenuItem_Click);
@@ -150,7 +152,7 @@
             // 
             this.getWorkOrderToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("getWorkOrderToolStripMenuItem.Image")));
             this.getWorkOrderToolStripMenuItem.Name = "getWorkOrderToolStripMenuItem";
-            this.getWorkOrderToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.getWorkOrderToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
             this.getWorkOrderToolStripMenuItem.Text = "Get Work Order";
             this.getWorkOrderToolStripMenuItem.Click += new System.EventHandler(this.GetWorkOrderToolStripMenuItem_Click);
             // 
@@ -159,7 +161,7 @@
             this.createFoldersToolStripMenuItem.Enabled = false;
             this.createFoldersToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("createFoldersToolStripMenuItem.Image")));
             this.createFoldersToolStripMenuItem.Name = "createFoldersToolStripMenuItem";
-            this.createFoldersToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.createFoldersToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
             this.createFoldersToolStripMenuItem.Text = "Create Folders";
             this.createFoldersToolStripMenuItem.ToolTipText = "Create Folders For Selected Job";
             this.createFoldersToolStripMenuItem.Visible = false;
@@ -169,7 +171,7 @@
             // 
             this.getEstimateBOMToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("getEstimateBOMToolStripMenuItem.Image")));
             this.getEstimateBOMToolStripMenuItem.Name = "getEstimateBOMToolStripMenuItem";
-            this.getEstimateBOMToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.getEstimateBOMToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
             this.getEstimateBOMToolStripMenuItem.Text = "Get Estimate BOM";
             this.getEstimateBOMToolStripMenuItem.ToolTipText = "Get BOM From Estimates";
             this.getEstimateBOMToolStripMenuItem.Click += new System.EventHandler(this.GetEstimateBOMToolStripMenuItem_Click);
@@ -178,13 +180,22 @@
             // 
             this.viewCurrentJobReleaseToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("viewCurrentJobReleaseToolStripMenuItem.Image")));
             this.viewCurrentJobReleaseToolStripMenuItem.Name = "viewCurrentJobReleaseToolStripMenuItem";
-            this.viewCurrentJobReleaseToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.viewCurrentJobReleaseToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
             this.viewCurrentJobReleaseToolStripMenuItem.Text = "View Current Job Releases";
             this.viewCurrentJobReleaseToolStripMenuItem.Click += new System.EventHandler(this.ViewCurrentJobReleaseToolStripMenuItem_Click);
             // 
+            // viewEngineeringReleasesToolStripMenuItem
+            // 
+            this.viewEngineeringReleasesToolStripMenuItem.Image = global::SearchDataSPM.Properties.Resources.icons8_Report_Card_64;
+            this.viewEngineeringReleasesToolStripMenuItem.Name = "viewEngineeringReleasesToolStripMenuItem";
+            this.viewEngineeringReleasesToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.viewEngineeringReleasesToolStripMenuItem.Text = "View Engineering Releases";
+            this.viewEngineeringReleasesToolStripMenuItem.ToolTipText = "View engineering releases in progress or completed using solidworks";
+            this.viewEngineeringReleasesToolStripMenuItem.Click += new System.EventHandler(this.ViewEngineeringReleasesToolStripMenuItem_Click);
+            // 
             // Reload
             // 
-            this.Reload.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.Reload.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Reload.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.Reload.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -201,8 +212,8 @@
             // 
             // Descrip_txtbox
             // 
-            this.Descrip_txtbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.Descrip_txtbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Descrip_txtbox.BackColor = System.Drawing.SystemColors.MenuBar;
             this.Descrip_txtbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -218,8 +229,8 @@
             // 
             // filteroem_txtbox
             // 
-            this.filteroem_txtbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.filteroem_txtbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.filteroem_txtbox.BackColor = System.Drawing.SystemColors.MenuBar;
             this.filteroem_txtbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -235,8 +246,8 @@
             // 
             // filteroemitem_txtbox
             // 
-            this.filteroemitem_txtbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.filteroemitem_txtbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.filteroemitem_txtbox.BackColor = System.Drawing.SystemColors.MenuBar;
             this.filteroemitem_txtbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -252,7 +263,7 @@
             // 
             // versionlabel
             // 
-            this.versionlabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.versionlabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.versionlabel.AutoSize = true;
             this.versionlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -268,8 +279,8 @@
             // 
             // filter4
             // 
-            this.filter4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.filter4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.filter4.BackColor = System.Drawing.SystemColors.MenuBar;
             this.filter4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -290,9 +301,55 @@
             this.TreeViewToolTip.InitialDelay = 500;
             this.TreeViewToolTip.ReshowDelay = 100;
             // 
+            // scanwobttn
+            // 
+            this.scanwobttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.scanwobttn.BackColor = System.Drawing.Color.Transparent;
+            this.scanwobttn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
+            this.scanwobttn.FlatAppearance.BorderSize = 0;
+            this.scanwobttn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.scanwobttn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.scanwobttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.scanwobttn.ForeColor = System.Drawing.Color.Transparent;
+            this.scanwobttn.Image = ((System.Drawing.Image)(resources.GetObject("scanwobttn.Image")));
+            this.scanwobttn.Location = new System.Drawing.Point(728, 10);
+            this.scanwobttn.MaximumSize = new System.Drawing.Size(35, 35);
+            this.scanwobttn.MinimumSize = new System.Drawing.Size(35, 35);
+            this.scanwobttn.Name = "scanwobttn";
+            this.scanwobttn.Size = new System.Drawing.Size(35, 35);
+            this.scanwobttn.TabIndex = 23;
+            this.scanwobttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.TreeViewToolTip.SetToolTip(this.scanwobttn, "Scan Work Order");
+            this.scanwobttn.UseVisualStyleBackColor = false;
+            this.scanwobttn.Click += new System.EventHandler(this.Scanwobttn_Click);
+            // 
+            // cribbttn
+            // 
+            this.cribbttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cribbttn.BackColor = System.Drawing.Color.Transparent;
+            this.cribbttn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
+            this.cribbttn.FlatAppearance.BorderSize = 0;
+            this.cribbttn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.cribbttn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.cribbttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cribbttn.ForeColor = System.Drawing.Color.Transparent;
+            this.cribbttn.Image = ((System.Drawing.Image)(resources.GetObject("cribbttn.Image")));
+            this.cribbttn.Location = new System.Drawing.Point(686, 10);
+            this.cribbttn.MaximumSize = new System.Drawing.Size(35, 35);
+            this.cribbttn.MinimumSize = new System.Drawing.Size(35, 35);
+            this.cribbttn.Name = "cribbttn";
+            this.cribbttn.Size = new System.Drawing.Size(35, 35);
+            this.cribbttn.TabIndex = 24;
+            this.cribbttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.TreeViewToolTip.SetToolTip(this.cribbttn, "Crib Management");
+            this.cribbttn.UseVisualStyleBackColor = false;
+            this.cribbttn.Click += new System.EventHandler(this.Cribbttn_Click);
+            // 
             // ecrbutton
             // 
-            this.ecrbutton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.ecrbutton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ecrbutton.BackColor = System.Drawing.Color.Transparent;
             this.ecrbutton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
@@ -315,7 +372,7 @@
             // 
             // quotebttn
             // 
-            this.quotebttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.quotebttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.quotebttn.BackColor = System.Drawing.Color.Transparent;
             this.quotebttn.Enabled = false;
@@ -335,7 +392,7 @@
             // 
             // shippingbttn
             // 
-            this.shippingbttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.shippingbttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.shippingbttn.BackColor = System.Drawing.Color.Transparent;
             this.shippingbttn.Enabled = false;
@@ -359,7 +416,7 @@
             // 
             // servicebttn
             // 
-            this.servicebttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.servicebttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.servicebttn.BackColor = System.Drawing.Color.Transparent;
             this.servicebttn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
@@ -382,7 +439,7 @@
             // 
             // purchasereq
             // 
-            this.purchasereq.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.purchasereq.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.purchasereq.BackColor = System.Drawing.Color.Transparent;
             this.purchasereq.Enabled = false;
@@ -417,52 +474,6 @@
             this.SPM.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.TreeViewToolTip.SetToolTip(this.SPM, "SPM Automation Inc.");
             this.SPM.DoubleClick += new System.EventHandler(this.SPM_DoubleClick);
-            // 
-            // scanwobttn
-            // 
-            this.scanwobttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.scanwobttn.BackColor = System.Drawing.Color.Transparent;
-            this.scanwobttn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
-            this.scanwobttn.FlatAppearance.BorderSize = 0;
-            this.scanwobttn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.scanwobttn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.scanwobttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.scanwobttn.ForeColor = System.Drawing.Color.Transparent;
-            this.scanwobttn.Image = ((System.Drawing.Image)(resources.GetObject("scanwobttn.Image")));
-            this.scanwobttn.Location = new System.Drawing.Point(728, 10);
-            this.scanwobttn.MaximumSize = new System.Drawing.Size(35, 35);
-            this.scanwobttn.MinimumSize = new System.Drawing.Size(35, 35);
-            this.scanwobttn.Name = "scanwobttn";
-            this.scanwobttn.Size = new System.Drawing.Size(35, 35);
-            this.scanwobttn.TabIndex = 23;
-            this.scanwobttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.TreeViewToolTip.SetToolTip(this.scanwobttn, "Scan Work Order");
-            this.scanwobttn.UseVisualStyleBackColor = false;
-            this.scanwobttn.Click += new System.EventHandler(this.Scanwobttn_Click);
-            // 
-            // cribbttn
-            // 
-            this.cribbttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cribbttn.BackColor = System.Drawing.Color.Transparent;
-            this.cribbttn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
-            this.cribbttn.FlatAppearance.BorderSize = 0;
-            this.cribbttn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.cribbttn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.cribbttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cribbttn.ForeColor = System.Drawing.Color.Transparent;
-            this.cribbttn.Image = ((System.Drawing.Image)(resources.GetObject("cribbttn.Image")));
-            this.cribbttn.Location = new System.Drawing.Point(686, 10);
-            this.cribbttn.MaximumSize = new System.Drawing.Size(35, 35);
-            this.cribbttn.MinimumSize = new System.Drawing.Size(35, 35);
-            this.cribbttn.Name = "cribbttn";
-            this.cribbttn.Size = new System.Drawing.Size(35, 35);
-            this.cribbttn.TabIndex = 24;
-            this.cribbttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.TreeViewToolTip.SetToolTip(this.cribbttn, "Crib Management");
-            this.cribbttn.UseVisualStyleBackColor = false;
-            this.cribbttn.Click += new System.EventHandler(this.Cribbttn_Click);
             // 
             // openFileDialog1
             // 
@@ -537,6 +548,7 @@
         private System.Windows.Forms.Button servicebttn;
         private System.Windows.Forms.Button scanwobttn;
         private System.Windows.Forms.Button cribbttn;
+        private System.Windows.Forms.ToolStripMenuItem viewEngineeringReleasesToolStripMenuItem;
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member 'SPM_Connect.txtSearch'
     }
 }

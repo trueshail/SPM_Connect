@@ -7,7 +7,6 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
-using static SPMConnectAPI.ConnectHelper;
 
 namespace SearchDataSPM.Engineering
 {
@@ -117,8 +116,7 @@ namespace SearchDataSPM.Engineering
         private void AddItems()
         {
             // Print each node recursively.
-            TreeNodeCollection nodes = treeView1.Nodes;
-            foreach (TreeNode n in nodes)
+            foreach (TreeNode n in treeView1.Nodes)
             {
                 SaveRecursive(n);
             }
@@ -183,8 +181,7 @@ namespace SearchDataSPM.Engineering
         private void CallRecursive()
         {
             // Print each node recursively.
-            TreeNodeCollection nodes = treeView1.Nodes;
-            foreach (TreeNode n in nodes)
+            foreach (TreeNode n in treeView1.Nodes)
             {
                 if (n.Nodes.Count > 0)
                 {
@@ -589,8 +586,7 @@ namespace SearchDataSPM.Engineering
                 da.Fill(dt);
                 foreach (DataRow dr in dt.Rows)
                 {
-                    string fullname = dr["Name"].ToString();
-                    return fullname;
+                    return dr["Name"].ToString();
                 }
             }
             catch (Exception ex)
@@ -697,8 +693,7 @@ namespace SearchDataSPM.Engineering
                 };
                 if (parentNode == null)
                 {
-                    Font f = new Font("Arial", 10, FontStyle.Bold);
-                    t.NodeFont = f;
+                    t.NodeFont = new Font("Arial", 10, FontStyle.Bold);
                     t.Text = dr["AssyNo"].ToString() + " - " + dr["AssyDescription"].ToString() + " (" + dr["QuantityPerAssembly"].ToString() + ") ";
                     t.Name = dr["AssyNo"].ToString();
                     t.Tag = dr["AssyNo"].ToString() + "][" + dr["AssyDescription"].ToString() + "][" + dr["AssyFamily"].ToString() + "][" + dr["AssyManufacturer"].ToString() + "][" + dr["AssyManufacturerItemNumber"].ToString() + "][1";
@@ -760,8 +755,8 @@ namespace SearchDataSPM.Engineering
                 // Get the count of the child tree nodes contained in the SelectedNode.
                 int myNodeCount = treeView1.SelectedNode.GetNodeCount(true);
                 //MessageBox.Show(myNodeCount.ToString());
-                _ = ((decimal)myNodeCount /
-                  (decimal)treeView1.GetNodeCount(true)) * 100;
+                _ = (decimal)myNodeCount /
+                  (decimal)treeView1.GetNodeCount(true) * 100;
 
                 if (myNodeCount > 0)
                 {
