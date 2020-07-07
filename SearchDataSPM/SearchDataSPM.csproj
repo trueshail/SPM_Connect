@@ -1101,6 +1101,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\icons8_Report_Card_64.png" />
+    <None Include="Resources\icons8_clone_32.png" />
+    <None Include="Resources\icons8_warehouse_32.png" />
     <Content Include="Resources\spmconnecthelp.png" />
     <Content Include="SqlServerTypes\x64\msvcr120.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

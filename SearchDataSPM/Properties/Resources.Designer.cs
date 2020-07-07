@@ -63,9 +63,29 @@ namespace SearchDataSPM.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icons8_clone_32 {
+            get {
+                object obj = ResourceManager.GetObject("icons8_clone_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_Report_Card_64 {
             get {
                 object obj = ResourceManager.GetObject("icons8_Report_Card_64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_warehouse_32 {
+            get {
+                object obj = ResourceManager.GetObject("icons8_warehouse_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
