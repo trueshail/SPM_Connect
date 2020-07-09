@@ -151,12 +151,21 @@ namespace SPMConnectAPI
             return dt;
         }
 
-        public DataTable ShowIventoryItems()
+        public DataTable ShowIventoryItems(string itemNo)
         {
             DataTable dt = new DataTable();
             using (SqlDataAdapter sda = new SqlDataAdapter("[dbo].[GetInventoryStock]", cn))
             {
                 sda.SelectCommand.CommandType = CommandType.StoredProcedure;
+                if (!string.IsNullOrEmpty(itemNo))
+                {
+                    sda.SelectCommand.Parameters.AddWithValue("@ShowAll", 1);
+                    sda.SelectCommand.Parameters.AddWithValue("@ItemNo", itemNo);
+                }
+                else
+                {
+                    sda.SelectCommand.Parameters.AddWithValue("@ShowAll", 0);
+                }
                 try
                 {
                     if (cn.State == ConnectionState.Closed)
@@ -425,7 +434,6 @@ namespace SPMConnectAPI
         }
 
         #region GetNewItemNumber or copy items
-
         public string Getlastnumber()
         {
             string blocknumber = ConnectUser.ActiveBlockNumber;

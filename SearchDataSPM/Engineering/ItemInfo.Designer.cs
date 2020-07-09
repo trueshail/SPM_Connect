@@ -96,6 +96,16 @@
             this.itmoemlbl = new System.Windows.Forms.Label();
             this.itemoemitmlbl = new System.Windows.Forms.Label();
             this.savbttn = new System.Windows.Forms.Button();
+            this.InvGroupBox = new System.Windows.Forms.GroupBox();
+            this.LastCostLbl = new System.Windows.Forms.Label();
+            this.AvgCostLbl = new System.Windows.Forms.Label();
+            this.LocationLbl = new System.Windows.Forms.Label();
+            this.NetAvailableLbl = new System.Windows.Forms.Label();
+            this.OnOrderLbl = new System.Windows.Forms.Label();
+            this.ProductionLbl = new System.Windows.Forms.Label();
+            this.ReservedLbl = new System.Windows.Forms.Label();
+            this.AvailableLbl = new System.Windows.Forms.Label();
+            this.OnHandLbl = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SlidePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -105,6 +115,7 @@
             this.groupBox2.SuspendLayout();
             this.Addremovecontextmenu.SuspendLayout();
             this.itemupdatetools.SuspendLayout();
+            this.InvGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // LabelTooltips
@@ -116,7 +127,7 @@
             // 
             // Descriptiontxtbox
             // 
-            this.Descriptiontxtbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.Descriptiontxtbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Descriptiontxtbox.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Descriptiontxtbox.Location = new System.Drawing.Point(127, 44);
@@ -132,7 +143,7 @@
             // 
             // oemitemtxtbox
             // 
-            this.oemitemtxtbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.oemitemtxtbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.oemitemtxtbox.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.oemitemtxtbox.Location = new System.Drawing.Point(127, 185);
@@ -148,7 +159,7 @@
             // 
             // oemtxtbox
             // 
-            this.oemtxtbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.oemtxtbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.oemtxtbox.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.oemtxtbox.Location = new System.Drawing.Point(127, 128);
@@ -164,7 +175,7 @@
             // 
             // familytxtbox
             // 
-            this.familytxtbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.familytxtbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.familytxtbox.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.familytxtbox.Location = new System.Drawing.Point(127, 243);
@@ -179,7 +190,7 @@
             // 
             // sparetxtbox
             // 
-            this.sparetxtbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.sparetxtbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.sparetxtbox.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.sparetxtbox.Location = new System.Drawing.Point(127, 378);
@@ -194,7 +205,7 @@
             // 
             // ItemTxtBox
             // 
-            this.ItemTxtBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.ItemTxtBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ItemTxtBox.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ItemTxtBox.Location = new System.Drawing.Point(127, 17);
@@ -209,7 +220,7 @@
             // 
             // categorytxtbox
             // 
-            this.categorytxtbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.categorytxtbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.categorytxtbox.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.categorytxtbox.Location = new System.Drawing.Point(127, 272);
@@ -224,7 +235,7 @@
             // 
             // mattxt
             // 
-            this.mattxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.mattxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mattxt.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mattxt.Location = new System.Drawing.Point(127, 100);
@@ -239,21 +250,20 @@
             // 
             // notestxt
             // 
-            this.notestxt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.notestxt.Location = new System.Drawing.Point(392, 8);
-            this.notestxt.MinimumSize = new System.Drawing.Size(180, 20);
+            this.notestxt.Location = new System.Drawing.Point(335, 20);
+            this.notestxt.MinimumSize = new System.Drawing.Size(100, 20);
             this.notestxt.Multiline = true;
             this.notestxt.Name = "notestxt";
             this.notestxt.ReadOnly = true;
             this.notestxt.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.notestxt.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.notestxt.Size = new System.Drawing.Size(480, 55);
+            this.notestxt.Size = new System.Drawing.Size(179, 215);
             this.notestxt.TabIndex = 14;
             this.LabelTooltips.SetToolTip(this.notestxt, "General Notes");
             // 
             // designbytxt
             // 
-            this.designbytxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.designbytxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.designbytxt.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.designbytxt.Location = new System.Drawing.Point(127, 407);
@@ -268,7 +278,7 @@
             // 
             // Lastsavedtxtbox
             // 
-            this.Lastsavedtxtbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.Lastsavedtxtbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Lastsavedtxtbox.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Lastsavedtxtbox.Location = new System.Drawing.Point(127, 470);
@@ -283,7 +293,7 @@
             // 
             // surfacetxt
             // 
-            this.surfacetxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.surfacetxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.surfacetxt.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.surfacetxt.Location = new System.Drawing.Point(127, 302);
@@ -299,7 +309,7 @@
             // 
             // datecreatedtxt
             // 
-            this.datecreatedtxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.datecreatedtxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.datecreatedtxt.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.datecreatedtxt.Location = new System.Drawing.Point(127, 438);
@@ -314,7 +324,7 @@
             // 
             // dateeditxt
             // 
-            this.dateeditxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.dateeditxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dateeditxt.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dateeditxt.Location = new System.Drawing.Point(127, 499);
@@ -329,7 +339,7 @@
             // 
             // heattreat
             // 
-            this.heattreat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.heattreat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.heattreat.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.heattreat.Location = new System.Drawing.Point(127, 340);
@@ -345,11 +355,11 @@
             // 
             // costpricetxt
             // 
-            this.costpricetxt.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.costpricetxt.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.costpricetxt.BackColor = System.Drawing.SystemColors.Control;
-            this.costpricetxt.Location = new System.Drawing.Point(99, 383);
+            this.costpricetxt.Location = new System.Drawing.Point(89, 352);
             this.costpricetxt.MaximumSize = new System.Drawing.Size(150, 20);
             this.costpricetxt.MinimumSize = new System.Drawing.Size(150, 20);
             this.costpricetxt.Name = "costpricetxt";
@@ -362,11 +372,11 @@
             // 
             // salepricetext
             // 
-            this.salepricetext.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.salepricetext.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.salepricetext.BackColor = System.Drawing.SystemColors.Control;
-            this.salepricetext.Location = new System.Drawing.Point(99, 411);
+            this.salepricetext.Location = new System.Drawing.Point(89, 380);
             this.salepricetext.MaximumSize = new System.Drawing.Size(150, 20);
             this.salepricetext.MinimumSize = new System.Drawing.Size(150, 20);
             this.salepricetext.Name = "salepricetext";
@@ -379,11 +389,11 @@
             // 
             // qtytxt
             // 
-            this.qtytxt.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.qtytxt.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.qtytxt.BackColor = System.Drawing.SystemColors.Control;
-            this.qtytxt.Location = new System.Drawing.Point(99, 442);
+            this.qtytxt.Location = new System.Drawing.Point(89, 411);
             this.qtytxt.MaximumSize = new System.Drawing.Size(150, 20);
             this.qtytxt.MinimumSize = new System.Drawing.Size(150, 20);
             this.qtytxt.Name = "qtytxt";
@@ -395,12 +405,12 @@
             // 
             // NotesCosttxt
             // 
-            this.NotesCosttxt.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.NotesCosttxt.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.NotesCosttxt.BackColor = System.Drawing.SystemColors.Control;
             this.NotesCosttxt.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.NotesCosttxt.Location = new System.Drawing.Point(263, 383);
+            this.NotesCosttxt.Location = new System.Drawing.Point(253, 352);
             this.NotesCosttxt.MaximumSize = new System.Drawing.Size(246, 162);
             this.NotesCosttxt.MinimumSize = new System.Drawing.Size(246, 162);
             this.NotesCosttxt.Multiline = true;
@@ -412,11 +422,11 @@
             // 
             // Addnewbttn
             // 
-            this.Addnewbttn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.Addnewbttn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Addnewbttn.Font = new System.Drawing.Font("Palatino Linotype", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Addnewbttn.Location = new System.Drawing.Point(138, 512);
+            this.Addnewbttn.Location = new System.Drawing.Point(128, 481);
             this.Addnewbttn.MaximumSize = new System.Drawing.Size(80, 25);
             this.Addnewbttn.MinimumSize = new System.Drawing.Size(80, 25);
             this.Addnewbttn.Name = "Addnewbttn";
@@ -429,10 +439,10 @@
             // 
             // qtytxtbox
             // 
-            this.qtytxtbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.qtytxtbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.qtytxtbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.qtytxtbox.Location = new System.Drawing.Point(312, 18);
+            this.qtytxtbox.Location = new System.Drawing.Point(269, 13);
             this.qtytxtbox.Name = "qtytxtbox";
             this.qtytxtbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.qtytxtbox.Size = new System.Drawing.Size(99, 22);
@@ -443,7 +453,7 @@
             // 
             // oemlbl
             // 
-            this.oemlbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.oemlbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.oemlbl.AutoSize = true;
             this.oemlbl.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -457,7 +467,7 @@
             // 
             // oemitemlbl
             // 
-            this.oemitemlbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.oemitemlbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.oemitemlbl.AutoSize = true;
             this.oemitemlbl.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -472,7 +482,7 @@
             // 
             // SpareLbl
             // 
-            this.SpareLbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.SpareLbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.SpareLbl.AutoSize = true;
             this.SpareLbl.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -487,7 +497,7 @@
             // 
             // Itemlbl
             // 
-            this.Itemlbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.Itemlbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Itemlbl.AutoSize = true;
             this.Itemlbl.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -501,7 +511,7 @@
             // 
             // familylbl
             // 
-            this.familylbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.familylbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.familylbl.AutoSize = true;
             this.familylbl.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -515,7 +525,7 @@
             // 
             // typlbl
             // 
-            this.typlbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.typlbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.typlbl.AutoSize = true;
             this.typlbl.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -529,12 +539,12 @@
             // 
             // Costlbl
             // 
-            this.Costlbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.Costlbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.Costlbl.AutoSize = true;
             this.Costlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Costlbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.Costlbl.Location = new System.Drawing.Point(342, 17);
+            this.Costlbl.Location = new System.Drawing.Point(339, 0);
             this.Costlbl.MaximumSize = new System.Drawing.Size(57, 15);
             this.Costlbl.Name = "Costlbl";
             this.Costlbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -544,7 +554,7 @@
             // 
             // label1
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -559,7 +569,7 @@
             // 
             // label2
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -574,7 +584,7 @@
             // 
             // label3
             // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -589,7 +599,7 @@
             // 
             // label4
             // 
-            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -604,7 +614,7 @@
             // 
             // label5
             // 
-            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -619,7 +629,7 @@
             // 
             // label6
             // 
-            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -634,7 +644,7 @@
             // 
             // label7
             // 
-            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -649,7 +659,7 @@
             // 
             // label8
             // 
-            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -672,11 +682,11 @@
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.panel1.Controls.Add(this.button1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(856, 0);
-            this.panel1.MaximumSize = new System.Drawing.Size(24, 550);
-            this.panel1.MinimumSize = new System.Drawing.Size(24, 550);
+            this.panel1.Location = new System.Drawing.Point(926, 0);
+            this.panel1.MaximumSize = new System.Drawing.Size(24, 525);
+            this.panel1.MinimumSize = new System.Drawing.Size(24, 525);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(24, 550);
+            this.panel1.Size = new System.Drawing.Size(24, 525);
             this.panel1.TabIndex = 65;
             // 
             // button1
@@ -686,10 +696,10 @@
             this.button1.Font = new System.Drawing.Font("Adobe Heiti Std R", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.button1.Location = new System.Drawing.Point(0, 0);
-            this.button1.MaximumSize = new System.Drawing.Size(24, 550);
-            this.button1.MinimumSize = new System.Drawing.Size(24, 550);
+            this.button1.MaximumSize = new System.Drawing.Size(24, 525);
+            this.button1.MinimumSize = new System.Drawing.Size(24, 525);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(24, 550);
+            this.button1.Size = new System.Drawing.Size(24, 525);
             this.button1.TabIndex = 0;
             this.button1.Text = "S\r\nH\r\nO\r\nW\r\n\r\nA\r\nD\r\nV\r\nA\r\nN\r\nC\r\nE\r\n\r\nO\r\nP\r\nT\r\nI\r\nO\r\nN\r\nS";
             this.button1.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
@@ -710,21 +720,21 @@
             this.SlidePanel.Controls.Add(this.costlabel);
             this.SlidePanel.Controls.Add(this.dataGridView1);
             this.SlidePanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.SlidePanel.Location = new System.Drawing.Point(846, 0);
-            this.SlidePanel.MaximumSize = new System.Drawing.Size(515, 550);
+            this.SlidePanel.Location = new System.Drawing.Point(916, 0);
+            this.SlidePanel.MaximumSize = new System.Drawing.Size(515, 525);
             this.SlidePanel.Name = "SlidePanel";
-            this.SlidePanel.Size = new System.Drawing.Size(10, 550);
+            this.SlidePanel.Size = new System.Drawing.Size(10, 525);
             this.SlidePanel.TabIndex = 66;
             // 
             // label9
             // 
-            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.Color.White;
-            this.label9.Location = new System.Drawing.Point(348, 369);
+            this.label9.Location = new System.Drawing.Point(338, 338);
             this.label9.Name = "label9";
             this.label9.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label9.Size = new System.Drawing.Size(57, 15);
@@ -733,13 +743,13 @@
             // 
             // label10
             // 
-            this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.Color.White;
-            this.label10.Location = new System.Drawing.Point(66, 442);
+            this.label10.Location = new System.Drawing.Point(56, 411);
             this.label10.Name = "label10";
             this.label10.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label10.Size = new System.Drawing.Size(35, 15);
@@ -748,13 +758,13 @@
             // 
             // saleslabel
             // 
-            this.saleslabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.saleslabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.saleslabel.AutoSize = true;
             this.saleslabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.saleslabel.ForeColor = System.Drawing.Color.White;
-            this.saleslabel.Location = new System.Drawing.Point(13, 411);
+            this.saleslabel.Location = new System.Drawing.Point(3, 380);
             this.saleslabel.Name = "saleslabel";
             this.saleslabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.saleslabel.Size = new System.Drawing.Size(88, 15);
@@ -763,13 +773,13 @@
             // 
             // costlabel
             // 
-            this.costlabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.costlabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.costlabel.AutoSize = true;
             this.costlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.costlabel.ForeColor = System.Drawing.Color.White;
-            this.costlabel.Location = new System.Drawing.Point(21, 383);
+            this.costlabel.Location = new System.Drawing.Point(11, 352);
             this.costlabel.Name = "costlabel";
             this.costlabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.costlabel.Size = new System.Drawing.Size(80, 15);
@@ -782,7 +792,7 @@
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.AllowUserToOrderColumns = true;
             this.dataGridView1.AllowUserToResizeRows = false;
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(133)))), ((int)(((byte)(197)))));
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -791,7 +801,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.Size = new System.Drawing.Size(5, 354);
+            this.dataGridView1.Size = new System.Drawing.Size(5, 329);
             this.dataGridView1.TabIndex = 0;
             // 
             // errorProvider1
@@ -802,11 +812,11 @@
             // 
             this.checkBox1.AutoSize = true;
             this.checkBox1.ForeColor = System.Drawing.Color.White;
-            this.checkBox1.Location = new System.Drawing.Point(14, 533);
+            this.checkBox1.Location = new System.Drawing.Point(18, 259);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(80, 17);
+            this.checkBox1.Size = new System.Drawing.Size(145, 17);
             this.checkBox1.TabIndex = 67;
-            this.checkBox1.Text = "Show Price";
+            this.checkBox1.Text = "Show Price based on PO";
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.Visible = false;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.CheckBox1_CheckedChanged);
@@ -816,15 +826,12 @@
             this.dataGridView2.AllowUserToAddRows = false;
             this.dataGridView2.AllowUserToDeleteRows = false;
             this.dataGridView2.AllowUserToOrderColumns = true;
-            this.dataGridView2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(0, 559);
+            this.dataGridView2.Location = new System.Drawing.Point(0, 531);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.ReadOnly = true;
             this.dataGridView2.RowHeadersVisible = false;
-            this.dataGridView2.Size = new System.Drawing.Size(880, 0);
+            this.dataGridView2.Size = new System.Drawing.Size(950, 149);
             this.dataGridView2.TabIndex = 68;
             this.dataGridView2.Visible = false;
             // 
@@ -868,12 +875,13 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.treeView1);
             this.groupBox2.Controls.Add(this.itemupdatetools);
             this.groupBox2.ForeColor = System.Drawing.Color.White;
-            this.groupBox2.Location = new System.Drawing.Point(338, 70);
+            this.groupBox2.Location = new System.Drawing.Point(520, 1);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(538, 483);
+            this.groupBox2.Size = new System.Drawing.Size(427, 524);
             this.groupBox2.TabIndex = 70;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Item Dependencies :";
@@ -881,8 +889,8 @@
             // treeView1
             // 
             this.treeView1.AllowDrop = true;
-            this.treeView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.treeView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.treeView1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(237)))), ((int)(((byte)(237)))));
             this.treeView1.ContextMenuStrip = this.Addremovecontextmenu;
@@ -895,7 +903,7 @@
             this.treeView1.Name = "treeView1";
             this.treeView1.SelectedImageIndex = 0;
             this.treeView1.ShowNodeToolTips = true;
-            this.treeView1.Size = new System.Drawing.Size(524, 324);
+            this.treeView1.Size = new System.Drawing.Size(413, 365);
             this.treeView1.TabIndex = 72;
             this.treeView1.BeforeCollapse += new System.Windows.Forms.TreeViewCancelEventHandler(this.TreeView1_BeforeCollapse);
             this.treeView1.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.TreeView1_BeforeCollapse);
@@ -940,7 +948,7 @@
             // 
             // itemupdatetools
             // 
-            this.itemupdatetools.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.itemupdatetools.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.itemupdatetools.Controls.Add(this.cancelbutton);
             this.itemupdatetools.Controls.Add(this.updatebttn);
@@ -954,23 +962,23 @@
             this.itemupdatetools.Controls.Add(this.itemoemitmlbl);
             this.itemupdatetools.Controls.Add(this.savbttn);
             this.itemupdatetools.Enabled = false;
-            this.itemupdatetools.Location = new System.Drawing.Point(7, 343);
+            this.itemupdatetools.Location = new System.Drawing.Point(7, 384);
             this.itemupdatetools.Name = "itemupdatetools";
-            this.itemupdatetools.Size = new System.Drawing.Size(527, 135);
+            this.itemupdatetools.Size = new System.Drawing.Size(416, 135);
             this.itemupdatetools.TabIndex = 118;
             this.itemupdatetools.TabStop = false;
             this.itemupdatetools.Visible = false;
             // 
             // cancelbutton
             // 
-            this.cancelbutton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cancelbutton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancelbutton.BackColor = System.Drawing.Color.Transparent;
             this.cancelbutton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cancelbutton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cancelbutton.ForeColor = System.Drawing.Color.White;
             this.cancelbutton.Image = ((System.Drawing.Image)(resources.GetObject("cancelbutton.Image")));
             this.cancelbutton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.cancelbutton.Location = new System.Drawing.Point(276, 102);
+            this.cancelbutton.Location = new System.Drawing.Point(189, 102);
             this.cancelbutton.Name = "cancelbutton";
             this.cancelbutton.Size = new System.Drawing.Size(75, 27);
             this.cancelbutton.TabIndex = 118;
@@ -983,14 +991,14 @@
             // 
             // updatebttn
             // 
-            this.updatebttn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.updatebttn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.updatebttn.BackColor = System.Drawing.Color.Transparent;
             this.updatebttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.updatebttn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.updatebttn.ForeColor = System.Drawing.Color.White;
             this.updatebttn.Image = ((System.Drawing.Image)(resources.GetObject("updatebttn.Image")));
             this.updatebttn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.updatebttn.Location = new System.Drawing.Point(195, 102);
+            this.updatebttn.Location = new System.Drawing.Point(108, 102);
             this.updatebttn.Name = "updatebttn";
             this.updatebttn.Size = new System.Drawing.Size(75, 27);
             this.updatebttn.TabIndex = 118;
@@ -1003,12 +1011,12 @@
             // 
             // itmdeslbl
             // 
-            this.itmdeslbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.itmdeslbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.itmdeslbl.AutoSize = true;
             this.itmdeslbl.Font = new System.Drawing.Font("Lucida Fax", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.itmdeslbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.itmdeslbl.Location = new System.Drawing.Point(12, 51);
+            this.itmdeslbl.Location = new System.Drawing.Point(12, 44);
             this.itmdeslbl.Name = "itmdeslbl";
             this.itmdeslbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.itmdeslbl.Size = new System.Drawing.Size(67, 13);
@@ -1018,12 +1026,12 @@
             // 
             // qtylbl
             // 
-            this.qtylbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.qtylbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.qtylbl.AutoSize = true;
             this.qtylbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.qtylbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.qtylbl.Location = new System.Drawing.Point(228, 19);
+            this.qtylbl.Location = new System.Drawing.Point(185, 14);
             this.qtylbl.Name = "qtylbl";
             this.qtylbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.qtylbl.Size = new System.Drawing.Size(78, 15);
@@ -1032,14 +1040,14 @@
             // 
             // addbutton
             // 
-            this.addbutton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.addbutton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.addbutton.BackColor = System.Drawing.Color.Transparent;
             this.addbutton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.addbutton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.addbutton.ForeColor = System.Drawing.Color.White;
             this.addbutton.Image = ((System.Drawing.Image)(resources.GetObject("addbutton.Image")));
             this.addbutton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.addbutton.Location = new System.Drawing.Point(358, 102);
+            this.addbutton.Location = new System.Drawing.Point(271, 102);
             this.addbutton.Name = "addbutton";
             this.addbutton.Size = new System.Drawing.Size(58, 27);
             this.addbutton.TabIndex = 117;
@@ -1051,12 +1059,12 @@
             // 
             // itemnotxt
             // 
-            this.itemnotxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.itemnotxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.itemnotxt.BackColor = System.Drawing.Color.White;
             this.itemnotxt.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.itemnotxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.itemnotxt.Location = new System.Drawing.Point(83, 17);
+            this.itemnotxt.Location = new System.Drawing.Point(83, 12);
             this.itemnotxt.MaximumSize = new System.Drawing.Size(200, 30);
             this.itemnotxt.MaxLength = 6;
             this.itemnotxt.Name = "itemnotxt";
@@ -1068,12 +1076,12 @@
             // 
             // label11
             // 
-            this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label11.Location = new System.Drawing.Point(12, 20);
+            this.label11.Location = new System.Drawing.Point(12, 15);
             this.label11.Name = "label11";
             this.label11.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label11.Size = new System.Drawing.Size(65, 15);
@@ -1083,12 +1091,12 @@
             // 
             // itmoemlbl
             // 
-            this.itmoemlbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.itmoemlbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.itmoemlbl.AutoSize = true;
             this.itmoemlbl.Font = new System.Drawing.Font("Lucida Fax", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.itmoemlbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.itmoemlbl.Location = new System.Drawing.Point(12, 75);
+            this.itmoemlbl.Location = new System.Drawing.Point(12, 60);
             this.itmoemlbl.Name = "itmoemlbl";
             this.itmoemlbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.itmoemlbl.Size = new System.Drawing.Size(75, 13);
@@ -1098,12 +1106,12 @@
             // 
             // itemoemitmlbl
             // 
-            this.itemoemitmlbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.itemoemitmlbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.itemoemitmlbl.AutoSize = true;
             this.itemoemitmlbl.Font = new System.Drawing.Font("Lucida Fax", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.itemoemitmlbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.itemoemitmlbl.Location = new System.Drawing.Point(12, 100);
+            this.itemoemitmlbl.Location = new System.Drawing.Point(12, 77);
             this.itemoemitmlbl.Name = "itemoemitmlbl";
             this.itemoemitmlbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.itemoemitmlbl.Size = new System.Drawing.Size(75, 13);
@@ -1113,14 +1121,14 @@
             // 
             // savbttn
             // 
-            this.savbttn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.savbttn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.savbttn.BackColor = System.Drawing.Color.Transparent;
             this.savbttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.savbttn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.savbttn.ForeColor = System.Drawing.Color.White;
             this.savbttn.Image = ((System.Drawing.Image)(resources.GetObject("savbttn.Image")));
             this.savbttn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.savbttn.Location = new System.Drawing.Point(422, 102);
+            this.savbttn.Location = new System.Drawing.Point(335, 102);
             this.savbttn.Name = "savbttn";
             this.savbttn.Size = new System.Drawing.Size(62, 27);
             this.savbttn.TabIndex = 71;
@@ -1131,20 +1139,167 @@
             this.savbttn.Visible = false;
             this.savbttn.Click += new System.EventHandler(this.Savbttn_Click);
             // 
+            // InvGroupBox
+            // 
+            this.InvGroupBox.Controls.Add(this.LastCostLbl);
+            this.InvGroupBox.Controls.Add(this.AvgCostLbl);
+            this.InvGroupBox.Controls.Add(this.LocationLbl);
+            this.InvGroupBox.Controls.Add(this.NetAvailableLbl);
+            this.InvGroupBox.Controls.Add(this.OnOrderLbl);
+            this.InvGroupBox.Controls.Add(this.ProductionLbl);
+            this.InvGroupBox.Controls.Add(this.ReservedLbl);
+            this.InvGroupBox.Controls.Add(this.AvailableLbl);
+            this.InvGroupBox.Controls.Add(this.OnHandLbl);
+            this.InvGroupBox.Controls.Add(this.checkBox1);
+            this.InvGroupBox.ForeColor = System.Drawing.Color.White;
+            this.InvGroupBox.Location = new System.Drawing.Point(335, 241);
+            this.InvGroupBox.Name = "InvGroupBox";
+            this.InvGroupBox.Size = new System.Drawing.Size(182, 286);
+            this.InvGroupBox.TabIndex = 71;
+            this.InvGroupBox.TabStop = false;
+            this.InvGroupBox.Text = "Inventory/Pricing";
+            this.InvGroupBox.Enter += new System.EventHandler(this.InvGroupBox_Enter);
+            // 
+            // LastCostLbl
+            // 
+            this.LastCostLbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.LastCostLbl.AutoSize = true;
+            this.LastCostLbl.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LastCostLbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.LastCostLbl.Location = new System.Drawing.Point(25, 211);
+            this.LastCostLbl.Name = "LastCostLbl";
+            this.LastCostLbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.LastCostLbl.Size = new System.Drawing.Size(66, 12);
+            this.LastCostLbl.TabIndex = 76;
+            this.LastCostLbl.Text = "Last Cost:";
+            // 
+            // AvgCostLbl
+            // 
+            this.AvgCostLbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.AvgCostLbl.AutoSize = true;
+            this.AvgCostLbl.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.AvgCostLbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.AvgCostLbl.Location = new System.Drawing.Point(3, 230);
+            this.AvgCostLbl.Name = "AvgCostLbl";
+            this.AvgCostLbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.AvgCostLbl.Size = new System.Drawing.Size(93, 12);
+            this.AvgCostLbl.TabIndex = 75;
+            this.AvgCostLbl.Text = "Average Cost: ";
+            // 
+            // LocationLbl
+            // 
+            this.LocationLbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.LocationLbl.AutoSize = true;
+            this.LocationLbl.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LocationLbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.LocationLbl.Location = new System.Drawing.Point(29, 175);
+            this.LocationLbl.Name = "LocationLbl";
+            this.LocationLbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.LocationLbl.Size = new System.Drawing.Size(62, 12);
+            this.LocationLbl.TabIndex = 74;
+            this.LocationLbl.Text = "Location:";
+            // 
+            // NetAvailableLbl
+            // 
+            this.NetAvailableLbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.NetAvailableLbl.AutoSize = true;
+            this.NetAvailableLbl.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.NetAvailableLbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.NetAvailableLbl.Location = new System.Drawing.Point(4, 140);
+            this.NetAvailableLbl.Name = "NetAvailableLbl";
+            this.NetAvailableLbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.NetAvailableLbl.Size = new System.Drawing.Size(93, 12);
+            this.NetAvailableLbl.TabIndex = 73;
+            this.NetAvailableLbl.Text = "Net Available: ";
+            // 
+            // OnOrderLbl
+            // 
+            this.OnOrderLbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.OnOrderLbl.AutoSize = true;
+            this.OnOrderLbl.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OnOrderLbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.OnOrderLbl.Location = new System.Drawing.Point(30, 121);
+            this.OnOrderLbl.Name = "OnOrderLbl";
+            this.OnOrderLbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.OnOrderLbl.Size = new System.Drawing.Size(67, 12);
+            this.OnOrderLbl.TabIndex = 72;
+            this.OnOrderLbl.Text = "On Order: ";
+            // 
+            // ProductionLbl
+            // 
+            this.ProductionLbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ProductionLbl.AutoSize = true;
+            this.ProductionLbl.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ProductionLbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.ProductionLbl.Location = new System.Drawing.Point(3, 103);
+            this.ProductionLbl.Name = "ProductionLbl";
+            this.ProductionLbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.ProductionLbl.Size = new System.Drawing.Size(94, 12);
+            this.ProductionLbl.TabIndex = 71;
+            this.ProductionLbl.Text = "In Production: ";
+            // 
+            // ReservedLbl
+            // 
+            this.ReservedLbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ReservedLbl.AutoSize = true;
+            this.ReservedLbl.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ReservedLbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.ReservedLbl.Location = new System.Drawing.Point(29, 51);
+            this.ReservedLbl.Name = "ReservedLbl";
+            this.ReservedLbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.ReservedLbl.Size = new System.Drawing.Size(68, 12);
+            this.ReservedLbl.TabIndex = 70;
+            this.ReservedLbl.Text = "Reserved: ";
+            // 
+            // AvailableLbl
+            // 
+            this.AvailableLbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.AvailableLbl.AutoSize = true;
+            this.AvailableLbl.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.AvailableLbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.AvailableLbl.Location = new System.Drawing.Point(29, 70);
+            this.AvailableLbl.Name = "AvailableLbl";
+            this.AvailableLbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.AvailableLbl.Size = new System.Drawing.Size(68, 12);
+            this.AvailableLbl.TabIndex = 69;
+            this.AvailableLbl.Text = "Available: ";
+            // 
+            // OnHandLbl
+            // 
+            this.OnHandLbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.OnHandLbl.AutoSize = true;
+            this.OnHandLbl.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OnHandLbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.OnHandLbl.Location = new System.Drawing.Point(33, 32);
+            this.OnHandLbl.Name = "OnHandLbl";
+            this.OnHandLbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.OnHandLbl.Size = new System.Drawing.Size(64, 12);
+            this.OnHandLbl.TabIndex = 68;
+            this.OnHandLbl.Text = "On Hand: ";
+            // 
             // ItemInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(69)))), ((int)(((byte)(76)))));
-            this.ClientSize = new System.Drawing.Size(880, 557);
+            this.ClientSize = new System.Drawing.Size(950, 527);
             this.Controls.Add(this.SlidePanel);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dataGridView2);
-            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.notestxt);
             this.Controls.Add(this.Costlbl);
             this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.InvGroupBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -1167,6 +1322,8 @@
             this.Addremovecontextmenu.ResumeLayout(false);
             this.itemupdatetools.ResumeLayout(false);
             this.itemupdatetools.PerformLayout();
+            this.InvGroupBox.ResumeLayout(false);
+            this.InvGroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1239,5 +1396,15 @@
         private System.Windows.Forms.ToolStripMenuItem RemoveItemToolStripMenuItem;
         private System.Windows.Forms.Button updatebttn;
         private System.Windows.Forms.Button cancelbutton;
+        private System.Windows.Forms.GroupBox InvGroupBox;
+        private System.Windows.Forms.Label LastCostLbl;
+        private System.Windows.Forms.Label AvgCostLbl;
+        private System.Windows.Forms.Label LocationLbl;
+        private System.Windows.Forms.Label NetAvailableLbl;
+        private System.Windows.Forms.Label OnOrderLbl;
+        private System.Windows.Forms.Label ProductionLbl;
+        private System.Windows.Forms.Label ReservedLbl;
+        private System.Windows.Forms.Label AvailableLbl;
+        private System.Windows.Forms.Label OnHandLbl;
     }
 }

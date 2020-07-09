@@ -847,7 +847,7 @@ namespace SearchDataSPM.Engineering
         private void Openjobmodule()
         {
             SPM_ConnectJobs sPM_ConnectJobs = new SPM_ConnectJobs();
-            sPM_ConnectJobs.Show(this);
+            sPM_ConnectJobs.Show();
         }
 
         private void DataGridView_KeyDown(object sender, KeyEventArgs e)
@@ -2931,7 +2931,7 @@ namespace SearchDataSPM.Engineering
             txtSearch.Clear();
             txtSearch.Focus();
             dt.Clear();
-            dt = connectapi.ShowIventoryItems();
+            dt = connectapi.ShowIventoryItems(null);
             dataGridView.DataSource = dt;
             _ = dt.DefaultView;
             ShowReqCols();
