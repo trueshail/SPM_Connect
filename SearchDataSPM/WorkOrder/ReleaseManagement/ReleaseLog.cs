@@ -116,10 +116,10 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("Opened Release Logs ");
             // Resume the layout logic
+            this.ResumeLayout();
             txtSearch.Text = jobnumber;
             if (txtSearch.Text.Trim().Length > 0)
                 SendKeys.Send("~");
-            this.ResumeLayout();
         }
 
         private void UpdateFont()
