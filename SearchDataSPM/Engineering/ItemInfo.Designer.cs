@@ -106,6 +106,7 @@
             this.ReservedLbl = new System.Windows.Forms.Label();
             this.AvailableLbl = new System.Windows.Forms.Label();
             this.OnHandLbl = new System.Windows.Forms.Label();
+            this.locationsList = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.SlidePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -812,7 +813,7 @@
             // 
             this.checkBox1.AutoSize = true;
             this.checkBox1.ForeColor = System.Drawing.Color.White;
-            this.checkBox1.Location = new System.Drawing.Point(18, 259);
+            this.checkBox1.Location = new System.Drawing.Point(18, 264);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(145, 17);
             this.checkBox1.TabIndex = 67;
@@ -1141,6 +1142,7 @@
             // 
             // InvGroupBox
             // 
+            this.InvGroupBox.Controls.Add(this.locationsList);
             this.InvGroupBox.Controls.Add(this.LastCostLbl);
             this.InvGroupBox.Controls.Add(this.AvgCostLbl);
             this.InvGroupBox.Controls.Add(this.LocationLbl);
@@ -1167,7 +1169,7 @@
             this.LastCostLbl.AutoSize = true;
             this.LastCostLbl.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LastCostLbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.LastCostLbl.Location = new System.Drawing.Point(25, 211);
+            this.LastCostLbl.Location = new System.Drawing.Point(25, 229);
             this.LastCostLbl.Name = "LastCostLbl";
             this.LastCostLbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.LastCostLbl.Size = new System.Drawing.Size(66, 12);
@@ -1181,7 +1183,7 @@
             this.AvgCostLbl.AutoSize = true;
             this.AvgCostLbl.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.AvgCostLbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.AvgCostLbl.Location = new System.Drawing.Point(3, 230);
+            this.AvgCostLbl.Location = new System.Drawing.Point(3, 248);
             this.AvgCostLbl.Name = "AvgCostLbl";
             this.AvgCostLbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.AvgCostLbl.Size = new System.Drawing.Size(93, 12);
@@ -1195,12 +1197,12 @@
             this.LocationLbl.AutoSize = true;
             this.LocationLbl.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LocationLbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.LocationLbl.Location = new System.Drawing.Point(29, 175);
+            this.LocationLbl.Location = new System.Drawing.Point(5, 137);
             this.LocationLbl.Name = "LocationLbl";
             this.LocationLbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.LocationLbl.Size = new System.Drawing.Size(62, 12);
+            this.LocationLbl.Size = new System.Drawing.Size(127, 12);
             this.LocationLbl.TabIndex = 74;
-            this.LocationLbl.Text = "Location:";
+            this.LocationLbl.Text = "Available Locations:";
             // 
             // NetAvailableLbl
             // 
@@ -1209,7 +1211,7 @@
             this.NetAvailableLbl.AutoSize = true;
             this.NetAvailableLbl.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.NetAvailableLbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.NetAvailableLbl.Location = new System.Drawing.Point(4, 140);
+            this.NetAvailableLbl.Location = new System.Drawing.Point(4, 117);
             this.NetAvailableLbl.Name = "NetAvailableLbl";
             this.NetAvailableLbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.NetAvailableLbl.Size = new System.Drawing.Size(93, 12);
@@ -1223,7 +1225,7 @@
             this.OnOrderLbl.AutoSize = true;
             this.OnOrderLbl.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.OnOrderLbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.OnOrderLbl.Location = new System.Drawing.Point(30, 121);
+            this.OnOrderLbl.Location = new System.Drawing.Point(30, 98);
             this.OnOrderLbl.Name = "OnOrderLbl";
             this.OnOrderLbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.OnOrderLbl.Size = new System.Drawing.Size(67, 12);
@@ -1237,7 +1239,7 @@
             this.ProductionLbl.AutoSize = true;
             this.ProductionLbl.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ProductionLbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.ProductionLbl.Location = new System.Drawing.Point(3, 103);
+            this.ProductionLbl.Location = new System.Drawing.Point(3, 80);
             this.ProductionLbl.Name = "ProductionLbl";
             this.ProductionLbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.ProductionLbl.Size = new System.Drawing.Size(94, 12);
@@ -1251,7 +1253,7 @@
             this.ReservedLbl.AutoSize = true;
             this.ReservedLbl.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ReservedLbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.ReservedLbl.Location = new System.Drawing.Point(29, 51);
+            this.ReservedLbl.Location = new System.Drawing.Point(29, 37);
             this.ReservedLbl.Name = "ReservedLbl";
             this.ReservedLbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.ReservedLbl.Size = new System.Drawing.Size(68, 12);
@@ -1265,7 +1267,7 @@
             this.AvailableLbl.AutoSize = true;
             this.AvailableLbl.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.AvailableLbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.AvailableLbl.Location = new System.Drawing.Point(29, 70);
+            this.AvailableLbl.Location = new System.Drawing.Point(29, 56);
             this.AvailableLbl.Name = "AvailableLbl";
             this.AvailableLbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.AvailableLbl.Size = new System.Drawing.Size(68, 12);
@@ -1279,12 +1281,21 @@
             this.OnHandLbl.AutoSize = true;
             this.OnHandLbl.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.OnHandLbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.OnHandLbl.Location = new System.Drawing.Point(33, 32);
+            this.OnHandLbl.Location = new System.Drawing.Point(33, 18);
             this.OnHandLbl.Name = "OnHandLbl";
             this.OnHandLbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.OnHandLbl.Size = new System.Drawing.Size(64, 12);
             this.OnHandLbl.TabIndex = 68;
             this.OnHandLbl.Text = "On Hand: ";
+            // 
+            // locationsList
+            // 
+            this.locationsList.Location = new System.Drawing.Point(5, 152);
+            this.locationsList.Multiline = true;
+            this.locationsList.Name = "locationsList";
+            this.locationsList.ReadOnly = true;
+            this.locationsList.Size = new System.Drawing.Size(170, 75);
+            this.locationsList.TabIndex = 77;
             // 
             // ItemInfo
             // 
@@ -1406,5 +1417,6 @@
         private System.Windows.Forms.Label ReservedLbl;
         private System.Windows.Forms.Label AvailableLbl;
         private System.Windows.Forms.Label OnHandLbl;
+        private System.Windows.Forms.TextBox locationsList;
     }
 }

@@ -276,12 +276,15 @@ namespace SearchDataSPM.Engineering
                 LastCostLbl.Visible = true;
                 AvgCostLbl.Visible = true;
                 checkBox1.Visible = true;
+                locationsList.Size = new Size(170, 75);
             }
             else
             {
                 LastCostLbl.Visible = false;
                 AvgCostLbl.Visible = false;
                 checkBox1.Visible = false;
+                locationsList.Size = new Size(170, 130);
+
             }
         }
 
@@ -379,7 +382,15 @@ namespace SearchDataSPM.Engineering
 
         private void Filldatatable(string itemnumber)
         {
-            Fillinfo(connectapi.ShowIventoryItems(itemnumber).Rows[0]);
+            DataTable dt = connectapi.ShowIventoryItems(itemnumber);
+            if (dt.Rows.Count > 0)
+            {
+                Fillinfo(dt.Rows[0]);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    locationsList.Text += dr["Location"].ToString() + Environment.NewLine;
+                }
+            }
         }
 
         private void Filldatatabletreeview()
@@ -426,7 +437,7 @@ namespace SearchDataSPM.Engineering
                 ProductionLbl.Text = "In Production: " + r["InProduction"].ToString();
                 OnOrderLbl.Text = "On Order: " + r["OnOrder"].ToString();
                 NetAvailableLbl.Text = "Net Available: " + r["NetQtyAvailable"].ToString();
-                LocationLbl.Text = "Location: " + r["Location"].ToString();
+                //LocationLbl.Text = "Location: " + r["Location"].ToString();
                 LastCostLbl.Text = "Last Cost: $" + r["LastCost"].ToString();
                 AvgCostLbl.Text = "Average Cost: $" + r["AverageCost"].ToString();
             }

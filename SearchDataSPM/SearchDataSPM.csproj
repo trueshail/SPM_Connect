@@ -433,6 +433,7 @@
     <Compile Include="General\ServiceReportHome.Designer.cs">
       <DependentUpon>ServiceReportHome.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helper\ApplicationSettings.cs" />
     <Compile Include="LogDataset.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

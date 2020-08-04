@@ -2439,6 +2439,88 @@ namespace SPMConnectAPI
             return MyCollection;
         }
 
+        public bool AddReleaseComment(ReleaseComment rc)
+        {
+            bool success = false;
+            using (SqlCommand cmd = new SqlCommand("[dbo].[RP_CRUDRemark]", cn) { CommandType = System.Data.CommandType.StoredProcedure })
+            {
+                cmd.Parameters.AddWithValue("@RelNo", rc.RelNo);
+                cmd.Parameters.AddWithValue("@CommentBy", rc.CommentBy);
+                cmd.Parameters.AddWithValue("@Comment", rc.Comment);
+                cmd.Parameters.AddWithValue("@StatementType", nameof(CRUDStatementType.Insert));
+
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    cmd.ExecuteScalar();
+                    cn.Close();
+                    success = true;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Add Release Comment", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    log.Error(ex.Message, ex);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return success;
+        }
+
+        public void UpdateReleaseInvoice(ReleaseLog releaseLog)
+        {
+            DateTime datecreated = DateTime.Now;
+            string sqlFormattedDatetime = datecreated.ToString("yyyy-MM-dd HH:mm:ss");
+
+            using (SqlCommand cmd = new SqlCommand("[dbo].[RP_CRUDBase]", cn) { CommandType = System.Data.CommandType.StoredProcedure })
+            {
+                cmd.Parameters.AddWithValue("@RelNo", releaseLog.RelNo);
+                cmd.Parameters.AddWithValue("@Job", releaseLog.Job);
+                cmd.Parameters.AddWithValue("@SubAssy", releaseLog.SubAssy);
+                cmd.Parameters.AddWithValue("@PckgQty", releaseLog.PckgQty);
+                cmd.Parameters.AddWithValue("@IsSubmitted", Convert.ToInt32(releaseLog.IsSubmitted));
+                cmd.Parameters.AddWithValue("@SubmittedTo", releaseLog.SubmittedTo);
+                cmd.Parameters.AddWithValue("@SubmittedOn", releaseLog.SubmittedOn);
+                cmd.Parameters.AddWithValue("@IsChecked", Convert.ToInt32(releaseLog.IsChecked));
+                cmd.Parameters.AddWithValue("@CheckedBy", releaseLog.CheckedBy);
+                cmd.Parameters.AddWithValue("@CheckedOn", releaseLog.CheckedOn);
+                cmd.Parameters.AddWithValue("@ApprovalTo", releaseLog.ApprovalTo);
+                cmd.Parameters.AddWithValue("@IsApproved", Convert.ToInt32(releaseLog.IsApproved));
+                cmd.Parameters.AddWithValue("@ApprovedBy", releaseLog.ApprovedBy);
+                cmd.Parameters.AddWithValue("@ApprovedOn", releaseLog.ApprovedOn);
+                cmd.Parameters.AddWithValue("@IsReleased", Convert.ToInt32(releaseLog.IsReleased));
+                cmd.Parameters.AddWithValue("@ReleasedBy", releaseLog.ReleasedBy);
+                cmd.Parameters.AddWithValue("@ReleasedOn", releaseLog.ReleasedOn);
+                cmd.Parameters.AddWithValue("@LastSaved", sqlFormattedDatetime);
+                cmd.Parameters.AddWithValue("@LastSavedById", ConnectUser.ConnectId);
+                cmd.Parameters.AddWithValue("@Priority", releaseLog.Priority);
+                cmd.Parameters.AddWithValue("@IsActive", Convert.ToInt32(releaseLog.IsActive));
+                cmd.Parameters.AddWithValue("@ConnectRelNo", releaseLog.ConnectRelNo);
+                cmd.Parameters.AddWithValue("@WorkOrder", releaseLog.WorkOrder);
+                cmd.Parameters.AddWithValue("@StatementType", nameof(CRUDStatementType.Update));
+
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    cmd.ExecuteScalar();
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Update Release Invoice", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    log.Error(ex.Message, ex);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+        }
+
         #endregion WorkOrderRelease
     }
 }

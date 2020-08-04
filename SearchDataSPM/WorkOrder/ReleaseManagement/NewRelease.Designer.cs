@@ -32,6 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NewRelease));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.AdminSelectionContainer = new System.Windows.Forms.SplitContainer();
+            this.notifyuser = new System.Windows.Forms.Button();
             this.submittedbylbl = new System.Windows.Forms.Label();
             this.checkedonlbl = new System.Windows.Forms.Label();
             this.checkedbylbl = new System.Windows.Forms.Label();
@@ -39,6 +40,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.CheckingUserscombobox = new System.Windows.Forms.ComboBox();
             this.approvedbylbl = new System.Windows.Forms.Label();
+            this.closebttn = new System.Windows.Forms.Button();
             this.releasedonlbl = new System.Windows.Forms.Label();
             this.releasedbylbl = new System.Windows.Forms.Label();
             this.approvedonlbl = new System.Windows.Forms.Label();
@@ -71,6 +73,8 @@
             this.itemoemitmlbl = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.logstxt = new System.Windows.Forms.TextBox();
+            this.sendlbl = new System.Windows.Forms.Label();
+            this.txtmsg = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.Createdon = new System.Windows.Forms.ToolStripStatusLabel();
@@ -129,6 +133,7 @@
             // 
             // AdminSelectionContainer.Panel1
             // 
+            this.AdminSelectionContainer.Panel1.Controls.Add(this.notifyuser);
             this.AdminSelectionContainer.Panel1.Controls.Add(this.submittedbylbl);
             this.AdminSelectionContainer.Panel1.Controls.Add(this.checkedonlbl);
             this.AdminSelectionContainer.Panel1.Controls.Add(this.checkedbylbl);
@@ -139,14 +144,35 @@
             // AdminSelectionContainer.Panel2
             // 
             this.AdminSelectionContainer.Panel2.Controls.Add(this.approvedbylbl);
+            this.AdminSelectionContainer.Panel2.Controls.Add(this.closebttn);
             this.AdminSelectionContainer.Panel2.Controls.Add(this.releasedonlbl);
             this.AdminSelectionContainer.Panel2.Controls.Add(this.releasedbylbl);
             this.AdminSelectionContainer.Panel2.Controls.Add(this.approvedonlbl);
             this.AdminSelectionContainer.Panel2.Controls.Add(this.label1);
             this.AdminSelectionContainer.Panel2.Controls.Add(this.ApprovingUserscomboBox);
             this.AdminSelectionContainer.Size = new System.Drawing.Size(466, 222);
-            this.AdminSelectionContainer.SplitterDistance = 225;
+            this.AdminSelectionContainer.SplitterDistance = 223;
             this.AdminSelectionContainer.TabIndex = 8;
+            // 
+            // notifyuser
+            // 
+            this.notifyuser.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.notifyuser.BackColor = System.Drawing.Color.Transparent;
+            this.notifyuser.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.notifyuser.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.notifyuser.ForeColor = System.Drawing.Color.White;
+            this.notifyuser.Image = ((System.Drawing.Image)(resources.GetObject("notifyuser.Image")));
+            this.notifyuser.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.notifyuser.Location = new System.Drawing.Point(64, 188);
+            this.notifyuser.Name = "notifyuser";
+            this.notifyuser.Size = new System.Drawing.Size(118, 27);
+            this.notifyuser.TabIndex = 129;
+            this.notifyuser.Text = "Notify User";
+            this.notifyuser.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.notifyuser.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.notifyuser.UseVisualStyleBackColor = false;
+            this.notifyuser.Visible = false;
+            this.notifyuser.Click += new System.EventHandler(this.Notifyuser_Click);
             // 
             // submittedbylbl
             // 
@@ -253,6 +279,26 @@
             this.approvedbylbl.TabIndex = 106;
             this.approvedbylbl.Text = "Approved By:";
             this.approvedbylbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // closebttn
+            // 
+            this.closebttn.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.closebttn.BackColor = System.Drawing.Color.Transparent;
+            this.closebttn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.closebttn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.closebttn.ForeColor = System.Drawing.Color.White;
+            this.closebttn.Image = ((System.Drawing.Image)(resources.GetObject("closebttn.Image")));
+            this.closebttn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.closebttn.Location = new System.Drawing.Point(78, 188);
+            this.closebttn.Name = "closebttn";
+            this.closebttn.Size = new System.Drawing.Size(96, 27);
+            this.closebttn.TabIndex = 127;
+            this.closebttn.Text = "Inactive";
+            this.closebttn.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.closebttn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.closebttn.UseVisualStyleBackColor = false;
+            this.closebttn.Visible = false;
+            this.closebttn.Click += new System.EventHandler(this.Closebttn_Click);
             // 
             // releasedonlbl
             // 
@@ -740,6 +786,8 @@
             // panel1
             // 
             this.panel1.Controls.Add(this.logstxt);
+            this.panel1.Controls.Add(this.sendlbl);
+            this.panel1.Controls.Add(this.txtmsg);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(5, 309);
@@ -757,8 +805,36 @@
             this.logstxt.Multiline = true;
             this.logstxt.Name = "logstxt";
             this.logstxt.ReadOnly = true;
-            this.logstxt.Size = new System.Drawing.Size(391, 198);
+            this.logstxt.Size = new System.Drawing.Size(391, 160);
             this.logstxt.TabIndex = 128;
+            // 
+            // sendlbl
+            // 
+            this.sendlbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.sendlbl.AutoSize = true;
+            this.sendlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.sendlbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.sendlbl.Location = new System.Drawing.Point(2, 181);
+            this.sendlbl.Name = "sendlbl";
+            this.sendlbl.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.sendlbl.Size = new System.Drawing.Size(48, 15);
+            this.sendlbl.TabIndex = 130;
+            this.sendlbl.Text = "Send :";
+            this.sendlbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.sendlbl.Visible = false;
+            // 
+            // txtmsg
+            // 
+            this.txtmsg.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtmsg.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtmsg.Location = new System.Drawing.Point(5, 198);
+            this.txtmsg.Name = "txtmsg";
+            this.txtmsg.Size = new System.Drawing.Size(391, 21);
+            this.txtmsg.TabIndex = 129;
+            this.txtmsg.Visible = false;
+            this.txtmsg.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Txtmsg_KeyDown);
             // 
             // label3
             // 
@@ -940,5 +1016,9 @@
         private System.Windows.Forms.Label approvedonlbl;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox ApprovingUserscomboBox;
+        private System.Windows.Forms.Button notifyuser;
+        private System.Windows.Forms.Button closebttn;
+        private System.Windows.Forms.Label sendlbl;
+        private System.Windows.Forms.TextBox txtmsg;
     }
 }
