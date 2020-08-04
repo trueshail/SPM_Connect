@@ -620,6 +620,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             this.Name = "ReleaseLog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SPM Connect - Release Logs";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SPM_Connect_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SPM_Connect_FormClosed);
             this.Load += new System.EventHandler(this.SPM_Connect_Load);

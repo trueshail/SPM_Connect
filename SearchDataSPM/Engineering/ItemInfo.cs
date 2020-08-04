@@ -14,7 +14,6 @@ namespace SearchDataSPM.Engineering
     {
         #region steupvariables
 
-        private readonly DataTable _acountsTb;
         private readonly DataTable _treeTB;
         private readonly SPMConnectAPI.SPMSQLCommands connectapi = new SPMConnectAPI.SPMSQLCommands();
         private readonly DataTable dt = new DataTable();
@@ -28,17 +27,12 @@ namespace SearchDataSPM.Engineering
 
         #endregion steupvariables
 
-        private bool pricerights;
-
-        private bool yesmanagement;
-
         public ItemInfo(string itemno = "")
         {
             InitializeComponent();
             PW = 515;
             hiden = true;
             SlidePanel.Width = 0;
-            _acountsTb = new DataTable();
             _treeTB = new DataTable();
             PO = new DataTable();
 
@@ -158,8 +152,7 @@ namespace SearchDataSPM.Engineering
             if (salepricetext.Text.Length > 0 && qtytxt.Text.Length > 0)
             {
                 string itemnumber = ItemTxtBox.Text;
-                string user = connectapi.ConnectUser.UserName;
-                string userfullname = Getuserfullname(user);
+                string userfullname = connectapi.ConnectUser.Name;
                 Createnewentry(itemnumber, userfullname);
                 Clearalltextboxes();
                 Showitemstogridview(itemnumber);
@@ -204,12 +197,12 @@ namespace SearchDataSPM.Engineering
         {
             if (checkBox1.Checked)
             {
-                this.Size = new Size(900, 750);
+                this.Size = new Size(970, 725);
                 dataGridView2.Visible = true;
             }
             else
             {
-                this.Size = new Size(900, 600);
+                this.Size = new Size(970, 570);
                 dataGridView2.Visible = false;
             }
         }
@@ -224,25 +217,15 @@ namespace SearchDataSPM.Engineering
                         connectapi.cn.Open();
 
                     int userCount = (int)sqlCommand.ExecuteScalar();
-                    if (userCount > 0)
+                    if (userCount <= 0)
                     {
-                        connectapi.cn.Close();
-                        Filldatatable(iteminfo2);
-                    }
-                    else
-                    {
-                        //SPM_Connect sPM_Connect = new SPM_Connect();
-                        //sPMSQLCommands.SPM_Connect();
                         connectapi.Addcpoieditemtosqltablefromgenius(iteminfo2, iteminfo2);
-                        Filldatatable(iteminfo2);
-                        //MessageBox.Show("Data not found on SPM Connect server.", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        //this.Close();
                     }
+                    connectapi.cn.Close();
+                    Filldatatable(iteminfo2);
                 }
                 catch (Exception ex)
                 {
-                    //MessageBox.Show("Not Licensed User", "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    //Application.Exit();
                     MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
@@ -254,125 +237,54 @@ namespace SearchDataSPM.Engineering
 
         private void CheckItemDependenciesRight()
         {
-            string useradmin = connectapi.ConnectUser.UserName;
-
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND ItemDependencies = '1'", connectapi.cn))
+            if (connectapi.ConnectUser.ItemDependencies)
             {
-                try
-                {
-                    if (connectapi.cn.State == ConnectionState.Closed)
-                        connectapi.cn.Open();
-                    sqlCommand.Parameters.AddWithValue("@username", useradmin);
-
-                    int userCount = (int)sqlCommand.ExecuteScalar();
-                    if (userCount == 1)
-                    {
-                        itemupdatetools.Visible = true;
-                        itemupdatetools.Enabled = true;
-                        treeView1.ContextMenuStrip = Addremovecontextmenu;
-                        treeView1.Size = yesmanagement ? new Size(491, 324) : new Size(524, 324);
-                        treeView1.AllowDrop = true;
-                    }
-                    else
-                    {
-                        itemupdatetools.Visible = false;
-                        itemupdatetools.Enabled = false;
-                        treeView1.ContextMenuStrip = null;
-                        treeView1.Size = yesmanagement ? new Size(491, 324) : new Size(524, 458);
-                        treeView1.AllowDrop = false;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    //Application.Exit();
-                }
-                finally
-                {
-                    connectapi.cn.Close();
-                }
+                itemupdatetools.Visible = true;
+                itemupdatetools.Enabled = true;
+                treeView1.ContextMenuStrip = Addremovecontextmenu;
+                treeView1.Size = new Size(413, 365);
+                treeView1.AllowDrop = true;
+            }
+            else
+            {
+                itemupdatetools.Visible = false;
+                itemupdatetools.Enabled = false;
+                treeView1.ContextMenuStrip = null;
+                treeView1.Size = new Size(treeView1.Size.Width, 502);
+                treeView1.AllowDrop = false;
             }
         }
 
         private void CheckManagement()
         {
-            string useradmin = connectapi.ConnectUser.UserName;
-
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND Management = '1'", connectapi.cn))
+            if (connectapi.ConnectUser.Management)
             {
-                try
-                {
-                    if (connectapi.cn.State == ConnectionState.Closed)
-                        connectapi.cn.Open();
-                    sqlCommand.Parameters.AddWithValue("@username", useradmin);
-
-                    int userCount = (int)sqlCommand.ExecuteScalar();
-                    if (userCount == 1)
-                    {
-                        panel1.Visible = true;
-                        yesmanagement = true;
-                        groupBox2.Size = new Size(505, 480);
-                        notestxt.Size = new Size(450, 55);
-
-                        //checkBox1.Visible = true;
-                    }
-                    else
-                    {
-                        panel1.Visible = false;
-                        yesmanagement = false;
-                        groupBox2.Size = new Size(538, 480);
-
-                        notestxt.Size = new Size(480, 55);
-                        //checkBox1.Visible = false;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    //Application.Exit();
-                }
-                finally
-                {
-                    connectapi.cn.Close();
-                }
+                panel1.Visible = true;
+                groupBox2.Size = new Size(406, 524);
+            }
+            else
+            {
+                groupBox2.Size = new Size(427, 524);
+                panel1.Visible = false;
             }
         }
 
         private void CheckPriceRights()
         {
-            string useradmin = connectapi.ConnectUser.UserName;
-
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT COUNT(*) FROM [SPM_Database].[dbo].[Users] WHERE UserName = @username AND PriceRight = '1'", connectapi.cn))
+            if (connectapi.ConnectUser.PriceRight)
             {
-                try
-                {
-                    if (connectapi.cn.State == ConnectionState.Closed)
-                        connectapi.cn.Open();
-                    sqlCommand.Parameters.AddWithValue("@username", useradmin);
+                LastCostLbl.Visible = true;
+                AvgCostLbl.Visible = true;
+                checkBox1.Visible = true;
+                locationsList.Size = new Size(170, 75);
+            }
+            else
+            {
+                LastCostLbl.Visible = false;
+                AvgCostLbl.Visible = false;
+                checkBox1.Visible = false;
+                locationsList.Size = new Size(170, 130);
 
-                    int userCount = (int)sqlCommand.ExecuteScalar();
-                    if (userCount == 1)
-                    {
-                        //panel1.Visible = true;
-                        pricerights = true;
-                        checkBox1.Visible = true;
-                    }
-                    else
-                    {
-                        //panel1.Visible = false;
-                        pricerights = false;
-                        checkBox1.Visible = false;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    // Application.Exit();
-                }
-                finally
-                {
-                    connectapi.cn.Close();
-                }
             }
         }
 
@@ -470,22 +382,14 @@ namespace SearchDataSPM.Engineering
 
         private void Filldatatable(string itemnumber)
         {
-            string sql = "SELECT *  FROM [SPM_Database].[dbo].[Inventory] WHERE [ItemNumber]='" + itemnumber + "'";
-            try
+            DataTable dt = connectapi.ShowIventoryItems(itemnumber);
+            if (dt.Rows.Count > 0)
             {
-                if (connectapi.cn.State == ConnectionState.Closed)
-                    connectapi.cn.Open();
-                SqlDataAdapter _adapter = new SqlDataAdapter(sql, connectapi.cn);
-                _adapter.Fill(_acountsTb);
-                Fillinfo();
-            }
-            catch (SqlException ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                connectapi.cn.Close();
+                Fillinfo(dt.Rows[0]);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    locationsList.Text += dr["Location"].ToString() + Environment.NewLine;
+                }
             }
         }
 
@@ -508,11 +412,10 @@ namespace SearchDataSPM.Engineering
             }
         }
 
-        private void Fillinfo()
+        private void Fillinfo(DataRow r)
         {
-            if (_acountsTb.Rows.Count > 0)
+            if (!r.IsNull(0))
             {
-                DataRow r = _acountsTb.Rows[0];
                 ItemTxtBox.Text = r["ItemNumber"].ToString();
                 Descriptiontxtbox.Text = r["Description"].ToString();
                 oemtxtbox.Text = r["Manufacturer"].ToString();
@@ -528,6 +431,15 @@ namespace SearchDataSPM.Engineering
                 dateeditxt.Text = r["LastEdited"].ToString();
                 Lastsavedtxtbox.Text = r["LastSavedBy"].ToString();
                 notestxt.Text = r["Notes"].ToString();
+                OnHandLbl.Text = "On Hand: " + r["OnHand"].ToString();
+                ReservedLbl.Text = "Reserved: " + r["Reserved"].ToString();
+                AvailableLbl.Text = "Available: " + r["Available"].ToString();
+                ProductionLbl.Text = "In Production: " + r["InProduction"].ToString();
+                OnOrderLbl.Text = "On Order: " + r["OnOrder"].ToString();
+                NetAvailableLbl.Text = "Net Available: " + r["NetQtyAvailable"].ToString();
+                //LocationLbl.Text = "Location: " + r["Location"].ToString();
+                LastCostLbl.Text = "Last Cost: $" + r["LastCost"].ToString();
+                AvgCostLbl.Text = "Average Cost: $" + r["AverageCost"].ToString();
             }
         }
 
@@ -569,35 +481,6 @@ namespace SearchDataSPM.Engineering
                 itmoemlbl.Text = "Manufacturer : " + r["Manufacturer"].ToString();
                 itemoemitmlbl.Text = "OEM Item No : " + r["ManufacturerItemNumber"].ToString();
             }
-        }
-
-        private string Getuserfullname(string username)
-        {
-            try
-            {
-                if (connectapi.cn.State == ConnectionState.Closed)
-                    connectapi.cn.Open();
-                SqlCommand cmd = connectapi.cn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM [SPM_Database].[dbo].[Users] WHERE [UserName]='" + username + "' ";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    return dr["Name"].ToString();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SPM Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                connectapi.cn.Close();
-            }
-            return null;
         }
 
         private void ItemInfo_FormClosed(object sender, FormClosedEventArgs e)
@@ -659,11 +542,11 @@ namespace SearchDataSPM.Engineering
             CheckManagement();
             CheckItemDependenciesRight();
             CheckPriceRights();
-            if (yesmanagement)
+            if (connectapi.ConnectUser.Management)
             {
                 Showitemstogridview(iteminfo2);
             }
-            if (pricerights)
+            if (connectapi.ConnectUser.PriceRight)
             {
                 SHOWITEMPRICE(iteminfo2);
             }
@@ -1310,5 +1193,9 @@ namespace SearchDataSPM.Engineering
         }
 
         #endregion search before addding item
+
+        private void InvGroupBox_Enter(object sender, EventArgs e)
+        {
+        }
     }
 }

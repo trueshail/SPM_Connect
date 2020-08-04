@@ -1001,7 +1001,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
                 woTreeview.ResetText();
                 woexpand.Checked = false;
 
-                DataRow[] dr = woTB.Select("AssyNo = '" + assyNumber + "'");
+                DataRow[] dr = woTB.Select("AssyNo LIKE '%" + assyNumber + "%'");
                 if (dr.Length > 0)
                 {
                     woroot.Text = "(" + dr[0]["Job"].ToString() + ") " + dr[0]["AssyNo"].ToString() + " - " + dr[0]["AssyDescription"].ToString();
@@ -1025,7 +1025,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
         {
             TreeNode childNode;
 
-            foreach (DataRow dr in woTB.Select("[AssyNo] = '" + parentId + "' AND [Woprec] = '" + wo + "'"))
+            foreach (DataRow dr in woTB.Select("[AssyNo] LIKE '%" + parentId + "%' AND [Woprec] = '" + wo + "'"))
             {
                 TreeNode t = new TreeNode();
 

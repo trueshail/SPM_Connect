@@ -45,6 +45,8 @@
             this.addToFavoritesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showFavoritesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeFromFavoritesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showDuplicatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showInventoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TreeViewToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.versionlabel = new System.Windows.Forms.Label();
             this.Reload = new System.Windows.Forms.Button();
@@ -116,6 +118,8 @@
             this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem11 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem12 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem13 = new System.Windows.Forms.ToolStripMenuItem();
             this.FormSelectorEng.SuspendLayout();
             this.Listviewcontextmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -142,10 +146,12 @@
             this.eModelViewerToolStripMenuItem1,
             this.addToFavoritesToolStripMenuItem,
             this.showFavoritesToolStripMenuItem,
-            this.removeFromFavoritesToolStripMenuItem});
+            this.removeFromFavoritesToolStripMenuItem,
+            this.showDuplicatesToolStripMenuItem,
+            this.showInventoryToolStripMenuItem});
             this.FormSelectorEng.Name = "contextMenuStrip1";
             this.FormSelectorEng.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.FormSelectorEng.Size = new System.Drawing.Size(199, 268);
+            this.FormSelectorEng.Size = new System.Drawing.Size(199, 312);
             this.FormSelectorEng.Opening += new System.ComponentModel.CancelEventHandler(this.FormSelector_Opening);
             // 
             // bOMToolStripMenuItem
@@ -281,6 +287,24 @@
             this.removeFromFavoritesToolStripMenuItem.Visible = false;
             this.removeFromFavoritesToolStripMenuItem.Click += new System.EventHandler(this.RemoveFromFavoritesToolStripMenuItem_Click);
             // 
+            // showDuplicatesToolStripMenuItem
+            // 
+            this.showDuplicatesToolStripMenuItem.Image = global::SearchDataSPM.Properties.Resources.icons8_clone_32;
+            this.showDuplicatesToolStripMenuItem.Name = "showDuplicatesToolStripMenuItem";
+            this.showDuplicatesToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.showDuplicatesToolStripMenuItem.Text = "Show Duplicates";
+            this.showDuplicatesToolStripMenuItem.ToolTipText = "Show items with similar manufacturer item number";
+            this.showDuplicatesToolStripMenuItem.Click += new System.EventHandler(this.ShowDuplicatesToolStripMenuItem_Click);
+            // 
+            // showInventoryToolStripMenuItem
+            // 
+            this.showInventoryToolStripMenuItem.Image = global::SearchDataSPM.Properties.Resources.icons8_warehouse_32;
+            this.showInventoryToolStripMenuItem.Name = "showInventoryToolStripMenuItem";
+            this.showInventoryToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.showInventoryToolStripMenuItem.Text = "Show Inventory";
+            this.showInventoryToolStripMenuItem.ToolTipText = "Show items resides in the crib";
+            this.showInventoryToolStripMenuItem.Click += new System.EventHandler(this.ShowInventoryToolStripMenuItem_Click);
+            // 
             // TreeViewToolTip
             // 
             this.TreeViewToolTip.AutoPopDelay = 4000;
@@ -339,7 +363,6 @@
             this.txtSearch.Size = new System.Drawing.Size(380, 25);
             this.txtSearch.TabIndex = 106;
             this.TreeViewToolTip.SetToolTip(this.txtSearch, "Enter Search Keyword.\r\n");
-            this.txtSearch.TextChanged += new System.EventHandler(this.TxtSearch_TextChanged);
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtSearch_KeyDown);
             // 
             // filter4
@@ -444,7 +467,7 @@
             this.Manufactureritemcomboxbox.FormattingEnabled = true;
             this.Manufactureritemcomboxbox.Location = new System.Drawing.Point(6, 376);
             this.Manufactureritemcomboxbox.Name = "Manufactureritemcomboxbox";
-            this.Manufactureritemcomboxbox.Size = new System.Drawing.Size(156, 21);
+            this.Manufactureritemcomboxbox.Size = new System.Drawing.Size(162, 21);
             this.Manufactureritemcomboxbox.TabIndex = 125;
             this.TreeViewToolTip.SetToolTip(this.Manufactureritemcomboxbox, "Filter by OEM item number");
             this.Manufactureritemcomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Manufactureritemcomboxbox_KeyDown);
@@ -461,7 +484,7 @@
             this.familycomboxbox.FormattingEnabled = true;
             this.familycomboxbox.Location = new System.Drawing.Point(6, 227);
             this.familycomboxbox.Name = "familycomboxbox";
-            this.familycomboxbox.Size = new System.Drawing.Size(156, 21);
+            this.familycomboxbox.Size = new System.Drawing.Size(162, 21);
             this.familycomboxbox.TabIndex = 123;
             this.TreeViewToolTip.SetToolTip(this.familycomboxbox, "Filter by family type");
             this.familycomboxbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Familycomboxbox_KeyDown);
@@ -478,7 +501,7 @@
             this.lastsavedbycombo.FormattingEnabled = true;
             this.lastsavedbycombo.Location = new System.Drawing.Point(6, 520);
             this.lastsavedbycombo.Name = "lastsavedbycombo";
-            this.lastsavedbycombo.Size = new System.Drawing.Size(156, 21);
+            this.lastsavedbycombo.Size = new System.Drawing.Size(162, 21);
             this.lastsavedbycombo.TabIndex = 127;
             this.TreeViewToolTip.SetToolTip(this.lastsavedbycombo, "Filter by last saved");
             this.lastsavedbycombo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Lastsavedbycombo_KeyDown);
@@ -498,7 +521,7 @@
             "SPM AUTOMATION (Canada) INC."});
             this.oemitemcombobox.Location = new System.Drawing.Point(6, 301);
             this.oemitemcombobox.Name = "oemitemcombobox";
-            this.oemitemcombobox.Size = new System.Drawing.Size(156, 21);
+            this.oemitemcombobox.Size = new System.Drawing.Size(162, 21);
             this.oemitemcombobox.TabIndex = 124;
             this.TreeViewToolTip.SetToolTip(this.oemitemcombobox, "Filter by manufacture");
             this.oemitemcombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Oemitemcombobox_KeyDown);
@@ -515,7 +538,7 @@
             this.ActiveCadblockcombobox.FormattingEnabled = true;
             this.ActiveCadblockcombobox.Location = new System.Drawing.Point(6, 601);
             this.ActiveCadblockcombobox.Name = "ActiveCadblockcombobox";
-            this.ActiveCadblockcombobox.Size = new System.Drawing.Size(156, 21);
+            this.ActiveCadblockcombobox.Size = new System.Drawing.Size(162, 21);
             this.ActiveCadblockcombobox.TabIndex = 128;
             this.TreeViewToolTip.SetToolTip(this.ActiveCadblockcombobox, "Filter by current cad block number");
             this.ActiveCadblockcombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ActiveCadblockcombobox_KeyDown);
@@ -536,7 +559,7 @@
             "Joel Goldsmith"});
             this.designedbycombobox.Location = new System.Drawing.Point(6, 150);
             this.designedbycombobox.Name = "designedbycombobox";
-            this.designedbycombobox.Size = new System.Drawing.Size(156, 21);
+            this.designedbycombobox.Size = new System.Drawing.Size(162, 21);
             this.designedbycombobox.TabIndex = 122;
             this.TreeViewToolTip.SetToolTip(this.designedbycombobox, "Filter Designed by");
             this.designedbycombobox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Designedbycombobox_KeyDown);
@@ -553,7 +576,7 @@
             this.MaterialcomboBox.FormattingEnabled = true;
             this.MaterialcomboBox.Location = new System.Drawing.Point(6, 447);
             this.MaterialcomboBox.Name = "MaterialcomboBox";
-            this.MaterialcomboBox.Size = new System.Drawing.Size(156, 21);
+            this.MaterialcomboBox.Size = new System.Drawing.Size(162, 21);
             this.MaterialcomboBox.TabIndex = 126;
             this.TreeViewToolTip.SetToolTip(this.MaterialcomboBox, "Filter by Material");
             this.MaterialcomboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MaterialcomboBox_KeyDown);
@@ -929,7 +952,6 @@
             this.dataGridView.SelectionChanged += new System.EventHandler(this.DataGridView_SelectionChanged);
             this.dataGridView.DragOver += new System.Windows.Forms.DragEventHandler(this.DataGridView_DragOver);
             this.dataGridView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DataGridView_KeyDown);
-            this.dataGridView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.DataGridView_MouseDoubleClick);
             this.dataGridView.MouseMove += new System.Windows.Forms.MouseEventHandler(this.DataGridView_MouseMove);
             // 
             // ItemNumber
@@ -1128,10 +1150,12 @@
             this.eModelViewerToolStripMenuItem,
             this.toolStripMenuItem9,
             this.toolStripMenuItem10,
-            this.toolStripMenuItem11});
+            this.toolStripMenuItem11,
+            this.toolStripMenuItem12,
+            this.toolStripMenuItem13});
             this.FormSelectorControls.Name = "contextMenuStrip1";
             this.FormSelectorControls.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.FormSelectorControls.Size = new System.Drawing.Size(199, 224);
+            this.FormSelectorControls.Size = new System.Drawing.Size(199, 268);
             this.FormSelectorControls.Opening += new System.ComponentModel.CancelEventHandler(this.FormSelectorControls_Opening);
             // 
             // addToCatalogToolStripMenuItem
@@ -1285,6 +1309,24 @@
             this.toolStripMenuItem11.Visible = false;
             this.toolStripMenuItem11.Click += new System.EventHandler(this.RemoveFromFavoritesToolStripMenuItem_Click);
             // 
+            // toolStripMenuItem12
+            // 
+            this.toolStripMenuItem12.Image = global::SearchDataSPM.Properties.Resources.icons8_clone_32;
+            this.toolStripMenuItem12.Name = "toolStripMenuItem12";
+            this.toolStripMenuItem12.Size = new System.Drawing.Size(198, 22);
+            this.toolStripMenuItem12.Text = "Show Duplicates";
+            this.toolStripMenuItem12.ToolTipText = "Show items with similar manufacturer item number";
+            this.toolStripMenuItem12.Click += new System.EventHandler(this.ShowDuplicatesToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem13
+            // 
+            this.toolStripMenuItem13.Image = global::SearchDataSPM.Properties.Resources.icons8_warehouse_32;
+            this.toolStripMenuItem13.Name = "toolStripMenuItem13";
+            this.toolStripMenuItem13.Size = new System.Drawing.Size(198, 22);
+            this.toolStripMenuItem13.Text = "Show Inventory";
+            this.toolStripMenuItem13.ToolTipText = "Show items resides in the crib";
+            this.toolStripMenuItem13.Click += new System.EventHandler(this.ShowInventoryToolStripMenuItem_Click);
+            // 
             // SpmConnect
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1407,6 +1449,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Family;
         private System.Windows.Forms.DataGridViewTextBoxColumn Manufacturer;
         private System.Windows.Forms.DataGridViewTextBoxColumn ManufacturerItemNumber;
+        private System.Windows.Forms.ToolStripMenuItem showDuplicatesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showInventoryToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem12;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem13;
 
 
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member 'SPM_Connect.txtSearch'

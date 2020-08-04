@@ -1,7 +1,11 @@
-﻿using System;
+﻿using SearchDataSPM.Helper;
+using SPMConnectAPI;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace SearchDataSPM.WorkOrder.ReleaseManagement
@@ -47,7 +51,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             prioritycombobox.ValueMember = "Value";
             prioritycombobox.DisplayMember = "Text";
             GetReleaseInfo(releaseNo);
-
+            ViewAdvanceFeatures();
             // Resume the layout logic
             this.ResumeLayout();
         }
@@ -128,6 +132,19 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
                 }
             }
         }
+
+        private void LogWrite(string commentby, string msg, DateTime datetime)
+        {
+            logstxt.Invoke((MethodInvoker)delegate
+            {
+                if (logstxt.Text.Length > 0)
+                {
+                    logstxt.AppendText(Environment.NewLine);
+                }
+                logstxt.AppendText("(" + commentby.Split(' ')[0] + ") " + datetime.TimeAgo() + " - " + msg);
+            });
+        }
+
 
         #region Filling up Comboxes
 
@@ -495,8 +512,120 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
         private void NewRelease_FormClosing(object sender, FormClosingEventArgs e)
         {
         }
-    }
 
+        private void Notifyuser_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Have you specified the valid reasons in the comments section in order for the user to process changes?", "SPM Connect - Notify for Changes",
+              MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+            if (result == DialogResult.Yes)
+            {
+                TakeScreenShot();
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        private void TakeScreenShot()
+        {
+            Thread.Sleep(500);
+            try
+            {
+                Rectangle bounds = this.Bounds;
+                using (Bitmap bitmap = new Bitmap(bounds.Width, bounds.Height))
+                {
+                    using (Graphics g = Graphics.FromImage(bitmap))
+                    {
+                        g.CopyFromScreen(new Point(bounds.Left, bounds.Top), Point.Empty, bounds.Size);
+                    }
+                    const string filepath = @"c:\Temp\screenshot.jpg";
+
+                    if (!Directory.Exists(@"c:\Temp"))
+                    {
+                        Directory.CreateDirectory(@"c:\Temp");
+                    }
+                    if (File.Exists(filepath))
+                    {
+                        File.Delete(filepath);
+                    }
+                    ApplicationSettings.ScreenshotLocation = filepath;
+                    bitmap.Save(filepath, System.Drawing.Imaging.ImageFormat.Jpeg);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unable to capture the comments for the release. Pleas notify the user for the changes required." + Environment.NewLine
+                    + " Error Message : " + ex.Message, "SPM Connect Comments", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                log.Error(ex.Message);
+            }
+
+            releaseModule.UpdateReleaseInvoice(rlog);
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
+        }
+
+        private void Closebttn_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Are you sure want to mark this release inactive? " +
+               "Marking a release inactive removes from the system and cannot be restored.", "SPM Connect - Inactive Release",
+               MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+            if (result == DialogResult.Yes)
+            {
+                rlog.IsActive = false;
+                closebttn.Enabled = false;
+                releaseModule.UpdateReleaseInvoice(rlog);
+                this.DialogResult = DialogResult.Abort;
+                this.Close();
+            }
+        }
+
+        private void Txtmsg_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                if (txtmsg.Text.Length > 0)
+                {
+                    string msg = txtmsg.Text.Trim();
+                    ReleaseComment comment = new ReleaseComment
+                    {
+                        RelNo = rlog.RelNo,
+                        Comment = msg,
+                        CommentBy = releaseModule.ConnectUser.Name
+                    };
+                    releaseModule.AddReleaseComment(comment);
+                    txtmsg.Clear();
+                    LogWrite(comment.CommentBy, msg, DateTime.Now);
+                }
+            }
+        }
+
+        private void ViewAdvanceFeatures()
+        {
+            if (rlog.SubmittedTo == releaseModule.ConnectUser.ConnectId || releaseModule.ConnectUser.ApproveDrawing || releaseModule.ConnectUser.ReleasePackage)
+            {
+                if (rlog.IsSubmitted)
+                {
+                    // notifyuser.Visible = true;
+                }
+                if ((releaseModule.ConnectUser.ReleasePackage || releaseModule.ConnectUser.ApproveDrawing) && rlog.IsChecked)
+                {
+                    // closebttn.Visible = true;
+                }
+
+                txtmsg.Visible = true;
+                sendlbl.Visible = true;
+                logstxt.Size = new Size(391, 160);
+
+            }
+            else
+            {
+                logstxt.Size = new Size(391, 200);
+            }
+        }
+    }
     public class ComboBoxItem
     {
         public int Value { get; set; }

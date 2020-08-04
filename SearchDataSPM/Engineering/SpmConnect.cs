@@ -31,18 +31,22 @@ namespace SearchDataSPM.Engineering
     {
         #region SPM Connect Load
 
+        public enum ModuleShowing
+        {
+            Items,
+            Inventory,
+            Favorites,
+            Duplicates
+        }
+
+        private ModuleShowing moduleShowing;
         private log4net.ILog log;
         private DataTable dt;
         private bool formloading;
-        private bool eng;
-        private bool production;
-        private bool controls;
         private int _advcollapse;
-        private bool showingduplicates;
         private bool doneshowingSplash;
-        private bool showingfavorites;
         private readonly SPMSQLCommands connectapi = new SPMSQLCommands();
-        public const int MaxSearchHistory = 25;
+        public const int MaxSearchHistory = 30;
         private readonly SPMConnectAPI.Controls connectapicntrls = new SPMConnectAPI.Controls();
         private readonly AutoCompleteStringCollection SearchCollection = new AutoCompleteStringCollection();
 
@@ -81,7 +85,6 @@ namespace SearchDataSPM.Engineering
         {
             if (connectapi.ConnectUser.Dept == Department.Controls)
             {
-                controls = true;
                 listView.ContextMenuStrip = Listviewcontextmenu;
                 Listviewcontextmenu.Items[3].Enabled = false;
                 Listviewcontextmenu.Items[3].Visible = false;
@@ -106,7 +109,6 @@ namespace SearchDataSPM.Engineering
                 getnewitembttn.Enabled = true;
                 this.Text = "SPM Connect Engineering - " + connectapi.ConnectUser.Name;
                 connectapi.CheckinApp("SPM Connect " + connectapi.ConnectUser.Dept);
-                eng = true;
             }
             else
             {
@@ -124,7 +126,6 @@ namespace SearchDataSPM.Engineering
                 FormSelectorEng.Items[5].Visible = false;
                 this.Text = "SPM Connect " + connectapi.ConnectUser.Dept + " - " + connectapi.ConnectUser.Name;
                 connectapi.CheckinApp("SPM Connect " + connectapi.ConnectUser.Dept);
-                production = true;
             }
 
             if (connectapi.ConnectUser.Admin)
@@ -193,28 +194,10 @@ namespace SearchDataSPM.Engineering
             dataGridView.DataSource = dt;
             _ = dt.DefaultView;
             //dataGridView.Sort(itemNumberDataGridViewTextBoxColumn, ListSortDirection.Descending);
-            dataGridView.Sort(dataGridView.Columns[0], ListSortDirection.Descending);
-            dataGridView.Columns[5].Visible = false;
-            dataGridView.Columns[6].Visible = false;
-            dataGridView.Columns[7].Visible = false;
-            dataGridView.Columns[8].Visible = false;
-            dataGridView.Columns[9].Visible = false;
-            dataGridView.Columns[10].Visible = false;
-            dataGridView.Columns[11].Visible = false;
-            dataGridView.Columns[12].Visible = false;
-            dataGridView.Columns[13].Visible = false;
-            dataGridView.Columns[14].Visible = false;
-            dataGridView.Columns[15].Visible = false;
-            dataGridView.Columns[16].Visible = false;
-            dataGridView.Columns[0].Width = 80;
-            dataGridView.Columns[2].Width = 60;
-            dataGridView.Columns[1].Width = 300;
-            dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridView.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridView.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            //dataGridView.Sort(dataGridView.Columns[0], ListSortDirection.Descending);
+            ShowReqCols();
             UpdateFont();
-            showingfavorites = false;
-            showingduplicates = false;
+            moduleShowing = ModuleShowing.Items;
         }
 
         private void Reload_Click(object sender, EventArgs e)
@@ -230,8 +213,7 @@ namespace SearchDataSPM.Engineering
             txtSearch.Focus();
             SendKeys.Send("~");
             dataGridView.Refresh();
-            showingfavorites = false;
-            showingduplicates = false;
+            moduleShowing = ModuleShowing.Items;
         }
 
         private void UpdateFont()
@@ -343,19 +325,24 @@ namespace SearchDataSPM.Engineering
                 {
                     Clearandhide();
                 }
-                if (!showingfavorites && !showingduplicates)
+                if (moduleShowing == ModuleShowing.Items)
                 {
                     if (string.IsNullOrEmpty(designedbycombobox.Text) && string.IsNullOrEmpty(lastsavedbycombo.Text) && string.IsNullOrEmpty(familycomboxbox.Text) && string.IsNullOrEmpty(Manufactureritemcomboxbox.Text) && string.IsNullOrEmpty(oemitemcombobox.Text) && string.IsNullOrEmpty(ActiveCadblockcombobox.Text) && string.IsNullOrEmpty(MaterialcomboBox.Text) && txtSearch.Text.Length == 0)
                     {
                         Showallitems();
                     }
                 }
-                else if (showingfavorites && !showingduplicates)
+                else if (moduleShowing == ModuleShowing.Favorites)
                 {
                     Showfavorites();
                     txtSearch.Text = searchtexttxt;
                 }
-                else
+                else if (moduleShowing == ModuleShowing.Inventory)
+                {
+                    ShowInventoryItems();
+                    txtSearch.Text = searchtexttxt;
+                }
+                else if (moduleShowing == ModuleShowing.Duplicates)
                 {
                     Showduplicates();
                     txtSearch.Text = searchtexttxt;
@@ -433,29 +420,53 @@ namespace SearchDataSPM.Engineering
         {
             formloading = true;
             string search1 = txtSearch.Text;
-            if (search1.Length > 3)
+            if (moduleShowing == ModuleShowing.Items)
             {
-                if (Char.IsLetter(search1.FirstOrDefault()) && search1.Substring(3, 1) == "%")
+                if (search1.Length > 3)
                 {
-                    try
+                    if (Char.IsLetter(search1.FirstOrDefault()) && search1.Substring(3, 1) == "%")
                     {
-                        search1 = search1.Replace("'", "''");
-                        search1 = search1.Replace("[", "[[]");
-                        const string fullsearch1 = "ItemNumber LIKE '%{0}%'";
-                        string s = string.Format(fullsearch1, search1);
-                        table0 = connectapi.ShowFilterallitems(s, true);
-                        dataGridView.DataSource = table0;
-                        dataGridView.Update();
-                        SearchStringPosition();
-                        Searchtext(txtSearch.Text.Substring(0, txtSearch.Text.Length - 1));
-                        dataGridView.Refresh();
-                        recordlabel.Text = "Found " + table0.Rows.Count.ToString() + " Matching Items.";
+                        try
+                        {
+                            search1 = search1.Replace("'", "''");
+                            search1 = search1.Replace("[", "[[]");
+                            const string fullsearch1 = "ItemNumber LIKE '%{0}%'";
+                            string s = string.Format(fullsearch1, search1);
+                            table0 = connectapi.ShowFilterallitems(s, true);
+                            dataGridView.DataSource = table0;
+                            dataGridView.Update();
+                            SearchStringPosition();
+                            Searchtext(txtSearch.Text.Substring(0, txtSearch.Text.Length - 1));
+                            dataGridView.Refresh();
+                            recordlabel.Text = "Found " + table0.Rows.Count.ToString() + " Matching Items.";
+                        }
+                        catch (Exception)
+                        {
+                            MessageBox.Show("Invalid Search Criteria Operator.", "SPM Connect - Search1");
+                            txtSearch.Clear();
+                            SendKeys.Send("~");
+                        }
                     }
-                    catch (Exception)
+                    else
                     {
-                        MessageBox.Show("Invalid Search Criteria Operator.", "SPM Connect - Search1");
-                        txtSearch.Clear();
-                        SendKeys.Send("~");
+                        try
+                        {
+                            search1 = search1.Replace("'", "''");
+                            search1 = search1.Replace("[", "[[]");
+                            table0 = connectapi.ShowFilterallitems(search1, false);
+                            dataGridView.DataSource = table0;
+                            dataGridView.Update();
+                            SearchStringPosition();
+                            Searchtext(search1);
+                            dataGridView.Refresh();
+                            recordlabel.Text = "Found " + table0.Rows.Count.ToString() + " Matching Items.";
+                        }
+                        catch (Exception)
+                        {
+                            MessageBox.Show("Invalid Search Criteria Operator.", "SPM Connect - Search1");
+                            txtSearch.Clear();
+                            SendKeys.Send("~");
+                        }
                     }
                 }
                 else
@@ -473,6 +484,7 @@ namespace SearchDataSPM.Engineering
                         recordlabel.Text = "Found " + table0.Rows.Count.ToString() + " Matching Items.";
                     }
                     catch (Exception)
+
                     {
                         MessageBox.Show("Invalid Search Criteria Operator.", "SPM Connect - Search1");
                         txtSearch.Clear();
@@ -482,11 +494,15 @@ namespace SearchDataSPM.Engineering
             }
             else
             {
+                DataView dv = (dataGridView.DataSource as DataTable)?.DefaultView;
+                dt = dv.ToTable();
                 try
                 {
                     search1 = search1.Replace("'", "''");
                     search1 = search1.Replace("[", "[[]");
-                    table0 = connectapi.ShowFilterallitems(search1, false);
+                    dv.RowFilter = string.Format(fullsearch, search1);
+
+                    table0 = dv.ToTable();
                     dataGridView.DataSource = table0;
                     dataGridView.Update();
                     SearchStringPosition();
@@ -502,6 +518,7 @@ namespace SearchDataSPM.Engineering
                     SendKeys.Send("~");
                 }
             }
+
             AddNewSearchHistory(txtSearch.Text);
             formloading = false;
         }
@@ -732,7 +749,7 @@ namespace SearchDataSPM.Engineering
 
             if (dataGridView.SelectedCells.Count == 1 && c == "0")
             {
-                if (controls)
+                if (connectapi.ConnectUser.Dept == Department.Controls)
                 {
                     GetRowInfo();
                 }
@@ -775,11 +792,11 @@ namespace SearchDataSPM.Engineering
             string Item = Convert.ToString(slectedrow.Cells[0].Value);
             //MessageBox.Show(ItemNo);
             //  checkforprocess();
-            if (production)
+            if (connectapi.ConnectUser.Dept == Department.Production)
             {
                 connectapi.Checkforspmfileprod(Item);
             }
-            else if (eng)
+            else if (connectapi.ConnectUser.Dept == Department.Eng)
             {
                 connectapi.Checkforspmfile(Item);
             }
@@ -792,11 +809,11 @@ namespace SearchDataSPM.Engineering
             string item = Convert.ToString(slectedrow.Cells[0].Value);
             //MessageBox.Show(str);
             // checkforprocess();
-            if (production)
+            if (connectapi.ConnectUser.Dept == Department.Production)
             {
                 connectapi.Checkforspmdrwfileprod(item);
             }
-            else if (eng)
+            else if (connectapi.ConnectUser.Dept == Department.Eng)
             {
                 connectapi.Checkforspmdrwfile(item);
             }
@@ -830,7 +847,7 @@ namespace SearchDataSPM.Engineering
         private void Openjobmodule()
         {
             SPM_ConnectJobs sPM_ConnectJobs = new SPM_ConnectJobs();
-            sPM_ConnectJobs.Show(this);
+            sPM_ConnectJobs.Show();
         }
 
         private void DataGridView_KeyDown(object sender, KeyEventArgs e)
@@ -1169,7 +1186,7 @@ namespace SearchDataSPM.Engineering
             }
             if (keyData == (Keys.Alt | Keys.F))
             {
-                if (showingfavorites)
+                if (moduleShowing == ModuleShowing.Favorites)
                 {
                     Performreload();
                 }
@@ -1250,11 +1267,13 @@ namespace SearchDataSPM.Engineering
                     try
                     {
                         string sDocFileName = item;
-                        wpfThumbnailCreator pvf = new wpfThumbnailCreator();
-                        pvf.DesiredSize = new Size
+                        wpfThumbnailCreator pvf = new wpfThumbnailCreator
                         {
-                            Width = 256,
-                            Height = 256
+                            DesiredSize = new Size
+                            {
+                                Width = 256,
+                                Height = 256
+                            }
                         };
                         System.Drawing.Bitmap pic = pvf.GetThumbNail(sDocFileName);
                         imageList.Images.Add(pic);
@@ -2135,7 +2154,7 @@ namespace SearchDataSPM.Engineering
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                if (showingfavorites)
+                if (moduleShowing == ModuleShowing.Favorites)
                 {
                     FormSelectorEng.Items[11].Enabled = true;
                     FormSelectorEng.Items[11].Visible = true;
@@ -2760,7 +2779,7 @@ namespace SearchDataSPM.Engineering
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                if (showingfavorites)
+                if (moduleShowing == ModuleShowing.Favorites)
                 {
                     FormSelectorControls.Items[9].Enabled = true;
                     FormSelectorControls.Items[9].Visible = true;
@@ -2827,29 +2846,9 @@ namespace SearchDataSPM.Engineering
             dt = connectapi.ShowFavorites();
             dataGridView.DataSource = dt;
             _ = dt.DefaultView;
-            dataGridView.Sort(dataGridView.Columns[0], ListSortDirection.Descending);
-            dataGridView.Columns[5].Visible = false;
-            dataGridView.Columns[6].Visible = false;
-            dataGridView.Columns[7].Visible = false;
-            dataGridView.Columns[8].Visible = false;
-            dataGridView.Columns[9].Visible = false;
-            dataGridView.Columns[10].Visible = false;
-            dataGridView.Columns[11].Visible = false;
-            dataGridView.Columns[12].Visible = false;
-            dataGridView.Columns[13].Visible = false;
-            dataGridView.Columns[14].Visible = false;
-            dataGridView.Columns[15].Visible = false;
-            dataGridView.Columns[16].Visible = false;
-            dataGridView.Columns[17].Visible = false;
-            dataGridView.Columns[0].Width = 60;
-            dataGridView.Columns[2].Width = 55;
-            dataGridView.Columns[1].Width = 300;
-            dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridView.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridView.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-
+            ShowReqCols();
             UpdateFont();
-            showingfavorites = true;
+            moduleShowing = ModuleShowing.Favorites;
             recordlabel.Text = "Showing " + dataGridView.Rows.Count + " favorite items.";
         }
 
@@ -2920,13 +2919,41 @@ namespace SearchDataSPM.Engineering
             dt = connectapi.ShowDuplicates();
             dataGridView.DataSource = dt;
             _ = dt.DefaultView;
+            ShowReqCols();
             UpdateFont();
-            showingduplicates = true;
+            moduleShowing = ModuleShowing.Duplicates;
             recordlabel.Text = "Showing " + dataGridView.Rows.Count + " duplicate items.";
         }
 
-        private void DataGridView_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void ShowInventoryItems()
         {
+            Clearandhide();
+            txtSearch.Clear();
+            txtSearch.Focus();
+            dt.Clear();
+            dt = connectapi.ShowIventoryItems(null);
+            dataGridView.DataSource = dt;
+            _ = dt.DefaultView;
+            ShowReqCols();
+            UpdateFont();
+            moduleShowing = ModuleShowing.Inventory;
+            recordlabel.Text = "Showing " + dataGridView.Rows.Count + " inventory items.";
+        }
+
+        private void ShowReqCols()
+        {
+            dataGridView.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
+            dataGridView.Columns["ItemNumber"].Visible = true;
+            dataGridView.Columns["Family"].Visible = true;
+            dataGridView.Columns["Description"].Visible = true;
+            dataGridView.Columns["Manufacturer"].Visible = true;
+            dataGridView.Columns["ManufacturerItemNumber"].Visible = true;
+            dataGridView.Columns["ItemNumber"].Width = 80;
+            dataGridView.Columns["Family"].Width = 60;
+            dataGridView.Columns["Description"].Width = 300;
+            dataGridView.Columns["Description"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridView.Columns["Manufacturer"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridView.Columns["ManufacturerItemNumber"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
         }
 
         private void DataGridView_MouseMove(object sender, MouseEventArgs e)
@@ -2963,10 +2990,6 @@ namespace SearchDataSPM.Engineering
         private void ListView_DragOver(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.All;
-        }
-
-        private void TxtSearch_TextChanged(object sender, EventArgs e)
-        {
         }
 
         private AutoCompleteStringCollection InitializeSearchHistory()
@@ -3021,6 +3044,16 @@ namespace SearchDataSPM.Engineering
             Properties.Settings.Default.SearchHistory.Insert(0, search);
             SearchCollection.Add(search);
             Properties.Settings.Default.Save();
+        }
+
+        private void ShowInventoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowInventoryItems();
+        }
+
+        private void ShowDuplicatesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Showduplicates();
         }
     }
 }

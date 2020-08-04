@@ -57,15 +57,13 @@ namespace SPMConnectAPI
         public DataTable Showallitems()
         {
             DataTable dt = new DataTable();
-
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[Inventory] ORDER BY ItemNumber DESC", cn))
+            using (SqlDataAdapter sda = new SqlDataAdapter("[dbo].[GetAllItems]", cn))
             {
+                sda.SelectCommand.CommandType = CommandType.StoredProcedure;
                 try
                 {
                     if (cn.State == ConnectionState.Closed)
                         cn.Open();
-
-                    dt.Clear();
                     sda.Fill(dt);
                 }
                 catch (Exception ex)
@@ -109,20 +107,17 @@ namespace SPMConnectAPI
         public DataTable ShowFavorites()
         {
             DataTable dt = new DataTable();
-
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[SPMConnectFavorites] where UserName like'%" + ConnectUser.UserName + "%'", cn))
+            using (SqlDataAdapter sda = new SqlDataAdapter("[dbo].[GetFavorites]", cn))
             {
+                sda.SelectCommand.CommandType = CommandType.StoredProcedure;
+                sda.SelectCommand.Parameters.AddWithValue("@UserName", ConnectUser.UserName);
                 try
                 {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-
-                    dt.Clear();
                     sda.Fill(dt);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "SPM Connect - Show all items Inventory", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Favorites for User " + ConnectUser.UserName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -135,15 +130,13 @@ namespace SPMConnectAPI
         public DataTable ShowDuplicates()
         {
             DataTable dt = new DataTable();
-
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[ManufactureItemDuplicatesView]", cn))
+            using (SqlDataAdapter sda = new SqlDataAdapter("[dbo].[GetDuplicateItems]", cn))
             {
+                sda.SelectCommand.CommandType = CommandType.StoredProcedure;
                 try
                 {
                     if (cn.State == ConnectionState.Closed)
                         cn.Open();
-
-                    dt.Clear();
                     sda.Fill(dt);
                 }
                 catch (Exception ex)
@@ -158,23 +151,30 @@ namespace SPMConnectAPI
             return dt;
         }
 
-        public DataTable ShowAllParameters()
+        public DataTable ShowIventoryItems(string itemNo)
         {
             DataTable dt = new DataTable();
-
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [SPM_Database].[dbo].[ConnectParamaters] ORDER BY Id ", cn))
+            using (SqlDataAdapter sda = new SqlDataAdapter("[dbo].[GetInventoryStock]", cn))
             {
+                sda.SelectCommand.CommandType = CommandType.StoredProcedure;
+                if (!string.IsNullOrEmpty(itemNo))
+                {
+                    sda.SelectCommand.Parameters.AddWithValue("@ShowAll", 1);
+                    sda.SelectCommand.Parameters.AddWithValue("@ItemNo", itemNo);
+                }
+                else
+                {
+                    sda.SelectCommand.Parameters.AddWithValue("@ShowAll", 0);
+                }
                 try
                 {
                     if (cn.State == ConnectionState.Closed)
                         cn.Open();
-
-                    dt.Clear();
                     sda.Fill(dt);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "SPM Connect - Show all Parameters", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "SPM Connect - Show Inventory Items", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -434,7 +434,6 @@ namespace SPMConnectAPI
         }
 
         #region GetNewItemNumber or copy items
-
         public string Getlastnumber()
         {
             string blocknumber = ConnectUser.ActiveBlockNumber;
