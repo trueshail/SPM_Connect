@@ -78,6 +78,34 @@ namespace SPMConnectAPI
             return dt;
         }
 
+        public DataTable GetItemInfo(String itemNo)
+        {
+            DataTable dt = new DataTable();
+            using (SqlDataAdapter sda = new SqlDataAdapter("[dbo].[GetItemInfo]", cn))
+            {
+                sda.SelectCommand.CommandType = CommandType.StoredProcedure;
+                if (!string.IsNullOrEmpty(itemNo))
+                {
+                    sda.SelectCommand.Parameters.AddWithValue("@itemno", itemNo);
+                }
+                try
+                {
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    sda.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect - Get Item Information", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return dt;
+        }
+
         public DataTable ShowFilterallitems(string filter, bool wherecond)
         {
             DataTable dt = new DataTable();
@@ -434,6 +462,7 @@ namespace SPMConnectAPI
         }
 
         #region GetNewItemNumber or copy items
+
         public string Getlastnumber()
         {
             string blocknumber = ConnectUser.ActiveBlockNumber;
