@@ -2934,9 +2934,9 @@ namespace SearchDataSPM.Engineering
             dt = connectapi.ShowIventoryItems(null);
             dataGridView.DataSource = dt;
             _ = dt.DefaultView;
+            moduleShowing = ModuleShowing.Inventory;
             ShowReqCols();
             UpdateFont();
-            moduleShowing = ModuleShowing.Inventory;
             recordlabel.Text = "Showing " + dataGridView.Rows.Count + " inventory items.";
         }
 
@@ -2948,8 +2948,16 @@ namespace SearchDataSPM.Engineering
             dataGridView.Columns["Description"].Visible = true;
             dataGridView.Columns["Manufacturer"].Visible = true;
             dataGridView.Columns["ManufacturerItemNumber"].Visible = true;
+            if (moduleShowing == ModuleShowing.Inventory)
+            {
+                dataGridView.Columns["OnHand"].Visible = true;
+                dataGridView.Columns["OnHand"].DisplayIndex = 2;
+                dataGridView.Columns["OnHand"].Width = 60;
+                dataGridView.Columns["OnHand"].HeaderText = "Qty";
+            }
+
             dataGridView.Columns["ItemNumber"].Width = 80;
-            dataGridView.Columns["Family"].Width = 60;
+            dataGridView.Columns["Family"].Width = 65;
             dataGridView.Columns["Description"].Width = 300;
             dataGridView.Columns["Description"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dataGridView.Columns["Manufacturer"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
