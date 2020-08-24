@@ -75,8 +75,9 @@ namespace SearchDataSPM.Purchasing
                     {
                         if (connectapi.InsertShippingItems(Invoice_Number, "", Descriptiontxtbox.Text.Trim(), oemtxt.Text.Trim(), oemitemnotxt.Text.Trim(), origintxt.Text.Trim(), tarifftxt.Text.Trim(), qtytxt.Text.Trim(), result12, result11))
                         {
-                            perfromcancel();
+                            Perfromcancel();
                             ItemTxtBox.Text = "New item id will be generated on save";
+                            ItemTxtBox.Enabled = false;
                         }
                     }
                     else
@@ -90,7 +91,7 @@ namespace SearchDataSPM.Purchasing
 
                                 if (connectapi.UpdateShippingItems(Invoice_Number, ItemTxtBox.Text.Trim(), Descriptiontxtbox.Text.Trim(), oemtxt.Text.Trim(), oemitemnotxt.Text.Trim(), origintxt.Text.Trim(), tarifftxt.Text.Trim(), qty.ToString(), result12, calculatetotal(qty)))
                                 {
-                                    perfromcancel();
+                                    Perfromcancel();
                                 }
                             }
                         }
@@ -100,15 +101,16 @@ namespace SearchDataSPM.Purchasing
                             {
                                 if (connectapi.InsertShippingItems(Invoice_Number, ItemTxtBox.Text.Trim(), Descriptiontxtbox.Text.Trim(), oemtxt.Text.Trim(), oemitemnotxt.Text.Trim(), origintxt.Text.Trim(), tarifftxt.Text.Trim(), qtytxt.Text.Trim(), result12, result11))
                                 {
-                                    perfromcancel();
+                                    Perfromcancel();
                                 }
                             }
                             else
                             {
                                 if (connectapi.InsertShippingItems(Invoice_Number, "", Descriptiontxtbox.Text.Trim(), oemtxt.Text.Trim(), oemitemnotxt.Text.Trim(), origintxt.Text.Trim(), tarifftxt.Text.Trim(), qtytxt.Text.Trim(), result12, result11))
                                 {
-                                    perfromcancel();
+                                    Perfromcancel();
                                     ItemTxtBox.Text = "New item id will be generated on save";
+                                    ItemTxtBox.Enabled = false;
                                 }
                             }
                         }
@@ -140,7 +142,7 @@ namespace SearchDataSPM.Purchasing
         private void BtnCancel_Click(object sender, EventArgs e)
         {
             if (_operation == "Update") this.Close();
-            else perfromcancel();
+            else Perfromcancel();
         }
 
         private void Cleantextboxesdata()
@@ -172,6 +174,7 @@ namespace SearchDataSPM.Purchasing
             if (custvendor == "1")
             {
                 ItemTxtBox.Text = "New item id will be generated on save";
+                ItemTxtBox.Enabled = false;
             }
         }
 
@@ -224,7 +227,7 @@ namespace SearchDataSPM.Purchasing
                 {
                     Clearaddnewtextboxes();
                     string item = ItemsCombobox.Text.Trim().Substring(0, 6);
-                    if (fillselectediteminfo(item))
+                    if (Fillselectediteminfo(item))
                     {
                         FillOriginTarriff(item);
                         Addnewbttn.Enabled = true;
@@ -243,7 +246,7 @@ namespace SearchDataSPM.Purchasing
             {
                 Clearaddnewtextboxes();
                 string item = ItemsCombobox.Text.Trim().Substring(0, 6);
-                if (fillselectediteminfo(item))
+                if (Fillselectediteminfo(item))
                 {
                     FillOriginTarriff(item);
                     Addnewbttn.Enabled = true;
@@ -291,17 +294,18 @@ namespace SearchDataSPM.Purchasing
             }
         }
 
-        private void perfromcancel()
+        private void Perfromcancel()
         {
             Clearaddnewtextboxes();
             ItemsCombobox.Text = null;
             if (!showspmchk.Checked)
             {
                 ItemTxtBox.Text = "New item id will be generated on save";
+                ItemTxtBox.Enabled = false;
             }
         }
 
-        private void pricetxt_KeyDown(object sender, KeyEventArgs e)
+        private void Pricetxt_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -311,7 +315,7 @@ namespace SearchDataSPM.Purchasing
             }
         }
 
-        private void pricetxt_TextChanged(object sender, EventArgs e)
+        private void Pricetxt_TextChanged(object sender, EventArgs e)
         {
             if (dontstop)
             {
@@ -321,10 +325,10 @@ namespace SearchDataSPM.Purchasing
                 {
                     ul /= 100;
                     //Unsub the event so we don't enter a loop
-                    pricetxt.TextChanged -= pricetxt_TextChanged;
+                    pricetxt.TextChanged -= Pricetxt_TextChanged;
                     //Format the text as currency
                     pricetxt.Text = string.Format(CultureInfo.CreateSpecificCulture("en-US"), "{0:C2}", ul);
-                    pricetxt.TextChanged += pricetxt_TextChanged;
+                    pricetxt.TextChanged += Pricetxt_TextChanged;
                     pricetxt.Select(pricetxt.Text.Length, 0);
                 }
             }
@@ -338,7 +342,7 @@ namespace SearchDataSPM.Purchasing
             calculatetotal();
         }
 
-        private void qtytxt_KeyDown(object sender, KeyEventArgs e)
+        private void Qtytxt_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -348,7 +352,7 @@ namespace SearchDataSPM.Purchasing
             }
         }
 
-        private void qtytxt_KeyPress(object sender, KeyPressEventArgs e)
+        private void Qtytxt_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (Regex.IsMatch(e.KeyChar.ToString(), @"[0-9+\b]"))
             {
@@ -360,7 +364,7 @@ namespace SearchDataSPM.Purchasing
             }
         }
 
-        private void qtytxt_TextChanged(object sender, EventArgs e)
+        private void Qtytxt_TextChanged(object sender, EventArgs e)
         {
             calculatetotal();
         }
@@ -414,6 +418,7 @@ namespace SearchDataSPM.Purchasing
 
                     showspmchk.Visible = true;
                     ItemTxtBox.Text = "New item id will be generated on save";
+                    ItemTxtBox.Enabled = false;
                 }
             }
             else
@@ -432,6 +437,7 @@ namespace SearchDataSPM.Purchasing
                 {
                     showspmchk.Visible = true;
                     ItemTxtBox.Text = "New item id will be generated on save";
+                    ItemTxtBox.Enabled = false;
                 }
             }
             Cursor.Current = Cursors.Default;
@@ -444,7 +450,7 @@ namespace SearchDataSPM.Purchasing
 
         #region Fill information on controls
 
-        private void fillitemscombobox()
+        private void Fillitemscombobox()
         {
             AutoCompleteStringCollection MyCollection = connectapi.FillitemsShip();
             ItemsCombobox.AutoCompleteCustomSource = MyCollection;
@@ -512,7 +518,7 @@ namespace SearchDataSPM.Purchasing
             dontstop = true;
         }
 
-        private bool fillselectediteminfo(string item)
+        private bool Fillselectediteminfo(string item)
         {
             DataTable iteminfo = new DataTable();
             iteminfo.Clear();
@@ -618,8 +624,8 @@ namespace SearchDataSPM.Purchasing
             {
                 this.Enabled = false;
                 Cursor.Current = Cursors.WaitCursor;
-                perfromcancel();
-                fillitemscombobox();
+                Perfromcancel();
+                Fillitemscombobox();
                 ItemsCombobox.Text = null;
                 ItemsCombobox.Visible = true;
                 ItemTxtBox.Text = "";
@@ -628,15 +634,17 @@ namespace SearchDataSPM.Purchasing
                 oemtxt.ReadOnly = true;
                 oemitemnotxt.ReadOnly = true;
                 Cursor.Current = Cursors.Default;
+                ItemTxtBox.Enabled = true;
                 this.Enabled = true;
             }
             else
             {
                 this.Enabled = false;
                 Cursor.Current = Cursors.WaitCursor;
-                perfromcancel();
+                Perfromcancel();
                 ItemsCombobox.Visible = false;
                 ItemTxtBox.Text = "New item id will be generated on save";
+                ItemTxtBox.Enabled = false;
                 custvendor = "1";
                 Descriptiontxtbox.ReadOnly = false;
                 oemtxt.ReadOnly = false;
