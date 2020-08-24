@@ -1,8 +1,6 @@
-﻿using System;
+﻿using SPMConnectAPI;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SearchDataSPM.Helper
 {
@@ -14,10 +12,14 @@ namespace SearchDataSPM.Helper
         public static string UserOpenItemLetter = "A";
 
         /// <summary>
+        /// This application uses project files of this version.
+        /// </summary>
+        public static List<ConnectParameters> connectParameters;
+
+        /// <summary>
         /// This field monitors the screen shot location
         /// </summary>
         public static string ScreenshotLocation = "";
-
 
         /// <summary>
         /// Determines which settings to save.
@@ -36,7 +38,8 @@ namespace SearchDataSPM.Helper
         /// </summary>
         public static void Load()
         {
-
+            SPMConnectAPI.ConnectAPI connectapi = new SPMConnectAPI.ConnectAPI();
+            connectParameters = connectapi.GetCustomObjects();
         }
 
         /// <summary>
@@ -47,10 +50,14 @@ namespace SearchDataSPM.Helper
             // User modifiable settings
             if ((settingsSelection == SaveSettings.All) || (settingsSelection == SaveSettings.UserModifiable))
             {
-
             }
 
             Properties.Settings.Default.Save();
+        }
+
+        public static string GetConnectParameterValue(string para)
+        {
+            return connectParameters.First(s => s.Parameter == para).ParameterValue;
         }
 
         /// <summary>

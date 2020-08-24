@@ -1,5 +1,6 @@
 ﻿using SearchDataSPM.Accounting;
 using SearchDataSPM.Engineering;
+using SearchDataSPM.Helper;
 using System;
 using System.Windows.Forms;
 using static SPMConnectAPI.ConnectHelper;
@@ -19,6 +20,7 @@ namespace SearchDataSPM
 
         public void Connect_SPMSQL()
         {
+            ApplicationSettings.Load();
             if (connectapi.ConnectUser.UserName != null || connectapi.ConnectUser.UserName.Length > 0)
             {
                 if (!Checkmaintenance())
@@ -69,7 +71,7 @@ namespace SearchDataSPM
         private bool Checkmaintenance()
         {
             bool maintenance = false;
-            string limit = connectapi.GetConnectParameterValue("Maintenance");
+            string limit = ApplicationSettings.GetConnectParameterValue("Maintenance");
             if (limit == "1")
             {
                 maintenance = true;

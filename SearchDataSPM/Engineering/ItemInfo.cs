@@ -284,7 +284,6 @@ namespace SearchDataSPM.Engineering
                 AvgCostLbl.Visible = false;
                 checkBox1.Visible = false;
                 locationsList.Size = new Size(170, 130);
-
             }
         }
 
@@ -382,10 +381,20 @@ namespace SearchDataSPM.Engineering
 
         private void Filldatatable(string itemnumber)
         {
-            DataTable dt = connectapi.ShowIventoryItems(itemnumber);
+            DataTable dt = connectapi.GetItemInfo(itemnumber);
             if (dt.Rows.Count > 0)
             {
                 Fillinfo(dt.Rows[0]);
+                FillInventoryData(itemnumber);
+            }
+        }
+
+        private void FillInventoryData(string itemnumber)
+        {
+            DataTable dt = connectapi.ShowIventoryItems(itemnumber);
+            if (dt.Rows.Count > 0)
+            {
+                FillInventoryInfo(dt.Rows[0]);
                 foreach (DataRow dr in dt.Rows)
                 {
                     locationsList.Text += dr["Location"].ToString() + Environment.NewLine;
@@ -431,6 +440,13 @@ namespace SearchDataSPM.Engineering
                 dateeditxt.Text = r["LastEdited"].ToString();
                 Lastsavedtxtbox.Text = r["LastSavedBy"].ToString();
                 notestxt.Text = r["Notes"].ToString();
+            }
+        }
+
+        private void FillInventoryInfo(DataRow r)
+        {
+            if (!r.IsNull(0))
+            {
                 OnHandLbl.Text = "On Hand: " + r["OnHand"].ToString();
                 ReservedLbl.Text = "Reserved: " + r["Reserved"].ToString();
                 AvailableLbl.Text = "Available: " + r["Available"].ToString();

@@ -163,11 +163,11 @@
             this.notifyuser.ForeColor = System.Drawing.Color.White;
             this.notifyuser.Image = ((System.Drawing.Image)(resources.GetObject("notifyuser.Image")));
             this.notifyuser.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.notifyuser.Location = new System.Drawing.Point(64, 188);
+            this.notifyuser.Location = new System.Drawing.Point(32, 187);
             this.notifyuser.Name = "notifyuser";
-            this.notifyuser.Size = new System.Drawing.Size(118, 27);
+            this.notifyuser.Size = new System.Drawing.Size(157, 27);
             this.notifyuser.TabIndex = 129;
-            this.notifyuser.Text = "Notify User";
+            this.notifyuser.Text = "Request Changes";
             this.notifyuser.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.notifyuser.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.notifyuser.UseVisualStyleBackColor = false;
@@ -289,7 +289,7 @@
             this.closebttn.ForeColor = System.Drawing.Color.White;
             this.closebttn.Image = ((System.Drawing.Image)(resources.GetObject("closebttn.Image")));
             this.closebttn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.closebttn.Location = new System.Drawing.Point(78, 188);
+            this.closebttn.Location = new System.Drawing.Point(78, 187);
             this.closebttn.Name = "closebttn";
             this.closebttn.Size = new System.Drawing.Size(96, 27);
             this.closebttn.TabIndex = 127;
@@ -805,6 +805,7 @@
             this.logstxt.Multiline = true;
             this.logstxt.Name = "logstxt";
             this.logstxt.ReadOnly = true;
+            this.logstxt.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.logstxt.Size = new System.Drawing.Size(391, 160);
             this.logstxt.TabIndex = 128;
             // 

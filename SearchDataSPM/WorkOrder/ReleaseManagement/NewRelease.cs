@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using static SPMConnectAPI.ConnectHelper;
 
 namespace SearchDataSPM.WorkOrder.ReleaseManagement
 {
@@ -33,6 +34,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
         {
             // Suspend the layout logic for the form, while the application is initializing
             this.SuspendLayout();
+            WinTopMost.SetWindowPos(this.Handle, WinTopMost.HWND_TOPMOST, 0, 0, 0, 0, WinTopMost.TOPMOST_FLAGS);
             foreach (IssuePriority p in Enum.GetValues(typeof(IssuePriority)))
             {
                 if (p != IssuePriority.None)
@@ -144,7 +146,6 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
                 logstxt.AppendText("(" + commentby.Split(' ')[0] + ") " + datetime.TimeAgo() + " - " + msg);
             });
         }
-
 
         #region Filling up Comboxes
 
@@ -521,15 +522,59 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             {
                 TakeScreenShot();
             }
-            else
+        }
+
+        private void UpdateRejectedReleaseLog(ApprovalType approvalType)
+        {
+            if (approvalType == ApprovalType.checking)
             {
-                return;
+                rlog.IsSubmitted = false;
+                rlog.SubmittedTo = 0;
+                rlog.SubmittedOn = "";
+
+                rlog.IsChecked = false;
+                rlog.CheckedOn = "";
+                rlog.CheckedBy = "";
+            }
+            else if (approvalType == ApprovalType.approval)
+            {
+                rlog.IsSubmitted = false;
+                rlog.SubmittedTo = 0;
+                rlog.SubmittedOn = "";
+
+                rlog.IsChecked = false;
+                rlog.CheckedOn = "";
+                rlog.CheckedBy = "";
+
+                rlog.IsApproved = false;
+                rlog.ApprovalTo = 0;
+                rlog.ApprovedOn = "";
+                rlog.ApprovedBy = "";
+            }
+            else if (approvalType == ApprovalType.release)
+            {
+                rlog.IsSubmitted = false;
+                rlog.SubmittedTo = 0;
+                rlog.SubmittedOn = "";
+
+                rlog.IsChecked = false;
+                rlog.CheckedOn = "";
+                rlog.CheckedBy = "";
+
+                rlog.IsApproved = false;
+                rlog.ApprovalTo = 0;
+                rlog.ApprovedOn = "";
+                rlog.ApprovedBy = "";
+
+                rlog.IsReleased = false;
+                rlog.ReleasedOn = "";
+                rlog.ReleasedBy = "";
             }
         }
 
         private void TakeScreenShot()
         {
-            Thread.Sleep(500);
+            Thread.Sleep(800);
             try
             {
                 Rectangle bounds = this.Bounds;
@@ -559,9 +604,25 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
                     + " Error Message : " + ex.Message, "SPM Connect Comments", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                 log.Error(ex.Message);
             }
+            DeleteDirectory(rlog.IsChecked ? ApprovalType.approval : ApprovalType.checking, true);
+            if (rlog.IsChecked)
+            {
+                if (rlog.IsApproved)
+                {
+                    NotifyUserForChange(ApprovalType.release);
+                }
+                else
+                {
+                    NotifyUserForChange(ApprovalType.approval);
+                }
+            }
+            else
+            {
+                NotifyUserForChange(ApprovalType.checking);
+            }
 
+            UpdateRejectedReleaseLog(!rlog.IsChecked ? ApprovalType.checking : rlog.IsApproved ? ApprovalType.release : ApprovalType.approval);
             releaseModule.UpdateReleaseInvoice(rlog);
-            this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
 
@@ -574,10 +635,106 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             {
                 rlog.IsActive = false;
                 closebttn.Enabled = false;
+                DeleteDirectory(ApprovalType.approval, true);
+                NotifyUserForChange(rlog.IsApproved ? ApprovalType.release : ApprovalType.approval);
+                UpdateRejectedReleaseLog(rlog.IsApproved ? ApprovalType.release : ApprovalType.approval);
                 releaseModule.UpdateReleaseInvoice(rlog);
                 this.DialogResult = DialogResult.Abort;
                 this.Close();
             }
+        }
+
+        private void DeleteDirectory(ApprovalType approvalType, bool reject)
+        {
+            string filepath;
+            if (approvalType == ApprovalType.checking)
+            {
+                filepath = ApplicationSettings.GetConnectParameterValue("ReqChecking");
+                filepath = filepath + @"\JOB#" + rlog.Job.ToString() + @"\SA#" + rlog.SubAssy.ToString() + @"\REL#" + rlog.RelNo.ToString();
+            }
+            else if (approvalType == ApprovalType.approval)
+            {
+                filepath = ApplicationSettings.GetConnectParameterValue("ReqApproval");
+                filepath = filepath + @"\JOB#" + rlog.Job.ToString() + @"\SA#" + rlog.SubAssy.ToString() + @"\REL#" + rlog.RelNo.ToString();
+            }
+            else
+            {
+                return;
+            }
+            if (!Directory.Exists(filepath)) return;
+
+            bool isEmpty = !Directory.EnumerateFiles(filepath).Any();
+            if (isEmpty && Directory.Exists(filepath))
+            {
+                Directory.Delete(filepath, true);
+            }
+            else if (reject && Directory.Exists(filepath))
+            {
+                Directory.Delete(filepath, true);
+            }
+        }
+
+        private void NotifyUserForChange(ApprovalType approvalType)
+        {
+            NameEmail creator = releaseModule.GetNameEmailByParaValue(UserFields.id, rlog.CreatedById.ToString())[0];
+            string subject;
+            string body;
+
+            if (!rlog.IsActive)
+            {
+                subject = "Drawing Package Marked Inactive - " + rlog.Job.ToString() + "(" + rlog.SubAssy + ") - (" + rlog.RelNo.ToString() + ")";
+                body = releaseModule.ConnectUser.Name + " has removed the drawing package from release for build. <br>" +
+                    "Job Number : " + rlog.Job.ToString() + "<br>" +
+                    "Sub Assy : " + rlog.SubAssy + "<br>" +
+                    "Release No : " + rlog.RelNo.ToString();
+                NameEmail checkor = releaseModule.GetNameEmailByParaValue(UserFields.Name, rlog.CheckedBy)[0];
+                if (approvalType == ApprovalType.release)
+                {
+                    NameEmail approvor = releaseModule.GetNameEmailByParaValue(UserFields.Name, rlog.ApprovedBy)[0];
+                    releaseModule.TriggerEmail(creator.email, subject, creator.name, body, "", checkor.email, approvor.email, "Normal");
+                }
+                else
+                {
+                    releaseModule.TriggerEmail(creator.email, subject, creator.name, body, "", checkor.email, "", "Normal");
+                }
+                return;
+            }
+
+            if (approvalType == ApprovalType.checking)
+            {
+                subject = "Drawings Check Rejected - " + rlog.Job.ToString() + "(" + rlog.SubAssy + ") - (" + rlog.RelNo.ToString() + ")";
+                body = releaseModule.ConnectUser.Name + " has declined the checking of the drawing package. <br>" +
+                    "Job Number : " + rlog.Job.ToString() + "<br>" +
+                    "Sub Assy : " + rlog.SubAssy + "<br>" +
+                    "Release No : " + rlog.RelNo.ToString() + "<br>" +
+                    "Please check attached screen shot.";
+
+                releaseModule.TriggerEmail(creator.email, subject, creator.name, body, ApplicationSettings.ScreenshotLocation, "", "", "Normal");
+            }
+            else if (approvalType == ApprovalType.release)
+            {
+                subject = "Drawing Release Rejected - " + rlog.Job.ToString() + "(" + rlog.SubAssy + ") - (" + rlog.RelNo.ToString() + ")";
+                body = releaseModule.ConnectUser.Name + " has declined releasing the drawing package for release for build. <br>" +
+                    "Job Number : " + rlog.Job.ToString() + "<br>" +
+                    "Sub Assy : " + rlog.SubAssy + "<br>" +
+                    "Release No : " + rlog.RelNo.ToString() + "<br>" +
+                    "Please check attached screen shot.";
+                NameEmail checkor = releaseModule.GetNameEmailByParaValue(UserFields.Name, rlog.CheckedBy)[0];
+                NameEmail approvor = releaseModule.GetNameEmailByParaValue(UserFields.Name, rlog.ApprovedBy)[0];
+                releaseModule.TriggerEmail(creator.email, subject, creator.name, body, ApplicationSettings.ScreenshotLocation, checkor.email, approvor.email, "Normal");
+            }
+            else if (approvalType == ApprovalType.approval)
+            {
+                subject = "Drawing Approval Rejected - " + rlog.Job.ToString() + "(" + rlog.SubAssy + ") - (" + rlog.RelNo.ToString() + ")";
+                body = releaseModule.ConnectUser.Name + " has declined approving the drawing package. <br>" +
+                    "Job Number : " + rlog.Job.ToString() + "<br>" +
+                    "Sub Assy : " + rlog.SubAssy + "<br>" +
+                    "Release No : " + rlog.RelNo.ToString() + "<br>" +
+                    "Please check attached screen shot.";
+                NameEmail checkor = releaseModule.GetNameEmailByParaValue(UserFields.Name, rlog.CheckedBy)[0];
+                releaseModule.TriggerEmail(creator.email, subject, creator.name, body, ApplicationSettings.ScreenshotLocation, checkor.email, "", "Normal");
+            }
+            ApplicationSettings.ScreenshotLocation = "";
         }
 
         private void Txtmsg_KeyDown(object sender, KeyEventArgs e)
@@ -608,17 +765,16 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             {
                 if (rlog.IsSubmitted)
                 {
-                    // notifyuser.Visible = true;
+                    notifyuser.Visible = true;
                 }
                 if ((releaseModule.ConnectUser.ReleasePackage || releaseModule.ConnectUser.ApproveDrawing) && rlog.IsChecked)
                 {
-                    // closebttn.Visible = true;
+                    closebttn.Visible = true;
                 }
 
                 txtmsg.Visible = true;
                 sendlbl.Visible = true;
                 logstxt.Size = new Size(391, 160);
-
             }
             else
             {
@@ -626,6 +782,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             }
         }
     }
+
     public class ComboBoxItem
     {
         public int Value { get; set; }

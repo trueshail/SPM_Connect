@@ -50,29 +50,9 @@ namespace SPMConnectAPI
 
         #endregion SQL Connection / Connection Strings
 
-        public string GetConnectParameterValue(string parameter)
+        public List<ConnectParameters> GetCustomObjects()
         {
-            string value = "";
-            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = '" + parameter + "'", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-                    value = (string)cmd.ExecuteScalar();
-                    cn.Close();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Get Parameter Value", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-
-            return value;
+            return new ClassMappers(ConnectConnectionString()).SqlQuery<ConnectParameters>("SELECT * FROM [SPM_Database].[dbo].[ConnectParamaters]");
         }
 
         #region UserInfo/Rights
@@ -554,10 +534,9 @@ namespace SPMConnectAPI
                     message.CC.Add(extracc);
                 }
                 message.Subject = subject;
-
+                message.From = new MailAddress("connect@spm-automation.com", "SPM Automation");
                 if (msgtype == "EFT")
                 {
-                    message.From = new MailAddress("connect@spm-automation.com", "SPM Automation");
                     message.IsBodyHtml = true;
                     using (StreamReader reader = File.OpenText(Path.Combine(Directory.GetCurrentDirectory() + @"\EmailTemplates\", "EFTEmailTemplate.html"))) // Path to your
                     {
@@ -567,7 +546,6 @@ namespace SPMConnectAPI
                 }
                 else if (msgtype == "Normal")
                 {
-                    message.From = new MailAddress("connect@spm-automation.com", "SPM Connect");
                     message.IsBodyHtml = true;
                     using (StreamReader reader = File.OpenText(Path.Combine(Directory.GetCurrentDirectory() + @"\EmailTemplates\", "EmailTemplate.html"))) // Path to your
                     {
@@ -578,16 +556,24 @@ namespace SPMConnectAPI
                 }
                 else if (msgtype == "update")
                 {
-                    message.From = new MailAddress("connect@spm-automation.com", "SPM Connect");
                     message.IsBodyHtml = true;
                     using (StreamReader reader = File.OpenText(Path.Combine(Directory.GetCurrentDirectory() + @"\EmailTemplates\", "update.html"))) // Path to your
                     {
                         message.Body = reader.ReadToEnd();  // Load the content from your file...
                     }
                 }
+                else if (msgtype == "Addin")
+                {
+                    message.IsBodyHtml = true;
+                    using (StreamReader reader = File.OpenText(@"\\spm-adfs\SDBASE\SPM Connect Addin\EmailTemplate.html")) // Path to your
+                    {
+                        message.Body = reader.ReadToEnd();
+                    }
+                    message.Body = message.Body.Replace("{message}", body);
+                    message.Body = message.Body.Replace("{username}", user);
+                }
                 else
                 {
-                    message.From = new MailAddress("connect@spm-automation.com", "SPM Connect");
                     message.Body = body;
                 }
                 if (!string.IsNullOrEmpty(filetoattach))
