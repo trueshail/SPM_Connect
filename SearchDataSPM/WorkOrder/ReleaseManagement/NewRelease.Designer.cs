@@ -805,6 +805,7 @@
             this.logstxt.Multiline = true;
             this.logstxt.Name = "logstxt";
             this.logstxt.ReadOnly = true;
+            this.logstxt.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.logstxt.Size = new System.Drawing.Size(391, 160);
             this.logstxt.TabIndex = 128;
             // 

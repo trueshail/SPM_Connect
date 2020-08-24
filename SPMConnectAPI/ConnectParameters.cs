@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SPMConnectAPI
+﻿namespace SPMConnectAPI
 {
     public class ConnectParameters
     {
@@ -15,7 +9,5 @@ namespace SPMConnectAPI
         public string Description { get; set; }
 
         public string ParameterValue { get; set; }
-
     }
-
 }

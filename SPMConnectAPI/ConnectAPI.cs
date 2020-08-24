@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
-using System.Linq;
 using System.Net.Mail;
 using System.Windows.Forms;
 using static SPMConnectAPI.ConnectHelper;
-using System.Reflection;
 
 namespace SPMConnectAPI
 {
@@ -536,10 +534,9 @@ namespace SPMConnectAPI
                     message.CC.Add(extracc);
                 }
                 message.Subject = subject;
-
+                message.From = new MailAddress("connect@spm-automation.com", "SPM Automation");
                 if (msgtype == "EFT")
                 {
-                    message.From = new MailAddress("connect@spm-automation.com", "SPM Automation");
                     message.IsBodyHtml = true;
                     using (StreamReader reader = File.OpenText(Path.Combine(Directory.GetCurrentDirectory() + @"\EmailTemplates\", "EFTEmailTemplate.html"))) // Path to your
                     {
@@ -549,7 +546,6 @@ namespace SPMConnectAPI
                 }
                 else if (msgtype == "Normal")
                 {
-                    message.From = new MailAddress("connect@spm-automation.com", "SPM Connect");
                     message.IsBodyHtml = true;
                     using (StreamReader reader = File.OpenText(Path.Combine(Directory.GetCurrentDirectory() + @"\EmailTemplates\", "EmailTemplate.html"))) // Path to your
                     {
@@ -560,16 +556,24 @@ namespace SPMConnectAPI
                 }
                 else if (msgtype == "update")
                 {
-                    message.From = new MailAddress("connect@spm-automation.com", "SPM Connect");
                     message.IsBodyHtml = true;
                     using (StreamReader reader = File.OpenText(Path.Combine(Directory.GetCurrentDirectory() + @"\EmailTemplates\", "update.html"))) // Path to your
                     {
                         message.Body = reader.ReadToEnd();  // Load the content from your file...
                     }
                 }
+                else if (msgtype == "Addin")
+                {
+                    message.IsBodyHtml = true;
+                    using (StreamReader reader = File.OpenText(@"\\spm-adfs\SDBASE\SPM Connect Addin\EmailTemplate.html")) // Path to your
+                    {
+                        message.Body = reader.ReadToEnd();
+                    }
+                    message.Body = message.Body.Replace("{message}", body);
+                    message.Body = message.Body.Replace("{username}", user);
+                }
                 else
                 {
-                    message.From = new MailAddress("connect@spm-automation.com", "SPM Connect");
                     message.Body = body;
                 }
                 if (!string.IsNullOrEmpty(filetoattach))

@@ -86,7 +86,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Reload.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.Reload.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Reload.Location = new System.Drawing.Point(612, 12);
+            this.Reload.Location = new System.Drawing.Point(347, 12);
             this.Reload.MaximumSize = new System.Drawing.Size(140, 30);
             this.Reload.MinimumSize = new System.Drawing.Size(140, 30);
             this.Reload.Name = "Reload";
@@ -109,7 +109,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             this.txtSearch.MaximumSize = new System.Drawing.Size(32767, 25);
             this.txtSearch.MinimumSize = new System.Drawing.Size(4, 25);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(398, 25);
+            this.txtSearch.Size = new System.Drawing.Size(133, 25);
             this.txtSearch.TabIndex = 106;
             this.TreeViewToolTip.SetToolTip(this.txtSearch, "Enter Search Keyword.\r\n");
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtSearch_KeyDown);
@@ -186,7 +186,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             // 
             this.advsearchbttn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.advsearchbttn.Location = new System.Drawing.Point(826, 53);
+            this.advsearchbttn.Location = new System.Drawing.Point(561, 53);
             this.advsearchbttn.MaximumSize = new System.Drawing.Size(35, 25);
             this.advsearchbttn.MinimumSize = new System.Drawing.Size(35, 25);
             this.advsearchbttn.Name = "advsearchbttn";
@@ -395,7 +395,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             this.splitContainer1.Panel2MinSize = 175;
             this.splitContainer1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.splitContainer1.Size = new System.Drawing.Size(1044, 711);
-            this.splitContainer1.SplitterDistance = 867;
+            this.splitContainer1.SplitterDistance = 602;
             this.splitContainer1.SplitterWidth = 2;
             this.splitContainer1.TabIndex = 105;
             // 
@@ -406,7 +406,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             this.recordlabel.AutoSize = true;
             this.recordlabel.Font = new System.Drawing.Font("Maiandra GD", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.recordlabel.ForeColor = System.Drawing.Color.White;
-            this.recordlabel.Location = new System.Drawing.Point(657, 80);
+            this.recordlabel.Location = new System.Drawing.Point(392, 80);
             this.recordlabel.Name = "recordlabel";
             this.recordlabel.Size = new System.Drawing.Size(0, 14);
             this.recordlabel.TabIndex = 119;
@@ -440,7 +440,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             this.DataGridView.Name = "DataGridView";
             this.DataGridView.ReadOnly = true;
             this.DataGridView.RowHeadersVisible = false;
-            this.DataGridView.Size = new System.Drawing.Size(863, 610);
+            this.DataGridView.Size = new System.Drawing.Size(598, 610);
             this.DataGridView.StandardTab = true;
             this.DataGridView.TabIndex = 111;
             this.DataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView_CellDoubleClick);
@@ -517,7 +517,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             this.clrfiltersbttn.Location = new System.Drawing.Point(0, 0);
             this.clrfiltersbttn.MinimumSize = new System.Drawing.Size(0, 40);
             this.clrfiltersbttn.Name = "clrfiltersbttn";
-            this.clrfiltersbttn.Size = new System.Drawing.Size(175, 40);
+            this.clrfiltersbttn.Size = new System.Drawing.Size(440, 40);
             this.clrfiltersbttn.TabIndex = 129;
             this.clrfiltersbttn.Text = "Clear Filters";
             this.clrfiltersbttn.UseVisualStyleBackColor = true;

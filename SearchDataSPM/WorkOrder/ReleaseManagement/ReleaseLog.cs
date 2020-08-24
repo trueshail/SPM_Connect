@@ -947,8 +947,10 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
 
         private void ShowReleaseInfo(string invoice)
         {
-            NewRelease newRelease = new NewRelease(Convert.ToInt32(invoice));
-            newRelease.Show();
+            using (NewRelease newRelease = new NewRelease(Convert.ToInt32(invoice)))
+            {
+                newRelease.ShowDialog();
+            }
         }
 
         #endregion Invoice

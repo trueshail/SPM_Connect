@@ -1,11 +1,6 @@
-﻿
-using SPMConnectAPI;
-using System;
+﻿using SPMConnectAPI;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SearchDataSPM.Helper
 {
@@ -25,7 +20,6 @@ namespace SearchDataSPM.Helper
         /// This field monitors the screen shot location
         /// </summary>
         public static string ScreenshotLocation = "";
-
 
         /// <summary>
         /// Determines which settings to save.
@@ -56,7 +50,6 @@ namespace SearchDataSPM.Helper
             // User modifiable settings
             if ((settingsSelection == SaveSettings.All) || (settingsSelection == SaveSettings.UserModifiable))
             {
-
             }
 
             Properties.Settings.Default.Save();

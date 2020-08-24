@@ -118,6 +118,14 @@ namespace SPMConnectAPI
             PurchaseReq,
         }
 
+        public enum ApprovalType
+        {
+            sumitted,
+            checking,
+            approval,
+            release
+        };
+
         //public static UserInfo ConnectUser { get; set; } = new UserInfo();
 
         public struct NameEmail
