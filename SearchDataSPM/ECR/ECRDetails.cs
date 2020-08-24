@@ -1,4 +1,5 @@
 ﻿using SearchDataSPM.Engineering;
+using SearchDataSPM.Helper;
 using SearchDataSPM.Report;
 using System;
 using System.Collections.Generic;
@@ -1120,7 +1121,7 @@ namespace SearchDataSPM.ECR
 
         private bool Sendemailyesno()
         {
-            return connectapi.GetConnectParameterValue("EmailECR") == "1";
+            return ApplicationSettings.GetConnectParameterValue("EmailECR") == "1";
         }
 
         #endregion Sending Email

@@ -1,5 +1,6 @@
 ﻿using SearchDataSPM.ECR;
 using SearchDataSPM.Engineering;
+using SearchDataSPM.Helper;
 using SearchDataSPM.Purchasing;
 using SearchDataSPM.Quotes;
 using SearchDataSPM.WorkOrder;
@@ -729,25 +730,25 @@ namespace SearchDataSPM.General
                 string sourcepaths300 = "";
                 if (ValueIWantFromProptForm == "project")
                 {
-                    sourcepathseng = connectapi.GetConnectParameterValue("ProjectEngSp");
-                    destpatheng = connectapi.GetConnectParameterValue("ProjectEngDp") + jobnumber + "_" + customer + "_" + jobdescription;
+                    sourcepathseng = ApplicationSettings.GetConnectParameterValue("ProjectEngSp");
+                    destpatheng = ApplicationSettings.GetConnectParameterValue("ProjectEngDp") + jobnumber + "_" + customer + "_" + jobdescription;
                     Createnewentry(Getjob(), Getbomitem(), destpatheng, false);
-                    sourcepaths300 = connectapi.GetConnectParameterValue("ProjectSalesSp");
-                    destpaths300 = connectapi.GetConnectParameterValue("ProjectSalesDp") + jobnumber + "_" + customer + "_" + jobdescription;
+                    sourcepaths300 = ApplicationSettings.GetConnectParameterValue("ProjectSalesSp");
+                    destpaths300 = ApplicationSettings.GetConnectParameterValue("ProjectSalesDp") + jobnumber + "_" + customer + "_" + jobdescription;
                 }
                 else if (ValueIWantFromProptForm == "spare")
                 {
-                    sourcepathseng = connectapi.GetConnectParameterValue("SpareEngSp");
-                    destpatheng = connectapi.GetConnectParameterValue("SpareEngDp") + jobnumber + "_" + customer + "_Spare Parts";
-                    sourcepaths300 = connectapi.GetConnectParameterValue("SpareSalesSp");
-                    destpaths300 = connectapi.GetConnectParameterValue("SpareSalesDp") + salesorder + "_" + customer + "_Spare Parts";
+                    sourcepathseng = ApplicationSettings.GetConnectParameterValue("SpareEngSp");
+                    destpatheng = ApplicationSettings.GetConnectParameterValue("SpareEngDp") + jobnumber + "_" + customer + "_Spare Parts";
+                    sourcepaths300 = ApplicationSettings.GetConnectParameterValue("SpareSalesSp");
+                    destpaths300 = ApplicationSettings.GetConnectParameterValue("SpareSalesDp") + salesorder + "_" + customer + "_Spare Parts";
                 }
                 else if (ValueIWantFromProptForm == "service")
                 {
-                    sourcepathseng = connectapi.GetConnectParameterValue("ServiceEngSp");
-                    destpatheng = connectapi.GetConnectParameterValue("ServiceEngDp") + jobnumber + "_" + customer + "_Service_" + jobdescription;
-                    sourcepaths300 = connectapi.GetConnectParameterValue("ServiceSalesSp");
-                    destpaths300 = connectapi.GetConnectParameterValue("ServiceSalesDp") + salesorder + "_" + customer + "_Service_" + jobdescription;
+                    sourcepathseng = ApplicationSettings.GetConnectParameterValue("ServiceEngSp");
+                    destpatheng = ApplicationSettings.GetConnectParameterValue("ServiceEngDp") + jobnumber + "_" + customer + "_Service_" + jobdescription;
+                    sourcepaths300 = ApplicationSettings.GetConnectParameterValue("ServiceSalesSp");
+                    destpaths300 = ApplicationSettings.GetConnectParameterValue("ServiceSalesDp") + salesorder + "_" + customer + "_Service_" + jobdescription;
                 }
                 if (ValueIWantFromProptForm == "project" || ValueIWantFromProptForm == "spare" || ValueIWantFromProptForm == "service")
                 {
@@ -969,7 +970,7 @@ namespace SearchDataSPM.General
         private void Purchasereq_Click(object sender, EventArgs e)
         {
             int openforms = Application.OpenForms.Count;
-            bool checkmaintenance = connectapi.GetConnectParameterValue("PurchaseReqDev") == "1";
+            bool checkmaintenance = ApplicationSettings.GetConnectParameterValue("PurchaseReqDev") == "1";
             if (openforms >= 2)
             {
                 bool purchasereqopen = false;

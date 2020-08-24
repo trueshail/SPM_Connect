@@ -1,4 +1,5 @@
-﻿using SearchDataSPM.Report;
+﻿using SearchDataSPM.Helper;
+using SearchDataSPM.Report;
 using SPMConnectAPI;
 using System;
 using System.Collections.Generic;
@@ -1238,7 +1239,7 @@ namespace SearchDataSPM.Purchasing
 
         private bool Sendemailyesno()
         {
-            return connectapi.GetConnectParameterValue("EmailShipping") == "1";
+            return ApplicationSettings.GetConnectParameterValue("EmailShipping") == "1";
         }
 
         private async void SupcheckBox_Click(object sender, EventArgs e)

@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
+using System.Linq;
 using System.Net.Mail;
 using System.Windows.Forms;
 using static SPMConnectAPI.ConnectHelper;
+using System.Reflection;
 
 namespace SPMConnectAPI
 {
@@ -50,29 +52,9 @@ namespace SPMConnectAPI
 
         #endregion SQL Connection / Connection Strings
 
-        public string GetConnectParameterValue(string parameter)
+        public List<ConnectParameters> GetCustomObjects()
         {
-            string value = "";
-            using (SqlCommand cmd = new SqlCommand("SELECT ParameterValue FROM [SPM_Database].[dbo].[ConnectParamaters] WHERE Parameter = '" + parameter + "'", cn))
-            {
-                try
-                {
-                    if (cn.State == ConnectionState.Closed)
-                        cn.Open();
-                    value = (string)cmd.ExecuteScalar();
-                    cn.Close();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "SPM Connect - Get Parameter Value", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    cn.Close();
-                }
-            }
-
-            return value;
+            return new ClassMappers(ConnectConnectionString()).SqlQuery<ConnectParameters>("SELECT * FROM [SPM_Database].[dbo].[ConnectParamaters]");
         }
 
         #region UserInfo/Rights

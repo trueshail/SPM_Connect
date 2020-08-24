@@ -105,8 +105,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClassMappers.cs" />
     <Compile Include="ConnectAPI.cs" />
     <Compile Include="ConnectHelper.cs" />
+    <Compile Include="ConnectParameters.cs" />
     <Compile Include="Controls.cs" />
     <Compile Include="Models\BOM.cs" />
     <Compile Include="Models\ReleaseComment.cs" />
