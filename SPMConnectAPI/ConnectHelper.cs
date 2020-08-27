@@ -121,6 +121,7 @@ namespace SPMConnectAPI
         public enum ApprovalType
         {
             sumitted,
+            controls,
             checking,
             approval,
             release

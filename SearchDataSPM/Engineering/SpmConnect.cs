@@ -234,15 +234,22 @@ namespace SearchDataSPM.Engineering
 
         public void Sqlnotifier()
         {
-            var mapper = new ModelToTableMapper<UserControl>();
-            mapper.AddMapping(c => c.Username, "User Name");
-            mapper.AddMapping(c => c.Computername, "Computer Name");
-            mapper.AddMapping(c => c.Application, "Application Running");
+            try
+            {
+                var mapper = new ModelToTableMapper<UserControl>();
+                mapper.AddMapping(c => c.Username, "User Name");
+                mapper.AddMapping(c => c.Computername, "Computer Name");
+                mapper.AddMapping(c => c.Application, "Application Running");
 
-            _dependency = new SqlTableDependency<UserControl>(ConnectConnectionString(), tableName: "Checkin", mapper: mapper);
-            _dependency.OnChanged += Dependency_OnChanged;
-            _dependency.OnError += Dependency_OnError;
-            _dependency.Start();
+                _dependency = new SqlTableDependency<UserControl>(ConnectConnectionString(), tableName: "Checkin", mapper: mapper);
+                _dependency.OnChanged += Dependency_OnChanged;
+                _dependency.OnError += Dependency_OnError;
+                _dependency.Start();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void Dependency_OnChanged(object sender, TableDependency.SqlClient.Base.EventArgs.RecordChangedEventArgs<UserControl> e)
@@ -272,6 +279,7 @@ namespace SearchDataSPM.Engineering
             {
                 System.Environment.Exit(0);
             }
+
         }
 
         private void Dependency_OnError(object sender, TableDependency.SqlClient.Base.EventArgs.ErrorEventArgs e)

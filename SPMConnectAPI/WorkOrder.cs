@@ -2256,6 +2256,12 @@ namespace SPMConnectAPI
                 IsSubmitted = Convert.ToBoolean(dr["IsSubmitted"]),
                 SubmittedTo = Convert.ToInt32(dr["SubmittedTo"].ToString()),
                 SubmittedOn = dr["SubmittedOn"].ToString().StartsWith("1900") ? "" : dr["SubmittedOn"].ToString(),
+                ReqCntrlsApp = Convert.ToBoolean(dr["ReqCntrlsApp"]),
+                CntrlsSubmittedTo = Convert.ToInt32(dr["CntrlsSubmittedTo"].ToString()),
+                CntrlsSubmittedOn = dr["CntrlsSubmittedOn"].ToString().StartsWith("1900") ? "" : dr["CntrlsSubmittedOn"].ToString(),
+                CntrlsApproved = Convert.ToBoolean(dr["CntrlsApproved"]),
+                CntrlsApprovedBy = dr["CntrlsApprovedBy"].ToString(),
+                CntrlsApprovedOn = dr["CntrlsApprovedOn"].ToString().StartsWith("1900") ? "" : dr["CntrlsApprovedOn"].ToString(),
                 IsChecked = Convert.ToBoolean(dr["IsChecked"]),
                 CheckedBy = dr["CheckedBy"].ToString(),
                 CheckedOn = dr["CheckedOn"].ToString().StartsWith("1900") ? "" : dr["CheckedOn"].ToString(),
@@ -2278,6 +2284,7 @@ namespace SPMConnectAPI
                 WorkOrder = dr["WorkOrder"].ToString(),
                 JobDes = dr["JobDes"].ToString(),
                 SubAssyDes = dr["SubAssyDes"].ToString(),
+                Path = dr["Path"].ToString(),
                 ReleaseItems = releaseItems,
                 ReleaseComments = releaseComments,
             };
@@ -2439,6 +2446,34 @@ namespace SPMConnectAPI
             return MyCollection;
         }
 
+        public AutoCompleteStringCollection FillControlsApprovingUsers()
+        {
+            AutoCompleteStringCollection MyCollection = new AutoCompleteStringCollection();
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT  CONCAT(id, ' ', Name) as Checkers  FROM [SPM_Database].[dbo].[Users] where [ControlsApprovalDrawing] = '1' ORDER BY Name", cn))
+            {
+                try
+                {
+                    cn.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+                    MyCollection.Add("");
+                    while (reader.Read())
+                    {
+                        MyCollection.Add(reader.GetString(0));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex.Message, ex);
+                    MessageBox.Show(ex.Message, "SPM Connect - Fill Controls Approving Users", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return MyCollection;
+        }
+
         public bool AddReleaseComment(ReleaseComment rc)
         {
             bool success = false;
@@ -2484,6 +2519,12 @@ namespace SPMConnectAPI
                 cmd.Parameters.AddWithValue("@IsSubmitted", Convert.ToInt32(releaseLog.IsSubmitted));
                 cmd.Parameters.AddWithValue("@SubmittedTo", releaseLog.SubmittedTo);
                 cmd.Parameters.AddWithValue("@SubmittedOn", releaseLog.SubmittedOn);
+                cmd.Parameters.AddWithValue("@ReqCntrlsApp", Convert.ToInt32(releaseLog.ReqCntrlsApp));
+                cmd.Parameters.AddWithValue("@CntrlsSubmittedTo", releaseLog.CntrlsSubmittedTo);
+                cmd.Parameters.AddWithValue("@CntrlsSubmittedOn", releaseLog.CntrlsSubmittedOn);
+                cmd.Parameters.AddWithValue("@IsCntrlsApproved", Convert.ToInt32(releaseLog.CntrlsApproved));
+                cmd.Parameters.AddWithValue("@CntrlsApprovedBy", releaseLog.CntrlsApprovedBy);
+                cmd.Parameters.AddWithValue("@CntrlsApprovedOn", releaseLog.CntrlsApprovedOn);
                 cmd.Parameters.AddWithValue("@IsChecked", Convert.ToInt32(releaseLog.IsChecked));
                 cmd.Parameters.AddWithValue("@CheckedBy", releaseLog.CheckedBy);
                 cmd.Parameters.AddWithValue("@CheckedOn", releaseLog.CheckedOn);
@@ -2500,6 +2541,7 @@ namespace SPMConnectAPI
                 cmd.Parameters.AddWithValue("@IsActive", Convert.ToInt32(releaseLog.IsActive));
                 cmd.Parameters.AddWithValue("@ConnectRelNo", releaseLog.ConnectRelNo);
                 cmd.Parameters.AddWithValue("@WorkOrder", releaseLog.WorkOrder);
+                cmd.Parameters.AddWithValue("@Path", releaseLog.Path);
                 cmd.Parameters.AddWithValue("@StatementType", nameof(CRUDStatementType.Update));
 
                 try

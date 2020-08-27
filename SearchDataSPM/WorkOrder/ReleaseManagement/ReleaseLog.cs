@@ -950,6 +950,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             using (NewRelease newRelease = new NewRelease(Convert.ToInt32(invoice)))
             {
                 newRelease.ShowDialog();
+                Performreload();
             }
         }
 

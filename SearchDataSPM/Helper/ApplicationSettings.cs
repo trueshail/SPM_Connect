@@ -57,7 +57,7 @@ namespace SearchDataSPM.Helper
 
         public static string GetConnectParameterValue(string para)
         {
-            return connectParameters.First(s => s.Parameter == para).ParameterValue;
+            return connectParameters.First(s => s.Parameter == para).ParameterValue ?? "";
         }
 
         /// <summary>
