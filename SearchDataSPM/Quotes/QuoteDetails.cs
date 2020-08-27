@@ -301,7 +301,7 @@ namespace SearchDataSPM.Quotes
             familycombobox.SelectedItem = null;
         }
 
-        private void filldatatable(string quotenumber)
+        private void Filldatatable(string quotenumber)
         {
             String sql = "SELECT *  FROM [SPM_Database].[dbo].[Opportunities] WHERE [Quote]='" + quotenumber + "'";
             try
@@ -521,7 +521,7 @@ namespace SearchDataSPM.Quotes
 
             this.Enabled = true;
             Cursor.Current = Cursors.Default;
-            filldatatable(list[0]);
+            Filldatatable(list[0]);
         }
 
         private void Processeditbutton()
@@ -588,7 +588,7 @@ namespace SearchDataSPM.Quotes
             HowFound();
             Rating();
             Category();
-            filldatatable(quoteno2);
+            Filldatatable(quoteno2);
             Processeditbutton();
             log4net.Config.XmlConfigurator.Configure();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);

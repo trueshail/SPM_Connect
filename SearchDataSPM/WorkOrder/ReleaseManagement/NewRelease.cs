@@ -1,12 +1,17 @@
-﻿using SearchDataSPM.Helper;
+﻿using SearchDataSPM.Engineering;
+using SearchDataSPM.Helper;
 using SPMConnectAPI;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using wpfPreviewFlowControl;
 using static SPMConnectAPI.ConnectHelper;
 
 namespace SearchDataSPM.WorkOrder.ReleaseManagement
@@ -54,6 +59,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             prioritycombobox.DisplayMember = "Text";
             GetReleaseInfo(releaseNo);
             ViewAdvanceFeatures();
+            Filllistview(rlog.SubAssy);
             // Resume the layout logic
             this.ResumeLayout();
         }
@@ -332,6 +338,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
                 itmdeslbl.Text = "Description : " + sa.Description;
                 itmoemlbl.Text = "Manufacturer : " + sa.Manufacturer;
                 itemoemitmlbl.Text = "OEM Item No : " + sa.ManufacturerItemNumber;
+                Filllistview(sa.ItemNumber);
             }
         }
 
@@ -639,7 +646,6 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
                 Cursor.Current = Cursors.Default;
                 this.Close();
             }
-
         }
 
         private void TakeScreenShot()
@@ -740,12 +746,12 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             if (approvalType == ApprovalType.checking)
             {
                 filepath = ApplicationSettings.GetConnectParameterValue("ReqChecking");
-                filepath = filepath + @"\JOB#" + rlog.Job.ToString() + @"\SA#" + rlog.SubAssy.ToString() + @"\REL#" + rlog.RelNo.ToString();
+                filepath = filepath + @"\JOB#" + rlog.Job.ToString() + @"\SA#" + rlog.SubAssy + @"\REL#" + rlog.RelNo.ToString();
             }
             else if (approvalType == ApprovalType.approval)
             {
                 filepath = ApplicationSettings.GetConnectParameterValue("ReqApproval");
-                filepath = filepath + @"\JOB#" + rlog.Job.ToString() + @"\SA#" + rlog.SubAssy.ToString() + @"\REL#" + rlog.RelNo.ToString();
+                filepath = filepath + @"\JOB#" + rlog.Job.ToString() + @"\SA#" + rlog.SubAssy + @"\REL#" + rlog.RelNo.ToString();
             }
             else
             {
@@ -915,6 +921,127 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
         private void Cntrlsappbttn_Click(object sender, EventArgs e)
         {
             ApproveControls();
+        }
+
+        private readonly List<string> listFiles = new List<string>();
+
+        public static Icon GetIcon(string fileName)
+        {
+            try
+            {
+                Icon icon = Icon.ExtractAssociatedIcon(fileName);
+                const ShellEx.IconSizeEnum ExtraLargeIcon = default;
+                const ShellEx.IconSizeEnum size = (ShellEx.IconSizeEnum)ExtraLargeIcon;
+
+                ShellEx.GetBitmapFromFilePath(fileName, size);
+
+                return icon;
+            }
+            catch
+            {
+                try
+                {
+                    return GetIconOldSchool(fileName);
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+        }
+
+        public static Icon GetIconOldSchool(string fileName)
+        {
+            StringBuilder strB = new StringBuilder(fileName);
+            IntPtr handle = ExtractAssociatedIcon(IntPtr.Zero, strB, out _);
+            return Icon.FromHandle(handle);
+        }
+
+        [DllImport("shell32.dll")]
+        private static extern IntPtr ExtractAssociatedIcon(IntPtr hInst,
+        StringBuilder lpIconPath, out ushort lpiIcon);
+
+        private void Filllistview(string item)
+        {
+            try
+            {
+                listFiles.Clear();
+                listView.Items.Clear();
+                string first3char = item.Substring(0, 3) + @"\";
+                const string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
+                string Pathpart = spmcadpath + first3char;
+                Getitemstodisplay(Pathpart, item);
+            }
+            catch
+            {
+                return;
+            }
+        }
+        private void Getitemstodisplay(string Pathpart, string ItemNo)
+        {
+            if (Directory.Exists(Pathpart))
+            {
+                foreach (string item in Directory.GetFiles(Pathpart, "*" + ItemNo + "*").Where(str => !str.Contains(@"\~$")).OrderByDescending(fi => fi))
+                {
+                    try
+                    {
+                        string sDocFileName = item;
+                        wpfThumbnailCreator pvf = new wpfThumbnailCreator
+                        {
+                            DesiredSize = new Size
+                            {
+                                Width = 256,
+                                Height = 256
+                            }
+                        };
+                        System.Drawing.Bitmap pic = pvf.GetThumbNail(sDocFileName);
+                        imageList.Images.Add(pic);
+                    }
+                    catch (Exception)
+                    {
+                        const ShellEx.IconSizeEnum size = ShellEx.IconSizeEnum.ExtraLargeIcon;
+                        imageList.Images.Add(ShellEx.GetBitmapFromFilePath(item, size));
+                    }
+
+                    FileInfo fi = new FileInfo(item);
+                    listFiles.Add(fi.FullName);
+                    listView.Items.Add(fi.Name, imageList.Images.Count - 1);
+                    if (Directory.Exists(rlog.Path))
+                        webBrowser1.Url = new Uri(rlog.Path);
+                }
+            }
+        }
+
+        private void ListView_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                try
+                {
+                    if (listView.FocusedItem != null)
+                        Process.Start(listFiles[listView.FocusedItem.Index]);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect");
+                }
+            }
+        }
+
+        private void ListView_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                try
+                {
+                    if (listView.FocusedItem != null)
+                        Process.Start(listFiles[listView.FocusedItem.Index]);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect");
+                }
+            }
         }
     }
 
