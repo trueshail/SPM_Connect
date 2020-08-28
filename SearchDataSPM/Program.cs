@@ -1,5 +1,4 @@
-﻿using ExceptionReporting;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using System;
 using System.Windows.Forms;
 
@@ -87,7 +86,7 @@ namespace SearchDataSPM
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new WorkOrder.ReleaseManagement.ReleaseLog("50687"));
+            Application.Run(new SPMConnectHome());
         }
 
         private static void AddRegistry()

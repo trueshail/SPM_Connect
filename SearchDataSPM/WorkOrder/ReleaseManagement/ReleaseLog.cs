@@ -20,7 +20,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
         private log4net.ILog log;
         private readonly string jobnumber;
 
-        public ReleaseLog(string job)
+        public ReleaseLog(string job = "")
         {
             InitializeComponent();
             formloading = true;
@@ -950,7 +950,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             using (NewRelease newRelease = new NewRelease(Convert.ToInt32(invoice)))
             {
                 newRelease.ShowDialog();
-                Performreload();
+                // Performreload();
             }
         }
 

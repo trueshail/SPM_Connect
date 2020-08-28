@@ -39,7 +39,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
         {
             // Suspend the layout logic for the form, while the application is initializing
             this.SuspendLayout();
-            WinTopMost.SetWindowPos(this.Handle, WinTopMost.HWND_TOPMOST, 0, 0, 0, 0, WinTopMost.TOPMOST_FLAGS);
+            //WinTopMost.SetWindowPos(this.Handle, WinTopMost.HWND_TOPMOST, 0, 0, 0, 0, WinTopMost.TOPMOST_FLAGS);
             foreach (IssuePriority p in Enum.GetValues(typeof(IssuePriority)))
             {
                 if (p != IssuePriority.None)
@@ -60,6 +60,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             GetReleaseInfo(releaseNo);
             ViewAdvanceFeatures();
             Filllistview(rlog.SubAssy);
+            GetDrawingstodisplay();
             // Resume the layout logic
             this.ResumeLayout();
         }
@@ -265,9 +266,9 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
                 root.Tag = sa.AssyNo + "][" + sa.AssyDescription + "][" + sa.AssyFamily + "][" + sa.AssyManufacturer + "][" + sa.AssyManufacturerItemNumber + "][1";
                 Setimageaccordingtofamily(sa.AssyFamily, root);
                 treeView1.Nodes.Add(root);
-                var itemToRemove = releaseItems.SingleOrDefault(r => r.ItemNumber == satxt.Text.Trim());
-                if (itemToRemove != null)
-                    releaseItems.Remove(itemToRemove);
+                //var itemToRemove = releaseItems.SingleOrDefault(r => r.ItemNumber == satxt.Text.Trim());
+                //if (itemToRemove != null)
+                //    releaseItems.Remove(itemToRemove);
 
                 PopulateTreeView(releaseItems, root);
             }
@@ -286,6 +287,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
 
             foreach (SPMConnectAPI.ReleaseItem item in releaseItems)
             {
+                if (item.ItemNumber == rlog.SubAssy) continue;
                 TreeNode t = new TreeNode
                 {
                     Text = item.ItemNumber + " - " + item.Description + " (" + item.QuantityPerAssembly.ToString() + ") ",
@@ -855,9 +857,9 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
                 "Job Number : " + rlog.Job.ToString() + "<br>" +
                 "Sub Assy : " + rlog.SubAssy + "<br>" +
                 "Sub Assy Description: " + rlog.SubAssyDes + "<br>" +
-                "FolderPath : ";
+                "FolderPath : " + rlog.Path + "<br>";
 
-            releaseModule.TriggerEmail(receiver.email, subject, receiver.name, body, "", creator.email, "", "Normal");
+            releaseModule.TriggerEmail(receiver.email, subject, receiver.name, body, "", creator.email, "", "Addin");
         }
 
         private void Txtmsg_KeyDown(object sender, KeyEventArgs e)
@@ -894,17 +896,10 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
                         notifyuser.Visible = true;
                     if (!rlog.IsChecked && !rlog.IsApproved)
                         notifyuser.Visible = true;
-                    if (!rlog.IsChecked && rlog.ReqCntrlsApp && releaseModule.ConnectUser.ControlsApprovalDrawing && rlog.CntrlsSubmittedTo == releaseModule.ConnectUser.ConnectId && !rlog.CntrlsApproved)
-                        notifyuser.Visible = true;
                 }
                 if ((releaseModule.ConnectUser.ReleasePackage || releaseModule.ConnectUser.ApproveDrawing) && rlog.IsChecked)
                 {
                     closebttn.Visible = true;
-                }
-
-                if (releaseModule.ConnectUser.ControlsApprovalDrawing && rlog.ReqCntrlsApp && rlog.CntrlsSubmittedTo == releaseModule.ConnectUser.ConnectId && !rlog.CntrlsApproved && !rlog.IsChecked)
-                {
-                    cntrlsappbttn.Visible = true;
                 }
 
                 txtmsg.Visible = true;
@@ -916,6 +911,14 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
                 //logstxt.Size.Height = panel1.Size.Height;
                 logstxt.Size = new Size(logstxt.Size.Width, panel1.Size.Height - 25);
             }
+
+            if (releaseModule.ConnectUser.ControlsApprovalDrawing && rlog.ReqCntrlsApp && rlog.CntrlsSubmittedTo == releaseModule.ConnectUser.ConnectId && !rlog.CntrlsApproved && !rlog.IsChecked)
+            {
+                cntrlsappbttn.Visible = true;
+            }
+
+            if (!rlog.IsChecked && rlog.ReqCntrlsApp && releaseModule.ConnectUser.ControlsApprovalDrawing && rlog.CntrlsSubmittedTo == releaseModule.ConnectUser.ConnectId && !rlog.CntrlsApproved)
+                notifyuser.Visible = true;
         }
 
         private void Cntrlsappbttn_Click(object sender, EventArgs e)
@@ -924,6 +927,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
         }
 
         private readonly List<string> listFiles = new List<string>();
+        private readonly List<string> listFilesDrawings = new List<string>();
 
         public static Icon GetIcon(string fileName)
         {
@@ -966,7 +970,9 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             try
             {
                 listFiles.Clear();
+                //listFilesDrawings.Clear();
                 listView.Items.Clear();
+                //listView1.Items.Clear();
                 string first3char = item.Substring(0, 3) + @"\";
                 const string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
                 string Pathpart = spmcadpath + first3char;
@@ -977,6 +983,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
                 return;
             }
         }
+
         private void Getitemstodisplay(string Pathpart, string ItemNo)
         {
             if (Directory.Exists(Pathpart))
@@ -1006,8 +1013,39 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
                     FileInfo fi = new FileInfo(item);
                     listFiles.Add(fi.FullName);
                     listView.Items.Add(fi.Name, imageList.Images.Count - 1);
-                    if (Directory.Exists(rlog.Path))
-                        webBrowser1.Url = new Uri(rlog.Path);
+                }
+            }
+        }
+
+        private void GetDrawingstodisplay()
+        {
+            if (Directory.Exists(rlog.Path))
+            {
+                foreach (string item in Directory.GetFiles(rlog.Path).Where(str => !str.Contains(@"\~$")).OrderByDescending(fi => fi))
+                {
+                    try
+                    {
+                        string sDocFileName = item;
+                        wpfThumbnailCreator pvf = new wpfThumbnailCreator
+                        {
+                            DesiredSize = new Size
+                            {
+                                Width = 256,
+                                Height = 256
+                            }
+                        };
+                        System.Drawing.Bitmap pic = pvf.GetThumbNail(sDocFileName);
+                        imageList2.Images.Add(pic);
+                    }
+                    catch (Exception)
+                    {
+                        const ShellEx.IconSizeEnum size = ShellEx.IconSizeEnum.ExtraLargeIcon;
+                        imageList2.Images.Add(ShellEx.GetBitmapFromFilePath(item, size));
+                    }
+
+                    FileInfo fi = new FileInfo(item);
+                    listFilesDrawings.Add(fi.FullName);
+                    listView1.Items.Add(fi.Name, imageList2.Images.Count - 1);
                 }
             }
         }
@@ -1036,6 +1074,38 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
                 {
                     if (listView.FocusedItem != null)
                         Process.Start(listFiles[listView.FocusedItem.Index]);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect");
+                }
+            }
+        }
+
+        private void ListView1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                try
+                {
+                    if (listView1.FocusedItem != null)
+                        Process.Start(listFilesDrawings[listView1.FocusedItem.Index]);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect");
+                }
+            }
+        }
+
+        private void ListView1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                try
+                {
+                    if (listView1.FocusedItem != null)
+                        Process.Start(listFilesDrawings[listView1.FocusedItem.Index]);
                 }
                 catch (Exception ex)
                 {

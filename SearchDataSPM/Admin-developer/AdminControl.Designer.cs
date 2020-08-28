@@ -125,10 +125,14 @@ namespace SearchDataSPM.Admin_developer
             this.label26 = new System.Windows.Forms.Label();
             this.shippingsupchk = new System.Windows.Forms.CheckBox();
             this.shippingmanagerchk = new System.Windows.Forms.CheckBox();
+            this.label30 = new System.Windows.Forms.Label();
+            this.cntrlsapptoggle = new ToggleSlider.ToggleSliderComponent();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // LabelTooltips
@@ -1493,12 +1497,56 @@ namespace SearchDataSPM.Admin_developer
             this.shippingmanagerchk.UseVisualStyleBackColor = true;
             this.shippingmanagerchk.CheckedChanged += new System.EventHandler(this.Shippingmanagerchk_CheckedChanged);
             // 
+            // label30
+            // 
+            this.label30.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.label30.AutoSize = true;
+            this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label30.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label30.Location = new System.Drawing.Point(2, 18);
+            this.label30.Name = "label30";
+            this.label30.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label30.Size = new System.Drawing.Size(83, 30);
+            this.label30.TabIndex = 116;
+            this.label30.Text = "  Controls \r\nApprv Draw:";
+            // 
+            // cntrlsapptoggle
+            // 
+            this.cntrlsapptoggle.AutoSize = true;
+            this.cntrlsapptoggle.Checked = false;
+            this.cntrlsapptoggle.Enabled = false;
+            this.cntrlsapptoggle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.cntrlsapptoggle.Location = new System.Drawing.Point(91, 23);
+            this.cntrlsapptoggle.MaximumSize = new System.Drawing.Size(70, 25);
+            this.cntrlsapptoggle.MinimumSize = new System.Drawing.Size(70, 25);
+            this.cntrlsapptoggle.Name = "cntrlsapptoggle";
+            this.cntrlsapptoggle.Size = new System.Drawing.Size(70, 25);
+            this.cntrlsapptoggle.TabIndex = 115;
+            this.cntrlsapptoggle.ToggleBarText = "No";
+            this.cntrlsapptoggle.ToggleCircleColor = System.Drawing.Color.Red;
+            this.cntrlsapptoggle.ToggleColorBar = System.Drawing.Color.LightGray;
+            this.cntrlsapptoggle.CheckChanged += new System.EventHandler(this.Admintoggle_CheckChanged);
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.cntrlsapptoggle);
+            this.groupBox5.Controls.Add(this.label30);
+            this.groupBox5.ForeColor = System.Drawing.Color.White;
+            this.groupBox5.Location = new System.Drawing.Point(630, 333);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(344, 166);
+            this.groupBox5.TabIndex = 117;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Module Rights Management";
+            // 
             // AdminControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(69)))), ((int)(((byte)(76)))));
             this.ClientSize = new System.Drawing.Size(974, 609);
+            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -1551,6 +1599,8 @@ namespace SearchDataSPM.Admin_developer
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1651,5 +1701,8 @@ namespace SearchDataSPM.Admin_developer
         private System.Windows.Forms.Label label23;
         private ToggleSlider.ToggleSliderComponent rptoggle;
         private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Label label30;
+        private ToggleSlider.ToggleSliderComponent cntrlsapptoggle;
+        private System.Windows.Forms.GroupBox groupBox5;
     }
 }
