@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using ExceptionReporting;
+using Microsoft.Win32;
 using System;
 using System.Windows.Forms;
 
