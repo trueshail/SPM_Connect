@@ -31,6 +31,7 @@ namespace SPMConnectAPI
         public bool Quote { get; set; }
         public bool ReadWhatsNew { get; set; }
         public bool ReleasePackage { get; set; }
+        public bool ControlsApprovalDrawing { get; set; }
         public string SharesFolder { get; set; }
         public bool Shipping { get; set; }
         public bool ShippingManager { get; set; }

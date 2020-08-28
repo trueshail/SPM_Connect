@@ -1098,7 +1098,7 @@ namespace SearchDataSPM.General
 
         private void ViewEngineeringReleasesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            WorkOrder.ReleaseManagement.ReleaseLog releaseLog = new WorkOrder.ReleaseManagement.ReleaseLog(Getselectedjobnumber());
+            WorkOrder.ReleaseManagement.ReleaseLog releaseLog = new WorkOrder.ReleaseManagement.ReleaseLog();
             releaseLog.Show();
         }
     }

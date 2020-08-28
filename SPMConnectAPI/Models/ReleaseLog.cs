@@ -20,6 +20,18 @@ namespace SPMConnectAPI
 
         public string SubmittedOn { get; set; }
 
+        public bool ReqCntrlsApp { get; set; }
+
+        public int CntrlsSubmittedTo { get; set; }
+
+        public string CntrlsSubmittedOn { get; set; }
+
+        public bool CntrlsApproved { get; set; }
+
+        public string CntrlsApprovedBy { get; set; }
+
+        public string CntrlsApprovedOn { get; set; }
+
         public bool IsChecked { get; set; }
 
         public string CheckedBy { get; set; }
@@ -63,6 +75,7 @@ namespace SPMConnectAPI
         public string JobDes { get; set; }
 
         public string SubAssyDes { get; set; }
+        public string Path { get; set; }
 
         public List<ReleaseItem> ReleaseItems { get; set; } = new List<ReleaseItem>();
 

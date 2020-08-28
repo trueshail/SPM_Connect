@@ -294,6 +294,7 @@ namespace SPMConnectAPI
                 Quote = Convert.ToBoolean(dr["Quote"]),
                 ReadWhatsNew = Convert.ToBoolean(dr["ReadWhatsNew"]),
                 ReleasePackage = Convert.ToBoolean(dr["ReleasePackage"]),
+                ControlsApprovalDrawing = Convert.ToBoolean(dr["ControlsApprovalDrawing"]),
                 SharesFolder = dr["SharesFolder"].ToString(),
                 Shipping = Convert.ToBoolean(dr["Shipping"]),
                 ShippingManager = Convert.ToBoolean(dr["ShippingManager"]),
@@ -598,6 +599,7 @@ namespace SPMConnectAPI
                 SmtpServer.EnableSsl = true;
                 try
                 {
+                    message.Priority = MailPriority.High;
                     SmtpServer.Send(message);
                     success = true;
                 }

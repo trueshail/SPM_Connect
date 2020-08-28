@@ -1,12 +1,17 @@
-﻿using SearchDataSPM.Helper;
+﻿using SearchDataSPM.Engineering;
+using SearchDataSPM.Helper;
 using SPMConnectAPI;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using wpfPreviewFlowControl;
 using static SPMConnectAPI.ConnectHelper;
 
 namespace SearchDataSPM.WorkOrder.ReleaseManagement
@@ -34,7 +39,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
         {
             // Suspend the layout logic for the form, while the application is initializing
             this.SuspendLayout();
-            WinTopMost.SetWindowPos(this.Handle, WinTopMost.HWND_TOPMOST, 0, 0, 0, 0, WinTopMost.TOPMOST_FLAGS);
+            //WinTopMost.SetWindowPos(this.Handle, WinTopMost.HWND_TOPMOST, 0, 0, 0, 0, WinTopMost.TOPMOST_FLAGS);
             foreach (IssuePriority p in Enum.GetValues(typeof(IssuePriority)))
             {
                 if (p != IssuePriority.None)
@@ -54,6 +59,8 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             prioritycombobox.DisplayMember = "Text";
             GetReleaseInfo(releaseNo);
             ViewAdvanceFeatures();
+            Filllistview(rlog.SubAssy);
+            GetDrawingstodisplay();
             // Resume the layout logic
             this.ResumeLayout();
         }
@@ -95,7 +102,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
                 List<SPMConnectAPI.UserInfo> users = releaseModule.GetConnectUsersList();
                 FillCheckingUsers(users);
                 FillApprovingUsers(users);
-
+                FillControlsApprovingUsers(users);
                 relnotxt.Text = rlog.RelNo.ToString();
                 jobtxt.Text = rlog.Job.ToString();
                 jobdestxt.Text = rlog.JobDes;
@@ -112,6 +119,10 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
 
                 LastSavedBy.Text = "Last Saved By: " + rlog.LastSavedBy;
                 LastSavedOn.Text = "Last Saved On: " + rlog.LastSaved;
+
+                cntrlsSubmitOnlbl.Text = "Submitted On: " + rlog.CntrlsSubmittedOn;
+                cntrlsAppbylbl.Text = "Approved By: " + rlog.CntrlsApprovedBy;
+                cntrlsApprvOnlbl.Text = "Approved On: " + rlog.CntrlsApprovedOn;
 
                 submittedoblbl.Text = "Submitted On: " + rlog.SubmittedOn;
                 submittedbylbl.Text = "Submitted By: " + rlog.CreatedBy;
@@ -189,6 +200,26 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             }
         }
 
+        private void FillControlsApprovingUsers(List<SPMConnectAPI.UserInfo> users)
+        {
+            AutoCompleteStringCollection MyCollection = releaseModule.FillControlsApprovingUsers();
+            controlsUserCombobox.AutoCompleteCustomSource = MyCollection;
+            controlsUserCombobox.DataSource = MyCollection;
+            controlsUserCombobox.AutoCompleteMode = AutoCompleteMode.None;
+            controlsUserCombobox.DropDownStyle = ComboBoxStyle.DropDownList;
+            if (rlog.CntrlsSubmittedTo.ToString().Length > 0 && rlog.CntrlsSubmittedTo != 0)
+            {
+                string MyString = rlog.CntrlsSubmittedTo.ToString();
+                MyString += " ";
+                MyString += users.Find(i => i.ConnectId == rlog.CntrlsSubmittedTo).Name;
+                controlsUserCombobox.SelectedItem = MyString;
+            }
+            else
+            {
+                controlsUserCombobox.SelectedItem = "";
+            }
+        }
+
         #endregion Filling up Comboxes
 
         #region Handle Tree View
@@ -235,9 +266,9 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
                 root.Tag = sa.AssyNo + "][" + sa.AssyDescription + "][" + sa.AssyFamily + "][" + sa.AssyManufacturer + "][" + sa.AssyManufacturerItemNumber + "][1";
                 Setimageaccordingtofamily(sa.AssyFamily, root);
                 treeView1.Nodes.Add(root);
-                var itemToRemove = releaseItems.SingleOrDefault(r => r.ItemNumber == satxt.Text.Trim());
-                if (itemToRemove != null)
-                    releaseItems.Remove(itemToRemove);
+                //var itemToRemove = releaseItems.SingleOrDefault(r => r.ItemNumber == satxt.Text.Trim());
+                //if (itemToRemove != null)
+                //    releaseItems.Remove(itemToRemove);
 
                 PopulateTreeView(releaseItems, root);
             }
@@ -256,6 +287,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
 
             foreach (SPMConnectAPI.ReleaseItem item in releaseItems)
             {
+                if (item.ItemNumber == rlog.SubAssy) continue;
                 TreeNode t = new TreeNode
                 {
                     Text = item.ItemNumber + " - " + item.Description + " (" + item.QuantityPerAssembly.ToString() + ") ",
@@ -308,6 +340,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
                 itmdeslbl.Text = "Description : " + sa.Description;
                 itmoemlbl.Text = "Manufacturer : " + sa.Manufacturer;
                 itemoemitmlbl.Text = "OEM Item No : " + sa.ManufacturerItemNumber;
+                Filllistview(sa.ItemNumber);
             }
         }
 
@@ -530,11 +563,37 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             {
                 rlog.IsSubmitted = false;
                 rlog.SubmittedTo = 0;
+
                 rlog.SubmittedOn = "";
+
+                rlog.ReqCntrlsApp = false;
+                rlog.CntrlsSubmittedTo = 0;
+                rlog.CntrlsSubmittedOn = "";
+
+                rlog.CntrlsApproved = false;
+
+                rlog.CntrlsApprovedBy = "";
+                rlog.CntrlsApprovedOn = "";
 
                 rlog.IsChecked = false;
                 rlog.CheckedOn = "";
+
                 rlog.CheckedBy = "";
+            }
+            else if (approvalType == ApprovalType.controls)
+
+            {
+                rlog.IsSubmitted = false;
+                rlog.SubmittedTo = 0;
+                rlog.SubmittedOn = "";
+
+                rlog.ReqCntrlsApp = false;
+                rlog.CntrlsSubmittedTo = 0;
+                rlog.CntrlsSubmittedOn = "";
+
+                rlog.CntrlsApproved = false;
+                rlog.CntrlsApprovedBy = "";
+                rlog.CntrlsApprovedOn = "";
             }
             else if (approvalType == ApprovalType.approval)
             {
@@ -572,9 +631,29 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             }
         }
 
+        private void ApproveControls()
+        {
+            DialogResult result = MetroFramework.MetroMessageBox.Show(this, "Are you sure want to confirm controls approval?", "SPM Connect - Confirm Controls Approval?",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                Cursor.Current = Cursors.WaitCursor;
+                rlog.CntrlsApproved = true;
+                rlog.CntrlsApprovedBy = releaseModule.ConnectUser.Name;
+                rlog.CntrlsApprovedOn = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                PassItForChecking();
+                releaseModule.UpdateReleaseInvoice(rlog);
+                this.DialogResult = DialogResult.OK;
+                Cursor.Current = Cursors.Default;
+                this.Close();
+            }
+        }
+
         private void TakeScreenShot()
         {
-            Thread.Sleep(800);
+            Cursor.Current = Cursors.WaitCursor;
+            Thread.Sleep(500);
             try
             {
                 Rectangle bounds = this.Bounds;
@@ -608,6 +687,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             if (rlog.IsChecked)
             {
                 if (rlog.IsApproved)
+
                 {
                     NotifyUserForChange(ApprovalType.release);
                 }
@@ -618,11 +698,27 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             }
             else
             {
-                NotifyUserForChange(ApprovalType.checking);
+                if (releaseModule.ConnectUser.ControlsApprovalDrawing && rlog.ReqCntrlsApp && rlog.CntrlsSubmittedTo == releaseModule.ConnectUser.ConnectId && !rlog.CntrlsApproved && !rlog.IsChecked)
+                {
+                    NotifyUserForChange(ApprovalType.controls);
+                }
+                else
+                {
+                    NotifyUserForChange(ApprovalType.checking);
+                }
             }
 
-            UpdateRejectedReleaseLog(!rlog.IsChecked ? ApprovalType.checking : rlog.IsApproved ? ApprovalType.release : ApprovalType.approval);
+            if (releaseModule.ConnectUser.ControlsApprovalDrawing && rlog.ReqCntrlsApp && rlog.CntrlsSubmittedTo == releaseModule.ConnectUser.ConnectId && !rlog.CntrlsApproved && !rlog.IsChecked)
+            {
+                UpdateRejectedReleaseLog(ApprovalType.controls);
+            }
+            else
+            {
+                UpdateRejectedReleaseLog(!rlog.IsChecked ? ApprovalType.checking : rlog.IsApproved ? ApprovalType.release : ApprovalType.approval);
+            }
+
             releaseModule.UpdateReleaseInvoice(rlog);
+            Cursor.Current = Cursors.Default;
             this.Close();
         }
 
@@ -633,6 +729,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
                MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
             if (result == DialogResult.Yes)
             {
+                Cursor.Current = Cursors.WaitCursor;
                 rlog.IsActive = false;
                 closebttn.Enabled = false;
                 DeleteDirectory(ApprovalType.approval, true);
@@ -640,6 +737,7 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
                 UpdateRejectedReleaseLog(rlog.IsApproved ? ApprovalType.release : ApprovalType.approval);
                 releaseModule.UpdateReleaseInvoice(rlog);
                 this.DialogResult = DialogResult.Abort;
+                Cursor.Current = Cursors.Default;
                 this.Close();
             }
         }
@@ -650,12 +748,12 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             if (approvalType == ApprovalType.checking)
             {
                 filepath = ApplicationSettings.GetConnectParameterValue("ReqChecking");
-                filepath = filepath + @"\JOB#" + rlog.Job.ToString() + @"\SA#" + rlog.SubAssy.ToString() + @"\REL#" + rlog.RelNo.ToString();
+                filepath = filepath + @"\JOB#" + rlog.Job.ToString() + @"\SA#" + rlog.SubAssy + @"\REL#" + rlog.RelNo.ToString();
             }
             else if (approvalType == ApprovalType.approval)
             {
                 filepath = ApplicationSettings.GetConnectParameterValue("ReqApproval");
-                filepath = filepath + @"\JOB#" + rlog.Job.ToString() + @"\SA#" + rlog.SubAssy.ToString() + @"\REL#" + rlog.RelNo.ToString();
+                filepath = filepath + @"\JOB#" + rlog.Job.ToString() + @"\SA#" + rlog.SubAssy + @"\REL#" + rlog.RelNo.ToString();
             }
             else
             {
@@ -711,6 +809,17 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
 
                 releaseModule.TriggerEmail(creator.email, subject, creator.name, body, ApplicationSettings.ScreenshotLocation, "", "", "Normal");
             }
+            else if (approvalType == ApprovalType.controls)
+            {
+                subject = "Drawings Approval Rejected - " + rlog.Job.ToString() + "(" + rlog.SubAssy + ") - (" + rlog.RelNo.ToString() + ")";
+                body = releaseModule.ConnectUser.Name + " has declined the controls approval of the drawing package. <br>" +
+                    "Job Number : " + rlog.Job.ToString() + "<br>" +
+                    "Sub Assy : " + rlog.SubAssy + "<br>" +
+                    "Release No : " + rlog.RelNo.ToString() + "<br>" +
+                    "Please check attached screen shot.";
+
+                releaseModule.TriggerEmail(creator.email, subject, creator.name, body, ApplicationSettings.ScreenshotLocation, "", "", "Normal");
+            }
             else if (approvalType == ApprovalType.release)
             {
                 subject = "Drawing Release Rejected - " + rlog.Job.ToString() + "(" + rlog.SubAssy + ") - (" + rlog.RelNo.ToString() + ")";
@@ -735,6 +844,22 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
                 releaseModule.TriggerEmail(creator.email, subject, creator.name, body, ApplicationSettings.ScreenshotLocation, checkor.email, "", "Normal");
             }
             ApplicationSettings.ScreenshotLocation = "";
+        }
+
+        private void PassItForChecking()
+        {
+            NameEmail creator = releaseModule.GetNameEmailByParaValue(UserFields.id, rlog.CreatedById.ToString())[0];
+            string subject;
+            string body;
+            NameEmail receiver = releaseModule.GetNameEmailByParaValue(UserFields.id, rlog.SubmittedTo.ToString())[0];
+            subject = "Requires Checking - " + rlog.Job.ToString() + "(" + rlog.SubAssy + ") - (" + rlog.RelNo + ")";
+            body = creator.name + " has drawings that needs to be checked. <br>" +
+                "Job Number : " + rlog.Job.ToString() + "<br>" +
+                "Sub Assy : " + rlog.SubAssy + "<br>" +
+                "Sub Assy Description: " + rlog.SubAssyDes + "<br>" +
+                "FolderPath : " + rlog.Path + "<br>";
+
+            releaseModule.TriggerEmail(receiver.email, subject, receiver.name, body, "", creator.email, "", "Addin");
         }
 
         private void Txtmsg_KeyDown(object sender, KeyEventArgs e)
@@ -765,7 +890,12 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
             {
                 if (rlog.IsSubmitted)
                 {
-                    notifyuser.Visible = true;
+                    if (rlog.IsReleased)
+                        notifyuser.Visible = false;
+                    if (rlog.IsChecked && rlog.ApprovalTo == releaseModule.ConnectUser.ConnectId && !rlog.IsReleased)
+                        notifyuser.Visible = true;
+                    if (!rlog.IsChecked && !rlog.IsApproved)
+                        notifyuser.Visible = true;
                 }
                 if ((releaseModule.ConnectUser.ReleasePackage || releaseModule.ConnectUser.ApproveDrawing) && rlog.IsChecked)
                 {
@@ -774,11 +904,213 @@ namespace SearchDataSPM.WorkOrder.ReleaseManagement
 
                 txtmsg.Visible = true;
                 sendlbl.Visible = true;
-                logstxt.Size = new Size(391, 160);
+                logstxt.Size = new Size(logstxt.Size.Width, panel1.Size.Height - 65);
             }
             else
             {
-                logstxt.Size = new Size(391, 200);
+                //logstxt.Size.Height = panel1.Size.Height;
+                logstxt.Size = new Size(logstxt.Size.Width, panel1.Size.Height - 25);
+            }
+
+            if (releaseModule.ConnectUser.ControlsApprovalDrawing && rlog.ReqCntrlsApp && rlog.CntrlsSubmittedTo == releaseModule.ConnectUser.ConnectId && !rlog.CntrlsApproved && !rlog.IsChecked)
+            {
+                cntrlsappbttn.Visible = true;
+            }
+
+            if (!rlog.IsChecked && rlog.ReqCntrlsApp && releaseModule.ConnectUser.ControlsApprovalDrawing && rlog.CntrlsSubmittedTo == releaseModule.ConnectUser.ConnectId && !rlog.CntrlsApproved)
+                notifyuser.Visible = true;
+        }
+
+        private void Cntrlsappbttn_Click(object sender, EventArgs e)
+        {
+            ApproveControls();
+        }
+
+        private readonly List<string> listFiles = new List<string>();
+        private readonly List<string> listFilesDrawings = new List<string>();
+
+        public static Icon GetIcon(string fileName)
+        {
+            try
+            {
+                Icon icon = Icon.ExtractAssociatedIcon(fileName);
+                const ShellEx.IconSizeEnum ExtraLargeIcon = default;
+                const ShellEx.IconSizeEnum size = (ShellEx.IconSizeEnum)ExtraLargeIcon;
+
+                ShellEx.GetBitmapFromFilePath(fileName, size);
+
+                return icon;
+            }
+            catch
+            {
+                try
+                {
+                    return GetIconOldSchool(fileName);
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+        }
+
+        public static Icon GetIconOldSchool(string fileName)
+        {
+            StringBuilder strB = new StringBuilder(fileName);
+            IntPtr handle = ExtractAssociatedIcon(IntPtr.Zero, strB, out _);
+            return Icon.FromHandle(handle);
+        }
+
+        [DllImport("shell32.dll")]
+        private static extern IntPtr ExtractAssociatedIcon(IntPtr hInst,
+        StringBuilder lpIconPath, out ushort lpiIcon);
+
+        private void Filllistview(string item)
+        {
+            try
+            {
+                listFiles.Clear();
+                //listFilesDrawings.Clear();
+                listView.Items.Clear();
+                //listView1.Items.Clear();
+                string first3char = item.Substring(0, 3) + @"\";
+                const string spmcadpath = @"\\spm-adfs\CAD Data\AAACAD\";
+                string Pathpart = spmcadpath + first3char;
+                Getitemstodisplay(Pathpart, item);
+            }
+            catch
+            {
+                return;
+            }
+        }
+
+        private void Getitemstodisplay(string Pathpart, string ItemNo)
+        {
+            if (Directory.Exists(Pathpart))
+            {
+                foreach (string item in Directory.GetFiles(Pathpart, "*" + ItemNo + "*").Where(str => !str.Contains(@"\~$")).OrderByDescending(fi => fi))
+                {
+                    try
+                    {
+                        string sDocFileName = item;
+                        wpfThumbnailCreator pvf = new wpfThumbnailCreator
+                        {
+                            DesiredSize = new Size
+                            {
+                                Width = 256,
+                                Height = 256
+                            }
+                        };
+                        System.Drawing.Bitmap pic = pvf.GetThumbNail(sDocFileName);
+                        imageList.Images.Add(pic);
+                    }
+                    catch (Exception)
+                    {
+                        const ShellEx.IconSizeEnum size = ShellEx.IconSizeEnum.ExtraLargeIcon;
+                        imageList.Images.Add(ShellEx.GetBitmapFromFilePath(item, size));
+                    }
+
+                    FileInfo fi = new FileInfo(item);
+                    listFiles.Add(fi.FullName);
+                    listView.Items.Add(fi.Name, imageList.Images.Count - 1);
+                }
+            }
+        }
+
+        private void GetDrawingstodisplay()
+        {
+            if (Directory.Exists(rlog.Path))
+            {
+                foreach (string item in Directory.GetFiles(rlog.Path).Where(str => !str.Contains(@"\~$")).OrderByDescending(fi => fi))
+                {
+                    try
+                    {
+                        string sDocFileName = item;
+                        wpfThumbnailCreator pvf = new wpfThumbnailCreator
+                        {
+                            DesiredSize = new Size
+                            {
+                                Width = 256,
+                                Height = 256
+                            }
+                        };
+                        System.Drawing.Bitmap pic = pvf.GetThumbNail(sDocFileName);
+                        imageList2.Images.Add(pic);
+                    }
+                    catch (Exception)
+                    {
+                        const ShellEx.IconSizeEnum size = ShellEx.IconSizeEnum.ExtraLargeIcon;
+                        imageList2.Images.Add(ShellEx.GetBitmapFromFilePath(item, size));
+                    }
+
+                    FileInfo fi = new FileInfo(item);
+                    listFilesDrawings.Add(fi.FullName);
+                    listView1.Items.Add(fi.Name, imageList2.Images.Count - 1);
+                }
+            }
+        }
+
+        private void ListView_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                try
+                {
+                    if (listView.FocusedItem != null)
+                        Process.Start(listFiles[listView.FocusedItem.Index]);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect");
+                }
+            }
+        }
+
+        private void ListView_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                try
+                {
+                    if (listView.FocusedItem != null)
+                        Process.Start(listFiles[listView.FocusedItem.Index]);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect");
+                }
+            }
+        }
+
+        private void ListView1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                try
+                {
+                    if (listView1.FocusedItem != null)
+                        Process.Start(listFilesDrawings[listView1.FocusedItem.Index]);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect");
+                }
+            }
+        }
+
+        private void ListView1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                try
+                {
+                    if (listView1.FocusedItem != null)
+                        Process.Start(listFilesDrawings[listView1.FocusedItem.Index]);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SPM Connect");
+                }
             }
         }
     }

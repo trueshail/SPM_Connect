@@ -248,6 +248,8 @@ namespace SearchDataSPM.Admin_developer
 
             rptoggle.Checked = user.ReleasePackage;
 
+            cntrlsapptoggle.Checked = user.ControlsApprovalDrawing;
+
             Runalltoggle();
         }
 
@@ -339,6 +341,7 @@ namespace SearchDataSPM.Admin_developer
             itmdeptoggle.Enabled = true;
             chkdrwtoggle.Enabled = true;
             appdrwtoggle.Enabled = true;
+            cntrlsapptoggle.Enabled = true;
             rptoggle.Enabled = true;
         }
 
@@ -359,6 +362,7 @@ namespace SearchDataSPM.Admin_developer
             itmdeptoggle.Enabled = false;
             chkdrwtoggle.Enabled = false;
             appdrwtoggle.Enabled = false;
+            cntrlsapptoggle.Enabled = false;
             rptoggle.Enabled = false;
         }
 
@@ -398,6 +402,7 @@ namespace SearchDataSPM.Admin_developer
                  "Shipping Manager = " + (shippingmanagerchk.Checked ? "Yes" : "No") + Environment.NewLine +
                  "Check Drawings = " + (chkdrwtoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                  "Approve Drawings = " + (appdrwtoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+                 "Approve Control Drawings = " + (cntrlsapptoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                  "Release Package = " + (rptoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                  "Management = " + (managementtoggle.Checked ? "Yes" : "No"), "Remove user from system?",
                                                  MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -531,6 +536,7 @@ namespace SearchDataSPM.Admin_developer
                "Shipping Manager = " + (shippingmanagerchk.Checked ? "Yes" : "No") + Environment.NewLine +
                "Check Drawing = " + (chkdrwtoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                "Approve Drawing = " + (appdrwtoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+               "Approve Controls Drawing = " + (cntrlsapptoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                "Release Package = " + (rptoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                "Management = " + (managementtoggle.Checked ? "Yes" : "No"), "Update User Information?",
                                                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -555,7 +561,7 @@ namespace SearchDataSPM.Admin_developer
                         "Quote = '" + (quotetoggle.Checked ? "1" : "0") + "',PurchaseReq = '" + (purchasereqtoggle.Checked ? "1" : "0") + "'," +
                         "PurchaseReqApproval = '" + (papprovalchk.Checked ? "1" : "0") + "',PurchaseReqApproval2 = '" + (papproval2chk.Checked ? "1" : "0") + "'," +
                         "PurchaseReqBuyer = '" + (pbuyerchk.Checked ? "1" : "0") + "',ECRSup = '" + ecrSupervisorcomboBox.SelectedItem.ToString().Substring(0, 2) + "',Supervisor = '" + supervisorcombox.SelectedItem.ToString().Substring(0, 2) + "'," +
-                        "Email = '" + useremailtxt.Text + "',PriceRight = '" + (pricetoggle.Checked ? "1" : "0") + "',CheckDrawing = '" + (chkdrwtoggle.Checked ? "1" : "0") + "',ApproveDrawing = '" + (appdrwtoggle.Checked ? "1" : "0") + "',ReleasePackage = '" + (rptoggle.Checked ? "1" : "0") + "',Shipping = '" + (shiptoggle.Checked ? "1" : "0") + "'," +
+                        "Email = '" + useremailtxt.Text + "',PriceRight = '" + (pricetoggle.Checked ? "1" : "0") + "',CheckDrawing = '" + (chkdrwtoggle.Checked ? "1" : "0") + "',ApproveDrawing = '" + (appdrwtoggle.Checked ? "1" : "0") + "'ControlsApprovalDrawing = '" + (cntrlsapptoggle.Checked ? "1" : "0") + "',ReleasePackage = '" + (rptoggle.Checked ? "1" : "0") + "',Shipping = '" + (shiptoggle.Checked ? "1" : "0") + "'," +
                         "CribCheckout = '" + (cribouttoggle.Checked ? "1" : "0") + "',ShipSup = '" + (shippingSupervisorcomboBox.SelectedItem != null ? shippingSupervisorcomboBox.SelectedItem.ToString().Substring(0, 2) : "") + "',CribShort = '" + (cribshorttoggle.Checked ? "1" : "0") + "'," +
                         "ECR = '" + (ecrtoggle.Checked ? "1" : "0") + "',ShipSupervisor = '" + (shippingsupchk.Checked ? "1" : "0") + "',ShippingManager = '" + (shippingmanagerchk.Checked ? "1" : "0") + "',WORelease = '" + (woreleasetoggle.Checked ? "1" : "0") + "',ItemDependencies = '" + (itmdeptoggle.Checked ? "1" : "0") + "',ECRApproval = '" + (ecrapprovalchk.Checked ? "1" : "0") + "',ECRApproval2 = '" + (ecrapproval2chk.Checked ? "1" : "0") + "',ECRHandler = '" + (ecrhandlerchk.Checked ? "1" : "0") + "'," +
                         "WOScan = '" + (scanwotoggle.Checked ? "1" : "0") + "',SharesFolder = '" + sharepathtxt.Text.Trim() + "'," +
@@ -612,7 +618,8 @@ namespace SearchDataSPM.Admin_developer
                "Shipping Manager = " + (shippingmanagerchk.Checked ? "Yes" : "No") + Environment.NewLine +
                "Check Drawing = " + (chkdrwtoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                "Approve Drawing = " + (appdrwtoggle.Checked ? "Yes" : "No") + Environment.NewLine +
-               "Release Pacakage = " + (rptoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+               "Approve Controls Drawing = " + (cntrlsapptoggle.Checked ? "Yes" : "No") + Environment.NewLine +
+               "Release Package = " + (rptoggle.Checked ? "Yes" : "No") + Environment.NewLine +
                "Management = " + (managementtoggle.Checked ? "Yes" : "No"), "Update User Information?",
                                                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
@@ -631,13 +638,13 @@ namespace SearchDataSPM.Admin_developer
                     SqlCommand cmd = connectapi.cn.CreateCommand();
                     cmd.CommandType = CommandType.Text;
                     cmd.CommandText = "INSERT INTO [SPM_Database].[dbo].[Users]([Emp_Id], [UserName], [Department], [Name],[ActiveBlockNumber],[Admin],[Developer],[Management]," +
-                        "[Quote],[PurchaseReq],[PurchaseReqApproval],[PurchaseReqApproval2],[PurchaseReqBuyer],[PriceRight],[CheckDrawing],[ApproveDrawing],[ReleasePackage],[ShipSupervisor],[ShipSup],[ShippingManager],[CribCheckout],[CribShort],[WOScan],[Shipping],[Supervisor],[ECRSup]," +
+                        "[Quote],[PurchaseReq],[PurchaseReqApproval],[PurchaseReqApproval2],[PurchaseReqBuyer],[PriceRight],[CheckDrawing],[ApproveDrawing],[ControlsApprovalDrawing],[ReleasePackage],[ShipSupervisor],[ShipSup],[ShippingManager],[CribCheckout],[CribShort],[WOScan],[Shipping],[Supervisor],[ECRSup]," +
                         "[Email],[SharesFolder],[ECR],[WORelease],[ItemDependencies],[ECRApproval],[ECRApproval2],[ECRHandler]) " +
                         "VALUES('" + empidtxt.Text.Trim() + "','" + domaintxtbox.Text.Trim() + "','" + deptcombobox.SelectedItem.ToString() + "'," +
                         "'" + nametextbox.Text.Trim() + "','" + activeblocknumber + "','" + (admintoggle.Checked ? "1" : "0") + "','" + (developertoggle.Checked ? "1" : "0") + "'," +
                         "'" + (managementtoggle.Checked ? "1" : "0") + "','" + (quotetoggle.Checked ? "1" : "0") + "','" + (purchasereqtoggle.Checked ? "1" : "0") + "'," +
                         "'" + (papprovalchk.Checked ? "1" : "0") + "','" + (papproval2chk.Checked ? "1" : "0") + "','" + (pbuyerchk.Checked ? "1" : "0") + "'," +
-                        "'" + (pricetoggle.Checked ? "1" : "0") + "','" + (chkdrwtoggle.Checked ? "1" : "0") + "','" + (appdrwtoggle.Checked ? "1" : "0") + "','" + (rptoggle.Checked ? "1" : "0") + "','" + (shippingSupervisorcomboBox.SelectedItem != null ? shippingSupervisorcomboBox.SelectedItem.ToString().Substring(0, 2).TrimEnd() : "") + "','" + (shippingmanagerchk.Checked ? "1" : "0") + "','" + (cribouttoggle.Checked ? "1" : "0") + "','" + (cribouttoggle.Checked ? "1" : "0") + "','" + (cribshorttoggle.Checked ? "1" : "0") + "','" + (scanwotoggle.Checked ? "1" : "0") + "','" + (shiptoggle.Checked ? "1" : "0") + "'," +
+                        "'" + (pricetoggle.Checked ? "1" : "0") + "','" + (chkdrwtoggle.Checked ? "1" : "0") + "','" + (appdrwtoggle.Checked ? "1" : "0") + "','" + (cntrlsapptoggle.Checked ? "1" : "0") + "','" + (rptoggle.Checked ? "1" : "0") + "','" + (shippingSupervisorcomboBox.SelectedItem != null ? shippingSupervisorcomboBox.SelectedItem.ToString().Substring(0, 2).TrimEnd() : "") + "','" + (shippingmanagerchk.Checked ? "1" : "0") + "','" + (cribouttoggle.Checked ? "1" : "0") + "','" + (cribouttoggle.Checked ? "1" : "0") + "','" + (cribshorttoggle.Checked ? "1" : "0") + "','" + (scanwotoggle.Checked ? "1" : "0") + "','" + (shiptoggle.Checked ? "1" : "0") + "'," +
                         "'" + supervisorcombox.SelectedItem.ToString().Substring(0, 2).TrimEnd() + "','" + ecrSupervisorcomboBox.SelectedItem.ToString().Substring(0, 2).TrimEnd() + "','" + useremailtxt.Text + "','" + sharepathtxt.Text + "'," +
                         "'" + (ecrtoggle.Checked ? "1" : "0") + "','" + (woreleasetoggle.Checked ? "1" : "0") + "','" + (itmdeptoggle.Checked ? "1" : "0") + "','" + (ecrapprovalchk.Checked ? "1" : "0") + "','" + (ecrapproval2chk.Checked ? "1" : "0") + "','" + (ecrhandlerchk.Checked ? "1" : "0") + "')";
                     cmd.ExecuteNonQuery();
@@ -860,6 +867,13 @@ namespace SearchDataSPM.Admin_developer
         private void Runalltoggle()
         {
             foreach (Control c in groupBox1.Controls)
+            {
+                if (c.GetType() == typeof(ToggleSlider.ToggleSliderComponent))
+                {
+                    ToggleAction(c as ToggleSlider.ToggleSliderComponent);
+                }
+            }
+            foreach (Control c in groupBox5.Controls)
             {
                 if (c.GetType() == typeof(ToggleSlider.ToggleSliderComponent))
                 {
