@@ -255,46 +255,48 @@ namespace SPMConnectAPI
                 {
                     if (cribout == "0")
                     {
-                        // insert into crib checkout
-                        DialogResult result = MessageBox.Show("Check out this work order from Crib?", "Check Out WO?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                        if (result == DialogResult.Yes)
+                        if (purout == "1")
                         {
-                            if (purout == "1")
+                            // insert into crib checkout
+                            //DialogResult result = MessageBox.Show("Check out this work order from Crib?", "Check Out WO?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                            //if (result == DialogResult.Yes)
+                            //{
+
+                            if (CheckWoExistsOnInvInOut(wo))
                             {
-                                if (CheckWoExistsOnInvInOut(wo))
+                                if (IsCompletedInvInOut(wo))
                                 {
-                                    if (IsCompletedInvInOut(wo))
+                                    if (UpdateWOTracking(wo, "Cribout", "CriboutWho", "CriboutWhen", "1", ConnectUser.Name, "Completed"))
                                     {
-                                        if (UpdateWOTracking(wo, "Cribout", "CriboutWho", "CriboutWhen", "1", ConnectUser.Name, "Completed"))
-                                        {
-                                            //status = RemoveStatus(status, "In Crib");
-                                            // UpdateWOTracking(wo, "Cribout", "CriboutWho", "CriboutWhen", "1", user.Name, status == "" ? "Out Crib" : status + " & Out Crib");
-                                            string timespan = Calculatetimedifference(Fetchdatetime("CriboutWhen", wo), Fetchdatetime("CribinWhen", wo));
-                                            UpdateWOTrackingTimeSpan(wo, "TimeInCrib", timespan);
-                                            timespan = Calculatetimedifference(Fetchdatetime("CriboutWhen", wo), Fetchdatetime("EngWhen", wo));
-                                            UpdateWOTrackingTimeSpan(wo, "TotalTimeSpent", timespan);
-                                            MessageBox.Show("Work Order Checked out of Crib.", "SPM Connect  - Work Order out Crib", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                        }
-                                        else
-                                        {
-                                            MessageBox.Show("Error Updating WO Tracking. Please contact the admin for line 459", "SPM Connect - Error Work Order Out Purchasing", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                        }
+                                        //status = RemoveStatus(status, "In Crib");
+                                        // UpdateWOTracking(wo, "Cribout", "CriboutWho", "CriboutWhen", "1", user.Name, status == "" ? "Out Crib" : status + " & Out Crib");
+                                        string timespan = Calculatetimedifference(Fetchdatetime("CriboutWhen", wo), Fetchdatetime("CribinWhen", wo));
+                                        UpdateWOTrackingTimeSpan(wo, "TimeInCrib", timespan);
+                                        timespan = Calculatetimedifference(Fetchdatetime("CriboutWhen", wo), Fetchdatetime("EngWhen", wo));
+                                        UpdateWOTrackingTimeSpan(wo, "TotalTimeSpent", timespan);
+                                        MessageBox.Show("Work Order Checked out of Crib.", "SPM Connect  - Work Order out Crib", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                     }
                                     else
                                     {
-                                        MessageBox.Show("Work order built is not completed. Make sure the work order build is completed in order to close the workorder", "SPM Connect - Error Work Order Build Not Completed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        MessageBox.Show("Error Updating WO Tracking. Please contact the admin for line 282", "SPM Connect - Error Work Order Out Purchasing", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                     }
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Work order never got built. Add to build to close the workorder", "SPM Connect - Error Work Order Build Not Started", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    MessageBox.Show("Work order built is not completed. Make sure the work order build is completed in order to close the workorder", "SPM Connect - Error Work Order Build Not Completed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
                             }
                             else
                             {
-                                MessageBox.Show("System cannot check out work order from crib as it has not been scanned out of purchasing.", "SPM Connect  - Work Order Not Scanned Out Of Purchasing", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                                MessageBox.Show("Work order never got built. Add to build to close the workorder", "SPM Connect - Error Work Order Build Not Started", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
+
+                            //}
+                        }
+                        else
+                        {
+                            MessageBox.Show("System cannot check out work order from crib as it has not been scanned out of purchasing.", "SPM Connect  - Work Order Not Scanned Out Of Purchasing", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                         }
                     }
                     else
